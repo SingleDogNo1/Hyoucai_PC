@@ -1,4 +1,4 @@
-# DJS_HYC_PC
+# Hyoucai_PC
 
 ## Project setup
 ```
