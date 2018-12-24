@@ -1,10 +1,9 @@
 import Vue from 'vue';
-import App from './App.vue';
+import App from './App_hyc.vue';
 import router from './router';
 import store from './store';
 
 import '@/assets/css/reset.css';
-import './plugins/element.js';
 
 Vue.config.productionTip = false;
 
