@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Layout from '@/layout/layout.vue'
+import Announcement from '@/views/common/announcement/index.vue'
 
 Vue.use(Router)
 
@@ -10,6 +11,12 @@ export default new Router({
       path: '/index',
       name: 'index',
       component: Layout
-    }
+    },
+    {
+			path: "/announcement",
+			name: "Announcement",
+			component: Announcement,
+			meta: { title: "网站公告" }
+		}
   ]
 })

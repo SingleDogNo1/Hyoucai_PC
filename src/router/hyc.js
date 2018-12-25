@@ -1,15 +1,21 @@
-import Vue from 'vue'
-import Router from 'vue-router'
-import Layout from '@/layout/layout.vue'
+import Vue from 'vue';
+import Router from 'vue-router';
+import Layout from '@/layout/layout.vue';
 
-Vue.use(Router)
+Vue.use(Router);
 
 export default new Router({
-  routes: [
-    {
-      path: '/index',
-      name: 'index',
-      component: Layout
-    }
-  ]
-})
+	routes: [
+		{
+			path: '/index',
+			name: 'index',
+			component: Layout
+		},
+		{
+			path: '/announcement',
+			name: 'announcement',
+			component: () => import(/* webpackChunkName: "announcement" */ '@/views/common/announcement/index.vue'),
+			meta: { title: '网站公告' }
+		}
+	]
+});
