@@ -10,12 +10,6 @@ export default new Router({
 			path: '/index',
 			name: 'index',
 			component: Layout
-		},
-		{
-			path: '/announcement',
-			name: 'announcement',
-			component: () => import(/* webpackChunkName: "announcement" */ '@/views/common/announcement/index.vue'),
-			meta: { title: '网站公告' }
 		}
 	]
 });

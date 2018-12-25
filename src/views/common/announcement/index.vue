@@ -2,59 +2,49 @@
   <div class="content">
     <el-tabs v-model="activeName" @tab-click="handleClick">
       <el-tab-pane label="网站公告" name="first">
-        <!-- <li>
-            <a href="#" class="title">关于汇有财存管系统浏览器兼容性问题的公告</a>
-            <span>2018-12-19</span>
-        </li>-->
         <ul class="list">
-          <!-- <el-row :gutter="20">
-            <el-col :span="20">
-              <a href="#" class="title">关于汇有财存管系统浏览器兼容性问题的公告</a>
-            </el-col>
-            <el-col :span="4">
+          <li>
+            <a href="#">
+              <span class="title">关于汇有财存管系统浏览器兼容性问题的公告</span>
               <span class="time">2018-12-19</span>
-            </el-col>
-          </el-row>
-          <el-row :gutter="20">
-            <el-col :span="20">
-              <a href="#" class="title">关于汇有财存管系统浏览器兼容性问题的公告</a>
-            </el-col>
-            <el-col :span="4">
-              <span>2018-12-19</span>
-            </el-col>
-          </el-row>
-          <el-row :gutter="20">
-            <el-col :span="20">
-              <a href="#" class="title">关于汇有财存管系统浏览器兼容性问题的公告</a>
-            </el-col>
-            <el-col :span="4">
-              <span>2018-12-19</span>
-            </el-col>
-          </el-row>
-          <el-row :gutter="20">
-            <el-col :span="20">
-              <a href="#" class="title">关于汇有财存管系统浏览器兼容性问题的公告</a>
-            </el-col>
-            <el-col :span="4">
-              <span>2018-12-19</span>
-            </el-col>
-          </el-row>
-          <el-row :gutter="20">
-            <el-col :span="20">
-              <a href="#" class="title">关于汇有财存管系统浏览器兼容性问题的公告</a>
-            </el-col>
-            <el-col :span="4">
-              <span>2018-12-19</span>
-            </el-col>
-          </el-row>
-          <el-row :gutter="20">
-            <el-col :span="20">
-              <a href="#" class="title">关于汇有财存管系统浏览器兼容性问题的公告</a>
-            </el-col>
-            <el-col :span="4">
-              <span>2018-12-19</span>
-            </el-col>
-          </el-row>-->
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <span class="title">关于汇有财存管系统浏览器兼容性问题的公告</span>
+              <span class="time">2018-12-19</span>
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <span class="title">关于汇有财存管系统浏览器兼容性问题的公告</span>
+              <span class="time">2018-12-19</span>
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <span class="title">关于汇有财存管系统浏览器兼容性问题的公告</span>
+              <span class="time">2018-12-19</span>
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <span class="title">关于汇有财存管系统浏览器兼容性问题的公告</span>
+              <span class="time">2018-12-19</span>
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <span class="title">关于汇有财存管系统浏览器兼容性问题的公告</span>
+              <span class="time">2018-12-19</span>
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <span class="title">关于汇有财存管系统浏览器兼容性问题的公告</span>
+              <span class="time">2018-12-19</span>
+            </a>
+          </li>
           <li>
             <a href="#">
               <span class="title">关于汇有财存管系统浏览器兼容性问题的公告</span>
@@ -101,7 +91,6 @@ export default {
   }
   .el-tabs__content {
     .list {
-      height: 400px;
       margin-top: 5px;
       border: 1px solid #e3e3e3;
       padding-left: 20px;
@@ -141,9 +130,12 @@ export default {
           background-color: #5a5a5a;
           border-radius: 50%;
         }
+        a:hover {
+          color: #efa21c;
+        }
       }
-      a:hover {
-        color: #efa21c;
+      li:last-child {
+        border-bottom: 0;
       }
     }
   }

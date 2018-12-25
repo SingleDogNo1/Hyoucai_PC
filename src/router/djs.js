@@ -11,12 +11,6 @@ export default new Router({
       path: '/index',
       name: 'index',
       component: Layout
-    },
-    {
-			path: "/announcement",
-			name: "Announcement",
-			component: Announcement,
-			meta: { title: "网站公告" }
-		}
+    }
   ]
 })
