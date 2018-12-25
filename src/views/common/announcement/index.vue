@@ -6,13 +6,13 @@
             <a href="#" class="title">关于汇有财存管系统浏览器兼容性问题的公告</a>
             <span>2018-12-19</span>
         </li>-->
-        <div class="list">
-          <el-row :gutter="20">
+        <ul class="list">
+          <!-- <el-row :gutter="20">
             <el-col :span="20">
               <a href="#" class="title">关于汇有财存管系统浏览器兼容性问题的公告</a>
             </el-col>
             <el-col :span="4">
-              <span>2018-12-19</span>
+              <span class="time">2018-12-19</span>
             </el-col>
           </el-row>
           <el-row :gutter="20">
@@ -54,8 +54,14 @@
             <el-col :span="4">
               <span>2018-12-19</span>
             </el-col>
-          </el-row>
-        </div>
+          </el-row>-->
+          <li>
+            <a href="#">
+              <span class="title">关于汇有财存管系统浏览器兼容性问题的公告</span>
+              <span class="time">2018-12-19</span>
+            </a>
+          </li>
+        </ul>
       </el-tab-pane>
       <el-tab-pane label="行业资讯" name="second">行业资讯</el-tab-pane>
       <el-tab-pane label="媒体报道" name="third">媒体报道</el-tab-pane>
@@ -64,14 +70,13 @@
 </template>
 
 <script>
-
 export default {
   data() {
     return {
       activeName: 'first'
-    };
+    }
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>
@@ -96,39 +101,49 @@ export default {
   }
   .el-tabs__content {
     .list {
-      width: 1140px;
       height: 400px;
       margin-top: 5px;
       border: 1px solid #e3e3e3;
-      padding-left: 40px;
-      .el-row {
+      padding-left: 20px;
+      li {
         height: 47px;
         line-height: 47px;
         border-bottom: 1px dotted #e3e3e3;
-        .el-col {
-          a {
-            display: block;
-            width: 100%;
-            color: #5A5A5A;
+        a {
+          display: flex;
+          width: 100%;
+          height: 47px;
+          line-height: 47px;
+          color: #5a5a5a;
+          .title {
+            display: inline-block;
+            width: 70%;
+            height: 47px;
+            margin-left: 20px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+          }
+          .time {
+            display: inline-block;
+            width: 25%;
+            height: 47px;
+            text-align: right;
           }
         }
-      }
-      .el-row:before {
-        position: absolute;
-        top: 20px;
-        content: '';
-        display: inline-block;
-        width: 5px;
-        height: 5px;
-        background-color: #000;
-        border-radius: 50%;
-      }
-      li {
-        .title {
-          width: 670px;
+        a:before {
+          position: absolute;
+          top: 28px;
+          content: '';
           display: inline-block;
-          margin-left: 15px;
+          width: 5px;
+          height: 5px;
+          background-color: #5a5a5a;
+          border-radius: 50%;
         }
+      }
+      a:hover {
+        color: #efa21c;
       }
     }
   }
