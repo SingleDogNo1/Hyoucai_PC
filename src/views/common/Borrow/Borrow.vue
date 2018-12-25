@@ -1,7 +1,7 @@
 <template>
   <div class="Borrow">
+    <img src="" alt="" class="banner">
     hello, {{msg}}
-   <el-row></el-row>
   </div>
 </template>
 
