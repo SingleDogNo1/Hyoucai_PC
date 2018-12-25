@@ -1,7 +1,7 @@
 <template>
   <div class="Borrow">
-    hello, {{msg}}
-   <el-row></el-row>
+    hello, {{ msg }}
+    <el-row></el-row>
   </div>
 </template>
 
@@ -25,5 +25,4 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

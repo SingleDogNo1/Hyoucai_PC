@@ -15,6 +15,11 @@ export default new Router({
           path: '/register/mobile',
           name: 'mobile',
           component: () => import(/* webpackChunkName: "register" */ '@/views/common/register/mobile.vue')
+        },
+        {
+          path: '/caculator',
+          name: 'caculator',
+          component: () => import(/* webpackChunkName: "caculator" */ '@/views/common/caculator/caculator.vue')
         }
       ]
     }

@@ -1,14 +1,14 @@
 <template>
-    <div class="container">
-      <div class="form-container">
-        <div class="form">
-          <h1>新用户注册</h1>
-          <div class=""></div>
-          <button></button>
-          <p>同意<span>《汇有财注册协议》</span></p>
-        </div>
+  <div class="container">
+    <div class="form-container">
+      <div class="form">
+        <h1>新用户注册</h1>
+        <div class=""></div>
+        <button></button>
+        <p>同意<span>《汇有财注册协议》</span></p>
       </div>
     </div>
+  </div>
 </template>
 
 <script>
@@ -23,7 +23,7 @@ export default {
   min-width: 1140px;
   width: 100%;
   height: 500px;
-  background: url('./mobile_bg.png') center center;
+  /*background: url('./mobile_bg.png') center center;*/
   .form-container {
     width: 1140px;
     height: 100%;
