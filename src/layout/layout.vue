@@ -1,16 +1,26 @@
 <template>
   <div class="layout">
-    <header class="app-header">header</header>
+    <AppHeader />
     <div class="container">
-      <keep-alive> <router-view></router-view> </keep-alive>
+      <keep-alive>
+        <router-view></router-view>
+      </keep-alive>
     </div>
-    <footer class="app-footer">footer</footer>
+    <AppFooter />
   </div>
 </template>
 
 <script>
+import AppHeader from '@/components/AppHeader/AppHeader'
+import AppFooter from '@/components/AppFooter/AppFooter'
+
 export default {
-  name: 'layout'
+  name: 'layout',
+  components: {
+    AppHeader,
+    AppFooter
+  },
+  created() {}
 }
 </script>
 
