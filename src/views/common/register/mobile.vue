@@ -23,7 +23,7 @@ export default {
   min-width: 1140px;
   width: 100%;
   height: 500px;
-  background: url('./mobile_bg.png') center center;
+  /*background: url('./mobile_bg.png') center center;*/
   .form-container {
     width: 1140px;
     height: 100%;

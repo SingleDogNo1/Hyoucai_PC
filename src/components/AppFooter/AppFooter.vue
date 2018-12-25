@@ -134,11 +134,7 @@ export default {
     hideAndCode() {
       this.AndCodeFlag = false
     }
-  },
-  computed: {},
-  created() {},
-  mounted() {},
-  destroyed() {}
+  }
 }
 </script>
 
@@ -152,7 +148,7 @@ export default {
 }
 .slide-enter,
 .slide-leave-to {
-  transform: translateX(100px);
+  transform: translateX(20px);
   opacity: 0;
 }
 
