@@ -120,6 +120,7 @@ export default {
       .menu {
         $size: $font-size-small-s;
         display: flex;
+        justify-content: flex-end;
         padding-top: 12px;
         height: $size;
         line-height: $size;
@@ -127,7 +128,7 @@ export default {
         li {
           padding: 0 10px;
           border-right: 1px solid #d8d8d8;
-          color: #5a5a5a;
+          color: $color-text;
           position: relative;
           &:last-child {
             border: none;
@@ -151,12 +152,30 @@ export default {
         }
         .contact {
           img {
+            margin-left: 5px;
             width: 110px;
           }
         }
       }
       .navs {
+        margin-top: 20px;
         display: flex;
+        justify-content: flex-end;
+        font-size: $font-size-small;
+        color: $color-text;
+        li {
+          margin: 0 20px;
+          height: 30px;
+          padding: 0 10px;
+          cursor: pointer;
+          &:last-child {
+            margin-right: 0;
+          }
+          &.router-link-active {
+            color: $color-theme;
+            border-bottom: 2px solid $color-theme;
+          }
+        }
       }
     }
   }
