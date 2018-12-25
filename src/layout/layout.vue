@@ -1,25 +1,26 @@
 <template>
   <div class="layout">
-   <header class="app-header">
-     header
-   </header>
+    <AppHeader />
     <div class="container">
       <keep-alive>
         <router-view></router-view>
       </keep-alive>
     </div>
-    <footer class="app-footer">footer</footer>
+    <AppFooter />
   </div>
 </template>
 
 <script>
-import Swiper from 'swiper'
+import AppHeader from '@/components/AppHeader/AppHeader'
+import AppFooter from '@/components/AppFooter/AppFooter'
 
 export default {
   name: 'layout',
-  created() {
-    new Swiper({})
-  }
+  components: {
+    AppHeader,
+    AppFooter
+  },
+  created() {}
 }
 </script>
 
