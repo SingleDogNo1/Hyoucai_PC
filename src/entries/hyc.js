@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import App from './App_hyc.vue'
 import router from '@/router/hyc'
+import '../plugins/element.js'
 /* import store from './store'; */
 
 import '@/assets/css/reset.css'
