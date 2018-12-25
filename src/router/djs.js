@@ -10,6 +10,17 @@ export default new Router({
       path: '/index',
       name: 'index',
       component: Layout
+    },
+    {
+      path: '/borrow',
+      name: 'borrow',
+      component: Layout,
+      children: [
+        {
+          path: '',
+          component: () => import('@/views/common/Borrow/Borrow')
+        }
+      ]
     }
   ]
 })

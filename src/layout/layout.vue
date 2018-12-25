@@ -1,6 +1,8 @@
 <template>
   <div class="layout">
-   <header class="app-header">header</header>
+   <header class="app-header">
+     header
+   </header>
     <div class="container">
       <keep-alive>
         <router-view></router-view>
@@ -11,8 +13,13 @@
 </template>
 
 <script>
+import Swiper from 'swiper'
+
 export default {
-  name: 'layout'
+  name: 'layout',
+  created() {
+    new Swiper({})
+  }
 }
 </script>
 
