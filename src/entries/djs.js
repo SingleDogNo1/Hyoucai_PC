@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import App from './App_djs.vue'
 import router from '@/router/djs'
+import '../plugins/element.js'
 /* import store from './store'; */
 
 import '@/assets/css/reset.css'

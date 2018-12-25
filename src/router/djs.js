@@ -7,9 +7,16 @@ Vue.use(Router)
 export default new Router({
   routes: [
     {
-      path: '/index',
+      path: '/',
       name: 'index',
-      component: Layout
+      component: Layout,
+      children: [
+        {
+          path: '/caculator',
+          name: 'caculator',
+          component: () => import(/* webpackChunkName: "common" */ '@/views/common/caculator/caculator.vue')
+        }
+      ]
     }
   ]
 })

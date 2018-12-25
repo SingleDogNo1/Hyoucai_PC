@@ -1,10 +1,8 @@
 <template>
   <div class="layout">
-   <header class="app-header">header</header>
+    <header class="app-header">header</header>
     <div class="container">
-      <keep-alive>
-        <router-view></router-view>
-      </keep-alive>
+      <keep-alive> <router-view></router-view> </keep-alive>
     </div>
     <footer class="app-footer">footer</footer>
   </div>
@@ -16,5 +14,4 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

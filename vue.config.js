@@ -1,5 +1,9 @@
 module.exports = {
   baseUrl: process.env.NODE_ENV === 'production' ? '../' : '/',
+  devServer: {
+    host: '0.0.0.0',
+    disableHostCheck: true
+  },
   pages: {
     hyc: {
       entry: 'src/entries/hyc.js',
