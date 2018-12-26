@@ -1,11 +1,11 @@
-import Vue from 'vue'
-import Router from 'vue-router'
-import Layout from '@/layout/layout.vue'
-import Share from 'vue-social-share'
-import 'vue-social-share/dist/client.css'
+import Vue from 'vue';
+import Router from 'vue-router';
+import Layout from '@/layout/layout.vue';
+import Share from 'vue-social-share';
+import 'vue-social-share/dist/client.css';
 
-Vue.use(Router)
-Vue.use(Share)
+Vue.use(Router);
+Vue.use(Share);
 
 export default new Router({
 	routes: [
@@ -18,26 +18,29 @@ export default new Router({
 					path: '/register/mobile',
 					name: 'mobile',
 					component: () => import(/* webpackChunkName: "register" */ '@/views/common/register/mobile.vue')
-				},
+				}
+			]
+		},
+		{
+			path: '/',
+			component: Layout,
+			children: [
 				{
 					path: '/announcement',
-					name: 'announcement',
 					component: () =>
-						import(/* webpackChunkName: "announcement" */ '@/views/common/announcement/index.vue'),
-					meta: { title: '网站公告' },
-					redirect: "/announcement/index",
+						import(/* webpackChunkName: "announcement" */ '@/views/common/Announcement/Index.vue'),
 					children: [
 						{
-							path: 'index',
-							name: 'announcementIndex',
+							path: '/',
+							name: 'announcement',
 							component: () =>
-								import(/* webpackChunkName: "announcementIndex" */ '@/views/common/announcement/announcement.vue')
+								import(/* webpackChunkName: "announcementIndex" */ '@/views/common/Announcement/Announcement.vue')
 						},
 						{
 							path: ':id',
 							name: 'announcementDetail',
 							component: () =>
-								import(/* webpackChunkName: "announcementDetail" */ '@/views/common/announcement/detail.vue')
+								import(/* webpackChunkName: "announcementDetail" */ '@/views/common/Announcement/Detail.vue')
 						}
 					]
 				}

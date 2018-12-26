@@ -5,21 +5,20 @@
       <el-tab-pane label="行业资讯" name="second"></el-tab-pane>
       <el-tab-pane label="媒体报道" name="third"></el-tab-pane>
     </el-tabs>
-    <div class="crumbs">
-      <router-link :to="{ name: 'index'}" class="back-home">首页</router-link> &gt;
-      <router-link :to="{ name: 'announcement'}" class="back-home">网站公告</router-link> &gt;
+    <!-- <div class="crumbs">
+      <router-link :to="{ name: 'index'}" class="back-home">首页</router-link>&gt;
+      <router-link :to="{ name: 'announcement'}" class="back-home">网站公告</router-link>&gt;
       <a>新闻中心</a>
-    </div>
+    </div>-->
     <articel class="detail-content">
-      <h2>P2P行业不断利好，出借需求仍在增长中</h2>
-      <address>
-        <span class="industry">行业资讯</span>
-        <span class="other">
+      <div class="title-wrap">
+        <h2>P2P行业不断利好，出借需求仍在增长中</h2>
+        <p>
           <span class="origin">来源：汇通金融</span>
-          <span class="time">2018-12-03 16:44:37</span>
           <span class="click-count">点击量：10次</span>
-        </span>
-      </address>
+          <span class="time">2018-12-03 16:44:37</span>
+        </p>
+      </div>
       <section>
         <p
           style="margin-top: 0px; margin-bottom: 0px; padding: 0px; cursor: default; font-variant-numeric: normal; font-variant-east-asian: normal; white-space: normal; max-width: 100%; box-sizing: border-box; clear: both; min-height: 1em; color: rgb(51, 51, 51); font-family: -apple-system-font, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif; font-size: 14px; letter-spacing: 1px; text-align: justify; widows: 1; background-color: rgb(255, 255, 255); line-height: 1.75em; word-wrap: break-word !important;"
@@ -155,10 +154,10 @@
           <br>
         </p>
       </section>
-      <div class="footer">
+      <!-- <div class="footer">
         <share :config="config"></share>
         <a class="back-list">返回列表&gt;&gt;</a>
-      </div>
+      </div> -->
     </articel>
     <div class="actions">
       <a href="#" class="btn-prev">
@@ -212,7 +211,6 @@ export default {
     width: 100%;
     height: 54px;
     line-height: 54px;
-    border-bottom: 4px solid rgba(255, 176, 26, 1);
     a {
       font-size: $font-size-small-s;
       color: #666666;
@@ -225,37 +223,48 @@ export default {
     position: relative;
     display: block;
     border: 1px solid #ccc;
-    border-top: none;
+    border-top: 4px solid rgba(255, 176, 26, 1);
     padding: 10px 36px;
-    h2 {
-      font-size: $font-size-large-xxxx;
-      color: $color-text-b;
-      height: 70px;
-      line-height: 70px;
-      border-bottom: 1px solid #cccccc;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-    address {
+    .title-wrap {
+      width: 100%;
       font-size: $font-size-small-s;
-      height: 44px;
-      line-height: 44px;
+      height: 80px;
       font-style: normal;
-      .industry {
-        display: inline-block;
-        width: 60%;
-        color: $color-sub-theme;
+      border-bottom: 1px solid #E3E3E3;
+      h2 {
+        width: 474px;
+        margin: 0 auto;
+        margin-top: 20px;
+        font-size: $font-size-large-x;
+        color: $color-text-gray;
+        height: 24px;
+        line-height: 24px;
+        text-align: center;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
       }
-      .other {
-        display: inline-block;
-        width: 40%;
+      p {
+        width: 420px;
+        height: 14px;
+        line-height: 14px;
+        margin: 0 auto;
+        margin-top: 15px;
+        text-align: center;
+        font-size: $font-size-small-s;
         color: $color-text-s;
+        span {
+          display: inline-block;
+          height: 100%;
+        }
         .time,
         .click-count {
           margin-left: 40px;
         }
       }
+    }
+    section {
+      margin-top: 30px;
     }
     .footer {
       margin-top: 65px;
@@ -286,7 +295,7 @@ export default {
       display: flex;
       width: 50%;
       height: 60px;
-      color: #504f4f;
+      color: $color-text-gray;
     }
     .btn-prev {
       text-align: left;
@@ -295,7 +304,7 @@ export default {
         width: 12%;
         height: 60px;
         margin-right: 1em;
-        font-weight: bold;
+        color: $color-text-s;
       }
       .title {
         display: inline-block;
@@ -313,7 +322,7 @@ export default {
         width: 12%;
         height: 60px;
         margin-left: 1em;
-        font-weight: bold;
+        color: $color-text-s;
       }
       .title {
         display: inline-block;
@@ -325,7 +334,10 @@ export default {
       }
     }
     a:hover {
-      color: #efa21c;
+      color: $color-text-hover;
+      .action{
+        color: $color-text-hover;
+      }
     }
   }
 }

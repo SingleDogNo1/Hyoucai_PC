@@ -1,5 +1,5 @@
 <template>
-  <div class="content">
+  <div class="announcement">
     <el-tabs v-model="activeName" @tab-click="handleClick">
       <el-tab-pane label="网站公告" name="first">
         <ul class="list">
@@ -71,20 +71,20 @@ export default {
 
 <style lang="scss" scoped>
 @import '../../../assets/css/theme.scss';
-.content {
+.announcement {
   width: 1140px;
   margin: 0 auto;
-  margin-top: 20px;
+  margin-top: 30px;
   /deep/ .el-tabs__nav-wrap {
     .el-tabs__item {
       color: #5a5a5a;
       text-align: center;
     }
     .is-active {
-      color: #fb891f;
+      color: $color-tab-selected;
     }
     .el-tabs__active-bar {
-      background-color: #fb891f;
+      background-color: $color-tab-selected;
     }
     .el-tabs__active-bar {
       height: 1px;
@@ -137,7 +137,7 @@ export default {
           border-radius: 50%;
         }
         a:hover {
-          color: #efa21c;
+          color: $color-text-hover;
         }
       }
       li:last-child {
