@@ -13,11 +13,11 @@ export default new Router({
     },
     {
       path: '/borrow',
-      name: 'borrow',
       component: Layout,
       children: [
         {
           path: '',
+          name: 'borrow',
           component: () => import('@/views/common/Borrow/Borrow')
         }
       ]

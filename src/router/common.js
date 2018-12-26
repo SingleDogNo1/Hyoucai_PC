@@ -45,6 +45,17 @@ export default new Router({
 					]
 				}
 			]
-		}
+		},
+    {
+      path: '/',
+      component: Layout,
+      children: [
+        {
+          path: 'borrow',
+          name: 'borrow',
+          component: () => import('@/views/common/Borrow/Borrow')
+        }
+      ]
+    }
 	]
 });

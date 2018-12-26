@@ -5,6 +5,7 @@ import '../plugins/element.js'
 /* import store from './store'; */
 
 import '@/assets/css/reset.css'
+import '@/assets/fonts/iconfont/iconfont.css'
 
 Vue.config.productionTip = false
 
