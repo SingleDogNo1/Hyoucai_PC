@@ -106,8 +106,24 @@
             </div>
           </div>
         </div>
-        <a href="#" class="more">更多<i class="iconfont icon-more"></i></a>
+        <a href="#" class="more">
+          更多
+          <i class="iconfont icon-more"></i>
+        </a>
       </div>
+    </div>
+    <div class="introduction-wrap">
+      <ul>
+        <li>
+          <a>
+            <img src="./images/icon_introdution1.png">
+            <div>
+            <p class="title">平台背景</p>
+            <p class="desc">平台背景</p>
+            </div>
+          </a>
+        </li>
+      </ul>
     </div>
   </div>
 </template>
@@ -196,9 +212,10 @@ export default {
   .notice-wrap {
     width: 100%;
     height: 50px;
-    border: 1px solid #ebebeb;
+    border-bottom: 1px solid #ebebeb;
     .notice-box {
       display: flex;
+      line-height: 50px;
       width: 1140px;
       margin: 0 auto;
       .notice-text {
@@ -266,12 +283,50 @@ export default {
       }
       .more {
         width: 50px;
-        height: 50px;
-        line-height: 50px;
         display: inline-block;
         color: $color-text-blue;
         font-size: $font-size-small-ss;
       }
+    }
+  }
+  .introduction-wrap {
+    width: 1140px;
+    height: 52px;
+    margin: 0 auto;
+    margin-top: 40px;
+    padding: 0 27px;
+    ul {
+      display: flex;
+      width: 100%;
+      li {
+        display: flex;
+        width: 232px;
+        height: 100%;
+        a {
+          display: flex;
+          img {
+            display: inline-block;
+            width: 52px;
+            height: 52px;
+          }
+          .title {
+            width: 80px;
+            display: inline-block;
+            margin-left: 12px;
+            vertical-align: top;
+            font-size: $font-size-medium-x;
+            color: $color-text;
+          }
+          .desc {
+            width: 168px;
+            display: inline-block;
+            margin-left: 12px;
+            vertical-align: middle;
+            font-size: $font-size-small-s;
+            color: $color-text-s;
+          }
+        }
+        }
     }
   }
 }
