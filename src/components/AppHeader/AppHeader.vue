@@ -36,7 +36,7 @@
           </li>
         </ul>
         <ul class="navs">
-          <router-link tag="li" to="/index">首页</router-link>
+          <router-link tag="li" to="/">首页</router-link>
           <router-link tag="li" to="/loan">我要出借</router-link>
           <router-link tag="li" to="/borrow">我要借款</router-link>
           <router-link tag="li" to="/info_disclosure">信息披露</router-link>
@@ -176,7 +176,7 @@ export default {
           &:last-child {
             margin-right: 0;
           }
-          &.router-link-active {
+          &.router-link-exact-active {
             color: $color-theme;
             border-bottom: 2px solid $color-theme;
           }

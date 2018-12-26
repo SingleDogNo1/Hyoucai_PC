@@ -78,7 +78,7 @@
       <div class="copyright">
         <span>&copy;</span>
         <span>2013-2017 江西汇通金融信息服务有限公司 版权所有</span>
-        <span>赣ICP备13002945号-4 免责声明</span>
+        <a href="http://www.miibeian.gov.cn/">赣ICP备13002945号-4 免责声明</a>
       </div>
       <div class="copy-img">
         <a target="_blank" href="http://si.trustutn.org/info?sn=396180320000637017253&certType=4">
@@ -205,6 +205,10 @@ export default {
         padding: 0 18px;
         border-right: 1px solid #9b9b9b;
         font-size: $font-size-small-s;
+        transition: all 0.3s ease;
+        &:hover {
+          color: $color-theme;
+        }
         &:last-child {
           border: none;
         }
@@ -214,6 +218,10 @@ export default {
       text-align: center;
       font-size: $font-size-small-s;
       padding: 30px 0 25px 0;
+      a {
+        color: #fff;
+        margin-left: 10px;
+      }
     }
     .copy-img {
       display: flex;
