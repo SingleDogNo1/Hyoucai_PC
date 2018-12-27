@@ -189,9 +189,21 @@
             </div>
             <div class="returns">
               <p class="title">
-                <span class="">12.0</span>%
+                <span class="large">12.0</span> %
               </p>
               <p class="desc">预期年化收益率</p>
+            </div>
+            <div class="term">
+              <p class="title">
+                <span class="large">30</span> 天
+              </p>
+              <p class="desc">项目期限</p>
+            </div>
+            <div class="amount">
+              <p class="title">
+                <span class="large">50000000</span> 元
+              </p>
+              <p class="desc">融资金额</p>
             </div>
           </div>
           <a class="btn-invest-now">dwdwdw</a>
@@ -515,10 +527,11 @@ export default {
       .production-wrap {
         width: 880px;
         height: 100%;
-        background: #fff;
+        background: #fff url("./images/bg_novice_area.png") center center no-repeat;
+        background-size: 166px 130px;
         padding: 35px 40px 35px 30px;
-          display: flex;
-          justify-content: space-between;
+        display: flex;
+        justify-content: space-between;
         .production-info {
           width: 660px;
           height: 100%;
@@ -555,18 +568,47 @@ export default {
             }
           }
           .returns {
+            display: inline-block;
+            width: 130px;
+            margin-top: 18px;
+            margin-left: 26px;
+            .title {
+              font-size: $font-size-large-xxx;
+              color: #fc5541;
+              .large {
+                font-size: $font-size-large-xxxxx;
+              }
+            }
+            .desc {
+              width: 98px;
+              text-align: center;
+              margin-left: 6px;
+              font-size: $font-size-small-s;
+              color: $color-text-gray;
+            }
+          }
+          .term, .amount {
+            display: inline-block;
             margin-top: 28px;
+            margin-left: 108px;
+            .title {
+              font-size: $font-size-medium;
+              color: $color-text;
+              .large {
+                font-size: $font-size-large-xxx;
+              }
+            }
+            .desc {
+              text-align: center;
+              font-size: $font-size-small-s;
+              color: $color-text-gray;
+            }
           }
         }
         .btn-invest-now {
           display: block;
           width: 190px;
           height: 100%;
-          font-size: $font-size-large-xxx;
-          color: #FC5541;
-          .title {
-            font-size: $font-size-large-xxxxx;
-          }
         }
       }
     }
