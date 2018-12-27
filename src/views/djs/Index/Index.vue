@@ -118,10 +118,46 @@
           <a>
             <img src="./images/icon_introdution1.png">
             <div>
-            <p class="title">平台背景</p>
-            <p class="desc">平台背景</p>
+              <p class="title">平台背景</p>
+              <p class="desc">江西省首批互联网中介平台</p>
             </div>
           </a>
+        </li>
+        <li>
+          <a>
+            <img src="./images/icon_introdution2.png">
+            <div>
+              <p class="title">信息披露</p>
+              <p class="desc">信息详细真实透明</p>
+            </div>
+          </a>
+        </li>
+        <li>
+          <a>
+            <img src="./images/icon_introdution3.png">
+            <div>
+              <p class="title">银行存管</p>
+              <p class="desc">江西银行资金存管</p>
+            </div>
+          </a>
+        </li>
+        <li>
+          <a>
+            <img src="./images/icon_introdution4.png">
+            <div>
+              <p class="title">严格风控</p>
+              <p class="desc">专业风控甄选优质项目</p>
+            </div>
+          </a>
+        </li>
+      </ul>
+    </div>
+    <div class="lend-data-wrap">
+      <img src="./images/text_lend_data.png">
+      <ul>
+        <li>
+          <p class="title">256,571,216.26</p>
+          <p class="desc">累计投资(元)</p>
         </li>
       </ul>
     </div>
@@ -286,6 +322,7 @@ export default {
         display: inline-block;
         color: $color-text-blue;
         font-size: $font-size-small-ss;
+        text-align: right;
       }
     }
   }
@@ -302,6 +339,8 @@ export default {
         display: flex;
         width: 232px;
         height: 100%;
+        margin-right: 100px;
+        flex: none;
         a {
           display: flex;
           img {
@@ -326,7 +365,54 @@ export default {
             color: $color-text-s;
           }
         }
+      }
+      li:nth-child(2),
+      li:nth-child(3) {
+        width: 176px;
+      }
+      li:nth-child() {
+        margin-right: 0;
+      }
+    }
+  }
+  .lend-data-wrap {
+    width: 1140px;
+    margin: 0 auto;
+    margin-top: 70px;
+    padding: 0 48px;
+    img {
+      display: block;
+      width: 158px;
+      height: 38px;
+      margin: 0 auto;
+    }
+    ul {
+      margin-top: 40px;
+      li {
+        display: inline-block;
+        position: relative;
+        width: 20%;
+        text-align: center;
+        .title {
+          font-size: $font-size-large-xxx;
+          color: $color-text;
         }
+        .desc {
+          margin-top: 24px;
+          font-size: $font-size-small-s;
+          color: $color-text-s;
+        }
+      }
+      li:after {
+        content: '/';
+        position: absolute;
+        color: #cdcdcd;
+        width: 19px;
+        height: 50px;
+        right: 0;
+        top: 20px;
+        margin: 0 auto;
+      }
     }
   }
 }
