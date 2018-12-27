@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div class="app-container">
       <div class="form-container">
         <div class="form">
           <h1><span>新用户注册</span></h1>
@@ -7,7 +7,7 @@
             <!--<div class="icon"><i class="iconfont icon-user"></i></div>
             <div class="text"><input type="text" placeholder="请输入手机号"></div>-->
             <i class="iconfont icon-user"></i>
-            <input type="tel">
+            <input type="tel" v-model="mobile">
           </div>
           <el-button type="primary" @click="nextStep">下一步</el-button>
           <p class="agreement-tip">
@@ -22,16 +22,19 @@
 </template>
 
 <script>
+import { isExistUser } from '@/api/common/register'
 export default {
   name: 'mobile',
   data() {
     return {
-      agree: true
+      agree: true,
+      mobile: ''
     }
   },
   methods: {
     nextStep() {
-      this.$router.push({ name: 'registerForm' })
+      isExistUser(this.mobile)
+      //this.$router.push({ name: 'registerForm' })
     }
   }
 }
@@ -39,11 +42,11 @@ export default {
 
 <style scoped lang="scss">
 @import '../../../assets/css/theme.scss';
-.container {
+.app-container {
   min-width: 1140px;
   width: 100%;
   height: 500px;
-  /*background: url('./mobile_bg.png') center center;*/
+  background: url('./mobile_bg.png') center center;
   .form-container {
     width: 1140px;
     height: 100%;
@@ -97,26 +100,6 @@ export default {
             border-color: #fb7b1f;
           }
         }
-        /*&>div{
-          float:left;
-          height: 30px;
-          line-height: 30px;
-          &.icon{
-            width:40px;
-            border-right:1px solid #cecece;
-            i{
-              font-size: 20px;
-              color: #cecece;
-            }
-          }
-          &.text{
-            width:278px;
-            input{
-              width:100%;
-              padding-left:12px;
-            }
-          }
-        }*/
       }
       button {
         margin-top: 30px;
