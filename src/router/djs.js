@@ -8,9 +8,15 @@ Vue.use(Router)
 export default new Router({
   routes: [
     {
-      path: '/index',
-      name: 'index',
-      component: Layout
+      path: '/',
+      component: Layout,
+      children: [
+        {
+          path: '',
+          name: 'index',
+          component: () => import('@/views/djs/Index/Index')
+        }
+      ]
     },
     {
       path: '/',
@@ -20,6 +26,28 @@ export default new Router({
           path: 'borrow',
           name: 'borrow',
           component: () => import('@/views/common/Borrow/Borrow')
+        }
+      ]
+    },
+    {
+      path: '/', // 收益计算器
+      component: Layout,
+      children: [
+        {
+          path: 'caculator',
+          name: 'caculator',
+          component: () => import(/* webpackChunkName: "caculator" */ '@/views/djs/caculator/caculator.vue')
+        }
+      ]
+    },
+    {
+      path: '/', // 我要出借
+      component: Layout,
+      children: [
+        {
+          path: 'lend',
+          name: 'lend',
+          component: () => import(/* webpackChunkName: "lend" */ '@/views/djs/lend/lend.vue')
         }
       ]
     },
@@ -50,6 +78,33 @@ export default new Router({
               path: 'referralCode',
               name: 'referralCode',
               component: () => import('@/views/djs/Mine/referralCode')
+            },
+            {
+              path: 'record', // 交易记录
+              name: 'record',
+              component: () => import(/* webpackChunkName: "record" */ '@/views/djs/record/record.vue')
+            }
+          ]
+        }
+      ]
+    },
+    {
+      path: '/announcement',
+      component: Layout,
+      children: [
+        {
+          path: '',
+          component: () => import(/* webpackChunkName: "announcement" */ '@/views/common/announcement/index.vue'),
+          children: [
+            {
+              path: '/',
+              name: 'announcement',
+              component: () => import(/* webpackChunkName: "announcementIndex" */ '@/views/common/announcement/announcement.vue')
+            },
+            {
+              path: ':id',
+              name: 'announcementDetail',
+              component: () => import(/* webpackChunkName: "announcementDetail" */ '@/views/common/announcement/detail.vue')
             }
           ]
         }

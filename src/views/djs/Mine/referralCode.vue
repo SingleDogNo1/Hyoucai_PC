@@ -1,7 +1,5 @@
 <template>
-  <div class="referralCode">
-    hello, {{msg}}
-  </div>
+  <div class="referralCode">hello, {{ msg }}</div>
 </template>
 
 <script>
