@@ -2,15 +2,10 @@
   <div class="overview">
     <div class="board">
       <section>
-       <h6>累计利息收益</h6>
-        <p>
-          <span class="big">123</span>
-          <span class="small">.456元</span>
-        </p>
+        <h6>累计利息收益</h6>
+        <p><span class="big">123</span> <span class="small">.456元</span></p>
       </section>
-      <button class="switcher">系统切换</button>
-      <button class="recharge">充值</button>
-      <button class="extract">提现</button>
+      <button class="switcher">系统切换</button> <button class="recharge">充值</button> <button class="extract">提现</button>
     </div>
     <div class="amount" id="amount"></div>
   </div>

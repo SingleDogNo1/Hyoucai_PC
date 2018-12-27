@@ -230,7 +230,7 @@ export default {
       font-size: $font-size-small-s;
       height: 80px;
       font-style: normal;
-      border-bottom: 1px solid #E3E3E3;
+      border-bottom: 1px solid #e3e3e3;
       h2 {
         width: 474px;
         margin: 0 auto;
@@ -335,12 +335,10 @@ export default {
     }
     a:hover {
       color: $color-text-hover;
-      .action{
+      .action {
         color: $color-text-hover;
       }
     }
   }
 }
 </style>
-
-

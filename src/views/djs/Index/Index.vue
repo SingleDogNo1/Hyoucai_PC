@@ -609,10 +609,17 @@ export default {
           display: block;
           width: 190px;
           height: 100%;
+<<<<<<< HEAD
+=======
+          font-size: $font-size-large-xxx;
+          color: #fc5541;
+          .title {
+            font-size: $font-size-large-xxxxx;
+          }
+>>>>>>> dev
         }
       }
     }
   }
 }
 </style>
-

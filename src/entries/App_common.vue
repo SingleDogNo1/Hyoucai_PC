@@ -4,7 +4,7 @@
 
 <script>
 export default {
-  name: 'App_hyc'
+  name: 'App'
 }
 </script>
 
