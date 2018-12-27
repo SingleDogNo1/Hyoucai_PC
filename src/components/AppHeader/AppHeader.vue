@@ -2,38 +2,29 @@
   <header class="app-header-wrapper">
     <div class="header">
       <div class="left">
-        <img src="./logo.png" class="logo" alt="" @click="$router.push('/')">
+        <img src="./logo.png" class="logo" alt="" @click="$router.push('/')" />
         <div class="swiper-container slogan">
           <div class="swiper-wrapper">
-            <div class="swiper-slide">
-              <img src="./slogan.png" alt="">
-            </div>
+            <div class="swiper-slide"><img src="./slogan.png" alt="" /></div>
           </div>
         </div>
       </div>
       <div class="right">
         <ul class="menu">
           <router-link tag="li" to="/login">登录</router-link>
-          <router-link tag="li" to="/register/mobile">快速注册</router-link>
+          <router-link tag="li" to="/register">快速注册</router-link>
           <router-link tag="li" to="/help_center">帮助中心</router-link>
           <router-link tag="li" to="/notice">网站公告</router-link>
           <router-link tag="li" to="/contact_us">联系我们</router-link>
           <li class="wx-qr-code">
             <i class="iconfont icon-weChat_nav" @mouseenter="showWXCode" @mouseleave="hideWXCode"></i>
-            <transition name="fade">
-              <div class="qr-code" v-show="WXCodeFlag"></div>
-            </transition>
+            <transition name="fade"> <div class="qr-code" v-show="WXCodeFlag"></div> </transition>
           </li>
           <li class="app-qr-code">
             <i class="iconfont icon-phone_nav" @mouseenter="showAppCode" @mouseleave="hideAppCode"></i>
-            <transition name="fade">
-              <div class="qr-code" v-show="AppCodeFlag"></div>
-            </transition>
+            <transition name="fade"> <div class="qr-code" v-show="AppCodeFlag"></div> </transition>
           </li>
-          <li class="contact">
-            <i class="iconfont icon-tell_nav"></i>
-            <img src="./tel.png" alt="">
-          </li>
+          <li class="contact"><i class="iconfont icon-tell_nav"></i> <img src="./tel.png" alt="" /></li>
         </ul>
         <ul class="navs">
           <router-link tag="li" to="/">首页</router-link>

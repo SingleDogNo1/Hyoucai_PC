@@ -1,7 +1,5 @@
 <template>
-  <div class="bankcard">
-    hello, {{msg}}
-  </div>
+  <div class="bankcard">hello, {{ msg }}</div>
 </template>
 
 <script>
