@@ -18,13 +18,20 @@ module.exports = {
       filename: 'djs/index.html',
       title: '汇有财',
       chunks: ['chunk-vendors', 'chunk-common', 'djs']
-    },
-    app: {
-      entry: 'src/entries/common.js',
-      template: 'public/index.html',
-      filename: 'index.html',
-      title: '汇有财',
-      chunks: ['chunk-vendors', 'chunk-common', 'app']
+    }
+  },
+  devServer: {
+    proxy: {
+      '/TouchStoneService': {
+        target: 'http://47.100.38.237:8082/d',
+        changeOrigin: true,
+        wx: true
+      },
+      '/TouchStoneServiceNew': {
+        target: 'http://47.100.38.237:8082/h',
+        changeOrigin: true,
+        wx: true
+      }
     }
   }
 }

@@ -2,7 +2,9 @@
   <div class="layout">
     <AppHeader />
     <div class="container">
-      <keep-alive> <router-view></router-view> </keep-alive>
+      <keep-alive>
+        <router-view></router-view>
+      </keep-alive>
     </div>
     <AppFooter />
   </div>
@@ -22,4 +24,8 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.container {
+  padding-top: 90px;
+}
+</style>
