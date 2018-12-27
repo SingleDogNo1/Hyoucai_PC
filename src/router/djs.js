@@ -14,7 +14,7 @@ export default new Router({
         {
           path: '/caculator', // 收益计算器
           name: 'caculator',
-          component: () => import(/* webpackChunkName: "common" */ '@/views/common/caculator/caculator.vue')
+          component: () => import(/* webpackChunkName: "caculator" */ '@/views/djs/caculator/caculator.vue')
         },
         {
           path: '/lend', // 我要出借

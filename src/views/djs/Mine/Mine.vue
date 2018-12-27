@@ -7,11 +7,7 @@
       <router-link tag="li" to="/mine/referralCode">tuijianma</router-link>
     </ul>
     <div class="wrapper">
-      <keep-alive>
-        <router-view>
-
-        </router-view>
-      </keep-alive>
+      <keep-alive> <router-view> </router-view> </keep-alive>
     </div>
   </div>
 </template>
