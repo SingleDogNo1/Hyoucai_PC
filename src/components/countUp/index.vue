@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import CountUp from 'countUp.js/dist/countUp'
+import CountUp from 'countup.js/dist/countUp'
 export default {
   props: {
     name: {

@@ -206,9 +206,14 @@
               <p class="desc">融资金额</p>
             </div>
           </div>
-          <a class="btn-invest-now">dwdwdw</a>
+          <div class="btn-invest-now">
+            <a>立即投资</a>
+          </div>
         </div>
       </div>
+    </div>
+    <div class="lend-boutique-wrap">
+      <img src="./images/text_lend_boutique.png"/>
     </div>
   </div>
 </template>
@@ -527,7 +532,7 @@ export default {
       .production-wrap {
         width: 880px;
         height: 100%;
-        background: #fff url("./images/bg_novice_area.png") center center no-repeat;
+        background: #fff url('./images/bg_novice_area.png') center center no-repeat;
         background-size: 166px 130px;
         padding: 35px 40px 35px 30px;
         display: flex;
@@ -576,7 +581,7 @@ export default {
               font-size: $font-size-large-xxx;
               color: #fc5541;
               .large {
-                font-size: $font-size-large-xxxxx;
+                font-size: 48px;
               }
             }
             .desc {
@@ -587,7 +592,8 @@ export default {
               color: $color-text-gray;
             }
           }
-          .term, .amount {
+          .term,
+          .amount {
             display: inline-block;
             margin-top: 28px;
             margin-left: 108px;
@@ -609,16 +615,28 @@ export default {
           display: block;
           width: 190px;
           height: 100%;
-<<<<<<< HEAD
-=======
-          font-size: $font-size-large-xxx;
-          color: #fc5541;
-          .title {
-            font-size: $font-size-large-xxxxx;
+          padding: 43px 0;
+          a {
+            display: block;
+            width: 150px;
+            height: 44px;
+            line-height: 44px;
+            background:linear-gradient(92deg, #fcad3e 0%, #fe645d 100%);
+            color: #fff;
+            text-align: center;
           }
->>>>>>> dev
         }
       }
+    }
+  }
+  .lend-boutique-wrap {
+    background: #f4f4f4;
+    padding-top: 60px;
+    img {
+      display: block;
+      width: 159px;
+      height: 38px;
+      margin: 0 auto;
     }
   }
 }
