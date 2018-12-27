@@ -1,26 +1,23 @@
 <template>
   <div class="mine-wrapper">
-    <ul class="menu">
-      <router-link tag="li" to="/mine/overview">zonglan</router-link>
-      <router-link tag="li" to="/mine/basicInfo">jibenxinxi</router-link>
-      <router-link tag="li" to="/mine/bankcard">card</router-link>
-      <router-link tag="li" to="/mine/referralCode">tuijianma</router-link>
-    </ul>
+    <user-menu></user-menu>
     <div class="wrapper">
       <keep-alive>
-        <router-view>
-
-        </router-view>
+        <router-view />
       </keep-alive>
     </div>
   </div>
 </template>
 
 <script>
+import userMenu from '@/components/UserMenu/UserMenu'
+
 export default {
   name: 'Mine',
   mixins: [],
-  components: {},
+  components: {
+    userMenu
+  },
   data() {
     return {
       msg: 'Mine'
@@ -44,15 +41,7 @@ export default {
   overflow: hidden;
   display: flex;
   justify-content: space-between;
-  .menu {
-    box-sizing: border-box;
-    width: 276px;
-    background: #fff;
-    padding-bottom: 46px;
-    color: #414141;
-    font-size: 14px;
-    border: 1px solid #e5e5e5;
-  }
+
   .wrapper {
     flex: 1;
     width: 842px;
