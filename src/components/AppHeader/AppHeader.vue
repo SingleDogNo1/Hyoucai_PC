@@ -2,7 +2,7 @@
   <header class="app-header-wrapper">
     <div class="header">
       <div class="left">
-        <img src="./logo.png" class="logo" alt="">
+        <img src="./logo.png" class="logo" alt="" @click="$router.push('/')">
         <div class="swiper-container slogan">
           <div class="swiper-wrapper">
             <div class="swiper-slide">
@@ -14,7 +14,7 @@
       <div class="right">
         <ul class="menu">
           <router-link tag="li" to="/login">登录</router-link>
-          <router-link tag="li" to="/register">快速注册</router-link>
+          <router-link tag="li" to="/register/mobile">快速注册</router-link>
           <router-link tag="li" to="/help_center">帮助中心</router-link>
           <router-link tag="li" to="/notice">网站公告</router-link>
           <router-link tag="li" to="/contact_us">联系我们</router-link>
@@ -37,7 +37,7 @@
         </ul>
         <ul class="navs">
           <router-link tag="li" to="/">首页</router-link>
-          <router-link tag="li" to="/loan">我要出借</router-link>
+          <router-link tag="li" to="/lend">我要出借</router-link>
           <router-link tag="li" to="/borrow">我要借款</router-link>
           <router-link tag="li" to="/info_disclosure">信息披露</router-link>
           <router-link tag="li" to="/activity">主题活动</router-link>
@@ -135,8 +135,12 @@ export default {
           border-right: 1px solid #d8d8d8;
           color: $color-text;
           position: relative;
+          cursor: pointer;
           &:last-child {
             border: none;
+          }
+          &.router-link-active {
+            color: $color-theme;
           }
         }
         .wx-qr-code {

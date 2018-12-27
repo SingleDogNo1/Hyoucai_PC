@@ -26,7 +26,12 @@ module.exports = {
   devServer: {
     proxy: {
       '/TouchStoneService': {
-        target: 'http://114.215.186.35:8090',
+        target: 'http://47.100.38.237:8082/d',
+        changeOrigin: true,
+        wx: true
+      },
+      '/TouchStoneServiceNew': {
+        target: 'http://47.100.38.237:8082/h',
         changeOrigin: true,
         wx: true
       }
