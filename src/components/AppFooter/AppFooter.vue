@@ -107,6 +107,11 @@
         </a>
       </div>
     </div>
+    <ul class="right-slide">
+      <li></li>
+      <li></li>
+      <li></li>
+    </ul>
   </footer>
 </template>
 
