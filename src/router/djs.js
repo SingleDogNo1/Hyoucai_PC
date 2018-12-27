@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Layout from '@/layout/layout.vue'
-import Mine from '@/views/djs/Mine/Mine.vue'
+import Mine from '@/layout/userIndex.vue'
 
 Vue.use(Router)
 
@@ -15,6 +15,17 @@ export default new Router({
           path: '',
           name: 'index',
           component: () => import('@/views/djs/Index/Index')
+        }
+      ]
+    },
+    {
+      path: '/',
+      component: Layout,
+      children: [
+        {
+          path: 'borrow',
+          name: 'borrow',
+          component: () => import('@/views/common/Borrow/Borrow')
         }
       ]
     },
@@ -41,11 +52,11 @@ export default new Router({
       ]
     },
     {
-      path: '/mine',
+      path: '/',
       component: Layout,
       children: [
         {
-          path: '',
+          path: 'mine',
           component: Mine,
           children: [
             {
