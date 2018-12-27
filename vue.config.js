@@ -1,5 +1,9 @@
 module.exports = {
   baseUrl: process.env.NODE_ENV === 'production' ? '../' : '/',
+  devServer: {
+    host: '0.0.0.0',
+    disableHostCheck: true
+  },
   pages: {
     hyc: {
       entry: 'src/entries/hyc.js',
@@ -14,13 +18,6 @@ module.exports = {
       filename: 'djs/index.html',
       title: '汇有财',
       chunks: ['chunk-vendors', 'chunk-common', 'djs']
-    },
-    app: {
-      entry: 'src/entries/common.js',
-      template: 'public/index.html',
-      filename: 'index.html',
-      title: '汇有财',
-      chunks: ['chunk-vendors', 'chunk-common', 'app']
     }
   },
   devServer: {

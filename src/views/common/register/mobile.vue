@@ -1,14 +1,14 @@
 <template>
-    <div class="container">
-      <div class="form-container">
-        <div class="form">
-          <h1>新用户注册</h1>
-          <div class=""></div>
-          <button></button>
-          <p>同意<span>《汇有财注册协议》</span></p>
-        </div>
+  <div class="container">
+    <div class="form-container">
+      <div class="form">
+        <h1>新用户注册</h1>
+        <div class=""></div>
+        <button></button>
+        <p>同意<span>《汇有财注册协议》</span></p>
       </div>
     </div>
+  </div>
 </template>
 
 <script>
