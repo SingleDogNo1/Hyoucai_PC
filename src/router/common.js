@@ -13,8 +13,13 @@ export default new Router({
       children: [
         {
           path: '/register/mobile',
-          name: 'mobile',
+          name: 'registerMobile',
           component: () => import(/* webpackChunkName: "register" */ '@/views/common/register/mobile.vue')
+        },
+        {
+          path: '/register/form',
+          name: 'registerForm',
+          component: () => import(/* webpackChunkName: "register" */ '@/views/common/register/form.vue')
         }
       ]
     }

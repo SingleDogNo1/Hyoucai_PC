@@ -4,9 +4,12 @@
         <div class="form">
           <h1><span>新用户注册</span></h1>
           <div class="from-item">
-
+            <!--<div class="icon"><i class="iconfont icon-user"></i></div>
+            <div class="text"><input type="text" placeholder="请输入手机号"></div>-->
+            <i class="iconfont icon-user"></i>
+            <input type="tel">
           </div>
-          <el-button type="primary">下一步</el-button>
+          <el-button type="primary" @click="nextStep">下一步</el-button>
           <p class="agreement-tip">
             <i class="iconfont" :class="{'icon-choose': !agree, 'icon-check': agree }" @click="agree = !agree"></i>
             同意
@@ -24,6 +27,11 @@ export default {
   data() {
     return {
       agree: true
+    }
+  },
+  methods: {
+    nextStep() {
+      this.$router.push({ name: 'registerForm' })
     }
   }
 }
@@ -66,8 +74,49 @@ export default {
         width: 320px;
         height: 40px;
         background: rgba(255, 255, 255, 1);
-        border-radius: 2px;
-        border: 1px solid rgba(227, 227, 227, 1);
+        position: relative;
+        i {
+          display: inline-block;
+          position: absolute;
+          top: 5px;
+          width: 40px;
+          border-right: 1px solid;
+          border-image: linear-gradient(180deg, rgba(169, 169, 169, 0), rgba(226, 226, 226, 0.96), rgba(151, 151, 151, 0)) 1 1;
+          font-size: 20px;
+          color: #cecece;
+          line-height: 30px;
+        }
+        input {
+          box-sizing: border-box;
+          width: 100%;
+          height: 100%;
+          padding: 4px 0 4px 52px;
+          border: 1px solid rgba(227, 227, 227, 1);
+          border-radius: 2px;
+          &:focus {
+            border-color: #fb7b1f;
+          }
+        }
+        /*&>div{
+          float:left;
+          height: 30px;
+          line-height: 30px;
+          &.icon{
+            width:40px;
+            border-right:1px solid #cecece;
+            i{
+              font-size: 20px;
+              color: #cecece;
+            }
+          }
+          &.text{
+            width:278px;
+            input{
+              width:100%;
+              padding-left:12px;
+            }
+          }
+        }*/
       }
       button {
         margin-top: 30px;
@@ -84,10 +133,10 @@ export default {
         height: 16px;
         i {
           cursor: pointer;
-          .icon-choose {
+          &.icon-choose {
             color: #cdcdcd;
           }
-          .icon-check {
+          &.icon-check {
             color: #099ef5;
           }
         }
