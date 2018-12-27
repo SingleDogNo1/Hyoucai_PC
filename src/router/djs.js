@@ -65,6 +65,31 @@ export default new Router({
 					]
 				}
 			]
+    },
+    {
+			path: '/announcement',
+			component: Layout,
+			children: [
+				{
+					path: '',
+					component: () =>
+						import(/* webpackChunkName: "announcement" */ '@/views/common/announcement/index.vue'),
+					children: [
+						{
+							path: '/',
+							name: 'announcement',
+							component: () =>
+								import(/* webpackChunkName: "announcementIndex" */ '@/views/common/announcement/announcement.vue')
+						},
+						{
+							path: ':id',
+							name: 'announcementDetail',
+							component: () =>
+								import(/* webpackChunkName: "announcementDetail" */ '@/views/common/announcement/detail.vue')
+						}
+					]
+				}
+			]
 		}
 	]
 });

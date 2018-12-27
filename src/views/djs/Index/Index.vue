@@ -156,19 +156,83 @@
       <img src="./images/text_lend_data.png">
       <ul>
         <li>
-          <p class="title">256,571,216.26</p>
+          <countUp :name="count1" :count="62458342.33"></countUp>
           <p class="desc">累计投资(元)</p>
         </li>
+        <li>
+          <countUp :name="count2" :count="68342.69"></countUp>
+          <p class="desc">累计赚取(元)</p>
+        </li>
+        <li>
+          <countUp :name="count3" :count="516400.90"></countUp>
+          <p class="desc">昨日交易(元)</p>
+        </li>
+        <li>
+          <countUp :name="count4" :count="772916.47"></countUp>
+          <p class="desc">今日交易(元)</p>
+        </li>
       </ul>
+    </div>
+    <div class="novice-area-wrap">
+      <div class="novice-area-box">
+        <div class="desc-warp">
+          <img src="./images/text_novice_area.png">
+          <a class="btn-know" href="javascript:void(0);">1分钟了解汇有财</a>
+        </div>
+        <div class="production-wrap">
+          <div class="production-info">
+            <div class="label-wrap">
+              <img src="./images/icon_new.png">
+              <span class="title">半月嗨</span>
+              <span class="label">火爆投资</span>
+              <span class="label">多重保障</span>
+            </div>
+            <div class="returns">
+              <p class="title">
+                <span class="">12.0</span>%
+              </p>
+              <p class="desc">预期年化收益率</p>
+            </div>
+          </div>
+          <a class="btn-invest-now">dwdwdw</a>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import Swiper from 'swiper/dist/js/swiper'
+import CountUp from '@/components/countUp/index'
 export default {
   data() {
-    return {}
+    return {
+      count1: 'count1',
+      count2: 'count2',
+      count3: 'count3',
+      count4: 'count4',
+      countList: [
+        {
+          name: 'count1',
+          count: '62458342.33'
+        },
+        {
+          name: 'count2',
+          count: '68342.69'
+        },
+        {
+          name: 'count3',
+          count: '516400.90'
+        },
+        {
+          name: 'count4',
+          count: '772916.47'
+        }
+      ]
+    }
+  },
+  components: {
+    CountUp
   },
   methods: {
     getBanner() {
@@ -379,7 +443,8 @@ export default {
     width: 1140px;
     margin: 0 auto;
     margin-top: 70px;
-    padding: 0 48px;
+    padding: 0 20px;
+    margin-bottom: 50px;
     img {
       display: block;
       width: 158px;
@@ -391,14 +456,14 @@ export default {
       li {
         display: inline-block;
         position: relative;
-        width: 20%;
+        width: 25%;
         text-align: center;
         .title {
           font-size: $font-size-large-xxx;
           color: $color-text;
         }
         .desc {
-          margin-top: 24px;
+          margin-top: 20px;
           font-size: $font-size-small-s;
           color: $color-text-s;
         }
@@ -410,8 +475,99 @@ export default {
         width: 19px;
         height: 50px;
         right: 0;
-        top: 20px;
+        top: 25px;
         margin: 0 auto;
+      }
+      li:last-child:after {
+        display: none;
+      }
+    }
+  }
+  .novice-area-wrap {
+    background: #f4f4f4;
+    padding-top: 70px;
+    .novice-area-box {
+      width: 1140px;
+      height: 180px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      .desc-warp {
+        width: 218px;
+        height: 100%;
+        img {
+          display: block;
+          width: 180px;
+          height: 84px;
+        }
+        .btn-know {
+          display: block;
+          width: 218px;
+          height: 48px;
+          line-height: 48px;
+          margin-top: 26px;
+          background: linear-gradient(92deg, rgba(251, 157, 31, 1) 0%, rgba(251, 123, 31, 1) 100%);
+          color: #fff;
+          font-size: $font-size-medium-x;
+          text-align: center;
+        }
+      }
+      .production-wrap {
+        width: 880px;
+        height: 100%;
+        background: #fff;
+        padding: 35px 40px 35px 30px;
+          display: flex;
+          justify-content: space-between;
+        .production-info {
+          width: 660px;
+          height: 100%;
+          .label-wrap {
+            width: 660px;
+            height: 22px;
+            img {
+              display: inline-block;
+              width: 22px;
+              height: 22px;
+              vertical-align: middle;
+            }
+            .title {
+              display: inline-block;
+              width: 55px;
+              height: 20px;
+              line-height: 18px;
+              font-size: $font-size-medium;
+              color: $color-text;
+              margin-left: 10px;
+              vertical-align: middle;
+            }
+            .label {
+              display: inline-block;
+              width: 60px;
+              height: 20px;
+              line-height: 18px;
+              color: #fc5541;
+              border: 1px solid #fc5541;
+              font-size: $font-size-small-ss;
+              margin-left: 10px;
+              text-align: center;
+              vertical-align: middle;
+            }
+          }
+          .returns {
+            margin-top: 28px;
+          }
+        }
+        .btn-invest-now {
+          display: block;
+          width: 190px;
+          height: 100%;
+          font-size: $font-size-large-xxx;
+          color: #FC5541;
+          .title {
+            font-size: $font-size-large-xxxxx;
+          }
+        }
       }
     }
   }
