@@ -22,5 +22,19 @@ module.exports = {
       title: '汇有财',
       chunks: ['chunk-vendors', 'chunk-common', 'app']
     }
+  },
+  devServer: {
+    proxy: {
+      '/TouchStoneService': {
+        target: 'http://47.100.38.237:8082/d',
+        changeOrigin: true,
+        wx: true
+      },
+      '/TouchStoneServiceNew': {
+        target: 'http://47.100.38.237:8082/h',
+        changeOrigin: true,
+        wx: true
+      }
+    }
   }
 }

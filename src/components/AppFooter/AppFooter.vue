@@ -50,9 +50,67 @@
           <i class="iconfont icon-phone"></i>
           <span>APP下载</span>
         </h3>
-        <div>iOS下载</div>
-        <div>安卓下载</div>
+        <div class="qr-code" @mouseenter="showIOSCode" @mouseleave="hideIOSCode">
+          <span>iOS下载</span>
+          <transition name="slide">
+            <div class="ios code" v-show="IOSCodeFlag"></div>
+          </transition>
+        </div>
+        <div class="qr-code"  @mouseenter="showAndCode" @mouseleave="hideAndCode">
+          <span>安卓下载</span>
+          <transition name="slide">
+            <div class="and code" v-show="AndCodeFlag"></div>
+          </transition>
+        </div>
       </li>
+    </ul>
+    <div class="btm">
+      <ul class="partner">
+        <li>zheshi01</li>
+        <li>zheshi02</li>
+        <li>zheshi03</li>
+        <li>zheshi04</li>
+        <li>zheshi05</li>
+        <li>zheshi06</li>
+        <li>zheshi07</li>
+        <li>zheshi08</li>
+      </ul>
+      <div class="copyright">
+        <span>&copy;</span>
+        <span>2013-2017 江西汇通金融信息服务有限公司 版权所有</span>
+        <a href="http://www.miibeian.gov.cn/">赣ICP备13002945号-4 免责声明</a>
+      </div>
+      <div class="copy-img">
+        <a target="_blank" href="http://si.trustutn.org/info?sn=396180320000637017253&certType=4">
+          <img src="./renzheng.png" alt="">
+        </a>
+        <a target="_blank" href="https://credit.szfw.org/CX20180307033115391632.html">
+          <img src="./cert.png" alt="">
+        </a>
+        <a target="_blank" href="https://v.pinpaibao.com.cn/cert/site/?site=www.hyoucai.com&at=realname">
+          <img src='./realnameAuth.png' alt="">
+        </a>
+        <a  target='_blank' href="https://ss.knet.cn/verifyseal.dll?sn=e17033136010067212faqu000000&ct=df&a=1&pa=0.7946975489546229">
+          <img src="./cnnic.png" alt="">
+        </a>
+        <a target='_blank' href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=36012102000103">
+          <img src="./gongan_wb.png" alt="" >
+        </a>
+        <a target='_blank' href="http://www.jxcn.cn/jbzx/jbzn.htm">
+          <img src="./jubao.png" alt=""/>
+        </a>
+        <a target='_blank' href="https://www.hyoucai.com/page/noticeDetail.html?id=2277">
+          <img src="./infoLevel.png" alt="" >
+        </a>
+        <a target='_blank' href="http://shuidi.cn/companyextreme-cba6d53b25e3568746166d73661021a7.html" >
+          <img src="./credit.png" alt="">
+        </a>
+      </div>
+    </div>
+    <ul class="right-slide">
+      <li></li>
+      <li></li>
+      <li></li>
     </ul>
   </footer>
 </template>
@@ -64,16 +122,24 @@ export default {
   components: {},
   data() {
     return {
-      msg: 'AppFooter'
+      IOSCodeFlag: false,
+      AndCodeFlag: false
     }
   },
-  props: {},
-  watch: {},
-  methods: {},
-  computed: {},
-  created() {},
-  mounted() {},
-  destroyed() {}
+  methods: {
+    showIOSCode() {
+      this.IOSCodeFlag = true
+    },
+    hideIOSCode() {
+      this.IOSCodeFlag = false
+    },
+    showAndCode() {
+      this.AndCodeFlag = true
+    },
+    hideAndCode() {
+      this.AndCodeFlag = false
+    }
+  }
 }
 </script>
 
@@ -81,9 +147,21 @@ export default {
 @import '../../assets/css/mixins';
 @import '../../assets/css/theme';
 
+.slide-enter-active,
+.slide-leave-active {
+  transition: all 0.3s ease;
+}
+.slide-enter,
+.slide-leave-to {
+  transform: translateX(20px);
+  opacity: 0;
+}
+
 .app-footer-wrapper {
+  border-top: 1px solid #e3e3e3;
   .top {
     margin: 0 auto;
+    padding: 30px 0 24px 0;
     @include cube(1140px, auto);
     display: flex;
     justify-content: space-between;
@@ -97,7 +175,7 @@ export default {
           margin-right: 8px;
         }
       }
-      div {
+      > div {
         line-height: 30px;
         color: #6a6a6a;
         font-size: $font-size-small-s;
@@ -106,11 +184,57 @@ export default {
         &:hover {
           color: $color-theme;
         }
+        &.qr-code {
+          position: relative;
+          .code {
+            position: absolute;
+            z-index: 999;
+            @include square(188px);
+            top: -50px;
+            left: -80px;
+            background: url('./down_code.png') 0 / contain;
+          }
+        }
       }
     }
   }
   .btm {
     height: 190px;
+    background: #353b44;
+    color: #fff;
+    .partner {
+      display: flex;
+      justify-content: center;
+      padding-top: 35px;
+      li {
+        padding: 0 18px;
+        border-right: 1px solid #9b9b9b;
+        font-size: $font-size-small-s;
+        transition: all 0.3s ease;
+        &:hover {
+          color: $color-theme;
+        }
+        &:last-child {
+          border: none;
+        }
+      }
+    }
+    .copyright {
+      text-align: center;
+      font-size: $font-size-small-s;
+      padding: 30px 0 25px 0;
+      a {
+        color: #fff;
+        margin-left: 10px;
+      }
+    }
+    .copy-img {
+      display: flex;
+      justify-content: center;
+      img {
+        margin: 0 15px;
+      }
+    }
   }
 }
 </style>

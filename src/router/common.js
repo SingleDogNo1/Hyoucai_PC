@@ -22,6 +22,17 @@ export default new Router({
           component: () => import(/* webpackChunkName: "register" */ '@/views/common/register/form.vue')
         }
       ]
+    },
+    {
+      path: '/',
+      component: Layout,
+      children: [
+        {
+          path: 'borrow',
+          name: 'borrow',
+          component: () => import('@/views/common/Borrow/Borrow')
+        }
+      ]
     }
   ]
 })
