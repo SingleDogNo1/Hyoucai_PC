@@ -517,8 +517,8 @@ export default {
         height: 100%;
         background: #fff;
         padding: 35px 40px 35px 30px;
-          display: flex;
-          justify-content: space-between;
+        display: flex;
+        justify-content: space-between;
         .production-info {
           width: 660px;
           height: 100%;
@@ -563,7 +563,7 @@ export default {
           width: 190px;
           height: 100%;
           font-size: $font-size-large-xxx;
-          color: #FC5541;
+          color: #fc5541;
           .title {
             font-size: $font-size-large-xxxxx;
           }
@@ -573,4 +573,3 @@ export default {
   }
 }
 </style>
-

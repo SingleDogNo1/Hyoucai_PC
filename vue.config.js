@@ -1,9 +1,5 @@
 module.exports = {
   baseUrl: process.env.NODE_ENV === 'production' ? '../' : '/',
-  devServer: {
-    host: '0.0.0.0',
-    disableHostCheck: true
-  },
   pages: {
     hyc: {
       entry: 'src/entries/hyc.js',
@@ -21,6 +17,8 @@ module.exports = {
     }
   },
   devServer: {
+    host: '0.0.0.0',
+    disableHostCheck: true,
     proxy: {
       '/TouchStoneService': {
         target: 'http://47.100.38.237:8082/d',
