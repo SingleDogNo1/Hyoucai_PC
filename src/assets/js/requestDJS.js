@@ -4,7 +4,8 @@ const service = axios.create({
   baseURL: process.env.VUE_APP_BASE_DJS_API,
   timeout: 5000,
   headers: {
-    platform: 'pc'
+    platform: 'pc',
+    version: '1.0'
   }
 })
 
