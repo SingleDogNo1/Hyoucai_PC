@@ -1,14 +1,14 @@
 <template>
   <div class="wrapper">
     <div class="top">
-      <img src="date_back.png" />
+      <img src="./image/date_back.png" />
       <ul>
         <li>
           <dl>
             <dt>
               <div class="title"><i></i> <span>用户累计出借额（元）</span></div>
             </dt>
-            <dd>{{ lendCount | setMoney }}</dd>
+            <dd><count-up name="lendCount" :count="lendCount"></count-up></dd>
           </dl>
         </li>
         <li>
@@ -16,7 +16,7 @@
             <dt>
               <div class="title"><i></i> <span>累计赚取金额（元）</span></div>
             </dt>
-            <dd>{{ incomeCount | setMoney }}</dd>
+            <dd><count-up name="incomeCount" :count="incomeCount"></count-up></dd>
           </dl>
         </li>
         <li>
@@ -24,7 +24,7 @@
             <dt>
               <div class="title"><i></i> <span>今日交易（元）</span></div>
             </dt>
-            <dd>{{ todayCount | setMoney }}</dd>
+            <dd><count-up name="todayCount" :count="todayCount"></count-up></dd>
           </dl>
         </li>
       </ul>
@@ -194,13 +194,14 @@
 <script>
 import { toThousands } from '@/assets/js/utils'
 import pagination from '@/components/pagination/pagination'
+import countUp from '@/components/countUp/index'
 export default {
   name: 'lend',
   data() {
     return {
-      lendCount: 29374927435,
-      incomeCount: 2482329874,
-      todayCount: 123949878,
+      lendCount: 9432829375,
+      incomeCount: 235345345,
+      todayCount: 435435243.89,
       page: 1,
       size: 10,
       total: 100
@@ -217,7 +218,8 @@ export default {
     }
   },
   components: {
-    pagination
+    pagination,
+    countUp
   }
 }
 </script>
@@ -277,7 +279,7 @@ export default {
           dl {
             dt {
               i {
-                background-image: url('investment@2x.png');
+                background-image: url('./image/investment@2x.png');
               }
             }
           }
@@ -286,7 +288,7 @@ export default {
           dl {
             dt {
               i {
-                background-image: url('income@2x.png');
+                background-image: url('./image/income@2x.png');
               }
             }
           }
@@ -295,7 +297,7 @@ export default {
           dl {
             dt {
               i {
-                background-image: url('time@2x.png');
+                background-image: url('./image/time@2x.png');
               }
             }
           }
