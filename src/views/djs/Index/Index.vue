@@ -565,7 +565,7 @@ export default {
           font-size: $font-size-large-xxx;
           color: #fc5541;
           .title {
-            font-size: $font-size-large-xxxxx;
+            font-size: 48px;
           }
         }
       }
