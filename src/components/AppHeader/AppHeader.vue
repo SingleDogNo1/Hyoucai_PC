@@ -14,7 +14,7 @@
           <router-link tag="li" to="/login">登录</router-link>
           <router-link tag="li" to="/register">快速注册</router-link>
           <router-link tag="li" to="/help_center">帮助中心</router-link>
-          <router-link tag="li" to="/notice">网站公告</router-link>
+          <router-link tag="li" to="/announcement">网站公告</router-link>
           <router-link tag="li" to="/contact_us">联系我们</router-link>
           <li class="wx-qr-code">
             <i class="iconfont icon-weChat_nav" @mouseenter="showWXCode" @mouseleave="hideWXCode"></i>

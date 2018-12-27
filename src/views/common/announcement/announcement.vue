@@ -56,15 +56,31 @@
       <el-tab-pane label="行业资讯" name="second">行业资讯</el-tab-pane>
       <el-tab-pane label="媒体报道" name="third">媒体报道</el-tab-pane>
     </el-tabs>
+    <div class="pagination-wrapper">
+        <pagination :total-count="total" :size-val="size" :page-val="page" @handleCurrentChange="handleCurrentChange"></pagination>
+      </div>
   </div>
 </template>
 
 <script>
+
+import pagination from '@/components/pagination/pagination'
+
 export default {
   data() {
     return {
-      activeName: 'first'
+      activeName: 'first',
+      page: 1,
+      size: 10,
+      total: 100
     }
+  },
+  methods: {
+    handleClick() {
+    }
+  },
+  components: {
+    pagination
   }
 }
 </script>
@@ -144,6 +160,10 @@ export default {
         border-bottom: 0;
       }
     }
+  }
+  .pagination-wrapper {
+    margin-top: 20px;
+    margin-bottom: 15px;
   }
 }
 </style>
