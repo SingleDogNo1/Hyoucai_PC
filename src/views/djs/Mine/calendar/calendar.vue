@@ -10,6 +10,7 @@
           :begin="calendar.begin"
           :end="calendar.end"
           @select="calendar.select"
+          @getLendDetail="getLendDetail"
         />
       </div>
       <div class="right">
@@ -82,6 +83,9 @@ export default {
     }
   },
   methods: {
+    getLendDetail(year, month, day) {
+      console.log(year, month, day)
+    },
     showDetail(id) {
       alert(id)
     }

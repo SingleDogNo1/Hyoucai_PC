@@ -127,6 +127,7 @@ export default {
       color: $color-text;
       padding-left: 70px;
       box-sizing: border-box;
+      cursor: pointer;
       &.router-link-active {
         padding-left: 66px;
         color: $color-theme;

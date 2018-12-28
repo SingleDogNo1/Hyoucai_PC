@@ -1,24 +1,28 @@
 <template>
   <div class="calendar">
     <div class="calendar-tools">
-      <span class="calendar-prev" @click="prev">＜</span>
-      <span class="calendar-next"  @click="next">＞</span>
-      <div class="calendar-info" @click.stop="changeYear">
-        <div class="month">
-          <div class="month-inner" :style="{'top':-(this.month*20)+'px'}">
-            <span v-for="m in months" :key="m">{{m}}</span>
+      <!-- 可点击选择年份 -->
+      <!--<div class="calendar-info" @click.stop="changeYear">-->
+      <div class="calendar-info">
+        <div class="year">{{year}}年</div>
+        <span class="calendar-prev" @click="prev">＜</span>
+        <div class="month swiper-container" id="month">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide" v-for="m in months" :key="m">{{m}}</div>
           </div>
         </div>
-        <div class="year">{{year}}</div>
+        <span class="calendar-next"  @click="next">＞</span>
+        <div class="today" v-if="month !== new Date().getMonth()" @click="setToday">返回今天</div>
       </div>
     </div>
     <table cellpadding="5">
       <thead>
-      <tr>
+      <tr class="table-header">
         <td v-for="week in weeks" :key="week" class="week">{{week}}</td>
       </tr>
       </thead>
       <tbody>
+      <tr style="height: 20px;"></tr>
       <tr
         v-for="(day,k1) in days"
         :key="k1"
@@ -36,7 +40,8 @@
               {{child.day}}
             </span>
           <div class="text" v-if="child.eventName !== undefined">{{child.eventName}}</div>
-          <div class="text" :class="{'isLunarFestival':child.isLunarFestival,'isGregorianFestival':child.isGregorianFestival}" v-if="lunar">{{child.lunar}}</div>
+          <!--<div class="text" :class="{'isLunarFestival':child.isLunarFestival,'isGregorianFestival':child.isGregorianFestival}" v-if="lunar">{{child.lunar}}</div>-->
+          <div class="text" :class="{'isLunarFestival':child.isLunarFestival,'isGregorianFestival':child.isGregorianFestival}" v-if="(lunar && child.isLunarFestival) || (lunar && child.isGregorianFestival) ">{{child.lunar}}</div>
         </td>
       </tr>
       </tbody>
@@ -44,12 +49,13 @@
     <div class="calendar-years" :class="{'show':yearsShow}">
       <span v-for="y in years" :key="y" @click.stop="selectYear(y)" :class="{'active': y === year}">{{y}}</span>
     </div>
-    <button @click="setToday">返回今天</button>
   </div>
 </template>
 
 <script>
 import calendar from './calendar'
+import Swiper from 'swiper'
+
 export default {
   props: {
     // 默认日期
@@ -91,7 +97,7 @@ export default {
       type: Array,
       default: function() {
         return window.navigator.language.toLowerCase() === 'zh-cn'
-          ? ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月']
+          ? ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月']
           : ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
       }
     },
@@ -105,6 +111,7 @@ export default {
   },
   data() {
     return {
+      monthSwiper: '',
       years: [],
       yearsShow: false,
       year: 0,
@@ -190,7 +197,6 @@ export default {
           temp[line] = []
           k = lastDayOfLastMonth - firstDayOfMonth + 1
           for (let j = 0; j < firstDayOfMonth; j++) {
-            // console.log("第一行",lunarYear,lunarMonth,lunarValue,lunarInfo)
             temp[line].push(
               Object.assign(
                 { day: k, disabled: true },
@@ -214,14 +220,12 @@ export default {
         }
         // 没有默认值的时候显示选中今天日期
         else if (chkY === this.year && chkM === this.month && i === this.day && this.value === '') {
-          // console.log("今天",lunarYear,lunarMonth,lunarValue,lunarInfo)
           temp[line].push(
             Object.assign({ day: i, selected: true }, this.getLunarInfo(this.year, this.month + 1, i), this.getEvents(this.year, this.month + 1, i))
           )
           this.today = [line, temp[line].length - 1]
         } else {
           // 普通日期
-          // console.log("设置可选范围",i,lunarYear,lunarMonth,lunarValue,lunarInfo)
           let options = Object.assign(
             { day: i, selected: false },
             this.getLunarInfo(this.year, this.month + 1, i),
@@ -243,10 +247,8 @@ export default {
         if (day === 6 && i < lastDateOfMonth) {
           line++
         } else if (i === lastDateOfMonth) {
-          // line++
           let k = 1
           for (let d = day; d < 6; d++) {
-            // console.log(this.computedNextYear()+"-"+this.computedNextMonth(true)+"-"+k)
             temp[line].push(
               Object.assign(
                 { day: k, disabled: true },
@@ -260,11 +262,8 @@ export default {
           nextMonthPushDays = k
         }
       } //end for
-
-      // console.log(this.year+"/"+this.month+"/"+this.day+":"+line)
       // 补充第六行让视觉稳定
       if (line <= 5 && nextMonthPushDays > 0) {
-        // console.log({nextMonthPushDays:nextMonthPushDays,line:line})
         for (let i = line + 1; i <= 5; i++) {
           temp[i] = []
           let start = nextMonthPushDays + (i - line - 1) * 7
@@ -325,7 +324,6 @@ export default {
     getLunarInfo(y, m, d) {
       let lunarInfo = calendar.solar2lunar(y, m, d)
       let lunarValue = lunarInfo.IDayCn
-      // console.log(lunarInfo)
       let isLunarFestival = false
       let isGregorianFestival = false
       if (this.festival.lunar[lunarInfo.lMonth + '-' + lunarInfo.lDay] !== undefined) {
@@ -353,35 +351,39 @@ export default {
     },
     // 上月
     prev(e) {
-      e.stopPropagation()
-      if (this.month === 0) {
-        this.month = 11
-        this.year = parseInt(this.year) - 1
-      } else {
-        this.month = parseInt(this.month) - 1
+      if (!this.monthSwiper.animating) {
+        this.monthSwiper.slidePrev()
+        e.stopPropagation()
+        if (this.month === 0) {
+          this.month = 11
+          this.year = parseInt(this.year) - 1
+        } else {
+          this.month = parseInt(this.month) - 1
+        }
+        this.render(this.year, this.month)
+        this.$emit('selectMonth', this.month + 1, this.year)
+        this.$emit('prev', this.month + 1, this.year)
       }
-      this.render(this.year, this.month)
-      this.$emit('selectMonth', this.month + 1, this.year)
-      this.$emit('prev', this.month + 1, this.year)
     },
     //  下月
     next(e) {
-      e.stopPropagation()
-      if (this.month === 11) {
-        this.month = 0
-        this.year = parseInt(this.year) + 1
-      } else {
-        this.month = parseInt(this.month) + 1
+      if (!this.monthSwiper.animating) {
+        this.monthSwiper.slideNext()
+        e.stopPropagation()
+        if (this.month === 11) {
+          this.month = 0
+          this.year = parseInt(this.year) + 1
+        } else {
+          this.month = parseInt(this.month) + 1
+        }
+        this.render(this.year, this.month)
+        this.$emit('selectMonth', this.month + 1, this.year)
+        this.$emit('next', this.month + 1, this.year)
       }
-      this.render(this.year, this.month)
-      this.$emit('selectMonth', this.month + 1, this.year)
-      this.$emit('next', this.month + 1, this.year)
     },
     // 选中日期
     select(k1, k2, e) {
-      console.log(this.year, this.month + 1, this.days[k1][k2].day)
       if (e !== undefined) e.stopPropagation()
-
       // 取消上次选中
       if (this.today.length > 0) {
         this.days.forEach(v => {
@@ -399,6 +401,7 @@ export default {
         this.zero ? this.zeroPad(this.month + 1) : this.month + 1,
         this.zero ? this.zeroPad(this.days[k1][k2].day) : this.days[k1][k2].day
       ])
+      this.getLendDetail(this.year, this.month, this.day)
     },
     changeYear() {
       if (this.yearsShow) {
@@ -423,7 +426,8 @@ export default {
       this.year = now.getFullYear()
       this.month = now.getMonth()
       this.day = now.getDate()
-      this.render(this.year, this.month)
+      this.render(this.year, this.month + 1)
+      this.monthSwiper.slideTo(this.month + 1, 0)
       // 遍历当前日找到选中
       this.days.forEach(v => {
         let day = v.find(vv => {
@@ -433,20 +437,40 @@ export default {
           day.selected = true
         }
       })
+      this.getLendDetail(this.year, this.month, this.day)
     },
     // 日期补零
     zeroPad(n) {
       return String(n < 10 ? '0' + n : n)
+    },
+    initMonth() {
+      const $this = this
+      this.monthSwiper = new Swiper('#month', {
+        loop: true,
+        direction: 'vertical',
+        on: {
+          init() {
+            this.slideTo($this.month, 0)
+          }
+        }
+      })
+    },
+    getLendDetail(year, month, day) {
+      this.$emit('getLendDetail', year, month, day)
     }
   },
   mounted() {
+    this.initMonth()
     this.init()
+    console.log(this.month, new Date().getMonth())
   }
 }
 </script>
 
-
 <style scoped lang="scss">
+@import './../../assets/css/theme';
+@import './../../assets/css/mixins';
+
 .calendar {
   margin: auto;
   width: 100%;
@@ -454,57 +478,53 @@ export default {
   background: #fff;
   user-select: none;
   .calendar-tools {
-    height: 40px;
+    height: 70px;
     font-size: 20px;
     line-height: 40px;
     color: #5e7a88;
     span {
       cursor: pointer;
     }
-    .calendar-prev {
-      width: 14.28571429%;
-      float: left;
-      text-align: center;
-    }
+
     .calendar-info {
+      height: 100%;
       padding-top: 3px;
       font-size: 16px;
-      line-height: 1.3;
       text-align: center;
-      > div.month {
-        margin: auto;
-        height: 20px;
-        width: 100px;
-        text-align: center;
-        color: #5e7a88;
-        overflow: hidden;
-        position: relative;
-        .month-inner {
-          position: absolute;
-          left: 0;
-          top: 0;
-          height: 240px;
-          transition: top 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
-          > span {
-            display: block;
-            font-size: 14px;
-            height: 20px;
-            width: 100px;
-            overflow: hidden;
-            text-align: center;
-          }
-        }
-      }
+      display: flex;
+      justify-content: center;
+      position: relative;
       > div.year {
-        font-size: 10px;
-        line-height: 1;
-        color: #999;
+        font-size: 18px;
+        font-weight: 600;
+        color: $color-text;
+        line-height: 70px;
       }
-    }
-    .calendar-next {
-      width: 14.28571429%;
-      float: right;
-      text-align: center;
+      .calendar-prev {
+        width: 7px;
+        padding: 0 10px;
+        line-height: 70px;
+      }
+      > div.month {
+        width: 50px;
+        height: 30px;
+        line-height: 30px;
+        color: $color-text;
+        font-size: $font-size-medium;
+        font-weight: 600;
+        margin: 20px 0;
+      }
+      .calendar-next {
+        width: 7px;
+        padding: 0 10px;
+        line-height: 70px;
+      }
+      .today {
+        position: absolute;
+        font-size: $font-size-small-s;
+        line-height: 70px;
+        right: 115px;
+      }
     }
   }
   table {
@@ -513,11 +533,21 @@ export default {
     margin-bottom: 10px;
     border-collapse: collapse;
     color: #444444;
+    .table-header {
+      height: 30px;
+      border-bottom: 1px solid #ebebeb;
+      td {
+        vertical-align: top;
+      }
+    }
+    tr {
+      height: 50px;
+    }
     td {
       margin: 2px !important;
       padding: 0;
       width: 14.28571429%;
-      height: 44px;
+      height: 50px;
       text-align: center;
       font-size: 14px;
       line-height: 125%;
@@ -539,10 +569,10 @@ export default {
       }
       span {
         display: block;
-        max-width: 40px;
-        height: 26px;
+        width: 40px;
+        height: 40px;
         font-size: 16px;
-        line-height: 26px;
+        line-height: 40px;
         margin: 0 auto;
         border-radius: 20px;
       }
