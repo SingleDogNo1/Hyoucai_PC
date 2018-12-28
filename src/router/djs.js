@@ -83,13 +83,18 @@ export default new Router({
 							path: 'record', // 交易记录
 							name: 'record',
 							component: () => import(/* webpackChunkName: "record" */ '@/views/djs/record/record.vue')
+						},
+						{
+							path: 'charge', // 充值
+							name: 'charge',
+							component: () => import(/* webpackChunkName: "record" */ '@/views/djs/charge/charge.vue')
 						}
 					]
 				}
 			]
 		},
 		{
-			path: '/announcement', // 网站公告
+			path: '/announcement',
 			component: Layout,
 			children: [
 				{
@@ -114,6 +119,57 @@ export default new Router({
 			]
 		},
 		{
+			path: '/', // 我要出借
+			component: Layout,
+			children: [
+				{
+					path: 'addBankCard',
+					name: 'addBankCard',
+					component: () => import(/* webpackChunkName: "lend" */ '@/views/djs/addBankCard/addBankCard.vue')
+				}
+			]
+		},
+		{
+			path: '/register',
+			component: Layout,
+			redirect: '/register/mobile',
+			children: [
+				{
+					path: 'mobile',
+					name: 'registerMobile',
+					component: () => import(/* webpackChunkName: "register" */ '@/views/common/register/mobile.vue')
+				},
+				{
+					path: 'form',
+					name: 'registerForm',
+					component: () => import(/* webpackChunkName: "register" */ '@/views/common/register/form.vue')
+				}
+			]
+		},
+		{
+			path: '/login',
+			component: Layout,
+			children: [
+				{
+					path: '',
+					name: 'login',
+					component: () => import(/* webpackChunkName: "register" */ '@/views/common/login/login.vue')
+				}
+			]
+		},
+		{
+			path: '/forgetPWD',
+			component: Layout,
+			children: [
+				{
+					path: '',
+					name: 'forgetPWD',
+					component: () =>
+						import(/* webpackChunkName: "register" */ '@/views/common/login/forgetPassword.vue')
+				}
+			]
+    },
+    {
 			path: '/', // 帮助中心
 			component: Layout,
 			children: [
@@ -121,54 +177,6 @@ export default new Router({
 					path: 'helpCenter',
 					name: 'helpCenter',
 					component: () => import(/* webpackChunkName: "helpCenter" */ '@/views/djs/helpCenter/index.vue')
-				}
-			]
-		},
-		{
-			path: '/',
-			component: Layout,
-			children: [
-				{
-					path: '/register',
-					component: Layout,
-					redirect: '/register/mobile',
-					children: [
-						{
-							path: 'mobile',
-							name: 'registerMobile',
-							component: () =>
-								import(/* webpackChunkName: "register" */ '@/views/common/register/mobile.vue')
-						},
-						{
-							path: 'form',
-							name: 'registerForm',
-							component: () =>
-								import(/* webpackChunkName: "register" */ '@/views/common/register/form.vue')
-						}
-					]
-				},
-				{
-					path: '/login',
-					component: Layout,
-					children: [
-						{
-							path: '',
-							name: 'login',
-							component: () => import(/* webpackChunkName: "register" */ '@/views/common/login/login.vue')
-						}
-					]
-				},
-				{
-					path: '/forgetPWD',
-					component: Layout,
-					children: [
-						{
-							path: '',
-							name: 'forgetPWD',
-							component: () =>
-								import(/* webpackChunkName: "register" */ '@/views/common/login/forgetPassword.vue')
-						}
-					]
 				}
 			]
 		}
