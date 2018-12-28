@@ -34,6 +34,9 @@
         </div>
       </div>
       <div class="swiper-pagination-banner"></div>
+      <div class="form-container">
+        <login-form></login-form>
+      </div>
     </div>
     <div class="notice-wrap">
       <div class="notice-box">
@@ -312,6 +315,7 @@
 <script>
 import Swiper from 'swiper/dist/js/swiper'
 import CountUp from '@/components/countUp/index'
+import LoginForm from '@/components/loginForm'
 export default {
   data() {
     return {
@@ -322,7 +326,8 @@ export default {
     }
   },
   components: {
-    CountUp
+    CountUp,
+    LoginForm
   },
   methods: {
     getBanner() {
@@ -397,6 +402,16 @@ export default {
         background: rgba(255, 255, 255, 1);
         border-radius: 4px;
       }
+    }
+    .form-container {
+      position: absolute;
+      top: 0;
+      left: calc(50% - 570px);
+      width: 1140px;
+      height: 100%;
+      margin: 0 auto;
+      padding: 35px 0;
+      z-index: 99;
     }
   }
   .notice-wrap {
