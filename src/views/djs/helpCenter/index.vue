@@ -16,10 +16,7 @@
       </div>
       <div class="content-wrap">
         <p class="title">常见问题</p>
-        <el-collapse
-          v-model="activeNames"
-          @change="handleChange"
-        >
+        <el-collapse v-model="activeNames" @change="handleChange">
           <el-collapse-item :name="index+1" v-for="(item, index) in list" :key="index">
             <template slot="title">
               <div class="header-wrap">
@@ -45,12 +42,11 @@ export default {
   data() {
     return {
       activeNames: '1',
-      list: [1,2,3]
+      list: [1, 2, 3]
     }
   },
   methods: {
-    handleChange() {
-    }
+    handleChange() {}
   }
 }
 </script>
@@ -76,6 +72,7 @@ export default {
         height: 72px;
         line-height: 72px;
         display: flex;
+        border-bottom: 1px solid rgba(235, 235, 235, 1);
         .icon-help {
           display: inline-block;
           font-size: 26px;
@@ -124,7 +121,7 @@ export default {
           /deep/ .el-collapse-item__header {
             position: relative;
             //padding: 15px;
-            border:1px solid rgba(227,227,227,1);
+            border: 1px solid rgba(227, 227, 227, 1);
             //border-bottom: 0;
             .header-wrap {
               width: 100%;
@@ -169,7 +166,7 @@ export default {
             background: rgba(251, 157, 31, 0.1);
           }
           /deep/ .el-collapse-item__wrap {
-            border:1px solid rgba(227,227,227,1);
+            border: 1px solid rgba(227, 227, 227, 1);
             border-top: 0;
             background: rgba(248, 248, 251, 1);
             .el-collapse-item__content {
