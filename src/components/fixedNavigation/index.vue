@@ -18,7 +18,7 @@
         <div class="code" v-show="codeFlag"></div>
       </transition>
     </li>
-    <li @click="toTop(step)">
+    <li @click="toTop(speed)">
       <i>返回
         <br>顶部
       </i>
@@ -31,7 +31,7 @@ export default {
   data() {
     return {
       codeFlag: false,
-      step: 50
+      speed: 50
     }
   },
   methods: {

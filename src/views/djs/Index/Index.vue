@@ -106,10 +106,10 @@
             </div>
           </div>
         </div>
-        <a href="#" class="more">
+        <router-link :to="{ path: 'announcement' }" class="more">
           更多
           <i class="iconfont icon-more"></i>
-        </a>
+        </router-link>
       </div>
     </div>
     <div class="introduction-wrap">
@@ -272,31 +272,31 @@
       <img src="./images/text_partner.png">
       <ul>
         <li>
-          <img src="./images/text_novice_area.png">
+          <img src="./images/icon_parter1.png">
         </li>
         <li>
-          <img src="./images/text_novice_area.png">
+          <img src="./images/icon_parter2.png">
         </li>
         <li>
-          <img src="./images/text_novice_area.png">
+          <img src="./images/icon_parter3.png">
         </li>
         <li>
-          <img src="./images/text_novice_area.png">
+          <img src="./images/icon_parter4.png">
         </li>
         <li>
-          <img src="./images/text_novice_area.png">
+          <img src="./images/icon_parter5.png">
         </li>
         <li>
-          <img src="./images/text_novice_area.png">
+          <img src="./images/icon_parter6.png">
         </li>
         <li>
-          <img src="./images/text_novice_area.png">
+          <img src="./images/icon_parter7.png">
         </li>
         <li>
-          <img src="./images/text_novice_area.png">
+          <img src="./images/icon_parter8.png">
         </li>
         <li>
-          <img src="./images/text_novice_area.png">
+          <img src="./images/icon_parter9.png">
         </li>
         <li>
           <a class="btn-more" href="javascript:void(0);">
@@ -401,7 +401,7 @@ export default {
   }
   .notice-wrap {
     width: 100%;
-    height: 50px;
+    height: 49px;
     border-bottom: 1px solid #ebebeb;
     .notice-box {
       display: flex;
@@ -501,6 +501,10 @@ export default {
             display: inline-block;
             width: 52px;
             height: 52px;
+            transition: all 0.5s;
+          }
+          img:hover {
+            transform: scale(1.4);
           }
           .title {
             width: 80px;
@@ -801,8 +805,8 @@ export default {
           display: block;
           opacity: 0;
           width: 220px;
-          height: 46px;
-          line-height: 46px;
+          height: 48px;
+          line-height: 48px;
           color: #fff;
           margin-top: 20px;
           background: rgba(251, 123, 31, 1);
@@ -841,19 +845,22 @@ export default {
     ul {
       width: 1140px;
       margin: 0 auto;
-      margin-top: 90px;
+      margin-top: 42px;
       li {
         display: inline-block;
-        width: 146px;
-        height: 35px;
+        width: 212px;
+        height: 146px;
         margin-right: 20px;
         vertical-align: middle;
-        padding: 57px 33px 43px 33px;
         text-align: center;
+        img {
+          width: 100%;
+          height: 100%;
+        }
         .btn-more {
           display: inline-block;
-          height: 18px;
-          line-height: 18px;
+          height: 146px;
+          line-height: 146px;
           text-align: center;
           font-size: $font-size-medium;
           color: $color-text-blue;
