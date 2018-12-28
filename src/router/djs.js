@@ -89,7 +89,7 @@ export default new Router({
       ]
     },
     {
-      path: '/announcement',
+      path: '/announcement', // 网站公告
       component: Layout,
       children: [
         {
@@ -107,6 +107,17 @@ export default new Router({
               component: () => import(/* webpackChunkName: "announcementDetail" */ '@/views/common/announcement/detail.vue')
             }
           ]
+        }
+      ]
+    },
+    {
+      path: '/', // 帮助中心
+      component: Layout,
+      children: [
+        {
+          path: 'helpCenter',
+          name: 'helpCenter',
+          component: () => import(/* webpackChunkName: "helpCenter" */ '@/views/djs/helpCenter/index.vue')
         }
       ]
     }

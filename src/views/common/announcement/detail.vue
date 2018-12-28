@@ -10,7 +10,7 @@
       <router-link :to="{ name: 'announcement'}" class="back-home">网站公告</router-link>&gt;
       <a>新闻中心</a>
     </div>-->
-    <articel class="detail-content">
+    <article class="detail-content">
       <div class="title-wrap">
         <h2>P2P行业不断利好，出借需求仍在增长中</h2>
         <p>
@@ -158,7 +158,7 @@
         <share :config="config"></share>
         <a class="back-list">返回列表&gt;&gt;</a>
       </div> -->
-    </articel>
+    </article>
     <div class="actions">
       <a href="#" class="btn-prev">
         <span class="action">&lt; 上一篇</span>
@@ -179,6 +179,10 @@ export default {
       activeName: 'first',
       config: {}
     }
+  },
+  methods: {
+    handleClick() {
+    }
   }
 }
 </script>
@@ -189,6 +193,7 @@ export default {
   width: 1140px;
   margin: 0 auto;
   margin-top: 20px;
+  margin-bottom: 30px;
   /deep/ .el-tabs__nav-wrap {
     .el-tabs__item {
       color: #5a5a5a;
