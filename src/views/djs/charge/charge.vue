@@ -117,10 +117,13 @@ export default {
         border-color: #e3e3e3;
         .el-tabs__item {
           height: 60px;
-          line-height: 60px;
+          line-height: 58px;
+          padding: 0 40px;
           color: $color-text-s;
           font-size: $font-size-small-s;
+          border-top: 2px solid transparent;
           &.is-active {
+            border-top: 2px solid $color-tab-selected;
             color: $color-tab-selected;
           }
         }
