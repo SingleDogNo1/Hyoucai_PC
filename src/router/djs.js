@@ -83,6 +83,11 @@ export default new Router({
               path: 'record', // 交易记录
               name: 'record',
               component: () => import(/* webpackChunkName: "record" */ '@/views/djs/record/record.vue')
+            },
+            {
+              path: 'charge', // 充值
+              name: 'charge',
+              component: () => import(/* webpackChunkName: "record" */ '@/views/djs/charge/charge.vue')
             }
           ]
         }
@@ -109,6 +114,17 @@ export default new Router({
           ]
         }
       ]
-    }
+    },
+    {
+      path: '/', // 我要出借
+      component: Layout,
+      children: [
+        {
+          path: 'addBankCard',
+          name: 'addBankCard',
+          component: () => import(/* webpackChunkName: "lend" */ '@/views/djs/addBankCard/addBankCard.vue')
+        }
+      ]
+    },
   ]
 })
