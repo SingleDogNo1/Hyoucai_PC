@@ -52,63 +52,42 @@ export default new Router({
       ]
     },
     {
-      path: '/mine',
+      path: '/',
       component: Layout,
-      redirect: '/mine/overview',
       children: [
         {
-          path: '',
+          path: 'mine',
           component: Mine,
           children: [
             {
-              path: 'overview', // 账户总览
+              path: 'overview',
               name: 'overview',
-              component: () => import('@/views/djs/Mine/overview/overview')
+              component: () => import('@/views/djs/Mine/overview')
             },
             {
-              path: 'basicInfo', // 基本信息
+              path: 'basicInfo',
               name: 'basicInfo',
-              component: () => import('@/views/djs/Mine/basicInfo/basicInfo')
+              component: () => import('@/views/djs/Mine/basicInfo')
             },
             {
-              path: 'bankcard', // 银行卡
+              path: 'bankcard',
               name: 'bankcard',
-              component: () => import('@/views/djs/Mine/bankcard/bankcard')
+              component: () => import('@/views/djs/Mine/bankcard')
             },
             {
-              path: 'referralCode', // 推荐码
+              path: 'referralCode',
               name: 'referralCode',
-              component: () => import('@/views/djs/Mine/referralCode/referralCode')
-            },
-            {
-              path: 'lend', // 我的出借
-              name: 'userLend',
-              component: () => import('@/views/djs/Mine/lend/lend')
+              component: () => import('@/views/djs/Mine/referralCode')
             },
             {
               path: 'record', // 交易记录
               name: 'record',
-              component: () => import('@/views/djs/Mine/record/record')
+              component: () => import(/* webpackChunkName: "record" */ '@/views/djs/record/record.vue')
             },
             {
-              path: 'auto-lend', // 自动出借
-              name: 'autoLend',
-              component: () => import('@/views/djs/Mine/autoLend/autoLend')
-            },
-            {
-              path: 'calendar', // 回款日历
-              name: 'lendCalendar',
-              component: () => import('@/views/djs/Mine/calendar/calendar')
-            },
-            {
-              path: 'coupons', // 我的卡券
-              name: 'lendCoupons',
-              component: () => import('@/views/djs/Mine/coupons/coupons')
-            },
-            {
-              path: 'experience-money', // 体验金
-              name: 'experienceMoney',
-              component: () => import('@/views/djs/Mine/experienceMoney/experienceMoney')
+              path: 'charge', // 充值
+              name: 'charge',
+              component: () => import(/* webpackChunkName: "record" */ '@/views/djs/charge/charge.vue')
             }
           ]
         }
@@ -133,6 +112,67 @@ export default new Router({
               component: () => import(/* webpackChunkName: "announcementDetail" */ '@/views/common/announcement/detail.vue')
             }
           ]
+        }
+      ]
+    },
+    {
+      path: '/', // 我要出借
+      component: Layout,
+      children: [
+        {
+          path: 'addBankCard',
+          name: 'addBankCard',
+          component: () => import(/* webpackChunkName: "lend" */ '@/views/djs/addBankCard/addBankCard.vue')
+        }
+      ]
+    },
+    {
+      path: '/register',
+      component: Layout,
+      redirect: '/register/mobile',
+      children: [
+        {
+          path: 'mobile',
+          name: 'registerMobile',
+          component: () => import(/* webpackChunkName: "register" */ '@/views/common/register/mobile.vue')
+        },
+        {
+          path: 'form',
+          name: 'registerForm',
+          component: () => import(/* webpackChunkName: "register" */ '@/views/common/register/form.vue')
+        }
+      ]
+    },
+    {
+      path: '/login',
+      component: Layout,
+      children: [
+        {
+          path: '',
+          name: 'login',
+          component: () => import(/* webpackChunkName: "register" */ '@/views/common/login/login.vue')
+        }
+      ]
+    },
+    {
+      path: '/forgetPWD',
+      component: Layout,
+      children: [
+        {
+          path: '',
+          name: 'forgetPWD',
+          component: () => import(/* webpackChunkName: "register" */ '@/views/common/login/forgetPassword.vue')
+        }
+      ]
+    },
+    {
+      path: '/', // 帮助中心
+      component: Layout,
+      children: [
+        {
+          path: 'helpCenter',
+          name: 'helpCenter',
+          component: () => import(/* webpackChunkName: "helpCenter" */ '@/views/djs/helpCenter/index.vue')
         }
       ]
     }
