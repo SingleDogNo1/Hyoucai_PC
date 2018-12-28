@@ -125,6 +125,7 @@ export default {
 
 .app-footer-wrapper {
   border-top: 1px solid #e3e3e3;
+  background: #fff;
   .top {
     margin: 0 auto;
     padding: 30px 0 24px 0;

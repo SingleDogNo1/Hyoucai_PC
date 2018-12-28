@@ -71,28 +71,27 @@ export default {
       smsCode: '',
       mobile: '',
       isValid: true,
-      balance: 0.00,
-      chargedBalance: 0.00,
+      balance: 0.0,
+      chargedBalance: 0.0,
       bankCardInfo: {
-        'accountId': '',
-        'area': '',
-        'bankNo': '',
-        'cardNo': '',
-        'city': '',
-        'fullName': '',
-        'mobile': '',
-        'openBankCode': '',
-        'openBankName': '',
-        'province': '',
-        'quota': '',
-        'strikeAmount': '',
-        'userName': ''
-      },
+        accountId: '',
+        area: '',
+        bankNo: '',
+        cardNo: '',
+        city: '',
+        fullName: '',
+        mobile: '',
+        openBankCode: '',
+        openBankName: '',
+        province: '',
+        quota: '',
+        strikeAmount: '',
+        userName: ''
+      }
     }
   },
   methods: {
-    checkAmount () {
-    }
+    checkAmount() {}
   },
   created() {},
   mounted() {}
@@ -140,8 +139,8 @@ export default {
             dl {
               dt {
                 margin-bottom: 12px;
-                font-weight:600;
-                color: #FC5541;
+                font-weight: 600;
+                color: #fc5541;
                 font-size: $font-size-large-x;
               }
               dd {
@@ -189,7 +188,7 @@ export default {
               color: $color-text;
               font-size: $font-size-small-ss;
               .high-light {
-                color: #FC5541;
+                color: #fc5541;
               }
             }
             .tips {
@@ -197,7 +196,7 @@ export default {
               top: 12px;
               right: -100px;
               font-size: $font-size-small-ss;
-              color: rgba(155,155,155,1);
+              color: rgba(155, 155, 155, 1);
             }
             .unit {
               position: absolute;

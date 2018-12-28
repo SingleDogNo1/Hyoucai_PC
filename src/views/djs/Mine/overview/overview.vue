@@ -92,8 +92,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../../../assets/css/mixins';
-@import '../../../assets/css/theme';
+@import '../../../../assets/css/mixins';
+@import '../../../../assets/css/theme';
 
 .overview {
   width: 842px;

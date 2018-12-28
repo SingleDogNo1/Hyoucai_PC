@@ -106,10 +106,10 @@
             </div>
           </div>
         </div>
-        <a href="#" class="more">
+        <router-link :to="{ path: 'announcement' }" class="more">
           更多
           <i class="iconfont icon-more"></i>
-        </a>
+        </router-link>
       </div>
     </div>
     <div class="introduction-wrap">
@@ -157,7 +157,7 @@
       <ul>
         <li>
           <countUp :name="count1" :count="62458342.33"></countUp>
-          <p class="desc">累计投资(元)</p>
+          <p class="desc">累计出借(元)</p>
         </li>
         <li>
           <countUp :name="count2" :count="68342.69"></countUp>
@@ -165,11 +165,11 @@
         </li>
         <li>
           <countUp :name="count3" :count="516400.90"></countUp>
-          <p class="desc">昨日交易(元)</p>
+          <p class="desc">昨日出借(元)</p>
         </li>
         <li>
           <countUp :name="count4" :count="772916.47"></countUp>
-          <p class="desc">今日交易(元)</p>
+          <p class="desc">今日出借(元)</p>
         </li>
       </ul>
     </div>
@@ -184,7 +184,7 @@
             <div class="label-wrap">
               <img src="./images/icon_new.png">
               <span class="title">半月嗨</span>
-              <span class="label">火爆投资</span>
+              <span class="label">火爆出借</span>
               <span class="label">多重保障</span>
             </div>
             <div class="returns">
@@ -207,13 +207,104 @@
             </div>
           </div>
           <div class="btn-invest-now">
-            <a>立即投资</a>
+            <a href="javascript:void(0);">立即出借</a>
           </div>
         </div>
       </div>
     </div>
     <div class="lend-boutique-wrap">
-      <img src="./images/text_lend_boutique.png"/>
+      <img src="./images/text_lend_boutique.png">
+      <ul>
+        <li>
+          <p class="title">
+            <img src="./images/icon_hot.png">
+            <span class="icon">普惠盈</span>
+          </p>
+          <div class="returns">
+            <p class="title">
+              <span class="large">12.0</span>%
+            </p>
+            <p class="desc">预期年化收益率</p>
+          </div>
+          <p class="lend-desc">100元起投</p>
+          <p class="lend-desc">锁定期：30天</p>
+          <p class="lend-desc">已售：89.70%</p>
+          <a class="btn-invest-now" href="javascript:void(0);">立即出借</a>
+          <a class="btn-view-detail" href="javascript:void(0);">查看详情</a>
+        </li>
+        <li>
+          <p class="title">
+            <img src="./images/icon_hot.png">
+            <span class="icon">普惠盈</span>
+          </p>
+          <div class="returns">
+            <p class="title">
+              <span class="large">12.0</span>%
+            </p>
+            <p class="desc">预期年化收益率</p>
+          </div>
+          <p class="lend-desc">100元起投</p>
+          <p class="lend-desc">锁定期：30天</p>
+          <p class="lend-desc">已售：89.70%</p>
+          <a class="btn-invest-now" href="javascript:void(0);">立即出借</a>
+          <a class="btn-view-detail" href="javascript:void(0);">查看详情</a>
+        </li>
+        <li>
+          <p class="title">
+            <img src="./images/icon_hot.png">
+            <span class="icon">普惠盈</span>
+          </p>
+          <div class="returns">
+            <p class="title">
+              <span class="large">12.0</span>%
+            </p>
+            <p class="desc">预期年化收益率</p>
+          </div>
+          <p class="lend-desc">100元起投</p>
+          <p class="lend-desc">锁定期：30天</p>
+          <p class="lend-desc">已售：89.70%</p>
+          <a class="btn-invest-now" href="javascript:void(0);">立即出借</a>
+          <a class="btn-view-detail" href="javascript:void(0);">查看详情</a>
+        </li>
+      </ul>
+    </div>
+    <div class="partner-wrap">
+      <img src="./images/text_partner.png">
+      <ul>
+        <li>
+          <img src="./images/icon_parter1.png">
+        </li>
+        <li>
+          <img src="./images/icon_parter2.png">
+        </li>
+        <li>
+          <img src="./images/icon_parter3.png">
+        </li>
+        <li>
+          <img src="./images/icon_parter4.png">
+        </li>
+        <li>
+          <img src="./images/icon_parter5.png">
+        </li>
+        <li>
+          <img src="./images/icon_parter6.png">
+        </li>
+        <li>
+          <img src="./images/icon_parter7.png">
+        </li>
+        <li>
+          <img src="./images/icon_parter8.png">
+        </li>
+        <li>
+          <img src="./images/icon_parter9.png">
+        </li>
+        <li>
+          <a class="btn-more" href="javascript:void(0);">
+            查看更多
+            <i class="iconfont icon-more"></i>
+          </a>
+        </li>
+      </ul>
     </div>
   </div>
 </template>
@@ -227,25 +318,7 @@ export default {
       count1: 'count1',
       count2: 'count2',
       count3: 'count3',
-      count4: 'count4',
-      countList: [
-        {
-          name: 'count1',
-          count: '62458342.33'
-        },
-        {
-          name: 'count2',
-          count: '68342.69'
-        },
-        {
-          name: 'count3',
-          count: '516400.90'
-        },
-        {
-          name: 'count4',
-          count: '772916.47'
-        }
-      ]
+      count4: 'count4'
     }
   },
   components: {
@@ -328,7 +401,7 @@ export default {
   }
   .notice-wrap {
     width: 100%;
-    height: 50px;
+    height: 49px;
     border-bottom: 1px solid #ebebeb;
     .notice-box {
       display: flex;
@@ -428,6 +501,10 @@ export default {
             display: inline-block;
             width: 52px;
             height: 52px;
+            transition: all 0.5s;
+          }
+          img:hover {
+            transform: scale(1.4);
           }
           .title {
             width: 80px;
@@ -637,6 +714,161 @@ export default {
       width: 159px;
       height: 38px;
       margin: 0 auto;
+      padding-bottom: 40px;
+      text-align: center;
+    }
+    ul {
+      width: 1140px;
+      height: 400px;
+      margin: 0 auto;
+      padding-bottom: 60px;
+      display: flex;
+      justify-content: space-between;
+      li {
+        width: 220px;
+        height: 328px;
+        background: #fff;
+        box-shadow: 1px 1px 10px #eee;
+        border-radius: 2px;
+        padding: 34px 70px;
+        transition: all 0.5s;
+        border-top: 4px solid #fff;
+        cursor: pointer;
+        .title {
+          width: 88px;
+          height: 22px;
+          margin: 0 auto;
+          img {
+            display: inline-block;
+            width: 22px;
+            height: 22px;
+            margin-right: 6px;
+            vertical-align: middle;
+            padding-bottom: 0;
+          }
+          .icon {
+            display: inline-block;
+            font-size: $font-size-medium-x;
+            color: $color-text;
+            vertical-align: middle;
+          }
+        }
+        .returns {
+          height: 88px;
+          margin-top: 40px;
+          margin-bottom: 30px;
+          .title {
+            text-align: center;
+            width: 100%;
+            font-size: 42px;
+            color: #fc5541;
+            height: 64px;
+            line-height: 64px;
+            .large {
+              color: #fc5541;
+              font-size: 64px;
+              //vertical-align: bottom;
+            }
+          }
+          .desc {
+            margin-top: 6px;
+            text-align: center;
+            font-size: $font-size-small-s;
+            color: $color-text-s;
+          }
+        }
+        .lend-desc {
+          width: 100%;
+          height: 14px;
+          line-height: 14px;
+          font-size: $font-size-small-s;
+          color: $color-text;
+          text-align: center;
+          margin-bottom: 14px;
+        }
+        .btn-invest-now {
+          position: absolute;
+          display: block;
+          width: 220px;
+          height: 46px;
+          line-height: 46px;
+          color: #ffb01a;
+          margin-top: 20px;
+          border: 1px solid #ffb01a;
+          border-radius: 6px;
+          text-align: center;
+          transition: all 0.5s;
+          opacity: 1;
+        }
+        .btn-view-detail {
+          position: absolute;
+          display: block;
+          opacity: 0;
+          width: 220px;
+          height: 48px;
+          line-height: 48px;
+          color: #fff;
+          margin-top: 20px;
+          background: rgba(251, 123, 31, 1);
+          border-radius: 6px;
+          text-align: center;
+          transition: all 0.5s;
+        }
+      }
+      li:hover {
+        border-top: 4px solid #fb9d1f;
+        box-shadow: 2px 2px 8px 0px rgba(0, 0, 0, 0.16);
+        .btn-invest-now {
+          opacity: 0;
+        }
+        .btn-view-detail {
+          opacity: 1;
+        }
+      }
+    }
+    ul.one {
+      width: 360px;
+    }
+    ul.two {
+      width: 900px;
+    }
+  }
+  .partner-wrap {
+    padding-top: 60px;
+    margin-bottom: 62px;
+    img {
+      display: block;
+      width: 158px;
+      height: 38px;
+      margin: 0 auto;
+    }
+    ul {
+      width: 1140px;
+      margin: 0 auto;
+      margin-top: 42px;
+      li {
+        display: inline-block;
+        width: 212px;
+        height: 146px;
+        margin-right: 20px;
+        vertical-align: middle;
+        text-align: center;
+        img {
+          width: 100%;
+          height: 100%;
+        }
+        .btn-more {
+          display: inline-block;
+          height: 146px;
+          line-height: 146px;
+          text-align: center;
+          font-size: $font-size-medium;
+          color: $color-text-blue;
+        }
+      }
+      li:nth-child(5n) {
+        margin-right: 0;
+      }
     }
   }
 }

@@ -5,18 +5,21 @@
       <keep-alive> <router-view></router-view> </keep-alive>
     </div>
     <AppFooter />
+    <FixedNavigation />
   </div>
 </template>
 
 <script>
 import AppHeader from '@/components/AppHeader/AppHeader'
 import AppFooter from '@/components/AppFooter/AppFooter'
+import FixedNavigation from '@/components/fixedNavigation/index'
 
 export default {
   name: 'layout',
   components: {
     AppHeader,
-    AppFooter
+    AppFooter,
+    FixedNavigation
   },
   created() {}
 }

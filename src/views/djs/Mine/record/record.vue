@@ -156,8 +156,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../../../assets/css/mixins';
-@import '../../../assets/css/theme';
+@import '../../../../assets/css/mixins';
+@import '../../../../assets/css/theme';
 .wrapper {
   width: 1140px;
   margin: 0 auto 45px;
