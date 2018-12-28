@@ -155,7 +155,7 @@
 
 // 多行文本超出显示省略号
 @mixin no-wrap-multi($n) {
-  display: flex;
+  //display: flex;
   -ms-text-overflow: ellipsis;
   text-overflow: ellipsis;
   overflow: hidden;

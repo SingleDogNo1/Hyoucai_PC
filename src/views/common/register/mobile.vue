@@ -3,11 +3,9 @@
       <div class="form-container">
         <div class="form">
           <h1><span>新用户注册</span></h1>
-          <div class="from-item">
-            <!--<div class="icon"><i class="iconfont icon-user"></i></div>
-            <div class="text"><input type="text" placeholder="请输入手机号"></div>-->
+          <div class="form-item">
             <i class="iconfont icon-user"></i>
-            <input type="tel" v-model="mobile">
+            <input type="tel" v-model="mobile" placeholder="请输入手机号">
           </div>
           <el-button type="primary" @click="nextStep">下一步</el-button>
           <p class="agreement-tip">
@@ -54,6 +52,7 @@ export default {
     padding: 35px 0;
     .form {
       font-size: $font-size-small-s;
+      position: relative;
       width: 380px;
       height: 430px;
       border-radius: 6px;
@@ -73,7 +72,7 @@ export default {
           border-bottom: 2px solid #fb9d1f;
         }
       }
-      .from-item {
+      .form-item {
         width: 320px;
         height: 40px;
         background: rgba(255, 255, 255, 1);
@@ -128,7 +127,12 @@ export default {
         }
       }
       p.have-account {
-        margin-top: 133px;
+        position: absolute;
+        bottom: 24px;
+        left: 105px;
+        .link {
+          color: #fb891f;
+        }
       }
     }
   }

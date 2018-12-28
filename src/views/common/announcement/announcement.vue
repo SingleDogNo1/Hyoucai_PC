@@ -63,7 +63,6 @@
 </template>
 
 <script>
-
 import pagination from '@/components/pagination/pagination'
 
 export default {
@@ -76,8 +75,7 @@ export default {
     }
   },
   methods: {
-    handleClick() {
-    }
+    handleClick() {}
   },
   components: {
     pagination

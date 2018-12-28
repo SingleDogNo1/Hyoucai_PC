@@ -1,15 +1,17 @@
 <template>
-  <div class="bankcard">hello, {{ msg }}</div>
+  <div class="coupons">
+    hello, {{msg}}
+  </div>
 </template>
 
 <script>
 export default {
-  name: 'bankcard',
+  name: 'coupons',
   mixins: [],
   components: {},
   data() {
     return {
-      msg: 'bankcard'
+      msg: 'coupons'
     }
   },
   props: {},

@@ -2,3 +2,7 @@
 div{
   box-sizing: border-box;
 }
+
+html {
+  background: #f3f3f3;
+}
