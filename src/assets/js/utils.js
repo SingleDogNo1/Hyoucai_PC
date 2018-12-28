@@ -1,3 +1,6 @@
+import { getUser } from './cache'
+import { Base64 } from 'js-base64'
+
 export function toThousands(num) {
   num = (num || 0).toString()
   let result = ''
@@ -16,4 +19,13 @@ export function toThousands(num) {
     result = num + result
   }
   return result
+}
+
+export function getAuth() {
+  const user = getUser()
+  if (!user) return null
+  let userName = user.userName
+  let token = user.token
+  let spile = Base64.encode(`${userName}:${token}`)
+  return `DSCJ ${spile}`
 }

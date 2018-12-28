@@ -109,6 +109,45 @@ export default new Router({
           ]
         }
       ]
+    },
+    {
+      path: '/register',
+      component: Layout,
+      redirect: '/register/mobile',
+      children: [
+        {
+          path: 'mobile',
+          name: 'registerMobile',
+          component: () => import(/* webpackChunkName: "register" */ '@/views/common/register/mobile.vue')
+        },
+        {
+          path: 'form',
+          name: 'registerForm',
+          component: () => import(/* webpackChunkName: "register" */ '@/views/common/register/form.vue')
+        }
+      ]
+    },
+    {
+      path: '/login',
+      component: Layout,
+      children: [
+        {
+          path: '',
+          name: 'login',
+          component: () => import(/* webpackChunkName: "register" */ '@/views/common/login/login.vue')
+        }
+      ]
+    },
+    {
+      path: '/forgetPWD',
+      component: Layout,
+      children: [
+        {
+          path: '',
+          name: 'forgetPWD',
+          component: () => import(/* webpackChunkName: "register" */ '@/views/common/login/forgetPassword.vue')
+        }
+      ]
     }
   ]
 })
