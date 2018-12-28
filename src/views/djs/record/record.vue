@@ -160,7 +160,7 @@ export default {
 @import '../../../assets/css/theme';
 .wrapper {
   width: 1140px;
-  margin: 30px auto 45px;
+  margin: 0 auto 45px;
   color: $color-text;
   overflow: hidden;
   .inner {
