@@ -418,6 +418,7 @@ export default {
     width: 100%;
     height: 49px;
     border-bottom: 1px solid #ebebeb;
+    background: #fff;
     .notice-box {
       display: flex;
       line-height: 50px;
@@ -496,14 +497,15 @@ export default {
     }
   }
   .introduction-wrap {
-    width: 1140px;
-    height: 52px;
-    margin: 0 auto;
-    margin-top: 40px;
-    padding: 0 27px;
+    width: 100%;
+    padding-top: 40px;
+    background: #fff;
     ul {
+      height: 52px;
+      padding: 0 27px;
+      width: 1140px;
       display: flex;
-      width: 100%;
+      margin: 0 auto;
       li {
         display: flex;
         width: 232px;
@@ -549,11 +551,10 @@ export default {
     }
   }
   .lend-data-wrap {
-    width: 1140px;
+    width: 100%;
     margin: 0 auto;
-    margin-top: 70px;
-    padding: 0 20px;
-    margin-bottom: 50px;
+    padding: 70px 20px 50px 20px;
+    background: #fff;
     img {
       display: block;
       width: 158px;
@@ -561,6 +562,8 @@ export default {
       margin: 0 auto;
     }
     ul {
+      width: 1140px;
+    margin: 0 auto;
       margin-top: 40px;
       li {
         display: inline-block;
@@ -850,7 +853,8 @@ export default {
   }
   .partner-wrap {
     padding-top: 60px;
-    margin-bottom: 62px;
+    padding-bottom: 62px;
+    background: #fff;
     img {
       display: block;
       width: 158px;
@@ -868,6 +872,7 @@ export default {
         margin-right: 20px;
         vertical-align: middle;
         text-align: center;
+        margin-bottom: 20px;
         img {
           width: 100%;
           height: 100%;
