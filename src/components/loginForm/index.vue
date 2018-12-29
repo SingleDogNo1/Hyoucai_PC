@@ -35,6 +35,8 @@
 <script>
 import { userLogin } from '@/api/common/login'
 import { setUser } from '@/assets/js/cache'
+import { mapMutations } from 'vuex'
+
 export default {
   name: 'index',
   data() {
@@ -53,10 +55,14 @@ export default {
       }
       userLogin(postData).then(res => {
         setUser(res.data.data)
+        this.setUser(res.data.data)
         this.$router.push({ name: 'overview' })
       })
       //this.$router.push({ name: 'registerForm' })
-    }
+    },
+    ...mapMutations({
+      setUser: 'SET_USER'
+    })
   }
 }
 </script>
