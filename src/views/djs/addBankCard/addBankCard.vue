@@ -101,7 +101,7 @@ export default {
   width: 1140px;
   margin: 20px auto 40px;
   background-color: #fff;
-  border: 1px solid #eee;
+  border: 1px solid #f5f5f5;
   h3 {
     padding: 45px 0;
     font-size: $font-size-medium;
