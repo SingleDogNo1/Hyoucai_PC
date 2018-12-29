@@ -192,7 +192,6 @@
 </template>
 
 <script>
-import { toThousands } from '@/assets/js/utils'
 import pagination from '@/components/pagination/pagination'
 import countUp from '@/components/countUp/index'
 export default {
@@ -208,9 +207,6 @@ export default {
     }
   },
   filters: {
-    setMoney(val) {
-      return toThousands(val)
-    }
   },
   methods: {
     handleCurrentChange(val) {
