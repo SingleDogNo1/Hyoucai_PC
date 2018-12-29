@@ -11,8 +11,9 @@ const service = axios.create({
 service.interceptors.request.use(
   config => {
     let authorization = getAuth()
+    console.log(authorization)
     if (authorization) {
-      config.headers['Authorization'] = authorization
+      config.headers['authorization'] = authorization
     }
     return config
   },

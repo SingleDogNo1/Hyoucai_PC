@@ -26,7 +26,7 @@
       <tr
         v-for="(day,k1) in days"
         :key="k1"
-        style="{'animation-delay',(k1*30)+'ms'}"
+        :style="{'animation-delay': (k1*30)+'ms'}"
       >
         <td
           v-for="(child,k2) in day"
@@ -462,7 +462,6 @@ export default {
   mounted() {
     this.initMonth()
     this.init()
-    console.log(this.month, new Date().getMonth())
   }
 }
 </script>
@@ -597,7 +596,7 @@ export default {
         right: 0;
         text-align: center;
         padding: 2px;
-        font-size: 8px;
+        font-size: 12px;
         line-height: 1.2;
         color: #444;
       }

@@ -4,12 +4,11 @@
     <div class="calendar-item">
       <div class="left">
         <calendarItem
+          ref="calendarItem"
           :zero="calendar.zero"
           :lunar="calendar.lunar"
-          :value="calendar.value"
           :begin="calendar.begin"
           :end="calendar.end"
-          @select="calendar.select"
           @getLendDetail="getLendDetail"
         />
       </div>
@@ -60,6 +59,7 @@
 
 <script>
 import calendarItem from '@/components/calendar/calendar.vue'
+import api from '@/api/djs/Mine/calendar'
 
 export default {
   name: 'calendar',
@@ -70,27 +70,40 @@ export default {
   data() {
     return {
       calendar: {
-        display: '2018/02/16',
         zero: false,
-        lunar: true,
-        select: value => {
-          this.calendar.show = false
-          this.calendar.value = value
-          this.calendar.display = value.join('/')
-        }
+        lunar: true
       },
+      year: 0,
+      month: 0,
+      day: 0,
       showDetailTable: true // 是否显示底部的table
     }
   },
   methods: {
     getLendDetail(year, month, day) {
       console.log(year, month, day)
+      this.getIncome(year, month + 1, day)
     },
     showDetail(id) {
       alert(id)
+    },
+    getIncome(year, month, day) {
+      api
+        .getIncomeApi({
+          year: year,
+          month: month,
+          day: day,
+          type: '0'
+        })
+        .then(res => {
+          console.log(res)
+        })
     }
   },
-  mounted() {}
+  mounted() {
+    ;[this.year, this.month, this.day] = this.$refs.calendarItem.value
+    this.getIncome(this.year, this.month, this.day)
+  }
 }
 </script>
 
