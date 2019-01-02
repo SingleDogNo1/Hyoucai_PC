@@ -34,9 +34,9 @@ export default new Router({
       component: Layout,
       children: [
         {
-          path: 'caculator',
-          name: 'caculator',
-          component: () => import(/* webpackChunkName: "caculator" */ '@/views/djs/caculator/caculator.vue')
+          path: 'calculator',
+          name: 'calculator',
+          component: () => import(/* webpackChunkName: "calculator" */ '@/views/djs/calculator/calculator.vue')
         }
       ]
     },

@@ -206,8 +206,7 @@ export default {
       total: 100
     }
   },
-  filters: {
-  },
+  filters: {},
   methods: {
     handleCurrentChange(val) {
       this.page = val
