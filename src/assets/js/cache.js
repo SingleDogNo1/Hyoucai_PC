@@ -15,3 +15,19 @@ export function getUser() {
 export function setUser(user) {
   return Cookies.set('user', user)
 }
+
+export function getUserBasicInfo() {
+  return Cookies.getJSON('userBasicInfo')
+}
+
+export function setUserBasicInfo(info) {
+  return Cookies.set('userBasicInfo', info)
+}
+
+export function getRegisterMobile() {
+  return Cookies.getJSON('registerMobile')
+}
+
+export function setRegisterMobile(mobile) {
+  return Cookies.set('registerMobile', mobile)
+}

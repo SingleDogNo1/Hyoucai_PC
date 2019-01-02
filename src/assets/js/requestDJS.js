@@ -23,15 +23,7 @@ service.interceptors.request.use(
 )
 
 service.interceptors.response.use(
-  response => {
-    const res = response.data
-    if (res && res.resultCode === '1') {
-      return response
-    } else {
-      // Toast(res.resultMsg)
-      return Promise.reject('error')
-    }
-  },
+  response => response,
   error => {
     // Toast(error.response.data.resultMsg)
     return Promise.reject(error)
