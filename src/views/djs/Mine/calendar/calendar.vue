@@ -9,20 +9,22 @@
           :lunar="calendar.lunar"
           :begin="calendar.begin"
           :end="calendar.end"
+          @prev="getPrevMonth"
+          @next="getNextMonth"
           @getLendDetail="getLendDetail"
         />
       </div>
       <div class="right">
         <div>
-          <p>12345678元</p>
+          <p>{{incomeDetail.todayIncome}}元</p>
           <span>今日回款本息</span>
         </div>
         <div>
-          <p>1笔</p>
+          <p>{{incomeDetail.collectCounts}}笔</p>
           <span>当月已回款笔数</span>
         </div>
         <div>
-          <p>12345678元</p>
+          <p>{{incomeDetail.waitIncome}}元</p>
           <span>当月待收本息</span>
         </div>
       </div>
@@ -37,19 +39,12 @@
         <th>操作</th>
         </thead>
         <tbody>
-        <tr>
-          <td>2018-12-06</td>
-          <td>手机了</td>
-          <td>6.0%</td>
-          <td>100.00</td>
-          <td class="show" @click="showDetail('hello,world')">操作</td>
-        </tr>
-        <tr>
-          <td>2018-12-16</td>
-          <td>手机了2</td>
-          <td>26.0%</td>
-          <td>1200.00</td>
-          <td>操作2</td>
+        <tr v-for="(item, index) in dayIncome" :key="index">
+          <td>{{item.collectTime}}</td>
+          <td>{{item.productName}}</td>
+          <td>{{item.rate}}</td>
+          <td>{{item.amount}}元</td>
+          <td class="show" @click="showDetail(`要查看${item.productName}的内容`)">操作</td>
         </tr>
         </tbody>
       </table>
@@ -76,27 +71,47 @@ export default {
       year: 0,
       month: 0,
       day: 0,
-      showDetailTable: true // 是否显示底部的table
+      showDetailTable: false, // 是否显示底部的table
+      incomeDetail: {}, // 收益详情
+      dayIncome: []
     }
   },
   methods: {
     getLendDetail(year, month, day) {
-      console.log(year, month, day)
-      this.getIncome(year, month + 1, day)
+      this.getIncome(year, month + 1, day, res => {
+        if (res.data.details && res.data.details.length > 0) {
+          this.dayIncome = res.data.details
+          this.showDetailTable = true
+        }
+      })
     },
     showDetail(id) {
       alert(id)
+      // this.$router.push({
+      //   name: '',
+      //   query: id
+      // })
     },
-    getIncome(year, month, day) {
+    getPrevMonth(month, year) {
+      this.getIncome(year, month)
+    },
+    getNextMonth(month, year) {
+      this.getIncome(year, month)
+    },
+    getIncome(year, month, day, callback) {
       api
         .getIncomeApi({
+          // TODO mock-data next line will be del
+          userName: 'djs213718xa',
+
           year: year,
           month: month,
           day: day,
           type: '0'
         })
         .then(res => {
-          console.log(res)
+          this.incomeDetail = res.data
+          if (callback) callback(res)
         })
     }
   },

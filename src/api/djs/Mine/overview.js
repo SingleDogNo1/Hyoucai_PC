@@ -1,9 +1,9 @@
 import axios from '@/assets/js/requestDJS'
 import qs from 'qs'
 
-function getIncomeApi(data) {
+function getUserBasicInfo(data) {
   return new Promise((resolve, reject) => {
-    axios.post('userInfo/incomeDetailed', qs.stringify(data)).then(
+    axios.post('UserBasicInfo', qs.stringify(data)).then(
       res => {
         resolve(res)
       },
@@ -15,5 +15,5 @@ function getIncomeApi(data) {
 }
 
 export default {
-  getIncomeApi // 回款日历——收益明细
+  getUserBasicInfo // 获取用户信息
 }

@@ -450,7 +450,11 @@ export default {
         direction: 'vertical',
         on: {
           init() {
-            this.slideTo($this.month, 0)
+            if ($this.month === 0) {
+              this.slideTo(1, 0)
+            } else {
+              this.slideTo($this.month, 0)
+            }
           }
         }
       })
