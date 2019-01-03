@@ -71,7 +71,7 @@
 <script>
 import { calculator } from '@/api/common/calculator'
 
-const ERR_OK = 1
+// const ERR_OK = 1
 export default {
   name: 'calculator',
   data() {

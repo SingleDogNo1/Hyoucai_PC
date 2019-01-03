@@ -20,6 +20,11 @@ module.exports = {
     host: '0.0.0.0',
     disableHostCheck: true,
     proxy: {
+      '/TouchStone': {
+        target: 'http://47.100.38.237:8888',
+        changeOrigin: true,
+        wx: true
+      },
       '/TouchStoneService': {
         target: 'http://47.100.38.237:8082/d',
         changeOrigin: true,

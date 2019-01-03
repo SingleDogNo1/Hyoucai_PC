@@ -115,7 +115,6 @@ export default {}
         margin-top: 26px;
       }
       .filtration {
-
       }
     }
   }
