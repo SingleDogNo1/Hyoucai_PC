@@ -8,7 +8,7 @@
             <dt>
               <div class="title"><i></i> <span>用户累计出借额（元）</span></div>
             </dt>
-            <dd><count-up name="lendCount" :count="lendCount"></count-up></dd>
+            <dd><count-up v-if="lendCount" name="lendCount" :count="lendCount"></count-up></dd>
           </dl>
         </li>
         <li>
@@ -16,7 +16,7 @@
             <dt>
               <div class="title"><i></i> <span>累计赚取金额（元）</span></div>
             </dt>
-            <dd><count-up name="incomeCount" :count="incomeCount"></count-up></dd>
+            <dd><count-up v-if="incomeCount" name="incomeCount" :count="incomeCount"></count-up></dd>
           </dl>
         </li>
         <li>
@@ -24,159 +24,46 @@
             <dt>
               <div class="title"><i></i> <span>今日交易（元）</span></div>
             </dt>
-            <dd><count-up name="todayCount" :count="todayCount"></count-up></dd>
+            <dd><count-up v-if="todayCount" name="todayCount" :count="todayCount"></count-up></dd>
           </dl>
         </li>
       </ul>
     </div>
     <div class="content">
-      <div class="area">
-        <h3><i></i> <span>手机乐</span></h3>
+      <div class="area" v-for="(item, i) in list" :key="i">
+        <h3 v-if="item.head"><i><img :src="item.head.icon" alt=""></i> <span>{{item.head.title}}}</span></h3>
         <ul class="items">
           <li class="item">
-            <div class="title"><i></i> <span>手机乐3个月</span> <em>投资送手机</em></div>
+            <div class="title"><i></i> <span>{{item.projectName}}</span> <em v-for="(tag, index) in item.tags" :key="index">{{tag.tagName}}</em></div>
             <ul class="info-wrapper">
               <li class="info">
                 <dl>
-                  <dt>9.3 <span>%</span></dt>
+                  <dt>{{item.investRate}} <span>%</span></dt>
                   <dd>历史平均年化收益率</dd>
                 </dl>
               </li>
               <li class="info">
                 <dl>
-                  <dt>90天</dt>
+                  <dt>{{item.investMent}} 天</dt>
                   <dd>锁定期限</dd>
                 </dl>
               </li>
               <li class="info">
                 <dl>
-                  <dt>90元</dt>
+                  <dt>{{item.minInvAmt}}元</dt>
                   <dd>起投金额</dd>
                 </dl>
               </li>
               <li class="info">
                 <dl>
-                  <dt>2630400.00元</dt>
+                  <dt>{{item.enablAmt}}元</dt>
                   <dd>剩余可投金额</dd>
                 </dl>
               </li>
               <li class="info">
                 <dl>
-                  <dt>已投<span class="hight-light">13.6%</span></dt>
-                  <dd><el-progress :percentage="70"></el-progress></dd>
-                </dl>
-              </li>
-              <li class="info"><el-button type="primary">下载APP</el-button></li>
-            </ul>
-          </li>
-          <li class="item">
-            <div class="title"><i></i> <span>手机乐3个月</span> <em>投资送手机</em></div>
-            <ul class="info-wrapper">
-              <li class="info">
-                <dl>
-                  <dt>9.3 <span>%</span></dt>
-                  <dd>历史平均年化收益率</dd>
-                </dl>
-              </li>
-              <li class="info">
-                <dl>
-                  <dt>90天</dt>
-                  <dd>锁定期限</dd>
-                </dl>
-              </li>
-              <li class="info">
-                <dl>
-                  <dt>90元</dt>
-                  <dd>起投金额</dd>
-                </dl>
-              </li>
-              <li class="info">
-                <dl>
-                  <dt>2630400.00元</dt>
-                  <dd>剩余可投金额</dd>
-                </dl>
-              </li>
-              <li class="info">
-                <dl>
-                  <dt>已投<span class="hight-light">13.6%</span></dt>
-                  <dd><el-progress :percentage="70"></el-progress></dd>
-                </dl>
-              </li>
-              <li class="info"><el-button type="primary">下载APP</el-button></li>
-            </ul>
-          </li>
-        </ul>
-      </div>
-      <div class="area">
-        <h3><i></i> <span>手机乐</span></h3>
-        <ul class="items">
-          <li class="item">
-            <div class="title"><i></i> <span>手机乐3个月</span> <em>投资送手机</em></div>
-            <ul class="info-wrapper">
-              <li class="info">
-                <dl>
-                  <dt>9.3 <span>%</span></dt>
-                  <dd>历史平均年化收益率</dd>
-                </dl>
-              </li>
-              <li class="info">
-                <dl>
-                  <dt>90天</dt>
-                  <dd>锁定期限</dd>
-                </dl>
-              </li>
-              <li class="info">
-                <dl>
-                  <dt>90元</dt>
-                  <dd>起投金额</dd>
-                </dl>
-              </li>
-              <li class="info">
-                <dl>
-                  <dt>2630400.00元</dt>
-                  <dd>剩余可投金额</dd>
-                </dl>
-              </li>
-              <li class="info">
-                <dl>
-                  <dt>已投<span class="hight-light">13.6%</span></dt>
-                  <dd><el-progress :percentage="70"></el-progress></dd>
-                </dl>
-              </li>
-              <li class="info"><el-button type="primary">下载APP</el-button></li>
-            </ul>
-          </li>
-          <li class="item">
-            <div class="title"><i></i> <span>手机乐3个月</span> <em>投资送手机</em></div>
-            <ul class="info-wrapper">
-              <li class="info">
-                <dl>
-                  <dt>9.3 <span>%</span></dt>
-                  <dd>历史平均年化收益率</dd>
-                </dl>
-              </li>
-              <li class="info">
-                <dl>
-                  <dt>90天</dt>
-                  <dd>锁定期限</dd>
-                </dl>
-              </li>
-              <li class="info">
-                <dl>
-                  <dt>90元</dt>
-                  <dd>起投金额</dd>
-                </dl>
-              </li>
-              <li class="info">
-                <dl>
-                  <dt>2630400.00元</dt>
-                  <dd>剩余可投金额</dd>
-                </dl>
-              </li>
-              <li class="info">
-                <dl>
-                  <dt>已投<span class="hight-light">13.6%</span></dt>
-                  <dd><el-progress :percentage="70"></el-progress></dd>
+                  <dt>已投<span class="hight-light">{{(((item.accumulativeInvAmt / item.maxInvTotalAmt)*10000)/100).toFixed(1)}}%</span></dt>
+                  <dd><el-progress :percentage="Math.round((item.accumulativeInvAmt / item.maxInvTotalAmt)*10000) / 100"></el-progress></dd>
                 </dl>
               </li>
               <li class="info"><el-button type="primary">下载APP</el-button></li>
@@ -185,7 +72,7 @@
         </ul>
       </div>
       <div class="pagination-wrapper">
-        <pagination :total-count="total" :size-val="size" :page-val="page" @handleCurrentChange="handleCurrentChange"></pagination>
+        <pagination v-if="total" :total-count="total" :size-val="size" :page-val="page" @handleCurrentChange="handleCurrentChange"></pagination>
       </div>
     </div>
   </div>
@@ -194,27 +81,62 @@
 <script>
 import pagination from '@/components/pagination/pagination'
 import countUp from '@/components/countUp/index'
+import { getList } from '@/api/common/lend'
+import { getUser } from '@/assets/js/cache'
+
 export default {
   name: 'lend',
   data() {
     return {
-      lendCount: 9432829375,
-      incomeCount: 235345345,
-      todayCount: 435435243.89,
+      lendCount: 0,
+      incomeCount: 0,
+      todayCount: 0,
       page: 1,
       size: 10,
-      total: 100
+      total: 0,
+      userName: getUser().userName,
+      // couponId: this.$router,
+      // couponId: this.$router,
+      list: []
     }
   },
   filters: {},
   methods: {
     handleCurrentChange(val) {
       this.page = val
+      this.getData()
+    },
+    getData() {
+      let params = {
+        userName: this.userName,
+        curPage: this.page,
+        maxLine: this.size
+      }
+      if (this.couponId) {
+        params.couponId = this.couponId
+      }
+      if (this.redPacketId) {
+        params.redPacketId = this.redPacketId
+      }
+      getList(params).then(res => {
+        console.log(res)
+        let result = res.data
+        this.lendCount = result.accumulativeInvAmountSum
+        this.incomeCount = result.accumulativeProfitAmtSum
+        this.todayCount = result.invTodayAmt
+        this.list = result.investsList
+        this.total = parseInt(result.countPage)
+        this.page = parseInt(result.curPage)
+        console.log(this.lendCount)
+      })
     }
   },
   components: {
     pagination,
     countUp
+  },
+  created() {
+    this.getData()
   }
 }
 </script>
@@ -304,9 +226,10 @@ export default {
     width: 1140px;
     margin: 0 auto;
     .area {
-      margin-bottom: 30px;
+      background-color: #099EF5;
       h3 {
         font-size: 0;
+        margin-top: 30px;
         margin-bottom: 15px;
         i {
           display: inline-block;
@@ -326,7 +249,8 @@ export default {
         }
       }
       .items {
-        border: 1px solid #eee;
+        border: 1px solid #e5e5e5;
+        border-bottom: 0;
         background-color: #fff;
         font-size: 0;
         overflow: hidden;
@@ -436,6 +360,12 @@ export default {
           &:last-child {
             border-bottom: none;
           }
+        }
+      }
+      &:nth-last-of-type(2) {
+        margin-bottom: 30px;
+        .items {
+          border-bottom: 1px solid #e5e5e5;
         }
       }
     }
