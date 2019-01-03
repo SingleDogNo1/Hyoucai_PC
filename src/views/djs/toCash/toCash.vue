@@ -143,17 +143,9 @@ export default {
       showSelector: false,
       searchVal: '',
       result: [],
-      provinceList: [
-        {id: 1, provinceCode: "110000", provinceName: "北京市"},
-        {id: 2, provinceCode: "120000", provinceName: "天津市"}
-      ],
-      cityList: [
-        {id: 3, cityCode: "120100", cityName: "天津市", fatherCode: "120000"}
-      ],
-      areaList: [
-        {areaCode: "120100", areaName: "天津市"},
-        {areaCode: "120221", areaName: "宁河县"}
-      ],
+      provinceList: [{ id: 1, provinceCode: '110000', provinceName: '北京市' }, { id: 2, provinceCode: '120000', provinceName: '天津市' }],
+      cityList: [{ id: 3, cityCode: '120100', cityName: '天津市', fatherCode: '120000' }],
+      areaList: [{ areaCode: '120100', areaName: '天津市' }, { areaCode: '120221', areaName: '宁河县' }],
       bankList: [
         {
           bankCityCode: '1100',
@@ -362,7 +354,7 @@ export default {
       //   }
       // });
     },
-    getSysBankAreaList(cityCode) {
+    getSysBankAreaList() {
       // api.sysBankAreaListApi({ cityCode: cityCode }).then(res => {
       //   let data = res.data;
       //   let resultCode = data.resultCode;
@@ -391,7 +383,7 @@ export default {
       //   }
       // });
     },
-    getSysCityList(provinceCode) {
+    getSysCityList() {
       // api.sysCityListApi({ provinceCode: provinceCode }).then(res => {
       //   let data = res.data;
       //   let resultCode = data.resultCode;
@@ -591,7 +583,7 @@ export default {
         /deep/ .el-radio-group {
           .el-radio {
             line-height: 40px;
-            .el-radio__input{
+            .el-radio__input {
               .el-radio__inner {
                 &::after {
                   @include square(6px);
@@ -732,7 +724,7 @@ export default {
                       border-right: 1px solid #dcdfe6;
                     }
                   }
-                  .el-input{
+                  .el-input {
                     .el-input__inner {
                       height: 35px;
                       line-height: 35px;
@@ -754,7 +746,7 @@ export default {
                   }
                 }
                 > div {
-                  > .el-input{
+                  > .el-input {
                     width: 100px;
                     margin-right: 11px;
                     .el-input__inner {
@@ -767,7 +759,7 @@ export default {
                     }
                   }
                   > button {
-                    background-color: #FC5541;
+                    background-color: #fc5541;
                   }
                   .el-table {
                     border: 0;
