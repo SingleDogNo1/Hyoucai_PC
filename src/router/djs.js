@@ -206,6 +206,28 @@ export default new Router({
           component: () => import(/* webpackChunkName: "helpCenter" */ '@/views/djs/helpCenter/index.vue')
         }
       ]
+    },
+    {
+      path: '/download',
+      component: Layout,
+      children: [
+        {
+          path: '',
+          name: 'download',
+          component: () => import(/* webpackChunkName: "register" */ '@/views/common/download/index.vue')
+        }
+      ]
+    },
+    {
+      path: '/account',
+      component: Layout,
+      children: [
+        {
+          path: '',
+          name: 'account',
+          component: () => import(/* webpackChunkName: "register" */ '@/views/common/openAccount/index.vue')
+        }
+      ]
     }
   ]
 })
