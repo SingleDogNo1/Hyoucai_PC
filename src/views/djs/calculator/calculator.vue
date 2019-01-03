@@ -47,13 +47,13 @@
         <li>
           <dl>
             <dt>预期收益</dt>
-            <dd>{{}}元</dd>
+            <dd>{{ expectedRevenue }}元</dd>
           </dl>
         </li>
         <li>
           <dl>
             <dt>本息合计</dt>
-            <dd>{{}}元</dd>
+            <dd>{{ totalSum }}元</dd>
           </dl>
         </li>
       </ul>
@@ -71,7 +71,6 @@
 <script>
 import { calculator } from '@/api/common/calculator'
 
-const ERR_OK = 1
 export default {
   name: 'calculator',
   data() {
@@ -176,14 +175,15 @@ export default {
         termType: this.termType,
         repayment: this.calculator.type
       }
-      calculator(params).then(res => {
-        // let data = res.data
-        // if (data.resultCode === ERR_OK) {
-        //   let result = data.incomeCalculatorBean
-        //   this.expectedRevenue = result.allInterest
-        //   this.totalSum = result.totalPrincipalInterest
-        // }
-      })
+      calculator(params)
+        .then(res => {
+          let result = res.data.incomeCalculatorBean
+          this.expectedRevenue = result.allInterest
+          this.totalSum = result.totalPrincipalInterest
+        })
+        .catch(err => {
+          console.log(JSON.stringify(err))
+        })
     },
     resetCalc() {
       this.types = [
