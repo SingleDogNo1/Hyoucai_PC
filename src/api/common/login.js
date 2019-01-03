@@ -9,3 +9,12 @@ export function userLogin(data) {
     data: qs.stringify(data)
   })
 }
+
+export function userBasicInfo(data) {
+  return request({
+    url: '/UserBasicInfo',
+    method: 'post',
+    headers: { 'Content-type': 'application/x-www-form-urlencoded' },
+    data: qs.stringify(data)
+  })
+}

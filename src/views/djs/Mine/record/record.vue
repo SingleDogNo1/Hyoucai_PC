@@ -167,8 +167,9 @@ export default {
     float: right;
     width: 840px;
     padding: 0 20px 20px;
-    border: 1px solid #eee;
+    border: 1px solid #f5f5f5;
     border-top: 2px solid rgba(247, 190, 57, 1);
+    background-color: #fff;
     .top {
       margin-bottom: 20px;
       h3 {

@@ -3,17 +3,17 @@
     <h3>收益计算器</h3>
     <div class="top">
       <div class="operate-wrapper">
-        <el-form :inline="true" :model="caculator" class="demo-form-inline">
+        <el-form :inline="true" :model="calculator" class="demo-form-inline">
           <div class="input-wrapper">
             <el-form-item label="出借金额">
-              <el-input v-model="caculator.sum" placeholder="出借金额"
+              <el-input v-model="calculator.sum" placeholder="出借金额"
                 ><template slot="append"
                   >元</template
                 ></el-input
               >
             </el-form-item>
             <el-form-item label="历史平均年化收益率">
-              <el-input v-model="caculator.rate" placeholder="历史平均年化收益率"
+              <el-input v-model="calculator.rate" placeholder="历史平均年化收益率"
                 ><template slot="append"
                   >%</template
                 ></el-input
@@ -22,22 +22,22 @@
           </div>
           <div class="input-wrapper">
             <el-form-item label="出借期限">
-              <el-input v-model="caculator.duration" placeholder="出借期限"
+              <el-input v-model="calculator.duration" placeholder="出借期限"
                 ><template slot="append"
-                  ><span class="el-icon-caret el-icon-caret-left" @click="changeDuration"></span><i>{{ durationText }}</i
+                  ><span class="el-icon-caret el-icon-caret-left" @click="changeDuration"></span><i>{{ termType | termFilter }}</i
                   ><span class="el-icon-caret el-icon-caret-right" @click="changeDuration"></span></template
               ></el-input>
             </el-form-item>
             <el-form-item label="还款方式">
-              <el-select v-model="caculator.type" placeholder="还款方式">
+              <el-select v-model="calculator.type" placeholder="还款方式">
                 <el-option v-for="(type, i) in types" :key="i" :label="type.label" :value="type.value"></el-option>
               </el-select>
               <el-button slot="append" icon="el-icon-search"></el-button>
             </el-form-item>
           </div>
           <div class="btn-wrapper">
-            <el-form-item> <el-button type="primary" @click="onSubmit">开始计算</el-button> </el-form-item>
-            <el-form-item> <el-button type="primary" @click="onSubmit">重置</el-button> </el-form-item>
+            <el-form-item> <el-button type="primary" @click="submitCalc">开始计算</el-button> </el-form-item>
+            <el-form-item> <el-button type="primary" @click="resetCalc">重置</el-button> </el-form-item>
           </div>
         </el-form>
         <p class="tip light-tip">公式：本金*(年化收益率／12)*投资期限</p>
@@ -47,19 +47,19 @@
         <li>
           <dl>
             <dt>预期收益</dt>
-            <dd>{{}}元</dd>
+            <dd>{{ expectedRevenue }}元</dd>
           </dl>
         </li>
         <li>
           <dl>
             <dt>本息合计</dt>
-            <dd>{{}}元</dd>
+            <dd>{{ totalSum }}元</dd>
           </dl>
         </li>
       </ul>
     </div>
     <h3>回款明细</h3>
-    <el-table :data="tableData" class="caculator-table">
+    <el-table :data="tableData" class="calculator-table">
       <el-table-column prop="date" label="期数"> </el-table-column>
       <el-table-column prop="name" label="回款本息(元)"> </el-table-column>
       <el-table-column prop="address" label="回款本金(元)"> </el-table-column>
@@ -69,8 +69,11 @@
 </template>
 
 <script>
+import { calculator } from '@/api/common/calculator'
+
+const ERR_OK = 1
 export default {
-  name: 'caculator',
+  name: 'calculator',
   data() {
     return {
       types: [
@@ -83,13 +86,15 @@ export default {
           value: 2
         }
       ],
-      caculator: {
+      calculator: {
         sum: '',
         rate: '',
         duration: '',
-        type: '等额本息'
+        type: 2
       },
-      durationText: '月',
+      termType: 1,
+      expectedRevenue: '',
+      totalSum: '',
       tableData: [
         {
           date: '2016-05-02',
@@ -115,9 +120,9 @@ export default {
     }
   },
   watch: {
-    durationText(val) {
-      if (val === '日') {
-        this.caculator.type = '先息后本'
+    termType(val) {
+      if (val === 1) {
+        this.calculator.type = 2
         this.types = [
           {
             label: '先息后本',
@@ -137,25 +142,69 @@ export default {
         ]
       }
     },
-    caculator: {
+    calculator: {
       handler(val) {
-        if (val.type === '等额本息') {
-          this.durationText = '月'
+        if (val.type === 1) {
+          this.termType = 2
         }
       },
       deep: true
     }
   },
+  filters: {
+    termFilter(val) {
+      if (val === 1) {
+        return '日'
+      } else {
+        return '月'
+      }
+    }
+  },
   methods: {
     changeDuration() {
-      if (this.durationText === '月') {
-        this.durationText = '日'
+      if (this.termType === 2) {
+        this.termType = 1
       } else {
-        this.durationText = '月'
+        this.termType = 2
       }
     },
-    onSubmit() {
-      console.log('submit!')
+    submitCalc() {
+      let params = {
+        amount: this.calculator.sum,
+        yearRate: this.calculator.rate,
+        calcDate: this.calculator.duration,
+        termType: this.termType,
+        repayment: this.calculator.type
+      }
+      calculator(params)
+        .then(res => {
+          let result = res.data.incomeCalculatorBean
+          this.expectedRevenue = result.allInterest
+          this.totalSum = result.totalPrincipalInterest
+        })
+        .catch(err => {
+          console.log(JSON.stringify(err))
+        })
+    },
+    resetCalc() {
+      this.types = [
+        {
+          label: '等额本息',
+          value: 1
+        },
+        {
+          label: '先息后本',
+          value: 2
+        }
+      ]
+      this.calculator = {
+        sum: '',
+        rate: '',
+        duration: '',
+        type: 2
+      }
+      this.termType = 1
+      this.tableData = []
     }
   }
 }
@@ -285,7 +334,7 @@ export default {
       }
     }
   }
-  .caculator-table {
+  .calculator-table {
     border-radius: 4px;
     border: 1px solid rgba(227, 227, 227, 1);
     border-bottom: 0;
