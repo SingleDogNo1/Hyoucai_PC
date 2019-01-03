@@ -31,3 +31,11 @@ export function getRegisterMobile() {
 export function setRegisterMobile(mobile) {
   return Cookies.set('registerMobile', mobile)
 }
+
+export function getErrorNum() {
+  return Cookies.getJSON('errorNum')
+}
+
+export function setErrorNum(errorNum) {
+  return Cookies.set('errorNum', errorNum)
+}

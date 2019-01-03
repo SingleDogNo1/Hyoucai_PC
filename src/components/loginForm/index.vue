@@ -2,7 +2,7 @@
   <div class="form">
     <div class="unLogin" v-if="!user">
       <h1><span :class="{active: loginType === 0}" @click="loginType = 0">密码登录</span><span :class="{active: loginType === 1}" @click="loginType = 1">短信登录</span></h1>
-      <div v-if="loginType === 0" class="form-pwd">
+      <div v-show="loginType === 0" class="form-pwd">
         <div class="form-item">
           <i class="iconfont icon-user"></i>
           <input type="tel" v-model="userName" placeholder="请输入手机号" maxlength="11">
@@ -11,8 +11,12 @@
           <i class="iconfont icon-password"></i>
           <input type="password" v-model="passWord" placeholder="请输入密码">
         </div>
+        <div id="captcha_pwd"></div>
+        <div class="error-msg" v-if="errorMsg">
+          <span>{{ errorMsg }}</span>
+        </div>
       </div>
-      <div v-if="loginType === 1" class="form-sms">
+      <div v-show="loginType === 1" class="form-sms">
         <div class="form-item">
           <i class="iconfont icon-user"></i>
           <input type="tel" v-model="mobile" placeholder="请输入手机号" maxlength="11">
@@ -61,6 +65,7 @@
 <script>
 import { userLogin, userBasicInfo } from '@/api/common/login'
 import { mapGetters, mapMutations } from 'vuex'
+import { /* countDownTime, */ captchaId } from '@/assets/js/const'
 
 export default {
   name: 'index',
@@ -69,23 +74,58 @@ export default {
       agree: true,
       userName: '',
       passWord: '',
-      loginType: 0 // 0密码登录 1短信登录
+      loginType: 0, // 0密码登录 1短信登录
+      errorMsg: '',
+      captchaIns_pwd: null, // 滑块验证码实例
+      validate_pwd: '' // 滑块验证码二次验证信息
     }
   },
   computed: {
-    ...mapGetters(['user'])
+    ...mapGetters(['user', 'errorNum'])
   },
   methods: {
+    initPWDCaptcha() {
+      window.initNECaptcha(
+        {
+          captchaId: captchaId,
+          width: '320px',
+          element: '#captcha_pwd',
+          onVerify: (err, data) => {
+            this.validate_pwd = data.validate
+          },
+          onClose: () => {
+            this.captchaIns_pwd.refresh()
+          }
+        },
+        instance => {
+          this.captchaIns_pwd = instance
+        }
+      )
+    },
     doLogin() {
+      if (this.errorNum >= 3 && !this.captchaIns_pwd) {
+        this.initPWDCaptcha()
+        return false
+      }
       let postData = {
         userName: this.userName,
         passWord: btoa(this.passWord)
       }
+      if (this.errorNum >= 3 && this.validate_pwd === '') {
+        this.errorMsg = '请将滑块验证码划到正确的位置'
+        return false
+      }
       userLogin(postData)
         .then(res => {
-          let user = res.data.data
-          this.setUser(user)
-          return userBasicInfo({ userName: user.userName })
+          if (res.data.resultCode === '1') {
+            let user = res.data.data
+            this.setUser(user)
+            return userBasicInfo({ userName: user.userName })
+          } else {
+            this.errorMsg = res.data.resultMsg
+            this.setErrorNum(this.errorNum + 1)
+            throw new Error()
+          }
         })
         .then(res => {
           this.setUserBasicInfo(res.data.data)
@@ -94,7 +134,8 @@ export default {
     },
     ...mapMutations({
       setUser: 'SET_USER',
-      setUserBasicInfo: 'SET_USERBASICINFO'
+      setUserBasicInfo: 'SET_USERBASICINFO',
+      setErrorNum: 'SET_ERROR_NUM'
     })
   }
 }
@@ -179,8 +220,18 @@ export default {
         border-image: linear-gradient(180deg, rgba(169, 169, 169, 0), rgba(226, 226, 226, 0.96), rgba(151, 151, 151, 0)) 1 1;
       }
     }
+    .error-msg {
+      margin: 10px auto;
+      width: 320px;
+      padding: 10px;
+      border: 1px solid #e84518;
+      background: #ffe5e5;
+      color: #e84518;
+      border-radius: 5px;
+      font-size: 12px;
+      text-align: left;
+    }
     button {
-      margin-top: 20px;
       width: 320px;
       height: 40px;
       border-radius: 2px;

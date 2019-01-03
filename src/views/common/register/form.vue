@@ -11,20 +11,20 @@
           </div>
           <div class="form-item pwd">
             <i class="iconfont icon-password"></i>
-            <input type="tel" v-model="form.passWord" placeholder="输入8-20位字母和数字组合">
+            <input type="password" v-model="form.passWord" placeholder="输入8-20位字母和数字组合">
             <password-strength class="passwordStrength" :pwd="form.passWord"></password-strength>
           </div>
           <div class="form-item">
             <i class="iconfont icon-password"></i>
-            <input type="tel" v-model="form.confirmPassword" placeholder="输入8-20位字母和数字组合">
+            <input type="password" v-model="form.confirmPassword" placeholder="输入8-20位字母和数字组合">
           </div>
           <div class="form-item" v-if="cpm === 'true'">
             <i class="iconfont icon-code"></i>
-            <input type="tel" v-model="form.inviteCode" placeholder="输入钞票码(选填)">
+            <input type="text" v-model="form.inviteCode" placeholder="输入钞票码(选填)">
           </div>
           <div class="form-item" v-if="tjm === 'true'">
             <i class="iconfont icon-code"></i>
-            <input type="tel" v-model="form.recommendCode" placeholder="输入推荐码(选填)">
+            <input type="text" v-model="form.recommendCode" placeholder="输入推荐码(选填)">
           </div>
           <div class="error-msg" v-if="errorMsg">
             <span>{{ errorMsg }}</span>
@@ -97,15 +97,15 @@ export default {
     },
     nextStep() {
       if (!isMobCode(this.form.identifyCode)) {
-        this.errorMsg = '请输入正确的验证码!!'
+        this.errorMsg = '请输入正确的验证码'
         return false
       }
       if (!isPassword(this.form.passWord)) {
-        this.errorMsg = '请输入8-20位字母和数字组合!!'
+        this.errorMsg = '请输入8-20位字母和数字组合'
         return false
       }
       if (this.form.passWord !== this.form.confirmPassword) {
-        this.errorMsg = '两次密码不一致'
+        this.errorMsg = '两次输入密码不一致'
         return false
       }
       this.errorMsg = ''
