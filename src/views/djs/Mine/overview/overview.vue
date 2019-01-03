@@ -13,6 +13,8 @@
 
 <script>
 import Highcharts from 'highcharts'
+import api from '@/api/djs/Mine/overview'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'overview',
@@ -23,11 +25,20 @@ export default {
       msg: 'overview'
     }
   },
-  props: {},
-  watch: {},
+  computed: {
+    ...mapGetters(['user'])
+  },
   methods: {},
-  computed: {},
   mounted() {
+    api
+      .getUserBasicInfo({
+        userName: this.user.userName
+      })
+      .then(res => {
+        console.log(res)
+      })
+    console.log(this.user.userName)
+
     Highcharts.chart(
       'amount',
       {

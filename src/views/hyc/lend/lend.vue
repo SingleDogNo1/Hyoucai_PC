@@ -8,7 +8,7 @@
             <dt>
               <div class="title"><i></i> <span>用户累计出借额（元）</span></div>
             </dt>
-            <dd><count-up v-if="lendCount" name="lendCount" :count="lendCount"></count-up></dd>
+            <dd><count-up v-if="lendCount !== null" name="lendCount" :count="lendCount"></count-up></dd>
           </dl>
         </li>
         <li>
@@ -16,7 +16,7 @@
             <dt>
               <div class="title"><i></i> <span>累计赚取金额（元）</span></div>
             </dt>
-            <dd><count-up v-if="incomeCount" name="incomeCount" :count="incomeCount"></count-up></dd>
+            <dd><count-up v-if="incomeCount !== null" name="incomeCount" :count="incomeCount"></count-up></dd>
           </dl>
         </li>
         <li>
@@ -24,7 +24,7 @@
             <dt>
               <div class="title"><i></i> <span>今日交易（元）</span></div>
             </dt>
-            <dd><count-up v-if="todayCount" name="todayCount" :count="todayCount"></count-up></dd>
+            <dd><count-up v-if="todayCount !== null" name="todayCount" :count="todayCount"></count-up></dd>
           </dl>
         </li>
       </ul>
@@ -37,7 +37,7 @@
         <ul class="items">
           <li class="item">
             <div class="title">
-              <i></i> <span>{{ item.projectName }}</span> <em v-for="(tag, index) in item.tags" :key="index">{{ tag.tagName }}</em>
+              <i><img :src="item.iconUrl" alt=""></i> <span>{{ item.projectName }}</span> <em v-for="(tag, index) in item.tags" :key="index">{{ tag.tagName }}</em>
             </div>
             <ul class="info-wrapper">
               <li class="info">
@@ -87,7 +87,7 @@
 <script>
 import pagination from '@/components/pagination/pagination'
 import countUp from '@/components/countUp/index'
-import { getList } from '@/api/hyc/lend'
+import { getCountMsg, getList } from '@/api/hyc/lend'
 import { getUser } from '@/assets/js/cache'
 
 const ERR_OK = '1'
@@ -95,9 +95,9 @@ export default {
   name: 'lend',
   data() {
     return {
-      lendCount: 0,
-      incomeCount: 0,
-      todayCount: 0,
+      lendCount: null,
+      incomeCount: null,
+      todayCount: null,
       page: 1,
       size: 10,
       total: 0,
@@ -126,16 +126,21 @@ export default {
         params.redPacketId = this.redPacketId
       }
       getList(params).then(res => {
-        console.log(res)
         let result = res.data
         if (result.resultCode === ERR_OK) {
-          // this.lendCount = result.accumulativeInvAmountSum
-          // this.incomeCount = result.accumulativeProfitAmtSum
-          // this.todayCount = result.invTodayAmt
           this.list = result.data.list
           this.total = parseInt(result.data.countPage)
           this.page = parseInt(result.data.curPage)
-          console.log(this.lendCount)
+        }
+      })
+    },
+    getTopMsg() {
+      getCountMsg().then(res => {
+        let data = res.data
+        if (data.resultCode === ERR_OK) {
+          this.lendCount = data.accumulativeInvAmountSum
+          this.incomeCount = data.accumulativeProfitAmtSum
+          this.todayCount = data.invTodayAmt
         }
       })
     }
@@ -146,6 +151,7 @@ export default {
   },
   created() {
     this.getData()
+    this.getTopMsg()
   }
 }
 </script>

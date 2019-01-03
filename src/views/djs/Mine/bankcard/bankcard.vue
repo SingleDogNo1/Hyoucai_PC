@@ -1,36 +1,67 @@
 <template>
   <div class="bankcard">
-    <div class="title">我的银行卡</div>
-    <div class="card-item">
+    <div class="title">
+      我的银行卡
+    </div>
+    <div
+      class="card-item"
+      v-for="(item, index) in bankcardList"
+      :key="index"
+    >
       <header>
-        <div class="bank-name"><img src="./BOC.png" alt="" /> <span>招商银行</span></div>
+        <div class="bank-name">
+          <img :src="item.iconUrl" :alt="item.bankName">
+          <span>{{item.bankName}}</span>
+        </div>
         <div class="card-type">储蓄卡</div>
       </header>
-      <section>6227000330022591527</section>
-      <footer @click="unbind">解绑</footer>
+      <section>
+        {{item.cardNo}}
+      </section>
+      <footer @click="unbind">
+        解绑
+      </footer>
     </div>
   </div>
 </template>
 
 <script>
+import { getUserBankCardList, prevChangeBankcard } from '@/api/djs/Mine/bankcard'
+
 export default {
   name: 'bankcard',
   mixins: [],
   components: {},
   data() {
     return {
-      msg: 'bankcard'
+      bankcardList: []
     }
   },
   props: {},
   watch: {},
   methods: {
     unbind() {
-      alert`unbind function`
+      prevChangeBankcard({
+        bankCardNo: this.bankcardList[0].cardNo
+      }).then(res => {
+        if (!res.data.canModify) {
+          alert(res.data.message)
+          return false
+        }
+      })
     }
   },
   computed: {},
-  created() {},
+  created() {
+    getUserBankCardList({
+      // TODO mock-data will be del
+      userName: 'djs213718xa'
+    }).then(res => {
+      if (res.data.list && res.data.list.length > 0) {
+        this.bankcardList = res.data.list
+      }
+    })
+  },
   mounted() {}
 }
 </script>

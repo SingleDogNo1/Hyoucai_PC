@@ -71,7 +71,7 @@
 <script>
 import { calculator } from '@/api/common/calculator'
 
-const ERR_OK = 1
+// const ERR_OK = 1
 export default {
   name: 'calculator',
   data() {
@@ -249,6 +249,7 @@ export default {
                 .el-input-group__append {
                   padding: 0 8px;
                   background-color: #f8f8f8;
+                  color: #cdcdcd;
                   span {
                     color: #cdcdcd;
                     cursor: pointer;

@@ -8,7 +8,7 @@
             <dt>
               <div class="title"><i></i> <span>用户累计出借额（元）</span></div>
             </dt>
-            <dd><count-up v-if="lendCount" name="lendCount" :count="lendCount"></count-up></dd>
+            <dd><count-up v-if="lendCount !== null" name="lendCount" :count="lendCount"></count-up></dd>
           </dl>
         </li>
         <li>
@@ -16,7 +16,7 @@
             <dt>
               <div class="title"><i></i> <span>累计赚取金额（元）</span></div>
             </dt>
-            <dd><count-up v-if="incomeCount" name="incomeCount" :count="incomeCount"></count-up></dd>
+            <dd><count-up v-if="incomeCount !== null" name="incomeCount" :count="incomeCount"></count-up></dd>
           </dl>
         </li>
         <li>
@@ -24,7 +24,7 @@
             <dt>
               <div class="title"><i></i> <span>今日交易（元）</span></div>
             </dt>
-            <dd><count-up v-if="todayCount" name="todayCount" :count="todayCount"></count-up></dd>
+            <dd><count-up v-if="todayCount !== null" name="todayCount" :count="todayCount"></count-up></dd>
           </dl>
         </li>
       </ul>
@@ -94,9 +94,9 @@ export default {
   name: 'lend',
   data() {
     return {
-      lendCount: 0,
-      incomeCount: 0,
-      todayCount: 0,
+      lendCount: null,
+      incomeCount: null,
+      todayCount: null,
       page: 1,
       size: 10,
       total: 0,

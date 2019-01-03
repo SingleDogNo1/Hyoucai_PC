@@ -2,27 +2,43 @@
   <div class="menu">
     <header class="avatar">
       <div class="user">
-        <img src="./avatar.png" alt="" />
-        <p><em>中午好</em> <span>singleDogNo.1</span></p>
+        <img src="./avatar.png" alt="">
+        <p>
+          <em>{{greet}}</em>
+          <span>{{user.nickname}}</span>
+        </p>
       </div>
-      <div class="safe"><span>安全等级</span> <span class="level">中</span></div>
+      <div class="safe">
+        <span>安全等级</span>
+        <!-- TODO 明天合并代码之前放开这一段 -->
+        <!--<span class="level">{{userBasicInfo.infoFinishGrade}}</span>-->
+      </div>
     </header>
     <ul class="block">
-      <li class="title"><i class="iconfont icon-account"></i> <span>我的账户</span></li>
+      <li class="title">
+        <i class="iconfont icon-account"></i>
+        <span>我的账户</span>
+      </li>
       <router-link class="link" tag="li" to="/mine/overview">账户总览</router-link>
       <router-link class="link" tag="li" to="/mine/basicInfo">基本信息</router-link>
       <router-link class="link" tag="li" to="/mine/bankcard">银行卡</router-link>
       <router-link class="link" tag="li" to="/mine/referralCode">推荐码</router-link>
     </ul>
     <ul class="block">
-      <li class="title"><i class="iconfont icon-investment"></i> <span>我的出借</span></li>
+      <li class="title">
+        <i class="iconfont icon-investment"></i>
+        <span>我的出借</span>
+      </li>
       <router-link class="link" tag="li" to="/mine/lend">我的出借</router-link>
       <router-link class="link" tag="li" to="/mine/record">交易记录</router-link>
       <router-link class="link" tag="li" to="/mine/auto-lend">自动出借</router-link>
       <router-link class="link" tag="li" to="/mine/calendar">回款日历</router-link>
     </ul>
     <ul class="block">
-      <li class="title"><i class="iconfont icon-vouchers_"></i> <span>我的券包</span></li>
+      <li class="title">
+        <i class="iconfont icon-vouchers_"></i>
+        <span>我的券包</span>
+      </li>
       <router-link class="link" tag="li" to="/mine/coupons">我的卡券</router-link>
       <router-link class="link" tag="li" to="/mine/experience-money">体验金</router-link>
     </ul>
@@ -30,10 +46,10 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
   name: 'UserMenu',
   mixins: [],
-  components: {},
   data() {
     return {
       msg: 'UserMenu'
@@ -42,10 +58,30 @@ export default {
   props: {},
   watch: {},
   methods: {},
-  computed: {},
+  computed: {
+    greet() {
+      let msg = '',
+        hour = new Date().getHours()
+      switch (hour) {
+        case hour < 11:
+          msg = '上午好!'
+          break
+        case hour < 14:
+          msg = '中午好!'
+          break
+        case hour < 19:
+          msg = '下午好!'
+          break
+        default:
+          msg = '晚上好!'
+          break
+      }
+      return msg
+    },
+    ...mapGetters(['user', 'userBasicInfo'])
+  },
   created() {},
-  mounted() {},
-  destroyed() {}
+  mounted() {}
 }
 </script>
 

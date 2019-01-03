@@ -9,3 +9,17 @@ export function getAuth() {
   let spile = Base64.encode(`${userName}:${token}`)
   return `DSCJ ${spile}`
 }
+
+export function getRetBaseURL () {
+  let index = window.location.href.indexOf('#')
+  return window.location.href.substr(0, index + 1)
+}
+
+export const Base64Utils = {
+  objectToBase64 (obj) {
+    return Base64.encode(JSON.stringify(obj))
+  },
+  base64ToObject (str) {
+    return str ? JSON.parse(Base64.decode(str)) : null
+  }
+}
