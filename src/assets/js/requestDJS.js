@@ -25,7 +25,7 @@ service.interceptors.request.use(
 service.interceptors.response.use(
   response => response,
   error => {
-    // Toast(error.response.data.resultMsg)
+    console.log(error.response.data.resultMsg)
     return Promise.reject(error)
   }
 )

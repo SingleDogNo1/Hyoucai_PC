@@ -34,9 +34,9 @@ export default new Router({
       component: Layout,
       children: [
         {
-          path: 'caculator',
-          name: 'caculator',
-          component: () => import(/* webpackChunkName: "caculator" */ '@/views/djs/caculator/caculator.vue')
+          path: 'calculator',
+          name: 'calculator',
+          component: () => import(/* webpackChunkName: "calculator" */ '@/views/djs/calculator/calculator.vue')
         }
       ]
     },
@@ -114,6 +114,11 @@ export default new Router({
               path: 'charge', // 充值
               name: 'charge',
               component: () => import(/* webpackChunkName: "record" */ '@/views/djs/charge/charge.vue')
+            },
+            {
+              path: 'tocash', // 提现
+              name: 'tocash',
+              component: () => import(/* webpackChunkName: "tocash" */ '@/views/djs/toCash/toCash.vue')
             }
           ]
         }
