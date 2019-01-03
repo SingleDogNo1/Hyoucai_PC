@@ -2,9 +2,7 @@
   <div class="mine-wrapper">
     <user-menu></user-menu>
     <div class="wrapper">
-      <keep-alive>
-        <router-view />
-      </keep-alive>
+      <keep-alive> <router-view /> </keep-alive>
     </div>
   </div>
 </template>

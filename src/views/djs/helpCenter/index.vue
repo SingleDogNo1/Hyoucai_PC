@@ -2,10 +2,7 @@
   <div class="help-center">
     <div class="container">
       <div class="nav-wrap">
-        <p class="title-wrap">
-          <i class="iconfont icon-help"></i>
-          <span class="title">帮助中心</span>
-        </p>
+        <p class="title-wrap"><i class="iconfont icon-help"></i> <span class="title">帮助中心</span></p>
         <ul class="nav-list">
           <li>常见问题</li>
           <li>安全措施</li>
@@ -16,22 +13,16 @@
       </div>
       <div class="content-wrap">
         <p class="title">常见问题</p>
-        <el-collapse
-          v-model="activeNames"
-          @change="handleChange"
-        >
-          <el-collapse-item :name="index+1" v-for="(item, index) in list" :key="index">
+        <el-collapse v-model="activeNames" @change="handleChange">
+          <el-collapse-item :name="index + 1" v-for="(item, index) in list" :key="index">
             <template slot="title">
-              <div class="header-wrap">
-                <i class="header-icon icon-question"></i>
-                <span class="text">一致性 Consistency</span>
-              </div>
+              <div class="header-wrap"><i class="header-icon icon-question"></i> <span class="text">一致性 Consistency</span></div>
             </template>
             <div class="answer-wrap">
               <i class="icon-answer"></i>
-              <p
-                class="answer-content"
-              >e2e2e2e2e2e2e2ee2e2e2e2e2e2e2ee2e2e2e2e2e2e2ee2e2e2e2e2e2e2ee2e2e2e2e2e2e2ee2e2e2e2e2e2e2ee2e2e2e2e2e2e2ee2e2e2e2e2e2e2ee2e2e2e2e2e2e2ee2e2e2e2e2e2e2ee2e2e2e2e2e2e2ee2e2e2e2e2e2e2ee2e2e2e2e2e2e2ee2e2e2e2e2e2e2ee2e2e2e2e2e2e2ee2e2e2e2e2e2e2ee2e2e2e2e2e2e2ee2e2e2e2e2e2e2ee2e2e2e2e2e2e2ee2e2e2e2e2e2e2ee2e2e2e2e2e2e2ee2e2e2e2e2e2e2ee2e2e2e2e2e2e2ee2e2e2e2e2e2e2e</p>
+              <p class="answer-content">
+                e2e2e2e2e2e2e2ee2e2e2e2e2e2e2ee2e2e2e2e2e2e2ee2e2e2e2e2e2e2ee2e2e2e2e2e2e2ee2e2e2e2e2e2e2ee2e2e2e2e2e2e2ee2e2e2e2e2e2e2ee2e2e2e2e2e2e2ee2e2e2e2e2e2e2ee2e2e2e2e2e2e2ee2e2e2e2e2e2e2ee2e2e2e2e2e2e2ee2e2e2e2e2e2e2ee2e2e2e2e2e2e2ee2e2e2e2e2e2e2ee2e2e2e2e2e2e2ee2e2e2e2e2e2e2ee2e2e2e2e2e2e2ee2e2e2e2e2e2e2ee2e2e2e2e2e2e2ee2e2e2e2e2e2e2ee2e2e2e2e2e2e2ee2e2e2e2e2e2e2e
+              </p>
             </div>
           </el-collapse-item>
         </el-collapse>

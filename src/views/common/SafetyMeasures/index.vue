@@ -1,10 +1,8 @@
 <template>
   <div class="satefy">
-    <img src="./safe_banner.png" alt class="safe_banner">
+    <img src="./safe_banner.png" alt class="safe_banner" />
     <div class="depository">
-      <div class="depo_bank">
-        <img src="./depo_bank.png" alt>
-      </div>
+      <div class="depo_bank"><img src="./depo_bank.png" alt /></div>
     </div>
     <div class="multiple">
       <div class="multiple_title">
@@ -115,7 +113,6 @@ export default {}
         margin-top: 26px;
       }
       .filtration {
-
       }
     }
   }

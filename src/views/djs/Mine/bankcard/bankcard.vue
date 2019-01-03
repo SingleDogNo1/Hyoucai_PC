@@ -1,22 +1,13 @@
 <template>
   <div class="bankcard">
-    <div class="title">
-      我的银行卡
-    </div>
+    <div class="title">我的银行卡</div>
     <div class="card-item">
       <header>
-        <div class="bank-name">
-          <img src="./BOC.png" alt="">
-          <span>招商银行</span>
-        </div>
+        <div class="bank-name"><img src="./BOC.png" alt="" /> <span>招商银行</span></div>
         <div class="card-type">储蓄卡</div>
       </header>
-      <section>
-        6227000330022591527
-      </section>
-      <footer @click="unbind">
-        解绑
-      </footer>
+      <section>6227000330022591527</section>
+      <footer @click="unbind">解绑</footer>
     </div>
   </div>
 </template>

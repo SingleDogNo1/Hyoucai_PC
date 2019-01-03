@@ -4,28 +4,18 @@
       <div class="form-container">
         <h1>找回密码</h1>
         <p>我们已发送短信验证码至132****6398,请在输入框内填写验证码,若未收到请耐心等待或联系客服</p>
-        <div class="form-item">
-          <i class="iconfont icon-phone"></i>
-          <input type="tel" v-model="mobile" placeholder="请输入手机号">
-        </div>
+        <div class="form-item"><i class="iconfont icon-phone"></i> <input type="tel" v-model="mobile" placeholder="请输入手机号" /></div>
         <div class="form-item sms">
-          <i class="iconfont icon-validation"></i>
-          <input type="tel" v-model="mobile" placeholder="请输入验证码">
-          <span>获取验证码</span>
+          <i class="iconfont icon-validation"></i> <input type="tel" v-model="mobile" placeholder="请输入验证码" /> <span>获取验证码</span>
         </div>
         <div class="form-item pwd">
-          <i class="iconfont icon-password"></i>
-          <input type="tel" v-model="password" placeholder="输入8位以上字母和数字组合">
+          <i class="iconfont icon-password"></i> <input type="tel" v-model="password" placeholder="输入8位以上字母和数字组合" />
           <password-strength class="passwordStrength" :pwd="password"></password-strength>
         </div>
         <div class="form-item">
-          <i class="iconfont icon-password"></i>
-          <input type="tel" v-model="mobile" placeholder="输入8位以上字母和数字组合">
+          <i class="iconfont icon-password"></i> <input type="tel" v-model="mobile" placeholder="输入8位以上字母和数字组合" />
         </div>
-        <div class="form-item">
-          <i class="iconfont icon-code"></i>
-          <input type="tel" v-model="mobile" placeholder="输入推荐码(选填)">
-        </div>
+        <div class="form-item"><i class="iconfont icon-code"></i> <input type="tel" v-model="mobile" placeholder="输入推荐码(选填)" /></div>
         <el-button type="primary" class="nextStep" @click="nextStep">提交</el-button>
       </div>
     </div>

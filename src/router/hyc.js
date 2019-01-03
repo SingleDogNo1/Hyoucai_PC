@@ -60,6 +60,17 @@ export default new Router({
           component: () => import(/* webpackChunkName: "register" */ '@/views/common/login/forgetPassword.vue')
         }
       ]
-    }
+    },
+    {
+      path: '/', // 我要出借
+      component: Layout,
+      children: [
+        {
+          path: 'lend',
+          name: 'lend',
+          component: () => import(/* webpackChunkName: "lend" */ '@/views/hyc/lend/lend.vue')
+        }
+      ]
+    },
   ]
 })

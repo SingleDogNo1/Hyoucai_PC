@@ -1,40 +1,37 @@
 <template>
-    <div class="app-container">
-      <div class="main">
-        <div class="form-container">
-          <h1>注册汇有财账号</h1>
-          <p><span v-if="this.hasCountDown">我们已发送短信验证码至{{registerMobile}},请在输入框内填写验证码,若未收到请耐心等待或联系客服</span></p>
-          <div class="form-item sms">
-            <i class="iconfont icon-validation"></i>
-            <input type="tel" v-model="form.identifyCode" placeholder="请输入短信验证码" maxlength="6">
-            <span @click="popValidation">{{ countDownText }}</span>
-          </div>
-          <div class="form-item pwd">
-            <i class="iconfont icon-password"></i>
-            <input type="tel" v-model="form.password" placeholder="输入8-20位字母和数字组合">
-            <password-strength class="passwordStrength" :pwd="form.password"></password-strength>
-          </div>
-          <div class="form-item">
-            <i class="iconfont icon-password"></i>
-            <input type="tel" v-model="form.confirmPassword" placeholder="输入8-20位字母和数字组合">
-          </div>
-          <div class="form-item" v-if="cpm === 'true'">
-            <i class="iconfont icon-code"></i>
-            <input type="tel" v-model="form.inviteCode" placeholder="输入钞票码(选填)">
-          </div>
-          <div class="form-item" v-if="tjm === 'true'">
-            <i class="iconfont icon-code"></i>
-            <input type="tel" v-model="form.recommendCode" placeholder="输入推荐码(选填)">
-          </div>
-          <div class="error-msg" v-if="errorMsg">
-            <span>{{ errorMsg }}</span>
-          </div>
-          <div id="captcha"></div>
-          <el-button type="primary" class="nextStep" @click="nextStep">下一步</el-button>
-          <router-link class="link" to="/register">返回上一步</router-link>
+  <div class="app-container">
+    <div class="main">
+      <div class="form-container">
+        <h1>注册汇有财账号</h1>
+        <p>
+          <span v-if="this.hasCountDown">我们已发送短信验证码至{{ registerMobile }},请在输入框内填写验证码,若未收到请耐心等待或联系客服</span>
+        </p>
+        <div class="form-item sms">
+          <i class="iconfont icon-validation"></i> <input type="tel" v-model="form.identifyCode" placeholder="请输入短信验证码" maxlength="6" />
+          <span @click="popValidation">{{ countDownText }}</span>
         </div>
+        <div class="form-item pwd">
+          <i class="iconfont icon-password"></i> <input type="tel" v-model="form.password" placeholder="输入8-20位字母和数字组合" />
+          <password-strength class="passwordStrength" :pwd="form.password"></password-strength>
+        </div>
+        <div class="form-item">
+          <i class="iconfont icon-password"></i> <input type="tel" v-model="form.confirmPassword" placeholder="输入8-20位字母和数字组合" />
+        </div>
+        <div class="form-item" v-if="cpm === 'true'">
+          <i class="iconfont icon-code"></i> <input type="tel" v-model="form.inviteCode" placeholder="输入钞票码(选填)" />
+        </div>
+        <div class="form-item" v-if="tjm === 'true'">
+          <i class="iconfont icon-code"></i> <input type="tel" v-model="form.recommendCode" placeholder="输入推荐码(选填)" />
+        </div>
+        <div class="error-msg" v-if="errorMsg">
+          <span>{{ errorMsg }}</span>
+        </div>
+        <div id="captcha"></div>
+        <el-button type="primary" class="nextStep" @click="nextStep">下一步</el-button>
+        <router-link class="link" to="/register">返回上一步</router-link>
       </div>
     </div>
+  </div>
 </template>
 
 <script>

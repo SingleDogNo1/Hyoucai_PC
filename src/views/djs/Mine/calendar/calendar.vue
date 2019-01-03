@@ -31,27 +31,27 @@
     <div v-if="showDetailTable" class="table">
       <table class="detail">
         <thead>
-        <th>回款时间</th>
-        <th>项目名称</th>
-        <th>历史平均年化收益率</th>
-        <th>回款金额</th>
-        <th>操作</th>
+          <th>回款时间</th>
+          <th>项目名称</th>
+          <th>历史平均年化收益率</th>
+          <th>回款金额</th>
+          <th>操作</th>
         </thead>
         <tbody>
-        <tr>
-          <td>2018-12-06</td>
-          <td>手机了</td>
-          <td>6.0%</td>
-          <td>100.00</td>
-          <td class="show" @click="showDetail('hello,world')">操作</td>
-        </tr>
-        <tr>
-          <td>2018-12-16</td>
-          <td>手机了2</td>
-          <td>26.0%</td>
-          <td>1200.00</td>
-          <td>操作2</td>
-        </tr>
+          <tr>
+            <td>2018-12-06</td>
+            <td>手机了</td>
+            <td>6.0%</td>
+            <td>100.00</td>
+            <td class="show" @click="showDetail('hello,world')">操作</td>
+          </tr>
+          <tr>
+            <td>2018-12-16</td>
+            <td>手机了2</td>
+            <td>26.0%</td>
+            <td>1200.00</td>
+            <td>操作2</td>
+          </tr>
         </tbody>
       </table>
     </div>

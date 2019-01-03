@@ -1,8 +1,6 @@
 <template>
   <div class="app-container">
-    <div class="form-container">
-      <login-form></login-form>
-    </div>
+    <div class="form-container"><login-form></login-form></div>
   </div>
 </template>
 

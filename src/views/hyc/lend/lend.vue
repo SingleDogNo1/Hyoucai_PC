@@ -48,28 +48,28 @@
               </li>
               <li class="info">
                 <dl>
-                  <dt>{{ item.investMent }} 天</dt>
+                  <dt>{{ item.loanMent }}</dt>
                   <dd>锁定期限</dd>
                 </dl>
               </li>
               <li class="info">
                 <dl>
-                  <dt>{{ item.minInvAmt }}元</dt>
+                  <dt>{{ item.minInvAmount }}元</dt>
                   <dd>起投金额</dd>
                 </dl>
               </li>
               <li class="info">
                 <dl>
-                  <dt>{{ item.enablAmt }}元</dt>
+                  <dt>{{ item.surplusAmt }}元</dt>
                   <dd>剩余可投金额</dd>
                 </dl>
               </li>
               <li class="info">
                 <dl>
                   <dt>
-                    已投<span class="hight-light">{{ (((item.accumulativeInvAmt / item.maxInvTotalAmt) * 10000) / 100).toFixed(1) }}%</span>
+                    已投<span class="hight-light">{{ item.investPercent }}%</span>
                   </dt>
-                  <dd><el-progress :percentage="Math.round((item.accumulativeInvAmt / item.maxInvTotalAmt) * 10000) / 100"></el-progress></dd>
+                  <dd><el-progress :percentage="item.investPercent"></el-progress></dd>
                 </dl>
               </li>
               <li class="info"><el-button type="primary">下载APP</el-button></li>
@@ -87,9 +87,10 @@
 <script>
 import pagination from '@/components/pagination/pagination'
 import countUp from '@/components/countUp/index'
-import { getList } from '@/api/djs/lend'
+import { getList } from '@/api/hyc/lend'
 import { getUser } from '@/assets/js/cache'
 
+const ERR_OK = '1'
 export default {
   name: 'lend',
   data() {
@@ -127,13 +128,15 @@ export default {
       getList(params).then(res => {
         console.log(res)
         let result = res.data
-        this.lendCount = result.accumulativeInvAmountSum
-        this.incomeCount = result.accumulativeProfitAmtSum
-        this.todayCount = result.invTodayAmt
-        this.list = result.investsList
-        this.total = parseInt(result.countPage)
-        this.page = parseInt(result.curPage)
-        console.log(this.lendCount)
+        if (result.resultCode === ERR_OK) {
+          // this.lendCount = result.accumulativeInvAmountSum
+          // this.incomeCount = result.accumulativeProfitAmtSum
+          // this.todayCount = result.invTodayAmt
+          this.list = result.data.list
+          this.total = parseInt(result.data.countPage)
+          this.page = parseInt(result.data.curPage)
+          console.log(this.lendCount)
+        }
       })
     }
   },

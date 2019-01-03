@@ -2,24 +2,20 @@
   <div class="risk_box">
     <div class="risk">
       <header ref="Title">
-        <div class="head_gradient">{{title}}</div>
+        <div class="head_gradient">{{ title }}</div>
       </header>
       <section class="content">
-        <div>1.以下问题是对您的风险承担能力进行评测,请根据您的自身实际情况如实填写问卷,以便我们了解您的风险承担类型,进而根据您的风险承担能力选择适合您的理财产品。</div>
+        <div>
+          1.以下问题是对您的风险承担能力进行评测,请根据您的自身实际情况如实填写问卷,以便我们了解您的风险承担类型,进而根据您的风险承担能力选择适合您的理财产品。
+        </div>
         <div>2.如果您的有关情况发生了重大改变,再次购买理财产品请主动重新进行风险评测。</div>
         <div>3.本问卷最终解释权归汇有财所有,若您对本问卷的内容有任何疑问,欢迎咨询汇有财客服。</div>
         <div class="content_text">本问卷包含10个问题，每个问题请根据您的自身实际情况选择一个选项。</div>
       </section>
-      <section class="problem_box" v-for="(item,index) in questions" :key="index">
-        <p>{{item.title}}</p>
+      <section class="problem_box" v-for="(item, index) in questions" :key="index">
+        <p>{{ item.title }}</p>
         <el-radio-group v-model="radio">
-          <el-radio
-            v-model="radio"
-            :class="matchClass"
-            v-for="(answer, i) in item.answers"
-            :key="i"
-            :label="answer"
-          >{{answer.des}}</el-radio>
+          <el-radio v-model="radio" :class="matchClass" v-for="(answer, i) in item.answers" :key="i" :label="answer">{{ answer.des }}</el-radio>
         </el-radio-group>
       </section>
     </div>
