@@ -226,7 +226,7 @@ export default {
     width: 1140px;
     margin: 0 auto;
     .area {
-      background-color: #099EF5;
+      background-color: #099ef5;
       h3 {
         font-size: 0;
         margin-top: 30px;

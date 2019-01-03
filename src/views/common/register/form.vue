@@ -11,8 +11,8 @@
           </div>
           <div class="form-item pwd">
             <i class="iconfont icon-password"></i>
-            <input type="tel" v-model="form.password" placeholder="输入8-20位字母和数字组合">
-            <password-strength class="passwordStrength" :pwd="form.password"></password-strength>
+            <input type="tel" v-model="form.passWord" placeholder="输入8-20位字母和数字组合">
+            <password-strength class="passwordStrength" :pwd="form.passWord"></password-strength>
           </div>
           <div class="form-item">
             <i class="iconfont icon-password"></i>
@@ -39,7 +39,7 @@
 
 <script>
 import PasswordStrength from '@/components/passwordStrength'
-import { cpmOrTjm, getSmsCode } from '@/api/common/register'
+import { cpmOrTjm, getSmsCode, userRegister } from '@/api/common/register'
 import { mapGetters } from 'vuex'
 import { countDownTime, captchaId } from '@/assets/js/const'
 import { isMobCode, isPassword } from '@/assets/js/regular'
@@ -52,10 +52,12 @@ export default {
     return {
       form: {
         identifyCode: '',
-        password: '',
+        passWord: '',
         confirmPassword: '',
         inviteCode: '',
-        recommendCode: ''
+        recommendCode: '',
+        registerFrom: 'PC',
+        channelNo: '' //todo
       },
       cpm: false, // 钞票码显隐标识
       tjm: false, // 推荐码显隐标识
@@ -98,15 +100,22 @@ export default {
         this.errorMsg = '请输入正确的验证码!!'
         return false
       }
-      if (!isPassword(this.form.password)) {
+      if (!isPassword(this.form.passWord)) {
         this.errorMsg = '请输入8-20位字母和数字组合!!'
         return false
       }
-      if (this.form.password !== this.form.confirmPassword) {
+      if (this.form.passWord !== this.form.confirmPassword) {
         this.errorMsg = '两次密码不一致'
         return false
       }
       this.errorMsg = ''
+      userRegister(Object.assign(this.form, { mobile: this.registerMobile })).then(res => {
+        if (res.data.resultCode === '1') {
+          console.log(1)
+        } else {
+          this.errorMsg = res.data.resultMsg
+        }
+      })
     }
   },
   created() {
