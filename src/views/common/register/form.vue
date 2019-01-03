@@ -106,6 +106,7 @@ export default {
         this.errorMsg = '两次密码不一致'
         return false
       }
+      this.errorMsg = ''
     }
   },
   created() {
