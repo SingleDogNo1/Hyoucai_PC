@@ -3,17 +3,25 @@
     <div class="board">
       <section>
         <h6>累计利息收益</h6>
-        <p><span class="big">123</span> <span class="small">.456元</span></p>
+        <p><span class="big">{{totalIncomeBig}}</span> <span class="small">.{{totalIncomeSmall}}元</span></p>
       </section>
-      <button class="switcher">系统切换</button> <button class="recharge">充值</button> <button class="extract">提现</button>
+      <el-button type="info">系统切换</el-button>
+      <el-button type="warning">充值</el-button>
+      <el-button type="warning">提现</el-button>
     </div>
     <div class="amount" id="amount"></div>
   </div>
 </template>
 
 <script>
-import Highcharts from 'highcharts'
-import api from '@/api/djs/Mine/overview'
+import echarts from 'echarts/lib/echarts'
+import 'echarts/lib/chart/pie'
+import 'echarts/lib/component/tooltip'
+import 'echarts/lib/component/title'
+import 'echarts/lib/component/legend'
+import 'echarts/lib/component/graphic'
+
+import api from '@/api/hyc/Mine/overview'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -22,7 +30,10 @@ export default {
   components: {},
   data() {
     return {
-      msg: 'overview'
+      msg: 'overview',
+      amountInfo: {},
+      totalIncomeBig: 0,
+      totalIncomeSmall: 0
     }
   },
   computed: {
@@ -30,74 +41,110 @@ export default {
   },
   methods: {},
   mounted() {
-    api
-      .getUserBasicInfo({
-        userName: this.user.userName
+    const $this = this
+    async function initPage() {
+      const myChart = echarts.init(document.getElementById('amount'))
+      await api
+        .getUserBasicInfo({
+          userName: $this.user.userName
+        })
+        .then(res => {
+          console.log(res)
+        })
+      await api.getAmountInfo().then(res => {
+        const totalIncome = res.data.data.totalIncome
+        $this.amountInfo = res.data.data
+        $this.totalIncomeBig = totalIncome.split('.')[0]
+        $this.totalIncomeSmall = totalIncome.split('.')[1]
       })
-      .then(res => {
-        console.log(res)
-      })
-    console.log(this.user.userName)
-
-    Highcharts.chart(
-      'amount',
-      {
-        chart: {
-          spacing: [40, 0, 40, 0]
-        },
-        credits: {
-          enabled: false
-        },
-        title: {
-          floating: true,
-          text: '圆心显示的标题<br>' + 613923712
-        },
+      await myChart.setOption({
         tooltip: {
-          pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+          trigger: 'item',
+          formatter: '{a} <br/>{b}: {c} ({d}%)'
         },
-        plotOptions: {
-          pie: {
-            allowPointSelect: true,
-            cursor: 'pointer',
-            dataLabels: {
-              enabled: true,
-              format: '<b>{point.name}</b>: {point.percentage:.1f} %',
-              style: {
-                color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
-              }
+        // title: {
+        //   text: '总资产（元）',
+        //   subtext: $this.amountInfo.totalAmount,
+        //   left: '20%',
+        //   top: 'center',
+        //   x: 'center',
+        //   textStyle: {
+        //     width: '100px',
+        //     color: '#4a4a4a',
+        //     fontSize: 14,
+        //   },
+        //   subtextStyle: {
+        //     color: '#4a4a4a',
+        //     fontSize: 20,
+        //   }
+        // },
+        graphic: [
+          {
+            type: 'text',
+            left: '20%',
+            top: '45%',
+            z: 2,
+            zlevel: 100,
+            style: {
+              text: '总资产（元）',
+              x: 400,
+              y: 400,
+              textAlign: 'center',
+              font: '14px sans-serif',
+              fill: '#4a4a4a'
+            }
+          },
+          {
+            type: 'text',
+            left: '18%',
+            top: '50%',
+            z: 2,
+            zlevel: 100,
+            style: {
+              text: $this.amountInfo.totalAmount,
+              fill: '#4a4a4a',
+              font: '20px sans-serif'
             }
           }
+        ],
+        color: ['#F8DF38', '#F98128', '#42B1FF', '#37F1BE'],
+        legend: {
+          orient: 'vertical',
+          top: 'middle',
+          right: 100,
+          itemGap: 30,
+          data: ['可用余额', '在投本金', '冻结金额', '待收利息']
         },
         series: [
           {
+            name: '金额类型',
             type: 'pie',
-            innerSize: '80%',
-            name: '市场份额',
+            radius: ['35%', '50%'],
+            center: ['25%', '50%'],
+            avoidLabelOverlap: true,
+            label: {
+              normal: {
+                show: false,
+                position: 'center'
+              }
+            },
+            labelLine: {
+              normal: {
+                show: false
+              }
+            },
             data: [
-              { name: 'Firefox', y: 45.0, url: 'http://bbs.hcharts.cn' },
-              ['IE', 26.8],
-              {
-                name: 'Chrome',
-                y: 12.8,
-                sliced: true,
-                selected: true,
-                url: 'http://www.hcharts.cn'
-              },
-              ['Safari', 8.5],
-              ['Opera', 6.2],
-              ['其他', 0.7]
+              { value: $this.amountInfo.banlance, name: '可用余额' },
+              { value: $this.amountInfo.waitBackPrincipal, name: '在投本金' },
+              { value: $this.amountInfo.freezeAmount, name: '冻结金额' },
+              { value: $this.amountInfo.waitBackInterest, name: '待收利息' }
             ]
           }
         ]
-      },
-      function(c) {
-        var centerY = c.series[0].center[1],
-          titleHeight = parseInt(c.title.styles.fontSize)
-        c.setTitle({
-          y: centerY + titleHeight / 2
-        })
-      }
-    )
+      })
+    }
+
+    initPage()
   }
 }
 </script>
@@ -108,9 +155,12 @@ export default {
 
 .overview {
   width: 842px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 .board {
-  height: 148px;
+  height: 180px;
   background-color: #ffffff;
   border: 1px solid #dcdcdc;
   display: flex;
@@ -133,17 +183,11 @@ export default {
     }
   }
   button {
-    cursor: pointer;
     width: 120px;
-    height: 40px;
-    background: $color-theme;
     border-radius: 8px;
     margin: 0 15px;
     font-size: $font-size-medium;
     color: #fff;
-    &.switcher {
-      background: #099ef5;
-    }
     &:last-child {
       margin-right: 0;
     }
@@ -154,5 +198,6 @@ export default {
   border: 1px solid #dcdcdc;
   padding: 0 40px;
   margin-top: 20px;
+  flex: 1;
 }
 </style>
