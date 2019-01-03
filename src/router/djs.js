@@ -26,6 +26,11 @@ export default new Router({
           path: 'borrow',
           name: 'borrow',
           component: () => import('@/views/common/Borrow/Borrow')
+        },
+        {
+          path: 'safety',
+          name: 'safety',
+          component: () => import('@/views/common/SafetyMeasures/index')
         }
       ]
     },
@@ -204,6 +209,17 @@ export default new Router({
           path: 'helpCenter',
           name: 'helpCenter',
           component: () => import(/* webpackChunkName: "helpCenter" */ '@/views/djs/helpCenter/index.vue')
+        }
+      ]
+    },
+    {
+      path: '/', // 我要出借
+      component: Layout,
+      children: [
+        {
+          path: 'riskAss',
+          name: 'riskAss',
+          component: () => import(/* webpackChunkName: "riskAss" */ '@/views/common/RiskAssessment/index.vue')
         }
       ]
     }
