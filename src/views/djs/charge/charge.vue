@@ -38,7 +38,7 @@
         <el-tab-pane label="转账充值">
           <div class="transfer-charge">
             <div class="left">
-              <div class="charge-phone"><img src="./image/charge-phone.png" /></div>
+              <!-- <div class="charge-phone"><img src="./image/charge-phone.png" /></div> -->
             </div>
             <div class="right">
               <img src="./image/unionpay.png" />

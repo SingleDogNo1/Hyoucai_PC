@@ -45,14 +45,9 @@
     </ul>
     <div class="btm">
       <ul class="partner">
-        <li>zheshi01</li>
-        <li>zheshi02</li>
-        <li>zheshi03</li>
-        <li>zheshi04</li>
-        <li>zheshi05</li>
-        <li>zheshi06</li>
-        <li>zheshi07</li>
-        <li>zheshi08</li>
+        <li v-for="(item, index) in friendLinks" :key="index">
+          <a :href="item.fsLink">{{item.fsTitle}}</a>
+        </li>
       </ul>
       <div class="copyright">
         <span>&copy;</span> <span>2013-2017 江西汇通金融信息服务有限公司 版权所有</span>
@@ -73,15 +68,12 @@
         <a target="_blank" href="http://shuidi.cn/companyextreme-cba6d53b25e3568746166d73661021a7.html"> <img src="./credit.png" alt="" /> </a>
       </div>
     </div>
-    <ul class="right-slide">
-      <li></li>
-      <li></li>
-      <li></li>
-    </ul>
   </footer>
 </template>
 
 <script>
+import { getFriendLink } from '@/api/common/footer'
+
 export default {
   name: 'AppFooter',
   mixins: [],
@@ -89,7 +81,8 @@ export default {
   data() {
     return {
       IOSCodeFlag: false,
-      AndCodeFlag: false
+      AndCodeFlag: false,
+      friendLinks: []
     }
   },
   methods: {
@@ -105,6 +98,11 @@ export default {
     hideAndCode() {
       this.AndCodeFlag = false
     }
+  },
+  mounted() {
+    getFriendLink().then(res => {
+      this.friendLinks = res.data.friendLinks
+    })
   }
 }
 </script>
@@ -177,9 +175,12 @@ export default {
         padding: 0 18px;
         border-right: 1px solid #9b9b9b;
         font-size: $font-size-small-s;
-        transition: all 0.3s ease;
-        &:hover {
-          color: $color-theme;
+        a {
+          transition: all 0.3s ease;
+          color: #fff;
+          &:hover {
+            color: $color-theme;
+          }
         }
         &:last-child {
           border: none;

@@ -4,13 +4,14 @@
       <div class="user">
         <img src="./avatar.png" alt="">
         <p>
-          <em>中午好</em>
-          <span>singleDogNo.1</span>
+          <em>{{greet}}</em>
+          <span>{{user.nickname}}</span>
         </p>
       </div>
       <div class="safe">
         <span>安全等级</span>
-        <span class="level">中</span>
+        <!-- TODO 明天合并代码之前放开这一段 -->
+        <!--<span class="level">{{userBasicInfo.infoFinishGrade}}</span>-->
       </div>
     </header>
     <ul class="block">
@@ -45,10 +46,10 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
   name: 'UserMenu',
   mixins: [],
-  components: {},
   data() {
     return {
       msg: 'UserMenu'
@@ -57,10 +58,30 @@ export default {
   props: {},
   watch: {},
   methods: {},
-  computed: {},
+  computed: {
+    greet() {
+      let msg = '',
+        hour = new Date().getHours()
+      switch (hour) {
+        case hour < 11:
+          msg = '上午好!'
+          break
+        case hour < 14:
+          msg = '中午好!'
+          break
+        case hour < 19:
+          msg = '下午好!'
+          break
+        default:
+          msg = '晚上好!'
+          break
+      }
+      return msg
+    },
+    ...mapGetters(['user', 'userBasicInfo'])
+  },
   created() {},
-  mounted() {},
-  destroyed() {}
+  mounted() {}
 }
 </script>
 

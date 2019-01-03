@@ -11,8 +11,11 @@
       </div>
       <div class="right">
         <ul class="menu">
-          <router-link tag="li" to="/login">登录</router-link>
-          <router-link tag="li" to="/register">快速注册</router-link>
+          <li v-if="user" to="/mine/overview">欢迎您，{{user.realName}}</li>
+          <router-link tag="li" v-if="!user" to="/login">登录</router-link>
+          <li @click="logout">安全退出</li>
+          <router-link tag="li" v-if="!user" to="/register">快速注册</router-link>
+          <router-link tag="li" v-if="user" to="/mine/overview">我的账户</router-link>
           <router-link tag="li" to="/helpCenter">帮助中心</router-link>
           <router-link tag="li" to="/announcement">网站公告</router-link>
           <router-link tag="li" to="/contact_us">联系我们</router-link>
@@ -41,18 +44,22 @@
 
 <script>
 import Swiper from 'swiper'
-
+import { mapGetters } from 'vuex'
 export default {
   name: 'AppHeader',
-  components: {},
-  props: {},
   data() {
     return {
       WXCodeFlag: false,
       AppCodeFlag: false
     }
   },
+  computed: {
+    ...mapGetters(['user'])
+  },
   methods: {
+    logout() {
+      alert`logout`
+    },
     showWXCode() {
       this.WXCodeFlag = true
     },
@@ -127,10 +134,14 @@ export default {
           color: $color-text;
           position: relative;
           cursor: pointer;
+          transition: 0.3s;
           &:last-child {
             border: none;
           }
           &.router-link-active {
+            color: $color-theme;
+          }
+          &:hover {
             color: $color-theme;
           }
         }
