@@ -10,7 +10,7 @@
           <li
             v-for="(item, index) in QAList"
             :key="index"
-            @click="addClass(item.dicCode)"
+            @click="clickItem(item.dicCode)"
             :class="{ 'on': current === item.dicCode }"
           >{{item.dicName}}</li>
         </ul>
@@ -55,11 +55,10 @@ export default {
     handleChange() {},
     getQueryQAType() {
       queryQAType().then(res => {
-        console.log('res===', res)
         let data = res.data
         this.QAList = data.list
         this.current = this.QAList[0].dicCode
-        this.addClass(this.current)
+        this.clickItem(this.current)
       })
     },
     queryQuestionAnswer(data) {
@@ -68,7 +67,7 @@ export default {
         this.QAContentList = data.list
       })
     },
-    addClass(dicCode) {
+    clickItem(dicCode) {
       this.current = dicCode
       let postData = {
         helpCode: dicCode,
@@ -85,7 +84,7 @@ export default {
     $route(to, from) {
       // 刷新参数放到这里里面去触发就可以刷新相同界面了
       this.current = this.$route.query.helpCode
-      this.addClass(this.current)
+      this.clickItem(this.current)
     }
   }
 }
