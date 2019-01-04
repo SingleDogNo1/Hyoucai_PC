@@ -22,7 +22,7 @@
           </el-radio-group>
         </section>
         <div class="submit_box">
-          <div class="submit" :class="{'active':isColor}">
+          <div class="submit" :class="{'active':isColor}" @click="submit()">
             <button class="submit_text">提交评测</button>
           </div>
         </div>
@@ -31,6 +31,8 @@
   </div>
 </template>
 <script>
+import { saveEvaluatingResultApi } from '@/api/common/risk'
+import { getAuth } from '@/assets/js/utils'
 export default {
   data() {
     return {
@@ -286,23 +288,58 @@ export default {
           }
         ]
       },
-      isColor: false
+      isColor: false,
+      resultType: '',
+      authorization: getAuth()
     }
   },
   methods: {
     getChoice: function($event, index) {
-      console.log(0)
       let scoreObj = {
         index: index,
         score: $event
       }
-      this.scoreArr[scoreObj.index] = scoreObj.score
-      this.scoreArr.map(item => {
-        if (item != 0) {
-          this.isColor = true
-        }
-      })
       this.isColor = false
+      this.scoreArr[scoreObj.index] = scoreObj.score
+      let scoreNum = 1
+      this.scoreArr.map(item => {
+        scoreNum *= item
+      })
+      if (scoreNum != 0) {
+        this.isColor = true
+      }
+      // console.log(this.scoreArr, scoreNum)
+    },
+    submit: function() {
+      let totalScore = 0
+      this.scoreArr.map(item => {
+        totalScore += item
+      })
+      if (totalScore <= 10) {
+        this.resultType = 'BSX'
+      } else if (totalScore > 10 && totalScore < 30) {
+        this.resultType = 'JSX'
+      } else if (totalScore >= 30 && totalScore < 42) {
+        this.resultType = 'JJX'
+      } else if (totalScore >= 42 && totalScore < 50) {
+        this.resultType = 'JQX'
+      } else if (totalScore == 50) {
+        this.resultType = 'JINX'
+      }
+      let data = {
+        authorization: this.authorization,
+        evaluatingResult: this.resultType
+      }
+      saveEvaluatingResultApi(data).then(res => {
+        // let resp = res.data
+        // if (resp.resultCode === '1') {
+        //   this.preventCircle = false // 保存结果后，置false，结束循环调用
+        //   this.getBasicInfo()
+        // } else {
+        //   Toast(resp.resultMsg)
+        // }
+        console.log(res)
+      })
     }
   }
 }
