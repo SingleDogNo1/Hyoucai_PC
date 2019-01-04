@@ -12,19 +12,23 @@
           <input type="password" v-model="passWord" placeholder="请输入密码">
         </div>
         <div id="captcha_pwd"></div>
-        <div class="error-msg" v-if="errorMsg">
-          <span>{{ errorMsg }}</span>
+        <div class="error-msg" v-if="error_pwd">
+          <span>{{ error_pwd }}</span>
         </div>
       </div>
       <div v-show="loginType === 1" class="form-sms">
         <div class="form-item">
           <i class="iconfont icon-user"></i>
-          <input type="tel" v-model="mobile" placeholder="请输入手机号" maxlength="11">
-          <span>获取验证码</span>
+          <input type="tel" v-model="userName" placeholder="请输入手机号" maxlength="11">
+          <span @click="popValidation">{{ countDownText }}</span>
         </div>
         <div class="form-item">
           <i class="iconfont icon-validation"></i>
-          <input type="tel" v-model="mobile" placeholder="请输入验证码">
+          <input type="tel" v-model="smsCode" placeholder="请输入验证码" maxlength="6">
+        </div>
+        <div id="captcha_sms"></div>
+        <div class="error-msg" v-if="error_sms">
+          <span>{{ error_sms }}</span>
         </div>
       </div>
       <el-button type="primary" @click="doLogin">登录</el-button>
@@ -42,7 +46,7 @@
         </div>
         <div class="info">
           <p class="welcome">欢迎回来！</p>
-          <p class="userName">{{user.realName}}</p>
+          <p class="userName">{{user.realName || user.userName}}</p>
         </div>
       </div>
       <div v-if="user.userIsOpenAccount&&user.userIsOpenAccount.isOpenAccount">
@@ -63,27 +67,70 @@
 </template>
 
 <script>
-import { userLogin, userBasicInfo } from '@/api/common/login'
+import { userLogin, userBasicInfo, smsLogin, userLoginVcode } from '@/api/common/login'
 import { mapGetters, mapMutations } from 'vuex'
-import { /* countDownTime, */ captchaId } from '@/assets/js/const'
+import { countDownTime, captchaId } from '@/assets/js/const'
+import { isMobile } from '@/assets/js/regular'
+import { setLoginUsername, getLoginUsername } from '@/assets/js/cache'
 
 export default {
   name: 'index',
   data() {
     return {
       agree: true,
-      userName: '',
+      userName: getLoginUsername(),
       passWord: '',
+      smsCode: '',
       loginType: 0, // 0密码登录 1短信登录
-      errorMsg: '',
+      error_pwd: '',
+      error_sms: '',
       captchaIns_pwd: null, // 滑块验证码实例
-      validate_pwd: '' // 滑块验证码二次验证信息
+      validate_pwd: '', // 滑块验证码二次验证信息
+      captchaIns_sms: null, // 滑块验证码实例
+      validate_sms: '', // 滑块验证码二次验证信息
+      countDownText: '获取验证码'
     }
   },
   computed: {
     ...mapGetters(['user', 'errorNum'])
   },
   methods: {
+    getSmsCode() {
+      smsLogin({ mobile: this.userName, captchaId, validate: this.validate_sms }).then(res => {
+        this.countDown()
+        if (res.data.resultCode !== '1') {
+          this.error_sms = '验证码发送失败'
+        }
+      })
+    },
+    countDown() {
+      let time = countDownTime
+      let t = window.setInterval(() => {
+        if (time > 0) {
+          time--
+          this.countDownText = `${time}秒`
+        } else {
+          this.countDownText = '获取验证码'
+          window.clearInterval(t)
+        }
+      }, 1000)
+    },
+    popValidation() {
+      if (this.countDownText === '获取验证码') {
+        if (this.userName.trim() === '') {
+          this.error_sms = '请输入手机号'
+          return false
+        }
+        if (!isMobile(this.userName)) {
+          this.error_sms = '请输入正确的手机号'
+          return false
+        } else {
+          this.error_sms = ''
+        }
+        // 弹出滑块验证码
+        this.captchaIns_sms && this.captchaIns_sms.popUp()
+      }
+    },
     initPWDCaptcha() {
       window.initNECaptcha(
         {
@@ -102,7 +149,36 @@ export default {
         }
       )
     },
+    initSMSCaptcha() {
+      window.initNECaptcha(
+        {
+          captchaId: captchaId,
+          width: '320px',
+          element: '#captcha_sms',
+          mode: 'popup',
+          onVerify: (err, data) => {
+            this.validate_sms = data.validate
+            this.getSmsCode()
+          },
+          onClose: () => {
+            this.captchaIns_sms.refresh()
+          }
+        },
+        instance => {
+          this.captchaIns_sms = instance
+        }
+      )
+    },
     doLogin() {
+      if (this.loginType === 0) {
+        // 密码登录
+        this.doPWDLogin()
+      } else {
+        // 短信登录
+        this.doSMSLogin()
+      }
+    },
+    doPWDLogin() {
       if (this.errorNum >= 3 && !this.captchaIns_pwd) {
         this.initPWDCaptcha()
         return false
@@ -112,7 +188,7 @@ export default {
         passWord: btoa(this.passWord)
       }
       if (this.errorNum >= 3 && this.validate_pwd === '') {
-        this.errorMsg = '请将滑块验证码划到正确的位置'
+        this.error_pwd = '请将滑块验证码划到正确的位置'
         return false
       }
       userLogin(postData)
@@ -120,10 +196,33 @@ export default {
           if (res.data.resultCode === '1') {
             let user = res.data.data
             this.setUser(user)
+            setLoginUsername(this.userName)
             return userBasicInfo({ userName: user.userName })
           } else {
-            this.errorMsg = res.data.resultMsg
+            this.error_pwd = res.data.resultMsg
             this.setErrorNum(this.errorNum + 1)
+            throw new Error()
+          }
+        })
+        .then(res => {
+          this.setUserBasicInfo(res.data.data)
+          this.$router.push({ name: 'overview' })
+        })
+    },
+    doSMSLogin() {
+      let postData = {
+        userName: this.userName,
+        smsCode: this.smsCode
+      }
+      userLoginVcode(postData)
+        .then(res => {
+          if (res.data.resultCode === '1') {
+            let user = res.data.data
+            this.setUser(user)
+            setLoginUsername(this.userName)
+            return userBasicInfo({ userName: user.userName })
+          } else {
+            this.error_sms = res.data.resultMsg
             throw new Error()
           }
         })
@@ -137,6 +236,9 @@ export default {
       setUserBasicInfo: 'SET_USERBASICINFO',
       setErrorNum: 'SET_ERROR_NUM'
     })
+  },
+  created() {
+    this.initSMSCaptcha()
   }
 }
 </script>
@@ -232,6 +334,7 @@ export default {
       text-align: left;
     }
     button {
+      margin-top: 10px;
       width: 320px;
       height: 40px;
       border-radius: 2px;

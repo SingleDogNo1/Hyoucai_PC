@@ -11,9 +11,9 @@
       </div>
       <div class="right">
         <ul class="menu">
-          <li v-if="user" to="/mine/overview">欢迎您，{{user.realName}}</li>
+          <li v-if="user" to="/mine/overview">欢迎您，{{user.realName || user.userName}}</li>
           <router-link tag="li" v-if="!user" to="/login">登录</router-link>
-          <li @click="logout">安全退出</li>
+          <li v-if="user" @click="doLogout">安全退出</li>
           <router-link tag="li" v-if="!user" to="/register">快速注册</router-link>
           <router-link tag="li" v-if="user" to="/mine/overview">我的账户</router-link>
           <router-link tag="li" to="/helpCenter">帮助中心</router-link>
@@ -44,7 +44,9 @@
 
 <script>
 import Swiper from 'swiper'
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
+import { userLogout } from '@/api/common/login'
+
 export default {
   name: 'AppHeader',
   data() {
@@ -57,8 +59,13 @@ export default {
     ...mapGetters(['user'])
   },
   methods: {
-    logout() {
-      alert`logout`
+    doLogout() {
+      userLogout({ userName: this.user.userName, logoutFrom: 'pc' }).then(res => {
+        if (res.data.resultCode === '1') {
+          this.logout()
+          this.$router.push({ name: 'index' })
+        }
+      })
     },
     showWXCode() {
       this.WXCodeFlag = true
@@ -71,7 +78,8 @@ export default {
     },
     hideAppCode() {
       this.AppCodeFlag = false
-    }
+    },
+    ...mapActions(['logout'])
   },
   mounted() {
     new Swiper('.slogan', {

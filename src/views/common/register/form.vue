@@ -40,7 +40,8 @@
 <script>
 import PasswordStrength from '@/components/passwordStrength'
 import { cpmOrTjm, getSmsCode, userRegister } from '@/api/common/register'
-import { mapGetters } from 'vuex'
+import { userLogin, userBasicInfo } from '@/api/common/login'
+import { mapGetters, mapMutations } from 'vuex'
 import { countDownTime, captchaId } from '@/assets/js/const'
 import { isMobCode, isPassword } from '@/assets/js/regular'
 export default {
@@ -109,14 +110,34 @@ export default {
         return false
       }
       this.errorMsg = ''
-      userRegister(Object.assign(this.form, { mobile: this.registerMobile })).then(res => {
-        if (res.data.resultCode === '1') {
-          console.log(1)
-        } else {
-          this.errorMsg = res.data.resultMsg
-        }
-      })
-    }
+      userRegister(Object.assign(this.form, { mobile: this.registerMobile }))
+        .then(res => {
+          if (res.data.resultCode === '1') {
+            return userLogin({ userName: this.registerMobile, passWord: btoa(this.form.passWord) })
+          } else {
+            this.errorMsg = res.data.resultMsg
+            throw new Error()
+          }
+        })
+        .then(res => {
+          if (res.data.resultCode === '1') {
+            let user = res.data.data
+            this.setUser(user)
+            return userBasicInfo({ userName: user.userName })
+          } else {
+            this.errorMsg = res.data.resultMsg
+            throw new Error()
+          }
+        })
+        .then(res => {
+          this.setUserBasicInfo(res.data.data)
+          this.$router.push({ name: 'overview' })
+        })
+    },
+    ...mapMutations({
+      setUser: 'SET_USER',
+      setUserBasicInfo: 'SET_USERBASICINFO'
+    })
   },
   created() {
     // 获取钞票码推荐码显隐状态
