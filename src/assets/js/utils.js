@@ -23,3 +23,34 @@ export const Base64Utils = {
     return str ? JSON.parse(Base64.decode(str)) : null
   }
 }
+
+export const myDOM = {
+  hasClass (el, className) {
+    let reg = new RegExp('(^|\\s)' + className + '(\\s|$)')
+    return reg.test(el.className)
+  },
+  addClass (el, className) {
+    if (this.hasClass(el, className)) {
+      return
+    }
+    let newClass = el.className.split(' ')
+    newClass.push(className)
+    el.className = newClass.join(' ')
+  },
+  removeClass (el, className) {
+    if (this.hasClass(el, className)) {
+      var newClass = ' ' + el.className.replace(/[\t\r\n]/g, '') + ' ';
+      while (newClass.indexOf(' ' + className + ' ') >= 0) {
+        newClass = newClass.replace(' ' + className + ' ', ' ');
+      }
+      el.className = newClass.replace(/^\s+|\s+$/g, '');
+    }
+  },
+  customAttribute (el, name, val) {
+    if (val) {
+      return el.setAttribute(`data-${name}`, val)
+    } else {
+      return el.getAttribute(`data-${name}`)
+    }
+  }
+}
