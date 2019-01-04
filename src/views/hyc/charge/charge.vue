@@ -131,10 +131,13 @@ export default {
   },
   props: ['entrance'],
   methods: {
-    amountInput (e) {
+    amountInput(e) {
       e.target.value = e.target.value.replace(/[^\d.]/g, '')
       e.target.value = e.target.value.replace(/\.{2,}/g, '.')
-      e.target.value = e.target.value.replace('.', '$#$').replace(/\./g, '').replace('$#$', '.')
+      e.target.value = e.target.value
+        .replace('.', '$#$')
+        .replace(/\./g, '')
+        .replace('$#$', '.')
       e.target.value = e.target.value.replace(/^(-)*(\d+)\.(\d\d).*$/, '$1$2.$3')
       if (e.target.value.indexOf('.') < 0 && e.target.value !== '') {
         e.target.value = parseFloat(e.target.value)
@@ -142,7 +145,7 @@ export default {
       this.amount = parseFloat(e.target.value)
       this.checkAmountInput()
     },
-    mobileInput (e) {
+    mobileInput(e) {
       e.target.value = e.target.value.replace(/[^\d]/g, '')
       if (e.target.value.length > 11) {
         e.target.value = e.target.value.slice(0, 11)
@@ -167,8 +170,8 @@ export default {
       }
       this.errMsg.amount = ''
     },
-    checkMobileInput () {
-      if (!this.mobile ) {
+    checkMobileInput() {
+      if (!this.mobile) {
         this.errMsg.mobile = '请输入手机号！'
         if (this.errMsg.amount) {
           this.errMsg.amount = ''
@@ -191,7 +194,7 @@ export default {
       }
       this.errMsg.mobile = ''
     },
-    checkAmount () {
+    checkAmount() {
       this.checkInput()
       let data = {
         userName: this.userName,
@@ -208,7 +211,7 @@ export default {
         }
       })
     },
-    reCharge () {
+    reCharge() {
       let path
       if (this.entrance) {
         path = Base64Utils.base64ToObject(this.entrance).fullPath
@@ -235,7 +238,7 @@ export default {
         }
       })
     },
-    postcall (url, params, target) {
+    postcall(url, params, target) {
       let tempform = document.createElement('form')
       tempform.setAttribute('name', 'form')
       tempform.action = url
@@ -260,7 +263,7 @@ export default {
       tempform.submit()
       document.body.removeChild(tempform)
     },
-    getBankCardQuery () {
+    getBankCardQuery() {
       bankCardQueryApi().then(res => {
         let data = res.data
         let resultCode = data.resultCode
@@ -268,10 +271,10 @@ export default {
           this.bankCardInfo = data.data
           let no = this.bankCardInfo.cardNo
           let len = no.length
-          this.backCardNo = no.substring(0,4) + "*******" + no.substring(len - 4, len)
+          this.backCardNo = no.substring(0, 4) + '*******' + no.substring(len - 4, len)
         }
       })
-    },
+    }
   },
   created() {
     // this.checkAmount()

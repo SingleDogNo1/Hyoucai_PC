@@ -51,16 +51,14 @@ export default {
     onConfirm: {
       type: Function,
       default: () => {
-        return () => {
-        }
+        return () => {}
       }
     },
     // 点击取消执行的函数
     onClose: {
       type: Function,
       default: () => {
-        return () => {
-        }
+        return () => {}
       }
     }
   },

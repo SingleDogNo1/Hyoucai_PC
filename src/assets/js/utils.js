@@ -10,26 +10,26 @@ export function getAuth() {
   return `DSCJ ${spile}`
 }
 
-export function getRetBaseURL () {
+export function getRetBaseURL() {
   let index = window.location.href.indexOf('#')
   return window.location.href.substr(0, index + 1)
 }
 
 export const Base64Utils = {
-  objectToBase64 (obj) {
+  objectToBase64(obj) {
     return Base64.encode(JSON.stringify(obj))
   },
-  base64ToObject (str) {
+  base64ToObject(str) {
     return str ? JSON.parse(Base64.decode(str)) : null
   }
 }
 
 export const myDOM = {
-  hasClass (el, className) {
+  hasClass(el, className) {
     let reg = new RegExp('(^|\\s)' + className + '(\\s|$)')
     return reg.test(el.className)
   },
-  addClass (el, className) {
+  addClass(el, className) {
     if (this.hasClass(el, className)) {
       return
     }
@@ -37,16 +37,16 @@ export const myDOM = {
     newClass.push(className)
     el.className = newClass.join(' ')
   },
-  removeClass (el, className) {
+  removeClass(el, className) {
     if (this.hasClass(el, className)) {
-      var newClass = ' ' + el.className.replace(/[\t\r\n]/g, '') + ' ';
+      var newClass = ' ' + el.className.replace(/[\t\r\n]/g, '') + ' '
       while (newClass.indexOf(' ' + className + ' ') >= 0) {
-        newClass = newClass.replace(' ' + className + ' ', ' ');
+        newClass = newClass.replace(' ' + className + ' ', ' ')
       }
-      el.className = newClass.replace(/^\s+|\s+$/g, '');
+      el.className = newClass.replace(/^\s+|\s+$/g, '')
     }
   },
-  customAttribute (el, name, val) {
+  customAttribute(el, name, val) {
     if (val) {
       return el.setAttribute(`data-${name}`, val)
     } else {

@@ -9,8 +9,7 @@
 export default {
   name: 'pagination',
   data() {
-    return {
-    }
+    return {}
   },
   props: {
     totalCount: {
