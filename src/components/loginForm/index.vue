@@ -67,7 +67,7 @@
 </template>
 
 <script>
-import { userLogin, userBasicInfo, smsLogin, userLoginVcode } from '@/api/common/login'
+import { userLogin, smsLogin, userLoginVcode } from '@/api/common/login'
 import { mapGetters, mapMutations } from 'vuex'
 import { countDownTime, captchaId } from '@/assets/js/const'
 import { isMobile } from '@/assets/js/regular'
@@ -191,49 +191,36 @@ export default {
         this.error_pwd = '请将滑块验证码划到正确的位置'
         return false
       }
-      userLogin(postData)
-        .then(res => {
-          if (res.data.resultCode === '1') {
-            let user = res.data.data
-            this.setUser(user)
-            setLoginUsername(this.userName)
-            return userBasicInfo({ userName: user.userName })
-          } else {
-            this.error_pwd = res.data.resultMsg
-            this.setErrorNum(this.errorNum + 1)
-            throw new Error()
-          }
-        })
-        .then(res => {
-          this.setUserBasicInfo(res.data.data)
+      userLogin(postData).then(res => {
+        if (res.data.resultCode === '1') {
+          let user = res.data.data
+          this.setUser(user)
+          setLoginUsername(this.userName)
           this.$router.push({ name: 'overview' })
-        })
+        } else {
+          this.error_pwd = res.data.resultMsg
+          this.setErrorNum(this.errorNum + 1)
+        }
+      })
     },
     doSMSLogin() {
       let postData = {
         userName: this.userName,
         smsCode: this.smsCode
       }
-      userLoginVcode(postData)
-        .then(res => {
-          if (res.data.resultCode === '1') {
-            let user = res.data.data
-            this.setUser(user)
-            setLoginUsername(this.userName)
-            return userBasicInfo({ userName: user.userName })
-          } else {
-            this.error_sms = res.data.resultMsg
-            throw new Error()
-          }
-        })
-        .then(res => {
-          this.setUserBasicInfo(res.data.data)
+      userLoginVcode(postData).then(res => {
+        if (res.data.resultCode === '1') {
+          let user = res.data.data
+          this.setUser(user)
+          setLoginUsername(this.userName)
           this.$router.push({ name: 'overview' })
-        })
+        } else {
+          this.error_sms = res.data.resultMsg
+        }
+      })
     },
     ...mapMutations({
       setUser: 'SET_USER',
-      setUserBasicInfo: 'SET_USERBASICINFO',
       setErrorNum: 'SET_ERROR_NUM'
     })
   },

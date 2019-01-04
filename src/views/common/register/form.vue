@@ -40,7 +40,7 @@
 <script>
 import PasswordStrength from '@/components/passwordStrength'
 import { cpmOrTjm, getSmsCode, userRegister } from '@/api/common/register'
-import { userLogin, userBasicInfo } from '@/api/common/login'
+import { userLogin } from '@/api/common/login'
 import { mapGetters, mapMutations } from 'vuex'
 import { countDownTime, captchaId } from '@/assets/js/const'
 import { isMobCode, isPassword } from '@/assets/js/regular'
@@ -123,20 +123,14 @@ export default {
           if (res.data.resultCode === '1') {
             let user = res.data.data
             this.setUser(user)
-            return userBasicInfo({ userName: user.userName })
+            this.$router.push({ name: 'overview' })
           } else {
             this.errorMsg = res.data.resultMsg
-            throw new Error()
           }
-        })
-        .then(res => {
-          this.setUserBasicInfo(res.data.data)
-          this.$router.push({ name: 'overview' })
         })
     },
     ...mapMutations({
-      setUser: 'SET_USER',
-      setUserBasicInfo: 'SET_USERBASICINFO'
+      setUser: 'SET_USER'
     })
   },
   created() {

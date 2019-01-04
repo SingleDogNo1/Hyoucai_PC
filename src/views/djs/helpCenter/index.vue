@@ -81,7 +81,7 @@ export default {
     this.getQueryQAType()
   },
   watch: {
-    $route(to, from) {
+    $route() {
       // 刷新参数放到这里里面去触发就可以刷新相同界面了
       this.current = this.$route.query.helpCode
       this.clickItem(this.current)

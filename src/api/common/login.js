@@ -5,6 +5,9 @@ function userLogin(data) {
   return request({
     url: '/UserLogin',
     method: 'post',
+    headers: {
+      version: '2.0'
+    },
     data: qs.stringify(data)
   })
 }
@@ -21,6 +24,9 @@ function forgetPwdSendVerCode(data) {
   return request({
     url: '/ForgetPwdSendVerCode',
     method: 'post',
+    headers: {
+      version: '2.0'
+    },
     data: qs.stringify(data)
   })
 }
@@ -29,6 +35,9 @@ function forgetPwdConfirmCode(data) {
   return request({
     url: '/ForgetPwdConfirmCode',
     method: 'post',
+    headers: {
+      version: '2.0'
+    },
     data: qs.stringify(data)
   })
 }
@@ -37,6 +46,9 @@ function forgetPwdResetCode(data) {
   return request({
     url: '/ForgetPwdResetCode',
     method: 'post',
+    headers: {
+      version: '2.0'
+    },
     data: qs.stringify(data)
   })
 }
@@ -45,6 +57,9 @@ function smsLogin(data) {
   return request({
     url: '/smsLogin',
     method: 'post',
+    headers: {
+      version: '2.0'
+    },
     data: qs.stringify(data)
   })
 }
@@ -53,6 +68,9 @@ function userLoginVcode(data) {
   return request({
     url: '/UserLoginVcode',
     method: 'post',
+    headers: {
+      version: '2.0'
+    },
     data: qs.stringify(data)
   })
 }

@@ -575,7 +575,7 @@ export default {
     }
     ul {
       width: 1140px;
-    margin: 0 auto;
+      margin: 0 auto;
       margin-top: 40px;
       li {
         display: inline-block;
@@ -909,7 +909,7 @@ export default {
     right: 0;
     left: 0;
     bottom: 0;
-    background: rgba(0,0,0,.6);
+    background: rgba(0, 0, 0, 0.6);
     .content {
       position: fixed;
       display: table;
@@ -934,7 +934,7 @@ export default {
         margin-top: 42px;
         width: 100%;
         height: 380px;
-        background: url("./images/bg_banner.png") center center no-repeat;
+        background: url('./images/bg_banner.png') center center no-repeat;
         border-radius: 10px;
         .btn-to-investment {
           margin-top: 280px;

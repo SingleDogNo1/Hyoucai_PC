@@ -1,6 +1,13 @@
 module.exports = {
   baseUrl: process.env.NODE_ENV === 'production' ? '../' : '/',
   pages: {
+    app: {
+      entry: 'src/entries/main.js',
+      template: 'public/index.html',
+      filename: 'index.html',
+      title: '汇有财',
+      chunks: ['chunk-vendors', 'chunk-common', 'app']
+    },
     hyc: {
       entry: 'src/entries/hyc.js',
       template: 'public/index.html',
