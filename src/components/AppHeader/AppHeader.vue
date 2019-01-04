@@ -33,7 +33,7 @@
           <router-link tag="li" to="/">首页</router-link>
           <router-link tag="li" to="/lend">我要出借</router-link>
           <router-link tag="li" to="/borrow">我要借款</router-link>
-          <router-link tag="li" to="/info_disclosure">信息披露</router-link>
+          <router-link tag="li" to="/infoDisclosure">信息披露</router-link>
           <router-link tag="li" to="/activity">主题活动</router-link>
           <router-link tag="li" to="/safety">安全措施</router-link>
         </ul>

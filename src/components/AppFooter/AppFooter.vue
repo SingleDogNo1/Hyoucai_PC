@@ -150,6 +150,7 @@ export default {
       queryQAType().then(res => {
         let data = res.data
         this.QAList = data.list
+        localStorage.setItem('QAList', JSON.stringify(this.QAList))
       })
     }
   },

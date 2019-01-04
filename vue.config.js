@@ -33,12 +33,12 @@ module.exports = {
         wx: true
       },
       '/TouchStoneService': {
-        target: 'http://47.100.38.237:8082/d',
+        target: 'http://47.100.38.237:8088/d',
         changeOrigin: true,
         wx: true
       },
       '/TouchStoneServiceNew': {
-        target: 'http://47.100.38.237:8082/h',
+        target: 'http://47.100.38.237:8088/h',
         changeOrigin: true,
         wx: true
       }
