@@ -1,7 +1,7 @@
 import request from '@/assets/js/requestHYC'
 import qs from 'qs'
 
-export function bankCardQueryApi (data) {
+export function bankCardQueryApi(data) {
   return request({
     url: '/bankCardQuery/query',
     method: 'post',
@@ -10,7 +10,7 @@ export function bankCardQueryApi (data) {
   })
 }
 
-export function getBankUnionNumberUrlApi (data) {
+export function getBankUnionNumberUrlApi(data) {
   return request({
     url: '/extendApi/getBankUnionNumberUrl',
     method: 'post',
@@ -19,7 +19,7 @@ export function getBankUnionNumberUrlApi (data) {
   })
 }
 
-export function sysProvinceListApi (data) {
+export function sysProvinceListApi(data) {
   return request({
     url: '/SysProvinceList',
     method: 'post',
@@ -28,7 +28,7 @@ export function sysProvinceListApi (data) {
   })
 }
 
-export function sysCityListApi (data) {
+export function sysCityListApi(data) {
   return request({
     url: '/SysCityList',
     method: 'post',
@@ -37,7 +37,7 @@ export function sysCityListApi (data) {
   })
 }
 
-export function sysBankAreaListApi (data) {
+export function sysBankAreaListApi(data) {
   return request({
     url: '/SysBankAreaList',
     method: 'post',
@@ -46,7 +46,7 @@ export function sysBankAreaListApi (data) {
   })
 }
 
-export function sysBranceBankListApi (data) {
+export function sysBranceBankListApi(data) {
   return request({
     url: '/SysBranceBankList',
     method: 'post',
@@ -55,7 +55,7 @@ export function sysBranceBankListApi (data) {
   })
 }
 
-export function withdrawApi (data) {
+export function withdrawApi(data) {
   return request({
     url: '/withdraw/withdraw',
     method: 'post',
@@ -64,7 +64,7 @@ export function withdrawApi (data) {
   })
 }
 
-export function amountInfoApi (data) {
+export function amountInfoApi(data) {
   return request({
     url: '/personalAccount/amountInfo',
     method: 'post',
