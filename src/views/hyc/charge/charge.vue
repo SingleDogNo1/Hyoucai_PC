@@ -22,22 +22,24 @@
               <li>
                 <span class="title">充值金额</span>
                 <div class="info-wrapper">
-                  <input type="text" placeholder="请输入充值金额" /> <em class="unit">元</em> <i class="tips">(100元起充)</i>
+                  <input type="text" placeholder="请输入充值金额" @input="amountInput"/> <em class="unit">元</em> <i class="tips">(100元起充)</i>
                 </div>
               </li>
-              <li><span class="title">&emsp;&emsp;姓名</span> <span class="text">王**</span></li>
-              <li><span class="title">银行卡号</span> <input type="text" placeholder="请输入银行卡号" /></li>
+              <div class="err-msg" v-if="errMsg.amount">{{errMsg.amount}}</div>
+              <li><span class="title">&emsp;&emsp;姓名</span> <span class="text">{{bankCardInfo.fullName}}</span></li>
+              <li><span class="title">银行卡号</span> <input type="text" placeholder="请输入银行卡号" readonly v-model="backCardNo"/></li>
               <li>
-                <span class="title">开户银行</span> <span class="text"> 招商银行 <i class="high-light">单笔限额5万，单日限额10万</i> </span>
+                <span class="title">开户银行</span> <span class="text"> {{ bankCardInfo.bankName }}<i class="high-light"> {{ bankCardInfo.quota }}</i> </span>
               </li>
-              <li><span class="title">&emsp;手机号</span> <input type="text" placeholder="请输入手机号" /></li>
-              <li><span class="title">&emsp;&emsp;&emsp;&emsp;</span> <input type="button" value="确认充值" /></li>
+              <li><span class="title">&emsp;手机号</span> <input type="text" placeholder="请输入银行绑定手机号"  @input="mobileInput"/></li>
+              <div class="err-msg" v-if="errMsg.mobile">{{errMsg.mobile}}</div>
+              <li><span class="title">&emsp;&emsp;&emsp;&emsp;</span> <input type="button" value="确认充值" @click="checkAmount"/></li>
             </ul>
           </div>
         </el-tab-pane>
         <el-tab-pane label="转账充值">
           <div class="transfer-charge">
-            <div class="left"><!-- <div class="charge-phone"><img src="./image/charge-phone.png" /></div> --></div>
+            <div class="left"><div class="charge-phone"><img src="./image/charge-phone.png" /></div></div>
             <div class="right">
               <img src="./image/unionpay.png" />
               <div class="des">您可以使用您的银行卡，通过线下跨行转账（柜台、网银、手机银行）方式将资金充值到您的江西银行电子账户。</div>
@@ -81,11 +83,15 @@
 
 <script>
 import Clipboard from 'clipboard'
+import { bankCardQueryApi, checkAmountApi, rechargeApi, amountInfoApi } from '@/api/hyc/charge'
+import { getUser } from '@/assets/js/cache'
+import { getAuth, getRetBaseURL, Base64Utils } from '@/assets/js/utils'
 
 let clipboard = new Clipboard('.copy_num')
 clipboard.on('success', function() {
   console.log('复制成功')
 })
+const ERR_OK = '1'
 export default {
   name: 'charge',
   mixins: [],
@@ -113,13 +119,170 @@ export default {
         quota: '',
         strikeAmount: '',
         userName: ''
+      },
+      backCardNo: '',
+      userName: getUser().userName,
+      authorization: getAuth(),
+      errMsg: {
+        amount: '',
+        mobile: ''
       }
     }
   },
+  props: ['entrance'],
   methods: {
-    checkAmount() {}
+    amountInput (e) {
+      e.target.value = e.target.value.replace(/[^\d.]/g, '')
+      e.target.value = e.target.value.replace(/\.{2,}/g, '.')
+      e.target.value = e.target.value.replace('.', '$#$').replace(/\./g, '').replace('$#$', '.')
+      e.target.value = e.target.value.replace(/^(-)*(\d+)\.(\d\d).*$/, '$1$2.$3')
+      if (e.target.value.indexOf('.') < 0 && e.target.value !== '') {
+        e.target.value = parseFloat(e.target.value)
+      }
+      this.amount = parseFloat(e.target.value)
+      this.checkAmountInput()
+    },
+    mobileInput (e) {
+      e.target.value = e.target.value.replace(/[^\d]/g, '')
+      if (e.target.value.length > 11) {
+        e.target.value = e.target.value.slice(0, 11)
+      }
+      this.mobile = e.target.value
+      this.checkMobileInput()
+    },
+    checkAmountInput() {
+      if (!this.amount) {
+        this.errMsg.amount = '请输入充值金额！'
+        if (this.errMsg.mobile) {
+          this.errMsg.mobile = ''
+        }
+        return false
+      }
+      if (this.amount && this.amount < 100) {
+        this.errMsg.amount = '100元起充！'
+        if (this.errMsg.mobile) {
+          this.errMsg.mobile = ''
+        }
+        return false
+      }
+      this.errMsg.amount = ''
+    },
+    checkMobileInput () {
+      if (!this.mobile ) {
+        this.errMsg.mobile = '请输入手机号！'
+        if (this.errMsg.amount) {
+          this.errMsg.amount = ''
+        }
+        return false
+      }
+      if (this.mobile && this.mobile.length < 11) {
+        this.errMsg.mobile = '请输入正确的手机号！'
+        if (this.errMsg.amount) {
+          this.errMsg.amount = ''
+        }
+        return false
+      }
+      if (this.mobile && this.mobile.length > 11) {
+        this.errMsg.mobile = '请输入正确的手机号！'
+        if (this.errMsg.amount) {
+          this.errMsg.amount = ''
+        }
+        return false
+      }
+      this.errMsg.mobile = ''
+    },
+    checkAmount () {
+      this.checkInput()
+      let data = {
+        userName: this.userName,
+        authorization: this.authorization,
+        bankCode: this.bankCardInfo.bankCode,
+        amount: this.amount
+      }
+      checkAmountApi(data).then(res => {
+        let data = res.data
+        let resultCode = data.resultCode
+        // let resultMsg = data.resultMsg
+        if (resultCode === '1') {
+          this.reCharge()
+        }
+      })
+    },
+    reCharge () {
+      let path
+      if (this.entrance) {
+        path = Base64Utils.base64ToObject(this.entrance).fullPath
+      } else {
+        path = '/mine/basicInfo'
+      }
+      let forgetUrl = '/mine/basicInfo'
+      let data = {
+        userName: this.userName,
+        authorization: this.authorization,
+        txAmount: this.amount,
+        retUrl: getRetBaseURL() + path,
+        forgotPwdUrl: forgetUrl,
+        mobile: this.mobile,
+        platform: 'PC'
+      }
+      rechargeApi(data).then(res => {
+        let data = res.data
+        let resultCode = data.resultCode
+        // let resultMsg = data.resultMsg
+        if (resultCode === '1') {
+          let option = data.data.paramReq
+          this.postcall(data.data.redirectUrl, option)
+        }
+      })
+    },
+    postcall (url, params, target) {
+      let tempform = document.createElement('form')
+      tempform.setAttribute('name', 'form')
+      tempform.action = url
+      tempform.method = 'post'
+      tempform.style.display = 'none'
+      if (target) {
+        tempform.target = target
+      }
+
+      for (let x in params) {
+        let opt = document.createElement('input')
+        opt.name = x
+        opt.value = params[x]
+        tempform.appendChild(opt)
+      }
+
+      let opt = document.createElement('input')
+      opt.type = 'submit'
+      opt.setAttribute('id', '_submit')
+      tempform.appendChild(opt)
+      document.body.appendChild(tempform)
+      tempform.submit()
+      document.body.removeChild(tempform)
+    },
+    getBankCardQuery () {
+      bankCardQueryApi().then(res => {
+        let data = res.data
+        let resultCode = data.resultCode
+        if (resultCode === ERR_OK) {
+          this.bankCardInfo = data.data
+          let no = this.bankCardInfo.cardNo
+          let len = no.length
+          this.backCardNo = no.substring(0,4) + "*******" + no.substring(len - 4, len)
+        }
+      })
+    },
   },
-  created() {},
+  created() {
+    // this.checkAmount()
+    this.getBankCardQuery()
+    amountInfoApi().then(res => {
+      if (res.data.resultCode === ERR_OK) {
+        const data = res.data.data
+        this.balance = data.banlance
+      }
+    })
+  },
   mounted() {}
 }
 </script>
@@ -209,6 +372,9 @@ export default {
               padding-left: 15px;
               border-radius: 2px;
               border: 1px solid rgba(205, 205, 205, 1);
+              &:read-only {
+                background-color: #f8f8fb;
+              }
             }
             .text {
               display: inline-block;
@@ -245,6 +411,16 @@ export default {
                 cursor: pointer;
               }
             }
+          }
+          .err-msg {
+            width: 284px;
+            padding: 10px;
+            min-height: 40px;
+            border: 1px solid #e84518;
+            background-color: #ffe5e5;
+            color: #e84518;
+            border-radius: 5px;
+            margin-left: 248px;
           }
         }
         .transfer-charge {

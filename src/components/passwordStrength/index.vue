@@ -1,18 +1,18 @@
 <template>
-    <div>
-      <div class="part" :class="{ active: level === 1 }">
-        <p>弱</p>
-        <div class="strip weak"></div>
-      </div>
-      <div class="part" :class="{ active: level === 2 }">
-        <p>中</p>
-        <div class="strip normal"></div>
-      </div>
-      <div class="part" :class="{ active: level === 3 }">
-        <p>强</p>
-        <div class="strip strong"></div>
-      </div>
+  <div>
+    <div class="part" :class="{ active: level === 1 }">
+      <p>弱</p>
+      <div class="strip weak"></div>
     </div>
+    <div class="part" :class="{ active: level === 2 }">
+      <p>中</p>
+      <div class="strip normal"></div>
+    </div>
+    <div class="part" :class="{ active: level === 3 }">
+      <p>强</p>
+      <div class="strip strong"></div>
+    </div>
+  </div>
 </template>
 
 <script>

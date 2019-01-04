@@ -49,11 +49,19 @@ export default {
     },
     // 点击确定执行的函数
     onConfirm: {
-      type: Function
+      type: Function,
+      default: () => {
+        return () => {
+        }
+      }
     },
     // 点击取消执行的函数
     onClose: {
-      type: Function
+      type: Function,
+      default: () => {
+        return () => {
+        }
+      }
     }
   },
   methods: {
@@ -95,11 +103,16 @@ export default {
   footer {
     display: flex;
     justify-content: space-between;
+    margin-top: 30px;
     &.single {
       justify-content: center;
     }
     button {
       @include cube(160px, 44px);
+      &.el-button--default {
+        border-color: #fb891f;
+        color: #fb891f;
+      }
     }
   }
 }

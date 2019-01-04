@@ -1,5 +1,5 @@
 <template>
-  <p class="title" :id="name">{{count}}</p>
+  <p class="title" :id="name">{{ count }}</p>
 </template>
 
 <script>

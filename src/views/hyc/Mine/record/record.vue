@@ -1,34 +1,34 @@
 <template>
-  <div class="wrapper">
+  <div class="rc-wrapper">
     <div class="inner">
       <div class="top">
         <h3>交易记录</h3>
         <ul>
           <li>
             <div>交易记录</div>
-            <div class="tag" :class="{ active: timeIndex === i }" v-for="(item, i) in times" :key="i" @click="selectTime(i)">{{ item.name }}</div>
+            <div class="tag" :class="{ active: timeIndex === i }" v-for="(item, i) in times" :key="i" @click="selectTime(i, item)">{{ item.key }}</div>
           </li>
-          <li>
+          <li v-if="status.length">
             <div>状态</div>
-            <div class="tag" :class="{ active: statusIndex === i }" v-for="(item, i) in status" :key="i" @click="selectStatus(i)">
-              {{ item.name }}
+            <div class="tag" :class="{ active: statusIndex === i }" v-for="(item, i) in status" :key="i" @click="selectStatus(i, item)">
+              {{ item.key }}
             </div>
           </li>
         </ul>
       </div>
       <div class="content">
         <el-table :data="tableData" border class="record-table">
-          <el-table-column prop="date" label="交易日期"> </el-table-column>
-          <el-table-column prop="type" label="交易类型"> </el-table-column>
+          <el-table-column prop="txDate" label="交易日期"> </el-table-column>
+          <el-table-column prop="txType" label="交易类型"> </el-table-column>
           <el-table-column label="金额明细(元)">
             <template slot-scope="scope">
-              <a :class="matchClass(scope.row.count)">{{ scope.row.count | plusFilter }}</a>
+              <a :class="matchClass(scope.row.txAmount)">{{ scope.row.txAmount | plusFilter }}</a>
             </template>
           </el-table-column>
-          <el-table-column prop="des" label="交易描述"> </el-table-column>
+          <el-table-column prop="txDesc" label="交易描述"> </el-table-column>
         </el-table>
         <div class="pagination-wrapper">
-          <pagination :total-count="total" :size-val="size" :page-val="page" @handleCurrentChange="handleCurrentChange"></pagination>
+          <pagination v-if="total" :total-count="total" :size-val="size" :page-val="page" @handleCurrentChange="handleCurrentChange"></pagination>
         </div>
       </div>
     </div>
@@ -37,74 +37,27 @@
 
 <script>
 import pagination from '@/components/pagination/pagination'
-import { getRecord } from '@/api/djs/Mine/record'
+import { getTypes, getRecord } from '@/api/hyc/Mine/record'
 import { getUser } from '@/assets/js/cache'
+import { getAuth } from '@/assets/js/utils'
+
+const ERR_OK = '1'
 export default {
   name: 'record',
   data() {
     return {
-      times: [
-        {
-          name: '所有类型',
-          id: 'SYLX'
-        },
-        {
-          name: '今天',
-          id: 'ODLX'
-        },
-        {
-          name: '一周',
-          id: 'OWLX'
-        },
-        {
-          name: '一个月',
-          id: 'OMLX'
-        },
-        {
-          name: '三个月',
-          id: 'TMLX'
-        },
-        {
-          name: '六个月',
-          id: 'SMLX'
-        }
-      ],
+      times: [],
       timeIndex: 0,
-      timeType: 'SYLX',
-      status: [
-        {
-          name: '全部',
-          id: ''
-        },
-        {
-          name: '充值',
-          id: 'XSCC'
-        },
-        {
-          name: '取现',
-          id: 'ZJQX'
-        }
-      ],
+      timeType: '',
+      status: [],
       statusIndex: 0,
       tranType: '',
-      tableData: [
-        {
-          date: '2018-08-18 18:18:45',
-          type: '提现',
-          count: '-1234',
-          des: '提现成功'
-        },
-        {
-          date: '2018-08-18 18:16:45',
-          type: '提现',
-          count: '1234',
-          des: '提现解冻成功'
-        }
-      ],
+      tableData: [],
       page: 1,
       size: 10,
-      total: 100,
-      userName: getUser().userName
+      total: 0,
+      userName: getUser().userName,
+      authorization: getAuth()
     }
   },
   filters: {
@@ -119,32 +72,59 @@ export default {
   methods: {
     handleCurrentChange(val) {
       this.page = val
+      this.getRecordList()
+    },
+    getTypes() {
+      let params1 = {
+        userName: this.userName,
+        authorization: this.authorization
+      }
+      getTypes(params1).then(res => {
+        let data = res.data
+        if (data.resultCode === ERR_OK) {
+          this.status = data.data.txStatus
+          this.times = data.data.txDate
+          this.timeType = this.times[0].value
+          this.tranType = this.status[0].value
+          this.getRecordList()
+        }
+      })
     },
     getRecordList() {
       let params = {
         userName: this.userName,
-        timeType: this.timeType,
+        txDate: this.timeType,
+        txType: this.tranType,
         curPage: this.page,
-        maxLine: this.size
-      }
-      if (this.tranType) {
-        params.tranType = this.tranType
+        maxLine: this.size,
+        authorization: this.authorization
       }
       getRecord(params).then(res => {
-        console.log(res)
+        let data = res.data
+        if (data.resultCode === ERR_OK) {
+          this.tableData = data.data.list
+          this.total = data.data.countPage * this.size
+          this.page = data.data.curPage
+        }
       })
     },
-    selectStatus(index) {
+    selectStatus(index, item) {
       if (this.statusIndex === index) {
         return
       }
       this.statusIndex = index
+      this.tranType = item.value
+      this.page = 1
+      this.getRecordList()
     },
-    selectTime(index) {
+    selectTime(index, item) {
       if (this.timeIndex === index) {
         return
       }
       this.timeIndex = index
+      this.timeType = item.value
+      this.page = 1
+      this.getRecordList()
     },
     matchClass(val) {
       if (val.indexOf('-') > -1) {
@@ -158,7 +138,7 @@ export default {
     pagination
   },
   created() {
-    this.getRecordList()
+    this.getTypes()
   }
 }
 </script>
@@ -166,14 +146,15 @@ export default {
 <style lang="scss" scoped>
 @import '../../../../assets/css/mixins';
 @import '../../../../assets/css/theme';
-.wrapper {
-  width: 1140px;
+.rc-wrapper {
+  height: 100%;
   margin: 0 auto 45px;
   color: $color-text;
   overflow: hidden;
   .inner {
     float: right;
     width: 840px;
+    height: 100%;
     padding: 0 20px 20px;
     border: 1px solid #f5f5f5;
     border-top: 2px solid rgba(247, 190, 57, 1);

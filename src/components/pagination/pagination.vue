@@ -10,9 +10,6 @@ export default {
   name: 'pagination',
   data() {
     return {
-      count: this.totalCount,
-      page: this.pageVal,
-      size: this.sizeVal
     }
   },
   props: {

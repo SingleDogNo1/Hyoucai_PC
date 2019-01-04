@@ -178,9 +178,12 @@ export default {
       }
       calculator(params)
         .then(res => {
-          let result = res.data.incomeCalculatorBean
-          this.expectedRevenue = result.allInterest
-          this.totalSum = result.totalPrincipalInterest
+          let data = res.data
+          if (data.resultCode === ERR_OK) {
+            let result = data.incomeCalculatorBean
+            this.expectedRevenue = result.allInterest
+            this.totalSum = result.totalPrincipalInterest
+          }
         })
         .catch(err => {
           console.log(JSON.stringify(err))
@@ -246,6 +249,7 @@ export default {
                 .el-input-group__append {
                   padding: 0 8px;
                   background-color: #f8f8f8;
+                  color: #cdcdcd;
                   span {
                     color: #cdcdcd;
                     cursor: pointer;
