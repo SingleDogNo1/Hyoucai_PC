@@ -1,5 +1,5 @@
 <template>
-  <div class="mine-wrapper">
+  <div class="mine-wrapper" v-if="userBasicInfo">
     <user-menu></user-menu>
     <div class="wrapper">
         <router-view />
@@ -9,6 +9,8 @@
 
 <script>
 import userMenu from '@/components/UserMenu/UserMenu'
+import { mapGetters, mapMutations } from 'vuex'
+import { userBasicInfo } from '@/api/common/login'
 
 export default {
   name: 'Mine',
@@ -23,9 +25,21 @@ export default {
   },
   props: {},
   watch: {},
-  methods: {},
-  computed: {},
-  created() {},
+  methods: {
+    ...mapMutations({
+      setUserBasicInfo: 'SET_USERBASICINFO'
+    })
+  },
+  computed: {
+    ...mapGetters(['user', 'userBasicInfo'])
+  },
+  created() {
+    userBasicInfo({
+      userName: this.user.userName
+    }).then(res => {
+      this.setUserBasicInfo(res.data.data)
+    })
+  },
   mounted() {},
   destroyed() {}
 }

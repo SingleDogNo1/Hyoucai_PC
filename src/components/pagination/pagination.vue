@@ -33,7 +33,12 @@ export default {
     }
   },
   created() {},
-  mounted() {}
+  mounted() {},
+  watch: {
+    page: function(val) {
+      console.log('val===', val)
+    }
+  }
 }
 </script>
 

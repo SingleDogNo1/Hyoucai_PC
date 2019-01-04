@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import { queryQAType, queryQuestionAnswer } from '@/api/djs/helpCenter'
+import { queryQuestionAnswer } from '@/api/djs/helpCenter'
 export default {
   data() {
     return {
@@ -54,12 +54,9 @@ export default {
   methods: {
     handleChange() {},
     getQueryQAType() {
-      queryQAType().then(res => {
-        let data = res.data
-        this.QAList = data.list
-        this.current = this.QAList[0].dicCode
-        this.clickItem(this.current)
-      })
+      this.QAList = JSON.parse(localStorage.getItem('QAList'))
+      this.current = this.QAList[0].dicCode
+      this.clickItem(this.current)
     },
     queryQuestionAnswer(data) {
       queryQuestionAnswer(data).then(res => {
@@ -81,7 +78,7 @@ export default {
     this.getQueryQAType()
   },
   watch: {
-    $route(to, from) {
+    $route() {
       // 刷新参数放到这里里面去触发就可以刷新相同界面了
       this.current = this.$route.query.helpCode
       this.clickItem(this.current)

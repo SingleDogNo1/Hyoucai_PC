@@ -8,9 +8,15 @@ Vue.use(Router)
 export default new Router({
   routes: [
     {
-      path: '/index',
-      name: 'index',
-      component: Layout
+      path: '/',
+      component: Layout,
+      children: [
+        {
+          path: '',
+          name: 'index',
+          component: () => import('@/views/hyc/Index/Index')
+        }
+      ]
     },
     {
       path: '/borrow',
@@ -59,6 +65,33 @@ export default new Router({
           path: '',
           name: 'forgetPWD',
           component: () => import(/* webpackChunkName: "register" */ '@/views/common/login/forgetPassword.vue')
+        },
+        {
+          path: 'resetResult',
+          name: 'resetResult',
+          component: () => import(/* webpackChunkName: "register" */ '@/views/common/login/resetResult.vue')
+        }
+      ]
+    },
+    {
+      path: '/download',
+      component: Layout,
+      children: [
+        {
+          path: '',
+          name: 'download',
+          component: () => import(/* webpackChunkName: "register" */ '@/views/common/download/index.vue')
+        }
+      ]
+    },
+    {
+      path: '/account',
+      component: Layout,
+      children: [
+        {
+          path: '',
+          name: 'account',
+          component: () => import(/* webpackChunkName: "register" */ '@/views/common/openAccount/index.vue')
         }
       ]
     },
