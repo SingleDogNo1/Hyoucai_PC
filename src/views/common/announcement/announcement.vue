@@ -4,7 +4,7 @@
       <el-tab-pane label="网站公告" name="first">
         <ul class="list">
           <li>
-            <router-link :to="{ name: 'announcementDetail' , params: {id: 1}}"> 
+            <router-link :to="{ name: 'announcementDetail' , params: { id: 1 } }"> 
               <span class="title">关于汇有财存管系统浏览器兼容性问题的公告</span>
               <span class="time">2018-12-19</span>
             </router-link>
@@ -112,6 +112,7 @@ export default {
       margin-top: 5px;
       border: 1px solid #e3e3e3;
       padding-left: 20px;
+      background: #fff;
       li {
         position: relative;
         height: 47px;
