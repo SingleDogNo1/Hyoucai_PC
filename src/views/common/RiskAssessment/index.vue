@@ -330,16 +330,9 @@ export default {
         authorization: this.authorization,
         evaluatingResult: this.resultType
       }
-      saveEvaluatingResultApi(data).then(res => {
-        // let resp = res.data
-        // if (resp.resultCode === '1') {
-        //   this.preventCircle = false // 保存结果后，置false，结束循环调用
-        //   this.getBasicInfo()
-        // } else {
-        //   Toast(resp.resultMsg)
-        // }
-        console.log(res)
-      })
+      if (this.isColor) {
+        saveEvaluatingResultApi(data).then(res => {})
+      }
     }
   }
 }
