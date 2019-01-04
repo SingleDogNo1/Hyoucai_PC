@@ -237,6 +237,7 @@ export default {
     border: 1px solid #ccc;
     border-top: 4px solid rgba(255, 176, 26, 1);
     padding: 10px 36px;
+    background: #fff;
     .title-wrap {
       width: 100%;
       font-size: $font-size-small-s;
@@ -303,6 +304,7 @@ export default {
     border: 1px solid #ccc;
     border-top: none;
     padding: 0 30px;
+    background: #fff;
     a {
       display: flex;
       width: 50%;

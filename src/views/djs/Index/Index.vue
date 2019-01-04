@@ -222,6 +222,14 @@
         </li>
       </ul>
     </div>
+    <div class="activity-pop" v-if="isShowActivityPop">
+      <div class="content">
+        <i @click="closePop" class="el-icon-circle-close-outline"></i>
+        <div class="activity-img">
+          <button class="btn-to-investment">去投资</button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -235,7 +243,8 @@ export default {
       count1: 'count1',
       count2: 'count2',
       count3: 'count3',
-      count4: 'count4'
+      count4: 'count4',
+      isShowActivityPop: false
     }
   },
   components: {
@@ -272,6 +281,9 @@ export default {
           loop: true
         })
       }, 200)
+    },
+    closePop() {
+      this.isShowActivityPop = false
     }
   },
   mounted() {
@@ -331,6 +343,7 @@ export default {
     width: 100%;
     height: 49px;
     border-bottom: 1px solid #ebebeb;
+    background: #fff;
     .notice-box {
       display: flex;
       line-height: 50px;
@@ -350,7 +363,7 @@ export default {
           display: inline-block;
           width: 320px;
           height: 100%;
-          line-height: 50px;
+          line-height: 49px;
           margin-right: 10px;
           span {
             font-size: $font-size-small-ss;
@@ -409,14 +422,15 @@ export default {
     }
   }
   .introduction-wrap {
-    width: 1140px;
-    height: 52px;
-    margin: 0 auto;
-    margin-top: 40px;
-    padding: 0 27px;
+    width: 100%;
+    padding-top: 40px;
+    background: #fff;
     ul {
+      height: 52px;
+      padding: 0 27px;
+      width: 1140px;
       display: flex;
-      width: 100%;
+      margin: 0 auto;
       li {
         display: flex;
         width: 232px;
@@ -462,11 +476,10 @@ export default {
     }
   }
   .lend-data-wrap {
-    width: 1140px;
+    width: 100%;
     margin: 0 auto;
-    margin-top: 70px;
-    padding: 0 20px;
-    margin-bottom: 50px;
+    padding: 70px 20px 50px 20px;
+    background: #fff;
     img {
       display: block;
       width: 158px;
@@ -474,6 +487,8 @@ export default {
       margin: 0 auto;
     }
     ul {
+      width: 1140px;
+    margin: 0 auto;
       margin-top: 40px;
       li {
         display: inline-block;
@@ -579,7 +594,6 @@ export default {
           }
           .returns {
             display: inline-block;
-            width: 130px;
             margin-top: 18px;
             margin-left: 26px;
             .title {
@@ -763,7 +777,8 @@ export default {
   }
   .partner-wrap {
     padding-top: 60px;
-    margin-bottom: 62px;
+    padding-bottom: 62px;
+    background: #fff;
     img {
       display: block;
       width: 158px;
@@ -781,6 +796,7 @@ export default {
         margin-right: 20px;
         vertical-align: middle;
         text-align: center;
+        margin-bottom: 20px;
         img {
           width: 100%;
           height: 100%;
@@ -796,6 +812,53 @@ export default {
       }
       li:nth-child(5n) {
         margin-right: 0;
+      }
+    }
+  }
+  .activity-pop {
+    position: fixed;
+    z-index: 100000;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    background: rgba(0,0,0,.6);
+    .content {
+      position: fixed;
+      display: table;
+      z-index: 100001;
+      width: 500px;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      margin: auto;
+      text-align: center;
+      border-radius: 3px;
+      overflow: hidden;
+      i {
+        position: absolute;
+        right: 0;
+        top: 0;
+        color: #fff;
+        font-size: 30px;
+      }
+      .activity-img {
+        margin-top: 42px;
+        width: 100%;
+        height: 380px;
+        background: url("./images/bg_banner.png") center center no-repeat;
+        border-radius: 10px;
+        .btn-to-investment {
+          margin-top: 280px;
+          width: 220px;
+          height: 56px;
+          border-radius: 25px;
+          color: #dd2e3d;
+          background: #f8ce55;
+          box-shadow: 0px 5px 1px 1px #f6a04b;
+          font-size: $font-size-large;
+        }
       }
     }
   }

@@ -13,7 +13,9 @@
         <li>
           <dl>
             <dt><img :src="bankCardInfo.iconUrl" alt="" /></dt>
-            <dd><span>{{bankCardInfo.bankName}}</span> <em>{{bankCardInfo.cardNo}}</em></dd>
+            <dd>
+              <span>{{ bankCardInfo.bankName }}</span> <em>{{ bankCardInfo.cardNo }}</em>
+            </dd>
           </dl>
         </li>
       </ul>
@@ -33,20 +35,20 @@
         </li>
         <li>
           <span class="title">&emsp;&emsp;&emsp;<i class="high-light-red">*</i>&nbsp;提现金额</span>
-          <div class="info-wrapper"><input type="number" placeholder="请输入提现金额" @input="amountInput"/> <em class="unit">元</em></div>
+          <div class="info-wrapper"><input type="number" placeholder="请输入提现金额" @input="amountInput" /> <em class="unit">元</em></div>
         </li>
-        <div class="err-msg" v-if="errMsg.amount">{{errMsg.amount}}</div>
+        <div class="err-msg" v-if="errMsg.amount">{{ errMsg.amount }}</div>
         <!--<li>-->
-          <!--<span class="title">&emsp;&emsp;&nbsp;&nbsp;&nbsp;提现手续费</span>-->
-          <!--<span class="text">-->
-            <!--<i class="high-light">{{ fee }}</i> 元</span-->
-          <!--&gt;-->
+        <!--<span class="title">&emsp;&emsp;&nbsp;&nbsp;&nbsp;提现手续费</span>-->
+        <!--<span class="text">-->
+        <!--<i class="high-light">{{ fee }}</i> 元</span-->
+        <!--&gt;-->
         <!--</li>-->
-        <li v-if="largeAmountFlag"><span class="title">&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;银行</span> <span class="text"> 招商银行 </span></li>
+        <li v-if="largeAmountFlag"><span class="title">&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;银行</span> <span class="text"> {{bankCardInfo.bankName}} </span></li>
         <li class="bank-no-wrapper" v-if="largeAmountFlag">
           <span class="title">&emsp;&emsp;&emsp;&emsp;开户行号</span>
           <div class="info-wrapper">
-            <input type="number" placeholder="请输入联行号" v-model="cardBankCnaps"/>
+            <input type="number" placeholder="请输入联行号" v-model="cardBankCnaps" />
             <div class="select" @click.stop="controlShowSelect($event)"><i class="iconfont icon-xiala" id="rotate-arrow"></i></div>
             <em class="bank-no">查不到？<a target="_blank" href="http://www.lianhanghao.com/">联网查询</a></em>
             <el-card class="box-card" v-if="showSelector">
@@ -67,23 +69,23 @@
                 <el-button type="primary" size="medium" @click="getSysBranceBankList(areaCode, bankCardInfo.bankNo, searchVal)">搜索</el-button>
               </div>
               <!--<div class="table-scroll-wrapper">-->
-                <el-scrollbar class="page-component__scroll" id="page-component__scroll">
-                  <el-table :data="bankList" style="width: 100%" @row-click="selectItem">
-                    <el-table-column type="index" label="序号"> </el-table-column>
-                    <el-table-column prop="bankNum" label="联行号"> </el-table-column>
-                    <el-table-column prop="bankName" label="银行名称"> </el-table-column>
-                  </el-table>
-                </el-scrollbar>
+              <el-scrollbar class="page-component__scroll" id="page-component__scroll">
+                <el-table :data="bankList" style="width: 100%" @row-click="selectItem">
+                  <el-table-column type="index" label="序号"> </el-table-column>
+                  <el-table-column prop="bankNum" label="联行号"> </el-table-column>
+                  <el-table-column prop="bankName" label="银行名称"> </el-table-column>
+                </el-table>
+              </el-scrollbar>
               <!--</div>-->
             </el-card>
           </div>
         </li>
-        <div class="err-msg" v-if="errMsg.cardBankCnaps">{{errMsg.cardBankCnaps}}</div>
-        <li><span class="title">&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;</span> <input type="button" value="确认提现" @click="withDraw"/></li>
+        <div class="err-msg" v-if="errMsg.cardBankCnaps">{{ errMsg.cardBankCnaps }}</div>
+        <li><span class="title"></span> <input style="margin-left: 110px;" type="button" value="确认提现" @click="withDraw" /></li>
       </ul>
     </div>
     <div class="tips">
-      <p>温馨提示 </p>
+      <p>温馨提示</p>
       <p>1.江西银行电子交易账户采用同卡进出设置，资金只能提现至您本人充值的银行卡。</p>
       <p>2.实时提现：支持5万（含5万）以下资金提现，实时到账。</p>
       <p>3.大额提现：支持5万以上资金提现，工作日9:00-16:45。到账时间为30分钟左右，依据发卡行不同可能略有差异。</p>
@@ -91,17 +93,31 @@
       <p>5.提现中有任何疑问，可以立即联系点金石客服：021-23099138。</p>
     </div>
     <div class="model" v-if="showSelector" @click.stop="controlShowSelect($event)"></div>
+    <Dialog :show.sync="showDialog" :singleButton="singleButton">
+      <div>
+        {{errMsg.common}}
+      </div>
+    </Dialog>
   </div>
 </template>
 
 <script>
-  import { bankCardQueryApi, getBankUnionNumberUrlApi, sysProvinceListApi, sysCityListApi, sysBankAreaListApi, sysBranceBankListApi, withdrawApi, amountInfoApi } from '@/api/hyc/tocash'
-  import { getUser } from '@/assets/js/cache'
-  import { getAuth, getRetBaseURL, myDOM } from '@/assets/js/utils'
+import {
+  bankCardQueryApi,
+  getBankUnionNumberUrlApi,
+  sysProvinceListApi,
+  sysCityListApi,
+  sysBankAreaListApi,
+  sysBranceBankListApi,
+  withdrawApi,
+  amountInfoApi
+} from '@/api/hyc/tocash'
+import { getUser } from '@/assets/js/cache'
+import { getAuth, getRetBaseURL, myDOM } from '@/assets/js/utils'
+import Dialog from '@/components/Dialog/Dialog'
 export default {
   data() {
     return {
-      text1: '选择银行开户地址',
       amount: null,
       type: 1, // 2：大额， 1: 实时
       largeAmountFlag: false,
@@ -141,8 +157,11 @@ export default {
       authorization: getAuth(),
       errMsg: {
         amount: '',
-        cardBankCnaps: ''
-      }
+        cardBankCnaps: '',
+        common: ''
+      },
+      showDialog: false,
+      singleButton: true
     }
   },
   watch: {
@@ -228,15 +247,15 @@ export default {
         this.errMsg.cardBankCnaps = ''
       }
 
-      let url = getRetBaseURL() + '/mine/basicInfo';
-      let forgetUrl = getRetBaseURL() + '/mine/basicInfo';
+      let url = getRetBaseURL() + '/mine/basicInfo'
+      let forgetUrl = getRetBaseURL() + '/mine/basicInfo'
       let data = {
         txAmount: this.amount,
         routeCode: this.type,
         retUrl: url,
         forgotPwdUrl: forgetUrl,
         platform: 'PC'
-      };
+      }
       if (this.type === 2) {
         data.cardBankCnaps = this.cardBankCnaps
       }
@@ -261,14 +280,16 @@ export default {
       withdrawApi(data).then(res => {
         let data = res.data
         let resultCode = data.resultCode
-        // let resultMsg = data.resultMsg
+        let resultMsg = data.resultMsg
         if (resultCode === '1') {
           let option = data.data.paramReq
           this.postcall(data.data.redirectUrl, option)
         } else {
           // Toast(resultMsg);
+          this.errMsg.common = resultMsg
+          this.showDialog = true
         }
-      });
+      })
     },
     postcall(url, params, target) {
       let tempform = document.createElement('form')
@@ -321,7 +342,7 @@ export default {
         } else {
           // Toast(resultMsg)
         }
-      });
+      })
     },
     getSysBankAreaList(cityCode) {
       sysBankAreaListApi({ cityCode: cityCode }).then(res => {
@@ -340,7 +361,7 @@ export default {
         } else {
           // Toast(resultMsg)
         }
-      });
+      })
     },
     getSysCityList(provinceCode) {
       sysCityListApi({ provinceCode: provinceCode }).then(res => {
@@ -352,20 +373,19 @@ export default {
           if (!this.cityList.length) {
             // Toast('无数据')
             this.cityCode = ''
-            return;
+            return
           } else {
             this.cityCode = this.cityList[0].cityCode
           }
-
         } else {
           // Toast(resultMsg)
         }
-      });
+      })
     },
     getSysProvinceList() {
       sysProvinceListApi().then(res => {
-        let data = res.data;
-        let resultCode = data.resultCode;
+        let data = res.data
+        let resultCode = data.resultCode
         // let resultMsg = data.resultMsg;
         if (resultCode === '1') {
           this.provinceList = data.data.list
@@ -379,7 +399,7 @@ export default {
         } else {
           // Toast(resultMsg)
         }
-      });
+      })
     },
     getBankUnionNumberUrl() {
       getBankUnionNumberUrlApi().then(res => {
@@ -391,7 +411,7 @@ export default {
         } else {
           // Toast(resultMsg)
         }
-      });
+      })
     },
     getBankCardQuery() {
       bankCardQueryApi().then(res => {
@@ -439,13 +459,16 @@ export default {
         return false
       }
       this.errMsg.amount = ''
-    },
+    }
   },
   computed: {
     filterResult() {
       let data = this.bankList.filter(value => new RegExp(this.searchVal, 'i').test(value.name))
       return data
     }
+  },
+  components: {
+    Dialog
   },
   created() {
     this.getBankCardQuery()
@@ -828,6 +851,7 @@ export default {
   }
   .tips {
     margin-left: 20px;
+    margin-bottom: 20px;
     color: $color-text-s;
     font-size: $font-size-small-s;
     line-height: 24px;

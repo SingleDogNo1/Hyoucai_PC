@@ -4,30 +4,52 @@
       <el-tab-pane label="网站公告" name="first">
         <ul class="list">
           <li>
-            <router-link :to="{ name: 'announcementDetail', params: { id: 1 } }">
-              <span class="title">关于汇有财存管系统浏览器兼容性问题的公告</span> <span class="time">2018-12-19</span>
+            <router-link :to="{ name: 'announcementDetail' , params: { id: 1 } }">
+              <span class="title">关于汇有财存管系统浏览器兼容性问题的公告</span>
+              <span class="time">2018-12-19</span>
             </router-link>
           </li>
           <li>
-            <a href="#"> <span class="title">关于汇有财存管系统浏览器兼容性问题的公告</span> <span class="time">2018-12-19</span> </a>
+            <a href="#">
+              <span class="title">关于汇有财存管系统浏览器兼容性问题的公告</span>
+              <span class="time">2018-12-19</span>
+            </a>
           </li>
           <li>
-            <a href="#"> <span class="title">关于汇有财存管系统浏览器兼容性问题的公告</span> <span class="time">2018-12-19</span> </a>
+            <a href="#">
+              <span class="title">关于汇有财存管系统浏览器兼容性问题的公告</span>
+              <span class="time">2018-12-19</span>
+            </a>
           </li>
           <li>
-            <a href="#"> <span class="title">关于汇有财存管系统浏览器兼容性问题的公告</span> <span class="time">2018-12-19</span> </a>
+            <a href="#">
+              <span class="title">关于汇有财存管系统浏览器兼容性问题的公告</span>
+              <span class="time">2018-12-19</span>
+            </a>
           </li>
           <li>
-            <a href="#"> <span class="title">关于汇有财存管系统浏览器兼容性问题的公告</span> <span class="time">2018-12-19</span> </a>
+            <a href="#">
+              <span class="title">关于汇有财存管系统浏览器兼容性问题的公告</span>
+              <span class="time">2018-12-19</span>
+            </a>
           </li>
           <li>
-            <a href="#"> <span class="title">关于汇有财存管系统浏览器兼容性问题的公告</span> <span class="time">2018-12-19</span> </a>
+            <a href="#">
+              <span class="title">关于汇有财存管系统浏览器兼容性问题的公告</span>
+              <span class="time">2018-12-19</span>
+            </a>
           </li>
           <li>
-            <a href="#"> <span class="title">关于汇有财存管系统浏览器兼容性问题的公告</span> <span class="time">2018-12-19</span> </a>
+            <a href="#">
+              <span class="title">关于汇有财存管系统浏览器兼容性问题的公告</span>
+              <span class="time">2018-12-19</span>
+            </a>
           </li>
           <li>
-            <a href="#"> <span class="title">关于汇有财存管系统浏览器兼容性问题的公告</span> <span class="time">2018-12-19</span> </a>
+            <a href="#">
+              <span class="title">关于汇有财存管系统浏览器兼容性问题的公告</span>
+              <span class="time">2018-12-19</span>
+            </a>
           </li>
         </ul>
       </el-tab-pane>
@@ -35,8 +57,8 @@
       <el-tab-pane label="媒体报道" name="third">媒体报道</el-tab-pane>
     </el-tabs>
     <div class="pagination-wrapper">
-      <pagination :total-count="total" :size-val="size" :page-val="page" @handleCurrentChange="handleCurrentChange"></pagination>
-    </div>
+        <pagination :total-count="total" :size-val="size" :page-val="page" @handleCurrentChange="handleCurrentChange"></pagination>
+      </div>
   </div>
 </template>
 
@@ -90,6 +112,7 @@ export default {
       margin-top: 5px;
       border: 1px solid #e3e3e3;
       padding-left: 20px;
+      background: #fff;
       li {
         position: relative;
         height: 47px;

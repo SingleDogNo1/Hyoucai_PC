@@ -329,7 +329,7 @@ export default {
       //   }
       // });
     },
-    getSysBankAreaList(cityCode) {
+    getSysBankAreaList() {
       // api.sysBankAreaListApi({ cityCode: cityCode }).then(res => {
       //   let data = res.data;
       //   let resultCode = data.resultCode;
@@ -358,7 +358,7 @@ export default {
       //   }
       // });
     },
-    getSysCityList(provinceCode) {
+    getSysCityList() {
       // api.sysCityListApi({ provinceCode: provinceCode }).then(res => {
       //   let data = res.data;
       //   let resultCode = data.resultCode;
