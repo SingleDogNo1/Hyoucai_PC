@@ -54,12 +54,9 @@ export default {
   methods: {
     handleChange() {},
     getQueryQAType() {
-      queryQAType().then(res => {
-        let data = res.data
-        this.QAList = data.list
-        this.current = this.QAList[0].dicCode
-        this.clickItem(this.current)
-      })
+      this.QAList = JSON.parse(localStorage.getItem('QAList'))
+      this.current = this.QAList[0].dicCode
+      this.clickItem(this.current)
     },
     queryQuestionAnswer(data) {
       queryQuestionAnswer(data).then(res => {

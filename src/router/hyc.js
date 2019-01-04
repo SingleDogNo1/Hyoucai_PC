@@ -8,9 +8,15 @@ Vue.use(Router)
 export default new Router({
   routes: [
     {
-      path: '/index',
-      name: 'index',
-      component: Layout
+      path: '/',
+      component: Layout,
+      children: [
+        {
+          path: '',
+          name: 'index',
+          component: () => import('@/views/hyc/Index/Index')
+        }
+      ]
     },
     {
       path: '/borrow',

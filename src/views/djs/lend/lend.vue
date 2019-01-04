@@ -125,7 +125,7 @@ export default {
         this.incomeCount = result.accumulativeProfitAmtSum
         this.todayCount = result.invTodayAmt
         this.list = result.investsList
-        this.total = parseInt(result.countPage)
+        this.total = parseInt(result.countPage) * this.size
         this.page = parseInt(result.curPage)
         console.log(this.lendCount)
       })

@@ -1,6 +1,6 @@
 <template>
   <div class="pagination">
-    <el-pagination background layout="prev, pager, next" :total="count" :page-size="size" :current-page="page" @current-change="handleCurrentChange">
+    <el-pagination background layout="prev, pager, next" :total="totalCount" :page-size="sizeVal" :current-page="pageVal" @current-change="handleCurrentChange">
     </el-pagination>
   </div>
 </template>
@@ -36,7 +36,12 @@ export default {
     }
   },
   created() {},
-  mounted() {}
+  mounted() {},
+  watch: {
+    page: function(val, oldVal) {
+      console.log('val===', val)
+		}
+  }
 }
 </script>
 
