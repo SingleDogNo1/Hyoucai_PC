@@ -1,5 +1,14 @@
 <template>
-  <div class="Dialog">
+  <div class="Dialog" v-if="show">
+    <header v-if="showTitle">{{title}}</header>
+    <slot></slot>
+    <footer class="single" v-if="singleButton">
+      <el-button @click="cancelItem">{{cancelText}}</el-button>
+    </footer>
+    <footer v-else>
+      <el-button type="primary" @click="confirmItem">{{confirmText}}</el-button>
+      <el-button @click="cancelItem">{{cancelText}}</el-button>
+    </footer>
   </div>
 </template>
 
@@ -7,19 +16,56 @@
 export default {
   name: 'Dialog',
   mixins: [],
-  components: {},
-  data() {
-    return {
-      msg: 'Dialog'
+  props: {
+    // 是否显示弹框
+    show: {
+      type: Boolean,
+      default: false
+    },
+    // 标题文字
+    title: {
+      type: String,
+      default: '汇有财温馨提示'
+    },
+    // 是否显示标题
+    showTitle: {
+      type: Boolean,
+      default: true
+    },
+    // 确认按钮文字
+    confirmText: {
+      type: String,
+      default: '确定'
+    },
+    // 取消按钮文字
+    cancelText: {
+      type: String,
+      default: '取消'
+    },
+    // 是否只显示一个按钮 (如果是就只显示取消)
+    singleButton: {
+      type: Boolean,
+      default: false
+    },
+    // 点击确定执行的函数
+    onConfirm: {
+      type: Function
+    },
+    // 点击取消执行的函数
+    onClose: {
+      type: Function
     }
   },
-  props: {},
-  watch: {},
-  methods: {},
-  computed: {},
-  created() {},
-  mounted() {},
-  destroyed() {}
+  methods: {
+    confirmItem() {
+      this.onConfirm()
+      this.$emit('update:show', false)
+    },
+    cancelItem() {
+      this.onClose()
+      this.$emit('update:show', false)
+    }
+  }
 }
 </script>
 
@@ -28,10 +74,33 @@ export default {
 @import '../../assets/css/mixins';
 
 .Dialog {
-  @include cube(500px, 200px);
-  background: #000;
-  margin-top: 50%;
-  margin-left: 50%;
+  padding: 30px 70px;
+  position: fixed;
+  width: 500px;
+  top: 50%;
+  left: 50%;
   transform: translate3d(-50%, -50%, 0);
+  background: #fff;
+  box-shadow: 2px 2px 10px 0 #cdcdcd;
+  border-radius: 6px;
+  border: 1px solid #e3e3e3;
+  header {
+    height: 34px;
+    line-height: 34px;
+    font-size: $font-size-large-x;
+    color: $color-text;
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  footer {
+    display: flex;
+    justify-content: space-between;
+    &.single {
+      justify-content: center;
+    }
+    button {
+      @include cube(160px, 44px);
+    }
+  }
 }
 </style>

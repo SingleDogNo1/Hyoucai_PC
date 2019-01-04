@@ -10,6 +10,16 @@
       <el-button type="warning">提现</el-button>
     </div>
     <div class="amount" id="amount"></div>
+
+    <appDialog
+      :show.sync="dialogOptions.show"
+      :onConfirm="onConfirm"
+      :onClose="onClose"
+    >
+      <div>
+        hello, dialog
+      </div>
+    </appDialog>
   </div>
 </template>
 
@@ -23,14 +33,19 @@ import 'echarts/lib/component/graphic'
 
 import api from '@/api/hyc/Mine/overview'
 import { mapGetters } from 'vuex'
+import appDialog from '@/components/Dialog/Dialog'
 
 export default {
   name: 'overview',
   mixins: [],
-  components: {},
+  components: {
+    appDialog
+  },
   data() {
     return {
-      msg: 'overview',
+      dialogOptions: {
+        show: false
+      },
       amountInfo: {},
       totalIncomeBig: 0,
       totalIncomeSmall: 0
@@ -39,11 +54,19 @@ export default {
   computed: {
     ...mapGetters(['user'])
   },
-  methods: {},
+  methods: {
+    onConfirm() {
+      console.log('onConfirm')
+    },
+    onClose() {
+      console.log('onClose')
+    }
+  },
   mounted() {
     const $this = this
     async function initPage() {
       const myChart = echarts.init(document.getElementById('amount'))
+
       await api
         .getUserBasicInfo({
           userName: $this.user.userName
@@ -51,12 +74,14 @@ export default {
         .then(res => {
           console.log(res)
         })
+
       await api.getAmountInfo().then(res => {
         const totalIncome = res.data.data.totalIncome
         $this.amountInfo = res.data.data
         $this.totalIncomeBig = totalIncome.split('.')[0]
         $this.totalIncomeSmall = totalIncome.split('.')[1]
       })
+
       await myChart.setOption({
         tooltip: {
           trigger: 'item',
