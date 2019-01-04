@@ -1,4 +1,4 @@
-import { getUser, setUser, getUserBasicInfo, setUserBasicInfo } from '@/assets/js/cache'
+import { getUser, setUser, removeUser, getUserBasicInfo, setUserBasicInfo, removeUserBasicInfo } from '@/assets/js/cache'
 const user = {
   state: {
     user: getUser(),
@@ -16,7 +16,14 @@ const user = {
     }
   },
 
-  actions: {}
+  actions: {
+    logout: ({ commit }) => {
+      commit('SET_USER', '')
+      commit('SET_USERBASICINFO', '')
+      removeUser()
+      removeUserBasicInfo()
+    }
+  }
 }
 
 export default user

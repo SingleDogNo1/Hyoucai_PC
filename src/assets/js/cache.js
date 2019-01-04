@@ -5,7 +5,7 @@ export function getToken() {
 }
 
 export function setToken(token) {
-  return Cookies.set('token', token)
+  Cookies.set('token', token)
 }
 
 export function getUser() {
@@ -13,7 +13,11 @@ export function getUser() {
 }
 
 export function setUser(user) {
-  return Cookies.set('user', user)
+  Cookies.set('user', user)
+}
+
+export function removeUser() {
+  Cookies.remove('user')
 }
 
 export function getUserBasicInfo() {
@@ -21,7 +25,11 @@ export function getUserBasicInfo() {
 }
 
 export function setUserBasicInfo(info) {
-  return Cookies.set('userBasicInfo', info)
+  Cookies.set('userBasicInfo', info)
+}
+
+export function removeUserBasicInfo() {
+  Cookies.remove('userBasicInfo')
 }
 
 export function getRegisterMobile() {
@@ -29,5 +37,21 @@ export function getRegisterMobile() {
 }
 
 export function setRegisterMobile(mobile) {
-  return Cookies.set('registerMobile', mobile)
+  Cookies.set('registerMobile', mobile)
+}
+
+export function getErrorNum() {
+  return Cookies.getJSON('errorNum')
+}
+
+export function setErrorNum(errorNum) {
+  Cookies.set('errorNum', errorNum)
+}
+
+export function setLoginUsername(username) {
+  Cookies.set('loginUsername', username)
+}
+
+export function getLoginUsername() {
+  return Cookies.get('loginUsername')
 }

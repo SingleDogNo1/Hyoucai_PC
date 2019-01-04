@@ -65,6 +65,11 @@ export default new Router({
           path: '',
           name: 'forgetPWD',
           component: () => import(/* webpackChunkName: "register" */ '@/views/common/login/forgetPassword.vue')
+        },
+        {
+          path: 'resetResult',
+          name: 'resetResult',
+          component: () => import(/* webpackChunkName: "register" */ '@/views/common/login/resetResult.vue')
         }
       ]
     },
