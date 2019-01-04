@@ -218,6 +218,28 @@ export default new Router({
       ]
     },
     {
+      path: '/download',
+      component: Layout,
+      children: [
+        {
+          path: '',
+          name: 'download',
+          component: () => import(/* webpackChunkName: "register" */ '@/views/common/download/index.vue')
+        }
+      ]
+    },
+    {
+      path: '/account',
+      component: Layout,
+      children: [
+        {
+          path: '',
+          name: 'account',
+          component: () => import(/* webpackChunkName: "register" */ '@/views/common/openAccount/index.vue')
+        }
+      ]
+    },
+    {
       path: '/', // 我要出借
       component: Layout,
       children: [

@@ -5,21 +5,18 @@
 </template>
 
 <script>
-export default {
-
-}
+export default {}
 </script>
 
 <style lang="scss" scoped>
-  .info-disclosure {
-    .bg-header {
-      width: 100%;
-      height: 200px;
-      background: url("./images/bg_header.png") center center no-repeat;
-      h3 {
-        width: 184px;
-      }
+.info-disclosure {
+  .bg-header {
+    width: 100%;
+    height: 200px;
+    background: url('./images/bg_header.png') center center no-repeat;
+    h3 {
+      width: 184px;
     }
   }
+}
 </style>
-

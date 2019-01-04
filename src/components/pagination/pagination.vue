@@ -38,9 +38,9 @@ export default {
   created() {},
   mounted() {},
   watch: {
-    page: function(val, oldVal) {
+    page: function(val) {
       console.log('val===', val)
-		}
+    }
   }
 }
 </script>

@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import { queryQAType, queryQuestionAnswer } from '@/api/djs/helpCenter'
+import { queryQuestionAnswer } from '@/api/djs/helpCenter'
 export default {
   data() {
     return {

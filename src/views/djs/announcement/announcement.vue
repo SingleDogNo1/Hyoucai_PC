@@ -97,7 +97,7 @@ export default {
       getList(postData).then(res => {
         let data = res.data
         this.list = data.zxdtMtbdlist
-        this.list.forEach((val, index) => {
+        this.list.forEach(val => {
           val.createTime = moment(val.createTime).format('YYYY-MM-DD')
         })
         this.total = parseInt(data.countPage) * this.size
