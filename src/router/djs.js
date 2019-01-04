@@ -135,17 +135,17 @@ export default new Router({
       children: [
         {
           path: '',
-          component: () => import(/* webpackChunkName: "announcement" */ '@/views/common/announcement/index.vue'),
+          component: () => import(/* webpackChunkName: "announcement" */ '@/views/djs/announcement/index.vue'),
           children: [
             {
               path: '/',
               name: 'announcement',
-              component: () => import(/* webpackChunkName: "announcementIndex" */ '@/views/common/announcement/announcement.vue')
+              component: () => import(/* webpackChunkName: "announcementIndex" */ '@/views/djs/announcement/announcement.vue')
             },
             {
               path: ':id',
               name: 'announcementDetail',
-              component: () => import(/* webpackChunkName: "announcementDetail" */ '@/views/common/announcement/detail.vue')
+              component: () => import(/* webpackChunkName: "announcementDetail" */ '@/views/djs/announcement/detail.vue')
             }
           ]
         }
@@ -242,6 +242,17 @@ export default new Router({
           path: 'riskAss',
           name: 'riskAss',
           component: () => import(/* webpackChunkName: "riskAss" */ '@/views/common/RiskAssessment/index.vue')
+        }
+      ]
+    },
+    {
+      path: '/', // 信息披露
+      component: Layout,
+      children: [
+        {
+          path: 'infoDisclosure',
+          name: 'infoDisclosure',
+          component: () => import(/* webpackChunkName: "infoDisclosure" */ '@/views/djs/infoDisclosure/index.vue')
         }
       ]
     }

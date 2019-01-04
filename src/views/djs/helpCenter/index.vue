@@ -7,49 +7,82 @@
           <span class="title">帮助中心</span>
         </p>
         <ul class="nav-list">
-          <li>常见问题</li>
-          <li>安全措施</li>
-          <li>项目介绍</li>
-          <li>平台特色</li>
-          <li>网站操作</li>
+          <li
+            v-for="(item, index) in QAList"
+            :key="index"
+            @click="clickItem(item.dicCode)"
+            :class="{ 'on': current === item.dicCode }"
+          >{{item.dicName}}</li>
         </ul>
       </div>
       <div class="content-wrap">
         <p class="title">常见问题</p>
-        <el-collapse
-          v-model="activeNames"
-          @change="handleChange"
-        >
-          <el-collapse-item :name="index+1" v-for="(item, index) in list" :key="index">
+        <el-collapse v-model="activeNames" @change="handleChange">
+          <el-collapse-item :name="index + 1" v-for="(item, index) in QAContentList" :key="index">
             <template slot="title">
               <div class="header-wrap">
                 <i class="header-icon icon-question"></i>
-                <span class="text">一致性 Consistency</span>
+                <span class="text">{{item.question}}</span>
               </div>
             </template>
             <div class="answer-wrap">
               <i class="icon-answer"></i>
-              <p
-                class="answer-content"
-              >e2e2e2e2e2e2e2ee2e2e2e2e2e2e2ee2e2e2e2e2e2e2ee2e2e2e2e2e2e2ee2e2e2e2e2e2e2ee2e2e2e2e2e2e2ee2e2e2e2e2e2e2ee2e2e2e2e2e2e2ee2e2e2e2e2e2e2ee2e2e2e2e2e2e2ee2e2e2e2e2e2e2ee2e2e2e2e2e2e2ee2e2e2e2e2e2e2ee2e2e2e2e2e2e2ee2e2e2e2e2e2e2ee2e2e2e2e2e2e2ee2e2e2e2e2e2e2ee2e2e2e2e2e2e2ee2e2e2e2e2e2e2ee2e2e2e2e2e2e2ee2e2e2e2e2e2e2ee2e2e2e2e2e2e2ee2e2e2e2e2e2e2ee2e2e2e2e2e2e2e</p>
+              <p class="answer-content" v-html="item.answer"></p>
             </div>
           </el-collapse-item>
         </el-collapse>
       </div>
     </div>
+    <div class="activity-popup"></div>
   </div>
 </template>
 
 <script>
+import { queryQuestionAnswer } from '@/api/djs/helpCenter'
 export default {
   data() {
     return {
+      current: '',
       activeNames: '1',
-      list: [1, 2, 3]
+      QAList: [],
+      QAContentList: [],
+      helpCode: '',
+      curPage: '1',
+      maxLine: '10'
     }
   },
   methods: {
-    handleChange() {}
+    handleChange() {},
+    getQueryQAType() {
+      this.QAList = JSON.parse(localStorage.getItem('QAList'))
+      this.current = this.QAList[0].dicCode
+      this.clickItem(this.current)
+    },
+    queryQuestionAnswer(data) {
+      queryQuestionAnswer(data).then(res => {
+        let data = res.data
+        this.QAContentList = data.list
+      })
+    },
+    clickItem(dicCode) {
+      this.current = dicCode
+      let postData = {
+        helpCode: dicCode,
+        curPage: this.curPage,
+        maxLine: this.maxLine
+      }
+      this.queryQuestionAnswer(postData)
+    }
+  },
+  mounted() {
+    this.getQueryQAType()
+  },
+  watch: {
+    $route() {
+      // 刷新参数放到这里里面去触发就可以刷新相同界面了
+      this.current = this.$route.query.helpCode
+      this.clickItem(this.current)
+    }
   }
 }
 </script>
@@ -75,6 +108,7 @@ export default {
         height: 72px;
         line-height: 72px;
         display: flex;
+        border-bottom: 1px solid rgba(235, 235, 235, 1);
         .icon-help {
           display: inline-block;
           font-size: 26px;
@@ -197,5 +231,15 @@ export default {
       }
     }
   }
+  // .activity-popup {
+  //   position: fixed;
+  //   z-index: 1000;
+  //   top: 0;
+  //   right: 0;
+  //   left: 0;
+  //   bottom: 0;
+  //   width: 500px;
+  //   height: 380px;
+  // }
 }
 </style>

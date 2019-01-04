@@ -137,7 +137,11 @@
             <div class="label-wrap">
               <img src="./images/icon_new.png">
               <span class="title">{{item.projectName}} {{item.projectNo}}</span>
-              <span class="label" v-for="( tagItem, index ) in item.tags" :key="index">{{tagItem.tagName}}</span>
+              <span
+                class="label"
+                v-for="( tagItem, index ) in item.tags"
+                :key="index"
+              >{{tagItem.tagName}}</span>
             </div>
             <div class="returns">
               <p class="title">
@@ -273,8 +277,8 @@
 import Swiper from 'swiper/dist/js/swiper'
 import CountUp from '@/components/countUp/index'
 import LoginForm from '@/components/loginForm'
-import { getBanner, getOperateData, getQualityList } from '@/api/djs/index'
-import { getList } from '@/api/djs/announcement'
+import { getBanner, getOperateData, getQualityList } from '@/api/hyc/index'
+import { getList } from '@/api/hyc/announcement'
 export default {
   data() {
     return {
@@ -305,9 +309,10 @@ export default {
         bannerType: 'PCBN'
       }
       getBanner(postData).then(res => {
-        let data = res.data
+        let data = res.data.data
         if (data.resultCode === '1') {
           this.bannerList = data.bannelList
+          console.log(this.bannerList)
           setTimeout(() => {
             this.swiperBanner = new Swiper('.swiper-container-banner', {
               lazy: {
@@ -399,7 +404,7 @@ export default {
     },
     getOperateData() {
       getOperateData().then(res => {
-        let data = res.data
+        let data = res.data.data
         function toDecimal2(x) {
           var f = Math.round(x * 100) / 100
           var s = f.toString()
@@ -423,9 +428,11 @@ export default {
       getQualityList().then(res => {
         let data = res.data
         this.noviceProjectList = data.noviceProjectList
-        this.noviceProjectList.forEach(val => {
-          val.investMent = val.investMent.substr(0, val.investMent.length - 1)
-        })
+        if (this.noviceProjectList) {
+          this.noviceProjectList.forEach(val => {
+            val.investMent = val.investMent.substr(0, val.investMent.length - 1)
+          })
+        }
         this.popularProjectList = data.popularProjectList
         console.log('this.popularProjectList===', this.popularProjectList)
       })

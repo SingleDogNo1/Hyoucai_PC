@@ -8,9 +8,15 @@ Vue.use(Router)
 export default new Router({
   routes: [
     {
-      path: '/index',
-      name: 'index',
-      component: Layout
+      path: '/',
+      component: Layout,
+      children: [
+        {
+          path: '',
+          name: 'index',
+          component: () => import('@/views/hyc/Index/Index')
+        }
+      ]
     },
     {
       path: '/borrow',
@@ -116,7 +122,20 @@ export default new Router({
             {
               path: 'lend', // 我的出借
               name: 'userLend',
-              component: () => import('@/views/djs/Mine/lend/lend')
+              redirect: 'lend/qst',
+              component: () => import('@/views/hyc/Mine/lend/lend'),
+              children: [
+                {
+                  path: 'qst',
+                  name: 'QST',
+                  component: () => import('@/views/hyc/Mine/JHB/JHB')
+                },
+                {
+                  path: 'zxt',
+                  name: 'ZXT',
+                  component: () => import('@/views/hyc/Mine/SB/SB')
+                }
+              ]
             },
             {
               path: 'record', // 交易记录
