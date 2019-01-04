@@ -12,7 +12,7 @@ service.interceptors.request.use(
   config => {
     let authorization = getAuth()
     if (authorization) {
-      config.headers['Authorization'] = authorization
+      config.headers['authorization'] = authorization
     }
     return config
   },

@@ -29,3 +29,15 @@ export function getSmsCode(data) {
     data: qs.stringify(data)
   })
 }
+
+export function userRegister(data) {
+  return request({
+    url: '/UserRegister',
+    method: 'post',
+    headers: {
+      'Content-type': 'application/x-www-form-urlencoded',
+      version: '2.0'
+    },
+    data: qs.stringify(data)
+  })
+}
