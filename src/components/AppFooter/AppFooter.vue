@@ -66,14 +66,9 @@
     </ul>
     <div class="btm">
       <ul class="partner">
-        <li>zheshi01</li>
-        <li>zheshi02</li>
-        <li>zheshi03</li>
-        <li>zheshi04</li>
-        <li>zheshi05</li>
-        <li>zheshi06</li>
-        <li>zheshi07</li>
-        <li>zheshi08</li>
+        <li v-for="(item, index) in friendLinks" :key="index">
+          <a :href="item.fsLink">{{item.fsTitle}}</a>
+        </li>
       </ul>
       <div class="copyright">
         <span>&copy;</span>
@@ -119,16 +114,13 @@
         </a>
       </div>
     </div>
-    <ul class="right-slide">
-      <li></li>
-      <li></li>
-      <li></li>
-    </ul>
   </footer>
 </template>
 
 <script>
 import { queryQAType } from '@/api/djs/helpCenter'
+import { getFriendLink } from '@/api/common/footer'
+
 export default {
   name: 'AppFooter',
   mixins: [],
@@ -137,7 +129,8 @@ export default {
     return {
       IOSCodeFlag: false,
       AndCodeFlag: false,
-      QAList: []
+      QAList: [],
+      friendLinks: []
     }
   },
   methods: {
@@ -162,6 +155,9 @@ export default {
   },
   mounted() {
     this.getQueryQAType()
+    getFriendLink().then(res => {
+      this.friendLinks = res.data.friendLinks
+    })
   }
 }
 </script>
@@ -244,9 +240,12 @@ export default {
         padding: 0 18px;
         border-right: 1px solid #9b9b9b;
         font-size: $font-size-small-s;
-        transition: all 0.3s ease;
-        &:hover {
-          color: $color-theme;
+        a {
+          transition: all 0.3s ease;
+          color: #fff;
+          &:hover {
+            color: $color-theme;
+          }
         }
         &:last-child {
           border: none;

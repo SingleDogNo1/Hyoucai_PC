@@ -26,6 +26,11 @@ export default new Router({
           path: 'borrow',
           name: 'borrow',
           component: () => import('@/views/common/Borrow/Borrow')
+        },
+        {
+          path: 'safety',
+          name: 'safety',
+          component: () => import('@/views/common/SafetyMeasures/index')
         }
       ]
     },
@@ -34,9 +39,9 @@ export default new Router({
       component: Layout,
       children: [
         {
-          path: 'caculator',
-          name: 'caculator',
-          component: () => import(/* webpackChunkName: "caculator" */ '@/views/djs/caculator/caculator.vue')
+          path: 'calculator',
+          name: 'calculator',
+          component: () => import(/* webpackChunkName: "calculator" */ '@/views/djs/calculator/calculator.vue')
         }
       ]
     },
@@ -114,6 +119,11 @@ export default new Router({
               path: 'charge', // 充值
               name: 'charge',
               component: () => import(/* webpackChunkName: "record" */ '@/views/djs/charge/charge.vue')
+            },
+            {
+              path: 'tocash', // 提现
+              name: 'tocash',
+              component: () => import(/* webpackChunkName: "tocash" */ '@/views/djs/toCash/toCash.vue')
             }
           ]
         }
@@ -199,6 +209,17 @@ export default new Router({
           path: 'helpCenter',
           name: 'helpCenter',
           component: () => import(/* webpackChunkName: "helpCenter" */ '@/views/djs/helpCenter/index.vue')
+        }
+      ]
+    },
+    {
+      path: '/', // 我要出借
+      component: Layout,
+      children: [
+        {
+          path: 'riskAss',
+          name: 'riskAss',
+          component: () => import(/* webpackChunkName: "riskAss" */ '@/views/common/RiskAssessment/index.vue')
         }
       ]
     }

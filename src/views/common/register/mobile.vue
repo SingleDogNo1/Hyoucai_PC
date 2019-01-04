@@ -7,6 +7,9 @@
             <i class="iconfont icon-user"></i>
             <input type="tel" v-model="mobile" placeholder="请输入手机号">
           </div>
+          <div class="error-msg" v-if="errorMsg">
+            <span>{{ errorMsg }}</span>
+          </div>
           <el-button type="primary" @click="nextStep">下一步</el-button>
           <p class="agreement-tip">
             <i class="iconfont" :class="{'icon-choose': !agree, 'icon-check': agree }" @click="agree = !agree"></i>
@@ -21,19 +24,43 @@
 
 <script>
 import { isExistUser } from '@/api/common/register'
+import { isMobile } from '@/assets/js/regular'
+import { mapMutations } from 'vuex'
+
 export default {
   name: 'mobile',
   data() {
     return {
       agree: true,
-      mobile: ''
+      mobile: '',
+      errorMsg: ''
+    }
+  },
+  watch: {
+    mobile(newVal) {
+      if (newVal === '') {
+        this.errorMsg = ''
+      }
     }
   },
   methods: {
     nextStep() {
-      isExistUser(this.mobile)
-      //this.$router.push({ name: 'registerForm' })
-    }
+      if (!isMobile(this.mobile)) {
+        this.errorMsg = '请输入正确的手机号!!'
+        return false
+      }
+      isExistUser({ mobile: this.mobile }).then(res => {
+        if (res.data.data.isExistUser === '1') {
+          this.errorMsg = '该手机号已经存在!!'
+        } else {
+          this.setRegisterMobile(this.mobile)
+          this.$router.push({ name: 'registerForm' })
+        }
+      })
+    },
+    ...mapMutations({
+      setRegisterMobile: 'SET_REGISTER_MOBILE'
+    })
   }
 }
 </script>
@@ -99,6 +126,17 @@ export default {
             border-color: #fb7b1f;
           }
         }
+      }
+      .error-msg {
+        margin-top: 10px;
+        width: 320px;
+        padding: 10px;
+        border: 1px solid #e84518;
+        background: #ffe5e5;
+        color: #e84518;
+        border-radius: 5px;
+        font-size: 12px;
+        text-align: left;
       }
       button {
         margin-top: 30px;
