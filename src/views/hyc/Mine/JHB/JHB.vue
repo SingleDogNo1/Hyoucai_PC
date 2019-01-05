@@ -21,36 +21,21 @@
         <th>申请时间</th>
         </thead>
         <tbody>
-        <tr>
-          <td>汇选(6个月)13242234</td>
-          <td>1000.00</td>
-          <td>8.0%</td>
-          <td>2017-05-18 13:24</td>
-        </tr>
-        <tr>
-          <td>汇选(6个月)13242234</td>
-          <td>1000.00</td>
-          <td>8.0%</td>
-          <td>2017-05-18 13:24</td>
-        </tr>
-        <tr>
-          <td>汇选(6个月)13242234</td>
-          <td>1000.00</td>
-          <td>8.0%</td>
-          <td>2017-05-18 13:24</td>
-        </tr>
-        <tr>
-          <td>汇选(6个月)13242234</td>
-          <td>1000.00</td>
-          <td>8.0%</td>
-          <td>2017-05-18 13:24</td>
+        <tr
+          v-for="(item, index) in invList"
+          :key="index"
+        >
+          <td>{{item.itemName && item.productName ? item.itemName : item.productName}}</td>
+          <td>{{item.applyAmount}}</td>
+          <td>{{item.yearRate}}</td>
+          <td>{{item.invDate}}</td>
         </tr>
         </tbody>
       </table>
       <!-- 出借中 -->
       <table cellspacing="0" v-if="invList.length > 0 && status[statusIndex].statusCode === 'JHB_TZZ'">
         <thead>
-        <th style="width: 150px;">项目名称</th>
+        <th style="width: 160px;">项目名称</th>
         <th style="width: 140px;">出借本金（元）</th>
         <th style="width: 170px;">历史平均年化收益率（元）</th>
         <th style="width: 120px;">利息（元）</th>
@@ -62,7 +47,7 @@
           v-for="(item, index) in invList"
           :key="index"
         >
-          <td>{{item.productName}}</td>
+          <td>{{item.itemName && item.productName ? item.itemName : item.productName}}</td>
           <td>{{item.invAmount}}</td>
           <td>{{item.yearRate}}</td>
           <td>
@@ -74,7 +59,7 @@
             <span>-</span>
             <p>{{item.interestEndDate}}</p>
           </td>
-          <td>查看</td>
+          <td style="cursor:pointer;" @click="showLendDetail(item.id)">查看</td>
         </tr>
         </tbody>
       </table>
@@ -82,34 +67,28 @@
       <table cellspacing="0" v-if="invList.length > 0 && status[statusIndex].statusCode === 'JHB_YJQ'">
         <thead>
         <th>项目名称</th>
-        <th>申请本金（元）</th>
+        <th>返还本金（元）</th>
         <th>历史平均年化收益率（元）</th>
-        <th>申请时间</th>
+        <th>获得收益（元）</th>
+        <th>锁定期</th>
         </thead>
         <tbody>
-        <tr>
-          <td>汇选(6个月)13242234</td>
-          <td>1000.00</td>
-          <td>8.0%</td>
-          <td>2017-05-18 13:24</td>
-        </tr>
-        <tr>
-          <td>汇选(6个月)13242234</td>
-          <td>1000.00</td>
-          <td>8.0%</td>
-          <td>2017-05-18 13:24</td>
-        </tr>
-        <tr>
-          <td>汇选(6个月)13242234</td>
-          <td>1000.00</td>
-          <td>8.0%</td>
-          <td>2017-05-18 13:24</td>
-        </tr>
-        <tr>
-          <td>汇选(6个月)13242234</td>
-          <td>1000.00</td>
-          <td>8.0%</td>
-          <td>2017-05-18 13:24</td>
+        <tr
+          v-for="(item, index) in invList"
+          :key="index"
+        >
+          <td>{{item.itemName && item.productName ? item.itemName : item.productName}}</td>
+          <td>{{item.returnAmount}}</td>
+          <td>{{item.yearRate}}</td>
+          <td>
+            <p v-if="item.interest">{{item.interest}}<i v-if="parseFloat(item.couponAmt) !== 0">+{{item.couponAmt}}</i></p>
+            <p v-else>0</p>
+          </td>
+          <td>
+            <span>{{item.interestStartDate}}</span>
+            <span>-</span>
+            <p>{{item.interestEndDate}}</p>
+          </td>
         </tr>
         </tbody>
       </table>
@@ -122,34 +101,24 @@
         <th>申请时间</th>
         </thead>
         <tbody>
-        <tr>
-          <td>汇选(6个月)13242234</td>
-          <td>1000.00</td>
-          <td>8.0%</td>
-          <td>2017-05-18 13:24</td>
-        </tr>
-        <tr>
-          <td>汇选(6个月)13242234</td>
-          <td>1000.00</td>
-          <td>8.0%</td>
-          <td>2017-05-18 13:24</td>
-        </tr>
-        <tr>
-          <td>汇选(6个月)13242234</td>
-          <td>1000.00</td>
-          <td>8.0%</td>
-          <td>2017-05-18 13:24</td>
-        </tr>
-        <tr>
-          <td>汇选(6个月)13242234</td>
-          <td>1000.00</td>
-          <td>8.0%</td>
-          <td>2017-05-18 13:24</td>
+        <tr
+          v-for="(item, index) in invList"
+          :key="index"
+        >
+          <td>{{item.itemName && item.productName ? item.itemName : item.productName}}</td>
+          <td>{{item.refundAmount}}</td>
+          <td>{{item.yearRate}}</td>
+          <td>{{item.refundDate}}</td>
         </tr>
         </tbody>
       </table>
       <!-- 分页器 -->
-      <pagination :totalCount="20"></pagination>
+      <pagination
+        class="page"
+        :show="paginationOption.show"
+        :countPage="paginationOption.countPage"
+        @handleCurrentChange="changePage"
+      ></pagination>
     </div>
   </div>
 </template>
@@ -168,26 +137,41 @@ export default {
     return {
       status: [],
       statusIndex: 0,
-      invList: []
+      invList: [],
+      paginationOption: {
+        countPage: 0
+      }
     }
   },
   props: {},
   watch: {},
   methods: {
+    showLendDetail(id) {
+      console.log(id)
+      // this.$router.push({
+      //   name: '',
+      //   query: {
+      //     id: id
+      //   }
+      // })
+    },
+    changePage(page) {
+      this.getInvestDetail(this.status[this.statusIndex].statusCode, page)
+    },
     changeStatus(index, status) {
       this.statusIndex = index
       this.getInvestDetail(status)
     },
-    getInvestDetail(invStatus) {
+    getInvestDetail(invStatus, curPage) {
       getQSTList({
-        invStatus: invStatus
+        invStatus: invStatus,
+        curPage: curPage
       }).then(res => {
         this.invList = res.data.data.list
-        console.log(res)
+        this.paginationOption.countPage = res.data.data.countPage
       })
     }
   },
-  computed: {},
   created() {
     const $this = this
     async function initStatus() {
@@ -254,23 +238,26 @@ export default {
   }
   .detail-table {
     min-height: 432px;
-    background: #000;
   }
   table {
     width: 800px;
     margin: 0 auto;
     border: 1px solid #e3e3e3;
     th {
-      height: 40px;
+      height: 46px;
       background: rgba(0, 131, 254, 0.09);
       color: $color-text;
       font-size: $font-size-small-s;
     }
     tr {
-      height: 40px;
+      font-size: $font-size-small-ss;
+      height: 46px;
       border-bottom: 1px solid #e3e3e3;
       text-align: center;
     }
+  }
+  .page {
+    margin-top: 25px;
   }
 }
 </style>
