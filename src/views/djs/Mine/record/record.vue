@@ -104,7 +104,7 @@ export default {
       page: 1,
       size: 10,
       total: 100,
-      userName: getUser().userName
+      userName: getUser().mobile
     }
   },
   filters: {
@@ -121,6 +121,8 @@ export default {
       this.page = val
     },
     getRecordList() {
+      console.log(this.userName)
+
       let params = {
         userName: this.userName,
         timeType: this.timeType,

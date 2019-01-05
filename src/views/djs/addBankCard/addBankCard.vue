@@ -14,11 +14,11 @@
       <div class="info-wrapper">
         <i class="iconfont icon-Bankcard"></i> <input type="text" placeholder="请输入银行卡号" />
         <div class="bank-support">
-          <el-popover placement="right" width="200" trigger="hover">
+          <el-popover placement="right" width="240" trigger="hover">
             <ul class="bank-list">
               <li>绑卡支持以下银行：</li>
               <li v-for="(list, i) in bankList" :key="i">
-                <img :src="list.src" /><span>{{ list.name }}</span>
+                <img :src="list.iconUrl" /><span>{{ list.bankName }} 单笔{{ list.onceLimit }}，单日{{ list.dayLimit }}</span>
               </li>
             </ul>
             <el-button slot="reference"><i class="iconfont icon-changjianwenti"></i></el-button>
@@ -42,13 +42,16 @@
     </div>
     <div class="item">
       <span class="title">&emsp;&emsp;&emsp;</span>
-      <div class="info-wrapper"><input type="button" value="确认绑卡" /></div>
+      <div class="info-wrapper"><input type="button" value="确认绑卡" @click="submitAddBankCard"/></div>
     </div>
   </div>
 </template>
 
 <script>
 import bankImg from './image/abc.png'
+import { userBasicInfo, addBankCard, supportBankList } from '@/api/djs/addBankCard'
+import { getUser } from '@/assets/js/cache'
+const ERR_OK = '1'
 export default {
   name: 'addBankCard',
   data() {
@@ -84,13 +87,35 @@ export default {
           src: bankImg,
           name: '厦门银行'
         }
-      ]
+      ],
+      userName: getUser().userName
     }
   },
-  methods: {},
-  components: {},
-  created() {},
-  mounted() {}
+  methods: {
+    getUserBasicInfo() {
+      let data = {
+        userName: this.userName
+      }
+      userBasicInfo(data).then(res => {
+        console.log(res)
+      })
+    },
+    submitAddBankCard() {
+      let data = {}
+      addBankCard().then(res => {})
+    },
+    getSupportBankList() {
+      supportBankList().then(res => {
+        if (res.data.resultCode === ERR_OK) {
+          this.bankList = res.data.list
+        }
+      })
+    }
+  },
+  created() {
+    this.getUserBasicInfo()
+    this.getSupportBankList()
+  }
 }
 </script>
 
@@ -172,8 +197,7 @@ export default {
             display: inline-block;
             @include square(20px);
             padding: 0;
-            border-style: dashed;
-            border-color: $color-text;
+            border: 0;
           }
           i {
             height: 0;
@@ -240,8 +264,8 @@ export default {
   background-color: #fff;
   overflow: hidden;
   li {
-    float: left;
-    width: 50%;
+    /*float: left;*/
+    /*width: 50%;*/
     margin-top: 10px;
     font-size: $font-size-small-ss;
     color: $color-text-gray;
