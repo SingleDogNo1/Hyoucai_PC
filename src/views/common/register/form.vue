@@ -70,7 +70,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['registerMobile'])
+    ...mapGetters(['user', 'registerMobile'])
   },
   methods: {
     popValidation() {
@@ -123,7 +123,16 @@ export default {
           if (res.data.resultCode === '1') {
             let user = res.data.data
             this.setUser(user)
-            this.$router.push({ name: 'overview' })
+            switch (this.user.platformFlag) {
+              case '1':
+                window.location.href = '/djs/#/mine/overview'
+                break
+              case '2':
+                window.location.href = '/hyc/#/mine/overview'
+                break
+              default:
+                this.$router.push({ name: 'overview' })
+            }
           } else {
             this.errorMsg = res.data.resultMsg
           }

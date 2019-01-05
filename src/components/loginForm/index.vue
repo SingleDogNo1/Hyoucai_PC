@@ -178,6 +178,18 @@ export default {
         this.doSMSLogin()
       }
     },
+    doJumpSystem() {
+      switch (this.user.platformFlag) {
+        case '1':
+          window.location.href = '/djs/#/mine/overview'
+          break
+        case '2':
+          window.location.href = '/hyc/#/mine/overview'
+          break
+        default:
+          this.$router.push({ name: 'overview' })
+      }
+    },
     doPWDLogin() {
       if (this.errorNum >= 3 && !this.captchaIns_pwd) {
         this.initPWDCaptcha()
@@ -196,7 +208,7 @@ export default {
           let user = res.data.data
           this.setUser(user)
           setLoginUsername(this.userName)
-          this.$router.push({ name: 'overview' })
+          this.doJumpSystem()
         } else {
           this.error_pwd = res.data.resultMsg
           this.setErrorNum(this.errorNum + 1)
@@ -213,7 +225,7 @@ export default {
           let user = res.data.data
           this.setUser(user)
           setLoginUsername(this.userName)
-          this.$router.push({ name: 'overview' })
+          this.doJumpSystem()
         } else {
           this.error_sms = res.data.resultMsg
         }
