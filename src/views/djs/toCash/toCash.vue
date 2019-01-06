@@ -45,56 +45,31 @@
         <li class="bank-no-wrapper" v-if="type === 2">
           <span class="title">&emsp;&emsp;&emsp;&emsp;开户行号</span>
           <div class="info-wrapper">
-            <input type="number" placeholder="请输入联行号" v-model="cardBankCnaps">
+            <input type="number" placeholder="请输入联行号" v-model="cardBankCnaps" />
             <div class="select" @click="selectBank"><i class="iconfont icon-xiala"></i></div>
             <em class="bank-no">查不到？<a target="_blank" href="http://www.lianhanghao.com/">联网查询</a></em>
             <el-card class="box-card" v-if="showSelector">
-              <div slot="header" class="clearfix"><span>{{bankName}}</span></div>
+              <div slot="header" class="clearfix">
+                <span>{{ bankName }}</span>
+              </div>
               <div>
                 <el-select v-model="provinceCode" placeholder="请选择">
-                  <el-option
-                    v-for="item in provinceList"
-                    :key="item.id"
-                    :label="item.provinceName"
-                    :value="item.provinceCode">
-                  </el-option>
+                  <el-option v-for="item in provinceList" :key="item.id" :label="item.provinceName" :value="item.provinceCode"> </el-option>
                 </el-select>
                 <el-select v-model="cityCode" placeholder="请选择">
-                  <el-option
-                    v-for="item in cityList"
-                    :key="item.id"
-                    :label="item.cityName"
-                    :value="item.cityCode">
-                  </el-option>
+                  <el-option v-for="item in cityList" :key="item.id" :label="item.cityName" :value="item.cityCode"> </el-option>
                 </el-select>
                 <el-select v-model="areaCode" placeholder="请选择">
-                  <el-option
-                    v-for="item in areaList"
-                    :key="item.areaCode"
-                    :label="item.areaName"
-                    :value="item.areaCode">
-                  </el-option>
+                  <el-option v-for="item in areaList" :key="item.areaCode" :label="item.areaName" :value="item.areaCode"> </el-option>
                 </el-select>
                 <el-input v-model="searchVal" placeholder="输入关键词"></el-input>
                 <el-button type="primary" size="medium">搜索</el-button>
               </div>
               <div>
-                <el-table
-                  :data="bankList"
-                  style="width: 100%"
-                  @row-click="selectItem">
-                  <el-table-column
-                    type="index"
-                    label="序号">
-                  </el-table-column>
-                  <el-table-column
-                    prop="bankNum"
-                    label="联行号">
-                  </el-table-column>
-                  <el-table-column
-                    prop="bankName"
-                    label="银行名称">
-                  </el-table-column>
+                <el-table :data="bankList" style="width: 100%" @row-click="selectItem">
+                  <el-table-column type="index" label="序号"> </el-table-column>
+                  <el-table-column prop="bankNum" label="联行号"> </el-table-column>
+                  <el-table-column prop="bankName" label="银行名称"> </el-table-column>
                 </el-table>
               </div>
             </el-card>

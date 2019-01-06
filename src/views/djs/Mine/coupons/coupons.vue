@@ -1,7 +1,5 @@
 <template>
-  <div class="coupons">
-    hello, {{msg}}
-  </div>
+  <div class="coupons">hello, {{ msg }}</div>
 </template>
 
 <script>

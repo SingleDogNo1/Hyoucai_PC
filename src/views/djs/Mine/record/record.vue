@@ -6,11 +6,11 @@
         <ul>
           <li>
             <div>交易记录</div>
-            <div class="tag" :class="{ active: timeIndex === i }" v-for="(item, i) in times" :key="i" @click="selectTime(item)">{{ item.name }}</div>
+            <div class="tag" :class="{ active: timeIndex === i }" v-for="(item, i) in times" :key="i" @click="selectTime(i)">{{ item.name }}</div>
           </li>
           <li>
             <div>状态</div>
-            <div class="tag" :class="{ active: statusIndex === i }" v-for="(item, i) in status" :key="i" @click="selectStatus(item)">
+            <div class="tag" :class="{ active: statusIndex === i }" v-for="(item, i) in status" :key="i" @click="selectStatus(i)">
               {{ item.name }}
             </div>
           </li>
@@ -37,64 +37,56 @@
 
 <script>
 import pagination from '@/components/pagination/pagination'
+import { getRecord } from '@/api/djs/Mine/record'
+import { getUser } from '@/assets/js/cache'
 export default {
   name: 'record',
   data() {
     return {
       times: [
         {
-          name: '全部',
-          id: 1
+          name: '所有类型',
+          id: 'SYLX'
         },
         {
-          name: '全部',
-          id: 2
+          name: '今天',
+          id: 'ODLX'
         },
         {
-          name: '全部',
-          id: 3
+          name: '一周',
+          id: 'OWLX'
         },
         {
-          name: '全部',
-          id: 4
+          name: '一个月',
+          id: 'OMLX'
         },
         {
-          name: '全部',
-          id: 5
+          name: '三个月',
+          id: 'TMLX'
         },
         {
-          name: '全部',
-          id: 6
+          name: '六个月',
+          id: 'SMLX'
         }
       ],
       timeIndex: 0,
+      timeType: 'SYLX',
       status: [
         {
           name: '全部',
-          id: 1
+          id: ''
         },
         {
-          name: '全部',
-          id: 2
+          name: '充值',
+          id: 'XSCC'
         },
         {
-          name: '全部',
-          id: 3
-        },
-        {
-          name: '全部',
-          id: 4
-        },
-        {
-          name: '全部',
-          id: 5
-        },
-        {
-          name: '全部',
-          id: 6
+          name: '取现',
+          id: 'ZJQX'
         }
       ],
       statusIndex: 0,
+      tranType: '',
       tableData: [
         {
           date: '2018-08-18 18:18:45',
@@ -111,7 +103,8 @@ export default {
       ],
       page: 1,
       size: 10,
-      total: 100
+      total: 100,
+      userName: getUser().userName
     }
   },
   filters: {
@@ -127,19 +120,31 @@ export default {
     handleCurrentChange(val) {
       this.page = val
     },
-    selectStatus(item) {
-      let i = item.id - 1
-      if (this.statusIndex === i) {
-        return
+    getRecordList() {
+      let params = {
+        userName: this.userName,
+        timeType: this.timeType,
+        curPage: this.page,
+        maxLine: this.size
       }
-      this.statusIndex = i
+      if (this.tranType) {
+        params.tranType = this.tranType
+      }
+      getRecord(params).then(res => {
+        console.log(res)
+      })
     },
-    selectTime(item) {
-      let i = item.id - 1
-      if (this.timeIndex === i) {
+    selectStatus(index) {
+      if (this.statusIndex === index) {
         return
       }
-      this.timeIndex = i
+      this.statusIndex = index
+    },
+    selectTime(index) {
+      if (this.timeIndex === index) {
+        return
+      }
+      this.timeIndex = index
     },
     matchClass(val) {
       if (val.indexOf('-') > -1) {
@@ -151,6 +156,9 @@ export default {
   },
   components: {
     pagination
+  },
+  created() {
+    this.getRecordList()
   }
 }
 </script>

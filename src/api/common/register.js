@@ -1,43 +1,46 @@
 import request from '@/assets/js/requestHYC'
 import qs from 'qs'
 
-export function isExistUser(data) {
+function isExistUser(data) {
   return request({
     url: '/user/isExistUser',
     method: 'post',
-    headers: { 'Content-type': 'application/x-www-form-urlencoded' },
     data: qs.stringify(data)
   })
 }
 
-export function cpmOrTjm() {
+function cpmOrTjm() {
   return request({
     url: '/user/cpmOrTjm',
-    method: 'post',
-    headers: { 'Content-type': 'application/x-www-form-urlencoded' }
+    method: 'post'
   })
 }
 
-export function getSmsCode(data) {
+function getSmsCode(data) {
   return request({
     url: '/SmsRegisterCode',
     method: 'post',
     headers: {
-      'Content-type': 'application/x-www-form-urlencoded',
       version: '2.0'
     },
     data: qs.stringify(data)
   })
 }
 
-export function userRegister(data) {
+function userRegister(data) {
   return request({
     url: '/UserRegister',
     method: 'post',
     headers: {
-      'Content-type': 'application/x-www-form-urlencoded',
       version: '2.0'
     },
     data: qs.stringify(data)
   })
+}
+
+export {
+  isExistUser, // 手机号是否存在
+  cpmOrTjm, // 钞票码和推荐码显隐状态
+  getSmsCode, // 获取注册验证码
+  userRegister // 用户注册
 }

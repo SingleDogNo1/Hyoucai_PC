@@ -1,7 +1,5 @@
 <template>
-  <div class="autoLend">
-    hello, {{msg}}
-  </div>
+  <div class="autoLend">hello, {{ msg }}</div>
 </template>
 
 <script>

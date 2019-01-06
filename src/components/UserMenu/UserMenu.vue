@@ -10,8 +10,7 @@
       </div>
       <div class="safe">
         <span>安全等级</span>
-        <!-- TODO 明天合并代码之前放开这一段 -->
-        <!--<span class="level">{{userBasicInfo.infoFinishGrade}}</span>-->
+        <span class="level">{{safetyLevel}}</span>
       </div>
     </header>
     <ul class="block">
@@ -31,7 +30,7 @@
       </li>
       <router-link class="link" tag="li" to="/mine/lend">我的出借</router-link>
       <router-link class="link" tag="li" to="/mine/record">交易记录</router-link>
-      <router-link class="link" tag="li" to="/mine/auto-lend">自动出借</router-link>
+      <router-link class="link" tag="li" to="/mine/auto-lend" v-if="user.platformFlag === '1'">自动出借</router-link>
       <router-link class="link" tag="li" to="/mine/calendar">回款日历</router-link>
     </ul>
     <ul class="block">
@@ -46,7 +45,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapState } from 'vuex'
 export default {
   name: 'UserMenu',
   mixins: [],
@@ -55,8 +54,6 @@ export default {
       msg: 'UserMenu'
     }
   },
-  props: {},
-  watch: {},
   methods: {},
   computed: {
     greet() {
@@ -78,9 +75,29 @@ export default {
       }
       return msg
     },
-    ...mapGetters(['user', 'userBasicInfo'])
+    safetyLevel() {
+      let msg = ''
+      switch (this.userBasicInfo.infoFinishGrade) {
+        case '1':
+          msg = '低'
+          break
+        case '2':
+          msg = '中'
+          break
+        case '3':
+          msg = '高'
+          break
+      }
+      return msg
+    },
+    ...mapState({
+      user: state => state.user.user,
+      userBasicInfo: state => state.user.userBasicInfo
+    })
   },
-  created() {},
+  created() {
+    console.log(this.user)
+  },
   mounted() {}
 }
 </script>

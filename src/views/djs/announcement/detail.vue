@@ -57,7 +57,7 @@ export default {
   },
   methods: {
     handleClick() {
-      this.$router.push({ name: 'announcement', query: {paramCode: this.activeName}})
+      this.$router.push({ name: 'announcement', query: { paramCode: this.activeName } })
     },
     viewDetail() {
       this.activeName = this.$route.query.paramCode
@@ -78,7 +78,7 @@ export default {
       })
     }
   },
-  mounted () {
+  mounted() {
     this.viewDetail()
   }
 }

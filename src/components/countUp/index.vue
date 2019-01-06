@@ -1,5 +1,5 @@
 <template>
-  <p class="title" :id="name">{{count}}</p>
+  <p class="title" :id="name">{{ count }}</p>
 </template>
 
 <script>
@@ -11,7 +11,7 @@ export default {
       default: ''
     },
     count: {
-      type: Number | String,
+      type: Number || String,
       default: 0.0
     }
   },

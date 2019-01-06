@@ -9,11 +9,7 @@
 export default {
   name: 'pagination',
   data() {
-    return {
-      count: this.totalCount,
-      page: this.pageVal,
-      size: this.sizeVal
-    }
+    return {}
   },
   props: {
     totalCount: {
@@ -38,9 +34,9 @@ export default {
   created() {},
   mounted() {},
   watch: {
-    page: function(val, oldVal) {
+    page: function(val) {
       console.log('val===', val)
-		}
+    }
   }
 }
 </script>

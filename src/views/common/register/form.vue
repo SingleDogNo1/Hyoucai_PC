@@ -11,20 +11,20 @@
           </div>
           <div class="form-item pwd">
             <i class="iconfont icon-password"></i>
-            <input type="tel" v-model="form.passWord" placeholder="输入8-20位字母和数字组合">
+            <input type="password" v-model="form.passWord" placeholder="输入8-20位字母和数字组合">
             <password-strength class="passwordStrength" :pwd="form.passWord"></password-strength>
           </div>
           <div class="form-item">
             <i class="iconfont icon-password"></i>
-            <input type="tel" v-model="form.confirmPassword" placeholder="输入8-20位字母和数字组合">
+            <input type="password" v-model="form.confirmPassword" placeholder="输入8-20位字母和数字组合">
           </div>
           <div class="form-item" v-if="cpm === 'true'">
             <i class="iconfont icon-code"></i>
-            <input type="tel" v-model="form.inviteCode" placeholder="输入钞票码(选填)">
+            <input type="text" v-model="form.inviteCode" placeholder="输入钞票码(选填)">
           </div>
           <div class="form-item" v-if="tjm === 'true'">
             <i class="iconfont icon-code"></i>
-            <input type="tel" v-model="form.recommendCode" placeholder="输入推荐码(选填)">
+            <input type="text" v-model="form.recommendCode" placeholder="输入推荐码(选填)">
           </div>
           <div class="error-msg" v-if="errorMsg">
             <span>{{ errorMsg }}</span>
@@ -40,7 +40,8 @@
 <script>
 import PasswordStrength from '@/components/passwordStrength'
 import { cpmOrTjm, getSmsCode, userRegister } from '@/api/common/register'
-import { mapGetters } from 'vuex'
+import { userLogin } from '@/api/common/login'
+import { mapGetters, mapMutations } from 'vuex'
 import { countDownTime, captchaId } from '@/assets/js/const'
 import { isMobCode, isPassword } from '@/assets/js/regular'
 export default {
@@ -97,26 +98,40 @@ export default {
     },
     nextStep() {
       if (!isMobCode(this.form.identifyCode)) {
-        this.errorMsg = '请输入正确的验证码!!'
+        this.errorMsg = '请输入正确的验证码'
         return false
       }
       if (!isPassword(this.form.passWord)) {
-        this.errorMsg = '请输入8-20位字母和数字组合!!'
+        this.errorMsg = '请输入8-20位字母和数字组合'
         return false
       }
       if (this.form.passWord !== this.form.confirmPassword) {
-        this.errorMsg = '两次密码不一致'
+        this.errorMsg = '两次输入密码不一致'
         return false
       }
       this.errorMsg = ''
-      userRegister(Object.assign(this.form, { mobile: this.registerMobile })).then(res => {
-        if (res.data.resultCode === '1') {
-          console.log(1)
-        } else {
-          this.errorMsg = res.data.resultMsg
-        }
-      })
-    }
+      userRegister(Object.assign(this.form, { mobile: this.registerMobile }))
+        .then(res => {
+          if (res.data.resultCode === '1') {
+            return userLogin({ userName: this.registerMobile, passWord: btoa(this.form.passWord) })
+          } else {
+            this.errorMsg = res.data.resultMsg
+            throw new Error()
+          }
+        })
+        .then(res => {
+          if (res.data.resultCode === '1') {
+            let user = res.data.data
+            this.setUser(user)
+            this.$router.push({ name: 'overview' })
+          } else {
+            this.errorMsg = res.data.resultMsg
+          }
+        })
+    },
+    ...mapMutations({
+      setUser: 'SET_USER'
+    })
   },
   created() {
     // 获取钞票码推荐码显隐状态

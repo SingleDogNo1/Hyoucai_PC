@@ -357,7 +357,6 @@ export default {
               loop: true
             })
           }, 200)
-        } else {
         }
       })
       let postData2 = {
@@ -379,7 +378,6 @@ export default {
               loop: true
             })
           }, 200)
-        } else {
         }
       })
       let postData3 = {
@@ -401,7 +399,6 @@ export default {
               loop: true
             })
           }, 200)
-        } else {
         }
       })
     },
@@ -432,7 +429,7 @@ export default {
         let data = res.data
         this.noviceProjectList = data.noviceProjectList
         if (this.noviceProjectList) {
-          this.noviceProjectList.forEach((val, index) => {
+          this.noviceProjectList.forEach(val => {
             val.investMent = val.investMent.substr(0, val.investMent.length - 1)
           })
         }

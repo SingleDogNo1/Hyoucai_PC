@@ -352,7 +352,6 @@ export default {
               loop: true
             })
           }, 200)
-        } else {
         }
       })
       let postData2 = {
@@ -374,7 +373,6 @@ export default {
               loop: true
             })
           }, 200)
-        } else {
         }
       })
       let postData3 = {
@@ -396,7 +394,6 @@ export default {
               loop: true
             })
           }, 200)
-        } else {
         }
       })
     },
@@ -426,8 +423,8 @@ export default {
       getQualityList().then(res => {
         let data = res.data
         this.noviceProjectList = data.noviceProjectList
-        this.noviceProjectList.forEach((val, index) => {
-          val.investMent = val.investMent.substr(0, val.investMent.length-1)
+        this.noviceProjectList.forEach(val => {
+          val.investMent = val.investMent.substr(0, val.investMent.length - 1)
         })
         this.popularProjectList = data.popularProjectList
         console.log('this.popularProjectList===', this.popularProjectList)

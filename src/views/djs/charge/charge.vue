@@ -37,9 +37,7 @@
         </el-tab-pane>
         <el-tab-pane label="转账充值">
           <div class="transfer-charge">
-            <div class="left">
-              <!-- <div class="charge-phone"><img src="./image/charge-phone.png" /></div> -->
-            </div>
+            <div class="left"><!-- <div class="charge-phone"><img src="./image/charge-phone.png" /></div> --></div>
             <div class="right">
               <img src="./image/unionpay.png" />
               <div class="des">您可以使用您的银行卡，通过线下跨行转账（柜台、网银、手机银行）方式将资金充值到您的江西银行电子账户。</div>

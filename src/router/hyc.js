@@ -65,6 +65,33 @@ export default new Router({
           path: '',
           name: 'forgetPWD',
           component: () => import(/* webpackChunkName: "register" */ '@/views/common/login/forgetPassword.vue')
+        },
+        {
+          path: 'resetResult',
+          name: 'resetResult',
+          component: () => import(/* webpackChunkName: "register" */ '@/views/common/login/resetResult.vue')
+        }
+      ]
+    },
+    {
+      path: '/download',
+      component: Layout,
+      children: [
+        {
+          path: '',
+          name: 'download',
+          component: () => import(/* webpackChunkName: "register" */ '@/views/common/download/index.vue')
+        }
+      ]
+    },
+    {
+      path: '/account',
+      component: Layout,
+      children: [
+        {
+          path: '',
+          name: 'account',
+          component: () => import(/* webpackChunkName: "register" */ '@/views/common/openAccount/index.vue')
         }
       ]
     },
@@ -100,12 +127,25 @@ export default new Router({
             {
               path: 'lend', // 我的出借
               name: 'userLend',
-              component: () => import('@/views/djs/Mine/lend/lend')
+              redirect: 'lend/qst',
+              component: () => import('@/views/hyc/Mine/lend/lend'),
+              children: [
+                {
+                  path: 'qst',
+                  name: 'QST',
+                  component: () => import('@/views/hyc/Mine/JHB/JHB')
+                },
+                {
+                  path: 'zxt',
+                  name: 'ZXT',
+                  component: () => import('@/views/hyc/Mine/SB/SB')
+                }
+              ]
             },
             {
               path: 'record', // 交易记录
               name: 'record',
-              component: () => import('@/views/djs/Mine/record/record')
+              component: () => import('@/views/hyc/Mine/record/record')
             },
             {
               path: 'auto-lend', // 自动出借
@@ -130,9 +170,25 @@ export default new Router({
             {
               path: 'charge', // 充值
               name: 'charge',
-              component: () => import(/* webpackChunkName: "record" */ '@/views/djs/charge/charge.vue')
+              component: () => import(/* webpackChunkName: "record" */ '@/views/hyc/charge/charge.vue')
+            },
+            {
+              path: 'tocash', // 提现
+              name: 'tocash',
+              component: () => import(/* webpackChunkName: "tocash" */ '@/views/hyc/toCash/toCash.vue')
             }
           ]
+        }
+      ]
+    },
+    {
+      path: '/', // 我要出借
+      component: Layout,
+      children: [
+        {
+          path: 'lend',
+          name: 'lend',
+          component: () => import(/* webpackChunkName: "lend" */ '@/views/hyc/lend/lend.vue')
         }
       ]
     }
