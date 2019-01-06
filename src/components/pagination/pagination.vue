@@ -1,6 +1,6 @@
 <template>
   <div class="pagination">
-    <el-pagination background layout="prev, pager, next" :total="totalCount" :page-size="sizeVal" :current-page="pageVal" @current-change="handleCurrentChange">
+    <el-pagination v-if="show" background layout="prev, pager, next" :total="totalCount" :page-size="sizeVal" :current-page="curPage" @current-change="handleCurrentChange">
     </el-pagination>
   </div>
 </template>
@@ -12,30 +12,33 @@ export default {
     return {}
   },
   props: {
-    totalCount: {
-      type: Number,
-      default: 0
-    },
+    // 每页显示的条数
     sizeVal: {
       type: Number,
       default: 10
     },
-    pageVal: {
-      type: Number,
+    // 总页数
+    countPage: {
+      type: [Number, String]
+    },
+    // 当前展示第几页
+    curPage: {
+      type: [Number, String],
       default: 1
+    }
+  },
+  computed: {
+    totalCount() {
+      return this.sizeVal * this.countPage
+    },
+    show() {
+      return this.countPage > 1
     }
   },
   methods: {
     handleCurrentChange(val) {
       this.page = val
       this.$emit('handleCurrentChange', this.page)
-    }
-  },
-  created() {},
-  mounted() {},
-  watch: {
-    page: function(val) {
-      console.log('val===', val)
     }
   }
 }
