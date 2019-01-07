@@ -427,12 +427,12 @@
       <div class="tab-content" v-if="activeName === 'SHXX'">
         <div class="review-info">
           <ul>
-            <li>
+            <li @click="openPDF('auditReport2016.pdf')">
               <p class="year">2016年</p>
               <p class="title">财务审计报告</p>
               <p class="time">（1-12月份）</p>
             </li>
-            <li>
+            <li @click="openPDF('auditReport2017.pdf')">
               <p class="year">2017年</p>
               <p class="title">财务审计报告</p>
               <p class="time">（1-12月份）</p>
@@ -442,7 +442,25 @@
           </ul>
         </div>
       </div>
-      <div class="tab-content" v-if="activeName === 'ZCFG'">77</div>
+      <div class="tab-content" v-if="activeName === 'ZCFG'">
+        <el-tabs
+          class="about-us-tab"
+          v-model="productAboutActiveName"
+          type="border-card"
+          @tab-click="handleProductAboutClick"
+        >
+          <el-tab-pane label="法律法规" name="FLFG">
+            <div class="content" v-html="content">
+              <ul>
+                <li></li>
+              </ul>
+            </div>
+          </el-tab-pane>
+          <el-tab-pane label="出借人教育" name="CJRJY">
+            <div class="content" v-html="content"></div>
+          </el-tab-pane>
+        </el-tabs>
+      </div>
       <div class="tab-content" v-if="activeName === 'FRCNH'">88</div>
     </div>
   </div>
@@ -973,6 +991,9 @@ export default {
         let data = res.data
         this.content = data.zxdtMtbdlist[0].content
       })
+    },
+    openPDF(url) {
+      window.open(`/public/pdf/${url}.pdf`)
     }
   },
   mounted() {}

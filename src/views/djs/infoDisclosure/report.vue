@@ -674,6 +674,7 @@ export default {
     this.index = this.$route.query.index
     console.log('iundex=====', this.index) 
     setTimeout(() => {
+      initialSlide: 0,
       this.swiperBanner = new Swiper('.swiper-container-banner', {
         autoplay: {
           delay: 2500,
@@ -686,11 +687,6 @@ export default {
         }
       })
     }, 500)
-  },
-  watch: {
-    $route() {
-      // 刷新参数放到这里里面去触发就可以刷新相同界面了
-    }
   }
 }
 </script>
