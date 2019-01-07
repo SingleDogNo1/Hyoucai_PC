@@ -262,6 +262,17 @@ export default new Router({
       ]
     },
     {
+      path: '/', // 运营报告
+      component: Layout,
+      children: [
+        {
+          path: 'report',
+          name: 'report',
+          component: () => import(/* webpackChunkName: "report" */ '@/views/djs/infoDisclosure/report.vue')
+        }
+      ]
+    },
+    {
       path: '/agreement', // 自动出借
       component: Layout,
       children: [
