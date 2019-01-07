@@ -1,19 +1,8 @@
 <template>
   <div class="planDetail">
-    <div class="nav">
-      <h1>状态</h1>
-      <ul>
-        <li
-          v-for="(item, index) in status"
-          :key="index"
-          :class="{active: index === statusIndex}"
-          @click="changeStatus(index, item.statusCode)"
-        >{{item.statusName}}</li>
-      </ul>
-    </div>
     <div class="detail-table">
       <!-- 申请中 -->
-      <table cellspacing="0" v-if="invList.length > 0 && status[statusIndex].statusCode === 'JHB_SQZ'">
+      <table cellspacing="0" v-if="invList.length > 0 && invStatus === 'JHB_SQZ'">
         <thead>
         <th>项目名称</th>
         <th>申请本金（元）</th>
@@ -33,7 +22,7 @@
         </tbody>
       </table>
       <!-- 出借中 -->
-      <table cellspacing="0" v-if="invList.length > 0 && status[statusIndex].statusCode === 'JHB_TZZ'">
+      <table cellspacing="0" v-if="invList.length > 0 && invStatus === 'JHB_TZZ'">
         <thead>
         <th style="width: 160px;">项目名称</th>
         <th style="width: 140px;">出借本金（元）</th>
@@ -66,7 +55,7 @@
         </tbody>
       </table>
       <!-- 已结清 -->
-      <table cellspacing="0" v-if="invList.length > 0 && status[statusIndex].statusCode === 'JHB_YJQ'">
+      <table cellspacing="0" v-if="invList.length > 0 && invStatus === 'JHB_YJQ'">
         <thead>
         <th>项目名称</th>
         <th>返还本金（元）</th>
@@ -95,7 +84,7 @@
         </tbody>
       </table>
       <!-- 已退款 -->
-      <table cellspacing="0" v-if="invList.length > 0 && status[statusIndex].statusCode === 'JHB_YTK'">
+      <table cellspacing="0" v-if="invList.length > 0 && invStatus === 'JHB_YTK'">
         <thead>
         <th>项目名称</th>
         <th>申请本金（元）</th>
@@ -128,7 +117,7 @@
 
 <script>
 import pagination from '@/components/pagination/pagination'
-import { getInvestStatusApi, getDefaultStatusApi, getQSTList } from '@/api/hyc/Mine/lend'
+import { getQSTList } from '@/api/hyc/Mine/lend'
 
 export default {
   name: 'planDetail',
@@ -138,8 +127,7 @@ export default {
   },
   data() {
     return {
-      status: [],
-      statusIndex: 0,
+      invStatus: this.$route.params.status,
       invList: [],
       paginationOption: {
         curPage: 1,
@@ -148,55 +136,28 @@ export default {
     }
   },
   props: {},
-  watch: {},
+  watch: {
+    '$route.params.status'(newVal) {
+      this.invStatus = newVal
+      this.getQSTList(newVal)
+    }
+  },
   methods: {
-    showLendDetail(id) {
-      console.log(id)
-      this.$router.push({
-        name: 'QSTDetail',
-        params: { id }
-      })
-    },
-    changePage(page) {
-      this.paginationOption.curPage = page
-      this.getInvestDetail(this.status[this.statusIndex].statusCode, page)
-    },
-    changeStatus(index, status) {
-      this.statusIndex = index
-      this.getInvestDetail(status)
-    },
-    getInvestDetail(invStatus, curPage) {
+    getQSTList(invStatus, page) {
       getQSTList({
         invStatus: invStatus,
-        curPage: curPage
+        curPage: page
       }).then(res => {
         this.invList = res.data.data.list
         this.paginationOption.countPage = res.data.data.countPage
       })
+    },
+    changePage(page) {
+      this.getQSTList(this.invStatus, page)
     }
   },
   created() {
-    const $this = this
-    async function initStatus() {
-      // 获取状态
-      await getInvestStatusApi({
-        projectType: 2
-      }).then(res => {
-        $this.status = res.data.data.list
-      })
-      // 获取默认显示的状态
-      await getDefaultStatusApi().then(res => {
-        const status = res.data.data.invStatus
-        $this.status.find((value, index) => {
-          if (value.statusCode === status) {
-            $this.statusIndex = index
-          }
-        })
-      })
-      // 渲染默认显示的列表
-      await $this.getInvestDetail($this.status[$this.statusIndex].statusCode)
-    }
-    initStatus()
+    this.getQSTList(this.invStatus)
   },
   mounted() {}
 }

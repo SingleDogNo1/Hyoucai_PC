@@ -1,27 +1,5 @@
 <template>
   <div class="sanbiao">
-    <div class="nav date">
-      <h1>交易时间</h1>
-      <ul>
-        <li
-          v-for="(item, index) in dateStatus"
-          :key="index"
-          :class="{active: index === dateStatusIndex}"
-          @click="changeDateStatus(index, item.statusCode)"
-        >{{item.key}}</li>
-      </ul>
-    </div>
-    <div class="nav status">
-      <h1>状态</h1>
-      <ul>
-        <li
-          v-for="(item, index) in invStatus"
-          :key="index"
-          :class="{active: index === invStatusIndex}"
-          @click="changeInvStatus(index, item.statusCode)"
-        >{{item.key}}</li>
-      </ul>
-    </div>
     <div class="detail-table">
       <!-- 申请中 -->
       <table cellspacing="0" v-if="invList && invList.length > 0">
@@ -78,7 +56,7 @@
 </template>
 
 <script>
-import { getSanBiaoStatusApi, getZXTList } from '@/api/hyc/Mine/lend'
+import { getZXTList } from '@/api/hyc/Mine/lend'
 import pagination from '@/components/pagination/pagination'
 
 export default {
@@ -89,10 +67,7 @@ export default {
   },
   data() {
     return {
-      dateStatus: [],
-      dateStatusIndex: 0,
-      invStatus: [],
-      invStatusIndex: 0,
+      invStatus: this.$route.params.status,
       invList: [], // 数据列表
       paginationOption: {
         curPage: 1,
@@ -101,18 +76,14 @@ export default {
     }
   },
   props: {},
-  watch: {},
+  watch: {
+    '$route.params.date'(newVal) {
+      console.log(newVal)
+      this.invStatus = newVal
+      this.getQSTList(newVal)
+    }
+  },
   methods: {
-    changeDateStatus(index) {
-      this.dateStatusIndex = index
-      this.paginationOption.curPage = 1
-      this.getInvestDetail(this.dateStatus[this.dateStatusIndex].value, this.invStatus[this.invStatusIndex].value)
-    },
-    changeInvStatus(index) {
-      this.invStatusIndex = index
-      this.paginationOption.curPage = 1
-      this.getInvestDetail(this.dateStatus[this.dateStatusIndex].value, this.invStatus[this.invStatusIndex].value)
-    },
     getInvestDetail(dateStatus, invStatus, curPage) {
       getZXTList({
         dateStatus: dateStatus,
@@ -128,26 +99,12 @@ export default {
     },
     changePage(page) {
       this.paginationOption.curPage = page
-      this.getInvestDetail(this.dateStatus[this.dateStatusIndex].value, this.invStatus[this.invStatusIndex].value, page)
+      // this.getInvestDetail(this.dateStatus[this.dateStatusIndex].value, this.invStatus[this.invStatusIndex].value, page)
     }
   },
-  computed: {},
   created() {
-    const $this = this
-    async function init() {
-      // 获取散标的交易时间和状态
-      await getSanBiaoStatusApi().then(res => {
-        const statusList = res.data.data
-        $this.dateStatus = statusList.dateStatus
-        $this.invStatus = statusList.invStatus
-      })
-      // 显示默认全部的列表
-      await $this.getInvestDetail($this.dateStatus[$this.dateStatusIndex].value, $this.invStatus[$this.invStatusIndex].value)
-    }
-    init()
-  },
-  mounted() {},
-  destroyed() {}
+    // this.getInvestDetail(this.dateStatus[this.dateStatusIndex].value, this.invStatus[this.invStatusIndex].value)
+  }
 }
 </script>
 

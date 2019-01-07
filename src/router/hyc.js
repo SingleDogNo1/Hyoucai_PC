@@ -127,17 +127,16 @@ export default new Router({
             {
               path: 'lend', // 我的出借
               name: 'userLend',
-              redirect: 'lend/qst',
               component: () => import('@/views/hyc/Mine/lend/lend'),
               children: [
                 {
-                  path: 'qst',
-                  name: 'QST',
+                  path: '/qst/:status',
+                  name: 'QSTList',
                   component: () => import('@/views/hyc/Mine/JHB/JHB')
                 },
                 {
-                  path: 'zxt',
-                  name: 'ZXT',
+                  path: '/zxt/:date/:status',
+                  name: 'ZXTList',
                   component: () => import('@/views/hyc/Mine/SB/SB')
                 },
                 {
