@@ -19,6 +19,7 @@
           <router-link tag="li" :to="{name: 'ZXT'}">自选投</router-link>
         </ul>
       </div>
+
       <div class="detail-wrapper">
         <router-view></router-view>
       </div>

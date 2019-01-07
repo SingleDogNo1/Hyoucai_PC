@@ -59,7 +59,9 @@
             <span>-</span>
             <p>{{item.interestEndDate}}</p>
           </td>
-          <td style="cursor:pointer;" @click="showLendDetail(item.id)">查看</td>
+          <td style="cursor:pointer;" @click="showLendDetail(item.id)">
+            <span style="color: #FB891F;">查看</span>
+          </td>
         </tr>
         </tbody>
       </table>
@@ -116,6 +118,7 @@
       <pagination
         class="page"
         :show="paginationOption.show"
+        :cur-page="paginationOption.curPage"
         :countPage="paginationOption.countPage"
         @handleCurrentChange="changePage"
       ></pagination>
@@ -139,6 +142,7 @@ export default {
       statusIndex: 0,
       invList: [],
       paginationOption: {
+        curPage: 1,
         countPage: 0
       }
     }
@@ -148,14 +152,13 @@ export default {
   methods: {
     showLendDetail(id) {
       console.log(id)
-      // this.$router.push({
-      //   name: '',
-      //   query: {
-      //     id: id
-      //   }
-      // })
+      this.$router.push({
+        name: 'QSTDetail',
+        params: { id }
+      })
     },
     changePage(page) {
+      this.paginationOption.curPage = page
       this.getInvestDetail(this.status[this.statusIndex].statusCode, page)
     },
     changeStatus(index, status) {
@@ -238,6 +241,7 @@ export default {
   }
   .detail-table {
     min-height: 432px;
+    padding-bottom: 25px;
   }
   table {
     width: 800px;

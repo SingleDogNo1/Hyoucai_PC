@@ -9,6 +9,14 @@ function getInvestStatusApi(data) {
   })
 }
 
+function getSanBiaoStatusApi(data) {
+  return request({
+    url: 'userInvest/invQueryConditions',
+    method: 'post',
+    data: qs.stringify(data)
+  })
+}
+
 function getDefaultStatusApi(data) {
   return request({
     url: 'collection/defaultInvStatusForShow',
@@ -25,8 +33,18 @@ function getQSTList(data) {
   })
 }
 
+function getZXTList(data) {
+  return request({
+    url: 'userInvest/userInvestInfo',
+    method: 'post',
+    data: qs.stringify(data)
+  })
+}
+
 export {
   getInvestStatusApi, // 获取投资状态 projectType => 0: 散标 2:集合标
+  getSanBiaoStatusApi, // 获取散标状态
   getDefaultStatusApi, // 我的投资-轻松投-默认展示的投资状态
-  getQSTList // 获取轻松投列表
+  getQSTList, // 获取轻松投列表
+  getZXTList // 获取自选投列表
 }

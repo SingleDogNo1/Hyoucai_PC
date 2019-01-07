@@ -139,6 +139,16 @@ export default new Router({
                   path: 'zxt',
                   name: 'ZXT',
                   component: () => import('@/views/hyc/Mine/SB/SB')
+                },
+                {
+                  path: 'qst/:id',
+                  name: 'QSTDetail',
+                  component: () => import('@/views/hyc/Mine/JHBDetail/JHBDetail')
+                },
+                {
+                  path: 'zxt/:id',
+                  name: 'ZXTDetail',
+                  component: () => import('@/views/hyc/Mine/SBDetail/SBDetail')
                 }
               ]
             },
