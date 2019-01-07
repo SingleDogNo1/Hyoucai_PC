@@ -260,6 +260,17 @@ export default new Router({
           component: () => import(/* webpackChunkName: "infoDisclosure" */ '@/views/djs/infoDisclosure/index.vue')
         }
       ]
+    },
+    {
+      path: '/', // 运营报告
+      component: Layout,
+      children: [
+        {
+          path: 'report',
+          name: 'report',
+          component: () => import(/* webpackChunkName: "report" */ '@/views/djs/infoDisclosure/report.vue')
+        }
+      ]
     }
   ]
 })

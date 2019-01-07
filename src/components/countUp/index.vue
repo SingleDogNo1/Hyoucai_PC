@@ -11,7 +11,7 @@ export default {
       default: ''
     },
     count: {
-      type: Number || String,
+      type: Number | String,
       default: 0.0
     }
   },

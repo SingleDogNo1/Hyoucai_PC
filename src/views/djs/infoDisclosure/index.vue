@@ -4,79 +4,75 @@
       <h3>信息披露中心</h3>
       <div class="main-tabs">
         <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
-          <el-tab-pane label="关于我们" name="GYWM">
-          </el-tab-pane>
-          <el-tab-pane label="运营数据" name="YYSJ">
-          </el-tab-pane>
-          <el-tab-pane label="运营报告" name="YYBG">
-          </el-tab-pane>
-          <el-tab-pane label="备案信息" name="BAXX">
-          </el-tab-pane>
-          <el-tab-pane label="产品相关" name="CPXG">
-          </el-tab-pane>
-          <el-tab-pane label="审核信息" name="SHXX">
-          </el-tab-pane>
-          <el-tab-pane label="政策法规" name="ZCFG">
-          </el-tab-pane>
-          <el-tab-pane label="法人承诺函" name="FRCNH">
-          </el-tab-pane>
-        </el-tabs> 
-      </div> 
+          <el-tab-pane label="关于我们" name="GYWM"></el-tab-pane>
+          <el-tab-pane label="运营数据" name="YYSJ"></el-tab-pane>
+          <el-tab-pane label="运营报告" name="YYBG"></el-tab-pane>
+          <el-tab-pane label="备案信息" name="BAXX"></el-tab-pane>
+          <el-tab-pane label="产品相关" name="CPXG"></el-tab-pane>
+          <el-tab-pane label="审核信息" name="SHXX"></el-tab-pane>
+          <el-tab-pane label="政策法规" name="ZCFG"></el-tab-pane>
+          <el-tab-pane label="法人承诺函" name="FRCNH"></el-tab-pane>
+        </el-tabs>
+      </div>
     </div>
     <div class="tab-content-wrap">
       <div class="tab-content" v-if="activeName === 'GYWM'">
-         <el-tabs class="about-us-tab" v-model="aboutUsActiveName" type="border-card" @tab-click="handleAboutUsClick">
+        <el-tabs
+          class="about-us-tab"
+          v-model="aboutUsActiveName"
+          type="border-card"
+          @tab-click="handleAboutUsClick"
+        >
           <el-tab-pane label="公司简介" name="GSJJ">
-            <div class="company-introduction">
-            </div>
+            <div class="content" v-html="content"></div>
           </el-tab-pane>
           <el-tab-pane label="公司管理" name="GSGL">
             <div class="company-management">
               <div class="organizational-structure-wrap">
                 <strong>组织架构</strong>
-                <img src="./images/bg_organizational_structure.png"/>
+                <img src="./images/bg_organizational_structure.png">
               </div>
               <div class="executive-team-wrap">
                 <strong>高管团队</strong>
                 <ul>
                   <li>
-                    <img src="./images/icon_executive1.png"/>
+                    <img src="./images/icon_executive1.png">
                     <p class="name">陈跃文</p>
                     <p class="position">首席执行官（CEO）</p>
                     <div class="desc-wrap">
-                      <p class="desc">
-                        华东师范大学硕士研究生学历，拥有工科硕士学位。在公司运营、营销及风控领域拥有超过10年的管理经验，擅长金融风险管理。历任GSK（葛兰素史克），Pfizer(辉瑞制药)金融事业部核心管理岗位，对公司治理有着极深的理解。
-                      </p>
+                      <p
+                        class="desc"
+                      >华东师范大学硕士研究生学历，拥有工科硕士学位。在公司运营、营销及风控领域拥有超过10年的管理经验，擅长金融风险管理。历任GSK（葛兰素史克），Pfizer(辉瑞制药)金融事业部核心管理岗位，对公司治理有着极深的理解。</p>
                     </div>
                   </li>
                   <li>
-                    <img src="./images/icon_executive2.png"/>
+                    <img src="./images/icon_executive2.png">
                     <p class="name">傅伟菱</p>
                     <p class="position">首席风控官（CRO）</p>
                     <div class="desc-wrap">
-                      <p class="desc">
-                        拥有超过20年的风险管理经验，也是台湾最早一批加入信用卡风控领域的管理者，经历了台湾信用卡的成长及卡债风暴，积累丰富的行业经验，并且长期领导信贷风险团队取得骄人的成绩。曾任台湾汇丰银行个人零售部风险管理副理及资产管理公司法务催收资深协理。
-                      </p>
+                      <p
+                        class="desc"
+                      >拥有超过20年的风险管理经验，也是台湾最早一批加入信用卡风控领域的管理者，经历了台湾信用卡的成长及卡债风暴，积累丰富的行业经验，并且长期领导信贷风险团队取得骄人的成绩。曾任台湾汇丰银行个人零售部风险管理副理及资产管理公司法务催收资深协理。</p>
                     </div>
                   </li>
                   <li>
-                    <img src="./images/icon_executive3.png"/>
+                    <img src="./images/icon_executive3.png">
                     <p class="name">林崇钦</p>
                     <p class="position">首席风控官（CRO）</p>
                     <div class="desc-wrap">
-                      <p class="desc">
-                        从事金融业务风险管理25年。拥有15年以上外资银行消費金融与个人零售业务风险管理经验。曾任香港上海汇丰银行（台湾）信用卡中心消费金融信用风险管处副总裁、恒昌利通出借管理有限公司（北京）风险管理中心总监、达信卓惠金融信息服务（上海）有限公司风险管理中心总监。
-                      </p>
+                      <p
+                        class="desc"
+                      >从事金融业务风险管理25年。拥有15年以上外资银行消費金融与个人零售业务风险管理经验。曾任香港上海汇丰银行（台湾）信用卡中心消费金融信用风险管处副总裁、恒昌利通出借管理有限公司（北京）风险管理中心总监、达信卓惠金融信息服务（上海）有限公司风险管理中心总监。</p>
                     </div>
                   </li>
                   <li>
-                    <img src="./images/icon_executive4.png"/>
+                    <img src="./images/icon_executive4.png">
                     <p class="name">王东东</p>
-                    <p class="position"> 首席财务官（CFO）</p>
+                    <p class="position">首席财务官（CFO）</p>
                     <div class="desc-wrap">
-                      <p class="desc">
-                        拥有20年以上知名企业财务会计及审计工作经验，熟悉企业内部控制和税收筹划，毕业于江西财经大学会计专业，曾任江西省诚信税务师事务所副总经理，分管金融机构审计咨询服务。
-                      </p>
+                      <p
+                        class="desc"
+                      >拥有20年以上知名企业财务会计及审计工作经验，熟悉企业内部控制和税收筹划，毕业于江西财经大学会计专业，曾任江西省诚信税务师事务所副总经理，分管金融机构审计咨询服务。</p>
                     </div>
                   </li>
                 </ul>
@@ -98,8 +94,8 @@
                     <div class="education-chart" id="education-chart"></div>
                     <div class="desc">
                       <p class="title">学历分布：</p>
-                      <p>大学及本科，占比85%； </p>
-                      <p>硕士及博士，占比11%； </p>
+                      <p>大学及本科，占比85%；</p>
+                      <p>硕士及博士，占比11%；</p>
                       <p>其他，占比4%；</p>
                     </div>
                   </div>
@@ -108,13 +104,19 @@
               </div>
               <div class="shareholder-composition-wrap">
                 <strong>股东组成</strong>
-                <img src="./images/bg_shareholder.jpg"/>
+                <img src="./images/bg_shareholder.jpg">
               </div>
             </div>
           </el-tab-pane>
-          <el-tab-pane label="组织信息" name="ZZXX">组织信息</el-tab-pane>
-          <el-tab-pane label="发展事迹" name="FZSJ">发展事迹</el-tab-pane>
-          <el-tab-pane label="合作伙伴" name="HZHB">合作伙伴</el-tab-pane>
+          <el-tab-pane label="组织信息" name="ZZXX">
+            <div class="content" v-html="content"></div>
+          </el-tab-pane>
+          <el-tab-pane label="发展事迹" name="FZSJ">
+            <div class="content" v-html="content"></div>
+          </el-tab-pane>
+          <el-tab-pane label="合作伙伴" name="HZHB">
+            <div class="content" v-html="content"></div>
+          </el-tab-pane>
           <el-tab-pane label="资质荣誉" name="ZZRY">
             <div class="qualification-honor">
               <strong>资质荣誉</strong>
@@ -128,15 +130,17 @@
                 <div class="close-wrap">
                   <i @click.stop="close" class="el-icon-circle-close-outline close"></i>
                 </div>
-                <img class="prev"  @click.stop="prev" src="./images/icon_prev.png">
-                <div class="show-img" >
+                <img class="prev" @click.stop="prev" src="./images/icon_prev.png">
+                <div class="show-img">
                   <img class="big-img" :src="imgList[num].picUrl">
                 </div>
-                <img class="next"  @click.stop="next" src="./images/icon_next.png">
+                <img class="next" @click.stop="next" src="./images/icon_next.png">
               </div>
             </div>
           </el-tab-pane>
-          <el-tab-pane label="关于汇有财" name="GYHYC">关于汇有财</el-tab-pane>
+          <el-tab-pane label="关于汇有财" name="GYHYC">
+            <div class="content" v-html="content"></div>
+          </el-tab-pane>
         </el-tabs>
       </div>
       <div class="tab-content" v-if="activeName === 'YYSJ'">
@@ -157,7 +161,7 @@
               </li>
               <li>
                 <p class="amount">1,973,316.24</p>
-                <p class="desc">待还余额(万元) </p>
+                <p class="desc">待还余额(万元)</p>
               </li>
               <li>
                 <p class="amount">13,316.24</p>
@@ -201,11 +205,11 @@
             <ul>
               <li>
                 <p class="amount">146,896,864.70</p>
-                <p class="desc">最大单户借款余额(万元) </p>
+                <p class="desc">最大单户借款余额(万元)</p>
               </li>
               <li>
                 <p class="amount">1,973,316.24</p>
-                <p class="desc">最大十户借款余额占比(万元) </p>
+                <p class="desc">最大十户借款余额占比(万元)</p>
               </li>
               <li>
                 <p class="amount">0</p>
@@ -217,7 +221,7 @@
               </li>
               <li>
                 <p class="amount">0</p>
-                <p class="desc">90天以上到期催收金额(万元) </p>
+                <p class="desc">90天以上到期催收金额(万元)</p>
               </li>
               <li>
                 <p class="amount">0</p>
@@ -243,12 +247,22 @@
                 <div class="terminal-chart" id="terminal-chart"></div>
                 <div class="desc">
                   <ul>
-                      <li><h2></h2></li>
-                      <li><p>34.29%</p><span>PC端</span></li>
+                    <li>
+                      <h2></h2>
+                    </li>
+                    <li>
+                      <p>34.29%</p>
+                      <span>PC端</span>
+                    </li>
                   </ul>
                   <ul>
-                      <li><h2></h2></li>
-                      <li><p>65.71%</p><span>移动端</span></li>
+                    <li>
+                      <h2></h2>
+                    </li>
+                    <li>
+                      <p>65.71%</p>
+                      <span>移动端</span>
+                    </li>
                   </ul>
                 </div>
               </div>
@@ -256,12 +270,22 @@
                 <div class="gender-chart" id="gender-chart"></div>
                 <div class="desc">
                   <ul>
-                      <li><img class="man" src="./images/icon_man.png"/></li>
-                      <li><p>74%</p><span>男</span></li>
+                    <li>
+                      <img class="man" src="./images/icon_man.png">
+                    </li>
+                    <li>
+                      <p>74%</p>
+                      <span>男</span>
+                    </li>
                   </ul>
                   <ul>
-                      <li><img class="women" src="./images/icon_women.png"/></li>
-                      <li><p>26%</p><span>女</span></li>
+                    <li>
+                      <img class="women" src="./images/icon_women.png">
+                    </li>
+                    <li>
+                      <p>26%</p>
+                      <span>女</span>
+                    </li>
                   </ul>
                 </div>
               </div>
@@ -277,37 +301,70 @@
                 <div class="amount-chart" id="amount-chart"></div>
                 <div class="amount-desc">
                   <ul>
-                      <li><h2></h2></li>
-                      <li><p>46.46%</p><span>1万以下</span></li>
+                    <li>
+                      <h2></h2>
+                    </li>
+                    <li>
+                      <p>46.46%</p>
+                      <span>1万以下</span>
+                    </li>
                   </ul>
                   <ul>
-                      <li><h2></h2></li>
-                      <li><p>40%</p><span>1-5万</span></li>
+                    <li>
+                      <h2></h2>
+                    </li>
+                    <li>
+                      <p>40%</p>
+                      <span>1-5万</span>
+                    </li>
                   </ul>
                   <ul>
-                      <li><h2></h2></li>
-                      <li><p>9.56%</p><span>5-10万</span></li>
+                    <li>
+                      <h2></h2>
+                    </li>
+                    <li>
+                      <p>9.56%</p>
+                      <span>5-10万</span>
+                    </li>
                   </ul>
                   <ul>
-                      <li><h2></h2></li>
-                      <li><p>3.16%</p><span>10–20万</span></li>
+                    <li>
+                      <h2></h2>
+                    </li>
+                    <li>
+                      <p>3.16%</p>
+                      <span>10–20万</span>
+                    </li>
                   </ul>
                   <ul>
-                      <li><h2></h2></li>
-                      <li><p>1.01%</p><span>20万以上</span></li>
+                    <li>
+                      <h2></h2>
+                    </li>
+                    <li>
+                      <p>1.01%</p>
+                      <span>20万以上</span>
+                    </li>
                   </ul>
                 </div>
               </div>
               <div class="lend-chart-wrap">
                 <div class="lend-chart" id="lend-chart"></div>
-                <div class="desc">
+                <div class="lend-desc">
                   <ul>
-                      <li><h2></h2></li>
-                      <li><p>46.46%</p><span>1万以下</span></li>
+                    <li>
+                      <h2></h2>
+                    </li>
+                    <li>
+                      <p>投资金额(万)</p>
+                    </li>
                   </ul>
                   <ul>
-                      <li><h2></h2></li>
-                      <li><p>40%</p><span>1-5万</span></li>
+                    <li>
+                      <h2></h2>
+                    </li>
+                    <li>
+                      <p>人数占比(%)</p>
+                    </li>
                   </ul>
                 </div>
               </div>
@@ -315,10 +372,76 @@
           </div>
         </div>
       </div>
-      <div class="tab-content" v-if="activeName === 'YYBG'">33</div>
-      <div class="tab-content" v-if="activeName === 'BAXX'">44</div>
-      <div class="tab-content" v-if="activeName === 'CPXG'">55</div>
-      <div class="tab-content" v-if="activeName === 'SHXX'">66</div>
+      <div class="tab-content" v-if="activeName === 'YYBG'">
+        <div class="operation-report">
+          <ul>
+            <li v-for="(item, index ) in reportList" :key="index">
+              <router-link :to="{ name: 'report', query: {index: index}}">
+                <p class="year">{{item.year}}</p>
+                <p class="title">{{item.title}}</p>
+                <p class="time">{{item.time}}</p>
+              </router-link>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="tab-content" v-if="activeName === 'BAXX'">
+        <el-tabs
+          class="about-us-tab"
+          v-model="recordInfoActiveName"
+          type="border-card"
+          @tab-click="handleRecordInfoClick"
+        >
+          <el-tab-pane label="备案登记信息" name="BADJ">
+            <div class="content" v-html="content"></div>
+          </el-tab-pane>
+          <el-tab-pane label="资金存管信息" name="ZJCG">
+            <div class="content" v-html="content"></div>
+          </el-tab-pane>
+          <el-tab-pane label="风险管理信息" name="FXGL">
+            <div class="content" v-html="content"></div>
+          </el-tab-pane>
+          <el-tab-pane label="公安网站备案" name="GAWZBA">
+            <div class="content" v-html="content"></div>
+          </el-tab-pane>
+          <el-tab-pane label="电信业务经营许可证" name="ICP">
+            <div class="content" v-html="content"></div>
+          </el-tab-pane>
+        </el-tabs>
+      </div>
+      <div class="tab-content" v-if="activeName === 'CPXG'">
+        <el-tabs
+          class="about-us-tab"
+          v-model="productAboutActiveName"
+          type="border-card"
+          @tab-click="handleProductAboutClick"
+        >
+          <el-tab-pane label="产品信息" name="CPXXTAB">
+            <div class="content" v-html="content"></div>
+          </el-tab-pane>
+          <el-tab-pane label="资费标准" name="ZFBZ">
+            <div class="content" v-html="content"></div>
+          </el-tab-pane>
+        </el-tabs>
+      </div>
+      <div class="tab-content" v-if="activeName === 'SHXX'">
+        <div class="review-info">
+          <ul>
+            <li>
+              <p class="year">2016年</p>
+              <p class="title">财务审计报告</p>
+              <p class="time">（1-12月份）</p>
+            </li>
+            <li>
+              <p class="year">2017年</p>
+              <p class="title">财务审计报告</p>
+              <p class="time">（1-12月份）</p>
+            </li>
+            <li></li>
+            <li></li>
+          </ul>
+        </div>
+      </div>
       <div class="tab-content" v-if="activeName === 'ZCFG'">77</div>
       <div class="tab-content" v-if="activeName === 'FRCNH'">88</div>
     </div>
@@ -338,371 +461,467 @@ import { getList } from '@/api/djs/announcement'
 export default {
   data() {
     return {
-      activeName: 'YYSJ',
+      activeName: 'SHXX',
       aboutUsActiveName: 'ZZRY',
-      showBigImg:false,
-      num:0,
-      imgList:[{
-        picUrl: require('./images/bg_honor1.png'),
-        desc: '营业执照'
-      },
-      {
-        picUrl: require('./images/bg_honor2.png'),
-        desc: '江西银行存管合同'
-      },
-      {
-        picUrl: require('./images/bg_honor3.png'),
-        desc: '江西银行存管合同'
-      },
-      {
-        picUrl: require('./images/bg_honor4.png'),
-        desc: '安全联盟实名认证'
-      },
-      {
-        picUrl: require('./images/bg_honor5.png'),
-        desc: '互联网行业认证'
-      },
-      {
-        picUrl: require('./images/bg_honor6.png'),
-        desc: '验资报告'
-      },
-      {
-        picUrl: require('./images/bg_honor7.png'),
-        desc: '金融理财金貔貅奖'
-      },
-      {
-        picUrl: require('./images/bg_honor8.png'),
-        desc: '可信网站认证'
-      },
-      {
-        picUrl: require('./images/bg_honor9.png'),
-        desc: '信息安全等级保护三级认证（2017年）'
-      },
-      {
-        picUrl: require('./images/bg_honor10.png'),
-        desc: 'AAA级信用企业'
-      },
-      {
-        picUrl: require('./images/bg_honor11.png'),
-        desc: '信息安全等级保护三级认证（2018年）'
-      }
+      recordInfoActiveName: 'BADJ',
+      productAboutActiveName: 'CPXXTAB',
+      showBigImg: false,
+      num: 0,
+      imgList: [
+        {
+          picUrl: require('./images/bg_honor1.png'),
+          desc: '营业执照'
+        },
+        {
+          picUrl: require('./images/bg_honor2.png'),
+          desc: '江西银行存管合同'
+        },
+        {
+          picUrl: require('./images/bg_honor3.png'),
+          desc: '江西银行存管合同'
+        },
+        {
+          picUrl: require('./images/bg_honor4.png'),
+          desc: '安全联盟实名认证'
+        },
+        {
+          picUrl: require('./images/bg_honor5.png'),
+          desc: '互联网行业认证'
+        },
+        {
+          picUrl: require('./images/bg_honor6.png'),
+          desc: '验资报告'
+        },
+        {
+          picUrl: require('./images/bg_honor7.png'),
+          desc: '金融理财金貔貅奖'
+        },
+        {
+          picUrl: require('./images/bg_honor8.png'),
+          desc: '可信网站认证'
+        },
+        {
+          picUrl: require('./images/bg_honor9.png'),
+          desc: '信息安全等级保护三级认证（2017年）'
+        },
+        {
+          picUrl: require('./images/bg_honor10.png'),
+          desc: 'AAA级信用企业'
+        },
+        {
+          picUrl: require('./images/bg_honor11.png'),
+          desc: '信息安全等级保护三级认证（2018年）'
+        }
+      ],
+      content: '',
+      reportList: [
+        {
+          year: '2017',
+          title: '——第一季度运营报告——',
+          time: '2017.01.01-2017.03.31'
+        },
+        {
+          year: '2017',
+          title: '——第二季度运营报告——',
+          time: '2017.04.01-2017.06.30'
+        },
+        {
+          year: '2017',
+          title: '——第三季度运营报告——',
+          time: '2017.07.01-2017.09.30'
+        },
+        {
+          year: '2017',
+          title: '——第四季度运营报告——',
+          time: '2017.10.01-2017.12.31'
+        },
+        {
+          year: '2018',
+          title: '——第一季度运营报告——',
+          time: '2018.01.01-2018.03.31'
+        },
+        {
+          year: '2018',
+          title: '——上半年度运营报告——',
+          time: '2018.01.01-2018.06.30'
+        },
+        {
+          year: '2018',
+          title: '——7月运营报告——',
+          time: '2018.07.01-2018.07.31'
+        },
+        {
+          year: '2018',
+          title: '——8月运营报告——',
+          time: '2018.08.01-2018.08.31'
+        },
+        {
+          year: '2018',
+          title: '——9月运营报告——',
+          time: '2018.09.01-2018.09.30'
+        },
+        {
+          year: '2018',
+          title: '——10月运营报告——',
+          time: '2018.10.01-2018.10.31'
+        },
+        {
+          year: '2017',
+          title: '——11月运营报告——',
+          time: '2018.11.01-2018.11.30'
+        }
       ]
     }
   },
   methods: {
     handleClick() {
-      if(this.activeName === 'YYSJ') {
-        setTimeout( ()=> {
-            const terminalChart = echarts.init(document.getElementById('terminal-chart'))
-              terminalChart.setOption({
-                tooltip: {
-                  trigger: 'item',
-                  formatter: "{a} <br/>{b}: {c} ({d}%)"
-                },
-                color: ['#FED842', '#FF7F24'],
-                legend: {
-                  show: false,
-                  orient: 'vertical',
-                  x: 'right',
-                  y: 'center',
-                  itemWidth: 10,
-                  itemHeight: 10,
-                  data:['PC端','移动端']
-                },
-                series: [
-                  {
-                    name:'终端分布',
-                    type:'pie',
-                    radius: ['50%', '70%'],
-                    avoidLabelOverlap: false,
-                    label: {
-                      normal: {
-                        show: false,
-                        position: 'center'
-                      },
-                      emphasis: {
-                        show: true,
-                        textStyle: {
-                            fontSize: '12',
-                            fontWeight: 'bold'
-                        }
-                      }
-                    },
-                    labelLine: {
-                      normal: {
-                          show: false
-                      }
-                    },
-                    data:[
-                      {value:26, name:'PC端'},
-                      {value:74, name:'移动端'},
-                    ]
-                  }
-                ]
-              })
-            const genderChart = echarts.init(document.getElementById('gender-chart'))
-              genderChart.setOption({
-                tooltip: {
-                  trigger: 'item',
-                  formatter: "{a} <br/>{b}: {c} ({d}%)"
-                },
-                color: ['#FF5178', '#22C9FF'],
-                legend: {
-                  show: false,
-                  orient: 'vertical',
-                  x: 'center',
-                  y: 'center',
-                  itemWidth: 10,
-                  itemHeight: 10,
-                  data:['女','男']
-                },
-                series: [
-                  {
-                    name:'性别比例',
-                    type:'pie',
-                    radius: ['50%', '70%'],
-                    avoidLabelOverlap: false,
-                    label: {
-                      normal: {
-                        show: false,
-                        position: 'center'
-                      },
-                      emphasis: {
-                        show: true,
-                        textStyle: {
-                            fontSize: '12',
-                            fontWeight: 'bold'
-                        }
-                      }
-                    },
-                    labelLine: {
-                      normal: {
-                          show: false
-                      }
-                    },
-                    data:[
-                      {value:26, name:'女'},
-                      {value:74, name:'男'},
-                    ]
-                  }
-                ]
-              })
-            const amountChart = echarts.init(document.getElementById('amount-chart'))
-              amountChart.setOption({
-                tooltip: {
-                  trigger: 'item',
-                  formatter: "{a} <br/>{b}: {c} ({d}%)"
-                },
-                color: ['#FA600C', '#099EF5', '#66CAFD', '#8DE540', '#F9DB45'],
-                legend: {
-                  show: false,
-                  orient: 'vertical',
-                  x: 'center',
-                  y: 'center',
-                  itemWidth: 10,
-                  itemHeight: 10,
-                  data:['1万以下','1-5万', '5-10万', '10–20万', '20万以上']
-                },
-                series: [
-                  {
-                    name:'金额区间',
-                    type:'pie',
-                    radius: ['50%', '70%'],
-                    avoidLabelOverlap: false,
-                    label: {
-                      normal: {
-                        show: false,
-                        position: 'center'
-                      },
-                      emphasis: {
-                        show: true,
-                        textStyle: {
-                            fontSize: '12',
-                            fontWeight: 'bold'
-                        }
-                      }
-                    },
-                    labelLine: {
-                      normal: {
-                          show: false
-                      }
-                    },
-                    data:[
-                      {value:46.46, name:'1万以下'},
-                      {value:40, name:'1-5万'},
-                      {value:9.56, name:'5-10万'},
-                      {value:3.16, name:'10–20万'},
-                      {value:1.01, name:'20万以上'}
-                    ]
-                  }
-                ]
-              })
-            const lendChart = echarts.init(document.getElementById('lend-chart'))
-              lendChart.setOption({
-                tooltip:{
-                  trigger: 'axis',
-                  axisPointer: {
-                      type: 'cross',
-                      crossStyle: {
-                          color: '#999'
-                      }
-                  }
-                },
-                grid: {
-                    left: '3%',
-                    right: '4%',
-                    bottom: '3%',
-                    containLabel: true
-                },
-                xAxis : [
-                    {
-                        type : 'category',
-                        data : ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-                        axisTick: {
-                            alignWithLabel: true
-                        }
+      if (this.activeName === 'GYWM') {
+        this.aboutUsActiveName = 'GSJJ'
+        this.handleAboutUsClick()
+      }
+      if (this.activeName === 'YYSJ') {
+        setTimeout(() => {
+          const terminalChart = echarts.init(document.getElementById('terminal-chart'))
+          terminalChart.setOption({
+            tooltip: {
+              trigger: 'item',
+              formatter: '{a} <br/>{b}: {c} ({d}%)'
+            },
+            color: ['#FED842', '#FF7F24'],
+            legend: {
+              show: false,
+              orient: 'vertical',
+              x: 'right',
+              y: 'center',
+              itemWidth: 10,
+              itemHeight: 10,
+              data: ['PC端', '移动端']
+            },
+            series: [
+              {
+                name: '终端分布',
+                type: 'pie',
+                radius: ['50%', '70%'],
+                avoidLabelOverlap: false,
+                label: {
+                  normal: {
+                    show: false,
+                    position: 'center'
+                  },
+                  emphasis: {
+                    show: true,
+                    textStyle: {
+                      fontSize: '12',
+                      fontWeight: 'bold'
                     }
-                ],
-                yAxis : [
-                    {
-                        type : 'value'
+                  }
+                },
+                labelLine: {
+                  normal: {
+                    show: false
+                  }
+                },
+                data: [{ value: 26, name: 'PC端' }, { value: 74, name: '移动端' }]
+              }
+            ]
+          })
+          const genderChart = echarts.init(document.getElementById('gender-chart'))
+          genderChart.setOption({
+            tooltip: {
+              trigger: 'item',
+              formatter: '{a} <br/>{b}: {c} ({d}%)'
+            },
+            color: ['#FF5178', '#22C9FF'],
+            legend: {
+              show: false,
+              orient: 'vertical',
+              x: 'center',
+              y: 'center',
+              itemWidth: 10,
+              itemHeight: 10,
+              data: ['女', '男']
+            },
+            series: [
+              {
+                name: '性别比例',
+                type: 'pie',
+                radius: ['50%', '70%'],
+                avoidLabelOverlap: false,
+                label: {
+                  normal: {
+                    show: false,
+                    position: 'center'
+                  },
+                  emphasis: {
+                    show: true,
+                    textStyle: {
+                      fontSize: '12',
+                      fontWeight: 'bold'
                     }
-                ],
-                series : [
-                    {
-                        name:'直接访问',
-                        type:'bar',
-                        barWidth: '60%',
-                        data:[10, 52, 200, 334, 390, 330, 220],
-                        itemStyle: {
-                          normal: {
-                            color: new echarts.graphic.LinearGradient(
-                                0, 0, 0, 1,
-                                [
-                                    {offset: 0, color: '#68EFF3'},
-                                    {offset: 1, color: '#2FA9FF'}
-
-                                ]
-                            )
-                          }
-                        }
+                  }
+                },
+                labelLine: {
+                  normal: {
+                    show: false
+                  }
+                },
+                data: [{ value: 26, name: '女' }, { value: 74, name: '男' }]
+              }
+            ]
+          })
+          const amountChart = echarts.init(document.getElementById('amount-chart'))
+          amountChart.setOption({
+            tooltip: {
+              trigger: 'item',
+              formatter: '{a} <br/>{b}: {c} ({d}%)'
+            },
+            color: ['#FA600C', '#099EF5', '#66CAFD', '#8DE540', '#F9DB45'],
+            legend: {
+              show: false,
+              orient: 'vertical',
+              x: 'center',
+              y: 'center',
+              itemWidth: 10,
+              itemHeight: 10,
+              data: ['1万以下', '1-5万', '5-10万', '10–20万', '20万以上']
+            },
+            series: [
+              {
+                name: '金额区间',
+                type: 'pie',
+                radius: ['50%', '70%'],
+                avoidLabelOverlap: false,
+                label: {
+                  normal: {
+                    show: false,
+                    position: 'center'
+                  },
+                  emphasis: {
+                    show: true,
+                    textStyle: {
+                      fontSize: '12',
+                      fontWeight: 'bold'
                     }
+                  }
+                },
+                labelLine: {
+                  normal: {
+                    show: false
+                  }
+                },
+                data: [
+                  { value: 46.46, name: '1万以下' },
+                  { value: 40, name: '1-5万' },
+                  { value: 9.56, name: '5-10万' },
+                  { value: 3.16, name: '10–20万' },
+                  { value: 1.01, name: '20万以上' }
                 ]
-              })
-          },200)
+              }
+            ]
+          })
+          const lendChart = echarts.init(document.getElementById('lend-chart'))
+          lendChart.setOption({
+            tooltip: {
+              trigger: 'axis',
+              axisPointer: {
+                type: 'cross',
+                crossStyle: {
+                  color: '#999'
+                }
+              }
+            },
+            grid: {
+              left: '3%',
+              right: '4%',
+              bottom: '3%',
+              containLabel: true
+            },
+            xAxis: [
+              {
+                type: 'category',
+                data: ['18-19', '20-29', '30-39', '40-49', '50以上'],
+                axisLabel: {
+                  interval: 0 //0：全部显示，1：间隔为1显示对应类目，2：依次类推，（简单试一下就明白了，这样说是不是有点抽象）
+                }
+              }
+            ],
+            yAxis: [
+              {
+                type: 'value',
+                name: '投资金额',
+                min: 0,
+                max: 12000,
+                interval: 3000,
+                axisLabel: {
+                  formatter: '{value} 万'
+                },
+                axisTick: {
+                  show: false
+                }
+              },
+              {
+                // Secondary yAxis
+                type: 'value',
+                name: '人数百分比',
+                min: 0,
+                max: 100,
+                interval: 25,
+                axisLabel: {
+                  formatter: '{value} %'
+                },
+                axisTick: {
+                  show: false
+                }
+              }
+            ],
+            series: [
+              {
+                name: '投资金额',
+                type: 'bar',
+                barWidth: '40%',
+                data: [5.4, 3257.97, 10983.27, 3395.09, 7172.25],
+                tooltip: {
+                  valueSuffix: '万'
+                },
+                itemStyle: {
+                  normal: {
+                    color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{ offset: 0, color: '#68EFF3' }, { offset: 1, color: '#2FA9FF' }])
+                  }
+                }
+              },
+              {
+                name: '人数百分比',
+                type: 'line',
+                barWidth: '60%',
+                yAxisIndex: 1,
+                smooth: true,
+                data: [0.2, 34.56, 38.36, 11.14, 15.74],
+                itemStyle: {
+                  normal: {
+                    color: ['#FF5178']
+                  }
+                }
+              }
+            ]
+          })
+        }, 200)
+      }
+      if (this.activeName === 'BAXX') {
+        this.recordInfoActiveName = 'BADJ'
+        this.handleRecordInfoClick()
+      }
+      if (this.activeName === 'CPXG') {
+        this.productAboutActiveName = 'CPXXTAB'
+        this.handleRecordInfoClick()
       }
     },
     handleAboutUsClick() {
-      if(this.aboutUsActiveName === 'GSGL') {
-        setTimeout( ()=> {
-            const ageChart = echarts.init(document.getElementById('age-chart'))
-              ageChart.setOption({
-                tooltip: {
-                  trigger: 'item',
-                  formatter: "{a} <br/>{b}: {c} ({d}%)"
-                },
-                color: ['#FA8B2F', '#FB6E4A', '#FFD665', '#FFB368'],
-                legend: {
-                  orient: 'vertical',
-                  x: 'center',
-                  y: 'center',
-                  itemWidth: 10,
-                  itemHeight: 10,
-                  data:['25岁以下','25-30岁','31-35岁','36岁以上']
-                },
-                series: [
-                  {
-                    name:'年龄分布',
-                    type:'pie',
-                    radius: ['50%', '70%'],
-                    avoidLabelOverlap: false,
-                    label: {
-                      normal: {
-                        show:true,
-                        position:'outer', //标签的位置
-                        textStyle : {
-                            fontWeight : 100 ,
-                            fontSize : 12    //文字的字体大小
-                        },
-                        formatter:'{d}%',
-                      padding: [0, -20],
-                      },
-                      emphasis: {
-                        show: true,
-                        textStyle: {
-                            fontSize: '12',
-                            fontWeight: 'bold'
-                        }
-                      }
+      if (this.aboutUsActiveName === 'GSGL') {
+        setTimeout(() => {
+          const ageChart = echarts.init(document.getElementById('age-chart'))
+          ageChart.setOption({
+            tooltip: {
+              trigger: 'item',
+              formatter: '{a} <br/>{b}: {c} ({d}%)'
+            },
+            color: ['#FA8B2F', '#FB6E4A', '#FFD665', '#FFB368'],
+            legend: {
+              orient: 'vertical',
+              x: 'center',
+              y: 'center',
+              itemWidth: 10,
+              itemHeight: 10,
+              data: ['25岁以下', '25-30岁', '31-35岁', '36岁以上']
+            },
+            series: [
+              {
+                name: '年龄分布',
+                type: 'pie',
+                radius: ['50%', '70%'],
+                avoidLabelOverlap: false,
+                label: {
+                  normal: {
+                    show: true,
+                    position: 'outer', //标签的位置
+                    textStyle: {
+                      fontWeight: 100,
+                      fontSize: 12 //文字的字体大小
                     },
-                    labelLine: {
-                      normal: {
-                          show: false
-                      }
-                    },
-                    data:[
-                      {value:20, name:'31-35岁'},
-                      {value:42, name:'25-30岁'},
-                      {value:26, name:'25岁以下'},
-                      {value:12, name:'36岁以上'}
-                    ]
+                    formatter: '{d}%',
+                    padding: [0, -20]
+                  },
+                  emphasis: {
+                    show: true,
+                    textStyle: {
+                      fontSize: '12',
+                      fontWeight: 'bold'
+                    }
                   }
-                ]
-              })
-            const educationChart = echarts.init(document.getElementById('education-chart'))
-              console.log('educationChart===', educationChart)
-              educationChart.setOption({
-                tooltip: {
-                  trigger: 'item',
-                  formatter: "{a} <br/>{b}: {c} ({d}%)"
                 },
-                color: ['#48AFFF', '#76DDFB', '#4ABBF7'],
-                legend: {
-                  orient: 'vertical',
-                  x: 'center',
-                  y: 'center',
-                  itemWidth: 10,
-                  itemHeight: 10,
-                  data:['大学及本科','硕士及博士','其他']
-                },
-                series: [
-                  {
-                    name:'学历分布',
-                    type:'pie',
-                    radius: ['50%', '70%'],
-                    avoidLabelOverlap: false,
-                    label: {
-                      normal: {
-                        show:true,
-                        position:'outer', //标签的位置
-                        textStyle : {
-                            fontWeight : 100 ,
-                            fontSize : 12    //文字的字体大小
-                        },
-                        formatter:'{d}%'
-                      },
-                      emphasis: {
-                        show: true,
-                        textStyle: {
-                            fontSize: '12',
-                            fontWeight: 'bold'
-                        }
-                      }
-                    },
-                    labelLine: {
-                      normal: {
-                          show: false
-                      }
-                    },
-                    data:[
-                      {value:4, name:'其他'},
-                      {value:11, name:'硕士及博士'},
-                      {value:85, name:'大学及本科'}
-                    ]
+                labelLine: {
+                  normal: {
+                    show: false
                   }
+                },
+                data: [
+                  { value: 20, name: '31-35岁' },
+                  { value: 42, name: '25-30岁' },
+                  { value: 26, name: '25岁以下' },
+                  { value: 12, name: '36岁以上' }
                 ]
-              })
-          },200)
+              }
+            ]
+          })
+          const educationChart = echarts.init(document.getElementById('education-chart'))
+          console.log('educationChart===', educationChart)
+          educationChart.setOption({
+            tooltip: {
+              trigger: 'item',
+              formatter: '{a} <br/>{b}: {c} ({d}%)'
+            },
+            color: ['#48AFFF', '#76DDFB', '#4ABBF7'],
+            legend: {
+              orient: 'vertical',
+              x: 'center',
+              y: 'center',
+              itemWidth: 10,
+              itemHeight: 10,
+              data: ['大学及本科', '硕士及博士', '其他']
+            },
+            series: [
+              {
+                name: '学历分布',
+                type: 'pie',
+                radius: ['50%', '70%'],
+                avoidLabelOverlap: false,
+                label: {
+                  normal: {
+                    show: true,
+                    position: 'outer', //标签的位置
+                    textStyle: {
+                      fontWeight: 100,
+                      fontSize: 12 //文字的字体大小
+                    },
+                    formatter: '{d}%'
+                  },
+                  emphasis: {
+                    show: true,
+                    textStyle: {
+                      fontSize: '12',
+                      fontWeight: 'bold'
+                    }
+                  }
+                },
+                labelLine: {
+                  normal: {
+                    show: false
+                  }
+                },
+                data: [{ value: 4, name: '其他' }, { value: 11, name: '硕士及博士' }, { value: 85, name: '大学及本科' }]
+              }
+            ]
+          })
+        }, 200)
       }
       let postData = {
         curPage: this.page,
@@ -711,6 +930,7 @@ export default {
       }
       getList(postData).then(res => {
         let data = res.data
+        this.content = data.zxdtMtbdlist[0].content
       })
     },
     bigImg(index) {
@@ -718,23 +938,44 @@ export default {
       this.num = index
     },
     prev() {
-      if(this.num == 0) {
-          this.num = 11
+      if (this.num == 0) {
+        this.num = 11
       }
       this.num--
     },
     next() {
-      if(this.num == 10) {
-          this.num=-1
+      if (this.num == 10) {
+        this.num = -1
       }
       this.num++
     },
     close() {
       this.showBigImg = false
+    },
+    handleRecordInfoClick() {
+      let postData = {
+        curPage: this.page,
+        maxLine: this.size,
+        paramCode: this.recordInfoActiveName
+      }
+      getList(postData).then(res => {
+        let data = res.data
+        this.content = data.zxdtMtbdlist[0].content
+      })
+    },
+    handleProductAboutClick() {
+      let postData = {
+        curPage: this.page,
+        maxLine: this.size,
+        paramCode: this.productAboutActiveName
+      }
+      getList(postData).then(res => {
+        let data = res.data
+        this.content = data.zxdtMtbdlist[0].content
+      })
     }
   },
-  mounted() {
-  },
+  mounted() {}
 }
 </script>
 
@@ -751,7 +992,7 @@ export default {
       margin: 0 auto;
       text-align: center;
       font-size: $font-size-large-xxx;
-      color:rgba(255,255,255,1);
+      color: rgba(255, 255, 255, 1);
     }
     .main-tabs {
       width: 1140px;
@@ -767,13 +1008,13 @@ export default {
             .el-tabs__item {
               width: 119px;
               height: 44px;
-              line-height: 44px;
+              line-height: 43px;
               text-align: center;
               border: 1px solid #fff;
               margin-right: 21px;
               color: #fff;
               padding: 0;
-              border-radius:4px;
+              border-radius: 4px;
               font-size: $font-size-medium;
               &:last-child {
                 margin-right: 0;
@@ -781,11 +1022,11 @@ export default {
             }
             .el-tabs__item:hover {
               background: #fff;
-              color: #FB7B1F;
+              color: #fb7b1f;
             }
             .el-tabs__item.is-active {
               background: #fff;
-              color: #FB7B1F;
+              color: #fb7b1f;
             }
           }
         }
@@ -805,12 +1046,9 @@ export default {
         font-size: $font-size-small-s;
         color: $color-text-s;
         &.is-active {
-          box-shadow: inset 0 2px 0 0 #FB9D1F;
-          color: #FB891F;
+          box-shadow: inset 0 2px 0 0 #fb9d1f;
+          color: #fb891f;
         }
-      }
-      .company-introduction {
-
       }
       .company-management {
         .organizational-structure-wrap {
@@ -823,7 +1061,7 @@ export default {
             color: $color-text;
             margin: 0 auto;
             font-weight: 500;
-            border-bottom: 2px solid #FB891F;
+            border-bottom: 2px solid #fb891f;
           }
           img {
             display: block;
@@ -843,7 +1081,7 @@ export default {
             color: $color-text;
             margin: 0 auto;
             font-weight: 500;
-            border-bottom: 2px solid #FB891F;
+            border-bottom: 2px solid #fb891f;
           }
           ul {
             width: 1000px;
@@ -893,9 +1131,9 @@ export default {
                   margin: 250px auto 0 auto;
                   font-size: $font-size-small-s;
                   color: $color-text;
-                  line-height:24px;
-                  font-weight:400;
-                  padding: 0 25px 14px 25px;
+                  line-height: 24px;
+                  font-weight: 400;
+                  padding: 0 20px 14px 20px;
                 }
               }
               &:hover {
@@ -940,7 +1178,7 @@ export default {
             color: $color-text;
             margin: 0 auto;
             font-weight: 500;
-            border-bottom: 2px solid #FB891F;
+            border-bottom: 2px solid #fb891f;
           }
           .chart-wrap {
             margin-top: 30px;
@@ -948,11 +1186,13 @@ export default {
             flex: 1;
             justify-content: space-between;
             height: 266px;
-            .age-chart-wrap, .education-chart-wrap {
+            .age-chart-wrap,
+            .education-chart-wrap {
               display: flex;
               flex: 1;
               height: 266px;
-              .age-chart, .education-chart {
+              .age-chart,
+              .education-chart {
                 display: inline-block;
                 width: 250px;
                 height: 250px;
@@ -996,7 +1236,7 @@ export default {
             color: $color-text;
             margin: 0 auto;
             font-weight: 500;
-            border-bottom: 2px solid #FB891F;
+            border-bottom: 2px solid #fb891f;
           }
           img {
             display: block;
@@ -1016,15 +1256,15 @@ export default {
           color: $color-text;
           margin: 0 auto;
           font-weight: 500;
-          border-bottom: 2px solid #FB891F;
+          border-bottom: 2px solid #fb891f;
         }
         .img-list {
           margin: 0 auto;
           margin-top: 67px;
           width: 1035px;
           display: flex;
-          flex-direction:row;
-          flex-wrap:wrap;
+          flex-direction: row;
+          flex-wrap: wrap;
           .img-item {
             width: 310px;
             margin-right: 50px;
@@ -1051,14 +1291,14 @@ export default {
           top: 0;
           left: 0;
           z-index: 100000;
-          background: rgba(0,0,0,0.66); 
+          background: rgba(0, 0, 0, 0.66);
           .show-img {
             height: 815px;
             width: 607px;
             position: absolute;
             left: 50%;
             top: 50%;
-            transform: translate(-50%,-50%);
+            transform: translate(-50%, -50%);
           }
           .big-img {
             width: 100%;
@@ -1068,8 +1308,8 @@ export default {
             position: absolute;
             width: 607px;
             left: 50%;
-            top: 8%;
-            transform: translate(-50%,-50%);
+            top: 4%;
+            transform: translate(-50%, -50%);
             .close {
               position: absolute;
               top: 0;
@@ -1083,11 +1323,11 @@ export default {
             top: 50%;
             left: 10%;
             width: 40px;
-            transform: translate(10px,-50%);
+            transform: translate(10px, -50%);
           }
           .next {
             width: 40px;
-            transform: translate(10px,-50%);
+            transform: translate(10px, -50%);
             position: absolute;
             top: 50%;
             right: 10%;
@@ -1101,14 +1341,14 @@ export default {
       .operation-data-item {
         width: 100%;
         background: #fff;
-        box-shadow: inset 0px 2px 0px 0px rgba(247,190,57,1);
-        border: 1px solid rgba(229,229,229,1);
+        box-shadow: inset 0px 2px 0px 0px rgba(247, 190, 57, 1);
+        border: 1px solid rgba(229, 229, 229, 1);
         margin-bottom: 32px;
         .title {
           padding: 17px 19px 22px 19px;
           display: flex;
           justify-content: space-between;
-          border-bottom: 1px solid #F1F1F7;
+          border-bottom: 1px solid #f1f1f7;
           .name {
             height: 20px;
             line-height: 20px;
@@ -1160,18 +1400,25 @@ export default {
           flex: 1;
           justify-content: space-between;
           height: 266px;
-          .terminal-chart-wrap, .gender-chart-wrap, .amount-chart-wrap, .lend-chart-wrap {
+          .terminal-chart-wrap,
+          .gender-chart-wrap,
+          .amount-chart-wrap,
+          .lend-chart-wrap {
             display: flex;
             flex: 1;
             height: 266px;
             margin-right: 170px;
-            .terminal-chart, .gender-chart, .amount-chart, .lend-chart {
+            .terminal-chart,
+            .gender-chart,
+            .amount-chart,
+            .lend-chart {
               display: inline-block;
               width: 250px;
               height: 250px;
               margin-right: 10px;
             }
-            .desc, .amount-desc {
+            .desc,
+            .amount-desc {
               width: 12%;
               margin-top: 46px;
               ul {
@@ -1201,7 +1448,7 @@ export default {
                   h2 {
                     height: 16px;
                     width: 16px;
-                    background: #FF7F24;
+                    background: #ff7f24;
                     margin-top: 14px;
                   }
                   .man {
@@ -1216,7 +1463,7 @@ export default {
                   h2 {
                     height: 16px;
                     width: 16px;
-                    background: #FED842;
+                    background: #fed842;
                     margin-top: 14px;
                   }
                   .women {
@@ -1238,7 +1485,7 @@ export default {
                   h2 {
                     height: 16px;
                     width: 16px;
-                    background: #FA600C;
+                    background: #fa600c;
                     margin-top: 14px;
                   }
                 }
@@ -1246,7 +1493,7 @@ export default {
                   h2 {
                     height: 16px;
                     width: 16px;
-                    background: #099EF5;
+                    background: #099ef5;
                     margin-top: 14px;
                   }
                 }
@@ -1254,7 +1501,7 @@ export default {
                   h2 {
                     height: 16px;
                     width: 16px;
-                    background: #66CAFD;
+                    background: #66cafd;
                     margin-top: 14px;
                   }
                 }
@@ -1262,7 +1509,7 @@ export default {
                   h2 {
                     height: 16px;
                     width: 16px;
-                    background: #8DE540;
+                    background: #8de540;
                     margin-top: 14px;
                   }
                 }
@@ -1270,12 +1517,175 @@ export default {
                   h2 {
                     height: 16px;
                     width: 16px;
-                    background: #F9DB45;
+                    background: #f9db45;
                     margin-top: 14px;
                   }
                 }
               }
             }
+            .lend-desc {
+              margin-top: 110px;
+              ul {
+                display: flex;
+                flex-wrap: nowrap;
+                justify-content: space-between;
+                margin: 0;
+                height: 40px;
+                padding-bottom: 14px;
+                li {
+                  display: inline-block;
+                  vertical-align: middle;
+                  width: 25px;
+                  margin-right: 2px;
+                  &:nth-child(2) {
+                    width: 82px;
+                  }
+                  p {
+                    font-size: $font-size-small-s;
+                    color: #5a5a5a;
+                  }
+                }
+                &:nth-child(1) {
+                  h2 {
+                    height: 16px;
+                    width: 16px;
+                    background: #23c9ff;
+                    margin-top: 2px;
+                  }
+                }
+                &:nth-child(2) {
+                  h2 {
+                    height: 16px;
+                    width: 16px;
+                    background: #ff5178;
+                    margin-top: 2px;
+                  }
+                }
+              }
+            }
+            .lend-chart {
+              width: 380px;
+              height: 250px;
+            }
+          }
+          .amount-chart-wrap {
+            margin-right: 82px;
+          }
+        }
+      }
+    }
+    .operation-report {
+      width: 1140px;
+      margin: 0 auto;
+      margin-top: 30px;
+      ul {
+        display: flex;
+        flex-wrap: wrap;
+        li {
+          width: 370px;
+          height: 270px;
+          color: #fff;
+          margin-right: 15px;
+          margin-bottom: 15px;
+          text-align: center;
+          cursor: pointer;
+          a {
+            display: block;
+            width: 100%;
+            height: 100%;
+            color: #fff;
+            .year {
+              font-size: 80px;
+              padding-top: 40px;
+            }
+            .title {
+              font-size: $font-size-medium;
+              margin-top: 0px;
+            }
+            .time {
+              font-size: $font-size-medium;
+              margin-top: 12px;
+            }
+          }
+          &:nth-child(1) {
+            background: url('./images/bg_report1.png') center center no-repeat;
+          }
+          &:nth-child(2) {
+            background: url('./images/bg_report2.png') center center no-repeat;
+          }
+          &:nth-child(3) {
+            background: url('./images/bg_report3.png') center center no-repeat;
+            margin-right: 0;
+          }
+          &:nth-child(4) {
+            background: url('./images/bg_report4.png') center center no-repeat;
+          }
+          &:nth-child(5) {
+            background: url('./images/bg_report5.png') center center no-repeat;
+          }
+          &:nth-child(6) {
+            background: url('./images/bg_report6.png') center center no-repeat;
+            margin-right: 0;
+          }
+          &:nth-child(7) {
+            background: url('./images/bg_report1.png') center center no-repeat;
+          }
+          &:nth-child(8) {
+            background: url('./images/bg_report2.png') center center no-repeat;
+          }
+          &:nth-child(9) {
+            background: url('./images/bg_report3.png') center center no-repeat;
+            margin-right: 0;
+          }
+          &:nth-child(10) {
+            background: url('./images/bg_report4.png') center center no-repeat;
+          }
+          &:nth-child(11) {
+            background: url('./images/bg_report5.png') center center no-repeat;
+          }
+        }
+      }
+    }
+    .review-info {
+      width: 1140px;
+      margin: 0 auto;
+      margin-top: 30px;
+      ul {
+        display: flex;
+        flex-wrap: wrap;
+        li {
+          width: 370px;
+          height: 270px;
+          color: #fff;
+          margin-right: 15px;
+          margin-bottom: 15px;
+          text-align: center;
+          .year {
+            font-size: 32px;
+            padding-top: 78px;
+          }
+          .title {
+            font-size: 36px;
+            margin-top: 2px;
+          }
+          .time {
+            font-size: $font-size-medium-x;
+            margin-top: 2px;
+          }
+          &:nth-child(1) {
+            background: url('./images/bg_review_item1.png') center center no-repeat;
+            cursor: pointer;
+          }
+          &:nth-child(2) {
+            background: url('./images/bg_review_item1.png') center center no-repeat;
+            cursor: pointer;
+          }
+          &:nth-child(3) {
+            background: url('./images/bg_review_item3.png') center center no-repeat;
+            margin-right: 0;
+          }
+          &:nth-child(4) {
+            background: url('./images/bg_review_item4.png') center center no-repeat;
           }
         }
       }
