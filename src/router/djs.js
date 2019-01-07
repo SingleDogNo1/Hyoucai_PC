@@ -271,6 +271,17 @@ export default new Router({
           component: () => import(/* webpackChunkName: "report" */ '@/views/djs/infoDisclosure/report.vue')
         }
       ]
+    },
+    {
+      path: '/agreement', // 自动出借
+      component: Layout,
+      children: [
+        {
+          path: 'autoLend',
+          name: 'autoLendAgreement',
+          component: () => import('@/views/djs/Mine/autoLend/agreement')
+        }
+      ]
     }
   ]
 })

@@ -665,27 +665,27 @@
 <script>
 import Swiper from 'swiper/dist/js/swiper'
 export default {
-  data () {
+  data() {
     return {
       index: 0
     }
   },
   mounted() {
     this.index = this.$route.query.index
-    console.log('iundex=====', this.index) 
+    console.log('iundex=====', this.index)
     setTimeout(() => {
-      initialSlide: 0,
-      this.swiperBanner = new Swiper('.swiper-container-banner', {
-        autoplay: {
-          delay: 2500,
-          disableOnInteraction: false
-        },
-        loop: false,
-        navigation: {
-          nextEl: '.swiper-button-next',
-          prevEl: '.swiper-button-prev'
-        }
-      })
+      0,
+        (this.swiperBanner = new Swiper('.swiper-container-banner', {
+          autoplay: {
+            delay: 2500,
+            disableOnInteraction: false
+          },
+          loop: false,
+          navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev'
+          }
+        }))
     }, 500)
   }
 }
@@ -718,18 +718,17 @@ export default {
     .swiper-button-prev {
       left: 110px;
       right: auto;
-      background: url("./images/swiper_prev.png") no-repeat center center;
+      background: url('./images/swiper_prev.png') no-repeat center center;
       height: 48px;
       width: 48px;
     }
     .swiper-button-next {
       right: 110px;
       left: auto;
-      background: url("./images/swiper_next.png") no-repeat center center;
+      background: url('./images/swiper_next.png') no-repeat center center;
       height: 48px;
       width: 48px;
     }
   }
 }
 </style>
-
