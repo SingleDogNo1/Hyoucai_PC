@@ -1,9 +1,7 @@
 <template>
   <div class="layout">
     <AppHeader />
-    <div class="container">
-        <router-view></router-view>
-    </div>
+    <div class="container"><router-view></router-view></div>
     <AppFooter />
     <FixedNavigation />
   </div>

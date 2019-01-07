@@ -1,9 +1,7 @@
 <template>
   <div class="mine-wrapper" v-if="userBasicInfo">
     <user-menu></user-menu>
-    <div class="wrapper">
-        <router-view />
-    </div>
+    <div class="wrapper"><router-view /></div>
   </div>
 </template>
 

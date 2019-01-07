@@ -6,7 +6,9 @@
         <ul>
           <li>
             <div>交易记录</div>
-            <div class="tag" :class="{ active: timeIndex === i }" v-for="(item, i) in times" :key="i" @click="selectTime(i, item)">{{ item.key }}</div>
+            <div class="tag" :class="{ active: timeIndex === i }" v-for="(item, i) in times" :key="i" @click="selectTime(i, item)">
+              {{ item.key }}
+            </div>
           </li>
           <li v-if="status.length">
             <div>状态</div>
@@ -28,7 +30,13 @@
           <el-table-column prop="txDesc" label="交易描述"> </el-table-column>
         </el-table>
         <div class="pagination-wrapper">
-          <pagination v-if="total" :total-count="total" :size-val="size" :page-val="page" @handleCurrentChange="handleCurrentChange"></pagination>
+          <pagination
+            v-if="countPage"
+            :count-page="countPage"
+            :size-val="size"
+            :page-val="page"
+            @handleCurrentChange="handleCurrentChange"
+          ></pagination>
         </div>
       </div>
     </div>
@@ -55,7 +63,7 @@ export default {
       tableData: [],
       page: 1,
       size: 10,
-      total: 0,
+      countPage: 0,
       userName: getUser().userName,
       authorization: getAuth()
     }
@@ -103,7 +111,7 @@ export default {
         let data = res.data
         if (data.resultCode === ERR_OK) {
           this.tableData = data.data.list
-          this.total = data.data.countPage * this.size
+          this.countPage = data.data.countPage
           this.page = data.data.curPage
         }
       })
