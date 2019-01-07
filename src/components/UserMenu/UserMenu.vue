@@ -2,42 +2,31 @@
   <div class="menu">
     <header class="avatar">
       <div class="user">
-        <img src="./avatar.png" alt="">
+        <img src="./avatar.png" alt="" />
         <p>
-          <em>{{greet}}</em>
-          <span>{{user.nickname}}</span>
+          <em>{{ greet }}</em> <span>{{ user.nickname }}</span>
         </p>
       </div>
       <div class="safe">
-        <span>安全等级</span>
-        <span class="level">{{safetyLevel}}</span>
+        <span>安全等级</span> <span class="level">{{ safetyLevel }}</span>
       </div>
     </header>
     <ul class="block">
-      <li class="title">
-        <i class="iconfont icon-account"></i>
-        <span>我的账户</span>
-      </li>
+      <li class="title"><i class="iconfont icon-account"></i> <span>我的账户</span></li>
       <router-link class="link" tag="li" to="/mine/overview">账户总览</router-link>
       <router-link class="link" tag="li" to="/mine/basicInfo">基本信息</router-link>
       <router-link class="link" tag="li" to="/mine/bankcard">银行卡</router-link>
       <router-link class="link" tag="li" to="/mine/referralCode">推荐码</router-link>
     </ul>
     <ul class="block">
-      <li class="title">
-        <i class="iconfont icon-investment"></i>
-        <span>我的出借</span>
-      </li>
+      <li class="title"><i class="iconfont icon-investment"></i> <span>我的出借</span></li>
       <router-link class="link" tag="li" to="/mine/lend">我的出借</router-link>
       <router-link class="link" tag="li" to="/mine/record">交易记录</router-link>
       <router-link class="link" tag="li" to="/mine/auto-lend" v-if="user.platformFlag === '1'">自动出借</router-link>
       <router-link class="link" tag="li" to="/mine/calendar">回款日历</router-link>
     </ul>
     <ul class="block">
-      <li class="title">
-        <i class="iconfont icon-vouchers_"></i>
-        <span>我的券包</span>
-      </li>
+      <li class="title"><i class="iconfont icon-vouchers_"></i> <span>我的券包</span></li>
       <router-link class="link" tag="li" to="/mine/coupons">我的卡券</router-link>
       <router-link class="link" tag="li" to="/mine/experience-money">体验金</router-link>
     </ul>

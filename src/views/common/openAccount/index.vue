@@ -24,22 +24,22 @@
                         </ul>
                     </div>
                     <div class="form-data">
-                        <p class="username"><i class="iconfont icon-user"></i><input type="text" placeholder="请输入姓名"/></p>
-                        <p class="id-card"><i class="iconfont icon-certificate"></i><input type="text" placeholder="请输入身份证号"/>
+                        <p class="username"><i class="iconfont icon-user"></i><input type="text" :disabled="formData.name.disabled" v-model="formData.name.val" ref="userNameRef" placeholder="请输入姓名"/></p>
+                        <p class="id-card"><i class="iconfont icon-certificate"></i><input type="text" :disabled="formData.idCard.disabled" v-model="formData.idCard.val" ref="idCatdRef" placeholder="请输入身份证号"/>
                         </p>
                         <p class="mobile">
                             <i class="iconfont icon-phone1"></i>
-                            <input type="text" :disabled="formData.mobile.disabled" :value="formData.mobile.val" placeholder="请输入开户手机号"></p>
+                            <input type="text" :disabled="formData.mobile.disabled" v-model="formData.mobile.val" placeholder="请输入开户手机号"></p>
                         <div id="support-bank" @click="bankDialogVisible=true">查看支持银行<em class="iconfont icon-changjianwenti userBank-find"></em></div>
                         <dl>
-                            <dt><i :class="checkAgree ? 'icon-Check' : 'icon-choose'" class="iconfont" @click="checkAgree=!checkAgree"></i></dt>
+                            <dt><i :class="checkAgree ? 'icon-check' : 'icon-choose'" class="iconfont" @click="checkAgree=!checkAgree"></i></dt>
                             <dd>
                                 我已阅读并同意<a href="javascript:;" @click="agreeDialogVisible=true" class="agre_find">《江西银行网络交易资金账户服务第三方协议》</a>和<a href="javascript:;" @click="agreeDialogVisible=true" class="agre_find">《用户授权协议》</a>
                             </dd>
                         </dl>
-                        <h3>error!!</h3>
+                        <h3 v-if="errorMsg != ''">{{errorMsg}}</h3>
                         <p class="text"></p>
-                        <button type="submit" id="submit" class="disabled">下一步</button>
+                        <button type="submit" :class="!checkAgree || formData.name.val=='' || formData.idCard.val == '' ? 'disabled' : ''" :disabled="!checkAgree || formData.name.val=='' || formData.idCard.val == ''" id="submit" @click="clickNext">下一步</button>
                         <p class="open_tip">
                             温馨提示：<br>
                             1.请保持你的姓名、手机号和借记卡预留信息一致。<br>
@@ -602,6 +602,8 @@ input:disabled {
       display: inline-block;
       padding-left: 8px;
       text-align: left;
+      margin-top: -3px;
+      line-height: 18px;
     }
     strong {
       font-size: 16px;
@@ -792,6 +794,7 @@ input:disabled {
 
 <script type="text/javascript">
 import accountApi from '@/api/account/user'
+import { isChName, isIdcard } from '@/assets/js/regular'
 import { mapGetters } from 'vuex'
 export default {
   components: {},
@@ -816,7 +819,9 @@ export default {
       agreeDialogVisible: false,
       backList: [],
       agreeSelectTab: true,
-      checkAgree: true
+      checkAgree: true,
+      errorStatus: false,
+      errorMsg: ''
     }
   },
   computed: {
@@ -841,31 +846,6 @@ export default {
         if (data.resultCode === '1') {
           if (data.data.status === 'OPEN_ACCOUNT' || data.data.status === 'SET_PASSWORD') {
             this.basicInfo()
-            // commons.icall("user/basicInfo", {"_auth": true}, function (data) {
-            // 	$(".mobile input").val(data.data.mobile);
-            // 	if (data.resultCode === '1') {
-            // 		if (data.data.isOpenAccount) {
-            // 		$(".username input").val(data.data.name).attr("disabled", "disabled");
-            // 		$(".mobile input").val(data.data.mobile).attr("disabled", "disabled");
-            // 		$(".id-card input").val(data.data.identityNo).attr("disabled", "disabled");
-            // 		$("#submit").removeClass("disabled");
-            // 		iface = 'escrow/passwordReset';
-            // 		alert({
-            // 			'msg': '<i style="font-size:14px;padding-top:20px;">您已成功开户，请点击下一步，进行交易密码设置。</i>',
-            // 			'continueTitle': '确定',
-            // 			'row': 'investDetail_tag',
-            // 			'continue': function () {
-            // 			}
-            // 		});
-            // 		} else if (!data.data.isOpenAccount) {
-            // 		iface = "escrow/accountOpenEncryptPage";
-            // 		var isMobileReadonly = data.data.isMobileEdit === '0';
-            // 		if (!isMobileReadonly) {
-            // 			$('.mobile input').removeAttr('disabled');
-            // 		}
-            // 		}
-            // 	}
-            // })
           } else if (data.data.status === 'SIGN_PROTOCOL' || data.data.status === 'EVALUATE' || data.data.status === 'COMPLETE') {
             window.location.href = '/user/makeAgre.html'
           }
@@ -877,36 +857,12 @@ export default {
         console.info('basicInfo res', res)
         let data = res.data
         if (data.resultCode === '1') {
-          // if (data.data.isOpenAccount) {
-          //   this.formData = {
-          //     name: {
-          //       val: data.data.name,
-          //       disabled: true
-          //     },
-          //     idCard: {
-          //       val: data.data.identityNo,
-          //       disabled: true
-          //     },
-          //     mobile: {
-          //       val: data.data.mobile,
-          //       disabled: true
-          //     }
-          //   }
-          //   $('#submit').removeClass('disabled')
-          //   this.iface = 'escrow/passwordReset'
-          //   alert({
-          //     msg: '<i style="font-size:14px;padding-top:20px;">您已成功开户，请点击下一步，进行交易密码设置。</i>',
-          //     continueTitle: '确定',
-          //     row: 'investDetail_tag',
-          //     continue: function() {}
-          //   })
-          // } else if (!data.data.isOpenAccount) {
-          //   this.iface = 'escrow/accountOpenEncryptPage'
-          //   var isMobileReadonly = data.data.isMobileEdit === '0'
-          //   if (!isMobileReadonly) {
-          //     $('.mobile input').removeAttr('disabled')
-          //   }
-          // }
+          if (!data.data.isOpenAccount) {
+            var isMobileReadonly = data.data.isMobileEdit === '0'
+            if (!isMobileReadonly) {
+              this.formData.mobile.disabled = false
+            }
+          }
         }
       })
     },
@@ -918,6 +874,82 @@ export default {
     },
     clickNext: function() {
       console.info('clickNext')
+
+      if (!isChName(this.formData.name.val)) {
+        this.errorMsg = '请输入正确的姓名!!'
+        this.$refs.userNameRef.focus()
+        return false
+      }
+
+      if (!isIdcard(this.formData.idCard.val)) {
+        this.errorMsg = '请输入正确的身份证号!!'
+        this.$refs.idCatdRef.focus()
+        return false
+      }
+
+      this.errorMsg = ''
+
+      let postParams = {
+        _auth: true,
+        _type: 'post',
+        name: this.formData.name.val,
+        mobile: this.formData.mobile.val,
+        identityNo: this.formData.idCard.val
+      }
+      this.userInfoAuth(postParams)
+    },
+    userInfoAuth: function(params) {
+      accountApi.userInfoAuth(params).then(res => {
+        let data = res.data
+        console.info('userInfoAuth data ==>', data)
+        if (data.data.isSuccess == '1') {
+          let params = {
+            _auth: true,
+            _type: 'post',
+            name: this.formData.name.val,
+            mobile: this.formData.mobile.val,
+            retUrl: location.href,
+            gender: data.data.gender
+          }
+
+          accountApi.accountOpenEncryptPage(params).then(res => {
+            let accountData = res.data
+            if (accountData.resultCode === '1') {
+              this.postcall(accountData.data.redirectUrl, accountData.data.paramReq)
+            } else {
+              this.errorMsg = accountData.resultMsg
+            }
+            console.info('accountOpenEncryptPage', accountData)
+          })
+        } else {
+          this.errorMsg = data.data.message
+        }
+      })
+    },
+    postcall(url, params, target) {
+      let tempform = document.createElement('form')
+      tempform.setAttribute('name', 'form')
+      tempform.action = url
+      tempform.method = 'post'
+      tempform.style.display = 'none'
+      if (target) {
+        tempform.target = target
+      }
+
+      for (let x in params) {
+        let opt = document.createElement('input')
+        opt.name = x
+        opt.value = params[x]
+        tempform.appendChild(opt)
+      }
+
+      let opt = document.createElement('input')
+      opt.type = 'submit'
+      opt.setAttribute('id', '_submit')
+      tempform.appendChild(opt)
+      document.body.appendChild(tempform)
+      tempform.submit()
+      document.body.removeChild(tempform)
     }
   },
   watch: {}

@@ -44,7 +44,9 @@
         <!--<i class="high-light">{{ fee }}</i> 元</span-->
         <!--&gt;-->
         <!--</li>-->
-        <li v-if="largeAmountFlag"><span class="title">&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;银行</span> <span class="text"> {{bankCardInfo.bankName}} </span></li>
+        <li v-if="largeAmountFlag">
+          <span class="title">&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;银行</span> <span class="text"> {{ bankCardInfo.bankName }} </span>
+        </li>
         <li class="bank-no-wrapper" v-if="largeAmountFlag">
           <span class="title">&emsp;&emsp;&emsp;&emsp;开户行号</span>
           <div class="info-wrapper">
@@ -94,9 +96,7 @@
     </div>
     <div class="model" v-if="showSelector" @click.stop="controlShowSelect($event)"></div>
     <Dialog :show.sync="showDialog" :singleButton="singleButton">
-      <div>
-        {{errMsg.common}}
-      </div>
+      <div>{{ errMsg.common }}</div>
     </Dialog>
   </div>
 </template>

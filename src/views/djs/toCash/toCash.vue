@@ -1,5 +1,5 @@
 <template>
-  <div class="tocash" ref="container">
+  <div class="tocash">
     <h3>提现</h3>
     <div class="inner">
       <ul class="title">
@@ -12,8 +12,10 @@
         <li><img src="./image/long_arrow@2x.png" alt="" /></li>
         <li>
           <dl>
-            <dt><img src="./image/jiangxi.png" alt="" /></dt>
-            <dd><span>江西银行电子账户</span> <em>6212461250000747855</em></dd>
+            <dt><img :src="bankCardInfo.iconUrl" alt="" /></dt>
+            <dd>
+              <span>{{ bankCardInfo.bankName }}</span> <em>{{ bankCardInfo.cardNo }}</em>
+            </dd>
           </dl>
         </li>
       </ul>
@@ -21,32 +23,30 @@
         <li>
           <span class="title">&nbsp;&nbsp;可用金额（元）</span>
           <span class="text">
-            <i class="high-light-red">{{ fee }}</i> 元</span
+            <i class="high-light-red">{{ balance }}</i> 元</span
           >
-        </li>
-        <li>
-          <span class="title">&emsp;&emsp;&emsp;<i class="high-light-red">*</i>&nbsp;提现方式</span>
-          <el-radio-group v-model="type">
-            <el-radio :label="1">实时</el-radio>
-            <el-radio :label="2">大额</el-radio>
-          </el-radio-group>
         </li>
         <li>
           <span class="title">&emsp;&emsp;&emsp;<i class="high-light-red">*</i>&nbsp;提现金额</span>
-          <div class="info-wrapper"><input type="text" placeholder="请输入提现金额" /> <em class="unit">元</em></div>
+          <div class="info-wrapper"><input type="number" placeholder="请输入提现金额" @input="amountInput" /> <em class="unit">元</em></div>
         </li>
-        <li>
+        <div class="err-msg" v-if="errMsg.amount">{{ errMsg.amount }}</div>
+        <!--<li>
           <span class="title">&emsp;&emsp;&nbsp;&nbsp;&nbsp;提现手续费</span>
-          <span class="text">
-            <i class="high-light">{{ fee }}</i> 元</span
+          <span class="text"
+            ><i class="high-light">{{ fee }}</i> 元</span
           >
+        </li>-->
+        <li>
+          <span class="title">&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;银行</span> <span class="text"> {{ bankCardInfo.bankName }} </span>
         </li>
-        <li v-if="type === 2"><span class="title">&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;银行</span> <span class="text"> 招商银行 </span></li>
-        <li class="bank-no-wrapper" v-if="type === 2">
+        <li class="bank-no-wrapper">
           <span class="title">&emsp;&emsp;&emsp;&emsp;开户行号</span>
           <div class="info-wrapper">
             <input type="number" placeholder="请输入联行号" v-model="cardBankCnaps" />
-            <div class="select" @click="selectBank"><i class="iconfont icon-xiala"></i></div>
+            <div class="select" @click.stop="controlShowSelect($event)">
+              <i class="iconfont icon-xiala" :class="matchClass" id="rotate-arrow"></i>
+            </div>
             <em class="bank-no">查不到？<a target="_blank" href="http://www.lianhanghao.com/">联网查询</a></em>
             <el-card class="box-card" v-if="showSelector">
               <div slot="header" class="clearfix">
@@ -63,35 +63,69 @@
                   <el-option v-for="item in areaList" :key="item.areaCode" :label="item.areaName" :value="item.areaCode"> </el-option>
                 </el-select>
                 <el-input v-model="searchVal" placeholder="输入关键词"></el-input>
-                <el-button type="primary" size="medium">搜索</el-button>
+                <el-button type="primary" size="medium" @click="getSysBranceBankList(areaCode, bankCardInfo.bankNo, searchVal)">搜索</el-button>
               </div>
-              <div>
-                <el-table :data="bankList" style="width: 100%" @row-click="selectItem">
+              <el-scrollbar class="page-component__scroll" id="page-component__scroll">
+                <el-table :data="bankList" style="width: 100%" @row-click="selectItem($event)">
                   <el-table-column type="index" label="序号"> </el-table-column>
                   <el-table-column prop="bankNum" label="联行号"> </el-table-column>
                   <el-table-column prop="bankName" label="银行名称"> </el-table-column>
                 </el-table>
-              </div>
+              </el-scrollbar>
             </el-card>
           </div>
         </li>
-        <li><span class="title">&emsp;&emsp;&emsp;&emsp;&emsp;</span> <input type="button" value="确认提现" /></li>
+        <div class="err-msg" v-if="errMsg.cardBankCnaps">{{ errMsg.cardBankCnaps }}</div>
+        <li>
+          <span class="title">&emsp;&emsp;&emsp;&emsp;&emsp;手机号</span> <span class="text">{{ plusStar(bankCardInfo.mobile, 3, 4) }}</span>
+        </li>
+        <div class="err-msg" v-if="errMsg.mobile">{{ errMsg.mobile }}</div>
+        <li class="validation">
+          <span class="title">&emsp;&emsp;&emsp;&emsp;&emsp;验证码</span>
+          <div class="info-wrapper">
+            <input type="text" placeholder="请输入短信验证码" v-model="smsCode" />
+            <div class="get-code-wrapper" v-if="!showCountDown" @click="getSmsCode"><button>获取验证码</button></div>
+            <div class="count-down-wrapper" v-else>
+              <button>{{ countDown }}S</button>
+            </div>
+          </div>
+        </li>
+        <div class="err-msg" v-if="errMsg.smsCode">{{ errMsg.smsCode }}</div>
+        <li><span class="title"></span> <input style="margin-left: 110px;" type="button" value="确认提现" @click="withDraw" /></li>
       </ul>
     </div>
+    <div class="tips">
+      <p>温馨提示</p>
+      <p>1.在你申请提现前，请先在页面下方或"基本信息"账户信息页面绑定银行卡。</p>
+      <p>2.收到你的提现请求后，我们将在1个工作日（双休日或法定节假日顺延）处理你的提现申请，请你注意查收。</p>
+      <p>3.为保障你的账户资金安全，申请提现时，你选择的银行卡开户名必须与你汇有财网账户实名认证一致，否则提现申请将不予受理。</p>
+    </div>
+    <div class="model" v-if="showSelector" @click.stop="controlShowSelect($event)"></div>
+    <Dialog :show.sync="showDialog" :singleButton="singleButton">
+      <div>{{ errMsg.common }}</div>
+    </Dialog>
   </div>
 </template>
 
 <script>
+import {
+  bankCardQueryApi,
+  getBankUnionNumberUrlApi,
+  sysProvinceListApi,
+  sysCityListApi,
+  sysBankAreaListApi,
+  sysBranceBankListApi,
+  withdrawApi,
+  amountInfoApi
+} from '@/api/djs/tocash'
+import { getUser } from '@/assets/js/cache'
+import { getAuth, getRetBaseURL } from '@/assets/js/utils'
+import Dialog from '@/components/Dialog/Dialog'
 export default {
-  components: {},
   data() {
     return {
-      text: '提现',
-      mobile: this.$route.query.mobile,
-      text1: '选择银行开户地址',
       amount: null,
-      type: 1, // 2：大额， 1: 实时
-      smallAmountFlag: true,
+      // type: 1, // 2：大额， 1: 实时
       largeAmountFlag: false,
       balance: 0,
       fee: '0.00', // 手续费
@@ -117,45 +151,65 @@ export default {
       bankUnionNumberUrl: '',
       showSelector: false,
       searchVal: '',
-      result: [],
-      provinceList: [{ id: 1, provinceCode: '110000', provinceName: '北京市' }, { id: 2, provinceCode: '120000', provinceName: '天津市' }],
-      cityList: [{ id: 3, cityCode: '120100', cityName: '天津市', fatherCode: '120000' }],
-      areaList: [{ areaCode: '120100', areaName: '天津市' }, { areaCode: '120221', areaName: '宁河县' }],
-      bankList: [
-        {
-          bankCityCode: '1100',
-          bankFatherNum: '',
-          bankName: '招商银行股份有限公司天津新港支行',
-          bankNo: '308',
-          bankNum: '308110023085'
-        },
-        {
-          bankCityCode: '1100',
-          bankFatherNum: '',
-          bankName: '招商银行股份有限公司天津新港支行',
-          bankNo: '308',
-          bankNum: '308110023085'
-        }
-      ],
-      provinceCode: '110000',
-      cityCode: '120100',
-      areaCode: '120100',
-      bankName: '招商银行股份有限公司天津新港支行', // 选择的银行
-      progress: ''
+      provinceList: [],
+      cityList: [],
+      areaList: [],
+      bankList: [],
+      provinceCode: '',
+      cityCode: '',
+      areaCode: '',
+      bankName: '', // 选择的银行
+      userName: getUser().userName,
+      authorization: getAuth(),
+      errMsg: {
+        amount: '',
+        cardBankCnaps: '',
+        mobile: '',
+        smsCode: '',
+        common: ''
+      },
+      showDialog: false,
+      singleButton: true,
+      showCountDown: false,
+      countDown: 60,
+      smsCode: ''
     }
   },
   watch: {
-    type() {
-      if (this.type === '1') {
-        this.smallAmountFlag = true
-        this.largeAmountFlag = false
-      } else {
-        this.smallAmountFlag = false
-        this.largeAmountFlag = true
-      }
+    // type() {
+    //   if (this.type === 1) {
+    //     if (this.amount > 50000) {
+    //       this.amount = 50000
+    //     }
+    //     this.largeAmountFlag = false
+    //   } else {
+    //     this.errMsg.amount = ''
+    //     this.largeAmountFlag = true
+    //   }
+    // },
+    provinceCode(ne) {
+      this.getSysCityList(ne)
+    },
+    cityCode(ne) {
+      this.getSysBankAreaList(ne)
+    },
+    areaCode(ne) {
+      this.getSysBranceBankList(ne, this.bankCardInfo.bankNo, this.searchVal)
     }
   },
   methods: {
+    plusStar(str, frontNO, endNo) {
+      if (str && str.length) {
+        let len = str.length - frontNO - endNo
+        let star = ''
+        for (let i = 0; i < len; i++) {
+          star += '*'
+        }
+        return str.substring(0, frontNO) + star + str.substring(str.length - endNo)
+      } else {
+        return ''
+      }
+    },
     amountInput(e) {
       e.target.value = e.target.value.replace(/[^\d.]/g, '')
       e.target.value = e.target.value.replace(/\.{2,}/g, '.')
@@ -167,15 +221,15 @@ export default {
       if (e.target.value.indexOf('.') < 0 && e.target.value !== '') {
         e.target.value = parseFloat(e.target.value)
       }
-      if (this.type === '1' && e.target.value > 50000) {
-        // AppToast.maxVal('toCashAmount', '5万', '实时');
-        e.target.value = 50000
-      }
-      if (this.type === '2' && e.target.value > parseFloat(this.balance)) {
-        e.target.value = parseFloat(this.balance)
-        // Toast('输入金额不能大于可提现余额，请重新输入。');
-      }
+      // if (this.type === 1 && e.target.value >= 50000) {
+      //   this.errMsg.amount = '实时提现，不可多余50000！'
+      //   e.target.value = 50000
+      // }
+      // if (this.type === 2 && e.target.value > parseFloat(this.balance)) {
+      //   e.target.value = parseFloat(this.balance)
+      // }
       this.amount = e.target.value
+      this.checkAmountInput()
     },
     selectBank() {
       if (this.showSelector) {
@@ -183,90 +237,118 @@ export default {
       } else {
         this.showSelector = true
       }
-      // if (this.progress === 'city') {
-      //   this.getSysProvinceList()
-      // }
-      // if (this.progress === 'area') {
-      //   this.getSysCityList(this.provinceCode)
-      // }
-      // if (this.progress === 'bank') {
-      //   this.getSysBankAreaList(this.cityCode)
-      // }
     },
     selectItem(item) {
-      console.log(item)
-      this.showSelector = false
-      if (item.provinceCode) {
-        this.provinceCode = item.provinceCode
-        this.getSysCityList(item.provinceCode)
-      }
-      if (item.cityCode) {
-        this.cityCode = item.cityCode
-        this.getSysBankAreaList(item.cityCode)
-      }
-      if (item.areaCode) {
-        this.areaCode = item.areaCode
-        this.getSysBranceBankList(item.areaCode, this.bankCardInfo.bankNo, this.serachVal)
-      }
       if (item.bankNum) {
         this.cardBankCnaps = item.bankNum
+        this.bankName = item.bankName
         this.showSelector = false
       }
+      // this.controlShowSelect(e)
+    },
+    getSmsCode() {
+      if (!this.amount) {
+        this.errMsg.amount = '请输入充值金额！'
+        return false
+      }
+      if (this.amount && this.amount < 100) {
+        this.errMsg.amount = '100元起充！'
+        return false
+      }
+      // let data = {
+      //   amount: this.amount,
+      //   userName: this.userName,
+      //   bankCardNum: this.bankCardInfo.cardNo,
+      //   bankCode: this.bankCardInfo.bank,
+      //   mobileNo: this.bankCardInfo.mobile,
+      //   rechargeType: 'KQAP',
+      //   whichSetp: 'send',
+      //   authorization: this.authorization
+      // }
+      this.showCountDown = true
+      if (this.timeInterval) {
+        clearInterval(this.timeInterval)
+      }
+      this.timeInterval = setInterval(() => {
+        this.countDown--
+        if (this.countDown <= 0) {
+          this.showCountDown = false
+          this.countDown = 60
+          clearInterval(this.timeInterval)
+        }
+      }, 1000)
+      // rechargeApiDirectPayServer(data).then(res => {
+      //   let data = res.data
+      //   console.log(data)
+      // if (data.resultCode === ERR_OK) {
+      //
+      // }
+      // })
     },
     withDraw() {
       if (!this.amount) {
-        // AppToast.empty('toCashAmount');
+        this.errMsg.amount = '输入提现金额！'
         return
+      } else {
+        this.errMsg.amount = ''
       }
       if (parseFloat(this.balance) <= 0 || this.amount > parseFloat(this.balance)) {
         // Toast('输入金额不能大于可提现余额，请重新输入!');
+        this.errMsg.amount = '输入金额不能大于可提现余额，请重新输入！'
         return
+      } else {
+        this.errMsg.amount = ''
       }
-      if (this.type === '2' && !this.cardBankCnaps) {
+      if (!this.cardBankCnaps) {
         // AppToast.empty('unionBankNo');
+        this.errMsg.cardBankCnaps = '输入联行号！'
         return
+      } else {
+        this.errMsg.cardBankCnaps = ''
       }
-      // let url = Hyoucai.getRetBaseURL() + '/mine';
-      // let forgetUrl = Hyoucai.getRetBaseURL() + '/personal_info';
-      // let data = {
-      //   txAmount: this.amount,
-      //   routeCode: this.type,
-      //   retUrl: url,
-      //   forgotPwdUrl: forgetUrl,
-      //   platform: 'H5'
-      // };
-      // if (this.type === '2') {
-      //   data.cardBankCnaps = this.cardBankCnaps;
-      // }
-      // if (this.provinceCode) {
-      //   data.provinceCode = this.provinceCode;
-      // }
-      // if (this.cityCode) {
-      //   data.cityCode = this.cityCode;
-      // }
-      // if (this.areaCode) {
-      //   data.areaCode = this.areaCode;
-      // }
-      // if (this.bankCardInfo.bankName) {
-      //   data.bankName = this.bankCardInfo.bankName;
-      // }
-      // if (this.idNo) {
-      //   data.idNo = this.bankCardInfo.bankName;
-      // }
-      // if (this.bankCardInfo.mobile) {
-      //   data.mobile = this.bankCardInfo.mobile;
-      // }
-      // api.withdrawApi(data).then(res => {
-      //   let data = res.data;
-      //   let resultCode = data.resultCode;
-      //   let resultMsg = data.resultMsg;
-      //   if (resultCode === '1') {
-      //     let option = data.data.paramReq;
-      //     this.postcall(data.data.redirectUrl, option);
-      //   } else {
-      //     // Toast(resultMsg);
-      //   }
-      // });
+
+      let url = getRetBaseURL() + '/mine/basicInfo'
+      let forgetUrl = getRetBaseURL() + '/mine/basicInfo'
+      let data = {
+        txAmount: this.amount,
+        retUrl: url,
+        forgotPwdUrl: forgetUrl,
+        platform: 'PC'
+      }
+
+      data.cardBankCnaps = this.cardBankCnaps
+
+      if (this.provinceCode) {
+        data.provinceCode = this.provinceCode
+      }
+      if (this.cityCode) {
+        data.cityCode = this.cityCode
+      }
+      if (this.areaCode) {
+        data.areaCode = this.areaCode
+      }
+      if (this.bankCardInfo.bankName) {
+        data.bankName = this.bankCardInfo.bankName
+      }
+      if (this.idNo) {
+        data.idNo = this.bankCardInfo.bankName
+      }
+      if (this.bankCardInfo.mobile) {
+        data.mobile = this.bankCardInfo.mobile
+      }
+      withdrawApi(data).then(res => {
+        let data = res.data
+        let resultCode = data.resultCode
+        let resultMsg = data.resultMsg
+        if (resultCode === '1') {
+          let option = data.data.paramReq
+          this.postcall(data.data.redirectUrl, option)
+        } else {
+          // Toast(resultMsg);
+          this.errMsg.common = resultMsg
+          this.showDialog = true
+        }
+      })
     },
     postcall(url, params, target) {
       let tempform = document.createElement('form')
@@ -301,174 +383,194 @@ export default {
       if (keyWord) {
         data.keyWord = keyWord
       }
-      // api.sysBranceBankListApi(data).then(res => {
-      //   let data = res.data;
-      //   let resultCode = data.resultCode;
-      //   let resultMsg = data.resultMsg;
-      //   if (resultCode === '1') {
-      //     this.result = data.data.list;
-      //     if (!this.result.length) {
-      //       Toast('无数据');
-      //       this.getSysBankAreaList(this.cityCode);
-      //       this.progress = 'area';
-      //       return;
-      //     }
-      //     this.progress = 'bank';
-      //     this.result.map((obj) => {
-      //       if (obj.bankNum) {
-      //         this.$set(
-      //           obj, 'code', obj.bankNum
-      //         );
-      //         this.$set(
-      //           obj, 'name', obj.bankName
-      //         );
-      //       }
-      //     });
-      //   } else {
-      //     Toast(resultMsg);
-      //   }
-      // });
+      sysBranceBankListApi(data).then(res => {
+        let data = res.data
+        let resultCode = data.resultCode
+        // let resultMsg = data.resultMsg
+        if (resultCode === '1') {
+          this.bankList = data.list
+          if (!this.bankList.length) {
+            // Toast('无数据')
+            this.bankName = '暂无数据'
+            this.cardBankCnaps = ''
+            return
+          } else {
+            if (!this.cardBankCnaps) {
+              // 如果银行卡信息里有联行号和市级代码
+              this.bankName = this.bankList[0].bankName
+              this.cardBankCnaps = this.bankList[0].bankNum
+            }
+          }
+        } else {
+          // Toast(resultMsg)
+        }
+      })
     },
-    getSysBankAreaList() {
-      // api.sysBankAreaListApi({ cityCode: cityCode }).then(res => {
-      //   let data = res.data;
-      //   let resultCode = data.resultCode;
-      //   let resultMsg = data.resultMsg;
-      //   if (resultCode === '1') {
-      //     this.result = data.data.list;
-      //     if (!this.result.length) {
-      //       Toast('无数据');
-      //       this.getSysCityList(this.provinceCode);
-      //       this.progress = 'city';
-      //       return;
-      //     }
-      //     this.progress = 'area';
-      //     this.result.map((obj) => {
-      //       if (obj.areaCode) {
-      //         this.$set(
-      //           obj, 'code', obj.areaCode
-      //         );
-      //         this.$set(
-      //           obj, 'name', obj.areaName
-      //         );
-      //       }
-      //     });
-      //   } else {
-      //     Toast(resultMsg);
-      //   }
-      // });
+    getSysBankAreaList(cityCode) {
+      sysBankAreaListApi({ cityCode: cityCode }).then(res => {
+        let data = res.data
+        let resultCode = data.resultCode
+        // let resultMsg = data.resultMsg
+        if (resultCode === '1') {
+          this.areaList = data.list
+          if (!this.areaList.length) {
+            // Toast('无数据')
+            this.areaCode = ''
+            return
+          } else {
+            if (!this.areaCode) {
+              // 如果银行卡信息里有联行号和市级代码
+              this.areaCode = this.areaList[0].areaCode
+            }
+          }
+        } else {
+          // Toast(resultMsg)
+        }
+      })
     },
-    getSysCityList() {
-      // api.sysCityListApi({ provinceCode: provinceCode }).then(res => {
-      //   let data = res.data;
-      //   let resultCode = data.resultCode;
-      //   let resultMsg = data.resultMsg;
-      //   if (resultCode === '1') {
-      //     this.result = data.data.list;
-      //     if (!this.result.length) {
-      //       Toast('无数据');
-      //       this.getSysProvinceList();
-      //       this.progress = 'province';
-      //       return;
-      //     }
-      //     this.progress = 'city';
-      //     this.result.map((obj) => {
-      //       if (obj.cityCode) {
-      //         this.$set(
-      //           obj, 'code', obj.cityCode
-      //         );
-      //         this.$set(
-      //           obj, 'name', obj.cityName
-      //         );
-      //       }
-      //     });
-      //   } else {
-      //     Toast(resultMsg);
-      //   }
-      // });
+    getSysCityList(provinceCode) {
+      sysCityListApi({ provinceCode: provinceCode }).then(res => {
+        let data = res.data
+        let resultCode = data.resultCode
+        // let resultMsg = data.resultMsg
+        if (resultCode === '1') {
+          this.cityList = data.list
+          if (!this.cityList.length) {
+            // Toast('无数据')
+            this.cityCode = ''
+            return
+          } else {
+            if (!this.cityCode) {
+              // 如果银行卡信息里有联行号和市级代码
+              this.cityCode = this.cityList[0].cityCode
+            }
+          }
+        } else {
+          // Toast(resultMsg)
+        }
+      })
     },
     getSysProvinceList() {
-      // api.sysProvinceListApi().then(res => {
-      //   let data = res.data;
-      //   let resultCode = data.resultCode;
-      //   let resultMsg = data.resultMsg;
-      //   if (resultCode === '1') {
-      //     this.result = data.data.list;
-      //     if (!this.result.length) {
-      //       Toast('无数据');
-      //       this.progress = '';
-      //       return;
-      //     }
-      //     this.progress = 'province';
-      //     this.result.map((obj) => {
-      //       if (obj.provinceCode) {
-      //         this.$set(
-      //           obj, 'code', obj.provinceCode
-      //         );
-      //         this.$set(
-      //           obj, 'name', obj.provinceName
-      //         );
-      //       }
-      //     });
-      //   } else {
-      //     Toast(resultMsg);
-      //   }
-      // });
+      sysProvinceListApi().then(res => {
+        let data = res.data
+        let resultCode = data.resultCode
+        // let resultMsg = data.resultMsg;
+        if (resultCode === '1') {
+          this.provinceList = data.list
+          if (!this.provinceList.length) {
+            // Toast('无数据');
+            this.provinceCode = ''
+            return
+          } else {
+            if (!this.provinceCode) {
+              // 如果银行卡信息里有联行号和省份代码
+              this.provinceCode = this.provinceList[0].provinceCode
+            }
+          }
+        } else {
+          // Toast(resultMsg)
+        }
+      })
     },
     getBankUnionNumberUrl() {
-      // api.getBankUnionNumberUrlApi().then(res => {
-      //   let data = res.data;
-      //   let resultCode = data.resultCode;
-      //   let resultMsg = data.resultMsg;
-      //   if (resultCode === '1') {
-      //     this.bankUnionNumberUrl = data.data.url;
-      //   } else {
-      //     Toast(resultMsg);
-      //   }
-      // });
+      getBankUnionNumberUrlApi().then(res => {
+        let data = res.data
+        let resultCode = data.resultCode
+        // let resultMsg = data.resultMsg
+        if (resultCode === '1') {
+          this.bankUnionNumberUrl = data.data.url
+        } else {
+          // Toast(resultMsg)
+        }
+      })
     },
     getBankCardQuery() {
-      // api.bankCardQueryApi().then(res => {
-      //   let data = res.data;
-      //   let resultCode = data.resultCode;
-      //   let resultMsg = data.resultMsg;
-      //   if (resultCode === '1') {
-      //     this.bankCardInfo = data.data;
-      //   } else {
-      //     Toast(resultMsg);
-      //   }
-      // });
+      let data = {
+        userName: this.userName,
+        authorization: this.authorization
+      }
+      bankCardQueryApi(data).then(res => {
+        let data = res.data
+        let resultCode = data.resultCode
+        // let resultMsg = data.resultMsg
+        if (resultCode === '1') {
+          this.bankCardInfo = data.list[0]
+          if (this.bankCardInfo.openBankCode) {
+            this.cardBankCnaps = this.bankCardInfo.openBankCode
+            this.provinceCode = this.bankCardInfo.province
+            this.cityCode = this.bankCardInfo.city
+            this.areaCode = this.bankCardInfo.area
+            this.getSysProvinceList()
+          }
+        } else {
+          // Toast(resultMsg)
+        }
+      })
     },
-    getServiceTel() {
-      // api.serviceTelApi({ 'type': '1' }).then((res) => {
-      //     let data = res.data;
-      //     let resultCode = data.resultCode;
-      //     let resultMsg = data.resultMsg;
-      //     if (resultCode === '1') {
-      //       this.serviceTel = data.data;
-      //     } else {
-      //       Toast(resultMsg);
-      //     }
+    matchClass() {
+      if (this.showSelector) {
+        return 'rotate-down'
+      } else {
+        return 'rotate-up'
+      }
+    },
+    controlShowSelect() {
+      if (!this.provinceList.length) {
+        this.getSysProvinceList()
+      }
+      if (this.showSelector) {
+        this.showSelector = false
+      } else {
+        this.showSelector = true
+      }
+      // let className = e.target.className
+      // let iDom = document.getElementById('rotate-arrow')
+      // if (className.indexOf('select') > 0 || className.indexOf('icon-xiala') > 0) {
+      //   if (this.showSelector) {
+      //     this.showSelector = false
+      //     myDOM.removeClass(iDom, 'rotate-up')
+      //     myDOM.addClass(iDom, 'rotate-down')
+      //   } else {
+      //     this.showSelector = true
+      //     myDOM.removeClass(iDom, 'rotate-down')
+      //     myDOM.addClass(iDom, 'rotate-up')
       //   }
-      // );
+      // } else {
+      //   if (this.showSelector) {
+      //     this.showSelector = false
+      //     myDOM.removeClass(iDom, 'rotate-up')
+      //     myDOM.addClass(iDom, 'rotate-down')
+      //   }
+      // }
+    },
+    checkAmountInput() {
+      if (!this.amount) {
+        this.errMsg.amount = '请输入提现金额！'
+        if (this.errMsg.cardBankCnaps) {
+          this.errMsg.cardBankCnaps = ''
+        }
+        return false
+      }
+      this.errMsg.amount = ''
     }
   },
   computed: {
     filterResult() {
-      let data = this.result.filter(value => new RegExp(this.searchVal, 'i').test(value.name))
+      let data = this.bankList.filter(value => new RegExp(this.searchVal, 'i').test(value.name))
       return data
     }
   },
+  components: {
+    Dialog
+  },
   created() {
     this.getBankCardQuery()
-    this.getBankUnionNumberUrl()
-    this.getSysProvinceList()
-    // api.amountInfoApi().then(res => {
-    //   if (res.data.resultCode === '1') {
-    //     const data = res.data.data;
-    //     this.balance = data.banlance;
-    //   }
-    // });
+    amountInfoApi().then(res => {
+      if (res.data.resultCode === '1') {
+        const data = res.data
+        this.balance = data.banlance
+      }
+    })
   }
 }
 </script>
@@ -478,10 +580,21 @@ export default {
 @import '../../../assets/css/theme';
 
 .tocash {
-  height: 100%;
+  position: relative;
   background-color: #fff;
   font-size: $font-size-small-s;
   border: 1px solid #f5f5f5;
+  .model {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 98;
+    display: block;
+    content: ' ';
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
+  }
   h3 {
     height: 51px;
     padding-left: 20px;
@@ -640,6 +753,41 @@ export default {
             color: #6aa4e8;
           }
         }
+        &.validation {
+          .info-wrapper {
+            border: 1px solid rgba(205, 205, 205, 1);
+            border-radius: 2px;
+            input {
+              border: 0;
+              width: 193px;
+            }
+            div {
+              display: inline-block;
+              vertical-align: top;
+              width: 90px;
+              height: 100%;
+              &.get-code-wrapper {
+                cursor: pointer;
+                button {
+                  cursor: pointer;
+                  color: #0083fe;
+                }
+              }
+              button {
+                display: inline-block;
+                background-color: #fff;
+                width: 100%;
+                height: 18px;
+                line-height: 18px;
+                margin-top: 11px;
+                text-align: center;
+                border-left: 1px solid #dadada;
+                color: $color-text-s;
+                font-size: $font-size-small-s;
+              }
+            }
+          }
+        }
         &:first-child {
           margin: 50px 0 20px 0;
         }
@@ -665,23 +813,58 @@ export default {
               border: 0;
             }
             .select {
+              position: relative;
               display: inline-block;
               width: 34px;
-              line-height: 40px;
+              height: 38px;
               text-align: center;
               cursor: pointer;
+              @keyframes arrowRotateUp {
+                0% {
+                  transform: rotateZ(0);
+                }
+                100% {
+                  transform: rotateZ(-180deg);
+                }
+              }
+              @keyframes arrowRotateDown {
+                0% {
+                  transform: rotateZ(-180deg);
+                }
+                100% {
+                  transform: rotateZ(0);
+                }
+              }
               i {
+                position: absolute;
+                display: inline-block;
+                width: 34px;
+                height: 38px;
+                line-height: 38px;
+                left: 0;
+                top: 0;
                 font-size: 18px;
                 color: #cdcdcd;
+                /*transform: rotateX(0);*/
+                /*transition: all 0.3s;*/
+                &.rotate-up {
+                  animation: arrowRotateUp 0.3s forwards;
+                }
+                &.rotate-down {
+                  animation: arrowRotateDown 0.3s forwards;
+                }
               }
             }
             /deep/ .el-card.is-always-shadow {
               position: absolute;
+              z-index: 99;
               top: 43px;
               width: 460px;
               box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.1);
               .el-card__header {
-                padding: 7px 10px;
+                height: 40px;
+                line-height: 40px;
+                padding: 0 10px;
                 background-color: #f8f8fb;
                 color: #fc5541;
               }
@@ -697,6 +880,9 @@ export default {
                     margin-right: 16px;
                     .el-input__inner {
                       border-right: 1px solid #dcdfe6;
+                      &:focus {
+                        border-color: #fa600c;
+                      }
                     }
                   }
                   .el-input {
@@ -721,6 +907,7 @@ export default {
                   }
                 }
                 > div {
+                  overflow: hidden;
                   > .el-input {
                     width: 100px;
                     margin-right: 11px;
@@ -736,29 +923,36 @@ export default {
                   > button {
                     background-color: #fc5541;
                   }
-                  .el-table {
-                    border: 0;
-                    font-size: $font-size-small-ss;
-                    &::before {
-                      display: none;
+                  &.page-component__scroll {
+                    height: 150px;
+                    overflow: hidden;
+                    .el-scrollbar__wrap {
+                      overflow: auto;
                     }
-                    th {
-                      border-bottom: 0;
-                      .cell {
-                        line-height: 20px;
-                        text-align: center;
-                        color: $color-text-s;
+                    .el-table {
+                      border: 0;
+                      font-size: $font-size-small-ss;
+                      &::before {
+                        display: none;
                       }
-                    }
-                    td {
-                      height: 30px;
-                      padding: 0;
-                      border-bottom: 0;
-                      cursor: pointer;
-                      .cell {
-                        line-height: 20px;
-                        text-align: center;
-                        color: $color-text;
+                      th {
+                        border-bottom: 0;
+                        .cell {
+                          line-height: 20px;
+                          text-align: center;
+                          color: $color-text-s;
+                        }
+                      }
+                      td {
+                        height: 30px;
+                        padding: 0;
+                        border-bottom: 0;
+                        cursor: pointer;
+                        .cell {
+                          line-height: 20px;
+                          text-align: center;
+                          color: $color-text;
+                        }
                       }
                     }
                   }
@@ -768,7 +962,24 @@ export default {
           }
         }
       }
+      .err-msg {
+        width: 284px;
+        padding: 10px;
+        min-height: 40px;
+        border: 1px solid #e84518;
+        background-color: #ffe5e5;
+        color: #e84518;
+        border-radius: 5px;
+        margin-left: 287px;
+      }
     }
+  }
+  .tips {
+    margin-left: 20px;
+    margin-bottom: 20px;
+    color: $color-text-s;
+    font-size: $font-size-small-s;
+    line-height: 24px;
   }
 }
 </style>

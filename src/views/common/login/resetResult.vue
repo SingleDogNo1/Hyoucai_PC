@@ -2,10 +2,10 @@
   <div class="app-container">
     <div class="main">
       <div class="form-container">
-      <h1>找回密码</h1>
-      <img src="./success.png" alt="">
-      <p>新密码设置成功，请重新登录！</p>
-      <el-button type="primary" @click="$router.push({name: 'login'})">重新登录</el-button>
+        <h1>找回密码</h1>
+        <img src="./success.png" alt="" />
+        <p>新密码设置成功，请重新登录！</p>
+        <el-button type="primary" @click="$router.push({ name: 'login' })">重新登录</el-button>
       </div>
     </div>
   </div>
