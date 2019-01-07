@@ -32,12 +32,13 @@
     <div class="content">
       <div class="area" v-for="(item, i) in list" :key="i">
         <h3 v-if="item.head">
-          <i><img :src="item.head.icon" alt=""/></i> <span>{{ item.head.title }}}</span>
+          <i><img :src="item.head.icon" alt=""/></i> <span>{{ item.head.title }}</span>
         </h3>
         <ul class="items">
           <li class="item">
             <div class="title">
-              <i><img :src="item.iconUrl" alt=""></i> <span>{{ item.projectName }}</span> <em v-for="(tag, index) in item.tags" :key="index">{{ tag.tagName }}</em>
+              <i><img :src="item.iconUrl" alt=""/></i> <span>{{ item.projectName }}</span>
+              <em v-for="(tag, index) in item.tags" :key="index">{{ tag.tagName }}</em>
             </div>
             <ul class="info-wrapper">
               <li class="info">
@@ -78,7 +79,13 @@
         </ul>
       </div>
       <div class="pagination-wrapper">
-        <pagination v-if="total" :total-count="total" :size-val="size" :page-val="page" @handleCurrentChange="handleCurrentChange"></pagination>
+        <pagination
+          v-if="countPage"
+          :count-page="countPage"
+          :size-val="size"
+          :page-val="page"
+          @handleCurrentChange="handleCurrentChange"
+        ></pagination>
       </div>
     </div>
   </div>
@@ -100,7 +107,7 @@ export default {
       todayCount: null,
       page: 1,
       size: 10,
-      total: 0,
+      countPage: 0,
       userName: getUser().userName,
       // couponId: this.$router,
       // couponId: this.$router,
@@ -129,7 +136,7 @@ export default {
         let result = res.data
         if (result.resultCode === ERR_OK) {
           this.list = result.data.list
-          this.total = parseInt(result.data.countPage)
+          this.countPage = parseInt(result.data.countPage)
           this.page = parseInt(result.data.curPage)
         }
       })
@@ -241,7 +248,6 @@ export default {
     width: 1140px;
     margin: 0 auto;
     .area {
-      background-color: #099ef5;
       h3 {
         font-size: 0;
         margin-top: 30px;

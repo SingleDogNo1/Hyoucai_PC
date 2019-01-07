@@ -1,7 +1,7 @@
 <template>
   <div class="lend-wrapper">
     <header>
-      <img src="./icon.png" alt="">
+      <img src="./icon.png" alt="" />
       <div class="earning">
         <p>123.456元</p>
         <span>累计利息收益</span>
@@ -15,13 +15,11 @@
       <div class="nav bid-type">
         <h1>出借类别</h1>
         <ul>
-          <router-link tag="li" :to="{name: 'QST'}">轻松投</router-link>
-          <router-link tag="li" :to="{name: 'ZXT'}">自选投</router-link>
+          <router-link tag="li" :to="{ name: 'QST' }">轻松投</router-link>
+          <router-link tag="li" :to="{ name: 'ZXT' }">自选投</router-link>
         </ul>
       </div>
-      <div class="detail-wrapper">
-        <router-view></router-view>
-      </div>
+      <div class="detail-wrapper"><router-view></router-view></div>
     </section>
   </div>
 </template>

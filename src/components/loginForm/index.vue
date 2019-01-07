@@ -1,16 +1,15 @@
 <template>
   <div class="form">
     <div class="unLogin" v-if="!user">
-      <h1><span :class="{active: loginType === 0}" @click="loginType = 0">密码登录</span><span :class="{active: loginType === 1}" @click="loginType = 1">短信登录</span></h1>
+      <h1>
+        <span :class="{ active: loginType === 0 }" @click="loginType = 0">密码登录</span
+        ><span :class="{ active: loginType === 1 }" @click="loginType = 1">短信登录</span>
+      </h1>
       <div v-show="loginType === 0" class="form-pwd">
         <div class="form-item">
-          <i class="iconfont icon-user"></i>
-          <input type="tel" v-model="userName" placeholder="请输入手机号" maxlength="11">
+          <i class="iconfont icon-user"></i> <input type="tel" v-model="userName" placeholder="请输入手机号" maxlength="11" />
         </div>
-        <div class="form-item">
-          <i class="iconfont icon-password"></i>
-          <input type="password" v-model="passWord" placeholder="请输入密码">
-        </div>
+        <div class="form-item"><i class="iconfont icon-password"></i> <input type="password" v-model="passWord" placeholder="请输入密码" /></div>
         <div id="captcha_pwd"></div>
         <div class="error-msg" v-if="error_pwd">
           <span>{{ error_pwd }}</span>
@@ -18,13 +17,11 @@
       </div>
       <div v-show="loginType === 1" class="form-sms">
         <div class="form-item">
-          <i class="iconfont icon-user"></i>
-          <input type="tel" v-model="userName" placeholder="请输入手机号" maxlength="11">
+          <i class="iconfont icon-user"></i> <input type="tel" v-model="userName" placeholder="请输入手机号" maxlength="11" />
           <span @click="popValidation">{{ countDownText }}</span>
         </div>
         <div class="form-item">
-          <i class="iconfont icon-validation"></i>
-          <input type="tel" v-model="smsCode" placeholder="请输入验证码" maxlength="6">
+          <i class="iconfont icon-validation"></i> <input type="tel" v-model="smsCode" placeholder="请输入验证码" maxlength="6" />
         </div>
         <div id="captcha_sms"></div>
         <div class="error-msg" v-if="error_sms">
@@ -33,34 +30,26 @@
       </div>
       <el-button type="primary" @click="doLogin">登录</el-button>
       <p class="agreement-tip" v-if="loginType === 0">
-        <i class="iconfont" :class="{'icon-choose': !agree, 'icon-check': agree }" @click="agree = !agree"></i>
-        记住用户名
+        <i class="iconfont" :class="{ 'icon-choose': !agree, 'icon-check': agree }" @click="agree = !agree"></i> 记住用户名
         <router-link class="link" to="/forgetPWD">忘记密码？</router-link>
       </p>
       <p class="no-account">没有汇有财账号？<router-link class="link" to="/register">立即注册</router-link></p>
     </div>
     <div class="login" v-else>
       <div class="userInfo">
-        <div class="avater">
-          <img src="./photo.png" alt="">
-        </div>
+        <div class="avater"><img src="./photo.png" alt="" /></div>
         <div class="info">
           <p class="welcome">欢迎回来！</p>
-          <p class="userName">{{user.realName || user.userName}}</p>
+          <p class="userName">{{ user.realName || user.userName }}</p>
         </div>
       </div>
-      <div v-if="user.userIsOpenAccount&&user.userIsOpenAccount.isOpenAccount">
-        <div class="account">
-          <span class="label">账户余额(元)</span><span class="value">12568.79</span>
-        </div>
+      <div v-if="user.userIsOpenAccount && user.userIsOpenAccount.isOpenAccount">
+        <div class="account"><span class="label">账户余额(元)</span><span class="value">12568.79</span></div>
         <div class="actions">
-          <span @click="$router.push({ name: 'charge' })">充值</span>
-          <span @click="$router.push({ name: 'tocash' })">提现</span>
+          <span @click="$router.push({ name: 'charge' })">充值</span> <span @click="$router.push({ name: 'tocash' })">提现</span>
         </div>
       </div>
-      <div v-else class="btn-open-account">
-        <el-button type="info" @click="$router.push({ name: '' })">开通存管账户</el-button>
-      </div>
+      <div v-else class="btn-open-account"><el-button type="info" @click="$router.push({ name: '' })">开通存管账户</el-button></div>
       <el-button type="primary" @click="$router.push({ name: 'overview' })">进入我的账户</el-button>
     </div>
   </div>

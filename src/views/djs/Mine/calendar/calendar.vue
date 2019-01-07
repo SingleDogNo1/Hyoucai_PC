@@ -16,15 +16,15 @@
       </div>
       <div class="right">
         <div>
-          <p>{{incomeDetail.todayIncome}}元</p>
+          <p>{{ incomeDetail.todayIncome }}元</p>
           <span>今日回款本息</span>
         </div>
         <div>
-          <p>{{incomeDetail.collectCounts}}笔</p>
+          <p>{{ incomeDetail.collectCounts }}笔</p>
           <span>当月已回款笔数</span>
         </div>
         <div>
-          <p>{{incomeDetail.waitIncome}}元</p>
+          <p>{{ incomeDetail.waitIncome }}元</p>
           <span>当月待收本息</span>
         </div>
       </div>
@@ -32,20 +32,20 @@
     <div v-if="showDetailTable" class="table">
       <table class="detail">
         <thead>
-        <th>回款时间</th>
-        <th>项目名称</th>
-        <th>历史平均年化收益率</th>
-        <th>回款金额</th>
-        <th>操作</th>
+          <th>回款时间</th>
+          <th>项目名称</th>
+          <th>历史平均年化收益率</th>
+          <th>回款金额</th>
+          <th>操作</th>
         </thead>
         <tbody>
-        <tr v-for="(item, index) in dayIncome" :key="index">
-          <td>{{item.collectTime}}</td>
-          <td>{{item.productName}}</td>
-          <td>{{item.rate}}</td>
-          <td>{{item.amount}}元</td>
-          <td class="show" @click="showDetail(`要查看${item.productName}的内容`)">操作</td>
-        </tr>
+          <tr v-for="(item, index) in dayIncome" :key="index">
+            <td>{{ item.collectTime }}</td>
+            <td>{{ item.productName }}</td>
+            <td>{{ item.rate }}</td>
+            <td>{{ item.amount }}元</td>
+            <td class="show" @click="showDetail(`要查看${item.productName}的内容`)">操作</td>
+          </tr>
         </tbody>
       </table>
     </div>

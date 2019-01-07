@@ -1,6 +1,6 @@
 <template>
   <div class="info-disclosure">
-  <div class="bg-header"><h3>信息披露中心</h3></div>
+    <div class="bg-header"><h3>信息披露中心</h3></div>
   </div>
 </template>
 

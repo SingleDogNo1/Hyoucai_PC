@@ -11,7 +11,7 @@
       </div>
       <div class="right">
         <ul class="menu">
-          <li v-if="user" to="/mine/overview">欢迎您，{{user.realName || user.userName}}</li>
+          <li v-if="user" to="/mine/overview">欢迎您，{{ user.realName || user.userName }}</li>
           <router-link tag="li" v-if="!user" to="/login">登录</router-link>
           <li v-if="user" @click="doLogout">安全退出</li>
           <router-link tag="li" v-if="!user" to="/register">快速注册</router-link>

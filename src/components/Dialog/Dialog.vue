@@ -1,14 +1,16 @@
 <template>
-  <div class="Dialog" v-if="show">
-    <header v-if="showTitle">{{title}}</header>
-    <slot></slot>
-    <footer class="single" v-if="singleButton">
-      <el-button @click="cancelItem">{{cancelText}}</el-button>
-    </footer>
-    <footer v-else>
-      <el-button type="primary" @click="confirmItem">{{confirmText}}</el-button>
-      <el-button @click="cancelItem">{{cancelText}}</el-button>
-    </footer>
+  <div class="Dialog" v-if="show" @mousewheel="onMousewheel($event)">
+    <div class="inner">
+      <header v-if="showTitle">{{ title }}</header>
+      <slot></slot>
+      <footer class="single" v-if="singleButton">
+        <el-button @click="cancelItem">{{ confirmText }}</el-button>
+      </footer>
+      <footer v-else>
+        <el-button type="primary" @click="confirmItem">{{ confirmText }}</el-button>
+        <el-button @click="cancelItem">{{ cancelText }}</el-button>
+      </footer>
+    </div>
   </div>
 </template>
 
@@ -25,7 +27,7 @@ export default {
     // 标题文字
     title: {
       type: String,
-      default: '汇有财温馨提示'
+      default: '温馨提示'
     },
     // 是否显示标题
     showTitle: {
@@ -70,6 +72,9 @@ export default {
     cancelItem() {
       this.onClose()
       this.$emit('update:show', false)
+    },
+    onMousewheel(e) {
+      e.preventDefault()
     }
   }
 }
@@ -80,36 +85,45 @@ export default {
 @import '../../assets/css/mixins';
 
 .Dialog {
-  padding: 30px 70px;
   position: fixed;
-  width: 500px;
-  top: 50%;
-  left: 50%;
-  transform: translate3d(-50%, -50%, 0);
-  background: #fff;
-  box-shadow: 2px 2px 10px 0 #cdcdcd;
-  border-radius: 6px;
-  border: 1px solid #e3e3e3;
-  header {
-    height: 34px;
-    line-height: 34px;
-    font-size: $font-size-large-x;
-    color: $color-text;
-    text-align: center;
-    margin-bottom: 30px;
-  }
-  footer {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 30px;
-    &.single {
-      justify-content: center;
+  z-index: 9999999;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  .inner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 500px;
+    padding: 30px 70px;
+    transform: translate3d(-50%, -50%, 0);
+    background: #fff;
+    box-shadow: 2px 2px 10px 0 #cdcdcd;
+    border-radius: 6px;
+    border: 1px solid #e3e3e3;
+    header {
+      height: 34px;
+      line-height: 34px;
+      font-size: $font-size-large-x;
+      color: $color-text;
+      text-align: center;
+      margin-bottom: 30px;
     }
-    button {
-      @include cube(160px, 44px);
-      &.el-button--default {
-        border-color: #fb891f;
-        color: #fb891f;
+    footer {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 30px;
+      &.single {
+        justify-content: center;
+      }
+      button {
+        @include cube(160px, 44px);
+        &.el-button--default {
+          border-color: #fb891f;
+          color: #fb891f;
+        }
       }
     }
   }

@@ -3,7 +3,9 @@
     <div class="board">
       <section>
         <h6>累计利息收益</h6>
-        <p><span class="big">{{totalIncomeBig}}</span> <span class="small">.{{totalIncomeSmall}}元</span></p>
+        <p>
+          <span class="big">{{ totalIncomeBig }}</span> <span class="small">.{{ totalIncomeSmall }}元</span>
+        </p>
       </section>
       <el-button type="info">系统切换</el-button>
       <el-button type="warning">充值</el-button>
@@ -11,15 +13,7 @@
     </div>
     <div class="amount" id="amount"></div>
 
-    <appDialog
-      :show.sync="dialogOptions.show"
-      :onConfirm="onConfirm"
-      :onClose="onClose"
-    >
-      <div>
-        hello, dialog
-      </div>
-    </appDialog>
+    <appDialog :show.sync="dialogOptions.show" :onConfirm="onConfirm" :onClose="onClose"> <div>hello, dialog</div> </appDialog>
   </div>
 </template>
 
