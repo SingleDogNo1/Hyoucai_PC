@@ -275,6 +275,17 @@ export default new Router({
       ]
     },
     {
+      path: '/', // 主题活动
+      component: Layout,
+      children: [
+        {
+          path: 'activity',
+          name: 'activity',
+          component: () => import(/* webpackChunkName: "activity" */ '@/views/djs/activity/activity.vue')
+        }
+      ]
+    },
+    {
       path: '/', // 运营报告
       component: Layout,
       children: [
@@ -293,6 +304,17 @@ export default new Router({
           path: 'autoLend',
           name: 'autoLendAgreement',
           component: () => import('@/views/djs/Mine/autoLend/agreement')
+        }
+      ]
+    },
+    {
+      path: '/sign',
+      component: Layout,
+      children: [
+        {
+          path: '', // 签约
+          name: 'sign',
+          component: () => import(/* webpackChunkName: "register" */ '@/views/common/signContract/index.vue')
         }
       ]
     }
