@@ -31,7 +31,7 @@
           </tr>
         </tbody>
       </table>
-      <div v-else>么有数据</div>
+      <div class="no-data" v-else>么有数据</div>
       <!-- 分页器 -->
       <pagination
         class="page"
@@ -56,6 +56,7 @@ export default {
   },
   data() {
     return {
+      dateStatus: this.$route.params.date,
       invStatus: this.$route.params.status,
       invList: [], // 数据列表
       paginationOption: {
@@ -67,13 +68,16 @@ export default {
   props: {},
   watch: {
     '$route.params.date'(newVal) {
-      console.log(newVal)
+      this.dateStatus = newVal
+      this.getZXTList(newVal, this.invStatus)
+    },
+    '$route.params.status'(newVal) {
       this.invStatus = newVal
-      this.getQSTList(newVal)
+      this.getZXTList(this.dateStatus, newVal)
     }
   },
   methods: {
-    getInvestDetail(dateStatus, invStatus, curPage) {
+    getZXTList(dateStatus, invStatus, curPage) {
       getZXTList({
         dateStatus: dateStatus,
         invStatus: invStatus,
@@ -88,11 +92,11 @@ export default {
     },
     changePage(page) {
       this.paginationOption.curPage = page
-      // this.getInvestDetail(this.dateStatus[this.dateStatusIndex].value, this.invStatus[this.invStatusIndex].value, page)
+      this.getZXTList(this.dateStatus, this.invStatus, page)
     }
   },
   created() {
-    // this.getInvestDetail(this.dateStatus[this.dateStatusIndex].value, this.invStatus[this.invStatusIndex].value)
+    this.getZXTList(this.dateStatus, this.invStatus)
   }
 }
 </script>
@@ -142,6 +146,10 @@ export default {
   .detail-table {
     min-height: 432px;
     padding-bottom: 25px;
+    .no-data {
+      height: 100%;
+      text-align: center;
+    }
   }
   table {
     width: 800px;

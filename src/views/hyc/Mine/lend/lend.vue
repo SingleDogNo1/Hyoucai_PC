@@ -1,7 +1,7 @@
 <template>
   <div class="lend-wrapper">
     <header>
-      <img src="./icon.png" alt="" />
+      <img src="./icon.png" alt="">
       <div class="earning">
         <p>123.456元</p>
         <span>累计利息收益</span>
@@ -15,10 +15,8 @@
       <div class="nav bid-type">
         <h1>出借类别</h1>
         <ul>
-          <li :class="{ active: typeStatusIndex === 0 }" @click="showQST(QSTStatus[QSTStatusIndex].statusCode)">轻松投</li>
-          <li :class="{ active: typeStatusIndex === 1 }" @click="showZXT(dateStatus[dateStatusIndex].value, ZXTStatus[ZXTStatusIndex].value)">
-            自选投
-          </li>
+          <li :class="{active: typeStatusIndex === 0}" @click="showQST(QSTStatus[QSTStatusIndex].statusCode)">轻松投</li>
+          <li :class="{active: typeStatusIndex === 1}" @click="showZXT()">自选投</li>
         </ul>
       </div>
       <div class="nav bid-status" v-if="typeStatusIndex === 0">
@@ -27,11 +25,9 @@
           <li
             v-for="(item, index) in QSTStatus"
             :key="index"
-            :class="{ active: index === QSTStatusIndex }"
+            :class="{active: index === QSTStatusIndex}"
             @click="changeQSTStatus(index, item.statusCode)"
-          >
-            {{ item.statusName }}
-          </li>
+          >{{item.statusName}}</li>
         </ul>
       </div>
       <div class="nav bid-date" v-if="dateStatus && dateStatus.length > 0">
@@ -40,11 +36,9 @@
           <li
             v-for="(item, index) in dateStatus"
             :key="index"
-            :class="{ active: index === dateStatusIndex }"
-            @click="changeDateStatus(index, item.statusCode)"
-          >
-            {{ item.key }}
-          </li>
+            :class="{active: index === dateStatusIndex}"
+            @click="changeDateStatus(index, item.value)"
+          >{{item.key}}</li>
         </ul>
       </div>
       <div class="nav bid-status" v-if="typeStatusIndex === 1">
@@ -53,15 +47,15 @@
           <li
             v-for="(item, index) in ZXTStatus"
             :key="index"
-            :class="{ active: index === ZXTStatusIndex }"
+            :class="{active: index === ZXTStatusIndex}"
             @click="changeZXTStatus(index, item.value)"
-          >
-            {{ item.key }}
-          </li>
+          >{{item.key}}</li>
         </ul>
       </div>
 
-      <div class="detail-wrapper"><router-view></router-view></div>
+      <div class="detail-wrapper">
+        <router-view></router-view>
+      </div>
     </section>
   </div>
 </template>
@@ -92,11 +86,25 @@ export default {
         params: { status }
       })
     },
-    changeZXTStatus(index) {
+    changeZXTStatus(index, status) {
       this.ZXTStatusIndex = index
+      this.$router.push({
+        name: 'ZXTList',
+        params: {
+          date: this.dateStatus[this.dateStatusIndex].value,
+          status: status
+        }
+      })
     },
-    changeDateStatus(index) {
+    changeDateStatus(index, status) {
       this.dateStatusIndex = index
+      this.$router.push({
+        name: 'ZXTList',
+        params: {
+          date: status,
+          status: this.ZXTStatus[this.ZXTStatusIndex].value
+        }
+      })
     },
     showQST(status) {
       this.typeStatusIndex = 0
@@ -126,7 +134,7 @@ export default {
       }
       initQSTTab()
     },
-    showZXT(date, status) {
+    showZXT() {
       this.typeStatusIndex = 1
       const $this = this
       async function initZXTTab() {
@@ -139,7 +147,10 @@ export default {
         // 跳转到散标详情
         await $this.$router.push({
           name: 'ZXTList',
-          params: { date, status }
+          params: {
+            date: $this.dateStatus[$this.dateStatusIndex].value,
+            status: $this.ZXTStatus[$this.ZXTStatusIndex].value
+          }
         })
       }
       initZXTTab()
@@ -257,6 +268,7 @@ export default {
   .detail-wrapper {
     min-height: 512px;
     background: #fff;
+    padding-top: 25px;
   }
 }
 </style>
