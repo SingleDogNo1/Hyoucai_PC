@@ -59,11 +59,11 @@ export default new Router({
     {
       path: '/mine',
       component: Layout,
-      redirect: '/mine/overview',
       children: [
         {
           path: '',
           component: Mine,
+          redirect: '/mine/overview',
           children: [
             {
               path: 'overview', // 账户总览
@@ -88,7 +88,20 @@ export default new Router({
             {
               path: 'lend', // 我的出借
               name: 'userLend',
-              component: () => import('@/views/djs/Mine/lend/lend')
+              redirect: 'lend/list',
+              component: () => import('@/views/djs/Mine/lend/lend'),
+              children: [
+                {
+                  path: 'list', // 我的出借列表
+                  name: 'lendList',
+                  component: () => import('@/views/djs/Mine/lend/list')
+                },
+                {
+                  path: 'detail', // 我的出借详情
+                  name: 'lendDetail',
+                  component: () => import('@/views/djs/Mine/lend/detail')
+                }
+              ]
             },
             {
               path: 'record', // 交易记录

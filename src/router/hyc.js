@@ -98,11 +98,11 @@ export default new Router({
     {
       path: '/mine',
       component: Layout,
-      redirect: '/mine/overview',
       children: [
         {
           path: '',
           component: Mine,
+          redirect: '/mine/overview',
           children: [
             {
               path: 'overview', // 账户总览
