@@ -191,6 +191,17 @@ export default new Router({
           component: () => import(/* webpackChunkName: "lend" */ '@/views/hyc/lend/lend.vue')
         }
       ]
+    },
+    {
+      path: '/', // 主题活动
+      component: Layout,
+      children: [
+        {
+          path: 'activity',
+          name: 'activity',
+          component: () => import(/* webpackChunkName: "activity" */ '@/views/hyc/activity/activity.vue')
+        }
+      ]
     }
   ]
 })

@@ -20,23 +20,23 @@ export default {
       list: [
         {
           activityDate: '2018.12.1-12.31',
-          src: require('./images/default_im.png')
+          src: require('./image/default_im.png')
         },
         {
           activityDate: '2018.12.1-12.31',
-          src: require('./images/default_im.png')
+          src: require('./image/default_im.png')
         },
         {
           activityDate: '2018.12.1-12.31',
-          src: require('./images/default_im.png')
+          src: require('./image/default_im.png')
         },
         {
           activityDate: '2018.12.1-12.31',
-          src: require('./images/default_im.png')
+          src: require('./image/default_im.png')
         },
         {
           activityDate: '2018.12.1-12.31',
-          src: require('./images/default_im.png')
+          src: require('./image/default_im.png')
         }
       ]
     }
