@@ -112,7 +112,7 @@ export default new Router({
             {
               path: 'basicInfo', // 基本信息
               name: 'basicInfo',
-              component: () => import('@/views/djs/Mine/basicInfo/basicInfo')
+              component: () => import('@/views/common/basicInfo/basicInfo')
             },
             {
               path: 'bankcard', // 银行卡
@@ -138,18 +138,18 @@ export default new Router({
                   path: '/zxt/:date/:status',
                   name: 'ZXTList',
                   component: () => import('@/views/hyc/Mine/SB/SB')
-                },
-                {
-                  path: 'qst/:id',
-                  name: 'QSTDetail',
-                  component: () => import('@/views/hyc/Mine/JHBDetail/JHBDetail')
-                },
-                {
-                  path: 'zxt/:id',
-                  name: 'ZXTDetail',
-                  component: () => import('@/views/hyc/Mine/SBDetail/SBDetail')
                 }
               ]
+            },
+            {
+              path: 'qst-detail', // 轻松投详情
+              name: 'QSTDetail',
+              component: () => import('@/views/hyc/Mine/JHBDetail/JHBDetail')
+            },
+            {
+              path: 'zxt-detail', // 自选投详情
+              name: 'ZXTDetail',
+              component: () => import('@/views/hyc/Mine/SBDetail/SBDetail')
             },
             {
               path: 'record', // 交易记录
@@ -169,7 +169,7 @@ export default new Router({
             {
               path: 'coupons', // 我的卡券
               name: 'lendCoupons',
-              component: () => import('@/views/djs/Mine/coupons/coupons')
+              component: () => import('@/views/hyc/Mine/coupons/index')
             },
             {
               path: 'experience-money', // 体验金
@@ -179,14 +179,25 @@ export default new Router({
             {
               path: 'charge', // 充值
               name: 'charge',
-              component: () => import(/* webpackChunkName: "record" */ '@/views/hyc/charge/charge.vue')
+              component: () => import(/* webpackChunkName: "record" */ '@/views/hyc/Mine/charge/charge.vue')
             },
             {
               path: 'tocash', // 提现
               name: 'tocash',
-              component: () => import(/* webpackChunkName: "tocash" */ '@/views/hyc/toCash/toCash.vue')
+              component: () => import(/* webpackChunkName: "tocash" */ '@/views/hyc/Mine/toCash/toCash.vue')
             }
           ]
+        }
+      ]
+    },
+    {
+      path: '/', // 收益计算器
+      component: Layout,
+      children: [
+        {
+          path: 'calculator',
+          name: 'calculator',
+          component: () => import(/* webpackChunkName: "calculator" */ '@/views/common/calculator/calculator.vue')
         }
       ]
     },
@@ -198,6 +209,61 @@ export default new Router({
           path: 'lend',
           name: 'lend',
           component: () => import(/* webpackChunkName: "lend" */ '@/views/hyc/lend/lend.vue')
+        }
+      ]
+    },
+    {
+      path: '/announcement',
+      component: Layout,
+      children: [
+        {
+          path: '',
+          component: () => import(/* webpackChunkName: "announcement" */ '@/views/hyc/announcement/index.vue'),
+          children: [
+            {
+              path: '/',
+              name: 'announcement',
+              component: () => import(/* webpackChunkName: "announcementIndex" */ '@/views/hyc/announcement/announcement.vue')
+            },
+            {
+              path: ':id',
+              name: 'announcementDetail',
+              component: () => import(/* webpackChunkName: "announcementDetail" */ '@/views/hyc/announcement/detail.vue')
+            }
+          ]
+        }
+      ]
+    },
+    {
+      path: '/', // 帮助中心
+      component: Layout,
+      children: [
+        {
+          path: 'helpCenter',
+          name: 'helpCenter',
+          component: () => import(/* webpackChunkName: "helpCenter" */ '@/views/hyc/helpCenter/index.vue')
+        }
+      ]
+    },
+    {
+      path: '/', // 信息披露
+      component: Layout,
+      children: [
+        {
+          path: 'infoDisclosure',
+          name: 'infoDisclosure',
+          component: () => import(/* webpackChunkName: "infoDisclosure" */ '@/views/hyc/infoDisclosure/index.vue')
+        }
+      ]
+    },
+    {
+      path: '/', // 运营报告
+      component: Layout,
+      children: [
+        {
+          path: 'report',
+          name: 'report',
+          component: () => import(/* webpackChunkName: "report" */ '@/views/hyc/infoDisclosure/report.vue')
         }
       ]
     }

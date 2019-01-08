@@ -48,7 +48,7 @@
             <span>-</span>
             <p>{{item.interestEndDate}}</p>
           </td>
-          <td style="cursor:pointer;" @click="showLendDetail(item.id)">
+          <td style="cursor:pointer;" @click="showLendDetail(item.id, item.projectType)">
             <span style="color: #FB891F;">查看</span>
           </td>
         </tr>
@@ -121,7 +121,6 @@ import { getQSTList } from '@/api/hyc/Mine/lend'
 
 export default {
   name: 'planDetail',
-  mixins: [],
   components: {
     pagination
   },
@@ -135,7 +134,6 @@ export default {
       }
     }
   },
-  props: {},
   watch: {
     '$route.params.status'(newVal) {
       this.invStatus = newVal
@@ -152,14 +150,30 @@ export default {
         this.paginationOption.countPage = res.data.data.countPage
       })
     },
+    showLendDetail(id, type) {
+      this.$router.push({
+        name: 'QSTDetail',
+        query: {
+          id: id,
+          type: type
+        }
+      })
+      // getQSTDetail({
+      //   projectNo: id
+      // }).then(res => {
+      //   console.log(res)
+      // })
+
+      console.log(id)
+    },
     changePage(page) {
+      this.paginationOption.curPage = page
       this.getQSTList(this.invStatus, page)
     }
   },
   created() {
     this.getQSTList(this.invStatus)
-  },
-  mounted() {}
+  }
 }
 </script>
 

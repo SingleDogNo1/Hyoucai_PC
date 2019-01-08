@@ -2,9 +2,9 @@
   <div class="autoLend">
     <h1>自动出借</h1>
     <div class="filter">
-      <button @click="setRepeatStatus('')" :class="{active: repeatStatus ===''}">全部</button>
-      <button @click="setRepeatStatus(1)" :class="{active: repeatStatus ===1}">已设置</button>
-      <button @click="setRepeatStatus(0)" :class="{active: repeatStatus ===0}">未设置</button>
+      <button @click="setRepeatStatus('')" :class="{ active: repeatStatus === '' }">全部</button>
+      <button @click="setRepeatStatus(1)" :class="{ active: repeatStatus === 1 }">已设置</button>
+      <button @click="setRepeatStatus(0)" :class="{ active: repeatStatus === 0 }">未设置</button>
     </div>
     <table>
       <thead>
@@ -20,12 +20,12 @@
       </thead>
       <tbody>
         <tr v-for="item in items" :key="item.id">
-          <td>{{item.projectName}}</td>
-          <td>{{item.txSn }}</td>
-          <td>{{item.invAmount}}</td>
-          <td>{{item.intSumStartDate}}</td>
-          <td>{{item.invOverDate }}</td>
-          <td>{{item.projectName}}</td>
+          <td>{{ item.projectName }}</td>
+          <td>{{ item.txSn }}</td>
+          <td>{{ item.invAmount }}</td>
+          <td>{{ item.intSumStartDate }}</td>
+          <td>{{ item.invOverDate }}</td>
+          <td>{{ item.projectName }}</td>
           <td>
             <span v-if="item.repeatStatus === 0" @click="handleSetAutoLend(item.id)">设置自动出借</span>
             <span v-if="item.repeatStatus === 1" @click="handleCancelAutoLend(item.id)">取消本金自动出借</span>
@@ -34,15 +34,13 @@
         </tr>
       </tbody>
     </table>
-    <Pagination v-show="total>0" class="pagination" :count-page="total" :cur-page="page" @handleCurrentChange = "handleCurrentChange"></Pagination>
+    <Pagination v-show="total > 0" class="pagination" :count-page="total" :cur-page="page" @handleCurrentChange="handleCurrentChange"></Pagination>
     <Dialog :show.sync="showDialogSet" title="设置自动出借，省心赚钱" :onConfirm="setAutoLend">
       <p class="dialog-text"><el-radio v-model="status" label="1">本金到期后自动出借</el-radio></p>
       <p class="dialog-text"><el-radio v-model="status" label="2">本息到期后自动出借</el-radio></p>
-      <p class="dialog-text"><span class="agreement" @click="$router.push({ name: 'autoLendAgreement'})">自动出借服务条款</span></p>
+      <p class="dialog-text"><span class="agreement" @click="$router.push({ name: 'autoLendAgreement' })">自动出借服务条款</span></p>
     </Dialog>
-    <Dialog :show.sync="showDialogCancel" :onConfirm="cancelAutoLend">
-      <p class="dialog-text">您确认要取消自动出借吗？</p>
-    </Dialog>
+    <Dialog :show.sync="showDialogCancel" :onConfirm="cancelAutoLend"> <p class="dialog-text">您确认要取消自动出借吗？</p> </Dialog>
   </div>
 </template>
 

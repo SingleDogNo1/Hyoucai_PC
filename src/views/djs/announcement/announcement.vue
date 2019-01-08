@@ -10,7 +10,13 @@
           </li>
         </ul>
         <div class="pagination-wrapper">
-          <pagination v-if="total" :total-count="total" :size-val="size" :page-val="page" @handleCurrentChange="handleCurrentChange"></pagination>
+          <pagination
+            v-if="total"
+            :count-page="total"
+            :size-val="size"
+            :page-val="page"
+            @handleCurrentChange="handleCurrentChange"
+          ></pagination>
         </div>
       </el-tab-pane>
       <el-tab-pane label="行业资讯" name="HYZX">
@@ -22,7 +28,13 @@
           </li>
         </ul>
         <div class="pagination-wrapper">
-          <pagination v-if="total" :total-count="total" :size-val="size" :page-val="page" @handleCurrentChange="handleCurrentChange"></pagination>
+          <pagination
+            v-if="total"
+            :count-page="total"
+            :size-val="size"
+            :page-val="page"
+            @handleCurrentChange="handleCurrentChange"
+          ></pagination>
         </div>
       </el-tab-pane>
       <el-tab-pane label="媒体报道" name="MTBD">
@@ -34,7 +46,13 @@
           </li>
         </ul>
         <div class="pagination-wrapper">
-          <pagination v-if="total" :total-count="total" :size-val="size" :page-val="page" @handleCurrentChange="handleCurrentChange"></pagination>
+          <pagination
+            v-if="total"
+            :count-page="total"
+            :size-val="size"
+            :page-val="page"
+            @handleCurrentChange="handleCurrentChange"
+          ></pagination>
         </div>
       </el-tab-pane>
     </el-tabs>
@@ -79,7 +97,7 @@ export default {
         this.list.forEach(val => {
           val.createTime = moment(val.createTime).format('YYYY-MM-DD')
         })
-        this.total = parseInt(data.countPage) * this.size
+        this.total = parseInt(data.countPage)
         this.page = parseInt(data.curPage)
       })
     }

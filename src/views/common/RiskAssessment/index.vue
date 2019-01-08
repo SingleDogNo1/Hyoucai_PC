@@ -2,30 +2,37 @@
   <div class="risk_box">
     <div class="risk">
       <header ref="Title">
-        <div class="head_gradient">{{ title }}</div>
+        <div class="head_gradient">{{title}}</div>
       </header>
       <section class="content">
-        <div>
-          1.我们将对您的风险承担能力进行评估,请根据您的自身实际情况如实填写问卷,以便我们了解您的风险承担类型,进而根据您的风险承担能力选择适合您的理财产品。
-        </div>
+        <div>1.我们将对您的风险承担能力进行评估,请根据您的自身实际情况如实填写问卷,以便我们了解您的风险承担类型,进而根据您的风险承担能力选择适合您的理财产品。</div>
         <div>2.评估结果仅供参考,不构成出借建议。为了及时了解您的风险承受能力,建议您持续做好动态评估,我们承诺对您的所有个人资料保密</div>
         <div class="content_text">本问卷包含10个问题，每个问题请根据您的自身实际情况选择一个选项。</div>
       </section>
       <el-form :model="questionsObj">
-        <section class="problem_box" v-for="(item, index) in questionsObj.questions" :key="index">
-          <p class="problem_title">{{ item.title }}</p>
-          <el-radio-group v-model="radio[index]" @change="getChoice($event, index)">
-            <el-radio class="matchClass" v-for="(answer, i) in item.answers" :key="i" :label="answer.score">{{ answer.des }}</el-radio>
+        <section class="problem_box" v-for="(item,index) in questionsObj.questions" :key="index">
+          <p class="problem_title">{{item.title}}</p>
+          <el-radio-group v-model="radio[index]" @change="getChoice($event,index)">
+            <el-radio
+              class="matchClass"
+              v-for="(answer, i) in item.answers"
+              :key="i"
+              :label="answer.score"
+            >{{answer.des}}</el-radio>
           </el-radio-group>
         </section>
         <div class="submit_box">
-          <div class="submit" :class="{ active: isColor }"><button class="submit_text">提交评测</button></div>
+          <div class="submit" :class="{'active':isColor}" @click="submit()">
+            <button class="submit_text">提交评测</button>
+          </div>
         </div>
       </el-form>
     </div>
   </div>
 </template>
 <script>
+import { saveEvaluatingResultApi } from '@/api/common/risk'
+import { getAuth } from '@/assets/js/utils'
 export default {
   data() {
     return {
@@ -281,23 +288,51 @@ export default {
           }
         ]
       },
-      isColor: false
+      isColor: false,
+      resultType: '',
+      authorization: getAuth()
     }
   },
   methods: {
     getChoice: function($event, index) {
-      console.log(0)
       let scoreObj = {
         index: index,
         score: $event
       }
-      this.scoreArr[scoreObj.index] = scoreObj.score
-      this.scoreArr.map(item => {
-        if (item != 0) {
-          this.isColor = true
-        }
-      })
       this.isColor = false
+      this.scoreArr[scoreObj.index] = scoreObj.score
+      let scoreNum = 1
+      this.scoreArr.map(item => {
+        scoreNum *= item
+      })
+      if (scoreNum != 0) {
+        this.isColor = true
+      }
+      // console.log(this.scoreArr, scoreNum)
+    },
+    submit: function() {
+      let totalScore = 0
+      this.scoreArr.map(item => {
+        totalScore += item
+      })
+      if (totalScore <= 10) {
+        this.resultType = 'BSX'
+      } else if (totalScore > 10 && totalScore < 30) {
+        this.resultType = 'JSX'
+      } else if (totalScore >= 30 && totalScore < 42) {
+        this.resultType = 'JJX'
+      } else if (totalScore >= 42 && totalScore < 50) {
+        this.resultType = 'JQX'
+      } else if (totalScore == 50) {
+        this.resultType = 'JINX'
+      }
+      let data = {
+        authorization: this.authorization,
+        evaluatingResult: this.resultType
+      }
+      if (this.isColor) {
+        saveEvaluatingResultApi(data).then(() => {})
+      }
     }
   }
 }

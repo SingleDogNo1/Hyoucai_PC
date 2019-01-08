@@ -16,7 +16,7 @@
         <h1>出借类别</h1>
         <ul>
           <li :class="{active: typeStatusIndex === 0}" @click="showQST(QSTStatus[QSTStatusIndex].statusCode)">轻松投</li>
-          <li :class="{active: typeStatusIndex === 1}" @click="showZXT(dateStatus[dateStatusIndex].value, ZXTStatus[ZXTStatusIndex].value)">自选投</li>
+          <li :class="{active: typeStatusIndex === 1}" @click="showZXT()">自选投</li>
         </ul>
       </div>
       <div class="nav bid-status" v-if="typeStatusIndex === 0">
@@ -37,7 +37,7 @@
             v-for="(item, index) in dateStatus"
             :key="index"
             :class="{active: index === dateStatusIndex}"
-            @click="changeDateStatus(index, item.statusCode)"
+            @click="changeDateStatus(index, item.value)"
           >{{item.key}}</li>
         </ul>
       </div>
@@ -86,11 +86,25 @@ export default {
         params: { status }
       })
     },
-    changeZXTStatus(index) {
+    changeZXTStatus(index, status) {
       this.ZXTStatusIndex = index
+      this.$router.push({
+        name: 'ZXTList',
+        params: {
+          date: this.dateStatus[this.dateStatusIndex].value,
+          status: status
+        }
+      })
     },
-    changeDateStatus(index) {
+    changeDateStatus(index, status) {
       this.dateStatusIndex = index
+      this.$router.push({
+        name: 'ZXTList',
+        params: {
+          date: status,
+          status: this.ZXTStatus[this.ZXTStatusIndex].value
+        }
+      })
     },
     showQST(status) {
       this.typeStatusIndex = 0
@@ -120,7 +134,7 @@ export default {
       }
       initQSTTab()
     },
-    showZXT(date, status) {
+    showZXT() {
       this.typeStatusIndex = 1
       const $this = this
       async function initZXTTab() {
@@ -133,7 +147,10 @@ export default {
         // 跳转到散标详情
         await $this.$router.push({
           name: 'ZXTList',
-          params: { date, status }
+          params: {
+            date: $this.dateStatus[$this.dateStatusIndex].value,
+            status: $this.ZXTStatus[$this.ZXTStatusIndex].value
+          }
         })
       }
       initZXTTab()
@@ -251,6 +268,7 @@ export default {
   .detail-wrapper {
     min-height: 512px;
     background: #fff;
+    padding-top: 25px;
   }
 }
 </style>
