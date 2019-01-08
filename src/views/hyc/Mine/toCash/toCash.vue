@@ -51,7 +51,9 @@
           <span class="title">&emsp;&emsp;&emsp;&emsp;开户行号</span>
           <div class="info-wrapper">
             <input type="number" placeholder="请输入联行号" v-model="cardBankCnaps" />
-            <div class="select" @click.stop="controlShowSelect($event)"><i class="iconfont icon-xiala" id="rotate-arrow"></i></div>
+            <div class="select" @click.stop="controlShowSelect">
+              <i class="iconfont icon-xiala" :class="showSelector ? 'rotate-up' : 'rotate-down'" id="rotate-arrow"></i>
+            </div>
             <em class="bank-no">查不到？<a target="_blank" href="http://www.lianhanghao.com/">联网查询</a></em>
             <el-card class="box-card" v-if="showSelector">
               <div slot="header" class="clearfix">
@@ -94,7 +96,7 @@
       <p>4.提现手续费0元，每日限10笔。</p>
       <p>5.提现中有任何疑问，可以立即联系点金石客服：021-23099138。</p>
     </div>
-    <div class="model" v-if="showSelector" @click.stop="controlShowSelect($event)"></div>
+    <div class="model" v-if="showSelector" @click.stop="controlShowSelect"></div>
     <Dialog :show.sync="showDialog" :singleButton="singleButton">
       <div>{{ errMsg.common }}</div>
     </Dialog>
@@ -111,9 +113,9 @@ import {
   sysBranceBankListApi,
   withdrawApi,
   amountInfoApi
-} from '@/api/hyc/tocash'
+} from '@/api/hyc/Mine/tocash'
 import { getUser } from '@/assets/js/cache'
-import { getAuth, getRetBaseURL, myDOM } from '@/assets/js/utils'
+import { getAuth, getRetBaseURL } from '@/assets/js/utils'
 import Dialog from '@/components/Dialog/Dialog'
 export default {
   data() {
@@ -425,29 +427,14 @@ export default {
         }
       })
     },
-    controlShowSelect(e) {
+    controlShowSelect() {
       if (!this.provinceList.length) {
         this.getSysProvinceList()
       }
-      let className = e.target.className
-      console.log(className)
-      let iDom = document.getElementById('rotate-arrow')
-      if (className.indexOf('select') > 0 || className.indexOf('icon-xiala') > 0) {
-        if (this.showSelector) {
-          this.showSelector = false
-          myDOM.removeClass(iDom, 'rotate-up')
-          myDOM.addClass(iDom, 'rotate-down')
-        } else {
-          this.showSelector = true
-          myDOM.removeClass(iDom, 'rotate-down')
-          myDOM.addClass(iDom, 'rotate-up')
-        }
+      if (this.showSelector) {
+        this.showSelector = false
       } else {
-        if (this.showSelector) {
-          this.showSelector = false
-          myDOM.removeClass(iDom, 'rotate-up')
-          myDOM.addClass(iDom, 'rotate-down')
-        }
+        this.showSelector = true
       }
     },
     checkAmountInput() {
@@ -484,8 +471,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../../../assets/css/mixins';
-@import '../../../assets/css/theme';
+@import '../../../../assets/css/mixins';
+@import '../../../../assets/css/theme';
 
 .tocash {
   position: relative;
@@ -494,9 +481,11 @@ export default {
   font-size: $font-size-small-s;
   border: 1px solid #f5f5f5;
   .model {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
+    bottom: 0;
+    right: 0;
     z-index: 98;
     display: block;
     content: ' ';

@@ -4,42 +4,31 @@
       <!-- 申请中 -->
       <table cellspacing="0" v-if="invList && invList.length > 0">
         <thead>
-        <th style="width: 270px;">项目名称</th>
-        <th style="width: 120px;">出借本金（元）</th>
-        <th style="width: 120px;">利息（元）</th>
-        <th style="width: 110px;">历史平均年化收益率（元）</th>
-        <th style="width: 100px;">锁定期</th>
-        <th>查看详情</th>
+          <th style="width: 270px;">项目名称</th>
+          <th style="width: 120px;">出借本金（元）</th>
+          <th style="width: 120px;">利息（元）</th>
+          <th style="width: 110px;">历史平均年化收益率（元）</th>
+          <th style="width: 100px;">锁定期</th>
+          <th>查看详情</th>
         </thead>
         <tbody>
-        <tr
-          v-for="(item, index) in invList"
-          :key="index"
-        >
-          <td>
-            <span>{{item.productName}}</span>
-            <em>{{item.invStatusDesc}}</em>
-          </td>
-          <td v-if="item.invStatus === 'INTK'">{{item.applyAmount}}</td>
-          <td v-else>{{item.invAmount}}</td>
-          <td>{{item.waitAmount}}</td>
-          <td>{{item.yearRate}}</td>
-          <td>
-            <span>{{item.interestStartDate}}</span>
-            <span> - </span>
-            <p>{{item.interestEndDate}}</p>
-          </td>
-          <td
-            style="cursor:pointer; color:#FB891F;"
-            v-if="item.invStatus === 'INVI'"
-            @click="showDetail(item.productId)"
-          >
-            <span style="color: #FB891F;">查看</span>
-          </td>
-          <td style="cursor:pointer; color:#FB891F;" v-else>
-            <span style="color: #eee;">查看</span>
-          </td>
-        </tr>
+          <tr v-for="(item, index) in invList" :key="index">
+            <td>
+              <span>{{ item.productName }}</span> <em>{{ item.invStatusDesc }}</em>
+            </td>
+            <td v-if="item.invStatus === 'INTK'">{{ item.applyAmount }}</td>
+            <td v-else>{{ item.invAmount }}</td>
+            <td>{{ item.waitAmount }}</td>
+            <td>{{ item.yearRate }}</td>
+            <td>
+              <span>{{ item.interestStartDate }}</span> <span> - </span>
+              <p>{{ item.interestEndDate }}</p>
+            </td>
+            <td style="cursor:pointer; color:#FB891F;" v-if="item.invStatus === 'INVI'" @click="showDetail(item.productId)">
+              <span style="color: #FB891F;">查看</span>
+            </td>
+            <td style="cursor:pointer; color:#FB891F;" v-else><span style="color: #eee;">查看</span></td>
+          </tr>
         </tbody>
       </table>
       <div class="no-data" v-else>么有数据</div>

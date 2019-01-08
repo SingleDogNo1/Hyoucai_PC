@@ -72,7 +72,24 @@ export function amountInfoApi(data) {
     data: qs.stringify(data)
   })
 }
-//
+
+export function getSmsCode(data) {
+  return request({
+    url: '/SmsTocashCode',
+    method: 'post',
+    headers: { 'Content-type': 'application/x-www-form-urlencoded', platform: 'pc' },
+    data: qs.stringify(data)
+  })
+}
+
+export function toCashApply(data) {
+  return request({
+    url: '/ToCashApply',
+    method: 'post',
+    headers: { 'Content-type': 'application/x-www-form-urlencoded', platform: 'pc', version: '2.0' },
+    data: qs.stringify(data)
+  })
+}
 // export default {
 //   bankCardQueryApi, // 获取银行卡信息
 //   getBankUnionNumberUrlApi, // 联行号获取

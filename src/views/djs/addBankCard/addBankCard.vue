@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper">
+  <div class="add-bankcard-wrapper">
     <h3>绑定银行卡</h3>
     <div class="item">
       <span class="title">&emsp;姓名</span>
@@ -16,7 +16,7 @@
     <div class="item add-card">
       <span class="title">银行卡</span>
       <div class="info-wrapper">
-        <i class="iconfont icon-Bankcard"></i> <input type="text" placeholder="请输入银行卡号" v-model="bankCardNo" />
+        <i class="iconfont icon-Bankcard"></i> <input type="text" placeholder="请输入银行卡号" @input="bankCardInput($event)" />
         <div class="bank-support">
           <el-popover placement="right" width="440" trigger="hover">
             <ul class="bank-list">
@@ -51,15 +51,14 @@
       <span class="title">&emsp;&emsp;&emsp;</span>
       <div class="info-wrapper"><input type="button" value="确认绑卡" @click="submitChangeBankCard" /></div>
     </div>
-    <Dialog :show.sync="showDialog" :singleButton="singleButton" class="djs-charge-dialog">
+    <Dialog :show.sync="showDialog" :singleButton="singleButton" class="djs-add-bankcard-dialog">
       <div>{{ errMsg.common }}</div>
     </Dialog>
   </div>
 </template>
 
 <script>
-import bankImg from './image/abc.png'
-import { userBasicInfo, userChangeBankCard, supportBankList, smsBankCardCode } from '@/api/djs/addBankCard'
+import { userChangeBankCard, supportBankList, smsBankCardCode } from '@/api/djs/addBankCard'
 import { getUser } from '@/assets/js/cache'
 import { mapGetters } from 'vuex'
 import Dialog from '@/components/Dialog/Dialog'
@@ -72,36 +71,7 @@ export default {
     return {
       showCountDown: false,
       countDown: 60,
-      bankList: [
-        {
-          src: bankImg,
-          name: '江西银行'
-        },
-        {
-          src: bankImg,
-          name: '华夏银行'
-        },
-        {
-          src: bankImg,
-          name: '上海银行'
-        },
-        {
-          src: bankImg,
-          name: '农业银行'
-        },
-        {
-          src: bankImg,
-          name: '招商银行'
-        },
-        {
-          src: bankImg,
-          name: '中国银行'
-        },
-        {
-          src: bankImg,
-          name: '厦门银行'
-        }
-      ],
+      bankList: [],
       userName: getUser().userName,
       bankCardNo: '',
       mobile: '',
@@ -124,13 +94,13 @@ export default {
     ...mapGetters(['user', 'userBasicInfo'])
   },
   methods: {
-    getUserBasicInfo() {
-      let data = {
-        userName: this.userName
+    bankCardInput(e) {
+      let value = e.target.value
+      if (/^[\d]{0,19}$/.test(value.replace(/\s/g, ''))) {
+        value = value.replace(/\D/g, '').replace(/(....)(?=.)/g, '$1 ')
       }
-      userBasicInfo(data).then(res => {
-        console.log(res)
-      })
+      e.target.value = value
+      this.bankCardNo = value.replace(/\D/g, '')
     },
     submitChangeBankCard() {
       if (!isBankCard(this.bankCardNo)) {
@@ -167,7 +137,6 @@ export default {
       })
     },
     getSmsCode() {
-      //6212260200098011022
       if (!isBankCard(this.bankCardNo)) {
         this.errMsg.bankCardNo = '请输入正确的银行卡！'
         return
@@ -218,7 +187,6 @@ export default {
     }
   },
   created() {
-    this.getUserBasicInfo()
     this.getSupportBankList()
   }
 }
@@ -227,7 +195,7 @@ export default {
 <style lang="scss" scoped>
 @import '../../../assets/css/mixins';
 @import '../../../assets/css/theme';
-.wrapper {
+.add-bankcard-wrapper {
   width: 1140px;
   margin: 20px auto 40px;
   padding: 0 0 40px 0;
@@ -383,6 +351,11 @@ export default {
     border-radius: 5px;
     margin-left: 459px;
     margin-bottom: 10px;
+  }
+  .djs-add-bankcard-dialog {
+    div {
+      text-align: center;
+    }
   }
 }
 .bank-list {

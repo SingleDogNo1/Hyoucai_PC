@@ -90,7 +90,7 @@
 
 <script>
 import Clipboard from 'clipboard'
-import { bankCardQueryApi, checkAmountApi, rechargeApi, amountInfoApi } from '@/api/hyc/charge'
+import { bankCardQueryApi, checkAmountApi, rechargeApi, amountInfoApi } from '@/api/hyc/Mine/charge'
 import { getUser } from '@/assets/js/cache'
 import { getAuth, getRetBaseURL, Base64Utils } from '@/assets/js/utils'
 
@@ -137,6 +137,18 @@ export default {
     }
   },
   props: ['entrance'],
+  watch: {
+    amount(ne) {
+      if (!ne) {
+        this.chargedBalance = this.balance
+        return
+      }
+      this.chargedBalance = this.balance - 0 + ne
+      if (this.balance.toString().indexOf('.00') > -1) {
+        this.chargedBalance = this.chargedBalance + '.00'
+      }
+    }
+  },
   methods: {
     amountInput(e) {
       e.target.value = e.target.value.replace(/[^\d.]/g, '')
@@ -289,7 +301,7 @@ export default {
     amountInfoApi().then(res => {
       if (res.data.resultCode === ERR_OK) {
         const data = res.data.data
-        this.balance = data.banlance
+        this.balance = this.chargedBalance = data.banlance
       }
     })
   },
@@ -298,8 +310,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../../../assets/css/mixins';
-@import '../../../assets/css/theme';
+@import '../../../../assets/css/mixins';
+@import '../../../../assets/css/theme';
 .charge {
   height: 100%;
   margin: 0 auto;

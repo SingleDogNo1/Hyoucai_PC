@@ -41,7 +41,7 @@ export default new Router({
         {
           path: 'calculator',
           name: 'calculator',
-          component: () => import(/* webpackChunkName: "calculator" */ '@/views/djs/calculator/calculator.vue')
+          component: () => import(/* webpackChunkName: "calculator" */ '@/views/common/calculator/calculator.vue')
         }
       ]
     },
@@ -118,12 +118,12 @@ export default new Router({
             {
               path: 'charge', // 充值
               name: 'charge',
-              component: () => import(/* webpackChunkName: "record" */ '@/views/djs/charge/charge.vue')
+              component: () => import(/* webpackChunkName: "charge" */ '@/views/djs/Mine/charge/charge.vue')
             },
             {
               path: 'tocash', // 提现
               name: 'tocash',
-              component: () => import(/* webpackChunkName: "tocash" */ '@/views/djs/toCash/toCash.vue')
+              component: () => import(/* webpackChunkName: "tocash" */ '@/views/djs/Mine/toCash/toCash.vue')
             }
           ]
         }

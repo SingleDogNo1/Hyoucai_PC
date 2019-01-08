@@ -179,14 +179,25 @@ export default new Router({
             {
               path: 'charge', // 充值
               name: 'charge',
-              component: () => import(/* webpackChunkName: "record" */ '@/views/hyc/charge/charge.vue')
+              component: () => import(/* webpackChunkName: "record" */ '@/views/hyc/Mine/charge/charge.vue')
             },
             {
               path: 'tocash', // 提现
               name: 'tocash',
-              component: () => import(/* webpackChunkName: "tocash" */ '@/views/hyc/toCash/toCash.vue')
+              component: () => import(/* webpackChunkName: "tocash" */ '@/views/hyc/Mine/toCash/toCash.vue')
             }
           ]
+        }
+      ]
+    },
+    {
+      path: '/', // 收益计算器
+      component: Layout,
+      children: [
+        {
+          path: 'calculator',
+          name: 'calculator',
+          component: () => import(/* webpackChunkName: "calculator" */ '@/views/common/calculator/calculator.vue')
         }
       ]
     },
