@@ -3,7 +3,7 @@
     <div class="swiper-container-banner">
       <div class="swiper-wrapper">
         <div
-          class="swiper-slide swiper-no-swiping"
+          class="swiper-slide swiper-no-swiping  stop-swiping"
           v-for="(item, index) in bannerList"
           :key="index"
         >
@@ -310,6 +310,8 @@ export default {
           this.bannerList = data.bannelList
           setTimeout(() => {
             this.swiperBanner = new Swiper('.swiper-container-banner', {
+              noSwipingSelector: 'div',
+              noSwipingClass: 'form-container, stop-swiping',
               lazy: {
                 loadPrevNext: true
               },

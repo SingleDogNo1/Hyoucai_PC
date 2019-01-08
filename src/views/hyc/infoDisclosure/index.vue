@@ -28,7 +28,7 @@
           </el-tab-pane>
           <el-tab-pane label="公司管理" name="GSGL">
             <div class="content" v-html="content" v-if="paramCode === 'GSJJ'"></div>
-            <div class="company-management" v-if="paramCode === 'GYWM'">
+            <div class="company-management" v-if="!paramCode">
               <div class="organizational-structure-wrap">
                 <strong>组织架构</strong>
                 <img src="./images/bg_organizational_structure.png">
@@ -493,8 +493,8 @@ import 'echarts/lib/component/tooltip'
 import 'echarts/lib/component/title'
 import 'echarts/lib/component/legend'
 import 'echarts/lib/component/graphic'
-import { getList } from '@/api/djs/announcement'
-import { getOperationalData } from '@/api/djs/infoDisclosure'
+import { getList } from '@/api/hyc/announcement'
+import { getOperationalData } from '@/api/hyc/infoDisclosure'
 import pagination from '@/components/pagination/pagination'
 export default {
   data() {

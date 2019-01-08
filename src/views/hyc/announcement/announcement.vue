@@ -65,7 +65,7 @@
 <script>
 import moment from 'moment'
 import pagination from '@/components/pagination/pagination'
-import { getList } from '@/api/djs/announcement'
+import { getList } from '@/api/hyc/announcement'
 
 export default {
   data() {

@@ -191,6 +191,61 @@ export default new Router({
           component: () => import(/* webpackChunkName: "lend" */ '@/views/hyc/lend/lend.vue')
         }
       ]
+    },
+    {
+      path: '/announcement',
+      component: Layout,
+      children: [
+        {
+          path: '',
+          component: () => import(/* webpackChunkName: "announcement" */ '@/views/hyc/announcement/index.vue'),
+          children: [
+            {
+              path: '/',
+              name: 'announcement',
+              component: () => import(/* webpackChunkName: "announcementIndex" */ '@/views/hyc/announcement/announcement.vue')
+            },
+            {
+              path: ':id',
+              name: 'announcementDetail',
+              component: () => import(/* webpackChunkName: "announcementDetail" */ '@/views/hyc/announcement/detail.vue')
+            }
+          ]
+        }
+      ]
+    },
+    {
+      path: '/', // 帮助中心
+      component: Layout,
+      children: [
+        {
+          path: 'helpCenter',
+          name: 'helpCenter',
+          component: () => import(/* webpackChunkName: "helpCenter" */ '@/views/hyc/helpCenter/index.vue')
+        }
+      ]
+    },
+    {
+      path: '/', // 信息披露
+      component: Layout,
+      children: [
+        {
+          path: 'infoDisclosure',
+          name: 'infoDisclosure',
+          component: () => import(/* webpackChunkName: "infoDisclosure" */ '@/views/hyc/infoDisclosure/index.vue')
+        }
+      ]
+    },
+    {
+      path: '/', // 运营报告
+      component: Layout,
+      children: [
+        {
+          path: 'report',
+          name: 'report',
+          component: () => import(/* webpackChunkName: "report" */ '@/views/hyc/infoDisclosure/report.vue')
+        }
+      ]
     }
   ]
 })
