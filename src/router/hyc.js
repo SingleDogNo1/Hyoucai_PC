@@ -138,18 +138,18 @@ export default new Router({
                   path: '/zxt/:date/:status',
                   name: 'ZXTList',
                   component: () => import('@/views/hyc/Mine/SB/SB')
-                },
-                {
-                  path: 'qst/:id',
-                  name: 'QSTDetail',
-                  component: () => import('@/views/hyc/Mine/JHBDetail/JHBDetail')
-                },
-                {
-                  path: 'zxt/:id',
-                  name: 'ZXTDetail',
-                  component: () => import('@/views/hyc/Mine/SBDetail/SBDetail')
                 }
               ]
+            },
+            {
+              path: 'qst-detail', // 轻松投详情
+              name: 'QSTDetail',
+              component: () => import('@/views/hyc/Mine/JHBDetail/JHBDetail')
+            },
+            {
+              path: 'zxt-detail', // 自选投详情
+              name: 'ZXTDetail',
+              component: () => import('@/views/hyc/Mine/SBDetail/SBDetail')
             },
             {
               path: 'record', // 交易记录
