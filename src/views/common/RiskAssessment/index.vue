@@ -2,29 +2,24 @@
   <div class="risk_box">
     <div class="risk">
       <header ref="Title">
-        <div class="head_gradient">{{title}}</div>
+        <div class="head_gradient">{{ title }}</div>
       </header>
       <section class="content">
-        <div>1.我们将对您的风险承担能力进行评估,请根据您的自身实际情况如实填写问卷,以便我们了解您的风险承担类型,进而根据您的风险承担能力选择适合您的理财产品。</div>
+        <div>
+          1.我们将对您的风险承担能力进行评估,请根据您的自身实际情况如实填写问卷,以便我们了解您的风险承担类型,进而根据您的风险承担能力选择适合您的理财产品。
+        </div>
         <div>2.评估结果仅供参考,不构成出借建议。为了及时了解您的风险承受能力,建议您持续做好动态评估,我们承诺对您的所有个人资料保密</div>
         <div class="content_text">本问卷包含10个问题，每个问题请根据您的自身实际情况选择一个选项。</div>
       </section>
       <el-form :model="questionsObj">
-        <section class="problem_box" v-for="(item,index) in questionsObj.questions" :key="index">
-          <p class="problem_title">{{item.title}}</p>
-          <el-radio-group v-model="radio[index]" @change="getChoice($event,index)">
-            <el-radio
-              class="matchClass"
-              v-for="(answer, i) in item.answers"
-              :key="i"
-              :label="answer.score"
-            >{{answer.des}}</el-radio>
+        <section class="problem_box" v-for="(item, index) in questionsObj.questions" :key="index">
+          <p class="problem_title">{{ item.title }}</p>
+          <el-radio-group v-model="radio[index]" @change="getChoice($event, index)">
+            <el-radio class="matchClass" v-for="(answer, i) in item.answers" :key="i" :label="answer.score">{{ answer.des }}</el-radio>
           </el-radio-group>
         </section>
         <div class="submit_box">
-          <div class="submit" :class="{'active':isColor}">
-            <button class="submit_text">提交评测</button>
-          </div>
+          <div class="submit" :class="{ active: isColor }"><button class="submit_text">提交评测</button></div>
         </div>
       </el-form>
     </div>

@@ -22,24 +22,31 @@
               <li>
                 <span class="title">充值金额</span>
                 <div class="info-wrapper">
-                  <input type="text" placeholder="请输入充值金额" @input="amountInput"/> <em class="unit">元</em> <i class="tips">(100元起充)</i>
+                  <input type="text" placeholder="请输入充值金额" @input="amountInput" /> <em class="unit">元</em> <i class="tips">(100元起充)</i>
                 </div>
               </li>
-              <div class="err-msg" v-if="errMsg.amount">{{errMsg.amount}}</div>
-              <li><span class="title">&emsp;&emsp;姓名</span> <span class="text">{{bankCardInfo.fullName}}</span></li>
-              <li><span class="title">银行卡号</span> <input type="text" placeholder="请输入银行卡号" readonly v-model="backCardNo"/></li>
+              <div class="err-msg" v-if="errMsg.amount">{{ errMsg.amount }}</div>
               <li>
-                <span class="title">开户银行</span> <span class="text"> {{ bankCardInfo.bankName }}<i class="high-light"> {{ bankCardInfo.quota }}</i> </span>
+                <span class="title">&emsp;&emsp;姓名</span> <span class="text">{{ bankCardInfo.fullName }}</span>
               </li>
-              <li><span class="title">&emsp;手机号</span> <input type="text" placeholder="请输入银行绑定手机号"  @input="mobileInput"/></li>
-              <div class="err-msg" v-if="errMsg.mobile">{{errMsg.mobile}}</div>
-              <li><span class="title">&emsp;&emsp;&emsp;&emsp;</span> <input type="button" value="确认充值" @click="checkAmount"/></li>
+              <li><span class="title">银行卡号</span> <input type="text" placeholder="请输入银行卡号" readonly v-model="backCardNo" /></li>
+              <li>
+                <span class="title">开户银行</span>
+                <span class="text">
+                  {{ bankCardInfo.bankName }}<i class="high-light"> {{ bankCardInfo.quota }}</i>
+                </span>
+              </li>
+              <li><span class="title">&emsp;手机号</span> <input type="text" placeholder="请输入银行绑定手机号" @input="mobileInput" /></li>
+              <div class="err-msg" v-if="errMsg.mobile">{{ errMsg.mobile }}</div>
+              <li><span class="title">&emsp;&emsp;&emsp;&emsp;</span> <input type="button" value="确认充值" @click="checkAmount" /></li>
             </ul>
           </div>
         </el-tab-pane>
         <el-tab-pane label="转账充值">
           <div class="transfer-charge">
-            <div class="left"><div class="charge-phone"><img src="./image/charge-phone.png" /></div></div>
+            <div class="left">
+              <div class="charge-phone"><img src="./image/charge-phone.png" /></div>
+            </div>
             <div class="right">
               <img src="./image/unionpay.png" />
               <div class="des">您可以使用您的银行卡，通过线下跨行转账（柜台、网银、手机银行）方式将资金充值到您的江西银行电子账户。</div>

@@ -1,9 +1,11 @@
 import request from '@/assets/js/requestDJS'
+// import qs from 'qs'
 
-export function getRecord(data) {
+export function getRecord(params) {
   return request({
     url: '/TrasactionList',
-    method: 'POST',
-    data: data
+    method: 'GET',
+    headers: { version: '2.0' },
+    params: params
   })
 }

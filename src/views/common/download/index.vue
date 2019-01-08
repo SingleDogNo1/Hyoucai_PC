@@ -1,14 +1,14 @@
 <template>
-	<div class="dl-container">
-        <div class="dl-content">
-            <p class="logo-name">汇有财APP</p>
-            <p class="logo-des">唯有赚钱不能停</p>
-            <p class="qr-code"></p>
-            <span class="dl-btn ios" href="javasctipt:void()">苹果版APP下载</span>
-            <span class="dl-btn android" href="javasctipt:void()">安卓版APP下载</span>
-            <div class="dl-banner"></div>
-        </div>
+  <div class="dl-container">
+    <div class="dl-content">
+      <p class="logo-name">汇有财APP</p>
+      <p class="logo-des">唯有赚钱不能停</p>
+      <p class="qr-code"></p>
+      <span class="dl-btn ios" href="javasctipt:void()">苹果版APP下载</span>
+      <span class="dl-btn android" href="javasctipt:void()">安卓版APP下载</span>
+      <div class="dl-banner"></div>
     </div>
+  </div>
 </template>
 
 <style scoped lang="scss">

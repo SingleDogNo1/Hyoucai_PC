@@ -15,10 +15,44 @@
       <div class="nav bid-type">
         <h1>出借类别</h1>
         <ul>
-          <router-link tag="li" :to="{name: 'QST'}">轻松投</router-link>
-          <router-link tag="li" :to="{name: 'ZXT'}">自选投</router-link>
+          <li :class="{active: typeStatusIndex === 0}" @click="showQST(QSTStatus[QSTStatusIndex].statusCode)">轻松投</li>
+          <li :class="{active: typeStatusIndex === 1}" @click="showZXT(dateStatus[dateStatusIndex].value, ZXTStatus[ZXTStatusIndex].value)">自选投</li>
         </ul>
       </div>
+      <div class="nav bid-status" v-if="typeStatusIndex === 0">
+        <h1>状态</h1>
+        <ul>
+          <li
+            v-for="(item, index) in QSTStatus"
+            :key="index"
+            :class="{active: index === QSTStatusIndex}"
+            @click="changeQSTStatus(index, item.statusCode)"
+          >{{item.statusName}}</li>
+        </ul>
+      </div>
+      <div class="nav bid-date" v-if="dateStatus && dateStatus.length > 0">
+        <h1>交易时间</h1>
+        <ul>
+          <li
+            v-for="(item, index) in dateStatus"
+            :key="index"
+            :class="{active: index === dateStatusIndex}"
+            @click="changeDateStatus(index, item.statusCode)"
+          >{{item.key}}</li>
+        </ul>
+      </div>
+      <div class="nav bid-status" v-if="typeStatusIndex === 1">
+        <h1>状态</h1>
+        <ul>
+          <li
+            v-for="(item, index) in ZXTStatus"
+            :key="index"
+            :class="{active: index === ZXTStatusIndex}"
+            @click="changeZXTStatus(index, item.value)"
+          >{{item.key}}</li>
+        </ul>
+      </div>
+
       <div class="detail-wrapper">
         <router-view></router-view>
       </div>
@@ -27,18 +61,111 @@
 </template>
 
 <script>
+import { getInvestStatusApi, getDefaultStatusApi, getSanBiaoStatusApi } from '@/api/hyc/Mine/lend'
+
 export default {
   name: 'lend',
   mixins: [],
   components: {},
   data() {
-    return {}
+    return {
+      typeStatusIndex: 0, // 出借类别索引 0: 轻松投  1: 自选投
+      QSTStatus: [], // 轻松投状态tab
+      QSTStatusIndex: 0, // 轻松投状态tab的索引
+      ZXTStatus: [], // 汇选投状态tab
+      ZXTStatusIndex: 0, // 汇选投状态tab的索引
+      dateStatus: [], // 交易时间tab
+      dateStatusIndex: 0 // 交易时间tab的索引
+    }
   },
-  props: {},
-  watch: {},
-  methods: {},
-  computed: {},
-  created() {},
+  methods: {
+    changeQSTStatus(index, status) {
+      this.QSTStatusIndex = index
+      this.$router.push({
+        name: 'QSTList',
+        params: { status }
+      })
+    },
+    changeZXTStatus(index) {
+      this.ZXTStatusIndex = index
+    },
+    changeDateStatus(index) {
+      this.dateStatusIndex = index
+    },
+    showQST(status) {
+      this.typeStatusIndex = 0
+      this.dateStatus = []
+      const $this = this
+      async function initQSTTab() {
+        // 获取轻松投状态
+        getInvestStatusApi({
+          projectType: 2
+        }).then(res => {
+          $this.QSTStatus = res.data.data.list
+        })
+        // 获取轻松投默认显示的状态
+        await getDefaultStatusApi().then(res => {
+          const status = res.data.data.invStatus
+          $this.QSTStatus.find((value, index) => {
+            if (value.statusCode === status) {
+              $this.QSTStatusIndex = index
+            }
+          })
+        })
+        // 跳转到轻松投详情
+        await $this.$router.push({
+          name: 'QSTList',
+          params: { status }
+        })
+      }
+      initQSTTab()
+    },
+    showZXT(date, status) {
+      this.typeStatusIndex = 1
+      const $this = this
+      async function initZXTTab() {
+        // 获取散标时间和状态
+        await getSanBiaoStatusApi().then(res => {
+          const statusList = res.data.data
+          $this.dateStatus = statusList.dateStatus
+          $this.ZXTStatus = statusList.invStatus
+        })
+        // 跳转到散标详情
+        await $this.$router.push({
+          name: 'ZXTList',
+          params: { date, status }
+        })
+      }
+      initZXTTab()
+    }
+  },
+  created() {
+    const $this = this
+    async function initStatus() {
+      // 获取状态
+      await getInvestStatusApi({
+        projectType: 2
+      }).then(res => {
+        $this.QSTStatus = res.data.data.list
+      })
+      // 获取默认显示的状态
+      await getDefaultStatusApi().then(res => {
+        const status = res.data.data.invStatus
+        $this.QSTStatus.find((value, index) => {
+          if (value.statusCode === status) {
+            $this.QSTStatusIndex = index
+          }
+        })
+      })
+      await $this.$router.push({
+        name: 'QSTList',
+        params: {
+          status: $this.QSTStatus[$this.QSTStatusIndex].statusCode
+        }
+      })
+    }
+    initStatus()
+  },
   mounted() {},
   destroyed() {}
 }
@@ -107,15 +234,18 @@ export default {
       background: #fff;
       li {
         cursor: pointer;
-        width: 120px;
+        width: 90px;
         line-height: 60px;
         text-align: center;
         color: $color-text;
         font-size: $font-size-small-s;
-        &.router-link-active {
+        &.active {
           color: $color-theme;
         }
       }
+    }
+    &.bid-status {
+      border-bottom: 1px solid #e3e3e3;
     }
   }
   .detail-wrapper {

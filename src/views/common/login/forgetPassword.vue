@@ -3,32 +3,26 @@
     <div class="main">
       <div class="form-container">
         <h1>找回密码</h1>
-        <div class="form-item">
-          <i class="iconfont icon-phone"></i>
-          <input type="tel" v-model="form.mobile" placeholder="请输入手机号">
-        </div>
+        <div class="form-item"><i class="iconfont icon-phone"></i> <input type="tel" v-model="form.mobile" placeholder="请输入手机号" /></div>
         <div class="error-msg" v-if="errorMsg.mobile">
           <span>{{ errorMsg.mobile }}</span>
         </div>
         <div class="form-item sms">
-          <i class="iconfont icon-validation"></i>
-          <input type="tel" v-model="form.verifyCode" placeholder="请输入验证码" maxlength="6">
+          <i class="iconfont icon-validation"></i> <input type="tel" v-model="form.verifyCode" placeholder="请输入验证码" maxlength="6" />
           <span @click="popValidation">{{ countDownText }}</span>
         </div>
         <div class="error-msg" v-if="errorMsg.verifyCode">
           <span>{{ errorMsg.verifyCode }}</span>
         </div>
         <div class="form-item pwd">
-          <i class="iconfont icon-password"></i>
-          <input type="password" v-model="form.newPassword" placeholder="输入8位以上字母和数字组合">
+          <i class="iconfont icon-password"></i> <input type="password" v-model="form.newPassword" placeholder="输入8位以上字母和数字组合" />
           <password-strength class="passwordStrength" :pwd="form.newPassword"></password-strength>
         </div>
         <div class="error-msg" v-if="errorMsg.newPassword">
           <span>{{ errorMsg.newPassword }}</span>
         </div>
         <div class="form-item">
-          <i class="iconfont icon-password"></i>
-          <input type="password" v-model="form.confirmPassword" placeholder="输入8位以上字母和数字组合">
+          <i class="iconfont icon-password"></i> <input type="password" v-model="form.confirmPassword" placeholder="输入8位以上字母和数字组合" />
         </div>
         <div class="error-msg" v-if="errorMsg.confirmPassword">
           <span>{{ errorMsg.confirmPassword }}</span>

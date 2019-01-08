@@ -126,7 +126,7 @@
         </li>
       </ul>
     </div>
-    <div class="novice-area-wrap" v-if="noviceProjectList">
+    <div class="novice-area-wrap" v-if="noviceProjectList && noviceProjectList.length > 0">
       <div class="novice-area-box">
         <div class="desc-warp">
           <img src="./images/text_novice_area.png">
@@ -164,7 +164,7 @@
         </div>
       </div>
     </div>
-    <div class="lend-boutique-wrap" v-if="popularProjectList">
+    <div class="lend-boutique-wrap" v-if="popularProjectList  && popularProjectList.length > 0">
       <img src="./images/text_lend_boutique.png">
       <ul>
         <li>
@@ -427,7 +427,6 @@ export default {
           val.investMent = val.investMent.substr(0, val.investMent.length - 1)
         })
         this.popularProjectList = data.popularProjectList
-        console.log('this.popularProjectList===', this.popularProjectList)
       })
     },
     closePop() {

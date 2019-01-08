@@ -1,26 +1,15 @@
 <template>
   <div class="bankcard">
-    <div class="title">
-      我的银行卡
-    </div>
-    <div
-      class="card-item"
-      v-for="(item, index) in bankcardList"
-      :key="index"
-    >
+    <div class="title">我的银行卡</div>
+    <div class="card-item" v-for="(item, index) in bankcardList" :key="index">
       <header>
         <div class="bank-name">
-          <img :src="item.iconUrl" :alt="item.bankName">
-          <span>{{item.bankName}}</span>
+          <img :src="item.iconUrl" :alt="item.bankName" /> <span>{{ item.bankName }}</span>
         </div>
         <div class="card-type">储蓄卡</div>
       </header>
-      <section>
-        {{item.cardNo}}
-      </section>
-      <footer @click="unbind">
-        解绑
-      </footer>
+      <section>{{ item.cardNo }}</section>
+      <footer @click="unbind">解绑</footer>
     </div>
   </div>
 </template>

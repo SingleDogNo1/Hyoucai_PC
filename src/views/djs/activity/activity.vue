@@ -2,15 +2,15 @@
   <div class="activity">
     <ul>
       <li v-for="(item, i) in list" :key="i">
-        <img class="activityPic" :src="item.src" alt=""/>
-        <span class="activityDate">活动期限：{{ item.activityDate }}</span>
+        <img class="activityPic" :src="item.picUrl" alt=""/>
+        <span class="activityDate">活动期限：{{ item.startTime }}-{{item.endTime}}</span>
       </li>
     </ul>
   </div>
 </template>
 
 <script>
-import { getHot } from '@/api/hyc/activity/activity'
+import { getHot } from '@/api/djs/activity/activity'
 export default {
   name: 'activity',
   mixins: [],
@@ -18,33 +18,33 @@ export default {
   data() {
     return {
       list: [
-        {
-          activityDate: '2018.12.1-12.31',
-          src: require('./images/default_im.png')
-        },
-        {
-          activityDate: '2018.12.1-12.31',
-          src: require('./images/default_im.png')
-        },
-        {
-          activityDate: '2018.12.1-12.31',
-          src: require('./images/default_im.png')
-        },
-        {
-          activityDate: '2018.12.1-12.31',
-          src: require('./images/default_im.png')
-        },
-        {
-          activityDate: '2018.12.1-12.31',
-          src: require('./images/default_im.png')
-        }
+        // {
+        //   activityDate: '2018.12.1-12.31',
+        //   src: require('./images/default_im.png')
+        // },
+        // {
+        //   activityDate: '2018.12.1-12.31',
+        //   src: require('./images/default_im.png')
+        // },
+        // {
+        //   activityDate: '2018.12.1-12.31',
+        //   src: require('./images/default_im.png')
+        // },
+        // {
+        //   activityDate: '2018.12.1-12.31',
+        //   src: require('./images/default_im.png')
+        // },
+        // {
+        //   activityDate: '2018.12.1-12.31',
+        //   src: require('./images/default_im.png')
+        // }
       ]
     }
   },
   props: {},
   watch: {},
   methods: {
-    getHot() {
+    getHotList() {
       let data = {
         curPage: '1',
         maxLine: '10'
@@ -53,7 +53,13 @@ export default {
         let data = res.data
         console.log(res)
         if (data.resultCode === '1') {
-          console.log(res)
+          this.list = data.list
+          this.list.forEach(function(item) {
+            /* eslint-disable */
+            item.startTime = item.startTime.replace(/\-/g, '.')
+            item.endTime = item.endTime.replace(/\-/g, '.').substring('5', '10')
+            /* eslint-disable */
+          })
         }
       })
     }
@@ -61,7 +67,7 @@ export default {
   computed: {},
   created() {},
   mounted() {
-    this.getHot()
+    this.getHotList()
   },
   destroyed() {}
 }

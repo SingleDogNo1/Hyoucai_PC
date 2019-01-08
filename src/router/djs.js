@@ -271,6 +271,39 @@ export default new Router({
           component: () => import(/* webpackChunkName: "activity" */ '@/views/djs/activity/activity.vue')
         }
       ]
+    },
+    {
+      path: '/', // 运营报告
+      component: Layout,
+      children: [
+        {
+          path: 'report',
+          name: 'report',
+          component: () => import(/* webpackChunkName: "report" */ '@/views/djs/infoDisclosure/report.vue')
+        }
+      ]
+    },
+    {
+      path: '/agreement', // 自动出借
+      component: Layout,
+      children: [
+        {
+          path: 'autoLend',
+          name: 'autoLendAgreement',
+          component: () => import('@/views/djs/Mine/autoLend/agreement')
+        }
+      ]
+    },
+    {
+      path: '/sign',
+      component: Layout,
+      children: [
+        {
+          path: '', // 签约
+          name: 'sign',
+          component: () => import(/* webpackChunkName: "register" */ '@/views/common/signContract/index.vue')
+        }
+      ]
     }
   ]
 })

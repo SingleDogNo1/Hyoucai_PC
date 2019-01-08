@@ -12,11 +12,10 @@
     </div>-->
     <article class="detail-content">
       <div class="title-wrap">
-        <h2>{{title}}</h2>
+        <h2>{{ title }}</h2>
         <p>
-          <span class="origin">来源：汇通金融</span>
-          <span class="click-count">点击量：{{clickCount}}</span>
-          <span class="time">{{createTime}}</span>
+          <span class="origin">来源：汇通金融</span> <span class="click-count">点击量：{{ clickCount }}</span>
+          <span class="time">{{ createTime }}</span>
         </p>
       </div>
       <section v-html="content"></section>
@@ -27,12 +26,10 @@
     </article>
     <div class="actions">
       <a href="#" class="btn-prev" v-if="overMsg !== '0'">
-        <span class="action">&lt; 上一篇</span>
-        <span class="title">{{overTitle}}</span>
+        <span class="action">&lt; 上一篇</span> <span class="title">{{ overTitle }}</span>
       </a>
       <a href="#" class="btn-next" v-if="nextMsg !== '0'">
-        <span class="title">{{nextTitle}}</span>
-        <span class="action">下一篇 &gt;</span>
+        <span class="title">{{ nextTitle }}</span> <span class="action">下一篇 &gt;</span>
       </a>
     </div>
   </div>

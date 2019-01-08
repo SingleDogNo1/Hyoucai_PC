@@ -7,7 +7,7 @@
             <ul class="top">
               <li>
                 <dl>
-                  <dt>{{ balance }}</dt>
+                  <dt>{{ personalInfo.banlance }}</dt>
                   <dd>可用余额(元)</dd>
                 </dl>
               </li>
@@ -22,81 +22,106 @@
               <li>
                 <span class="title">充值金额</span>
                 <div class="info-wrapper">
-                  <input type="text" placeholder="请输入充值金额" /> <em class="unit">元</em> <i class="tips">(100元起充)</i>
+                  <input type="text" placeholder="请输入充值金额" @input="amountInput" /> <em class="unit">元</em> <i class="tips">(100元起充)</i>
                 </div>
               </li>
-              <li><span class="title">&emsp;&emsp;姓名</span> <span class="text">王**</span></li>
-              <li><span class="title">银行卡号</span> <input type="text" placeholder="请输入银行卡号" /></li>
+              <div class="err-msg" v-if="errMsg.amount">{{ errMsg.amount }}</div>
               <li>
-                <span class="title">开户银行</span> <span class="text"> 招商银行 <i class="high-light">单笔限额5万，单日限额10万</i> </span>
+                <span class="title">&emsp;&emsp;姓名</span> <span class="text">{{ plusStar(bankCardInfo.accountName, 1, 0) }}</span>
               </li>
-              <li><span class="title">&emsp;手机号</span> <input type="text" placeholder="请输入手机号" /></li>
-              <li><span class="title">&emsp;&emsp;&emsp;&emsp;</span> <input type="button" value="确认充值" /></li>
+              <li>
+                <span class="title">银行卡号</span>
+                <input type="text" placeholder="请输入银行卡号" v-if="isBankcardSupport" readonly v-model="bankCardNo" /><input
+                  type="text"
+                  placeholder="请输入银行卡号"
+                  v-else
+                />
+              </li>
+              <li>
+                <span class="title">开户银行</span>
+                <span class="text">
+                  {{ bankCardInfo.bankName }} <i class="high-light">{{ bankCardInfo.quota }}</i>
+                </span>
+              </li>
+              <li>
+                <span class="title">&emsp;手机号</span>
+                <input type="text" placeholder="请输入手机号" v-if="isBankcardSupport" readonly v-model="bankCardInfo.mobile" /><input
+                  type="text"
+                  placeholder="请输入手机号"
+                  v-else
+                />
+              </li>
+              <li class="validation">
+                <span class="title">&emsp;验证码</span>
+                <div class="info-wrapper">
+                  <input type="text" placeholder="请输入短信验证码" v-model="smsCode" />
+                  <div class="get-code-wrapper" v-if="!showCountDown" @click="getSmsCode"><button>获取验证码</button></div>
+                  <div class="count-down-wrapper" v-else>
+                    <button>{{ countDown }}S</button>
+                  </div>
+                </div>
+              </li>
+              <div class="err-msg" v-if="errMsg.smsCode">{{ errMsg.smsCode }}</div>
+              <li><span class="title">&emsp;&emsp;&emsp;&emsp;</span> <input type="button" value="确认充值" @click="submitCharge" /></li>
             </ul>
           </div>
         </el-tab-pane>
-        <el-tab-pane label="转账充值">
-          <div class="transfer-charge">
-            <div class="left"><!-- <div class="charge-phone"><img src="./image/charge-phone.png" /></div> --></div>
-            <div class="right">
-              <img src="./image/unionpay.png" />
-              <div class="des">您可以使用您的银行卡，通过线下跨行转账（柜台、网银、手机银行）方式将资金充值到您的江西银行电子账户。</div>
-              <ul class="items">
-                <li>
-                  <dl>
-                    <dt>您收款方户名:</dt>
-                    <dd>杨阳</dd>
-                  </dl>
-                </li>
-                <li>
-                  <dl>
-                    <dt>收款方账号:</dt>
-                    <dd>6212 4611 4000 0276 031 <span class="copy_num" :data-clipboard-text="6212461140000276031">复制</span></dd>
-                  </dl>
-                </li>
-                <li>
-                  <dl>
-                    <dt>收款银行:</dt>
-                    <dd>江西银行</dd>
-                  </dl>
-                </li>
-                <li>
-                  <dl>
-                    <dt>收款方开户行:</dt>
-                    <dd>江西银行股份有限公司南昌铁路支行营业部</dd>
-                  </dl>
-                </li>
-              </ul>
-              <p>温馨提示：</p>
-              <p>1、充值过程中收取的转账费用，以银行规定为准，汇有财不收取任何手续费用；</p>
-              <p>2、如资金未到账，请联系汇有财客服：<a href="javascript:;">400-78-96266</a></p>
-              <div class="last-tip">充值两小时后请到“账户总览”页面点击资金同步按钮进行资金同步。</div>
-            </div>
+        <el-tab-pane label="网银充值">
+          <div>
+            <ul class="top">
+              <li>
+                <dl>
+                  <dt>{{ personalInfo.banlance }}</dt>
+                  <dd>可用余额(元)</dd>
+                </dl>
+              </li>
+              <li>
+                <dl>
+                  <dt>{{ chargedBalance }}</dt>
+                  <dd>充值后余额(元)</dd>
+                </dl>
+              </li>
+            </ul>
+            <ul class="bottom">
+              <li>
+                <span class="title">充值金额</span>
+                <div class="info-wrapper">
+                  <input type="text" placeholder="请输入充值金额" @input="amountInput" /> <em class="unit">元</em> <i class="tips">(100元起充)</i>
+                </div>
+              </li>
+              <div class="err-msg" v-if="errMsg.amount">{{ errMsg.amount }}</div>
+              <li></li>
+            </ul>
           </div>
+          <div class="unionpay-charge"><el-button type="primary" @click="submitUnionPay">点击进入充值</el-button></div>
         </el-tab-pane>
       </el-tabs>
     </div>
+    <Dialog :show.sync="showDialog" :singleButton="singleButton" class="djs-charge-dialog">
+      <div>{{ errMsg.common }}</div>
+    </Dialog>
   </div>
 </template>
 
 <script>
-import Clipboard from 'clipboard'
+import { queryCardInfo, userBankCardList, personalAccount, userRechargePreVerify, rechargeApiDirectPayServer, unionPay } from '@/api/djs/charge'
+import { getUser } from '@/assets/js/cache'
+import { getAuth, getRetBaseURL } from '@/assets/js/utils'
+import Dialog from '@/components/Dialog/Dialog'
 
-let clipboard = new Clipboard('.copy_num')
-clipboard.on('success', function() {
-  console.log('复制成功')
-})
+const ERR_OK = '1'
+
 export default {
   name: 'charge',
   mixins: [],
-  components: {},
+  components: {
+    Dialog
+  },
   data() {
     return {
-      text: '充值',
       amount: '',
       smsCode: '',
       mobile: '',
-      isValid: true,
       balance: 0.0,
       chargedBalance: 0.0,
       bankCardInfo: {
@@ -113,13 +138,250 @@ export default {
         quota: '',
         strikeAmount: '',
         userName: ''
+      },
+      personalInfo: {
+        banlance: ''
+      },
+      userName: getUser().userName,
+      authorization: getAuth(),
+      bankCardNo: '',
+      showCountDown: false,
+      countDown: 60,
+      timeInterval: null,
+      errMsg: {
+        amount: '',
+        smsCode: '',
+        common: ''
+      },
+      singleButton: true,
+      showDialog: false,
+      isBankcardSupport: false // 快钱是否支持用户当前银行卡
+    }
+  },
+  watch: {
+    amount(ne) {
+      if (!ne) {
+        this.chargedBalance = this.personalInfo.banlance
+        return
+      }
+      this.chargedBalance = this.personalInfo.banlance - 0 + ne
+      if (this.personalInfo.banlance.toString().indexOf('.00') > -1) {
+        this.chargedBalance = this.chargedBalance + '.00'
       }
     }
   },
   methods: {
-    checkAmount() {}
+    plusStar(str, frontNO, endNo) {
+      if (str && str.length) {
+        let len = str.length - frontNO - endNo
+        let star = ''
+        for (let i = 0; i < len; i++) {
+          star += '*'
+        }
+        return str.substring(0, frontNO) + star + str.substring(str.length - endNo)
+      } else {
+        return ''
+      }
+    },
+    amountInput(e) {
+      e.target.value = e.target.value.replace(/[^\d.]/g, '')
+      e.target.value = e.target.value.replace(/\.{2,}/g, '.')
+      e.target.value = e.target.value
+        .replace('.', '$#$')
+        .replace(/\./g, '')
+        .replace('$#$', '.')
+      e.target.value = e.target.value.replace(/^(-)*(\d+)\.(\d\d).*$/, '$1$2.$3')
+      if (e.target.value.indexOf('.') < 0 && e.target.value !== '') {
+        e.target.value = parseFloat(e.target.value)
+      }
+      this.amount = parseFloat(e.target.value)
+      this.checkAmountInput()
+    },
+    checkAmountInput() {
+      if (!this.amount) {
+        this.errMsg.amount = '请输入充值金额！'
+        return false
+      }
+      if (this.amount && this.amount < 100) {
+        this.errMsg.amount = '100元起充！'
+        return false
+      }
+      this.errMsg.amount = ''
+    },
+    getSmsCode() {
+      if (!this.amount) {
+        this.errMsg.amount = '请输入充值金额！'
+        return false
+      }
+      if (this.amount && this.amount < 100) {
+        this.errMsg.amount = '100元起充！'
+        return false
+      }
+      let data = {
+        amount: this.amount,
+        userName: this.userName,
+        bankCardNum: this.bankCardInfo.cardNo,
+        bankCode: this.bankCardInfo.bank,
+        mobileNo: this.bankCardInfo.mobile,
+        rechargeType: 'KQAP',
+        whichSetp: 'send',
+        authorization: this.authorization
+      }
+      this.showCountDown = true
+      if (this.timeInterval) {
+        clearInterval(this.timeInterval)
+      }
+      this.timeInterval = setInterval(() => {
+        this.countDown--
+        if (this.countDown <= 0) {
+          this.showCountDown = false
+          this.countDown = 60
+          clearInterval(this.timeInterval)
+        }
+      }, 1000)
+      rechargeApiDirectPayServer(data).then(res => {
+        let data = res.data
+        console.log(data)
+        // if (data.resultCode === ERR_OK) {
+        //
+        // }
+      })
+    },
+    submitCharge() {
+      this.checkAmountInput()
+      if (!this.smsCode) {
+        this.errMsg.smsCode = '请输入短信验证码！'
+        return
+      }
+      let data = {
+        amount: this.amount,
+        userName: this.userName,
+        bankCardNum: this.bankCardInfo.cardNo,
+        bankCode: this.bankCardInfo.bank,
+        mobileNo: this.bankCardInfo.mobile,
+        rechargeType: 'KQAP',
+        whichSetp: 'val',
+        validCode: this.smsCode,
+        authorization: this.authorization
+      }
+      rechargeApiDirectPayServer(data).then(res => {
+        let data = res.data
+        if (data.resultCode === ERR_OK) {
+          this.showDialog = true
+          this.errMsg.common = '充值成功！'
+        } else {
+          this.errMsg.smsCode = data.resultMsg
+        }
+      })
+    },
+    userRechargePreVerify() {
+      userRechargePreVerify().then(res => {
+        let data = res.data
+        if (data.resultCode === ERR_OK) {
+          this.isBankcardSupport = data.isBankcardSupport
+        }
+      })
+    },
+    submitUnionPay() {
+      let data = {
+        amount: this.amount,
+        rechargeType: 'KQ',
+        returnUrl: getRetBaseURL() + '/mine/charge',
+        username: this.userName
+      }
+      unionPay(data).then(res => {
+        let data = res.data
+        if (data.resultCode === ERR_OK) {
+          let map = data.map
+          let redirectUrl = map.bill99MerUrl
+          let options = JSON.parse(JSON.stringify(map))
+          delete options.bill99MerUrl
+          let params = options
+          console.log(params)
+          this.postcall(redirectUrl, params, '_blank')
+        }
+      })
+    },
+    postcall(url, params, target) {
+      let tempform = document.createElement('form')
+      tempform.setAttribute('name', 'form')
+      tempform.action = url
+      tempform.method = 'post'
+      tempform.style.display = 'none'
+      if (target) {
+        tempform.target = target
+      }
+
+      for (let x in params) {
+        if (tempform.action.indexOf('?') > -1) {
+          tempform.action += '&' + x + '=' + params[x]
+        } else {
+          tempform.action += '?' + x + '=' + params[x]
+        }
+        // 不能添加到action中，弃用
+        // let opt = document.createElement('input')
+        // opt.setAttribute('name', x)
+        // opt.setAttribute('value', params[x])
+        // console.log(opt)
+        // tempform.appendChild(opt)
+      }
+      let opt = document.createElement('input')
+      opt.type = 'submit'
+      opt.setAttribute('id', '_submit')
+      tempform.appendChild(opt)
+      document.body.appendChild(tempform)
+      tempform.submit()
+      document.body.removeChild(tempform)
+    },
+    personalAccount() {
+      let data = {
+        userName: this.userName,
+        authorization: this.authorization
+      }
+      personalAccount(data).then(res => {
+        let data = res.data
+        if (data.resultCode === ERR_OK) {
+          this.personalInfo = data
+          // this.personalInfo.banlance = 10000.89
+          this.chargedBalance = this.personalInfo.banlance
+        }
+      })
+    },
+    getBasicInfo() {
+      let params = {
+        userName: this.userName,
+        authorization: this.authorization,
+        bankCardNum: this.bankCardNo
+      }
+      queryCardInfo(params).then(res => {
+        let data = res.data
+        if (data.resultCode === ERR_OK) {
+          this.bankCardInfo = data
+        }
+      })
+    },
+    getBankCardNo() {
+      let data = {
+        userName: this.userName,
+        authorization: this.authorization
+      }
+      userBankCardList(data).then(res => {
+        let data = res.data
+        if (data.resultCode === ERR_OK) {
+          this.bankCardInfo = data.list[0]
+          let no = JSON.parse(JSON.stringify(this.bankCardInfo.cardNo))
+          let len = no.length
+          this.bankCardNo = no.substring(0, 4) + '*******' + no.substring(len - 4, len)
+          // this.getBasicInfo()
+        }
+      })
+    }
   },
-  created() {},
+  created() {
+    this.getBankCardNo()
+    this.personalAccount()
+    this.userRechargePreVerify()
+  },
   mounted() {}
 }
 </script>
@@ -209,6 +471,9 @@ export default {
               padding-left: 15px;
               border-radius: 2px;
               border: 1px solid rgba(205, 205, 205, 1);
+              &:read-only {
+                background-color: #f8f8fb;
+              }
             }
             .text {
               display: inline-block;
@@ -234,6 +499,41 @@ export default {
               right: -25px;
               color: $color-text;
             }
+            &.validation {
+              .info-wrapper {
+                border: 1px solid rgba(205, 205, 205, 1);
+                border-radius: 2px;
+                input {
+                  border: 0;
+                  width: 193px;
+                }
+                div {
+                  display: inline-block;
+                  vertical-align: top;
+                  width: 90px;
+                  height: 100%;
+                  &.get-code-wrapper {
+                    cursor: pointer;
+                    button {
+                      cursor: pointer;
+                      color: #0083fe;
+                    }
+                  }
+                  button {
+                    display: inline-block;
+                    background-color: #fff;
+                    width: 100%;
+                    height: 18px;
+                    line-height: 18px;
+                    margin-top: 11px;
+                    text-align: center;
+                    border-left: 1px solid #dadada;
+                    color: $color-text-s;
+                    font-size: $font-size-small-s;
+                  }
+                }
+              }
+            }
             &:last-child {
               margin-top: 50px;
               input {
@@ -245,6 +545,16 @@ export default {
                 cursor: pointer;
               }
             }
+          }
+          .err-msg {
+            width: 284px;
+            padding: 10px;
+            min-height: 40px;
+            border: 1px solid #e84518;
+            background-color: #ffe5e5;
+            color: #e84518;
+            border-radius: 5px;
+            margin-left: 248px;
           }
         }
         .transfer-charge {
@@ -331,6 +641,18 @@ export default {
           }
         }
       }
+    }
+  }
+  .unionpay-charge {
+    button {
+      width: 284px;
+      margin: 50px 0 0 250px;
+      font-size: $font-size-medium;
+    }
+  }
+  .djs-charge-dialog {
+    div {
+      text-align: center;
     }
   }
 }

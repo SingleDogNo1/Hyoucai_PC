@@ -1,6 +1,14 @@
 <template>
   <div class="pagination">
-    <el-pagination v-if="show" background layout="prev, pager, next" :total="totalCount" :page-size="sizeVal" :current-page="curPage" @current-change="handleCurrentChange">
+    <el-pagination
+      v-if="show"
+      background
+      layout="prev, pager, next"
+      :total="totalCount"
+      :page-size="sizeVal"
+      :current-page="curPage"
+      @current-change="handleCurrentChange"
+    >
     </el-pagination>
   </div>
 </template>

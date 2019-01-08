@@ -126,7 +126,7 @@
         </li>
       </ul>
     </div>
-    <div class="novice-area-wrap" v-if="noviceProjectList">
+    <div class="novice-area-wrap" v-if="noviceProjectList  && noviceProjectList.length > 0">
       <div class="novice-area-box">
         <div class="desc-warp">
           <img src="./images/text_novice_area.png">
@@ -168,59 +168,30 @@
         </div>
       </div>
     </div>
-    <div class="lend-boutique-wrap" v-if="popularProjectList">
+    <div
+      class="lend-boutique-wrap"
+      v-if="hycPopularProjectList  && hycPopularProjectList.length > 0"
+    >
       <img src="./images/text_lend_boutique.png">
-      <ul>
-        <li>
+      <ul :class="{ 'two' : hycPopularProjectList.length == 2}">
+        <li v-for="( item, index ) in hycPopularProjectList" :key="index" @click="toLend">
           <p class="title">
-            <img src="./images/icon_hot.png">
-            <span class="icon">普惠盈</span>
+            <img :src="item.iconUrl">
+            <span class="icon">{{item.itemName}}</span>
           </p>
           <div class="returns">
             <p class="title">
-              <span class="large">12.0</span>%
+              <span class="large">{{item.investRate}}</span>%
             </p>
             <p class="desc">预期年化收益率</p>
           </div>
-          <p class="lend-desc">100元起投</p>
-          <p class="lend-desc">锁定期：30天</p>
-          <p class="lend-desc">已售：89.70%</p>
-          <a class="btn-invest-now" href="javascript:void(0);">立即出借</a>
-          <a class="btn-view-detail" href="javascript:void(0);">查看详情</a>
-        </li>
-        <li>
-          <p class="title">
-            <img src="./images/icon_hot.png">
-            <span class="icon">普惠盈</span>
-          </p>
-          <div class="returns">
-            <p class="title">
-              <span class="large">12.0</span>%
-            </p>
-            <p class="desc">预期年化收益率</p>
+          <p class="lend-desc">{{item.showMinInvAmount}}起投</p>
+          <p class="lend-desc">锁定期：{{item.loanMent}}</p>
+          <p class="lend-desc">已售：{{item.showInvestPercent}}</p>
+          <div class="actions">
+            <a class="btn-invest-now" href="javascript:void(0);">立即出借</a>
+            <a class="btn-view-detail" href="javascript:void(0);">查看详情</a>
           </div>
-          <p class="lend-desc">100元起投</p>
-          <p class="lend-desc">锁定期：30天</p>
-          <p class="lend-desc">已售：89.70%</p>
-          <a class="btn-invest-now" href="javascript:void(0);">立即出借</a>
-          <a class="btn-view-detail" href="javascript:void(0);">查看详情</a>
-        </li>
-        <li>
-          <p class="title">
-            <img src="./images/icon_hot.png">
-            <span class="icon">普惠盈</span>
-          </p>
-          <div class="returns">
-            <p class="title">
-              <span class="large">12.0</span>%
-            </p>
-            <p class="desc">预期年化收益率</p>
-          </div>
-          <p class="lend-desc">100元起投</p>
-          <p class="lend-desc">锁定期：30天</p>
-          <p class="lend-desc">已售：89.70%</p>
-          <a class="btn-invest-now" href="javascript:void(0);">立即出借</a>
-          <a class="btn-view-detail" href="javascript:void(0);">查看详情</a>
         </li>
       </ul>
     </div>
@@ -296,7 +267,7 @@ export default {
       industryList: [],
       mediaList: [],
       noviceProjectList: [],
-      popularProjectList: []
+      hycPopularProjectList: []
     }
   },
   components: {
@@ -312,7 +283,6 @@ export default {
         let data = res.data.data
         if (data.resultCode === '1') {
           this.bannerList = data.bannelList
-          console.log(this.bannerList)
           setTimeout(() => {
             this.swiperBanner = new Swiper('.swiper-container-banner', {
               lazy: {
@@ -426,19 +396,21 @@ export default {
     },
     getQualityList() {
       getQualityList().then(res => {
-        let data = res.data
+        let data = res.data.data
         this.noviceProjectList = data.noviceProjectList
         if (this.noviceProjectList) {
           this.noviceProjectList.forEach(val => {
             val.investMent = val.investMent.substr(0, val.investMent.length - 1)
           })
         }
-        this.popularProjectList = data.popularProjectList
-        console.log('this.popularProjectList===', this.popularProjectList)
+        this.hycPopularProjectList = data.hycPopularProjectList
       })
     },
     closePop() {
       this.isShowActivityPop = false
+    },
+    toLend() {
+      this.$router.push({ name: 'lend' })
     }
   },
   mounted() {
@@ -636,6 +608,7 @@ export default {
   .lend-data-wrap {
     width: 100%;
     margin: 0 auto;
+    margin-bottom: 70px;
     padding: 70px 20px 50px 20px;
     background: #fff;
     img {
@@ -680,7 +653,7 @@ export default {
   }
   .novice-area-wrap {
     background: #f4f4f4;
-    padding-top: 70px;
+    //padding-top: 70px;
     padding-bottom: 60px;
     .novice-area-box {
       width: 1140px;
@@ -824,18 +797,19 @@ export default {
       display: flex;
       justify-content: space-between;
       li {
-        width: 220px;
-        height: 328px;
+        width: 360px;
+        height: 334px;
         background: #fff;
         box-shadow: 1px 1px 10px #eee;
         border-radius: 2px;
-        padding: 34px 70px;
+        padding: 34px 0;
         transition: all 0.5s;
         border-top: 4px solid #fff;
         cursor: pointer;
         .title {
-          width: 88px;
+          width: 98%;
           height: 22px;
+          text-align: center;
           margin: 0 auto;
           img {
             display: inline-block;
@@ -885,33 +859,36 @@ export default {
           text-align: center;
           margin-bottom: 14px;
         }
-        .btn-invest-now {
-          position: absolute;
-          display: block;
-          width: 220px;
-          height: 46px;
-          line-height: 46px;
-          color: #ffb01a;
-          margin-top: 20px;
-          border: 1px solid #ffb01a;
-          border-radius: 6px;
-          text-align: center;
-          transition: all 0.5s;
-          opacity: 1;
-        }
-        .btn-view-detail {
-          position: absolute;
-          display: block;
-          opacity: 0;
-          width: 220px;
-          height: 48px;
-          line-height: 48px;
-          color: #fff;
-          margin-top: 20px;
-          background: rgba(251, 123, 31, 1);
-          border-radius: 6px;
-          text-align: center;
-          transition: all 0.5s;
+        .actions {
+          padding: 0 69px;
+          .btn-invest-now {
+            position: absolute;
+            display: block;
+            width: 220px;
+            height: 46px;
+            line-height: 46px;
+            color: #ffb01a;
+            margin-top: 20px;
+            border: 1px solid #ffb01a;
+            border-radius: 6px;
+            text-align: center;
+            transition: all 0.5s;
+            opacity: 1;
+          }
+          .btn-view-detail {
+            position: absolute;
+            display: block;
+            opacity: 0;
+            width: 220px;
+            height: 48px;
+            line-height: 48px;
+            color: #fff;
+            margin-top: 20px;
+            background: rgba(251, 123, 31, 1);
+            border-radius: 6px;
+            text-align: center;
+            transition: all 0.5s;
+          }
         }
       }
       li:hover {

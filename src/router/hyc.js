@@ -127,18 +127,27 @@ export default new Router({
             {
               path: 'lend', // 我的出借
               name: 'userLend',
-              redirect: 'lend/qst',
               component: () => import('@/views/hyc/Mine/lend/lend'),
               children: [
                 {
-                  path: 'qst',
-                  name: 'QST',
+                  path: '/qst/:status',
+                  name: 'QSTList',
                   component: () => import('@/views/hyc/Mine/JHB/JHB')
                 },
                 {
-                  path: 'zxt',
-                  name: 'ZXT',
+                  path: '/zxt/:date/:status',
+                  name: 'ZXTList',
                   component: () => import('@/views/hyc/Mine/SB/SB')
+                },
+                {
+                  path: 'qst/:id',
+                  name: 'QSTDetail',
+                  component: () => import('@/views/hyc/Mine/JHBDetail/JHBDetail')
+                },
+                {
+                  path: 'zxt/:id',
+                  name: 'ZXTDetail',
+                  component: () => import('@/views/hyc/Mine/SBDetail/SBDetail')
                 }
               ]
             },
@@ -200,6 +209,17 @@ export default new Router({
           path: 'activity',
           name: 'activity',
           component: () => import(/* webpackChunkName: "activity" */ '@/views/hyc/activity/activity.vue')
+        }
+      ]
+    },
+    {
+      path: '/sign',
+      component: Layout,
+      children: [
+        {
+          path: '', // 签约
+          name: 'sign',
+          component: () => import(/* webpackChunkName: "register" */ '@/views/common/signContract/index.vue')
         }
       ]
     }
