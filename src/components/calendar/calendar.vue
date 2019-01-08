@@ -4,50 +4,43 @@
       <!-- 可点击选择年份 -->
       <!--<div class="calendar-info" @click.stop="changeYear">-->
       <div class="calendar-info">
-        <div class="year">{{year}}年</div>
+        <div class="year">{{ year }}年</div>
         <span class="calendar-prev" @click="prev">＜</span>
         <div class="month swiper-container" id="month">
           <div class="swiper-wrapper">
-            <div class="swiper-slide" v-for="m in months" :key="m">{{m}}</div>
+            <div class="swiper-slide" v-for="m in months" :key="m">{{ m }}</div>
           </div>
         </div>
-        <span class="calendar-next"  @click="next">＞</span>
+        <span class="calendar-next" @click="next">＞</span>
         <div class="today" v-if="month !== new Date().getMonth()" @click="setToday">返回今天</div>
       </div>
     </div>
     <table cellpadding="5">
       <thead>
-      <tr class="table-header">
-        <td v-for="week in weeks" :key="week" class="week">{{week}}</td>
-      </tr>
+        <tr class="table-header">
+          <td v-for="week in weeks" :key="week" class="week">{{ week }}</td>
+        </tr>
       </thead>
       <tbody>
-      <tr style="height: 20px;"></tr>
-      <tr
-        v-for="(day,k1) in days"
-        :key="k1"
-        :style="{'animation-delay': (k1*30)+'ms'}"
-      >
-        <td
-          v-for="(child,k2) in day"
-          :key="k2"
-          :class="{'selected':child.selected,'disabled':child.disabled}"
-          @click="select(k1,k2,$event)"
-        >
-            <span
-              :class="{'red':k2 === 0 || k2 === 6||((child.isLunarFestival||child.isGregorianFestival) && lunar)}"
+        <tr style="height: 20px;"></tr>
+        <tr v-for="(day, k1) in days" :key="k1" :style="{ 'animation-delay': k1 * 30 + 'ms' }">
+          <td v-for="(child, k2) in day" :key="k2" :class="{ selected: child.selected, disabled: child.disabled }" @click="select(k1, k2, $event)">
+            <span :class="{ red: k2 === 0 || k2 === 6 || ((child.isLunarFestival || child.isGregorianFestival) && lunar) }"> {{ child.day }} </span>
+            <div class="text" v-if="child.eventName !== undefined">{{ child.eventName }}</div>
+            <!--<div class="text" :class="{'isLunarFestival':child.isLunarFestival,'isGregorianFestival':child.isGregorianFestival}" v-if="lunar">{{child.lunar}}</div>-->
+            <div
+              class="text"
+              :class="{ isLunarFestival: child.isLunarFestival, isGregorianFestival: child.isGregorianFestival }"
+              v-if="(lunar && child.isLunarFestival) || (lunar && child.isGregorianFestival)"
             >
-              {{child.day}}
-            </span>
-          <div class="text" v-if="child.eventName !== undefined">{{child.eventName}}</div>
-          <!--<div class="text" :class="{'isLunarFestival':child.isLunarFestival,'isGregorianFestival':child.isGregorianFestival}" v-if="lunar">{{child.lunar}}</div>-->
-          <div class="text" :class="{'isLunarFestival':child.isLunarFestival,'isGregorianFestival':child.isGregorianFestival}" v-if="(lunar && child.isLunarFestival) || (lunar && child.isGregorianFestival) ">{{child.lunar}}</div>
-        </td>
-      </tr>
+              {{ child.lunar }}
+            </div>
+          </td>
+        </tr>
       </tbody>
     </table>
-    <div class="calendar-years" :class="{'show':yearsShow}">
-      <span v-for="y in years" :key="y" @click.stop="selectYear(y)" :class="{'active': y === year}">{{y}}</span>
+    <div class="calendar-years" :class="{ show: yearsShow }">
+      <span v-for="y in years" :key="y" @click.stop="selectYear(y)" :class="{ active: y === year }">{{ y }}</span>
     </div>
   </div>
 </template>

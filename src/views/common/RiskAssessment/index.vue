@@ -331,7 +331,7 @@ export default {
         evaluatingResult: this.resultType
       }
       if (this.isColor) {
-        saveEvaluatingResultApi(data).then(res => {})
+        saveEvaluatingResultApi(data).then(() => {})
       }
     }
   }

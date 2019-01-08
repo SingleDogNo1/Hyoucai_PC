@@ -8,9 +8,15 @@ Vue.use(Router)
 export default new Router({
   routes: [
     {
-      path: '/index',
-      name: 'index',
-      component: Layout
+      path: '/',
+      component: Layout,
+      children: [
+        {
+          path: '',
+          name: 'index',
+          component: () => import('@/views/hyc/Index/Index')
+        }
+      ]
     },
     {
       path: '/borrow',
@@ -59,6 +65,33 @@ export default new Router({
           path: '',
           name: 'forgetPWD',
           component: () => import(/* webpackChunkName: "register" */ '@/views/common/login/forgetPassword.vue')
+        },
+        {
+          path: 'resetResult',
+          name: 'resetResult',
+          component: () => import(/* webpackChunkName: "register" */ '@/views/common/login/resetResult.vue')
+        }
+      ]
+    },
+    {
+      path: '/download',
+      component: Layout,
+      children: [
+        {
+          path: '',
+          name: 'download',
+          component: () => import(/* webpackChunkName: "register" */ '@/views/common/download/index.vue')
+        }
+      ]
+    },
+    {
+      path: '/account',
+      component: Layout,
+      children: [
+        {
+          path: '',
+          name: 'account',
+          component: () => import(/* webpackChunkName: "register" */ '@/views/common/openAccount/index.vue')
         }
       ]
     },
@@ -94,12 +127,34 @@ export default new Router({
             {
               path: 'lend', // 我的出借
               name: 'userLend',
-              component: () => import('@/views/djs/Mine/lend/lend')
+              component: () => import('@/views/hyc/Mine/lend/lend'),
+              children: [
+                {
+                  path: '/qst/:status',
+                  name: 'QSTList',
+                  component: () => import('@/views/hyc/Mine/JHB/JHB')
+                },
+                {
+                  path: '/zxt/:date/:status',
+                  name: 'ZXTList',
+                  component: () => import('@/views/hyc/Mine/SB/SB')
+                }
+              ]
+            },
+            {
+              path: 'qst-detail', // 轻松投详情
+              name: 'QSTDetail',
+              component: () => import('@/views/hyc/Mine/JHBDetail/JHBDetail')
+            },
+            {
+              path: 'zxt-detail', // 自选投详情
+              name: 'ZXTDetail',
+              component: () => import('@/views/hyc/Mine/SBDetail/SBDetail')
             },
             {
               path: 'record', // 交易记录
               name: 'record',
-              component: () => import('@/views/djs/Mine/record/record')
+              component: () => import('@/views/hyc/Mine/record/record')
             },
             {
               path: 'auto-lend', // 自动出借
@@ -124,9 +179,91 @@ export default new Router({
             {
               path: 'charge', // 充值
               name: 'charge',
-              component: () => import(/* webpackChunkName: "record" */ '@/views/djs/charge/charge.vue')
+              component: () => import(/* webpackChunkName: "record" */ '@/views/hyc/Mine/charge/charge.vue')
+            },
+            {
+              path: 'tocash', // 提现
+              name: 'tocash',
+              component: () => import(/* webpackChunkName: "tocash" */ '@/views/hyc/Mine/toCash/toCash.vue')
             }
           ]
+        }
+      ]
+    },
+    {
+      path: '/', // 收益计算器
+      component: Layout,
+      children: [
+        {
+          path: 'calculator',
+          name: 'calculator',
+          component: () => import(/* webpackChunkName: "calculator" */ '@/views/common/calculator/calculator.vue')
+        }
+      ]
+    },
+    {
+      path: '/', // 我要出借
+      component: Layout,
+      children: [
+        {
+          path: 'lend',
+          name: 'lend',
+          component: () => import(/* webpackChunkName: "lend" */ '@/views/hyc/lend/lend.vue')
+        }
+      ]
+    },
+    {
+      path: '/announcement',
+      component: Layout,
+      children: [
+        {
+          path: '',
+          component: () => import(/* webpackChunkName: "announcement" */ '@/views/hyc/announcement/index.vue'),
+          children: [
+            {
+              path: '/',
+              name: 'announcement',
+              component: () => import(/* webpackChunkName: "announcementIndex" */ '@/views/hyc/announcement/announcement.vue')
+            },
+            {
+              path: ':id',
+              name: 'announcementDetail',
+              component: () => import(/* webpackChunkName: "announcementDetail" */ '@/views/hyc/announcement/detail.vue')
+            }
+          ]
+        }
+      ]
+    },
+    {
+      path: '/', // 帮助中心
+      component: Layout,
+      children: [
+        {
+          path: 'helpCenter',
+          name: 'helpCenter',
+          component: () => import(/* webpackChunkName: "helpCenter" */ '@/views/hyc/helpCenter/index.vue')
+        }
+      ]
+    },
+    {
+      path: '/', // 信息披露
+      component: Layout,
+      children: [
+        {
+          path: 'infoDisclosure',
+          name: 'infoDisclosure',
+          component: () => import(/* webpackChunkName: "infoDisclosure" */ '@/views/hyc/infoDisclosure/index.vue')
+        }
+      ]
+    },
+    {
+      path: '/', // 运营报告
+      component: Layout,
+      children: [
+        {
+          path: 'report',
+          name: 'report',
+          component: () => import(/* webpackChunkName: "report" */ '@/views/hyc/infoDisclosure/report.vue')
         }
       ]
     }

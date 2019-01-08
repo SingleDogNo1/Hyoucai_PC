@@ -2,17 +2,11 @@
   <div class="help-center">
     <div class="container">
       <div class="nav-wrap">
-        <p class="title-wrap">
-          <i class="iconfont icon-help"></i>
-          <span class="title">帮助中心</span>
-        </p>
+        <p class="title-wrap"><i class="iconfont icon-help"></i> <span class="title">帮助中心</span></p>
         <ul class="nav-list">
-          <li
-            v-for="(item, index) in QAList"
-            :key="index"
-            @click="clickItem(item.dicCode)"
-            :class="{ 'on': current === item.dicCode }"
-          >{{item.dicName}}</li>
+          <li v-for="(item, index) in QAList" :key="index" @click="clickItem(item.dicCode)" :class="{ on: current === item.dicCode }">
+            {{ item.dicName }}
+          </li>
         </ul>
       </div>
       <div class="content-wrap">
@@ -21,8 +15,7 @@
           <el-collapse-item :name="index + 1" v-for="(item, index) in QAContentList" :key="index">
             <template slot="title">
               <div class="header-wrap">
-                <i class="header-icon icon-question"></i>
-                <span class="text">{{item.question}}</span>
+                <i class="header-icon icon-question"></i> <span class="text">{{ item.question }}</span>
               </div>
             </template>
             <div class="answer-wrap">
@@ -38,7 +31,7 @@
 </template>
 
 <script>
-import { queryQAType, queryQuestionAnswer } from '@/api/djs/helpCenter'
+import { queryQuestionAnswer } from '@/api/djs/helpCenter'
 export default {
   data() {
     return {
@@ -54,12 +47,9 @@ export default {
   methods: {
     handleChange() {},
     getQueryQAType() {
-      queryQAType().then(res => {
-        let data = res.data
-        this.QAList = data.list
-        this.current = this.QAList[0].dicCode
-        this.clickItem(this.current)
-      })
+      this.QAList = JSON.parse(localStorage.getItem('QAList'))
+      this.current = this.QAList[0].dicCode
+      this.clickItem(this.current)
     },
     queryQuestionAnswer(data) {
       queryQuestionAnswer(data).then(res => {
@@ -81,7 +71,7 @@ export default {
     this.getQueryQAType()
   },
   watch: {
-    $route(to, from) {
+    $route() {
       // 刷新参数放到这里里面去触发就可以刷新相同界面了
       this.current = this.$route.query.helpCode
       this.clickItem(this.current)

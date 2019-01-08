@@ -8,7 +8,7 @@
             <dt>
               <div class="title"><i></i> <span>用户累计出借额（元）</span></div>
             </dt>
-            <dd><count-up v-if="lendCount" name="lendCount" :count="lendCount"></count-up></dd>
+            <dd><count-up v-if="lendCount !== null" name="lendCount" :count="lendCount"></count-up></dd>
           </dl>
         </li>
         <li>
@@ -16,7 +16,7 @@
             <dt>
               <div class="title"><i></i> <span>累计赚取金额（元）</span></div>
             </dt>
-            <dd><count-up v-if="incomeCount" name="incomeCount" :count="incomeCount"></count-up></dd>
+            <dd><count-up v-if="incomeCount !== null" name="incomeCount" :count="incomeCount"></count-up></dd>
           </dl>
         </li>
         <li>
@@ -24,46 +24,52 @@
             <dt>
               <div class="title"><i></i> <span>今日交易（元）</span></div>
             </dt>
-            <dd><count-up v-if="todayCount" name="todayCount" :count="todayCount"></count-up></dd>
+            <dd><count-up v-if="todayCount !== null" name="todayCount" :count="todayCount"></count-up></dd>
           </dl>
         </li>
       </ul>
     </div>
     <div class="content">
       <div class="area" v-for="(item, i) in list" :key="i">
-        <h3 v-if="item.head"><i><img :src="item.head.icon" alt=""></i> <span>{{item.head.title}}}</span></h3>
+        <h3 v-if="item.head">
+          <i><img :src="item.head.icon" alt=""/></i> <span>{{ item.head.title }}}</span>
+        </h3>
         <ul class="items">
           <li class="item">
-            <div class="title"><i></i> <span>{{item.projectName}}</span> <em v-for="(tag, index) in item.tags" :key="index">{{tag.tagName}}</em></div>
+            <div class="title">
+              <i></i> <span>{{ item.projectName }}</span> <em v-for="(tag, index) in item.tags" :key="index">{{ tag.tagName }}</em>
+            </div>
             <ul class="info-wrapper">
               <li class="info">
                 <dl>
-                  <dt>{{item.investRate}} <span>%</span></dt>
+                  <dt>{{ item.investRate }} <span>%</span></dt>
                   <dd>历史平均年化收益率</dd>
                 </dl>
               </li>
               <li class="info">
                 <dl>
-                  <dt>{{item.investMent}} 天</dt>
+                  <dt>{{ item.investMent }} 天</dt>
                   <dd>锁定期限</dd>
                 </dl>
               </li>
               <li class="info">
                 <dl>
-                  <dt>{{item.minInvAmt}}元</dt>
+                  <dt>{{ item.minInvAmt }}元</dt>
                   <dd>起投金额</dd>
                 </dl>
               </li>
               <li class="info">
                 <dl>
-                  <dt>{{item.enablAmt}}元</dt>
+                  <dt>{{ item.enablAmt }}元</dt>
                   <dd>剩余可投金额</dd>
                 </dl>
               </li>
               <li class="info">
                 <dl>
-                  <dt>已投<span class="hight-light">{{(((item.accumulativeInvAmt / item.maxInvTotalAmt)*10000)/100).toFixed(1)}}%</span></dt>
-                  <dd><el-progress :percentage="Math.round((item.accumulativeInvAmt / item.maxInvTotalAmt)*10000) / 100"></el-progress></dd>
+                  <dt>
+                    已投<span class="hight-light">{{ (((item.accumulativeInvAmt / item.maxInvTotalAmt) * 10000) / 100).toFixed(1) }}%</span>
+                  </dt>
+                  <dd><el-progress :percentage="Math.round((item.accumulativeInvAmt / item.maxInvTotalAmt) * 10000) / 100"></el-progress></dd>
                 </dl>
               </li>
               <li class="info"><el-button type="primary">下载APP</el-button></li>
@@ -81,16 +87,16 @@
 <script>
 import pagination from '@/components/pagination/pagination'
 import countUp from '@/components/countUp/index'
-import { getList } from '@/api/common/lend'
+import { getList } from '@/api/djs/lend'
 import { getUser } from '@/assets/js/cache'
 
 export default {
   name: 'lend',
   data() {
     return {
-      lendCount: 0,
-      incomeCount: 0,
-      todayCount: 0,
+      lendCount: null,
+      incomeCount: null,
+      todayCount: null,
       page: 1,
       size: 10,
       total: 0,
@@ -125,7 +131,7 @@ export default {
         this.incomeCount = result.accumulativeProfitAmtSum
         this.todayCount = result.invTodayAmt
         this.list = result.investsList
-        this.total = parseInt(result.countPage)
+        this.total = parseInt(result.countPage) * this.size
         this.page = parseInt(result.curPage)
         console.log(this.lendCount)
       })

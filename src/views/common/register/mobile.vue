@@ -1,25 +1,21 @@
 <template>
-    <div class="app-container">
-      <div class="form-container">
-        <div class="form">
-          <h1><span>新用户注册</span></h1>
-          <div class="form-item">
-            <i class="iconfont icon-user"></i>
-            <input type="tel" v-model="mobile" placeholder="请输入手机号">
-          </div>
-          <div class="error-msg" v-if="errorMsg">
-            <span>{{ errorMsg }}</span>
-          </div>
-          <el-button type="primary" @click="nextStep">下一步</el-button>
-          <p class="agreement-tip">
-            <i class="iconfont" :class="{'icon-choose': !agree, 'icon-check': agree }" @click="agree = !agree"></i>
-            同意
-            <router-link class="link" to="/register/agreement">《汇有财注册协议》</router-link>
-          </p>
-          <p class="have-account">已有汇有财账号？<router-link class="link" to="/login">立即登录</router-link></p>
+  <div class="app-container">
+    <div class="form-container">
+      <div class="form">
+        <h1><span>新用户注册</span></h1>
+        <div class="form-item"><i class="iconfont icon-user"></i> <input type="tel" v-model="mobile" placeholder="请输入手机号" /></div>
+        <div class="error-msg" v-if="errorMsg">
+          <span>{{ errorMsg }}</span>
         </div>
+        <el-button type="primary" @click="nextStep">下一步</el-button>
+        <p class="agreement-tip">
+          <i class="iconfont" :class="{ 'icon-choose': !agree, 'icon-check': agree }" @click="agree = !agree"></i> 同意
+          <router-link class="link" to="/register/agreement">《汇有财注册协议》</router-link>
+        </p>
+        <p class="have-account">已有汇有财账号？<router-link class="link" to="/login">立即登录</router-link></p>
       </div>
     </div>
+  </div>
 </template>
 
 <script>

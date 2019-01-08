@@ -41,7 +41,7 @@ export default new Router({
         {
           path: 'calculator',
           name: 'calculator',
-          component: () => import(/* webpackChunkName: "calculator" */ '@/views/djs/calculator/calculator.vue')
+          component: () => import(/* webpackChunkName: "calculator" */ '@/views/common/calculator/calculator.vue')
         }
       ]
     },
@@ -118,12 +118,12 @@ export default new Router({
             {
               path: 'charge', // 充值
               name: 'charge',
-              component: () => import(/* webpackChunkName: "record" */ '@/views/djs/charge/charge.vue')
+              component: () => import(/* webpackChunkName: "charge" */ '@/views/djs/Mine/charge/charge.vue')
             },
             {
               path: 'tocash', // 提现
               name: 'tocash',
-              component: () => import(/* webpackChunkName: "tocash" */ '@/views/djs/toCash/toCash.vue')
+              component: () => import(/* webpackChunkName: "tocash" */ '@/views/djs/Mine/toCash/toCash.vue')
             }
           ]
         }
@@ -135,17 +135,17 @@ export default new Router({
       children: [
         {
           path: '',
-          component: () => import(/* webpackChunkName: "announcement" */ '@/views/common/announcement/index.vue'),
+          component: () => import(/* webpackChunkName: "announcement" */ '@/views/djs/announcement/index.vue'),
           children: [
             {
               path: '/',
               name: 'announcement',
-              component: () => import(/* webpackChunkName: "announcementIndex" */ '@/views/common/announcement/announcement.vue')
+              component: () => import(/* webpackChunkName: "announcementIndex" */ '@/views/djs/announcement/announcement.vue')
             },
             {
               path: ':id',
               name: 'announcementDetail',
-              component: () => import(/* webpackChunkName: "announcementDetail" */ '@/views/common/announcement/detail.vue')
+              component: () => import(/* webpackChunkName: "announcementDetail" */ '@/views/djs/announcement/detail.vue')
             }
           ]
         }
@@ -198,6 +198,11 @@ export default new Router({
           path: '',
           name: 'forgetPWD',
           component: () => import(/* webpackChunkName: "register" */ '@/views/common/login/forgetPassword.vue')
+        },
+        {
+          path: 'resetResult',
+          name: 'resetResult',
+          component: () => import(/* webpackChunkName: "register" */ '@/views/common/login/resetResult.vue')
         }
       ]
     },
@@ -213,6 +218,28 @@ export default new Router({
       ]
     },
     {
+      path: '/download',
+      component: Layout,
+      children: [
+        {
+          path: '',
+          name: 'download',
+          component: () => import(/* webpackChunkName: "register" */ '@/views/common/download/index.vue')
+        }
+      ]
+    },
+    {
+      path: '/account',
+      component: Layout,
+      children: [
+        {
+          path: '',
+          name: 'account',
+          component: () => import(/* webpackChunkName: "register" */ '@/views/common/openAccount/index.vue')
+        }
+      ]
+    },
+    {
       path: '/', // 风险测评
       component: Layout,
       children: [
@@ -220,6 +247,39 @@ export default new Router({
           path: 'riskAss',
           name: 'riskAss',
           component: () => import(/* webpackChunkName: "riskAss" */ '@/views/common/RiskAssessment/index.vue')
+        }
+      ]
+    },
+    {
+      path: '/', // 信息披露
+      component: Layout,
+      children: [
+        {
+          path: 'infoDisclosure',
+          name: 'infoDisclosure',
+          component: () => import(/* webpackChunkName: "infoDisclosure" */ '@/views/djs/infoDisclosure/index.vue')
+        }
+      ]
+    },
+    {
+      path: '/', // 运营报告
+      component: Layout,
+      children: [
+        {
+          path: 'report',
+          name: 'report',
+          component: () => import(/* webpackChunkName: "report" */ '@/views/djs/infoDisclosure/report.vue')
+        }
+      ]
+    },
+    {
+      path: '/agreement', // 自动出借
+      component: Layout,
+      children: [
+        {
+          path: 'autoLend',
+          name: 'autoLendAgreement',
+          component: () => import('@/views/djs/Mine/autoLend/agreement')
         }
       ]
     }

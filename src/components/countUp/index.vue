@@ -1,5 +1,5 @@
 <template>
-  <p class="title" :id="name">{{count}}</p>
+  <p class="title" :id="name">{{ count }}</p>
 </template>
 
 <script>
@@ -11,12 +11,13 @@ export default {
       default: ''
     },
     count: {
-      type: Number,
+      type: [Number, String],
       default: 0.0
     }
   },
   methods: {
     countUp() {
+      console.log('111', this.count)
       let demo = new CountUp(this.name, 0, this.count, 2, 2.5)
       demo.start()
     }

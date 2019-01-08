@@ -6,7 +6,8 @@ const service = axios.create({
   timeout: 5000,
   headers: {
     platform: 'pc',
-    version: '1.0'
+    version: '1.0',
+    'Content-type': 'application/x-www-form-urlencoded'
   }
 })
 
