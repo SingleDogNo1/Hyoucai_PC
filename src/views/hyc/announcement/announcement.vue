@@ -3,9 +3,10 @@
     <el-tabs v-model="activeName" @tab-click="handleClick">
       <el-tab-pane label="网站公告" name="WZGG">
         <ul class="list">
-          <li v-for="(item, index) in list" :key="index">
-            <router-link :to="{ name: 'announcementDetail', params: { id: item.id }, query: { paramCode: activeName } }">
-              <span class="title">{{ item.title }}</span> <span class="time">{{ item.showDate || item.createTime }}</span>
+          <li v-for="( item, index ) in list" :key="index">
+            <router-link :to="{ name: 'announcementDetail' , params: { id: item.id }, query: { paramCode: activeName} }">
+              <span class="title">{{item.title}}</span>
+              <span class="time">{{item.showDate || item.createTime}}</span>
             </router-link>
           </li>
         </ul>
@@ -21,9 +22,10 @@
       </el-tab-pane>
       <el-tab-pane label="行业资讯" name="HYZX">
         <ul class="list">
-          <li v-for="(item, index) in list" :key="index">
-            <router-link :to="{ name: 'announcementDetail', params: { id: item.id }, query: { paramCode: activeName } }">
-              <span class="title">{{ item.title }}</span> <span class="time">{{ item.showDate || item.createTime }}</span>
+          <li v-for="( item, index ) in list" :key="index">
+            <router-link :to="{ name: 'announcementDetail' , params: { id: item.id }, query: { paramCode: activeName} }">
+              <span class="title">{{item.title}}</span>
+              <span class="time">{{item.showDate || item.createTime}}</span>
             </router-link>
           </li>
         </ul>
@@ -39,9 +41,10 @@
       </el-tab-pane>
       <el-tab-pane label="媒体报道" name="MTBD">
         <ul class="list">
-          <li v-for="(item, index) in list" :key="index">
-            <router-link :to="{ name: 'announcementDetail', params: { id: item.id }, query: { paramCode: activeName } }">
-              <span class="title">{{ item.title }}</span> <span class="time">{{ item.showDate || item.createTime }}</span>
+          <li v-for="( item, index ) in list" :key="index">
+            <router-link :to="{ name: 'announcementDetail' , params: { id: item.id }, query: { paramCode: activeName} }">
+              <span class="title">{{item.title}}</span>
+              <span class="time">{{item.showDate || item.createTime}}</span>
             </router-link>
           </li>
         </ul>
@@ -62,7 +65,7 @@
 <script>
 import moment from 'moment'
 import pagination from '@/components/pagination/pagination'
-import { getList } from '@/api/djs/announcement'
+import { getList } from '@/api/hyc/announcement'
 
 export default {
   data() {

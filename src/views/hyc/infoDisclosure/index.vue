@@ -17,11 +17,18 @@
     </div>
     <div class="tab-content-wrap">
       <div class="tab-content" v-if="activeName === 'GYWM'">
-        <el-tabs class="about-us-tab" v-model="aboutUsActiveName" type="border-card" @tab-click="handleAboutUsClick">
-          <el-tab-pane label="公司简介" name="GSJJ"> <div class="content" v-html="content"></div> </el-tab-pane>
+        <el-tabs
+          class="about-us-tab"
+          v-model="aboutUsActiveName"
+          type="border-card"
+          @tab-click="handleAboutUsClick"
+        >
+          <el-tab-pane label="公司简介" name="GSJJ">
+            <div class="content" v-html="content"></div>
+          </el-tab-pane>
           <el-tab-pane label="公司管理" name="GSGL">
             <div class="content" v-html="content" v-if="paramCode === 'GSJJ'"></div>
-            <div class="company-management" v-if="paramCode === 'GYWM'">
+            <div class="company-management" v-if="!paramCode">
               <div class="organizational-structure-wrap">
                 <strong>组织架构</strong>
                 <img src="./images/bg_organizational_structure.png">
@@ -30,43 +37,43 @@
                 <strong>高管团队</strong>
                 <ul>
                   <li>
-                    <img src="./images/icon_executive1.png" />
+                    <img src="./images/icon_executive1.png">
                     <p class="name">陈跃文</p>
                     <p class="position">首席执行官（CEO）</p>
                     <div class="desc-wrap">
-                      <p class="desc">
-                        华东师范大学硕士研究生学历，拥有工科硕士学位。在公司运营、营销及风控领域拥有超过10年的管理经验，擅长金融风险管理。历任GSK（葛兰素史克），Pfizer(辉瑞制药)金融事业部核心管理岗位，对公司治理有着极深的理解。
-                      </p>
+                      <p
+                        class="desc"
+                      >华东师范大学硕士研究生学历，拥有工科硕士学位。在公司运营、营销及风控领域拥有超过10年的管理经验，擅长金融风险管理。历任GSK（葛兰素史克），Pfizer(辉瑞制药)金融事业部核心管理岗位，对公司治理有着极深的理解。</p>
                     </div>
                   </li>
                   <li>
-                    <img src="./images/icon_executive2.png" />
+                    <img src="./images/icon_executive2.png">
                     <p class="name">傅伟菱</p>
                     <p class="position">首席风控官（CRO）</p>
                     <div class="desc-wrap">
-                      <p class="desc">
-                        拥有超过20年的风险管理经验，也是台湾最早一批加入信用卡风控领域的管理者，经历了台湾信用卡的成长及卡债风暴，积累丰富的行业经验，并且长期领导信贷风险团队取得骄人的成绩。曾任台湾汇丰银行个人零售部风险管理副理及资产管理公司法务催收资深协理。
-                      </p>
+                      <p
+                        class="desc"
+                      >拥有超过20年的风险管理经验，也是台湾最早一批加入信用卡风控领域的管理者，经历了台湾信用卡的成长及卡债风暴，积累丰富的行业经验，并且长期领导信贷风险团队取得骄人的成绩。曾任台湾汇丰银行个人零售部风险管理副理及资产管理公司法务催收资深协理。</p>
                     </div>
                   </li>
                   <li>
-                    <img src="./images/icon_executive3.png" />
+                    <img src="./images/icon_executive3.png">
                     <p class="name">林崇钦</p>
                     <p class="position">首席风控官（CRO）</p>
                     <div class="desc-wrap">
-                      <p class="desc">
-                        从事金融业务风险管理25年。拥有15年以上外资银行消費金融与个人零售业务风险管理经验。曾任香港上海汇丰银行（台湾）信用卡中心消费金融信用风险管处副总裁、恒昌利通出借管理有限公司（北京）风险管理中心总监、达信卓惠金融信息服务（上海）有限公司风险管理中心总监。
-                      </p>
+                      <p
+                        class="desc"
+                      >从事金融业务风险管理25年。拥有15年以上外资银行消費金融与个人零售业务风险管理经验。曾任香港上海汇丰银行（台湾）信用卡中心消费金融信用风险管处副总裁、恒昌利通出借管理有限公司（北京）风险管理中心总监、达信卓惠金融信息服务（上海）有限公司风险管理中心总监。</p>
                     </div>
                   </li>
                   <li>
-                    <img src="./images/icon_executive4.png" />
+                    <img src="./images/icon_executive4.png">
                     <p class="name">王东东</p>
                     <p class="position">首席财务官（CFO）</p>
                     <div class="desc-wrap">
-                      <p class="desc">
-                        拥有20年以上知名企业财务会计及审计工作经验，熟悉企业内部控制和税收筹划，毕业于江西财经大学会计专业，曾任江西省诚信税务师事务所副总经理，分管金融机构审计咨询服务。
-                      </p>
+                      <p
+                        class="desc"
+                      >拥有20年以上知名企业财务会计及审计工作经验，熟悉企业内部控制和税收筹划，毕业于江西财经大学会计专业，曾任江西省诚信税务师事务所副总经理，分管金融机构审计咨询服务。</p>
                     </div>
                   </li>
                 </ul>
@@ -96,30 +103,45 @@
                 </div>
                 <p class="tips">截止至2017年12月31日，公司员工总数达：180人</p>
               </div>
-              <div class="shareholder-composition-wrap"><strong>股东组成</strong> <img src="./images/bg_shareholder.jpg" /></div>
+              <div class="shareholder-composition-wrap">
+                <strong>股东组成</strong>
+                <img src="./images/bg_shareholder.jpg">
+              </div>
             </div>
           </el-tab-pane>
-          <el-tab-pane label="组织信息" name="ZZXX"> <div class="content" v-html="content"></div> </el-tab-pane>
-          <el-tab-pane label="发展事迹" name="FZSJ"> <div class="content" v-html="content"></div> </el-tab-pane>
-          <el-tab-pane label="合作伙伴" name="HZHB"> <div class="content" v-html="content"></div> </el-tab-pane>
+          <el-tab-pane label="组织信息" name="ZZXX">
+            <div class="content" v-html="content"></div>
+          </el-tab-pane>
+          <el-tab-pane label="发展事迹" name="FZSJ">
+            <div class="content" v-html="content"></div>
+          </el-tab-pane>
+          <el-tab-pane label="合作伙伴" name="HZHB">
+            <div class="content" v-html="content"></div>
+          </el-tab-pane>
           <el-tab-pane label="资质荣誉" name="ZZRY">
             <div class="qualification-honor">
               <strong>资质荣誉</strong>
               <div class="img-list">
-                <div class="img-item" v-for="(item, index) in imgList" :key="index">
-                  <img :src="item.picUrl" @click="bigImg(index)" />
-                  <p class="desc">{{ item.desc }}</p>
+                <div class="img-item" v-for="(item,index) in imgList" :key="index">
+                  <img :src="item.picUrl" @click="bigImg(index)">
+                  <p class="desc">{{item.desc}}</p>
                 </div>
               </div>
-              <div class="img-mask" v-if="showBigImg" @click.stop="showBigImg = !showBigImg">
-                <div class="close-wrap"><i @click.stop="close" class="el-icon-circle-close-outline close"></i></div>
-                <img class="prev" @click.stop="prev" src="./images/icon_prev.png" />
-                <div class="show-img"><img class="big-img" :src="imgList[num].picUrl" /></div>
-                <img class="next" @click.stop="next" src="./images/icon_next.png" />
+              <div class="img-mask" v-if="showBigImg" @click.stop="showBigImg=!showBigImg">
+                <div class="close-wrap">
+                  <i @click.stop="close" class="el-icon-circle-close-outline close"></i>
+                </div>
+                <img class="prev" @click.stop="prev" src="./images/icon_prev.png">
+                <div class="show-img">
+                  <img class="big-img" :src="imgList[num].picUrl">
+                </div>
+                <img class="next" @click.stop="next" src="./images/icon_next.png">
               </div>
             </div>
           </el-tab-pane>
-          <el-tab-pane label="关于汇有财" name="GYHYC"> <div class="content" v-html="content"></div> </el-tab-pane>
+          <el-tab-pane label="关于汇有财" name="GYHYC">
+            <div class="content" v-html="content"></div>
+          </el-tab-pane>
         </el-tabs>
       </div>
       <div class="tab-content" v-if="activeName === 'YYSJ'">
@@ -226,14 +248,18 @@
                 <div class="terminal-chart" id="terminal-chart"></div>
                 <div class="desc">
                   <ul>
-                    <li><h2></h2></li>
+                    <li>
+                      <h2></h2>
+                    </li>
                     <li>
                       <p>34.29%</p>
                       <span>PC端</span>
                     </li>
                   </ul>
                   <ul>
-                    <li><h2></h2></li>
+                    <li>
+                      <h2></h2>
+                    </li>
                     <li>
                       <p>65.71%</p>
                       <span>移动端</span>
@@ -245,14 +271,18 @@
                 <div class="gender-chart" id="gender-chart"></div>
                 <div class="desc">
                   <ul>
-                    <li><img class="man" src="./images/icon_man.png" /></li>
+                    <li>
+                      <img class="man" src="./images/icon_man.png">
+                    </li>
                     <li>
                       <p>74%</p>
                       <span>男</span>
                     </li>
                   </ul>
                   <ul>
-                    <li><img class="women" src="./images/icon_women.png" /></li>
+                    <li>
+                      <img class="women" src="./images/icon_women.png">
+                    </li>
                     <li>
                       <p>26%</p>
                       <span>女</span>
@@ -272,35 +302,45 @@
                 <div class="amount-chart" id="amount-chart"></div>
                 <div class="amount-desc">
                   <ul>
-                    <li><h2></h2></li>
+                    <li>
+                      <h2></h2>
+                    </li>
                     <li>
                       <p>46.46%</p>
                       <span>1万以下</span>
                     </li>
                   </ul>
                   <ul>
-                    <li><h2></h2></li>
+                    <li>
+                      <h2></h2>
+                    </li>
                     <li>
                       <p>40%</p>
                       <span>1-5万</span>
                     </li>
                   </ul>
                   <ul>
-                    <li><h2></h2></li>
+                    <li>
+                      <h2></h2>
+                    </li>
                     <li>
                       <p>9.56%</p>
                       <span>5-10万</span>
                     </li>
                   </ul>
                   <ul>
-                    <li><h2></h2></li>
+                    <li>
+                      <h2></h2>
+                    </li>
                     <li>
                       <p>3.16%</p>
                       <span>10–20万</span>
                     </li>
                   </ul>
                   <ul>
-                    <li><h2></h2></li>
+                    <li>
+                      <h2></h2>
+                    </li>
                     <li>
                       <p>1.01%</p>
                       <span>20万以上</span>
@@ -312,12 +352,20 @@
                 <div class="lend-chart" id="lend-chart"></div>
                 <div class="lend-desc">
                   <ul>
-                    <li><h2></h2></li>
-                    <li><p>投资金额(万)</p></li>
+                    <li>
+                      <h2></h2>
+                    </li>
+                    <li>
+                      <p>投资金额(万)</p>
+                    </li>
                   </ul>
                   <ul>
-                    <li><h2></h2></li>
-                    <li><p>人数占比(%)</p></li>
+                    <li>
+                      <h2></h2>
+                    </li>
+                    <li>
+                      <p>人数占比(%)</p>
+                    </li>
                   </ul>
                 </div>
               </div>
@@ -328,29 +376,53 @@
       <div class="tab-content" v-if="activeName === 'YYBG'">
         <div class="operation-report">
           <ul>
-            <li v-for="(item, index) in reportList" :key="index">
-              <router-link :to="{ name: 'report', query: { index: index } }">
-                <p class="year">{{ item.year }}</p>
-                <p class="title">{{ item.title }}</p>
-                <p class="time">{{ item.time }}</p>
+            <li v-for="(item, index ) in reportList" :key="index">
+              <router-link :to="{ name: 'report', query: {index: index}}">
+                <p class="year">{{item.year}}</p>
+                <p class="title">{{item.title}}</p>
+                <p class="time">{{item.time}}</p>
               </router-link>
             </li>
           </ul>
         </div>
       </div>
       <div class="tab-content" v-if="activeName === 'BAXX'">
-        <el-tabs class="about-us-tab" v-model="recordInfoActiveName" type="border-card" @tab-click="handleRecordInfoClick">
-          <el-tab-pane label="备案登记信息" name="BADJ"> <div class="content" v-html="content"></div> </el-tab-pane>
-          <el-tab-pane label="资金存管信息" name="ZJCG"> <div class="content" v-html="content"></div> </el-tab-pane>
-          <el-tab-pane label="风险管理信息" name="FXGL"> <div class="content" v-html="content"></div> </el-tab-pane>
-          <el-tab-pane label="公安网站备案" name="GAWZBA"> <div class="content" v-html="content"></div> </el-tab-pane>
-          <el-tab-pane label="电信业务经营许可证" name="ICP"> <div class="content" v-html="content"></div> </el-tab-pane>
+        <el-tabs
+          class="about-us-tab"
+          v-model="recordInfoActiveName"
+          type="border-card"
+          @tab-click="handleRecordInfoClick"
+        >
+          <el-tab-pane label="备案登记信息" name="BADJ">
+            <div class="content" v-html="content"></div>
+          </el-tab-pane>
+          <el-tab-pane label="资金存管信息" name="ZJCG">
+            <div class="content" v-html="content"></div>
+          </el-tab-pane>
+          <el-tab-pane label="风险管理信息" name="FXGL">
+            <div class="content" v-html="content"></div>
+          </el-tab-pane>
+          <el-tab-pane label="公安网站备案" name="GAWZBA">
+            <div class="content" v-html="content"></div>
+          </el-tab-pane>
+          <el-tab-pane label="电信业务经营许可证" name="ICP">
+            <div class="content" v-html="content"></div>
+          </el-tab-pane>
         </el-tabs>
       </div>
       <div class="tab-content" v-if="activeName === 'CPXG'">
-        <el-tabs class="about-us-tab" v-model="productAboutActiveName" type="border-card" @tab-click="handleProductAboutClick">
-          <el-tab-pane label="产品信息" name="CPXXTAB"> <div class="content" v-html="content"></div> </el-tab-pane>
-          <el-tab-pane label="资费标准" name="ZFBZ"> <div class="content" v-html="content"></div> </el-tab-pane>
+        <el-tabs
+          class="about-us-tab"
+          v-model="productAboutActiveName"
+          type="border-card"
+          @tab-click="handleProductAboutClick"
+        >
+          <el-tab-pane label="产品信息" name="CPXXTAB">
+            <div class="content" v-html="content"></div>
+          </el-tab-pane>
+          <el-tab-pane label="资费标准" name="ZFBZ">
+            <div class="content" v-html="content"></div>
+          </el-tab-pane>
         </el-tabs>
       </div>
       <div class="tab-content" v-if="activeName === 'SHXX'">
@@ -400,7 +472,9 @@
             </div>
             <img src="./images/bg_legal_person.png"/>
           </el-tab-pane>
-          <el-tab-pane label="出借人教育" name="CJRJY"> <div class="content" v-html="content"></div> </el-tab-pane>
+          <el-tab-pane label="出借人教育" name="CJRJY">
+            <div class="content" v-html="content"></div>
+          </el-tab-pane>
         </el-tabs>
       </div>
       <div class="tab-content" v-if="activeName === 'FRCNH'">
@@ -419,8 +493,8 @@ import 'echarts/lib/component/tooltip'
 import 'echarts/lib/component/title'
 import 'echarts/lib/component/legend'
 import 'echarts/lib/component/graphic'
-import { getList } from '@/api/djs/announcement'
-import { getOperationalData } from '@/api/djs/infoDisclosure'
+import { getList } from '@/api/hyc/announcement'
+import { getOperationalData } from '@/api/hyc/infoDisclosure'
 import pagination from '@/components/pagination/pagination'
 export default {
   data() {

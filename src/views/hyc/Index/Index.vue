@@ -239,6 +239,8 @@ export default {
           this.bannerList = data.bannelList
           setTimeout(() => {
             this.swiperBanner = new Swiper('.swiper-container-banner', {
+              noSwipingSelector: 'div',
+              noSwipingClass: 'form-container, stop-swiping',
               lazy: {
                 loadPrevNext: true
               },
