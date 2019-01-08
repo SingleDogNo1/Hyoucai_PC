@@ -1,11 +1,11 @@
 <template>
   <div class="basicInfo">
     <header>
-      <div class="last_time">上次登录时间:{{this.name}}</div>
+      <div class="last_time">上次登录时间:&nbsp;&nbsp;{{lastLoginTime}}</div>
       <div class="data_full">
         <span class="text">资料完整度</span>
         <span class="bar"></span>
-        <span class="crade">高</span>
+        <span class="crade">{{infoFinishGrade}}</span>
       </div>
       <div class="authentication">
         <div class="identity">
@@ -22,33 +22,33 @@
       <div class="wrap">
         <div class="wrap_rows">
           <span class="wrap_left">昵称修改</span>
-          <span class="wrap_center"></span>
-          <button class="wrap_btn" @click="isShow1 = !isShow1">修改</button>
+          <span class="wrap_center">{{nickname}}</span>
+          <button class="wrap_btn" @click="isShow.isShow1 = !isShow.isShow1">修改</button>
         </div>
-        <div v-show="isShow1">11111</div>
+        <Name v-show="isShow.isShow1" :isShow="isShow"></Name>
         <div class="wrap_rows">
           <span class="wrap_left">登录密码</span>
-          <span class="wrap_center"></span>
-          <button class="wrap_btn" @click="isShow2 = !isShow2">修改</button>
+          <span class="wrap_center">{{passWord}}</span>
+          <button class="wrap_btn" @click="isShow.isShow2 = !isShow.isShow2">修改</button>
         </div>
-        <div v-show="isShow2">11111</div>
+        <Password v-show="isShow.isShow2" :isShow="isShow"></Password>
         <div class="wrap_rows">
           <span class="wrap_left">注册手机号</span>
-          <span class="wrap_center"></span>
-          <button class="wrap_btn" @click="isShow3 = !isShow3">修改</button>
+          <span class="wrap_center">{{mobile}}</span>
+          <button class="wrap_btn" @click="isShow.isShow3 = !isShow.isShow3">修改</button>
         </div>
-        <div v-show="isShow3">11111</div>
+        <Phone v-show="isShow.isShow3" :isShow="isShow"></Phone>
         <div class="wrap_rows">
           <span class="wrap_left">风险测评</span>
-          <span class="wrap_center"></span>
+          <span class="wrap_center">{{evaluatingResult.evaluatingName}}</span>
           <button class="wrap_btn">重新测评</button>
         </div>
         <div class="wrap_rows last_rows">
           <span class="wrap_left">收货地址</span>
-          <span class="wrap_center"></span>
-          <button class="wrap_btn" @click="isShow4 = !isShow4">修改</button>
+          <span class="wrap_center">{{address}}</span>
+          <button class="wrap_btn" @click="isShow.isShow4 = !isShow.isShow4">修改</button>
         </div>
-        <div v-show="isShow4">11111</div>
+        <Address v-show="isShow.isShow4" :isShow="isShow"></Address>
       </div>
     </div>
     <!-- 存管信息 -->
@@ -57,24 +57,24 @@
       <div class="wrap">
         <div class="wrap_rows">
           <span class="wrap_left">真实姓名</span>
-          <span class="wrap_center"></span>
+          <span class="wrap_center">{{escrowAccountInfo.name}}</span>
         </div>
         <div class="wrap_rows">
           <span class="wrap_left">身份证号</span>
-          <span class="wrap_center"></span>
+          <span class="wrap_center">{{escrowAccountInfo.idNo}}</span>
         </div>
         <div class="wrap_rows">
           <span class="wrap_left">存管账户</span>
-          <span class="wrap_center"></span>
+          <span class="wrap_center">{{escrowAccountInfo.accountId}}</span>
         </div>
         <div class="wrap_rows">
           <span class="wrap_left">交易密码</span>
-          <span class="wrap_center"></span>
+          <span class="wrap_center">{{escrowAccountInfo.transPassword}}</span>
           <button class="wrap_btn">修改</button>
         </div>
         <div class="wrap_rows last_rows">
           <span class="wrap_left">电子账户手机号</span>
-          <span class="wrap_center"></span>
+          <span class="wrap_center">{{escrowAccountInfo.mobile}}</span>
           <button class="wrap_btn">修改</button>
         </div>
       </div>
@@ -83,28 +83,82 @@
 </template>
 
 <script>
-import { getUserBasicInfo } from '@/api/common/basicInfo'
-import { getAuth } from '@/assets/js/utils'
+import { getUserBasicInfo, getMailingAddress } from '@/api/common/basicInfo'
+import { mapGetters } from 'vuex'
+import Name from './popup/name'
+import Password from './popup/password'
+import Phone from './popup/phone'
+import Address from './popup/address'
 export default {
   name: 'basicInfo',
   mixins: [],
-  components: {},
+  components: {
+    Name,
+    Password,
+    Phone,
+    Address
+  },
   data() {
     return {
-      isShow1: false,
-      isShow2: false,
-      isShow3: false,
-      isShow4: false,
-      name: '',
-      transPassword: '',
-      authorization: getAuth()
+      isShow: {
+        isShow1: false,
+        isShow2: false,
+        isShow3: false,
+        isShow4: false
+      },
+      escrowAccountInfo: {},
+      lastLoginTime: '',
+      nickname: '',
+      passWord: '',
+      mobile: '',
+      infoFinishGrade: '',
+      hasMailingAddress: '',
+      address: '',
+      evaluatingResult: {}
     }
+  },
+  computed: {
+    ...mapGetters(['user'])
   },
   props: {},
   watch: {},
-  methods: {},
-  computed: {},
-  created() {},
+  methods: {
+    getUserBasicInfo: function() {
+      let data = {}
+      data.userName = this.user.userName
+      getUserBasicInfo(data).then(res => {
+        this.lastLoginTime = res.data.data.lastLoginTime
+        this.nickname = res.data.data.nickname
+        this.passWord = res.data.data.passWord
+        this.mobile = res.data.data.mobileMask
+        this.evaluatingResult = res.data.data.evaluatingResult
+        this.escrowAccountInfo = res.data.data.escrowAccountInfo
+        this.hasMailingAddress = res.data.data.hasMailingAddress
+        switch (res.data.data.infoFinishGrade) {
+          case 1:
+            this.infoFinishGrade = '低'
+            break
+          case 2:
+            this.infoFinishGrade = '中'
+            break
+          case 3:
+            this.infoFinishGrade = '高'
+            break
+        }
+        if (this.hasMailingAddress == 1) {
+          getMailingAddress({ userName: this.user.userName }).then(res => {
+            console.log(res)
+            // this.address=res.
+          })
+        }
+      })
+      // console.log(this.user.userName)
+    }
+  },
+
+  created() {
+    this.getUserBasicInfo()
+  },
   mounted() {},
   destroyed() {}
 }
@@ -199,11 +253,12 @@ export default {
         .wrap_left {
           font-size: $font-size-small-s;
           color: rgba(90, 90, 90, 1);
+          width: 141px;
+          display: inline-block;
         }
         .wrap_center {
           font-size: $font-size-small-s;
           color: rgba(155, 155, 155, 1);
-          margin-left: 71px;
         }
         .wrap_btn {
           width: 100px;
@@ -220,6 +275,8 @@ export default {
       }
       .last_rows {
         border-bottom: none;
+      }
+      .modify {
       }
     }
   }

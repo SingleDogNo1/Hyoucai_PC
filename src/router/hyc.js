@@ -114,7 +114,7 @@ export default new Router({
             {
               path: 'coupons', // 我的卡券
               name: 'lendCoupons',
-              component: () => import('@/views/djs/Mine/coupons/coupons')
+              component: () => import('@/views/hyc/Mine/coupons/index')
             },
             {
               path: 'experience-money', // 体验金
