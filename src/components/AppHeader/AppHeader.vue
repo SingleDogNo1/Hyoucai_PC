@@ -15,10 +15,10 @@
           <router-link tag="li" v-if="!user" to="/login">登录</router-link>
           <li v-if="user" @click="doLogout">安全退出</li>
           <router-link tag="li" v-if="!user" to="/register">快速注册</router-link>
-          <router-link tag="li" v-if="user" to="/mine/overview">我的账户</router-link>
+          <router-link tag="li" v-if="user" to="/mine">我的账户</router-link>
           <router-link tag="li" to="/helpCenter">帮助中心</router-link>
           <router-link tag="li" to="/announcement">网站公告</router-link>
-          <router-link tag="li" to="/contact_us">联系我们</router-link>
+          <router-link tag="li" to="/infoDisclosure?paramCode=LXWM">联系我们</router-link>
           <li class="wx-qr-code">
             <i class="iconfont icon-weChat_nav" @mouseenter="showWXCode" @mouseleave="hideWXCode"></i>
             <transition name="fade"> <div class="qr-code" v-show="WXCodeFlag"></div> </transition>

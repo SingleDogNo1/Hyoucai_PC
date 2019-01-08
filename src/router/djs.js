@@ -41,7 +41,7 @@ export default new Router({
         {
           path: 'calculator',
           name: 'calculator',
-          component: () => import(/* webpackChunkName: "calculator" */ '@/views/djs/calculator/calculator.vue')
+          component: () => import(/* webpackChunkName: "calculator" */ '@/views/common/calculator/calculator.vue')
         }
       ]
     },
@@ -59,11 +59,11 @@ export default new Router({
     {
       path: '/mine',
       component: Layout,
-      redirect: '/mine/overview',
       children: [
         {
           path: '',
           component: Mine,
+          redirect: '/mine/overview',
           children: [
             {
               path: 'overview', // 账户总览
@@ -73,7 +73,7 @@ export default new Router({
             {
               path: 'basicInfo', // 基本信息
               name: 'basicInfo',
-              component: () => import('@/views/djs/Mine/basicInfo/basicInfo')
+              component: () => import('@/views/common/basicInfo/basicInfo')
             },
             {
               path: 'bankcard', // 银行卡
@@ -88,7 +88,20 @@ export default new Router({
             {
               path: 'lend', // 我的出借
               name: 'userLend',
-              component: () => import('@/views/djs/Mine/lend/lend')
+              redirect: 'lend/list',
+              component: () => import('@/views/djs/Mine/lend/lend'),
+              children: [
+                {
+                  path: 'list', // 我的出借列表
+                  name: 'lendList',
+                  component: () => import('@/views/djs/Mine/lend/list')
+                },
+                {
+                  path: 'detail', // 我的出借详情
+                  name: 'lendDetail',
+                  component: () => import('@/views/djs/Mine/lend/detail')
+                }
+              ]
             },
             {
               path: 'record', // 交易记录
@@ -108,7 +121,7 @@ export default new Router({
             {
               path: 'coupons', // 我的卡券
               name: 'lendCoupons',
-              component: () => import('@/views/djs/Mine/coupons/coupons')
+              component: () => import('@/views/djs/Mine/coupons/index')
             },
             {
               path: 'experience-money', // 体验金
@@ -118,12 +131,12 @@ export default new Router({
             {
               path: 'charge', // 充值
               name: 'charge',
-              component: () => import(/* webpackChunkName: "record" */ '@/views/djs/charge/charge.vue')
+              component: () => import(/* webpackChunkName: "charge" */ '@/views/djs/Mine/charge/charge.vue')
             },
             {
               path: 'tocash', // 提现
               name: 'tocash',
-              component: () => import(/* webpackChunkName: "tocash" */ '@/views/djs/toCash/toCash.vue')
+              component: () => import(/* webpackChunkName: "tocash" */ '@/views/djs/Mine/toCash/toCash.vue')
             }
           ]
         }
@@ -240,7 +253,7 @@ export default new Router({
       ]
     },
     {
-      path: '/', // 我要出借
+      path: '/', // 风险测评
       component: Layout,
       children: [
         {

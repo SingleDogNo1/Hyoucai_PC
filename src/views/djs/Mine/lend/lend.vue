@@ -1,6 +1,20 @@
 <template>
-  <div class="lend">
-    <div class="title">注：本标为按天计息标，借款人可能提前还款。如果出现提前还款，您所获得实际利息将按借款人实际借款天数计算，请知悉！</div>
+  <div class="app-container">
+    <div class="total-info">
+      <div class="item">
+        <div><img src="./logo.png" alt=""></div>
+        <div><span>点金石</span></div>
+      </div>
+      <div class="item">
+        <div><span class="total-income">1,867.96元</span></div>
+        <div><span>累计利息收益</span></div>
+      </div>
+      <div class="item">
+        <div><span class="total-lend">12,000.00元</span></div>
+        <div><span>累计出借</span></div>
+      </div>
+    </div>
+    <router-view></router-view>
   </div>
 </template>
 
@@ -26,4 +40,31 @@ export default {
 <style lang="scss" scoped>
 @import '../../../../assets/css/theme';
 @import '../../../../assets/css/mixins';
+.total-info {
+  font-size: 14px;
+  width: 840px;
+  height: 180px;
+  background: #fff;
+  border-top: 3px solid #f7be39;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  margin-bottom: 20px;
+  .item {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    div {
+      margin-top: 12px;
+      .total-income {
+        font-size: 24px;
+        color: rgba(252, 85, 65, 1);
+      }
+      .total-lend {
+        font-size: 20px;
+        color: rgba(74, 74, 74, 1);
+      }
+    }
+  }
+}
 </style>
