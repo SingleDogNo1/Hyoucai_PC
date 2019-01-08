@@ -5,11 +5,11 @@
       <ul class="title">
         <li>
           <dl>
-            <dt><img src="./image/jiangxi.png" alt="" /></dt>
+            <dt><img src="image/jiangxi.png" alt="" /></dt>
             <dd><span>江西银行电子账户</span> <em>6212461250000747855</em></dd>
           </dl>
         </li>
-        <li><img src="./image/long_arrow@2x.png" alt="" /></li>
+        <li><img src="image/long_arrow@2x.png" alt="" /></li>
         <li>
           <dl>
             <dt><img :src="bankCardInfo.iconUrl" alt="" /></dt>
@@ -44,8 +44,8 @@
           <span class="title">&emsp;&emsp;&emsp;&emsp;开户行号</span>
           <div class="info-wrapper">
             <input type="number" placeholder="请输入联行号" v-model="cardBankCnaps" />
-            <div class="select" @click.stop="controlShowSelect($event)">
-              <i class="iconfont icon-xiala" :class="matchClass" id="rotate-arrow"></i>
+            <div class="select" @click.stop="controlShowSelect">
+              <i class="iconfont icon-xiala" :class="showSelector ? 'rotate-up' : 'rotate-down'" id="rotate-arrow"></i>
             </div>
             <em class="bank-no">查不到？<a target="_blank" href="http://www.lianhanghao.com/">联网查询</a></em>
             <el-card class="box-card" v-if="showSelector">
@@ -54,22 +54,22 @@
               </div>
               <div>
                 <el-select v-model="provinceCode" placeholder="请选择">
-                  <el-option v-for="item in provinceList" :key="item.id" :label="item.provinceName" :value="item.provinceCode"> </el-option>
+                  <el-option v-for="item in provinceList" :key="item.id" :label="item.provinceName" :value="item.provinceCode"></el-option>
                 </el-select>
                 <el-select v-model="cityCode" placeholder="请选择">
-                  <el-option v-for="item in cityList" :key="item.id" :label="item.cityName" :value="item.cityCode"> </el-option>
+                  <el-option v-for="item in cityList" :key="item.id" :label="item.cityName" :value="item.cityCode"></el-option>
                 </el-select>
                 <el-select v-model="areaCode" placeholder="请选择">
-                  <el-option v-for="item in areaList" :key="item.areaCode" :label="item.areaName" :value="item.areaCode"> </el-option>
+                  <el-option v-for="item in areaList" :key="item.areaCode" :label="item.areaName" :value="item.areaCode"></el-option>
                 </el-select>
                 <el-input v-model="searchVal" placeholder="输入关键词"></el-input>
-                <el-button type="primary" size="medium" @click="getSysBranceBankList(areaCode, bankCardInfo.bankNo, searchVal)">搜索</el-button>
+                <el-button type="primary" size="medium" @click="getSysBranceBankList(areaCode, bankCardInfo.bankNo, searchVal)">搜索 </el-button>
               </div>
               <el-scrollbar class="page-component__scroll" id="page-component__scroll">
                 <el-table :data="bankList" style="width: 100%" @row-click="selectItem($event)">
-                  <el-table-column type="index" label="序号"> </el-table-column>
-                  <el-table-column prop="bankNum" label="联行号"> </el-table-column>
-                  <el-table-column prop="bankName" label="银行名称"> </el-table-column>
+                  <el-table-column type="index" label="序号"></el-table-column>
+                  <el-table-column prop="bankNum" label="联行号"></el-table-column>
+                  <el-table-column prop="bankName" label="银行名称"></el-table-column>
                 </el-table>
               </el-scrollbar>
             </el-card>
@@ -91,7 +91,7 @@
           </div>
         </li>
         <div class="err-msg" v-if="errMsg.smsCode">{{ errMsg.smsCode }}</div>
-        <li><span class="title"></span> <input style="margin-left: 110px;" type="button" value="确认提现" @click="withDraw" /></li>
+        <li><span class="title"></span> <input style="margin-left: 112px;" type="button" value="确认提现" @click="withDraw" /></li>
       </ul>
     </div>
     <div class="tips">
@@ -100,8 +100,8 @@
       <p>2.收到你的提现请求后，我们将在1个工作日（双休日或法定节假日顺延）处理你的提现申请，请你注意查收。</p>
       <p>3.为保障你的账户资金安全，申请提现时，你选择的银行卡开户名必须与你汇有财网账户实名认证一致，否则提现申请将不予受理。</p>
     </div>
-    <div class="model" v-if="showSelector" @click.stop="controlShowSelect($event)"></div>
-    <Dialog :show.sync="showDialog" :singleButton="singleButton">
+    <div class="model" v-if="showSelector" @click.stop="controlShowSelect"></div>
+    <Dialog :show.sync="showDialog" :singleButton="singleButton" class="to-cash-dialog">
       <div>{{ errMsg.common }}</div>
     </Dialog>
   </div>
@@ -115,12 +115,15 @@ import {
   sysCityListApi,
   sysBankAreaListApi,
   sysBranceBankListApi,
-  withdrawApi,
-  amountInfoApi
-} from '@/api/djs/tocash'
+  amountInfoApi,
+  getSmsCode,
+  toCashApply
+} from '@/api/djs/Mine/tocash'
 import { getUser } from '@/assets/js/cache'
-import { getAuth, getRetBaseURL } from '@/assets/js/utils'
+import { getAuth } from '@/assets/js/utils'
 import Dialog from '@/components/Dialog/Dialog'
+
+const ERR_OK = '1'
 export default {
   data() {
     return {
@@ -176,17 +179,6 @@ export default {
     }
   },
   watch: {
-    // type() {
-    //   if (this.type === 1) {
-    //     if (this.amount > 50000) {
-    //       this.amount = 50000
-    //     }
-    //     this.largeAmountFlag = false
-    //   } else {
-    //     this.errMsg.amount = ''
-    //     this.largeAmountFlag = true
-    //   }
-    // },
     provinceCode(ne) {
       this.getSysCityList(ne)
     },
@@ -221,13 +213,9 @@ export default {
       if (e.target.value.indexOf('.') < 0 && e.target.value !== '') {
         e.target.value = parseFloat(e.target.value)
       }
-      // if (this.type === 1 && e.target.value >= 50000) {
-      //   this.errMsg.amount = '实时提现，不可多余50000！'
-      //   e.target.value = 50000
-      // }
-      // if (this.type === 2 && e.target.value > parseFloat(this.balance)) {
-      //   e.target.value = parseFloat(this.balance)
-      // }
+      if (e.target.value > parseFloat(this.balance)) {
+        e.target.value = parseFloat(this.balance)
+      }
       this.amount = e.target.value
       this.checkAmountInput()
     },
@@ -244,27 +232,32 @@ export default {
         this.bankName = item.bankName
         this.showSelector = false
       }
-      // this.controlShowSelect(e)
     },
     getSmsCode() {
+      this.smsCode = ''
       if (!this.amount) {
-        this.errMsg.amount = '请输入充值金额！'
-        return false
+        this.errMsg.amount = '输入提现金额！'
+        return
+      } else {
+        this.errMsg.amount = ''
       }
-      if (this.amount && this.amount < 100) {
-        this.errMsg.amount = '100元起充！'
-        return false
+      if (parseFloat(this.balance) <= 0 || this.amount > parseFloat(this.balance)) {
+        this.errMsg.amount = '输入金额不能大于可提现余额，请重新输入！'
+        return
+      } else {
+        this.errMsg.amount = ''
       }
-      // let data = {
-      //   amount: this.amount,
-      //   userName: this.userName,
-      //   bankCardNum: this.bankCardInfo.cardNo,
-      //   bankCode: this.bankCardInfo.bank,
-      //   mobileNo: this.bankCardInfo.mobile,
-      //   rechargeType: 'KQAP',
-      //   whichSetp: 'send',
-      //   authorization: this.authorization
-      // }
+      if (!this.cardBankCnaps || this.cardBankCnaps.length != 12) {
+        this.errMsg.cardBankCnaps = '输入正确的联行号！'
+        return
+      } else {
+        this.errMsg.cardBankCnaps = ''
+      }
+      let data = {
+        userName: this.userName,
+        mobileNo: this.bankCardInfo.mobile,
+        authorization: getAuth()
+      }
       this.showCountDown = true
       if (this.timeInterval) {
         clearInterval(this.timeInterval)
@@ -276,14 +269,14 @@ export default {
           this.countDown = 60
           clearInterval(this.timeInterval)
         }
-      }, 1000)
-      // rechargeApiDirectPayServer(data).then(res => {
-      //   let data = res.data
-      //   console.log(data)
-      // if (data.resultCode === ERR_OK) {
-      //
-      // }
-      // })
+      }, 2000)
+      getSmsCode(data).then(res => {
+        let data = res.data
+        if (data.resultCode === ERR_OK) {
+          this.showDialog = true
+          this.errMsg.common = '短信发送成功！'
+        }
+      })
     },
     withDraw() {
       if (!this.amount) {
@@ -293,56 +286,45 @@ export default {
         this.errMsg.amount = ''
       }
       if (parseFloat(this.balance) <= 0 || this.amount > parseFloat(this.balance)) {
-        // Toast('输入金额不能大于可提现余额，请重新输入!');
         this.errMsg.amount = '输入金额不能大于可提现余额，请重新输入！'
         return
       } else {
         this.errMsg.amount = ''
       }
-      if (!this.cardBankCnaps) {
-        // AppToast.empty('unionBankNo');
-        this.errMsg.cardBankCnaps = '输入联行号！'
+      if (!this.cardBankCnaps || this.cardBankCnaps.length != 12) {
+        this.errMsg.cardBankCnaps = '请输入正确的联行号！'
         return
       } else {
         this.errMsg.cardBankCnaps = ''
       }
+      if (!this.smsCode) {
+        this.errMsg.smsCode = '请输入验证码！'
+        return
+      } else {
+        this.errMsg.smsCode = ''
+      }
 
-      let url = getRetBaseURL() + '/mine/basicInfo'
-      let forgetUrl = getRetBaseURL() + '/mine/basicInfo'
       let data = {
-        txAmount: this.amount,
-        retUrl: url,
-        forgotPwdUrl: forgetUrl,
-        platform: 'PC'
+        userName: this.userName,
+        bankCardId: this.bankCardInfo.id,
+        amount: this.amount,
+        identifyCode: this.smsCode,
+        province: this.provinceCode,
+        city: this.cityCode,
+        area: this.areaCode,
+        openBankCode: this.cardBankCnaps,
+        authorization: getAuth()
       }
-
-      data.cardBankCnaps = this.cardBankCnaps
-
-      if (this.provinceCode) {
-        data.provinceCode = this.provinceCode
-      }
-      if (this.cityCode) {
-        data.cityCode = this.cityCode
-      }
-      if (this.areaCode) {
-        data.areaCode = this.areaCode
-      }
-      if (this.bankCardInfo.bankName) {
-        data.bankName = this.bankCardInfo.bankName
-      }
-      if (this.idNo) {
-        data.idNo = this.bankCardInfo.bankName
-      }
-      if (this.bankCardInfo.mobile) {
-        data.mobile = this.bankCardInfo.mobile
-      }
-      withdrawApi(data).then(res => {
+      toCashApply(data).then(res => {
         let data = res.data
         let resultCode = data.resultCode
         let resultMsg = data.resultMsg
         if (resultCode === '1') {
-          let option = data.data.paramReq
-          this.postcall(data.data.redirectUrl, option)
+          this.showDialog = true
+          this.errMsg.common = '提现成功，正在跳转到首页...'
+          setTimeout(() => {
+            this.$router.push({ name: 'index' })
+          }, 1000)
         } else {
           // Toast(resultMsg);
           this.errMsg.common = resultMsg
@@ -497,6 +479,7 @@ export default {
           this.bankCardInfo = data.list[0]
           if (this.bankCardInfo.openBankCode) {
             this.cardBankCnaps = this.bankCardInfo.openBankCode
+            this.bankName = this.bankCardInfo.openBank
             this.provinceCode = this.bankCardInfo.province
             this.cityCode = this.bankCardInfo.city
             this.areaCode = this.bankCardInfo.area
@@ -523,25 +506,6 @@ export default {
       } else {
         this.showSelector = true
       }
-      // let className = e.target.className
-      // let iDom = document.getElementById('rotate-arrow')
-      // if (className.indexOf('select') > 0 || className.indexOf('icon-xiala') > 0) {
-      //   if (this.showSelector) {
-      //     this.showSelector = false
-      //     myDOM.removeClass(iDom, 'rotate-up')
-      //     myDOM.addClass(iDom, 'rotate-down')
-      //   } else {
-      //     this.showSelector = true
-      //     myDOM.removeClass(iDom, 'rotate-down')
-      //     myDOM.addClass(iDom, 'rotate-up')
-      //   }
-      // } else {
-      //   if (this.showSelector) {
-      //     this.showSelector = false
-      //     myDOM.removeClass(iDom, 'rotate-up')
-      //     myDOM.addClass(iDom, 'rotate-down')
-      //   }
-      // }
     },
     checkAmountInput() {
       if (!this.amount) {
@@ -576,8 +540,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../../../assets/css/mixins';
-@import '../../../assets/css/theme';
+@import '../../../../assets/css/mixins';
+@import '../../../../assets/css/theme';
 
 .tocash {
   position: relative;
@@ -585,9 +549,11 @@ export default {
   font-size: $font-size-small-s;
   border: 1px solid #f5f5f5;
   .model {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
+    bottom: 0;
+    right: 0;
     z-index: 98;
     display: block;
     content: ' ';
@@ -980,6 +946,11 @@ export default {
     color: $color-text-s;
     font-size: $font-size-small-s;
     line-height: 24px;
+  }
+  .to-cash-dialog {
+    div {
+      text-align: center;
+    }
   }
 }
 </style>

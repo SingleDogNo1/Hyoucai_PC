@@ -58,12 +58,12 @@
         </li>
       </ul>
     </div>
-    <h3>回款明细</h3>
-    <el-table :data="tableData" class="calculator-table">
-      <el-table-column prop="date" label="期数"> </el-table-column>
-      <el-table-column prop="name" label="回款本息(元)"> </el-table-column>
-      <el-table-column prop="address" label="回款本金(元)"> </el-table-column>
-      <el-table-column prop="address" label="利息(元)"> </el-table-column>
+    <h3 v-if="calculator.type === 1">回款明细</h3>
+    <el-table v-if="calculator.type === 1" :data="tableData" class="calculator-table">
+      <el-table-column prop="term" label="期数"> </el-table-column>
+      <el-table-column prop="totalPrincipalInterest" label="回款本息(元)"> </el-table-column>
+      <el-table-column prop="principal" label="回款本金(元)"> </el-table-column>
+      <el-table-column prop="interest" label="利息(元)"> </el-table-column>
     </el-table>
   </div>
 </template>
@@ -71,7 +71,7 @@
 <script>
 import { calculator } from '@/api/common/calculator'
 
-const ERR_OK = 1
+const ERR_OK = '1'
 export default {
   name: 'calculator',
   data() {
@@ -93,30 +93,9 @@ export default {
         type: 2
       },
       termType: 1,
-      expectedRevenue: '',
-      totalSum: '',
-      tableData: [
-        {
-          date: '2016-05-02',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        },
-        {
-          date: '2016-05-04',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1517 弄'
-        },
-        {
-          date: '2016-05-01',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1519 弄'
-        },
-        {
-          date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1516 弄'
-        }
-      ]
+      expectedRevenue: 0,
+      totalSum: 0,
+      tableData: []
     }
   },
   watch: {
@@ -176,18 +155,15 @@ export default {
         termType: this.termType,
         repayment: this.calculator.type
       }
-      calculator(params)
-        .then(res => {
-          let data = res.data
-          if (data.resultCode === ERR_OK) {
-            let result = data.incomeCalculatorBean
-            this.expectedRevenue = result.allInterest
-            this.totalSum = result.totalPrincipalInterest
-          }
-        })
-        .catch(err => {
-          console.log(JSON.stringify(err))
-        })
+      calculator(params).then(res => {
+        let data = res.data
+        if (data.resultCode === ERR_OK) {
+          let result = data.incomeCalculatorBean
+          this.expectedRevenue = result.allInterest
+          this.totalSum = result.totalPrincipalInterest
+          this.tableData = result.incomePlanList
+        }
+      })
     },
     resetCalc() {
       this.types = [
@@ -207,6 +183,8 @@ export default {
         type: 2
       }
       this.termType = 1
+      this.expectedRevenue = 0
+      this.totalSum = 0
       this.tableData = []
     }
   }
@@ -234,7 +212,7 @@ export default {
     box-shadow: 1px 1px 2px 0px rgba(218, 218, 218, 1);
     .operate-wrapper {
       padding: 63px 60px 15px;
-      background-color: #eee;
+      background-color: #fbfbfb;
       /deep/ .el-form--inline {
         > div {
           &.input-wrapper {

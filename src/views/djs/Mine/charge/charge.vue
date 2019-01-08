@@ -104,7 +104,7 @@
 </template>
 
 <script>
-import { queryCardInfo, userBankCardList, personalAccount, userRechargePreVerify, rechargeApiDirectPayServer, unionPay } from '@/api/djs/charge'
+import { queryCardInfo, userBankCardList, personalAccount, userRechargePreVerify, rechargeApiDirectPayServer, unionPay } from '@/api/djs/Mine/charge'
 import { getUser } from '@/assets/js/cache'
 import { getAuth, getRetBaseURL } from '@/assets/js/utils'
 import Dialog from '@/components/Dialog/Dialog'
@@ -241,10 +241,12 @@ export default {
       }, 1000)
       rechargeApiDirectPayServer(data).then(res => {
         let data = res.data
-        console.log(data)
-        // if (data.resultCode === ERR_OK) {
-        //
-        // }
+        this.showDialog = true
+        if (data.resultCode === ERR_OK) {
+          this.errMsg.common = '验证码发送成功！'
+        } else {
+          this.errMsg.common = data.resultMsg
+        }
       })
     },
     submitCharge() {
@@ -387,8 +389,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../../../assets/css/mixins';
-@import '../../../assets/css/theme';
+@import '../../../../assets/css/mixins';
+@import '../../../../assets/css/theme';
 .charge {
   height: 100%;
   margin: 0 auto;

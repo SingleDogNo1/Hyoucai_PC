@@ -6,7 +6,9 @@
         <ul>
           <li>
             <div>交易记录</div>
-            <div class="tag" :class="{ active: timeIndex === i }" v-for="(item, i) in times" :key="i" @click="selectTime(item, i)">{{ item.name }}</div>
+            <div class="tag" :class="{ active: timeIndex === i }" v-for="(item, i) in times" :key="i" @click="selectTime(item, i)">
+              {{ item.name }}
+            </div>
           </li>
           <li>
             <div>状态</div>
