@@ -787,7 +787,7 @@ export default {
     this.index = this.$route.query.index
     console.log('iundex=====', this.index)
     setTimeout(() => {
-      initialSlide: 0,
+      0,
         (this.swiperBanner = new Swiper('.swiper-container-banner', {
           autoplay: {
             delay: 5000,

@@ -112,7 +112,7 @@ export default new Router({
             {
               path: 'basicInfo', // 基本信息
               name: 'basicInfo',
-              component: () => import('@/views/djs/Mine/basicInfo/basicInfo')
+              component: () => import('@/views/common/basicInfo/basicInfo')
             },
             {
               path: 'bankcard', // 银行卡
@@ -169,7 +169,7 @@ export default new Router({
             {
               path: 'coupons', // 我的卡券
               name: 'lendCoupons',
-              component: () => import('@/views/djs/Mine/coupons/coupons')
+              component: () => import('@/views/hyc/Mine/coupons/index')
             },
             {
               path: 'experience-money', // 体验金

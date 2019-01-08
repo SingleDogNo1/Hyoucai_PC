@@ -495,7 +495,7 @@ import 'echarts/lib/component/legend'
 import 'echarts/lib/component/graphic'
 import { getList } from '@/api/hyc/announcement'
 import { getOperationalData } from '@/api/hyc/infoDisclosure'
-import pagination from '@/components/pagination/pagination'
+// import pagination from '@/components/pagination/pagination'
 export default {
   data() {
     return {
@@ -619,7 +619,7 @@ export default {
   },
   methods: {
     handleClick() {
-      this.page = 1;
+      this.page = 1
       if (this.activeName === 'GYWM') {
         this.aboutUsActiveName = 'GSJJ'
         this.handleAboutUsClick()
@@ -864,7 +864,7 @@ export default {
         this.policiesActiveName = 'FLFG'
         this.handlePoliciesClick()
       }
-      if(this.activeName === 'FRCNH') {
+      if (this.activeName === 'FRCNH') {
         this.handleCommitmentLetterClick()
       }
     },
@@ -983,7 +983,7 @@ export default {
       }
       getList(postData).then(res => {
         let data = res.data
-        if(data.zxdtMtbdlist.length > 0) {
+        if (data.zxdtMtbdlist.length > 0) {
           this.content = data.zxdtMtbdlist[0].content
         }
       })
@@ -1021,7 +1021,7 @@ export default {
       }
       getList(postData).then(res => {
         let data = res.data
-        if(data.zxdtMtbdlist.length > 0) {
+        if (data.zxdtMtbdlist.length > 0) {
           this.content = data.zxdtMtbdlist[0].content
         }
       })
@@ -1034,7 +1034,7 @@ export default {
       }
       getList(postData).then(res => {
         let data = res.data
-        if(data.zxdtMtbdlist.length > 0) {
+        if (data.zxdtMtbdlist.length > 0) {
           this.content = data.zxdtMtbdlist[0].content
         }
       })
@@ -1054,7 +1054,7 @@ export default {
         this.lawsList = data.zxdtMtbdlist
         this.total = parseInt(data.countPage)
         this.page = parseInt(data.curPage)
-        if(data.zxdtMtbdlist.length > 0) {
+        if (data.zxdtMtbdlist.length > 0) {
           this.content = data.zxdtMtbdlist[0].content
         }
       })
@@ -1075,7 +1075,7 @@ export default {
         this.lawsList = data.zxdtMtbdlist
         this.total = parseInt(data.countPage)
         this.page = parseInt(data.curPage)
-        if(data.zxdtMtbdlist.length > 0) {
+        if (data.zxdtMtbdlist.length > 0) {
           this.content = data.zxdtMtbdlist[0].content
         }
       })
@@ -1091,19 +1091,19 @@ export default {
     $route() {
       // 刷新参数放到这里里面去触发就可以刷新相同界面了
       this.paramCode = this.$route.query.paramCode
-      if(this.paramCode) {
-      let postData = {
-        curPage: this.page,
-        maxLine: this.size,
-        paramCode: 'LXWM'
-      }
-      getList(postData).then(res => {
-        let data = res.data
-        if(data.zxdtMtbdlist.length > 0) {
-          this.content = data.zxdtMtbdlist[0].content
+      if (this.paramCode) {
+        let postData = {
+          curPage: this.page,
+          maxLine: this.size,
+          paramCode: 'LXWM'
         }
-      })
-    }
+        getList(postData).then(res => {
+          let data = res.data
+          if (data.zxdtMtbdlist.length > 0) {
+            this.content = data.zxdtMtbdlist[0].content
+          }
+        })
+      }
       this.aboutUsActiveName = this.$route.query.paramCode ? 'GSGL' : 'GSJJ'
       this.handleAboutUsClick()
     }
