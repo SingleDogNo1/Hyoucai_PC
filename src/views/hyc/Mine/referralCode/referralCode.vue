@@ -21,7 +21,7 @@
     <div class="tips">
       <p class="my-referral-man">
         <span>我推荐的人</span>
-        <span class="bold">2位</span>
+        <span class="bold">{{inviteNum}}位</span>
       </p>
     </div>
     <el-table :data="inviteUserList" border class="referral-table">
@@ -311,8 +311,6 @@ export default {
         color: $color-text-s;
       }
     }
-  }
-  .djs-copy-dialog {
   }
 }
 </style>
