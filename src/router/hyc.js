@@ -122,7 +122,7 @@ export default new Router({
             {
               path: 'referralCode', // 推荐码
               name: 'referralCode',
-              component: () => import('@/views/djs/Mine/referralCode/referralCode')
+              component: () => import('@/views/hyc/Mine/referralCode/referralCode')
             },
             {
               path: 'lend', // 我的出借

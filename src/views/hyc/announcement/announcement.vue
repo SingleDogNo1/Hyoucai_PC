@@ -64,7 +64,7 @@
 
 <script>
 import moment from 'moment'
-import pagination from '@/components/pagination/pagination'
+import Pagination from '@/components/pagination/pagination'
 import { getList } from '@/api/hyc/announcement'
 
 export default {
@@ -106,7 +106,7 @@ export default {
     }
   },
   components: {
-    pagination
+    Pagination
   },
   mounted() {
     this.activeName = this.$route.query.paramCode || 'WZGG'

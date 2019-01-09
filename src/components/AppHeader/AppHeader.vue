@@ -111,7 +111,7 @@ export default {
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 99999;
+  z-index: 999;
   .header {
     @include cube(1140px, 100%);
     margin: 0 auto;
