@@ -98,7 +98,8 @@ export default {
       qrCodeUrl: '',
       isErrMsg: false,
       preventClose: true,
-      copyUrl: ''
+      copyUrl: '',
+      inviteNum: ''
     }
   },
   props: {},
