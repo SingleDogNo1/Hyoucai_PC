@@ -440,7 +440,7 @@ import Pagination from '@/components/pagination/pagination'
 export default {
   data() {
     return {
-      activeName: 'YYSJ',
+      activeName: 'GYWM',
       aboutUsActiveName: 'GSJJ',
       recordInfoActiveName: 'BADJ',
       productAboutActiveName: 'CPXXTAB',
