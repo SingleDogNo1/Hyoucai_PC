@@ -45,7 +45,7 @@
             <div class="swiper-container-notice">
               <div class="swiper-wrapper">
                 <div class="swiper-slide" v-for="(item, index) in mediaList" :key="index">
-                  <router-link :to="{ name: 'announcementDetail', params: { id: item.id }, query: { paramCode: 'MEBD' } }">{{
+                  <router-link :to="{ name: 'announcementDetail', params: { id: item.id }, query: { paramCode: 'MTBD' } }">{{
                     item.title
                   }}</router-link>
                 </div>
