@@ -1053,13 +1053,19 @@ export default {
       this.handlePoliciesClick()
     },
     init() {
-      this.aboutUsActiveName = this.$route.query.paramCode ? 'GSGL' : 'GSJJ'
+      this.aboutUsActiveName = 'GSJJ'
+      if(this.$route.query.paramCode === 'LXWM') {
+        this.aboutUsActiveName = 'GSGL'
+      }
+      if(this.$route.query.paramCode === 'HZHB') {
+        this.aboutUsActiveName = 'HZHB'
+      }
       this.paramCode = this.$route.query.paramCode
       if (this.paramCode) {
         let postData = {
           curPage: this.page,
           maxLine: this.size,
-          paramCode: 'LXWM'
+          paramCode: this.paramCode
         }
         getList(postData).then(res => {
           let data = res.data

@@ -204,7 +204,7 @@
         <li><img src="./images/icon_parter8.png" /></li>
         <li><img src="./images/icon_parter9.png" /></li>
         <li>
-          <a class="btn-more" href="javascript:void(0);"> 查看更多 <i class="iconfont icon-more"></i> </a>
+          <router-link class="btn-more" href="javascript:void(0);" to="/infoDisclosure?paramCode=HZHB">查看更多 <i class="iconfont icon-more"></i> </router-link>
         </li>
       </ul>
     </div>
