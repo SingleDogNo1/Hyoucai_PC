@@ -17,28 +17,7 @@ export default {
   components: {},
   data() {
     return {
-      list: [
-        {
-          activityDate: '2018.12.1-12.31',
-          src: require('./image/default_im.png')
-        },
-        {
-          activityDate: '2018.12.1-12.31',
-          src: require('./image/default_im.png')
-        },
-        {
-          activityDate: '2018.12.1-12.31',
-          src: require('./image/default_im.png')
-        },
-        {
-          activityDate: '2018.12.1-12.31',
-          src: require('./image/default_im.png')
-        },
-        {
-          activityDate: '2018.12.1-12.31',
-          src: require('./image/default_im.png')
-        }
-      ]
+      list: []
     }
   },
   props: {},
@@ -47,7 +26,8 @@ export default {
     getHot() {
       let data = {
         curPage: '1',
-        maxLine: '10'
+        maxLine: '10',
+        platform: 'PC'
       }
       getHot(data).then(res => {
         let data = res.data
@@ -97,6 +77,7 @@ export default {
         height: 14px;
         line-height: 14px;
         font-size: 14px;
+        font-family: PingFangSC-Regular, sans-serif;
         color: #9b9b9b;
         text-indent: 20px;
         padding-top: 18px;
