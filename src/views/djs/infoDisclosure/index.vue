@@ -1053,7 +1053,6 @@ export default {
       this.handlePoliciesClick()
     },
     init() {
-      this.aboutUsActiveName = 'GSJJ'
       if(this.$route.query.paramCode === 'LXWM') {
         this.aboutUsActiveName = 'GSGL'
       }
