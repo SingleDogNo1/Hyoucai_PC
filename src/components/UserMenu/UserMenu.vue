@@ -53,32 +53,27 @@ export default {
     greet() {
       let msg = '',
         hour = new Date().getHours()
-      switch (hour) {
-        case hour < 11:
-          msg = '上午好!'
-          break
-        case hour < 14:
-          msg = '中午好!'
-          break
-        case hour < 19:
-          msg = '下午好!'
-          break
-        default:
-          msg = '晚上好!'
-          break
+      if (hour < 11) {
+        msg = '上午好!'
+      } else if (hour >= 11 && hour < 14) {
+        msg = '中午好!'
+      } else if (hour >= 14 && hour < 19) {
+        msg = '下午好!'
+      } else {
+        msg = '晚上好!'
       }
       return msg
     },
     safetyLevel() {
       let msg = ''
       switch (this.userBasicInfo.infoFinishGrade) {
-        case '1':
+        case 1:
           msg = '低'
           break
-        case '2':
+        case 2:
           msg = '中'
           break
-        case '3':
+        case 3:
           msg = '高'
           break
       }
@@ -91,7 +86,6 @@ export default {
   },
   created() {},
   mounted() {
-    console.log(111)
     this.referralCode = this.userBasicInfo.myInviteCode
     this.isShowReferralCode = this.$route.name === 'referralCode' ? true : false
   },
