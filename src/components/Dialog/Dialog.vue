@@ -72,7 +72,7 @@ export default {
   methods: {
     confirmItem() {
       this.onConfirm()
-      if(!this.preventClose) {
+      if (!this.preventClose) {
         this.$emit('update:show', false)
       }
     },
