@@ -130,6 +130,7 @@ export default {
           color: #6a6a6a;
           padding-left: 68px;
           border-left: 4px solid #fff;
+          cursor: pointer;
         }
         li:hover,
         li.on {
