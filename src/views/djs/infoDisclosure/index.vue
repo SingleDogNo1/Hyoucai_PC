@@ -653,7 +653,10 @@ export default {
                     show: false
                   }
                 },
-                data: [{ value: parseFloat(this.lendingTerminalDistributeMobile), name: 'web端' }, { value: parseFloat(this.lendingTerminalDistributeWeb), name: '移动端' }]
+                data: [
+                  { value: parseFloat(this.lendingTerminalDistributeMobile), name: 'web端' },
+                  { value: parseFloat(this.lendingTerminalDistributeWeb), name: '移动端' }
+                ]
               }
             ]
           })
@@ -697,7 +700,10 @@ export default {
                     show: false
                   }
                 },
-                data: [{ value: parseFloat(this.lendingGenderDistributeMale), name: '男' }, { value: parseFloat(this.lendingGenderDistributeFemale), name: '女' }]
+                data: [
+                  { value: parseFloat(this.lendingGenderDistributeMale), name: '男' },
+                  { value: parseFloat(this.lendingGenderDistributeFemale), name: '女' }
+                ]
               }
             ]
           })
@@ -811,7 +817,13 @@ export default {
                 name: '投资金额',
                 type: 'bar',
                 barWidth: '40%',
-                data: [parseFloat(this.lendingAgeDistributeAmount18), parseFloat(this.lendingAgeDistributeAmount20), parseFloat(this.lendingAgeDistributeAmount30), parseFloat(this.lendingAgeDistributeAmount40), parseFloat(this.lendingAgeDistributeAmount50)],
+                data: [
+                  parseFloat(this.lendingAgeDistributeAmount18),
+                  parseFloat(this.lendingAgeDistributeAmount20),
+                  parseFloat(this.lendingAgeDistributeAmount30),
+                  parseFloat(this.lendingAgeDistributeAmount40),
+                  parseFloat(this.lendingAgeDistributeAmount50)
+                ],
                 tooltip: {
                   valueSuffix: '万'
                 },
@@ -827,7 +839,13 @@ export default {
                 barWidth: '60%',
                 yAxisIndex: 1,
                 smooth: true,
-                data: [parseFloat(this.lendingAgeDistributePer18), parseFloat(this.lendingAgeDistributePer20), parseFloat(this.lendingAgeDistributePer30), parseFloat(this.lendingAgeDistributePer40), parseFloat(this.lendingAgeDistributePer50)],
+                data: [
+                  parseFloat(this.lendingAgeDistributePer18),
+                  parseFloat(this.lendingAgeDistributePer20),
+                  parseFloat(this.lendingAgeDistributePer30),
+                  parseFloat(this.lendingAgeDistributePer40),
+                  parseFloat(this.lendingAgeDistributePer50)
+                ],
                 itemStyle: {
                   normal: {
                     color: ['#FF5178']
@@ -968,7 +986,7 @@ export default {
         let data = res.data
         if (data.zxdtMtbdlist.length > 0) {
           this.content = data.zxdtMtbdlist[0].content
-          if(tabItem === 'FLFG') {
+          if (tabItem === 'FLFG') {
             this.lawsList = data.zxdtMtbdlist
             this.total = parseInt(data.countPage)
             this.page = parseInt(data.curPage)
@@ -998,8 +1016,7 @@ export default {
     },
     handleOperationalData() {
       getOperationalData().then(res => {
-        let data = res.data.data.data
-        console.log('data===', data)
+        let data = res.data.data
         this.accumulatedLoanAmount = data.accumulatedLoanAmount
         this.accumulativeCompensation = data.accumulativeCompensation
         this.accumulativeCompensationAmount = data.accumulativeCompensationAmount
@@ -1053,17 +1070,21 @@ export default {
       this.handlePoliciesClick()
     },
     init() {
-      if(this.$route.query.paramCode === 'LXWM' || this.$route.query.paramCode === 'PTXX') {
+      if (this.$route.query.paramCode === 'LXWM' || this.$route.query.paramCode === 'PTXX') {
         this.aboutUsActiveName = 'GSGL'
       }
-      if(this.$route.query.paramCode === 'HZHB') {
+      if (this.$route.query.paramCode === 'HZHB') {
         this.aboutUsActiveName = 'HZHB'
       }
-      if(this.$route.query.paramCode === 'FZSJ') {
+      if (this.$route.query.paramCode === 'FZSJ') {
         this.aboutUsActiveName = 'FZSJ'
       }
-      if(this.$route.query.paramCode === 'ZZRY') {
+      if (this.$route.query.paramCode === 'ZZRY') {
         this.aboutUsActiveName = 'ZZRY'
+      }
+      if (this.$route.query.paramCode === 'CJRJY') {
+        this.activeName = 'ZCFG'
+        this.policiesActiveName = 'CJRJY'
       }
       this.paramCode = this.$route.query.paramCode
       if (this.paramCode) {
@@ -1856,6 +1877,7 @@ export default {
     }
     .content {
       margin: 20px;
+      min-height: 265px;
     }
   }
 }

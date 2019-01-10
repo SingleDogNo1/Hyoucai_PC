@@ -63,6 +63,7 @@ export default {
         return () => {}
       }
     },
+    // 是否点击确认禁止关闭弹窗
     preventClose: {
       type: Boolean,
       default: false
@@ -71,7 +72,7 @@ export default {
   methods: {
     confirmItem() {
       this.onConfirm()
-      if(!this.preventClose) {
+      if (!this.preventClose) {
         this.$emit('update:show', false)
       }
     },

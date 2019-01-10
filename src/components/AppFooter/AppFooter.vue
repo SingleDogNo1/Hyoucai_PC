@@ -108,7 +108,7 @@ export default {
       let jumpId = localStorage.getItem('jumpId')
       let anchorElement = document.getElementById(jumpId)
       // 如果锚点存在，就跳转
-      if (jumpId &&anchorElement) {
+      if (jumpId && anchorElement) {
         anchorElement.scrollIntoView()
       }
     }

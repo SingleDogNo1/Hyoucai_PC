@@ -103,7 +103,6 @@ export default {
     }
   },
   props: {},
-  watch: {},
   methods: {
     handleCurrentChange(val) {
       this.page = val
@@ -116,8 +115,8 @@ export default {
       this.fillInReferral = ''
     },
     saveInviteCode() {
-      if(!this.fillInReferral) {
-        this.$message({ message: '推荐人邀请码不能为空', type: 'error'})
+      if (!this.fillInReferral) {
+        this.$message({ message: '推荐人邀请码不能为空', type: 'error' })
         return
       }
       let postData = {
@@ -141,21 +140,21 @@ export default {
     },
     getUserInviteInfo() {
       let params = {
-      userName: this.userName,
-      curPage: this.page,
-      maxLine: this.size
-    }
+        userName: this.userName,
+        curPage: this.page,
+        maxLine: this.size
+      }
       userInviteInfo(params).then(res => {
-      let data = res.data
-      console.log('data====', data)
-      this.inviteNum = data.inviteNum
-      this.inviteUserList = data.data.list
-      this.inviteUserList.forEach(val => {
-        val.investStatus = val.investStatus === 0 ? '未投资': '已投资'
+        let data = res.data
+        console.log('data====', data)
+        this.inviteNum = data.inviteNum
+        this.inviteUserList = data.data.list
+        this.inviteUserList.forEach(val => {
+          val.investStatus = val.investStatus === 0 ? '未投资' : '已投资'
+        })
+        this.total = parseInt(data.countPage)
+        this.page = parseInt(data.curPage)
       })
-      this.total = parseInt(data.countPage)
-      this.page = parseInt(data.curPage)
-    })
     }
   },
   computed: {
@@ -177,17 +176,17 @@ export default {
       this.qrCodeUrl = data.data.qrCodeUrl
       this.copyUrl = data.data.url
       new Clipboard('.copy-text', {
-        text: (trigger) => {
+        text: () => {
           return this.copyUrl
         }
-      });
+      })
     })
     this.getUserInviteInfo()
   },
   watch: {
-    fillInReferral: function(val, oldVal) {
-      this.preventClose = !val? true : false
-		}
+    fillInReferral: function(val) {
+      this.preventClose = !val ? true : false
+    }
   }
 }
 </script>

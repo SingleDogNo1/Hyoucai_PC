@@ -89,17 +89,16 @@ export default {
       userBasicInfo: state => state.user.userBasicInfo
     })
   },
-  created() {
-  },
+  created() {},
   mounted() {
     console.log(111)
     this.referralCode = this.userBasicInfo.myInviteCode
-    this.isShowReferralCode = this.$route.name === 'referralCode' ? true: false
+    this.isShowReferralCode = this.$route.name === 'referralCode' ? true : false
   },
   watch: {
     $route() {
       // 刷新参数放到这里里面去触发就可以刷新相同界面了
-      this.isShowReferralCode = this.$route.name === 'referralCode' ? true: false
+      this.isShowReferralCode = this.$route.name === 'referralCode' ? true : false
     }
   }
 }

@@ -41,3 +41,27 @@ export function modifyBindMobile(data) {
     data: qs.stringify(data)
   })
 }
+export function modifyBindMobileSendCode(data) {
+  return request({
+    url: '/ModifyBindMobileSendCode',
+    method: 'post',
+    headers: { 'Content-type': 'application/x-www-form-urlencoded' },
+    data: qs.stringify(data)
+  })
+}
+export function saveMailingAddress(data) {
+  return request({
+    url: '/SaveMailingAddress',
+    method: 'post',
+    headers: { 'Content-type': 'application/x-www-form-urlencoded' },
+    data: qs.stringify(data)
+  })
+}
+export function tansactionPwd(data) {
+  return request({
+    url: '/escrow/passwordReset',
+    method: 'post',
+    headers: { 'Content-type': 'application/x-www-form-urlencoded' },
+    data: qs.stringify(data)
+  })
+}

@@ -30,15 +30,11 @@ export default {
       let obj = {}
       obj.nikename = this.nikename
       obj.userName = this.user.userName
-      // obj.uuid
-      modifyNikename(obj).then(res => {
-        console.log(res)
-      })
+      modifyNikename(obj)
+      this.$emit('success', this.nikename)
     }
   },
-  created() {
-    this.modifyNikename()
-  }
+  created() {}
 }
 </script>
 <style lang="scss" scoped>
