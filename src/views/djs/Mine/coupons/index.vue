@@ -23,7 +23,9 @@
             <span class="vouche_aside">可加息券{{item.validDays}}天</span>
           </p>
           <p class="start">出借限额{{item.amountMin}}至{{item.amountMax}}元</p>
-          <button class="receive_btn" @click="receiveCoupon(item.id)">立即领取</button>
+          <button class="receive_btn" @click="isShow1=true">立即领取</button>
+          <!-- 领取确定弹框 -->
+          <Dialog :show="isShow1" :onConfirm="receiveCoupon(item.id)"/>
         </div>
         <!-- 红包待领取 -->
         <div v-show="item.voucherType=='VT02'">
@@ -35,12 +37,12 @@
             <span class="vouche_aside">可与加息券同时使用</span>
           </p>
           <p class="start">起投金额：{{item.voucherFaceValue}}.00</p>
-          <button class="receive_btn" @click="receiveRedPacket(item.id)">立即领取</button>
+          <button class="receive_btn" @click="isShow2=true">立即领取</button>
+          <!-- 领取确定弹框 -->
+          <Dialog :show="isShow2" :onConfirm="receiveRedPacket(item.id)"/>
         </div>
         <div class="endData">有效期至:{{item.validUseEndTime}}</div>
       </div>
-      <!-- 领取确定弹框 -->
-      <div class="isReceive"></div>
       <!-- 立即使用 -->
       <div
         v-for="(item,index) in receivedList"
@@ -144,13 +146,17 @@
 </template>
 <script>
 import { geCoupon, couponPacketHistory, receiveCoupon, receiveRedPacket } from '@/api/djs/Mine/coupon'
+import Dialog from '@/components/Dialog/Dialog'
 import { mapGetters } from 'vuex'
 export default {
   name: 'coupons',
   mixins: [],
-  components: {},
+  components: {
+    Dialog
+  },
   data() {
     return {
+      isShow: false,
       flag1: true,
       flag2: false,
       receiveList: [],
@@ -239,13 +245,16 @@ export default {
     },
     // 领取加息券
     receiveCoupon: function(id) {
+      this.isShow1 = false
       let obj = {}
       obj.userName = this.user.userName
       obj.couponId = id
       receiveCoupon(obj)
+      this.geCoupon()
     },
     // 领取红包
     receiveRedPacket: function(id) {
+      this.isShow2 = false
       let obj = {}
       obj.userName = this.user.userName
       obj.redPacketId = id
@@ -255,7 +264,7 @@ export default {
     // 立即使用
     immdiateUse: function(id) {
       this.$router.push({
-        name: 'investment',
+        name: 'lend',
         query: {
           couponId: id
         }
@@ -263,7 +272,7 @@ export default {
     },
     immdiateUseRed: function(id) {
       this.$router.push({
-        name: 'investment',
+        name: 'lend',
         query: {
           redPacketId: id
         }
