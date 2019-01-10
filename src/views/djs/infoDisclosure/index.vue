@@ -20,7 +20,7 @@
         <el-tabs class="about-us-tab" v-model="aboutUsActiveName" type="border-card" @tab-click="handleItemClick(aboutUsActiveName)">
           <el-tab-pane label="公司简介" name="GSJJ"> <div class="content" v-html="content"></div> </el-tab-pane>
           <el-tab-pane label="公司管理" name="GSGL">
-            <div class="content" v-html="content" v-if="paramCode === 'LXWM'"></div>
+            <div class="content" v-html="content" v-if="paramCode === 'LXWM' || paramCode === 'PTXX'"></div>
             <div class="company-management" v-if="!paramCode">
               <div class="organizational-structure-wrap">
                 <strong>组织架构</strong>
@@ -998,7 +998,7 @@ export default {
     },
     handleOperationalData() {
       getOperationalData().then(res => {
-        let data = res.data.data
+        let data = res.data.data.data
         console.log('data===', data)
         this.accumulatedLoanAmount = data.accumulatedLoanAmount
         this.accumulativeCompensation = data.accumulativeCompensation
@@ -1053,11 +1053,17 @@ export default {
       this.handlePoliciesClick()
     },
     init() {
-      if(this.$route.query.paramCode === 'LXWM') {
+      if(this.$route.query.paramCode === 'LXWM' || this.$route.query.paramCode === 'PTXX') {
         this.aboutUsActiveName = 'GSGL'
       }
       if(this.$route.query.paramCode === 'HZHB') {
         this.aboutUsActiveName = 'HZHB'
+      }
+      if(this.$route.query.paramCode === 'FZSJ') {
+        this.aboutUsActiveName = 'FZSJ'
+      }
+      if(this.$route.query.paramCode === 'ZZRY') {
+        this.aboutUsActiveName = 'ZZRY'
       }
       this.paramCode = this.$route.query.paramCode
       if (this.paramCode) {

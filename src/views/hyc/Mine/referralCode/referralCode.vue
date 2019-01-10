@@ -147,8 +147,9 @@ export default {
     }
       userInviteInfo(params).then(res => {
       let data = res.data
+      console.log('data====', data)
       this.inviteNum = data.inviteNum
-      this.inviteUserList = data.inviteUser
+      this.inviteUserList = data.data.list
       this.inviteUserList.forEach(val => {
         val.investStatus = val.investStatus === 0 ? '未投资': '已投资'
       })

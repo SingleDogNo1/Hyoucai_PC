@@ -3,11 +3,11 @@
     <ul class="top">
       <li>
         <h3><i class="iconfont icon-about"></i> <span>关于我们</span></h3>
-        <div>关键指标与数据</div>
-        <div>愿景与模式</div>
-        <div>视野与价值</div>
-        <div>企业文化</div>
-        <div>高管介绍</div>
+        <div><router-link tag="li" to="/infoDisclosure?paramCode=GSJJ">公司简介</router-link></div>
+        <div><router-link tag="li" to="/infoDisclosure?paramCode=PTXX">平台信息</router-link></div>
+        <div><router-link tag="li" to="/infoDisclosure?paramCode=FZSJ">发展事迹</router-link></div>
+        <div><router-link tag="li" to="/infoDisclosure?paramCode=HZHB">合作伙伴</router-link></div>
+        <div><router-link tag="li" to="/infoDisclosure?paramCode=ZZRY">资质荣誉</router-link></div>
       </li>
       <li>
         <h3><i class="iconfont icon-help"></i> <span>帮助中心</span></h3>
