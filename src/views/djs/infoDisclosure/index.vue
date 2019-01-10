@@ -17,11 +17,11 @@
     </div>
     <div class="tab-content-wrap">
       <div class="tab-content" v-if="activeName === 'GYWM'">
-        <el-tabs class="about-us-tab" v-model="aboutUsActiveName" type="border-card" @tab-click="handleAboutUsClick">
+        <el-tabs class="about-us-tab" v-model="aboutUsActiveName" type="border-card" @tab-click="handleItemClick(aboutUsActiveName)">
           <el-tab-pane label="公司简介" name="GSJJ"> <div class="content" v-html="content"></div> </el-tab-pane>
           <el-tab-pane label="公司管理" name="GSGL">
-            <div class="content" v-html="content" v-if="paramCode === 'GSJJ'"></div>
-            <div class="company-management" v-if="paramCode === 'GYWM'">
+            <div class="content" v-html="content" v-if="paramCode === 'LXWM' || paramCode === 'PTXX'"></div>
+            <div class="company-management" v-if="!paramCode">
               <div class="organizational-structure-wrap">
                 <strong>组织架构</strong>
                 <img src="./images/bg_organizational_structure.png">
@@ -126,100 +126,112 @@
         <div class="operation-data">
           <div class="operation-data-item">
             <div class="title">
-              <p class="name">运营数据</p>
-              <p class="deadline">数据截止至: 2017-07-31</p>
+              <p class="name">平台数据统计</p>
+              <p class="deadline">数据截止至: {{platformDataStatisticsEndTime}}</p>
             </div>
             <ul>
               <li>
-                <p class="amount">146,896,864.70</p>
-                <p class="desc">累计成交金额(万元)</p>
+                <p class="amount">{{accumulatedLoanAmount}}</p>
+                <p class="desc">累计借贷金额(万元)</p>
               </li>
               <li>
-                <p class="amount">93,316.24</p>
-                <p class="desc">当年成交笔数(万元）</p>
+                <p class="amount">{{accumulativeLoanCount}}</p>
+                <p class="desc">累计借贷笔数(笔)</p>
               </li>
               <li>
-                <p class="amount">1,973,316.24</p>
-                <p class="desc">待还余额(万元)</p>
+                <p class="amount">{{creditBalance}}</p>
+                <p class="desc">借贷余额（万元）</p>
               </li>
               <li>
-                <p class="amount">13,316.24</p>
-                <p class="desc">累计成交笔数</p>
+                <p class="amount">{{loanBalanceCount}}</p>
+                <p class="desc">借贷余额笔数（笔）</p>
               </li>
               <li>
-                <p class="amount">146,896,864.70</p>
-                <p class="desc">投资端注册人数</p>
+                <p class="amount">{{cumulativeNumberOfLender}}</p>
+                <p class="desc">累计出借人数量（人）</p>
               </li>
               <li>
-                <p class="amount">1,973,316.24</p>
-                <p class="desc">代偿笔数</p>
+                <p class="amount">{{cumulativeNumberOfBorrower}}</p>
+                <p class="desc">累计借款人数量（人）</p>
               </li>
               <li>
-                <p class="amount">1,973,316.24</p>
-                <p class="desc">在投余额(万元）</p>
+                <p class="amount">{{currentNumberOfLender}}</p>
+                <p class="desc">当前出借人数量（人）</p>
               </li>
               <li>
-                <p class="amount">13,316.24</p>
-                <p class="desc">投资人总数</p>
-              </li>
-              <li>
-                <p class="amount">93,316.2</p>
-                <p class="desc">已代偿金额(万元)</p>
-              </li>
-              <li>
-                <p class="amount">1,973,316.24</p>
-                <p class="desc">当年成交金额(万元）</p>
-              </li>
-              <li>
-                <p class="amount">1,973,316.24</p>
-                <p class="desc">借款人总数</p>
+                <p class="amount">{{currentNumberOfBorrower}}</p>
+                <p class="desc">当前借款人数量（人）</p>
               </li>
             </ul>
           </div>
           <div class="operation-data-item">
             <div class="title">
-              <p class="name">借款数据</p>
-              <p class="deadline">数据截止至: 2017年7月31日</p>
+              <p class="name">借款数据统计</p>
+              <p class="deadline">数据截止至: {{loanStatisticsEndTime}}</p>
             </div>
             <ul>
               <li>
-                <p class="amount">146,896,864.70</p>
-                <p class="desc">最大单户借款余额(万元)</p>
+                <p class="amount">{{proportionOfOutstandingAmountTopTenBorrower}}</p>
+                <p class="desc">前十大借款人待还金额占比</p>
               </li>
               <li>
-                <p class="amount">1,973,316.24</p>
-                <p class="desc">最大十户借款余额占比(万元)</p>
+                <p class="amount">{{proportionOfLargestSingleBorrowerOutstandingAmount}}</p>
+                <p class="desc">最大单一借款人待还金额占比</p>
               </li>
               <li>
-                <p class="amount">0</p>
-                <p class="desc">90天以上累计逾期率</p>
+                <p class="amount">{{numberOfLoanBalancesAmount}}</p>
+                <p class="desc">关联关系借款余额（万元）</p>
               </li>
               <li>
-                <p class="amount">13,316.24</p>
-                <p class="desc">最大单户借款余额占比</p>
+                <p class="amount">{{numberOfLoanBalances}}</p>
+                <p class="desc">关联关系借款余额笔数(笔)</p>
               </li>
               <li>
-                <p class="amount">0</p>
-                <p class="desc">90天以上到期催收金额(万元)</p>
+                <p class="amount">{{overdueAmount}}</p>
+                <p class="desc">逾期金额(出借人到期未到账)(万元)</p>
               </li>
               <li>
-                <p class="amount">0</p>
-                <p class="desc">逾期项目笔数占比</p>
+                <p class="amount">{{overdueCount}}</p>
+                <p class="desc">逾期笔数(出借人到期未到账)(笔)</p>
               </li>
               <li>
-                <p class="amount">1,973,316.24</p>
-                <p class="desc">最大十户借款余额(万元)</p>
+                <p class="amount">{{overdueAmountMoreThan90}}</p>
+                <p class="desc">逾期90天(不含)以上金额(万元)</p>
               </li>
               <li>
-                <p class="amount">0</p>
-                <p class="desc">90天以上逾期率</p>
+                <p class="amount">{{overdueCountMoreThan90}}</p>
+                <p class="desc">逾期90天(不含)以上笔数(笔)</p>
+              </li>
+              <li>
+                <p class="amount">{{accumulativeCompensationAmount}}</p>
+                <p class="desc">累计代偿金额(万元)</p>
+              </li>
+              <li>
+                <p class="amount">{{accumulativeCompensation}}</p>
+                <p class="desc">累计代偿笔数(笔)</p>
+              </li>
+              <li>
+                <p class="amount">{{accumulativeLoanAmountPerCapita}}</p>
+                <p class="desc">人均累计借款金额(元)</p>
+              </li>
+              <li>
+                <p class="amount">{{accumulativeOutLoanAmountPerCapita}}</p>
+                <p class="desc">人均累计出借金额(元)</p>
+              </li>
+              <li>
+                <p class="amount">{{proportionOfLargestSingleLendingBalance}}</p>
+                <p class="desc">最大单户出借余额占比</p>
+              </li>
+              <li>
+                <p class="amount">{{proportionOfLargestTenLendingBalance}}</p>
+                <p class="desc">最大十户出借余额占比</p>
               </li>
             </ul>
           </div>
           <div class="operation-data-item">
             <div class="title">
-              <p class="chart-name">P2P网贷投资终端分布</p>
-              <p class="chart-name">P2P网贷投资人群性别比例</p>
+              <p class="chart-name">P2P网贷出借终端分布</p>
+              <p class="chart-name">P2P网贷出借人群性别比例</p>
             </div>
             <div class="chart-wrap">
               <div class="terminal-chart-wrap">
@@ -228,14 +240,14 @@
                   <ul>
                     <li><h2></h2></li>
                     <li>
-                      <p>34.29%</p>
-                      <span>PC端</span>
+                      <p>{{lendingTerminalDistributeWeb}}%</p>
+                      <span>web端</span>
                     </li>
                   </ul>
                   <ul>
                     <li><h2></h2></li>
                     <li>
-                      <p>65.71%</p>
+                      <p>{{lendingTerminalDistributeMobile}}%</p>
                       <span>移动端</span>
                     </li>
                   </ul>
@@ -247,14 +259,14 @@
                   <ul>
                     <li><img class="man" src="./images/icon_man.png" /></li>
                     <li>
-                      <p>74%</p>
+                      <p>{{lendingGenderDistributeMale}}%</p>
                       <span>男</span>
                     </li>
                   </ul>
                   <ul>
                     <li><img class="women" src="./images/icon_women.png" /></li>
                     <li>
-                      <p>26%</p>
+                      <p>{{lendingGenderDistributeFemale}}%</p>
                       <span>女</span>
                     </li>
                   </ul>
@@ -265,7 +277,7 @@
           <div class="operation-data-item">
             <div class="title">
               <p class="chart-name">P2P网贷出借金额区间的人数占比</p>
-              <p class="chart-name">P2P网贷各年龄段人群投资对比</p>
+              <p class="chart-name">P2P网贷各年龄段人群出借对比</p>
             </div>
             <div class="chart-wrap">
               <div class="amount-chart-wrap">
@@ -274,35 +286,35 @@
                   <ul>
                     <li><h2></h2></li>
                     <li>
-                      <p>46.46%</p>
+                      <p>{{lendingAmountDistribute1}}%</p>
                       <span>1万以下</span>
                     </li>
                   </ul>
                   <ul>
                     <li><h2></h2></li>
                     <li>
-                      <p>40%</p>
+                      <p>{{lendingAmountDistribute5}}%</p>
                       <span>1-5万</span>
                     </li>
                   </ul>
                   <ul>
                     <li><h2></h2></li>
                     <li>
-                      <p>9.56%</p>
+                      <p>{{lendingAmountDistribute10}}%</p>
                       <span>5-10万</span>
                     </li>
                   </ul>
                   <ul>
                     <li><h2></h2></li>
                     <li>
-                      <p>3.16%</p>
+                      <p>{{lendingAmountDistribute20}}%</p>
                       <span>10–20万</span>
                     </li>
                   </ul>
                   <ul>
                     <li><h2></h2></li>
                     <li>
-                      <p>1.01%</p>
+                      <p>{{lendingAmountDistributeAbove20}}%</p>
                       <span>20万以上</span>
                     </li>
                   </ul>
@@ -339,7 +351,7 @@
         </div>
       </div>
       <div class="tab-content" v-if="activeName === 'BAXX'">
-        <el-tabs class="about-us-tab" v-model="recordInfoActiveName" type="border-card" @tab-click="handleRecordInfoClick">
+        <el-tabs class="about-us-tab" v-model="recordInfoActiveName" type="border-card" @tab-click="handleItemClick(recordInfoActiveName)">
           <el-tab-pane label="备案登记信息" name="BADJ"> <div class="content" v-html="content"></div> </el-tab-pane>
           <el-tab-pane label="资金存管信息" name="ZJCG"> <div class="content" v-html="content"></div> </el-tab-pane>
           <el-tab-pane label="风险管理信息" name="FXGL"> <div class="content" v-html="content"></div> </el-tab-pane>
@@ -348,7 +360,7 @@
         </el-tabs>
       </div>
       <div class="tab-content" v-if="activeName === 'CPXG'">
-        <el-tabs class="about-us-tab" v-model="productAboutActiveName" type="border-card" @tab-click="handleProductAboutClick">
+        <el-tabs class="about-us-tab" v-model="productAboutActiveName" type="border-card" @tab-click="handleItemClick(productAboutActiveName)">
           <el-tab-pane label="产品信息" name="CPXXTAB"> <div class="content" v-html="content"></div> </el-tab-pane>
           <el-tab-pane label="资费标准" name="ZFBZ"> <div class="content" v-html="content"></div> </el-tab-pane>
         </el-tabs>
@@ -376,7 +388,7 @@
           class="about-us-tab"
           v-model="policiesActiveName"
           type="border-card"
-          @tab-click="handlePoliciesClick"
+          @tab-click="handleItemClick(policiesActiveName)"
         >
           <el-tab-pane label="法律法规" name="FLFG">
             <div class="laws-wrap">
@@ -389,7 +401,7 @@
                 </li>
               </ul>
             </div>
-            <div class="pagination-wrapper">
+            <div class="pagination-wrapper" v-if="total > 1">
               <pagination
                 v-if="total"
                 :count-page="total"
@@ -398,13 +410,16 @@
                 @handleCurrentChange="handleCurrentChange"
               ></pagination>
             </div>
-            <img src="./images/bg_legal_person.png"/>
+            <img v-if="isShowBg" src="./images/bg_legal_person.png"/>
           </el-tab-pane>
           <el-tab-pane label="出借人教育" name="CJRJY"> <div class="content" v-html="content"></div> </el-tab-pane>
         </el-tabs>
       </div>
       <div class="tab-content" v-if="activeName === 'FRCNH'">
-        <div class="content" v-html="content"></div>
+        <div class="commitment-letter">
+          <img src="./images/bg_commitment_letter.png"/>
+          <img src="./images/bg_legal_person.png"/>
+        </div>
       </div>
     </div>
   </div>
@@ -421,7 +436,7 @@ import 'echarts/lib/component/legend'
 import 'echarts/lib/component/graphic'
 import { getList } from '@/api/djs/announcement'
 import { getOperationalData } from '@/api/djs/infoDisclosure'
-// import pagination from '@/components/pagination/pagination'
+import Pagination from '@/components/pagination/pagination'
 export default {
   data() {
     return {
@@ -540,7 +555,51 @@ export default {
         }
       ],
       lawsList: [],
-      paramCode: ''
+      paramCode: '',
+      isShowBg: false,
+      accumulatedLoanAmount: '',
+      accumulativeCompensation: '',
+      accumulativeCompensationAmount: '',
+      accumulativeLoanAmountPerCapita: '',
+      accumulativeLoanCount: '',
+      accumulativeOutLoanAmountPerCapita: '',
+      creditBalance: '',
+      cumulativeNumberOfBorrower: '',
+      cumulativeNumberOfLender: '',
+      currentNumberOfBorrower: '',
+      currentNumberOfLender: '',
+      lendingAgeDistributeAmount18: '',
+      lendingAgeDistributeAmount20: '',
+      lendingAgeDistributeAmount30: '',
+      lendingAgeDistributeAmount40: '',
+      lendingAgeDistributeAmount50: '',
+      lendingAgeDistributePer18: '',
+      lendingAgeDistributePer20: '',
+      lendingAgeDistributePer30: '',
+      lendingAgeDistributePer40: '',
+      lendingAgeDistributePer50: '',
+      lendingAmountDistribute1: '',
+      lendingAmountDistribute5: '',
+      lendingAmountDistribute10: '',
+      lendingAmountDistribute20: '',
+      lendingAmountDistributeAbove20: '',
+      lendingGenderDistributeFemale: '',
+      lendingGenderDistributeMale: '',
+      lendingTerminalDistributeMobile: '',
+      lendingTerminalDistributeWeb: '',
+      loanBalanceCount: '',
+      loanStatisticsEndTime: '',
+      numberOfLoanBalances: '',
+      numberOfLoanBalancesAmount: '',
+      overdueAmount: '',
+      overdueAmountMoreThan90: '',
+      overdueCount: '',
+      overdueCountMoreThan90: '',
+      platformDataStatisticsEndTime: '',
+      proportionOfLargestSingleBorrowerOutstandingAmount: '',
+      proportionOfLargestSingleLendingBalance: '',
+      proportionOfLargestTenLendingBalance: '',
+      proportionOfOutstandingAmountTopTenBorrower: ''
     }
   },
   methods: {
@@ -548,9 +607,10 @@ export default {
       this.page = 1
       if (this.activeName === 'GYWM') {
         this.aboutUsActiveName = 'GSJJ'
-        this.handleAboutUsClick()
+        this.handleItemClick(this.aboutUsActiveName)
       }
       if (this.activeName === 'YYSJ') {
+        //this.handleItemClick(this.activeName)
         this.handleOperationalData()
         setTimeout(() => {
           const terminalChart = echarts.init(document.getElementById('terminal-chart'))
@@ -567,7 +627,7 @@ export default {
               y: 'center',
               itemWidth: 10,
               itemHeight: 10,
-              data: ['PC端', '移动端']
+              data: ['web端', '移动端']
             },
             series: [
               {
@@ -593,7 +653,10 @@ export default {
                     show: false
                   }
                 },
-                data: [{ value: 26, name: 'PC端' }, { value: 74, name: '移动端' }]
+                data: [
+                  { value: parseFloat(this.lendingTerminalDistributeMobile), name: 'web端' },
+                  { value: parseFloat(this.lendingTerminalDistributeWeb), name: '移动端' }
+                ]
               }
             ]
           })
@@ -611,7 +674,7 @@ export default {
               y: 'center',
               itemWidth: 10,
               itemHeight: 10,
-              data: ['女', '男']
+              data: ['男', '女']
             },
             series: [
               {
@@ -637,7 +700,10 @@ export default {
                     show: false
                   }
                 },
-                data: [{ value: 26, name: '女' }, { value: 74, name: '男' }]
+                data: [
+                  { value: parseFloat(this.lendingGenderDistributeMale), name: '男' },
+                  { value: parseFloat(this.lendingGenderDistributeFemale), name: '女' }
+                ]
               }
             ]
           })
@@ -682,11 +748,11 @@ export default {
                   }
                 },
                 data: [
-                  { value: 46.46, name: '1万以下' },
-                  { value: 40, name: '1-5万' },
-                  { value: 9.56, name: '5-10万' },
-                  { value: 3.16, name: '10–20万' },
-                  { value: 1.01, name: '20万以上' }
+                  { value: parseFloat(this.lendingAmountDistribute1), name: '1万以下' },
+                  { value: parseFloat(this.lendingAmountDistribute5), name: '1-5万' },
+                  { value: parseFloat(this.lendingAmountDistribute10), name: '5-10万' },
+                  { value: parseFloat(this.lendingAmountDistribute20), name: '10–20万' },
+                  { value: parseFloat(this.lendingAmountDistributeAbove20), name: '20万以上' }
                 ]
               }
             ]
@@ -751,7 +817,13 @@ export default {
                 name: '投资金额',
                 type: 'bar',
                 barWidth: '40%',
-                data: [5.4, 3257.97, 10983.27, 3395.09, 7172.25],
+                data: [
+                  parseFloat(this.lendingAgeDistributeAmount18),
+                  parseFloat(this.lendingAgeDistributeAmount20),
+                  parseFloat(this.lendingAgeDistributeAmount30),
+                  parseFloat(this.lendingAgeDistributeAmount40),
+                  parseFloat(this.lendingAgeDistributeAmount50)
+                ],
                 tooltip: {
                   valueSuffix: '万'
                 },
@@ -767,7 +839,13 @@ export default {
                 barWidth: '60%',
                 yAxisIndex: 1,
                 smooth: true,
-                data: [0.2, 34.56, 38.36, 11.14, 15.74],
+                data: [
+                  parseFloat(this.lendingAgeDistributePer18),
+                  parseFloat(this.lendingAgeDistributePer20),
+                  parseFloat(this.lendingAgeDistributePer30),
+                  parseFloat(this.lendingAgeDistributePer40),
+                  parseFloat(this.lendingAgeDistributePer50)
+                ],
                 itemStyle: {
                   normal: {
                     color: ['#FF5178']
@@ -780,22 +858,20 @@ export default {
       }
       if (this.activeName === 'BAXX') {
         this.recordInfoActiveName = 'BADJ'
-        this.handleRecordInfoClick()
+        this.handleItemClick(this.recordInfoActiveName)
       }
       if (this.activeName === 'CPXG') {
         this.productAboutActiveName = 'CPXXTAB'
-        this.handleProductAboutClick()
+        this.handleItemClick(this.productAboutActiveName)
       }
       if (this.activeName === 'ZCFG') {
         this.policiesActiveName = 'FLFG'
-        this.handlePoliciesClick()
-      }
-      if (this.activeName === 'FRCNH') {
-        this.handleCommitmentLetterClick()
+        this.handleItemClick(this.policiesActiveName)
       }
     },
-    handleAboutUsClick() {
-      if (this.aboutUsActiveName === 'GSGL' && !this.paramCode) {
+    handleItemClick(tabItem) {
+      this.paramCode = ''
+      if (tabItem === 'GSGL' && !this.paramCode) {
         setTimeout(() => {
           const ageChart = echarts.init(document.getElementById('age-chart'))
           ageChart.setOption({
@@ -852,7 +928,6 @@ export default {
             ]
           })
           const educationChart = echarts.init(document.getElementById('education-chart'))
-          console.log('educationChart===', educationChart)
           educationChart.setOption({
             tooltip: {
               trigger: 'item',
@@ -905,12 +980,18 @@ export default {
       let postData = {
         curPage: this.page,
         maxLine: this.size,
-        paramCode: this.aboutUsActiveName
+        paramCode: tabItem
       }
       getList(postData).then(res => {
         let data = res.data
         if (data.zxdtMtbdlist.length > 0) {
           this.content = data.zxdtMtbdlist[0].content
+          if (tabItem === 'FLFG') {
+            this.lawsList = data.zxdtMtbdlist
+            this.total = parseInt(data.countPage)
+            this.page = parseInt(data.curPage)
+            this.isShowBg = true
+          }
         }
       })
     },
@@ -935,93 +1016,82 @@ export default {
     },
     handleOperationalData() {
       getOperationalData().then(res => {
-        let data = res.data
-        console.log('data=====', data)
-      })
-    },
-    handleRecordInfoClick() {
-      let postData = {
-        curPage: this.page,
-        maxLine: this.size,
-        paramCode: this.recordInfoActiveName
-      }
-      getList(postData).then(res => {
-        let data = res.data
-        if (data.zxdtMtbdlist.length > 0) {
-          this.content = data.zxdtMtbdlist[0].content
-        }
-      })
-    },
-    handleProductAboutClick() {
-      let postData = {
-        curPage: this.page,
-        maxLine: this.size,
-        paramCode: this.productAboutActiveName
-      }
-      getList(postData).then(res => {
-        let data = res.data
-        if (data.zxdtMtbdlist.length > 0) {
-          this.content = data.zxdtMtbdlist[0].content
-        }
+        let data = res.data.data
+        this.accumulatedLoanAmount = data.accumulatedLoanAmount
+        this.accumulativeCompensation = data.accumulativeCompensation
+        this.accumulativeCompensationAmount = data.accumulativeCompensationAmount
+        this.accumulativeLoanAmountPerCapita = data.accumulativeLoanAmountPerCapita
+        this.accumulativeLoanCount = data.accumulativeLoanCount
+        this.accumulativeOutLoanAmountPerCapita = data.accumulativeOutLoanAmountPerCapita
+        this.creditBalance = data.creditBalance
+        this.cumulativeNumberOfBorrower = data.cumulativeNumberOfBorrower
+        this.cumulativeNumberOfLender = data.cumulativeNumberOfLender
+        this.currentNumberOfBorrower = data.currentNumberOfBorrower
+        this.currentNumberOfLender = data.currentNumberOfLender
+        this.lendingAgeDistributeAmount18 = data.lendingAgeDistributeAmount18
+        this.lendingAgeDistributeAmount20 = data.lendingAgeDistributeAmount20
+        this.lendingAgeDistributeAmount30 = data.lendingAgeDistributeAmount30
+        this.lendingAgeDistributeAmount40 = data.lendingAgeDistributeAmount40
+        this.lendingAgeDistributeAmount50 = data.lendingAgeDistributeAmount50
+        this.lendingAgeDistributePer18 = data.lendingAgeDistributePer18
+        this.lendingAgeDistributePer20 = data.lendingAgeDistributePer20
+        this.lendingAgeDistributePer30 = data.lendingAgeDistributePer30
+        this.lendingAgeDistributePer40 = data.lendingAgeDistributePer40
+        this.lendingAgeDistributePer50 = data.lendingAgeDistributePer50
+        this.lendingAmountDistribute1 = data.lendingAmountDistribute1
+        this.lendingAmountDistribute5 = data.lendingAmountDistribute5
+        this.lendingAmountDistribute10 = data.lendingAmountDistribute10
+        this.lendingAmountDistribute20 = data.lendingAmountDistribute20
+        this.lendingAmountDistributeAbove20 = data.lendingAmountDistributeAbove20
+        this.lendingGenderDistributeFemale = data.lendingGenderDistributeFemale
+        this.lendingGenderDistributeMale = data.lendingGenderDistributeMale
+        this.lendingTerminalDistributeMobile = data.lendingTerminalDistributeMobile
+        this.lendingTerminalDistributeWeb = data.lendingTerminalDistributeWeb
+        this.loanBalanceCount = data.loanBalanceCount
+        this.loanStatisticsEndTime = data.loanStatisticsEndTime
+        this.numberOfLoanBalances = data.numberOfLoanBalances
+        this.numberOfLoanBalancesAmount = data.numberOfLoanBalancesAmount
+        this.overdueAmount = data.overdueAmount
+        this.overdueAmountMoreThan90 = data.overdueAmountMoreThan90
+        this.overdueCount = data.overdueCount
+        this.overdueCountMoreThan90 = data.overdueCountMoreThan90
+        this.platformDataStatisticsEndTime = data.platformDataStatisticsEndTime
+        this.proportionOfLargestSingleBorrowerOutstandingAmount = data.proportionOfLargestSingleBorrowerOutstandingAmount
+        this.proportionOfLargestSingleLendingBalance = data.proportionOfLargestSingleLendingBalance
+        this.proportionOfLargestTenLendingBalance = data.proportionOfLargestTenLendingBalance
+        this.proportionOfOutstandingAmountTopTenBorrower = data.proportionOfOutstandingAmountTopTenBorrower
       })
     },
     openPDF(url) {
       window.open(`/pdf/${url}`)
     },
-    handlePoliciesClick() {
-      this.content = ''
-      let postData = {
-        curPage: this.page,
-        maxLine: this.size,
-        paramCode: this.policiesActiveName
-      }
-      getList(postData).then(res => {
-        let data = res.data
-        this.lawsList = data.zxdtMtbdlist
-        this.total = parseInt(data.countPage)
-        this.page = parseInt(data.curPage)
-        if (data.zxdtMtbdlist.length > 0) {
-          this.content = data.zxdtMtbdlist[0].content
-        }
-      })
-    },
     handleCurrentChange(val) {
       this.page = val
       this.handlePoliciesClick()
     },
-    handleCommitmentLetterClick() {
-      this.content = ''
-      let postData = {
-        curPage: this.page,
-        maxLine: this.size,
-        paramCode: 'FRCNH'
+    init() {
+      if (this.$route.query.paramCode === 'LXWM' || this.$route.query.paramCode === 'PTXX') {
+        this.aboutUsActiveName = 'GSGL'
       }
-      getList(postData).then(res => {
-        let data = res.data
-        this.lawsList = data.zxdtMtbdlist
-        this.total = parseInt(data.countPage)
-        this.page = parseInt(data.curPage)
-        if (data.zxdtMtbdlist.length > 0) {
-          this.content = data.zxdtMtbdlist[0].content
-        }
-      })
-    }
-  },
-  mounted() {
-    //this.aboutUsActiveName = 'GSJJ'
-    this.paramCode = this.$route.query.paramCode
-    this.aboutUsActiveName = this.$route.query.paramCode ? 'GSGL' : 'GSJJ'
-    this.handleAboutUsClick()
-  },
-  watch: {
-    $route() {
-      // 刷新参数放到这里里面去触发就可以刷新相同界面了
+      if (this.$route.query.paramCode === 'HZHB') {
+        this.aboutUsActiveName = 'HZHB'
+      }
+      if (this.$route.query.paramCode === 'FZSJ') {
+        this.aboutUsActiveName = 'FZSJ'
+      }
+      if (this.$route.query.paramCode === 'ZZRY') {
+        this.aboutUsActiveName = 'ZZRY'
+      }
+      if (this.$route.query.paramCode === 'CJRJY') {
+        this.activeName = 'ZCFG'
+        this.policiesActiveName = 'CJRJY'
+      }
       this.paramCode = this.$route.query.paramCode
       if (this.paramCode) {
         let postData = {
           curPage: this.page,
           maxLine: this.size,
-          paramCode: 'LXWM'
+          paramCode: this.paramCode
         }
         getList(postData).then(res => {
           let data = res.data
@@ -1029,9 +1099,21 @@ export default {
             this.content = data.zxdtMtbdlist[0].content
           }
         })
+      } else {
+        this.handleItemClick(this.aboutUsActiveName)
       }
-      this.aboutUsActiveName = this.$route.query.paramCode ? 'GSGL' : 'GSJJ'
-      this.handleAboutUsClick()
+    }
+  },
+  mounted() {
+    this.init()
+  },
+  components: {
+    Pagination
+  },
+  watch: {
+    $route() {
+      // 刷新参数放到这里里面去触发就可以刷新相同界面了
+      this.init()
     }
   }
 }
@@ -1431,8 +1513,8 @@ export default {
           display: flex;
           flex-wrap: wrap;
           li {
-            width: 155px;
-            margin-right: 216px;
+            width: 190px;
+            margin-right: 154px;
             margin-bottom: 32px;
             .amount {
               font-size: $font-size-medium;
@@ -1785,6 +1867,17 @@ export default {
           margin-bottom: 15px;
         }
       }
+    }
+    .commitment-letter {
+      width: 1140px;
+      margin: 0 auto;
+      img {
+        margin-bottom: 10px;
+      }
+    }
+    .content {
+      margin: 20px;
+      min-height: 265px;
     }
   }
 }

@@ -55,3 +55,19 @@ export function setLoginUsername(username) {
 export function getLoginUsername() {
   return Cookies.get('loginUsername')
 }
+
+export function setInvTotalAmt(invTotalAmt) {
+  Cookies.set('invTotalAmt', invTotalAmt)
+}
+
+export function getInvTotalAmt() {
+  return Cookies.get('invTotalAmt')
+}
+
+export function setTackBackInt(tackBackInt) {
+  Cookies.set('tackBackInt', tackBackInt)
+}
+
+export function getTackBackInt() {
+  return Cookies.get('tackBackInt')
+}

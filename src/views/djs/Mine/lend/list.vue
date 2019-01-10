@@ -61,7 +61,7 @@
 <script>
 import Pagination from '@/components/pagination/pagination'
 import { userProjectList, userProjectDetail } from '@/api/djs/Mine/lend'
-import { mapGetters } from 'vuex'
+import { mapGetters, mapMutations } from 'vuex'
 
 export default {
   name: 'list',
@@ -98,9 +98,15 @@ export default {
       userProjectList({ userName: this.user.userName }).then(res => {
         if (res.data.resultCode === '1') {
           this.InvestingList = res.data.list
+          this.setInvTotalAmt(res.data.invTotalAmt)
+          this.setTackBackInt(res.data.tackBackInt)
         }
       })
-    }
+    },
+    ...mapMutations({
+      setInvTotalAmt: 'SET_INVTOTALAMT',
+      setTackBackInt: 'SET_TACKBACKINT'
+    })
   },
   created() {
     this.getInvestingList()

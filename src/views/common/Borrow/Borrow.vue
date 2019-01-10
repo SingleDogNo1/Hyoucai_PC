@@ -1,6 +1,6 @@
 <template>
   <div class="borrow">
-    <img src="./banner.png" alt="" class="banner" />
+    <img src="./banner.png" alt class="banner">
     <div class="block advantage">
       <h3>我们的优势</h3>
       <ul>
@@ -21,40 +21,49 @@
         </li>
       </ul>
     </div>
-    <div class="block intro">
-      <h3>借款产品</h3>
-      <div class="detail">
-        <div class="left"><img alt="" src="./qianbaik_ico.png" /></div>
-        <div class="right">
-          <div class="title"><span>仟佰快</span> <button>分期还款</button></div>
-          <div>
-            <p>贷款对象：</p>
-            <span>有消费需求的客户</span>
+    <div class="intro-wrap">
+      <div class="block intro">
+        <h3>借款产品</h3>
+        <div class="detail">
+          <div class="left">
+            <img alt src="./qianbaik_ico.png">
           </div>
-          <div>
-            <p>贷款条件：</p>
-            <span>年龄在25到36岁，有固定收入或经济偿还能力的完全民事行为能力的自然人（大学生除外）</span>
-          </div>
-          <div class="operable">
-            <p>贷款额度：</p>
-            <em>{{ amount }}</em> <span>元</span> <button :class="['add', { disable: isMax }]" @click="addAmount"></button>
-            <button :class="['del', { disable: isMin }]" @click="delAmount"></button>
-          </div>
-          <div>
-            <p>借款期限：</p>
-            <span>3个月</span>
-            <p style="margin-left: 70px;">贷款服务费率：</p>
-            <span>8%</span>
-          </div>
-          <div>
-            <p>借款年化：</p>
-            <span>10%</span>
-            <p style="margin-left: 78px">每月应还本息：</p>
-            <span>{{ repayAmt }}元</span>
-          </div>
-          <div>
-            <p>每月应还服务费：</p>
-            <span>{{ serviceAmt }}元</span>
+          <div class="right">
+            <div class="title">
+              <span>仟佰快</span>
+              <button>分期还款</button>
+            </div>
+            <div>
+              <p>贷款对象：</p>
+              <span>有消费需求的客户</span>
+            </div>
+            <div>
+              <p>贷款条件：</p>
+              <span>年龄在25到36岁，有固定收入或经济偿还能力的完全民事行为能力的自然人（大学生除外）</span>
+            </div>
+            <div class="operable">
+              <p>贷款额度：</p>
+              <em>{{ amount }}</em>
+              <span>元</span>
+              <button :class="['add', { disable: isMax }]" @click="addAmount"></button>
+              <button :class="['del', { disable: isMin }]" @click="delAmount"></button>
+            </div>
+            <div>
+              <p>借款期限：</p>
+              <span>3个月</span>
+              <p style="margin-left: 70px;">贷款服务费率：</p>
+              <span>8%</span>
+            </div>
+            <div>
+              <p>借款年化：</p>
+              <span>10%</span>
+              <p style="margin-left: 78px">每月应还本息：</p>
+              <span>{{ repayAmt }}元</span>
+            </div>
+            <div>
+              <p>每月应还服务费：</p>
+              <span>{{ serviceAmt }}元</span>
+            </div>
           </div>
         </div>
       </div>
@@ -121,6 +130,7 @@ export default {
 @import '../../../assets/css/theme';
 
 .borrow {
+  background: #fff;
   .banner {
     font-size: 0;
     width: 100%;
@@ -171,75 +181,79 @@ export default {
       }
     }
   }
-  .intro {
-    margin-bottom: 45px;
-    h3 {
-      margin-bottom: 40px;
-    }
-    .detail {
-      display: flex;
-      .left {
-        margin-right: 40px;
+  .intro-wrap {
+    background: #fafafa;
+    .intro {
+      padding-top: 45px;
+      padding-bottom: 45px;
+      h3 {
+        margin-bottom: 40px;
       }
-      .right {
-        .title {
-          font-size: $font-size-large-xxx;
-          color: $color-text;
-          margin-bottom: 15px;
-          button {
-            box-sizing: border-box;
-            width: 90px;
-            height: 30px;
-            border-radius: 6px;
-            border: 1px solid $color-theme;
-            transform: translateY(-4px);
-            margin-left: 10px;
-            background: transparent;
-            color: $color-theme;
+      .detail {
+        display: flex;
+        .left {
+          margin-right: 40px;
+        }
+        .right {
+          .title {
+            font-size: $font-size-large-xxx;
+            color: $color-text;
+            margin-bottom: 15px;
+            button {
+              box-sizing: border-box;
+              width: 90px;
+              height: 30px;
+              border-radius: 6px;
+              border: 1px solid $color-theme;
+              transform: translateY(-4px);
+              margin-left: 10px;
+              background: transparent;
+              color: $color-theme;
+            }
           }
-        }
-        p {
-          display: inline-block;
-          color: $color-text-s;
-        }
-        span {
-          color: $color-text;
-        }
-        .operable {
-          display: flex;
-          align-items: center;
-          em {
+          p {
             display: inline-block;
-            font-weight: normal;
-            width: 70px;
-            height: 28px;
-            text-align: center;
-            line-height: 28px;
-            background: #fff;
-            border-radius: 4px;
-            border: 1px solid #cdcdcd;
-          }
-          span {
-            margin: 0 7px;
-            font-size: $font-size-small-ss;
             color: $color-text-s;
           }
-          button {
-            @include square(28px);
-            background: #000;
-            margin-right: 12px;
-            background-size: contain;
-            &.add {
-              background-image: url('./add.png');
+          span {
+            color: $color-text;
+          }
+          .operable {
+            display: flex;
+            align-items: center;
+            em {
+              display: inline-block;
+              font-weight: normal;
+              width: 70px;
+              height: 28px;
+              text-align: center;
+              line-height: 28px;
+              background: #fff;
+              border-radius: 4px;
+              border: 1px solid #cdcdcd;
             }
-            &.add.disable {
-              background-image: url('./add-disable.png');
+            span {
+              margin: 0 7px;
+              font-size: $font-size-small-ss;
+              color: $color-text-s;
             }
-            &.del {
-              background-image: url('./del.png');
-            }
-            &.del.disable {
-              background-image: url('./del-disable.png');
+            button {
+              @include square(28px);
+              background: #000;
+              margin-right: 12px;
+              background-size: contain;
+              &.add {
+                background-image: url('./add.png');
+              }
+              &.add.disable {
+                background-image: url('./add-disable.png');
+              }
+              &.del {
+                background-image: url('./del.png');
+              }
+              &.del.disable {
+                background-image: url('./del-disable.png');
+              }
             }
           }
         }
