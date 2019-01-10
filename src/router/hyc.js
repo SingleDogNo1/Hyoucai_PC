@@ -213,7 +213,7 @@ export default new Router({
       ]
     },
     {
-      path: '/announcement',
+      path: '/announcement', // 网站公告
       component: Layout,
       children: [
         {
@@ -286,6 +286,17 @@ export default new Router({
           path: '', // 签约
           name: 'sign',
           component: () => import(/* webpackChunkName: "register" */ '@/views/common/signContract/index.vue')
+        }
+      ]
+    },
+    {
+      path: '/', // 风险测评
+      component: Layout,
+      children: [
+        {
+          path: 'riskAss',
+          name: 'riskAss',
+          component: () => import(/* webpackChunkName: "riskAss" */ '@/views/common/RiskAssessment/index.vue')
         }
       ]
     }
