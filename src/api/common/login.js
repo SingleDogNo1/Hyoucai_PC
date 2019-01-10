@@ -5,9 +5,6 @@ function userLogin(data) {
   return request({
     url: '/UserLogin',
     method: 'post',
-    headers: {
-      version: '2.0'
-    },
     data: qs.stringify(data)
   })
 }
