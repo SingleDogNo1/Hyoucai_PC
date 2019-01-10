@@ -1016,8 +1016,7 @@ export default {
     },
     handleOperationalData() {
       getOperationalData().then(res => {
-        let data = res.data.data.data
-        console.log('data===', data)
+        let data = res.data.data
         this.accumulatedLoanAmount = data.accumulatedLoanAmount
         this.accumulativeCompensation = data.accumulativeCompensation
         this.accumulativeCompensationAmount = data.accumulativeCompensationAmount
@@ -1082,6 +1081,10 @@ export default {
       }
       if (this.$route.query.paramCode === 'ZZRY') {
         this.aboutUsActiveName = 'ZZRY'
+      }
+      if(this.$route.query.paramCode === 'CJRJY') {
+        this.activeName = 'ZCFG'
+        this.policiesActiveName = 'CJRJY'
       }
       this.paramCode = this.$route.query.paramCode
       if (this.paramCode) {
@@ -1874,6 +1877,7 @@ export default {
     }
     .content {
       margin: 20px;
+      min-height: 265px;
     }
   }
 }

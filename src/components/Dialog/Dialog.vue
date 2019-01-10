@@ -63,6 +63,7 @@ export default {
         return () => {}
       }
     },
+    // 是否点击确认禁止关闭弹窗
     preventClose: {
       type: Boolean,
       default: false
