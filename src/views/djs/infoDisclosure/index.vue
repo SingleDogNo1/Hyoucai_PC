@@ -1082,7 +1082,7 @@ export default {
       if (this.$route.query.paramCode === 'ZZRY') {
         this.aboutUsActiveName = 'ZZRY'
       }
-      if(this.$route.query.paramCode === 'CJRJY') {
+      if (this.$route.query.paramCode === 'CJRJY') {
         this.activeName = 'ZCFG'
         this.policiesActiveName = 'CJRJY'
       }

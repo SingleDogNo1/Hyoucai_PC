@@ -1,9 +1,9 @@
 import request from '@/assets/js/requestHYC'
 import qs from 'qs'
-// 风险评测
-export function safetyMeasuresApi(data) {
+// 安全措施
+export function zxdtMtbdMsg(data) {
   return request({
-    url: '/user/saveEvaluatingResult',
+    url: '/ZxdtMtbdMsg',
     method: 'post',
     headers: { 'Content-type': 'application/x-www-form-urlencoded' },
     data: qs.stringify(data)
