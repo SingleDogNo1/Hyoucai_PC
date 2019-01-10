@@ -52,7 +52,8 @@ export default new Router({
         {
           path: 'lend',
           name: 'lend',
-          component: () => import(/* webpackChunkName: "lend" */ '@/views/djs/lend/lend.vue')
+          component: () => import(/* webpackChunkName: "lend" */ '@/views/djs/lend/lend.vue'),
+          props: route => ({ redPacketId: route.query.redPacketId, couponId: route.query.couponId })
         }
       ]
     },
@@ -171,7 +172,7 @@ export default new Router({
         {
           path: 'addBankCard',
           name: 'addBankCard',
-          component: () => import(/* webpackChunkName: "lend" */ '@/views/djs/addBankCard/addBankCard.vue')
+          component: () => import(/* webpackChunkName: "addBankCard" */ '@/views/djs/addBankCard/addBankCard.vue')
         }
       ]
     },

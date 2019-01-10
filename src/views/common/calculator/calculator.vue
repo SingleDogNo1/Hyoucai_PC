@@ -70,6 +70,7 @@
 
 <script>
 import { calculator } from '@/api/common/calculator'
+import { getRetBaseURL } from '@/assets/js/utils'
 
 const ERR_OK = '1'
 export default {
@@ -95,7 +96,8 @@ export default {
       termType: 1,
       expectedRevenue: 0,
       totalSum: 0,
-      tableData: []
+      tableData: [],
+      system: getRetBaseURL()
     }
   },
   watch: {
@@ -186,6 +188,32 @@ export default {
       this.expectedRevenue = 0
       this.totalSum = 0
       this.tableData = []
+    }
+  },
+  created() {
+    let system = this.system
+    if (system.indexOf('djs') > 0) {
+      // 点金石
+      this.calculator.type = 2
+      this.types = [
+        {
+          label: '先息后本',
+          value: 2
+        }
+      ]
+    } else {
+      // 汇有财
+      this.calculator.type = 1
+      this.types = [
+        {
+          label: '等额本息',
+          value: 1
+        },
+        {
+          label: '先息后本',
+          value: 2
+        }
+      ]
     }
   }
 }
