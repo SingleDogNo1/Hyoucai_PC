@@ -288,6 +288,22 @@ export default new Router({
           component: () => import(/* webpackChunkName: "register" */ '@/views/common/signContract/index.vue')
         }
       ]
+    },
+    {
+      path: '/agreement',
+      component: Layout,
+      children: [
+        {
+          path: 'register', // 注册协议
+          name: 'registerAgreement',
+          component: () => import('@/views/common/agreement/register')
+        },
+        {
+          path: 'businessAuth', // 业务授权协议
+          name: 'businessAuthAgreement',
+          component: () => import('@/views/common/agreement/businessAuth')
+        }
+      ]
     }
   ]
 })

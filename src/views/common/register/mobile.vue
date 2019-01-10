@@ -10,7 +10,7 @@
         <el-button type="primary" @click="nextStep">下一步</el-button>
         <p class="agreement-tip">
           <i class="iconfont" :class="{ 'icon-choose': !agree, 'icon-check': agree }" @click="agree = !agree"></i> 同意
-          <router-link class="link" to="/register/agreement">《汇有财注册协议》</router-link>
+          <router-link class="link" to="/agreement/register">《汇有财注册协议》</router-link>
         </p>
         <p class="have-account">已有汇有财账号？<router-link class="link" to="/login">立即登录</router-link></p>
       </div>

@@ -1,5 +1,7 @@
 import axios from 'axios'
 import { getAuth } from './utils'
+import store from '@/store'
+
 const service = axios.create({
   baseURL: process.env.VUE_APP_BASE_DJS_API,
   timeout: 5000,
@@ -24,7 +26,17 @@ service.interceptors.request.use(
 )
 
 service.interceptors.response.use(
-  response => response,
+  response => {
+    const res = response.data
+    if (res && ['505', '506'].includes(res.resultCode)) {
+      store.dispatch('logout').then(() => {
+        //location.href = '/'
+      })
+      return Promise.reject('error')
+    } else {
+      return response
+    }
+  },
   error => {
     console.log(error.response.data.resultMsg)
     return Promise.reject(error)

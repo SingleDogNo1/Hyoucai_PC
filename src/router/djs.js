@@ -297,13 +297,28 @@ export default new Router({
       ]
     },
     {
-      path: '/agreement', // 自动出借
+      path: '/agreement',
       component: Layout,
       children: [
         {
-          path: 'autoLend',
+          path: 'register', // 注册协议
+          name: 'registerAgreement',
+          component: () => import('@/views/common/agreement/register')
+        },
+        {
+          path: 'businessAuth', // 业务授权协议
+          name: 'businessAuthAgreement',
+          component: () => import('@/views/common/agreement/businessAuth')
+        },
+        {
+          path: 'autoLend', // 自动出借
           name: 'autoLendAgreement',
-          component: () => import('@/views/djs/Mine/autoLend/agreement')
+          component: () => import('@/views/djs/agreement/autoLend')
+        },
+        {
+          path: 'debtAssignment', // 债权转让
+          name: 'debtAssignmentAgreement',
+          component: () => import('@/views/djs/agreement/debtAssignment')
         }
       ]
     },
