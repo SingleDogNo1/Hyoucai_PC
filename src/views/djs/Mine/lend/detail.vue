@@ -1,66 +1,80 @@
 <template>
   <div class="lend-list">
     <ul class="tab">
-      <li class="tab-item" @click="tabIndex=0" :class="{'active': tabIndex === 0}">出借期数</li>
-      <li class="tab-item" @click="tabIndex=1" :class="{'active': tabIndex === 1}">债权列表</li>
+      <li class="tab-item" @click="tabIndex = 0" :class="{ active: tabIndex === 0 }">出借期数</li>
+      <li class="tab-item" @click="tabIndex = 1" :class="{ active: tabIndex === 1 }">债权列表</li>
     </ul>
     <div class="table-container" v-if="tabIndex === 0">
       <table>
         <thead>
-        <tr>
-          <th>累计利息收益(元)</th>
-          <th>待收利息(元)</th>
-          <th>加入日期</th>
-          <th>到期时间</th>
-          <th>出借本金(元)</th>
-          <th>操作</th>
-        </tr>
+          <tr>
+            <th>累计利息收益(元)</th>
+            <th>待收利息(元)</th>
+            <th>加入日期</th>
+            <th>到期时间</th>
+            <th>出借本金(元)</th>
+            <th>操作</th>
+          </tr>
         </thead>
         <tbody>
-        <tr v-for="item in listDetail" :key="item.id">
-          <td>{{item.takeBackInterest}}元</td>
-          <td>{{item.waitAllBackInterest }}</td>
-          <td>{{item.intSumStartDate.split(" ")[0]}}</td>
-          <td>{{item.invOverDate}}</td>
-          <td>{{item.totalPrinAmount }}元</td>
-          <td>
-            <span v-if="item.isRedeem === '1' && item.invStatus !=='INVZ' && item.invStatus !=='INPZ'  && item.item.invStatus !=='INVY'" class="active" @click="handleTransfer(item.id)">赎回</span>
-            <span v-if="item.isRedeem === '1' && item.invStatus ==='INVZ'">转让中</span>
-            <span v-if="item.isRedeem === '1' && item.invStatus ==='INPZ'">债权匹配中</span>
-            <span v-if="item.isRedeem === '1' && item.invStatus ==='INVY'">投资完成</span>
-            <span v-if="item.isRedeem === '0'">非转让项目</span>
-          </td>
-        </tr>
+          <tr v-for="item in listDetail" :key="item.id">
+            <td>{{ item.takeBackInterest }}元</td>
+            <td>{{ item.waitAllBackInterest }}</td>
+            <td>{{ item.intSumStartDate.split(' ')[0] }}</td>
+            <td>{{ item.invOverDate }}</td>
+            <td>{{ item.totalPrinAmount }}元</td>
+            <td>
+              <span
+                v-if="item.isRedeem === '1' && item.invStatus !== 'INVZ' && item.invStatus !== 'INPZ' && item.item.invStatus !== 'INVY'"
+                class="active"
+                @click="handleTransfer(item.id)"
+                >赎回</span
+              >
+              <span v-if="item.isRedeem === '1' && item.invStatus === 'INVZ'">转让中</span>
+              <span v-if="item.isRedeem === '1' && item.invStatus === 'INPZ'">债权匹配中</span>
+              <span v-if="item.isRedeem === '1' && item.invStatus === 'INVY'">投资完成</span> <span v-if="item.isRedeem === '0'">非转让项目</span>
+            </td>
+          </tr>
         </tbody>
       </table>
-      <Pagination v-show="totalDetail>0" class="pagination" :count-page="totalDetail" :cur-page="listQueryDetail.page" @handleCurrentChange = "handleCurrentChange"></Pagination>
+      <Pagination
+        v-show="totalDetail > 0"
+        class="pagination"
+        :count-page="totalDetail"
+        :cur-page="listQueryDetail.page"
+        @handleCurrentChange="handleCurrentChange"
+      ></Pagination>
     </div>
     <div class="table-container" v-if="tabIndex === 1">
       <table>
         <thead>
-        <tr>
-          <th>流水号</th>
-          <th>借款人约定的借款利率</th>
-          <th>借款金额(元)</th>
-          <th>还款状态</th>
-          <th>还款进度</th>
-          <th>操作</th>
-        </tr>
+          <tr>
+            <th>流水号</th>
+            <th>借款人约定的借款利率</th>
+            <th>借款金额(元)</th>
+            <th>还款状态</th>
+            <th>还款进度</th>
+            <th>操作</th>
+          </tr>
         </thead>
         <tbody>
-        <tr v-for="item in listZQ" :key="item.id">
-          <td>{{item.applicationNo}}元</td>
-          <td>{{item.investRate }}%</td>
-          <td>{{item.invAmt}}</td>
-          <td>{{item.repaymentStatus}}</td>
-          <td>{{item.numberPeriod }}/ {{item.repaymentPeriod}}</td>
-          <td>
-            <a @click="showZQDetail(item)">查看</a>
-          </td>
-        </tr>
+          <tr v-for="item in listZQ" :key="item.id">
+            <td>{{ item.applicationNo }}元</td>
+            <td>{{ item.investRate }}%</td>
+            <td>{{ item.invAmt }}</td>
+            <td>{{ item.repaymentStatus }}</td>
+            <td>{{ item.numberPeriod }}/ {{ item.repaymentPeriod }}</td>
+            <td><a @click="showZQDetail(item)">查看</a></td>
+          </tr>
         </tbody>
       </table>
-      <Pagination v-show="totalZQ>0" class="pagination" :count-page="totalZQ" :cur-page="listQueryZQ.page" @handleCurrentChange = "handleCurrentChangeZQ"></Pagination>
+      <Pagination
+        v-show="totalZQ > 0"
+        class="pagination"
+        :count-page="totalZQ"
+        :cur-page="listQueryZQ.page"
+        @handleCurrentChange="handleCurrentChangeZQ"
+      ></Pagination>
     </div>
     <Dialog :show.sync="showDialogTransfer" title="赎回" :onConfirm="setTransfer" confirmText="确认赎回">
       <table class="dialog-table" v-if="transferObj">
@@ -75,47 +89,58 @@
         </thead>
         <tbody>
           <tr>
-            <td>{{transferObj.costdes}}</td>
-            <td>{{transferObj.inComeAmt}}</td>
-            <td>{{transferObj.transferAmt}}</td>
-            <td>{{transferObj.transferFee}}</td>
-            <td>{{transferObj.factTransferAmt}}</td>
+            <td>{{ transferObj.costdes }}</td>
+            <td>{{ transferObj.inComeAmt }}</td>
+            <td>{{ transferObj.transferAmt }}</td>
+            <td>{{ transferObj.transferFee }}</td>
+            <td>{{ transferObj.factTransferAmt }}</td>
           </tr>
         </tbody>
       </table>
       <p class="dialog-text">同意<span class="agreement" @click="$router.push({ name: 'debtAssignmentAgreement' })">《债权转让协议》</span></p>
     </Dialog>
-    <Dialog :show.sync="showMsg" title="汇有财温馨提示"  :singleButton="true" ><p class="dialog-text">{{resultMsg}}</p></Dialog>
+    <Dialog :show.sync="showMsg" title="汇有财温馨提示" :singleButton="true"
+      ><p class="dialog-text">{{ resultMsg }}</p></Dialog
+    >
     <el-dialog class="ZQDetail" title="提示" :visible.sync="dialogVisible" width="840" top="30vh">
       <div slot="title" class="title">
         <span>借款流水号：318011121021XX</span>
-        <span class="blue" @click="$router.push({ name: 'debtAssignmentAgreement' ,query:{relationId: ZQDetail.id}})">合同>></span>
+        <span class="blue" @click="$router.push({ name: 'debtAssignmentAgreement', query: { relationId: ZQDetail.id } })">合同>></span>
       </div>
       <div class="section">
         <h3>个人消费</h3>
         <div class="content-1 rows">
-          <div class="column"><span>{{ZQDetail.invAmt}}元</span><span>借款金额</span></div>
-          <div class="column"><span>{{ZQDetail.numberPeriod}}/{{ZQDetail.repaymentPeriod}}</span><span>还款进度</span></div>
-          <div class="column"><span>{{ZQDetail.repayTypeName}}</span><span>还款方式</span></div>
-          <div class="column"><span>{{ZQDetail.repaymentStatus}}</span><span>还款状态</span></div>
-          <div class="column"><span>{{ZQDetail.investRate}}%</span><span>借款人约定的借款利率</span></div>
+          <div class="column">
+            <span>{{ ZQDetail.invAmt }}元</span><span>借款金额</span>
+          </div>
+          <div class="column">
+            <span>{{ ZQDetail.numberPeriod }}/{{ ZQDetail.repaymentPeriod }}</span
+            ><span>还款进度</span>
+          </div>
+          <div class="column">
+            <span>{{ ZQDetail.repayTypeName }}</span
+            ><span>还款方式</span>
+          </div>
+          <div class="column">
+            <span>{{ ZQDetail.repaymentStatus }}</span
+            ><span>还款状态</span>
+          </div>
+          <div class="column">
+            <span>{{ ZQDetail.investRate }}%</span><span>借款人约定的借款利率</span>
+          </div>
         </div>
       </div>
       <div class="section">
         <h3>贷款详情</h3>
         <div class="content-2">
-          <span>借款流水号：{{ZQDetail.applicationNo}}</span>
-          <span>贷款期限：{{ZQDetail.loanTerm}}个月</span>
-          <span>还款方式：{{ZQDetail.repayTypeName}}</span>
-          <span>募标起始日期：{{ZQDetail.loanSignDate}}</span>
+          <span>借款流水号：{{ ZQDetail.applicationNo }}</span> <span>贷款期限：{{ ZQDetail.loanTerm }}个月</span>
+          <span>还款方式：{{ ZQDetail.repayTypeName }}</span> <span>募标起始日期：{{ ZQDetail.loanSignDate }}</span>
         </div>
       </div>
       <div class="section">
         <h3>借款人信息</h3>
         <div class="content-2">
-          <span>借款人姓名：{{ZQDetail.ownBondName}}</span>
-          <span>性别：{{ZQDetail.gender}}</span>
-          <span>年龄：{{ZQDetail.age}}</span>
+          <span>借款人姓名：{{ ZQDetail.ownBondName }}</span> <span>性别：{{ ZQDetail.gender }}</span> <span>年龄：{{ ZQDetail.age }}</span>
         </div>
       </div>
     </el-dialog>

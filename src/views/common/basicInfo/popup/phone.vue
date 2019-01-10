@@ -3,15 +3,11 @@
     <div class="modify">
       <span class="modify_name">修改绑定手机号</span>
       <div class="modify_ipt_box">
-        <input class="modify_ipt" type="text" placeholder="请输入手机号">
-        <input class="modify_ipt" type="text" placeholder="请输入验证码">
+        <input class="modify_ipt" type="text" placeholder="请输入手机号" /> <input class="modify_ipt" type="text" placeholder="请输入验证码" />
         <span class="code">获取验证码</span>
       </div>
     </div>
-    <div class="btn">
-      <button class="determine">确定</button>
-      <button class="cancle" @click="isShow.isShow3=!isShow.isShow3">取消</button>
-    </div>
+    <div class="btn"><button class="determine">确定</button> <button class="cancle" @click="isShow.isShow3 = !isShow.isShow3">取消</button></div>
   </div>
 </template>
 <script>

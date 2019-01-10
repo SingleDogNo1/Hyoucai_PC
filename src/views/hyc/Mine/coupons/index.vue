@@ -1,55 +1,53 @@
 <template>
   <div class="coupons">
     <header>
-      <div class="card" :class="{'active':flag}" @click="changeFlag">可用卡券</div>
-      <div class="card" :class="{'active':!flag}" @click="changeFlag">历史卡券</div>
+      <div class="card" :class="{ active: flag }" @click="changeFlag">可用卡券</div>
+      <div class="card" :class="{ active: !flag }" @click="changeFlag">历史卡券</div>
     </header>
     <div class="coupons_box">
       <div
-        v-for="(item,index) in receiveList"
-        :class="[{'receive1':item.voucherType=='VT01'},{'receive2':item.secondType==1},{'receive2_1':item.secondType==2},{'receive3':item.voucherType=='VT03'}]"
+        v-for="(item, index) in receiveList"
+        :class="[
+          { receive1: item.voucherType == 'VT01' },
+          { receive2: item.secondType == 1 },
+          { receive2_1: item.secondType == 2 },
+          { receive3: item.voucherType == 'VT03' }
+        ]"
         :key="index"
       >
-        <div v-show="item.voucherType=='VT01'">
+        <div v-show="item.voucherType == 'VT01'">
           <p class="vouche_box">
-            <span class="vouche">
-              {{item.voucherFaceValue}}
-              <i>元</i>
-            </span>
-            <span class="vouche_aside">可加息券{{item.validDays}}天</span>
+            <span class="vouche"> {{ item.voucherFaceValue }} <i>元</i> </span> <span class="vouche_aside">可加息券{{ item.validDays }}天</span>
           </p>
-          <p class="start">起投金额：{{item.voucherFaceValue}}元</p>
+          <p class="start">起投金额：{{ item.voucherFaceValue }}元</p>
         </div>
-        <div v-show="item.voucherType=='VT02'">
+        <div v-show="item.voucherType == 'VT02'">
           <p class="vouche_box">
-            <span class="vouche">
-              {{item.voucherFaceValue}}
-              <i>元</i>
-            </span>
-            <span class="vouche_aside">可与加息券同时使用</span>
+            <span class="vouche"> {{ item.voucherFaceValue }} <i>元</i> </span> <span class="vouche_aside">可与加息券同时使用</span>
           </p>
-          <p class="start">起投金额：{{item.voucherFaceValue}}元</p>
+          <p class="start">起投金额：{{ item.voucherFaceValue }}元</p>
         </div>
-        <div class="endData">有效期至:{{item.validUseEndTime}}</div>
+        <div class="endData">有效期至:{{ item.validUseEndTime }}</div>
         <el-button class="receive1_btn" @click="open">立即领取</el-button>
       </div>
       <div
-        v-for="(item,index) in receivedList"
-        :class="[{'receive1':item.voucherType=='VT01'},{'receive2':item.secondType==1},{'receive2_1':item.secondType==2},{'receive3':item.voucherType=='VT03'}]"
+        v-for="(item, index) in receivedList"
+        :class="[
+          { receive1: item.voucherType == 'VT01' },
+          { receive2: item.secondType == 1 },
+          { receive2_1: item.secondType == 2 },
+          { receive3: item.voucherType == 'VT03' }
+        ]"
         :key="index"
       >
-        <div v-show="item.voucherType=='VT01'"></div>
-        <div v-show="item.voucherType=='VT02'">
+        <div v-show="item.voucherType == 'VT01'"></div>
+        <div v-show="item.voucherType == 'VT02'">
           <p class="vouche_box">
-            <span class="vouche">
-              {{item.voucherFaceValue}}
-              <i>元</i>
-            </span>
-            <span class="vouche_aside">可与加息券同时使用</span>
+            <span class="vouche"> {{ item.voucherFaceValue }} <i>元</i> </span> <span class="vouche_aside">可与加息券同时使用</span>
           </p>
-          <p class="start">起投金额：{{item.voucherFaceValue}}元</p>
+          <p class="start">起投金额：{{ item.voucherFaceValue }}元</p>
         </div>
-        <div class="endData">有效期至:{{item.validUseEndTime}}</div>
+        <div class="endData">有效期至:{{ item.validUseEndTime }}</div>
         <el-button class="receive1_btn">立即使用</el-button>
       </div>
     </div>

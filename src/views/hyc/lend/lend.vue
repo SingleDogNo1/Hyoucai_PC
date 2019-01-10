@@ -226,8 +226,6 @@ export default {
       page2: 1,
       countPage2: 0,
       userName: getUser().userName,
-      // couponId: this.$router,
-      // couponId: this.$router,
       QSList: [],
       ZXList: [],
       GRList: [],
@@ -240,7 +238,7 @@ export default {
       tabActive: 0
     }
   },
-  filters: {},
+  props: ['redPacketId', 'couponId'],
   methods: {
     handleCurrentChange(val) {
       this.page = val

@@ -2,19 +2,23 @@
   <div class="app-container">
     <div class="total-info">
       <div class="item">
-        <div><img src="./logo.png" alt=""></div>
+        <div><img src="./logo.png" alt="" /></div>
         <div><span>点金石</span></div>
       </div>
       <div class="item">
-        <div><span class="total-income">{{tackBackInt}}元</span></div>
+        <div>
+          <span class="total-income">{{ tackBackInt }}元</span>
+        </div>
         <div><span>累计利息收益</span></div>
       </div>
       <div class="item">
-        <div><span class="total-lend">{{invTotalAmt}}元</span></div>
+        <div>
+          <span class="total-lend">{{ invTotalAmt }}元</span>
+        </div>
         <div><span>累计出借</span></div>
       </div>
     </div>
-    <router-view ></router-view>
+    <router-view></router-view>
   </div>
 </template>
 
