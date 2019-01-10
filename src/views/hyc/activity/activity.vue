@@ -2,8 +2,8 @@
   <div class="activity">
     <ul>
       <li v-for="(item, i) in list" :key="i">
-        <img class="activityPic" :src="item.src" alt=""/>
-        <span class="activityDate">活动期限：{{ item.activityDate }}</span>
+        <img class="activityPic" :src="item.picUrl" alt=""/>
+        <span class="activityDate">活动期限：{{ item.startTime }}-{{ item.endTime }}</span>
       </li>
     </ul>
   </div>
@@ -26,14 +26,24 @@ export default {
     getHot() {
       let data = {
         curPage: '1',
-        maxLine: '10',
-        platform: 'PC'
+        maxLine: '10'
       }
       getHot(data).then(res => {
         let data = res.data
-        console.log(res)
         if (data.resultCode === '1') {
-          console.log(res)
+          this.list = data.list
+          this.list.forEach(function(item) {
+            console.log(item)
+            /* eslint-disable */
+            // item.startTime = item.startTime.replace(/\-/g, '.')
+            // item.endTime = item.endTime.replace(/\-/g, '.')
+            // /* eslint-disable */
+            // let str1 = item.startTime.toString()substring('0', '4')
+            // let str2 = item.endTime.substring('0', '4')
+            // if (str1 ===  str2) {
+            //   item.endTime = item.endTime.substring('5', '10')
+            // }
+          })
         }
       })
     }

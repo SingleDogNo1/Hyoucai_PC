@@ -2,8 +2,10 @@
   <div class="activity">
     <ul>
       <li v-for="(item, i) in list" :key="i">
-        <img class="activityPic" :src="item.picUrl" alt=""/>
-        <span class="activityDate">活动期限：{{ item.startTime }}-{{ item.endTime }}</span>
+        <a :href="item.url">
+          <img class="activityPic" :src="item.picUrl" alt=""/>
+          <span class="activityDate">活动期限：{{ item.startTime }}-{{ item.endTime }}</span>
+        </a>
       </li>
     </ul>
   </div>
@@ -36,8 +38,13 @@ export default {
           this.list.forEach(function(item) {
             /* eslint-disable */
             item.startTime = item.startTime.replace(/\-/g, '.')
-            item.endTime = item.endTime.replace(/\-/g, '.').substring('5', '10')
+            item.endTime = item.endTime.replace(/\-/g, '.')
             /* eslint-disable */
+            let str1 = item.startTime.substring('0', '4')
+            let str2 = item.endTime.substring('0', '4')
+            if (str1 ===  str2) {
+              item.endTime = item.endTime.substring('5', '10')
+            }
           })
         }
       })
