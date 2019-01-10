@@ -61,7 +61,7 @@
 
 <script>
 import moment from 'moment'
-import pagination from '@/components/pagination/pagination'
+import Pagination from '@/components/pagination/pagination'
 import { getList } from '@/api/djs/announcement'
 
 export default {
@@ -103,7 +103,7 @@ export default {
     }
   },
   components: {
-    pagination
+    Pagination
   },
   mounted() {
     this.activeName = this.$route.query.paramCode || 'WZGG'

@@ -62,12 +62,18 @@ export default {
       default: () => {
         return () => {}
       }
+    },
+    preventClose: {
+      type: Boolean,
+      default: false
     }
   },
   methods: {
     confirmItem() {
       this.onConfirm()
-      this.$emit('update:show', false)
+      if(!this.preventClose) {
+        this.$emit('update:show', false)
+      }
     },
     cancelItem() {
       this.onClose()

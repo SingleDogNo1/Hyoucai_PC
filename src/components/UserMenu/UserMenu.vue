@@ -10,6 +10,9 @@
       <div class="safe">
         <span>安全等级</span> <span class="level">{{ safetyLevel }}</span>
       </div>
+      <div class="my-referral-code" v-if="isShowReferralCode && referralCode">
+        <span>我的推荐码</span> <span class="referral-code">{{ referralCode }} </span><span><i class="iconfont icon-more"></i></span>
+      </div>
     </header>
     <ul class="block">
       <li class="title"><i class="iconfont icon-account"></i> <span>我的账户</span></li>
@@ -40,7 +43,9 @@ export default {
   mixins: [],
   data() {
     return {
-      msg: 'UserMenu'
+      msg: 'UserMenu',
+      isShowReferralCode: false,
+      referralCode: ''
     }
   },
   methods: {},
@@ -85,9 +90,18 @@ export default {
     })
   },
   created() {
-    console.log(this.user)
   },
-  mounted() {}
+  mounted() {
+    console.log(111)
+    this.referralCode = this.userBasicInfo.myInviteCode
+    this.isShowReferralCode = this.$route.name === 'referralCode' ? true: false
+  },
+  watch: {
+    $route() {
+      // 刷新参数放到这里里面去触发就可以刷新相同界面了
+      this.isShowReferralCode = this.$route.name === 'referralCode' ? true: false
+    }
+  }
 }
 </script>
 
@@ -132,6 +146,18 @@ export default {
       margin: 25px 0;
       display: flex;
       justify-content: space-between;
+    }
+    .my-referral-code {
+      width: 160px;
+      margin: 15px 0;
+      display: flex;
+      //justify-content: space-between;
+      .referral-code {
+        margin-left: 4px;
+      }
+      .icon-more {
+        margin-left: 10px;
+      }
     }
   }
   .block {

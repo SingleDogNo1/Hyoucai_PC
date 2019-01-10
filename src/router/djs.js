@@ -143,7 +143,7 @@ export default new Router({
       ]
     },
     {
-      path: '/announcement',
+      path: '/announcement', // 网站公告
       component: Layout,
       children: [
         {
