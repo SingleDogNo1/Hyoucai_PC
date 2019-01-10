@@ -64,7 +64,6 @@ export default {
       let postData = {
         id: this.$route.params.id
       }
-      console.log(postData)
       viewDetail(postData).then(res => {
         let data = res.data
         this.title = data.title

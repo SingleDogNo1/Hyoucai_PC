@@ -18,7 +18,7 @@
       <div class="content-wrap">
         <p class="title">常见问题</p>
         <el-collapse v-model="activeNames" @change="handleChange">
-          <el-collapse-item :name="index + 1" v-for="(item, index) in QAContentList" :key="index">
+          <el-collapse-item :name="item.question" v-for="(item, index) in QAContentList" :key="index">
             <template slot="title">
               <div class="header-wrap">
                 <i class="header-icon icon-question"></i>
@@ -130,6 +130,7 @@ export default {
           color: #6a6a6a;
           padding-left: 68px;
           border-left: 4px solid #fff;
+          cursor: pointer;
         }
         li:hover,
         li.on {

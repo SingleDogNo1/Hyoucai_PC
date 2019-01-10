@@ -6,19 +6,20 @@
         <div><span>点金石</span></div>
       </div>
       <div class="item">
-        <div><span class="total-income">1,867.96元</span></div>
+        <div><span class="total-income">{{tackBackInt}}元</span></div>
         <div><span>累计利息收益</span></div>
       </div>
       <div class="item">
-        <div><span class="total-lend">12,000.00元</span></div>
+        <div><span class="total-lend">{{invTotalAmt}}元</span></div>
         <div><span>累计出借</span></div>
       </div>
     </div>
-    <router-view></router-view>
+    <router-view ></router-view>
   </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
   name: 'lend',
   mixins: [],
@@ -31,7 +32,9 @@ export default {
   props: {},
   watch: {},
   methods: {},
-  computed: {},
+  computed: {
+    ...mapGetters(['invTotalAmt', 'tackBackInt'])
+  },
   created() {},
   mounted() {}
 }

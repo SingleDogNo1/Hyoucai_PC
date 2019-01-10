@@ -635,7 +635,7 @@ input:disabled {
 </style>
 
 <script type="text/javascript">
-// import bidToSign from '@/api/sign/bidToSign'
+import { bidToSign } from '@/api/sign/bidToSign'
 export default {
   components: {},
   data() {
@@ -646,22 +646,24 @@ export default {
   computed: {},
   mounted() {},
   methods: {
-    // handleSign: function() {
-    //   let data = {
-    //     retUrl: '',
-    //     smsCode: '',
-    //     forgotPwdUrl: '',
-    //     mobile: ''
-    //   }
-    //   bidToSign(data).then(res => {
-    //     let data = res.data
-    //     if (data.resultCode === '1') {
-    //       console.log(res)
-    //     }
-    //   })
-    // },
+    bidToSign: function() {
+      let data = {
+        retUrl: location.href,
+        smsCode: '',
+        forgotPwdUrl: '',
+        mobile: ''
+      }
+      bidToSign(data).then(res => {
+        let data = res.data
+        if (data.resultCode === '1') {
+          console.log(res)
+        } else {
+          console.log(data.resultMsg)
+        }
+      })
+    },
     clickNext: function() {
-      // this.handleSign()
+      this.bidToSign()
     }
   },
   watch: {}
