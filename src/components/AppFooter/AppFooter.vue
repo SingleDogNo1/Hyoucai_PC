@@ -26,7 +26,7 @@
       <li>
         <h3><i class="iconfont icon-tell_footer"></i> <span>联系我们</span></h3>
         <div>400-0997-979</div>
-        <div>(周一带周六)</div>
+        <div>(周一到周六)</div>
         <div>上午09:00 - 12:00</div>
         <div>下午 13:00 - 18:00</div>
         <div>cs@idjshi.com</div>
