@@ -19,13 +19,18 @@ export default new Router({
       ]
     },
     {
-      path: '/borrow',
-      name: 'borrow',
+      path: '/',
       component: Layout,
       children: [
         {
-          path: '',
+          path: 'borrow',
+          name: 'borrow',
           component: () => import('@/views/common/Borrow/Borrow')
+        },
+        {
+          path: 'safety',
+          name: 'safety',
+          component: () => import('@/views/common/SafetyMeasures/index')
         }
       ]
     },

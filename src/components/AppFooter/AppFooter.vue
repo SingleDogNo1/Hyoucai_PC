@@ -3,11 +3,11 @@
     <ul class="top">
       <li>
         <h3><i class="iconfont icon-about"></i> <span>关于我们</span></h3>
-        <div><router-link tag="li" to="/infoDisclosure?paramCode=GSJJ">公司简介</router-link></div>
-        <div><router-link tag="li" to="/infoDisclosure?paramCode=PTXX">平台信息</router-link></div>
-        <div><router-link tag="li" to="/infoDisclosure?paramCode=FZSJ">发展事迹</router-link></div>
-        <div><router-link tag="li" to="/infoDisclosure?paramCode=HZHB">合作伙伴</router-link></div>
-        <div><router-link tag="li" to="/infoDisclosure?paramCode=ZZRY">资质荣誉</router-link></div>
+        <div><router-link to="/infoDisclosure?paramCode=GSJJ">公司简介</router-link></div>
+        <div><router-link to="/infoDisclosure?paramCode=PTXX">平台信息</router-link></div>
+        <div><router-link to="/infoDisclosure?paramCode=FZSJ">发展事迹</router-link></div>
+        <div><router-link to="/infoDisclosure?paramCode=HZHB">合作伙伴</router-link></div>
+        <div><router-link to="/infoDisclosure?paramCode=ZZRY">资质荣誉</router-link></div>
       </li>
       <li>
         <h3><i class="iconfont icon-help"></i> <span>帮助中心</span></h3>
@@ -16,12 +16,12 @@
         }}</router-link>
       </li>
       <li>
-        <h3><i class="iconfont icon-safe"></i> <span>安全保障</span></h3>
-        <div>大数据风控</div>
-        <div>合作保障机构</div>
-        <div>项目管理</div>
-        <div>企业模式</div>
-        <div>资金安全</div>
+        <h3><i class="iconfont icon-safe"></i> <span>安全措施</span></h3>
+        <div><router-link to="/safety" @click.native="JumpSafety('satefy-url2')">资金银行存管</router-link></div>
+        <div><router-link to="/safety" @click.native="JumpSafety('satefy-url3')">多重风控措施</router-link></div>
+        <div><router-link to="/safety" @click.native="JumpSafety('satefy-url7')">小而分散的资产</router-link></div>
+        <div><router-link to="/safety" @click.native="JumpSafety('satefy-url8')">信息隐私</router-link></div>
+        <div><router-link to="/infoDisclosure?paramCode=CJRJY">安全风险教育</router-link></div>
       </li>
       <li>
         <h3><i class="iconfont icon-tell_footer"></i> <span>联系我们</span></h3>
@@ -102,6 +102,15 @@ export default {
         this.QAList = data.list
         localStorage.setItem('QAList', JSON.stringify(this.QAList))
       })
+    },
+    JumpSafety(id) {
+      localStorage.setItem('jumpId', id)
+      let jumpId = localStorage.getItem('jumpId')
+      let anchorElement = document.getElementById(jumpId)
+      // 如果锚点存在，就跳转
+      if (jumpId &&anchorElement) {
+        anchorElement.scrollIntoView()
+      }
     }
   },
   mounted() {
@@ -152,6 +161,12 @@ export default {
         font-size: $font-size-small-s;
         padding-left: 32px;
         cursor: pointer;
+        a {
+          color: #6a6a6a;
+          &:hover {
+            color: $color-theme;
+          }
+        }
         &:hover {
           color: $color-theme;
         }
