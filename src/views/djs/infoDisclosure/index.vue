@@ -998,8 +998,7 @@ export default {
     },
     handleOperationalData() {
       getOperationalData().then(res => {
-        let data = res.data.data.data
-        console.log('data===', data)
+        let data = res.data.data
         this.accumulatedLoanAmount = data.accumulatedLoanAmount
         this.accumulativeCompensation = data.accumulativeCompensation
         this.accumulativeCompensationAmount = data.accumulativeCompensationAmount
