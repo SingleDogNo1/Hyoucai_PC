@@ -56,7 +56,7 @@
     </Dialog>
     <Dialog
       :show.sync="showCopyDialog"
-      title="点金石温馨提示"
+      title="汇友财温馨提示"
       :singleButton="singleButton"
       class="djs-copy-dialog"
     >
@@ -72,7 +72,7 @@ import { mapState } from 'vuex'
 import Clipboard from 'clipboard'
 import Pagination from '@/components/pagination/pagination'
 import Dialog from '@/components/Dialog/Dialog'
-import { saveInviteCode, qRCodeShare, userInviteInfo } from '@/api/djs/Mine/referralCode'
+import { saveInviteCode, qRCodeShare, userInviteInfo } from '@/api/hyc/Mine/referralCode'
 
 export default {
   name: 'referralCode',
@@ -146,8 +146,9 @@ export default {
       }
       userInviteInfo(params).then(res => {
         let data = res.data
+        console.log('data====', data)
         this.inviteNum = data.inviteNum
-        this.inviteUserList = data.inviteUser
+        this.inviteUserList = data.data.list
         this.inviteUserList.forEach(val => {
           val.investStatus = val.investStatus === 0 ? '未投资' : '已投资'
         })
@@ -172,8 +173,8 @@ export default {
     }
     qRCodeShare(postData).then(res => {
       let data = res.data
-      this.qrCodeUrl = data.qrCodeUrl
-      this.copyUrl = data.url
+      this.qrCodeUrl = data.data.qrCodeUrl
+      this.copyUrl = data.data.url
       new Clipboard('.copy-text', {
         text: () => {
           return this.copyUrl

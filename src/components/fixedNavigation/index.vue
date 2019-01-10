@@ -41,12 +41,12 @@ export default {
     },
     toCaculator() {
       this.$router.push({
-        name: 'caculator'
+        name: 'calculator'
       })
     },
     toRiskAssessment() {
       this.$router.push({
-        name: 'riskAssessment'
+        name: 'riskAss'
       })
     }
   }
