@@ -3,29 +3,42 @@
     <div class="modify">
       <span class="modify_name">收货地址</span>
       <div class="modify_ipt_box">
-        <input class="modify_ipt" type="text" placeholder="请输入收件人姓名" />
-        <input class="modify_ipt" type="text" placeholder="请输入收件人电话" />
-        <input class="modify_ipt" type="text" placeholder="请输入收件人地址" />
+        <input class="modify_ipt" type="text" placeholder="请输入收件人姓名" v-model="consigneeName">
+        <input class="modify_ipt" type="text" placeholder="请输入收件人电话" v-model="consigneePhone">
+        <input class="modify_ipt" type="text" placeholder="请输入收件人地址" v-model="address">
       </div>
     </div>
-    <div class="btn"><button class="determine">确定</button> <button class="cancle" @click="isShow.isShow4 = !isShow.isShow4">取消</button></div>
+    <div class="btn">
+      <button class="determine" @click="saveMailingAddress">保存</button>
+      <button class="cancle" @click="isShow.isShow4=!isShow.isShow4">取消</button>
+    </div>
   </div>
 </template>
 <script>
+import { saveMailingAddress } from '@/api/common/basicInfo'
+import { mapGetters } from 'vuex'
 export default {
   name: 'Address',
   data() {
-    return {}
+    return {
+      consigneeName: '',
+      consigneePhone: '',
+      address: ''
+    }
   },
   props: ['isShow'],
+  computed: {
+    ...mapGetters(['user'])
+  },
   components: {},
   methods: {
-    isIdentical: function() {
-      if (this.newPwd != this.newPwd2) {
-        this.flag = true
-      } else {
-        this.flag = false
-      }
+    saveMailingAddress: function() {
+      let obj = {}
+      obj.consigneeName = this.consigneeName
+      obj.consigneePhone = this.consigneePhone
+      obj.address = this.address
+      obj.userName = this.user.userName
+      saveMailingAddress(obj)
     }
   }
 }

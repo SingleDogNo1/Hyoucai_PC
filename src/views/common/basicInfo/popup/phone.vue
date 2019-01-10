@@ -3,28 +3,48 @@
     <div class="modify">
       <span class="modify_name">修改绑定手机号</span>
       <div class="modify_ipt_box">
-        <input class="modify_ipt" type="text" placeholder="请输入手机号" /> <input class="modify_ipt" type="text" placeholder="请输入验证码" />
-        <span class="code">获取验证码</span>
+        <input class="modify_ipt" type="text" placeholder="请输入手机号" v-model="mobile">
+        <input class="modify_ipt" type="text" placeholder="请输入验证码" v-model="verifyCode">
+        <span class="code" @click="getMobileSendCode">获取验证码</span>
       </div>
     </div>
-    <div class="btn"><button class="determine">确定</button> <button class="cancle" @click="isShow.isShow3 = !isShow.isShow3">取消</button></div>
+    <div class="btn">
+      <button class="determine" @click="modifyBindMobile">立即绑定</button>
+      <button class="cancle" @click="isShow.isShow3=!isShow.isShow3">取消</button>
+    </div>
   </div>
 </template>
 <script>
+import { modifyBindMobile, modifyBindMobileSendCode } from '@/api/common/basicInfo'
+import { mapGetters } from 'vuex'
 export default {
   name: 'Phone',
   data() {
-    return {}
+    return {
+      mobile: '',
+      verifyCode: ''
+    }
   },
-  props: ['isShow'],
+  props: ['isShow', 'oldMobile'],
+  computed: {
+    ...mapGetters(['user'])
+  },
   components: {},
   methods: {
-    isIdentical: function() {
-      if (this.newPwd != this.newPwd2) {
-        this.flag = true
-      } else {
-        this.flag = false
-      }
+    modifyBindMobile: function() {
+      this.isShow.isShow3 = !this.isShow.isShow3
+      let obj = {}
+      obj.mobile = this.mobile
+      obj.userName = this.user.userName
+      obj.verifyCode = this.verifyCode
+      obj.oldMobile = this.oldMobile
+      modifyBindMobile(obj)
+    },
+    getMobileSendCode: function() {
+      let data = {}
+      data.mobile = this.mobile
+      data.userName = this.user.userName
+      modifyBindMobileSendCode(data)
     }
   }
 }

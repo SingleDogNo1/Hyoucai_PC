@@ -46,19 +46,18 @@ export default {
       }
     },
     updateUserPsw: function() {
-      this.isShow.isShow2 = !this.isShow.isShow2
       let obj = {}
       obj.userName = this.user.userName
       obj.oldPassWord = this.oldPwd
       obj.newPassWord = this.newPwd
-      updateUserPsw(obj).then(() => {
-        // console.log(res)
-      })
+      updateUserPsw(obj)
+      // .then(() => {
+      //   console.log(res)
+      // })
+      this.isShow.isShow2 = !this.isShow.isShow2
     }
   },
-  created() {
-    this.updateUserPsw()
-  }
+  created() {}
 }
 </script>
 <style lang="scss" scoped>

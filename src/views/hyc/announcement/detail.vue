@@ -12,10 +12,11 @@
     </div>-->
     <article class="detail-content">
       <div class="title-wrap">
-        <h2>{{ title }}</h2>
+        <h2>{{title}}</h2>
         <p>
-          <span class="origin">来源：汇通金融</span> <span class="click-count">点击量：{{ clickCount }}</span>
-          <span class="time">{{ createTime }}</span>
+          <span class="origin">来源：汇通金融</span>
+          <span class="click-count">点击量：{{clickCount}}</span>
+          <span class="time">{{createTime}}</span>
         </p>
       </div>
       <section v-html="content"></section>
@@ -25,11 +26,13 @@
       </div>-->
     </article>
     <div class="actions">
-      <a href="#" class="btn-prev" v-if="overMsg !== '0'">
-        <span class="action">&lt; 上一篇</span> <span class="title">{{ overTitle }}</span>
+      <a href="javascript:void(0);"  @click="btnPrev" class="btn-prev" v-if="overMsg !== '0'">
+        <span class="action">&lt; 上一篇</span>
+        <span class="title">{{overTitle}}</span>
       </a>
-      <a href="#" class="btn-next" v-if="nextMsg !== '0'">
-        <span class="title">{{ nextTitle }}</span> <span class="action">下一篇 &gt;</span>
+      <a href="javascript:void(0);"  @click="btnNext" class="btn-next" v-if="nextMsg !== '0'">
+        <span class="title">{{nextTitle}}</span>
+        <span class="action">下一篇 &gt;</span>
       </a>
     </div>
   </div>
@@ -72,6 +75,14 @@ export default {
         this.nextMsg = data.nextMsg
         this.nextTitle = data.nextTitle
       })
+    },
+    btnPrev() {
+      this.$router.push({ name: 'announcementDetail', params: { id: this.overMsg }, query: { paramCode: this.activeName } })
+      this.viewDetail()
+    },
+    btnNext() {
+      this.$router.push({ name: 'announcementDetail', params: { id: this.nextMsg }, query: { paramCode: this.activeName } })
+      this.viewDetail()
     }
   },
   mounted() {
@@ -183,6 +194,7 @@ export default {
     }
   }
   .actions {
+    position: relative;
     display: flex;
     font-size: $font-size-small-s;
     overflow: hidden;
@@ -194,11 +206,13 @@ export default {
     background: #fff;
     a {
       display: flex;
-      width: 50%;
+      width: 48%;
       height: 60px;
       color: $color-text-gray;
     }
     .btn-prev {
+      position: absolute;
+      left: 30px;
       text-align: left;
       .action {
         display: inline-block;
@@ -217,6 +231,8 @@ export default {
       }
     }
     .btn-next {
+      position: absolute;
+      right: 30px;
       text-align: right;
       .action {
         display: inline-block;
