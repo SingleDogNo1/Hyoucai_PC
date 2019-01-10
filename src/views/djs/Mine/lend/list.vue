@@ -1,61 +1,68 @@
 <template>
-    <div class="lend-list">
-      <ul class="tab">
-        <li class="tab-item label">状态</li>
-        <li class="tab-item" @click="tabIndex=0" :class="{'active': tabIndex === 0}">出借中</li>
-        <li class="tab-item" @click="tabIndex=1" :class="{'active': tabIndex === 1}">已结清</li>
-      </ul>
-      <div class="table-container" v-if="tabIndex === 0">
-        <table>
-          <thead>
-            <tr>
-              <th>项目名称</th>
-              <th>累计利息收益（元）</th>
-              <th>历史平均年化收益率</th>
-              <th>加入本金（元）</th>
-              <th>购买笔数</th>
-              <th>操作</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="item in InvestingList" :key="item.id">
-              <td>{{item.projectName}}</td>
-              <td>{{item.incomeAmount }}</td>
-              <td>
-                <span v-if="item.invRate === item.maxInvRate">{{item.invRate}}%</span>
-                <span v-else>{{item.invRate}}% - {{item.maxInvRate}}%</span>
-              </td>
-              <td>{{item.invAmount}}</td>
-              <td><span class="red">{{item.invCount}}</span>笔进行中</td>
-              <td>
-                <span class="link" @click="$router.push({name: 'lendDetail',query:{projectNo: item.projectNo}})">查看</span>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="table-container" v-if="tabIndex === 1">
-        <table>
-          <thead>
-            <tr>
-              <th>项目名称</th>
-              <th>转让价格</th>
-              <th>转让日期</th>
-              <th>状态</th>
-            </tr>
-          </thead>
-          <tbody>
+  <div class="lend-list">
+    <ul class="tab">
+      <li class="tab-item label">状态</li>
+      <li class="tab-item" @click="tabIndex = 0" :class="{ active: tabIndex === 0 }">出借中</li>
+      <li class="tab-item" @click="tabIndex = 1" :class="{ active: tabIndex === 1 }">已结清</li>
+    </ul>
+    <div class="table-container" v-if="tabIndex === 0">
+      <table>
+        <thead>
+          <tr>
+            <th>项目名称</th>
+            <th>累计利息收益（元）</th>
+            <th>历史平均年化收益率</th>
+            <th>加入本金（元）</th>
+            <th>购买笔数</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="item in InvestingList" :key="item.id">
+            <td>{{ item.projectName }}</td>
+            <td>{{ item.incomeAmount }}</td>
+            <td>
+              <span v-if="item.invRate === item.maxInvRate">{{ item.invRate }}%</span>
+              <span v-else>{{ item.invRate }}% - {{ item.maxInvRate }}%</span>
+            </td>
+            <td>{{ item.invAmount }}</td>
+            <td>
+              <span class="red">{{ item.invCount }}</span
+              >笔进行中
+            </td>
+            <td><span class="link" @click="$router.push({ name: 'lendDetail', query: { projectNo: item.projectNo } })">查看</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="table-container" v-if="tabIndex === 1">
+      <table>
+        <thead>
+          <tr>
+            <th>项目名称</th>
+            <th>转让价格</th>
+            <th>转让日期</th>
+            <th>状态</th>
+          </tr>
+        </thead>
+        <tbody>
           <tr v-for="item in InvestedList" :key="item.id">
-            <td>{{item.projectName}}</td>
-            <td>{{item.transferAmount }}</td>
-            <td>{{item.transferTime.substr(0,10)}}</td>
+            <td>{{ item.projectName }}</td>
+            <td>{{ item.transferAmount }}</td>
+            <td>{{ item.transferTime.substr(0, 10) }}</td>
             <td>已转让</td>
           </tr>
-          </tbody>
-        </table>
-        <Pagination v-show="investedTotal>0" class="pagination" :count-page="investedTotal" :cur-page="listQueryInvested.page" @handleCurrentChange = "handleInvestedCurrentChange"></Pagination>
-      </div>
+        </tbody>
+      </table>
+      <Pagination
+        v-show="investedTotal > 0"
+        class="pagination"
+        :count-page="investedTotal"
+        :cur-page="listQueryInvested.page"
+        @handleCurrentChange="handleInvestedCurrentChange"
+      ></Pagination>
     </div>
+  </div>
 </template>
 
 <script>

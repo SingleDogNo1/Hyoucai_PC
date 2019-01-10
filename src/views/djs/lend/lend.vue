@@ -107,7 +107,7 @@ export default {
       list: []
     }
   },
-  filters: {},
+  props: ['redPacketId', 'couponId'],
   methods: {
     handleCurrentChange(val) {
       this.page = val

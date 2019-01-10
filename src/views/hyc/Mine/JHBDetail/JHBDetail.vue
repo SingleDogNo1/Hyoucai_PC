@@ -1,8 +1,6 @@
 <template>
   <div class="jhb-detail-wrapper">
-    <header>
-      注：本标为按天计息标，借款人可能提前还款。如果出现提前还款，您所获得实际利息将按借款人实际借款天数计算，请知悉！
-    </header>
+    <header>注：本标为按天计息标，借款人可能提前还款。如果出现提前还款，您所获得实际利息将按借款人实际借款天数计算，请知悉！</header>
     <div class="income coupon">
       <div class="title">加息收益</div>
       <ul>
@@ -43,48 +41,43 @@
     </div>
     <table cellspacing="0">
       <thead>
-      <tr>
-        <th>回款日期</th>
-        <th>本金(元)</th>
-        <th>利息(元)</th>
-        <th>状态</th>
-      </tr>
+        <tr>
+          <th>回款日期</th>
+          <th>本金(元)</th>
+          <th>利息(元)</th>
+          <th>状态</th>
+        </tr>
       </thead>
       <tbody>
-      <template v-for="(item, index) in BenefitPlan.gainPlanPerTermList">
-        <tr
-          :key="index"
-          :class="{'done': item.status === '已结清'}"
-        >
-          <td>{{item.gainDate}}</td>
-          <td>{{item.principalPerTerm}}</td>
-          <td>{{item.interest}}</td>
-          <td>{{item.status}}</td>
-        </tr>
-      </template>
+        <template v-for="(item, index) in BenefitPlan.gainPlanPerTermList">
+          <tr :key="index" :class="{ done: item.status === '已结清' }">
+            <td>{{ item.gainDate }}</td>
+            <td>{{ item.principalPerTerm }}</td>
+            <td>{{ item.interest }}</td>
+            <td>{{ item.status }}</td>
+          </tr>
+        </template>
       </tbody>
     </table>
-    <div class="income">
-      <div class="title">项目组成</div>
-    </div>
+    <div class="income"><div class="title">项目组成</div></div>
     <table>
       <thead>
-      <tr>
-        <th>标的号</th>
-        <th>出借本金(元)</th>
-        <th>利息(元)</th>
-        <th>借款人详情</th>
-        <th>操作</th>
-      </tr>
+        <tr>
+          <th>标的号</th>
+          <th>出借本金(元)</th>
+          <th>利息(元)</th>
+          <th>借款人详情</th>
+          <th>操作</th>
+        </tr>
       </thead>
       <tbody>
-      <tr>
-        <td>12312313231131</td>
-        <td>1000.00</td>
-        <td>100.00</td>
-        <td><p>查看</p></td>
-        <td><a href="">三方协议</a></td>
-      </tr>
+        <tr>
+          <td>12312313231131</td>
+          <td>1000.00</td>
+          <td>100.00</td>
+          <td><p>查看</p></td>
+          <td><a href="">三方协议</a></td>
+        </tr>
       </tbody>
     </table>
   </div>

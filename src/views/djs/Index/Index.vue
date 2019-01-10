@@ -2,11 +2,7 @@
   <div class="index">
     <div class="swiper-container-banner">
       <div class="swiper-wrapper">
-        <div
-          class="swiper-slide swiper-no-swiping  stop-swiping"
-          v-for="(item, index) in bannerList"
-          :key="index"
-        >
+        <div class="swiper-slide swiper-no-swiping  stop-swiping" v-for="(item, index) in bannerList" :key="index">
           <a :href="item.linkUrl">
             <img :src="item.picUrl" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
@@ -123,7 +119,9 @@
     </div>
     <div class="novice-area-wrap" v-if="noviceProjectList && noviceProjectList.length > 0">
       <div class="novice-area-box">
-        <div class="desc-warp"><img src="./images/text_novice_area.png" /> <button class="btn-know" href="javascript:void(0);">1分钟了解汇有财</button></div>
+        <div class="desc-warp">
+          <img src="./images/text_novice_area.png" /> <button class="btn-know" href="javascript:void(0);">1分钟了解汇有财</button>
+        </div>
         <div class="production-wrap" v-for="(item, index) in noviceProjectList" :key="index">
           <div class="production-info">
             <div class="label-wrap">
@@ -204,7 +202,9 @@
         <li><img src="./images/icon_parter8.png" /></li>
         <li><img src="./images/icon_parter9.png" /></li>
         <li>
-          <router-link class="btn-more" href="javascript:void(0);" to="/infoDisclosure?paramCode=HZHB">查看更多 <i class="iconfont icon-more"></i> </router-link>
+          <router-link class="btn-more" href="javascript:void(0);" to="/infoDisclosure?paramCode=HZHB"
+            >查看更多 <i class="iconfont icon-more"></i>
+          </router-link>
         </li>
       </ul>
     </div>

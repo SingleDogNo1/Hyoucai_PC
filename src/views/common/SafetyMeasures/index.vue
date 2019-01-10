@@ -1,27 +1,13 @@
 <template>
   <div class="satefy">
-    <img src="./safe_banner.png" alt class="safe_banner">
-    <div class="satefy2" id="satefy-url2">
-      <img src="./bg_satefy2.png">
-    </div>
-    <div class="satefy3" id="satefy-url3">
-      <img src="./bg_satefy3.png">
-    </div>
-    <div class="satefy4" id="satefy-url4">
-      <img src="./bg_satefy4.png">
-    </div>
-    <div class="satefy5" id="satefy-url5">
-      <img src="./bg_satefy5.png">
-    </div>
-    <div class="satefy6" id="satefy-url6">
-      <img src="./bg_satefy6.png">
-    </div>
-    <div class="satefy7" id="satefy-url7">
-      <img src="./bg_satefy7.png">
-    </div>
-    <div class="satefy8" id="satefy-url8">
-      <img src="./bg_satefy8.png">
-    </div>
+    <img src="./safe_banner.png" alt class="safe_banner" />
+    <div class="satefy2" id="satefy-url2"><img src="./bg_satefy2.png" /></div>
+    <div class="satefy3" id="satefy-url3"><img src="./bg_satefy3.png" /></div>
+    <div class="satefy4" id="satefy-url4"><img src="./bg_satefy4.png" /></div>
+    <div class="satefy5" id="satefy-url5"><img src="./bg_satefy5.png" /></div>
+    <div class="satefy6" id="satefy-url6"><img src="./bg_satefy6.png" /></div>
+    <div class="satefy7" id="satefy-url7"><img src="./bg_satefy7.png" /></div>
+    <div class="satefy8" id="satefy-url8"><img src="./bg_satefy8.png" /></div>
   </div>
 </template>
 <script>

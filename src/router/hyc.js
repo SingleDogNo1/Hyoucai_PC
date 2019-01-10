@@ -213,7 +213,8 @@ export default new Router({
         {
           path: 'lend',
           name: 'lend',
-          component: () => import(/* webpackChunkName: "lend" */ '@/views/hyc/lend/lend.vue')
+          component: () => import(/* webpackChunkName: "lend" */ '@/views/hyc/lend/lend.vue'),
+          props: route => ({ redPacketId: route.query.redPacketId, couponId: route.query.couponId })
         }
       ]
     },

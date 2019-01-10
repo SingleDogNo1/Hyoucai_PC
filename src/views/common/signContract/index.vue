@@ -8,12 +8,12 @@
           <div class="open_pic">
             <ul class="pic">
               <li></li>
-              <li><img height="45.6" width="45.6" src="./deposit.png"/></li>
+              <li><img height="45.6" width="45.6" src="./deposit.png" /></li>
               <li></li>
             </ul>
             <ul class="pic">
               <li></li>
-              <li><img height="45.6" width="45.6" src="./auth.png"/></li>
+              <li><img height="45.6" width="45.6" src="./auth.png" /></li>
               <li></li>
             </ul>
             <ul class="words">
@@ -23,19 +23,14 @@
               <li><h2>业务授权</h2></li>
             </ul>
           </div>
-          <div class="confirm_info">
-            <p>签订协议后就可以投资了~</p>
-          </div>
+          <div class="confirm_info"><p>签订协议后就可以投资了~</p></div>
           <div class="form-data">
             <dl>
-              <dt><i :class="checkAgree ? 'icon-check' : 'icon-choose'" class="iconfont" @click="checkAgree=!checkAgree"></i></dt>
-              <dd>
-                我已阅读<a href="javascript:;" class="agre_find">《业务授权协议》</a>
-              </dd>
+              <dt><i :class="checkAgree ? 'icon-check' : 'icon-choose'" class="iconfont" @click="checkAgree = !checkAgree"></i></dt>
+              <dd>我已阅读<a href="javascript:;" class="agre_find">《业务授权协议》</a></dd>
             </dl>
             <button type="submit" :class="!checkAgree ? 'disabled' : ''" :disabled="!checkAgree" id="submit" @click="clickNext">立即授权</button>
           </div>
-
         </div>
       </div>
       <div id="openAccount"></div>
@@ -43,7 +38,7 @@
   </div>
 </template>
 
-<style  scoped lang="scss">
+<style scoped lang="scss">
 input:disabled {
   background-color: rgb(235, 235, 228);
 }
