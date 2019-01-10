@@ -52,18 +52,19 @@ export default new Router({
         {
           path: 'lend',
           name: 'lend',
-          component: () => import(/* webpackChunkName: "lend" */ '@/views/djs/lend/lend.vue')
+          component: () => import(/* webpackChunkName: "lend" */ '@/views/djs/lend/lend.vue'),
+          props: route => ({ redPacketId: route.query.redPacketId, couponId: route.query.couponId })
         }
       ]
     },
     {
       path: '/mine',
       component: Layout,
-      redirect: '/mine/overview',
       children: [
         {
           path: '',
           component: Mine,
+          redirect: '/mine/overview',
           children: [
             {
               path: 'overview', // 账户总览
@@ -88,7 +89,20 @@ export default new Router({
             {
               path: 'lend', // 我的出借
               name: 'userLend',
-              component: () => import('@/views/djs/Mine/lend/lend')
+              redirect: 'lend/list',
+              component: () => import('@/views/djs/Mine/lend/lend'),
+              children: [
+                {
+                  path: 'list', // 我的出借列表
+                  name: 'lendList',
+                  component: () => import('@/views/djs/Mine/lend/list')
+                },
+                {
+                  path: 'detail', // 我的出借详情
+                  name: 'lendDetail',
+                  component: () => import('@/views/djs/Mine/lend/detail')
+                }
+              ]
             },
             {
               path: 'record', // 交易记录
@@ -158,7 +172,7 @@ export default new Router({
         {
           path: 'addBankCard',
           name: 'addBankCard',
-          component: () => import(/* webpackChunkName: "lend" */ '@/views/djs/addBankCard/addBankCard.vue')
+          component: () => import(/* webpackChunkName: "addBankCard" */ '@/views/djs/addBankCard/addBankCard.vue')
         }
       ]
     },
@@ -262,6 +276,17 @@ export default new Router({
       ]
     },
     {
+      path: '/', // 主题活动
+      component: Layout,
+      children: [
+        {
+          path: 'activity',
+          name: 'activity',
+          component: () => import(/* webpackChunkName: "activity" */ '@/views/djs/activity/activity.vue')
+        }
+      ]
+    },
+    {
       path: '/', // 运营报告
       component: Layout,
       children: [
@@ -280,6 +305,17 @@ export default new Router({
           path: 'autoLend',
           name: 'autoLendAgreement',
           component: () => import('@/views/djs/Mine/autoLend/agreement')
+        }
+      ]
+    },
+    {
+      path: '/sign',
+      component: Layout,
+      children: [
+        {
+          path: '', // 签约
+          name: 'sign',
+          component: () => import(/* webpackChunkName: "register" */ '@/views/common/signContract/index.vue')
         }
       ]
     }

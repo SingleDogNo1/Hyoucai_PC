@@ -98,11 +98,11 @@ export default new Router({
     {
       path: '/mine',
       component: Layout,
-      redirect: '/mine/overview',
       children: [
         {
           path: '',
           component: Mine,
+          redirect: '/mine/overview',
           children: [
             {
               path: 'overview', // 账户总览
@@ -264,6 +264,28 @@ export default new Router({
           path: 'report',
           name: 'report',
           component: () => import(/* webpackChunkName: "report" */ '@/views/hyc/infoDisclosure/report.vue')
+        }
+      ]
+    },
+    {
+      path: '/', // 主题活动
+      component: Layout,
+      children: [
+        {
+          path: 'activity',
+          name: 'activity',
+          component: () => import(/* webpackChunkName: "activity" */ '@/views/hyc/activity/activity.vue')
+        }
+      ]
+    },
+    {
+      path: '/sign',
+      component: Layout,
+      children: [
+        {
+          path: '', // 签约
+          name: 'sign',
+          component: () => import(/* webpackChunkName: "register" */ '@/views/common/signContract/index.vue')
         }
       ]
     }
