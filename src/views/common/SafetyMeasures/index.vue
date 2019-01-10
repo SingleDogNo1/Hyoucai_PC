@@ -24,7 +24,25 @@
   </div>
 </template>
 <script>
-export default {}
+import { zxdtMtbdMsg } from '@/api/common/safe'
+export default {
+  name: 'safetyMeasures',
+  data() {
+    return {}
+  },
+  methods: {
+    zxdtMtbdMsg: function() {
+      let obj = {}
+      obj.paramCode = 'AQCS'
+      zxdtMtbdMsg(obj).then(res => {
+        console.log(res)
+      })
+    }
+  },
+  created() {
+    this.zxdtMtbdMsg()
+  }
+}
 </script>
 <style lang="scss" scoped>
 @import '../../../assets/css/mixins';

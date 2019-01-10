@@ -4,9 +4,46 @@
       <div class="card" :class="{'active':flag1}" @click="changeFlag1">可用卡券</div>
       <div class="card" :class="{'active':flag2}" @click="changeFlag2">历史卡券</div>
     </header>
-    <div class="coupons_box">
+    <!-- 可用卡券 -->
+    <div class="coupons_box" v-show="flag1">
+      <!-- 立即领取 -->
       <div
         v-for="(item,index) in receiveList"
+        :class="[{'receive1':item.voucherType=='VT01'},{'receive2':item.secondType==1},{'receive2_1':item.secondType==2},{'receive3':item.voucherType=='VT03'}]"
+        :key="index"
+      >
+        <!-- 加息券待领取 -->
+        <div v-show="item.voucherType=='VT01'">
+          <p class="vouche_box">
+            <span class="vouche">
+              {{item.voucherFaceValue}}
+              <i>%</i>
+              <i class="font">利息</i>
+            </span>
+            <span class="vouche_aside">可加息券{{item.validDays}}天</span>
+          </p>
+          <p class="start">出借限额{{item.amountMin}}至{{item.amountMax}}元</p>
+          <button class="receive_btn" @click="receiveCoupon(item.id)">立即领取</button>
+        </div>
+        <!-- 红包待领取 -->
+        <div v-show="item.voucherType=='VT02'">
+          <p class="vouche_box">
+            <span class="vouche">
+              {{item.voucherFaceValue}}
+              <i>元</i>
+            </span>
+            <span class="vouche_aside">可与加息券同时使用</span>
+          </p>
+          <p class="start">起投金额：{{item.voucherFaceValue}}.00</p>
+          <button class="receive_btn" @click="receiveRedPacket(item.id)">立即领取</button>
+        </div>
+        <div class="endData">有效期至:{{item.validUseEndTime}}</div>
+      </div>
+      <!-- 领取确定弹框 -->
+      <div class="isReceive"></div>
+      <!-- 立即使用 -->
+      <div
+        v-for="(item,index) in receivedList"
         :class="[{'receive1':item.voucherType=='VT01'},{'receive2':item.secondType==1},{'receive2_1':item.secondType==2},{'receive3':item.voucherType=='VT03'}]"
         :key="index"
       >
@@ -14,11 +51,13 @@
           <p class="vouche_box">
             <span class="vouche">
               {{item.voucherFaceValue}}
-              <i>元</i>
+              <i>%</i>
+              <i class="font">利息</i>
             </span>
             <span class="vouche_aside">可加息券{{item.validDays}}天</span>
           </p>
-          <p class="start">起投金额：{{item.voucherFaceValue}}元</p>
+          <p class="start">出借限额{{item.amountMin | toThousands}}至{{item.amountMax | toThousands}}元</p>
+          <button class="receive1_btn" @click="immdiateUse(item.id)">立即使用</button>
         </div>
         <div v-show="item.voucherType=='VT02'">
           <p class="vouche_box">
@@ -28,17 +67,33 @@
             </span>
             <span class="vouche_aside">可与加息券同时使用</span>
           </p>
-          <p class="start">起投金额：{{item.voucherFaceValue}}元</p>
+          <p class="start">起投金额：{{item.voucherFaceValue}}.00</p>
+          <button class="receive1_btn" @click="immdiateUseRed(item.id)">立即使用</button>
         </div>
         <div class="endData">有效期至:{{item.validUseEndTime}}</div>
-        <el-button class="receive1_btn" @click="open">立即领取</el-button>
       </div>
+    </div>
+    <!-- 历史卡券 -->
+    <div class="message_box" v-show="flag2">
+      <!-- 已过期 -->
       <div
         v-for="(item,index) in receivedList"
         :class="[{'receive1':item.voucherType=='VT01'},{'receive2':item.secondType==1},{'receive2_1':item.secondType==2},{'receive3':item.voucherType=='VT03'}]"
         :key="index"
       >
-        <div v-show="item.voucherType=='VT01'"></div>
+        <!-- 加息券 -->
+        <div v-show="item.voucherType=='VT01'">
+          <p class="vouche_box">
+            <span class="vouche">
+              {{item.voucherFaceValue}}
+              <i>%</i>
+              <i class="font">利息</i>
+            </span>
+            <span class="vouche_aside">可加息券{{item.validDays}}天</span>
+          </p>
+          <p class="start">出借限额{{item.amountMin}}至{{item.amountMax}}元</p>
+        </div>
+        <!-- 红包 -->
         <div v-show="item.voucherType=='VT02'">
           <p class="vouche_box">
             <span class="vouche">
@@ -47,18 +102,48 @@
             </span>
             <span class="vouche_aside">可与加息券同时使用</span>
           </p>
-          <p class="start">起投金额：{{item.voucherFaceValue}}元</p>
+          <p class="start">起投金额：{{item.voucherFaceValue}}.00</p>
         </div>
         <div class="endData">有效期至:{{item.validUseEndTime}}</div>
-        <el-button class="receive1_btn">立即使用</el-button>
+        <button class="receive1_btn">已过期</button>
+      </div>
+      <!-- 已使用 -->
+      <div
+        v-for="(item,index) in receivedList"
+        :class="[{'receive1':item.voucherType=='VT01'},{'receive2':item.secondType==1},{'receive2_1':item.secondType==2},{'receive3':item.voucherType=='VT03'}]"
+        :key="index"
+      >
+        <!-- 加息券 -->
+        <div v-show="item.voucherType=='VT01'">
+          <p class="vouche_box">
+            <span class="vouche">
+              {{item.voucherFaceValue}}
+              <i>%</i>
+              <i class="font">利息</i>
+            </span>
+            <span class="vouche_aside">可加息券{{item.validDays}}天</span>
+          </p>
+          <p class="start">出借限额{{item.amountMin}}至{{item.amountMax}}元</p>
+        </div>
+        <!-- 红包 -->
+        <div v-show="item.voucherType=='VT02'">
+          <p class="vouche_box">
+            <span class="vouche">
+              {{item.voucherFaceValue}}
+              <i>元</i>
+            </span>
+            <span class="vouche_aside">可与加息券同时使用</span>
+          </p>
+          <p class="start">起投金额：{{item.voucherFaceValue}}.00</p>
+        </div>
+        <div class="endData">有效期至:{{item.validUseEndTime}}</div>
+        <button class="receive1_btn">已使用</button>
       </div>
     </div>
-    <div class="message_box"></div>
   </div>
 </template>
-
 <script>
-import { geCoupon } from '@/api/djs/Mine/coupon'
+import { geCoupon, couponPacketHistory, receiveCoupon, receiveRedPacket } from '@/api/djs/Mine/coupon'
 import { mapGetters } from 'vuex'
 export default {
   name: 'coupons',
@@ -70,7 +155,9 @@ export default {
       flag2: false,
       receiveList: [],
       receivedList: [],
-      unReList: []
+      unReList: [],
+      expiredList: [],
+      usedList: []
     }
   },
   props: {},
@@ -86,45 +173,127 @@ export default {
       this.flag2 = true
       this.flag1 = false
     },
-    open() {
-      this.$confirm('领取成功', {
-        confirmButtonText: '确定',
-        center: true
-      }).then(() => {
-        this.$message({
-          type: 'success',
-          message: '删除成功!'
-        })
-      })
-    },
+    // 可用卡券
     geCoupon: function() {
       let data = {}
       data.userName = this.user.userName
       data.clientType = 'QD01'
       geCoupon(data).then(res => {
-        // let list = JSON.parse(JSON.stringify(res.data.data.list))
-        // list.map(item => {
-        //   switch (item.status) {
-        //     case 1:
-        //       this.receiveList.push(item)
-        //       break
-        //     case 2:
-        //       this.receivedList.push(item)
-        //       break
-        //     case 3:
-        //       this.unReList.push(item)
-        //       break
-        //   }
-        //   this.receiveList.map(item => {
-        //     item.voucherFaceValue = parseInt(item.voucherFaceValue)
-        //   })
-        // })
-        console.log(res)
+        let list = JSON.parse(JSON.stringify(res.data.vouchers))
+        this.receiveList.length = 0
+        this.receivedList.length = 0
+        this.unReList.length = 0
+        list.map(item => {
+          switch (item.status) {
+            case 1:
+              this.receiveList.push(item)
+              break
+            case 2:
+              this.receivedList.push(item)
+              break
+            case 3:
+              this.unReList.push(item)
+              break
+          }
+          this.receiveList.map(item => {
+            item.voucherFaceValue = parseInt(item.voucherFaceValue)
+            item.amountMin = parseInt(item.amountMin)
+            item.amountMax = parseInt(item.amountMax)
+          })
+          this.receivedList.map(item => {
+            item.voucherFaceValue = parseInt(item.voucherFaceValue)
+            item.amountMin = parseInt(item.amountMin)
+            item.amountMax = parseInt(item.amountMax)
+          })
+        })
+        // console.log(res.data.vouchers)
       })
+    },
+    // 历史卡券
+    couponPacketHistory: function() {
+      let obj = {}
+      obj.userName = this.user.userName
+      couponPacketHistory(obj).then(res => {
+        let list = JSON.parse(JSON.stringify(res.data.vouchers))
+        list.map(item => {
+          switch (item.status) {
+            case 1:
+              this.expiredList.push(item)
+              break
+            case 2:
+              this.usedList.push(item)
+              break
+          }
+          this.expiredList.map(item => {
+            item.voucherFaceValue = parseInt(item.voucherFaceValue)
+            item.amountMin = parseInt(item.amountMin)
+            item.amountMax = parseInt(item.amountMax)
+          })
+          this.usedList.map(item => {
+            item.voucherFaceValue = parseInt(item.voucherFaceValue)
+            item.amountMin = parseInt(item.amountMin)
+            item.amountMax = parseInt(item.amountMax)
+          })
+        })
+      })
+    },
+    // 领取加息券
+    receiveCoupon: function(id) {
+      let obj = {}
+      obj.userName = this.user.userName
+      obj.couponId = id
+      receiveCoupon(obj)
+    },
+    // 领取红包
+    receiveRedPacket: function(id) {
+      let obj = {}
+      obj.userName = this.user.userName
+      obj.redPacketId = id
+      receiveRedPacket(obj)
+      this.geCoupon()
+    },
+    // 立即使用
+    immdiateUse: function(id) {
+      this.$router.push({
+        name: 'investment',
+        query: {
+          couponId: id
+        }
+      })
+    },
+    immdiateUseRed: function(id) {
+      this.$router.push({
+        name: 'investment',
+        query: {
+          redPacketId: id
+        }
+      })
+    }
+  },
+  filters: {
+    toThousands(num) {
+      num = (num || 0).toString()
+      let result = ''
+      let float = ''
+      if (num.indexOf('.') > 0) {
+        float = num.split('.')[1]
+        num = num.split('.')[0]
+      }
+      while (num.length > 3) {
+        result = ',' + num.slice(-3) + result
+        num = num.slice(0, num.length - 3)
+      }
+      if (num && float) {
+        result = num + result + '.' + float
+      } else {
+        result = num + result
+      }
+      return result
     }
   },
   created() {
     this.geCoupon()
+    this.couponPacketHistory()
   },
   mounted() {},
   destroyed() {}
@@ -162,32 +331,22 @@ export default {
       color: rgba(251, 137, 31, 1);
     }
   }
-  .coupons_box {
+  .coupons_box,
+  .message_box {
     height: auto;
     display: flex;
+    flex-wrap: wrap;
     padding-left: 29px;
     padding-top: 41px;
-    .receive1 {
-      background-image: url(./inserset.png);
-      width: 378px;
-      height: 105px;
-      margin-right: 25px;
-      margin-bottom: 30px;
-    }
-    .receive2 {
-      background-image: url(./dikou.png);
-      width: 378px;
-      height: 105px;
-      margin-right: 25px;
-      margin-bottom: 30px;
-    }
+    .receive1,
+    .receive2,
     .receive2_1 {
-      background-image: url(./xianjin.png);
       width: 378px;
       height: 105px;
       margin-right: 25px;
       margin-bottom: 30px;
       position: relative;
+      padding-right: 52px;
       .vouche_box {
         padding-top: 19px;
         .vouche {
@@ -226,7 +385,8 @@ export default {
         color: rgba(255, 255, 255, 1);
         line-height: 18px;
       }
-      /deep/ .receive1_btn {
+      .receive_btn,
+      .receive1_btn {
         display: inline-block;
         width: 52px;
         height: 105px;
@@ -241,19 +401,77 @@ export default {
         top: 0;
         right: 0;
         position: absolute;
+        cursor: pointer;
         span {
           display: inline-block;
           white-space: normal;
         }
       }
+      .endData {
+        margin-left: 33px;
+        font-size: $font-size-small-ss;
+        font-family: PingFang-SC-Regular;
+        font-weight: 400;
+        color: rgba(255, 255, 255, 1);
+        line-height: 18px;
+      }
     }
-    .endData {
-      margin-left: 33px;
-      font-size: $font-size-small-ss;
-      font-family: PingFang-SC-Regular;
-      font-weight: 400;
-      color: rgba(255, 255, 255, 1);
-      line-height: 18px;
+    .receive1 {
+      background-image: url(./insersetlq.png);
+      .vouche_box {
+        .vouche {
+          .font {
+            font-size: 16px;
+          }
+        }
+      }
+    }
+    .receive2 {
+      background-image: url(./dikoulq.png);
+    }
+    .receive2_1 {
+      background-image: url(./xianjin.png);
+    }
+  }
+  .message_box {
+    .receive1,
+    .receive2,
+    .receive2_1 {
+      .vouche_box {
+        .vouche {
+          color: rgba(155, 155, 155, 1);
+        }
+        .vouche_aside {
+          border: 1px solid rgba(155, 155, 155, 1);
+          color: rgba(155, 155, 155, 1);
+        }
+      }
+      .start {
+        color: rgba(155, 155, 155, 1);
+      }
+      /deep/ .receive1_btn {
+        color: rgba(155, 155, 155, 1);
+        background: rgba(235, 235, 235, 1);
+      }
+      .endData {
+        color: rgba(155, 155, 155, 1);
+      }
+    }
+    .receive1 {
+      background-image: url(./jiaxigq.png);
+      .vouche_box {
+        .vouche {
+          .font {
+            font-size: 16px;
+          }
+        }
+      }
+    }
+    .receive2 {
+      background-image: url(./dikouysy.png);
+    }
+    .receive2_1 {
+      background-image: url(./xianjinsy.png);
     }
   }
 }
