@@ -104,6 +104,9 @@ export default {
     .el-tabs__item {
       color: #5a5a5a;
       text-align: center;
+      &:hover {
+        color: $color-tab-selected;
+      }
     }
     .is-active {
       color: $color-tab-selected;
