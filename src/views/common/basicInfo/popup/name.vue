@@ -77,6 +77,7 @@ export default {
       border-radius: 4px;
       font-size: $font-size-medium;
       font-weight: 400;
+      cursor: pointer;
     }
     .determine {
       background: rgba(251, 123, 31, 1);

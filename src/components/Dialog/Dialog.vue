@@ -1,15 +1,21 @@
 <template>
   <div class="Dialog" v-if="show" @mousewheel="onMousewheel($event)">
     <div class="inner">
+      <div v-if="showCloseBtn" class="close" @click="cancelBtnItem"><i class="iconfont icon-guanbi1"></i></div>
       <header v-if="showTitle">{{ title }}</header>
+      <div class="top" v-if="showLogo">
+        <img src="./hyc&jxbank@2x.png" alt="">
+      </div>
       <slot></slot>
-      <footer class="single" v-if="singleButton">
-        <el-button @click="cancelItem">{{ confirmText }}</el-button>
-      </footer>
-      <footer v-else>
-        <el-button type="primary" @click="confirmItem">{{ confirmText }}</el-button>
-        <el-button @click="cancelItem">{{ cancelText }}</el-button>
-      </footer>
+      <div v-if="showFooter">
+        <footer class="single" v-if="singleButton">
+          <el-button @click="cancelItem">{{ confirmText }}</el-button>
+        </footer>
+        <footer v-else>
+          <el-button type="primary" @click="confirmItem">{{ confirmText }}</el-button>
+          <el-button @click="cancelItem">{{ cancelText }}</el-button>
+        </footer>
+      </div>
     </div>
   </div>
 </template>
@@ -24,6 +30,10 @@ export default {
       type: Boolean,
       default: false
     },
+    showCloseBtn: {
+      type: Boolean,
+      default: false
+    },
     // 标题文字
     title: {
       type: String,
@@ -31,6 +41,16 @@ export default {
     },
     // 是否显示标题
     showTitle: {
+      type: Boolean,
+      default: true
+    },
+    // 是否显示logo
+    showLogo: {
+      type: Boolean,
+      default: false
+    },
+    // 是否显示按钮
+    showFooter: {
       type: Boolean,
       default: true
     },
@@ -63,6 +83,13 @@ export default {
         return () => {}
       }
     },
+    // 点击关闭按钮执行的函数
+    onBtnClose: {
+      type: Function,
+      default: () => {
+        return () => {}
+      }
+    },
     // 是否点击确认禁止关闭弹窗
     preventClose: {
       type: Boolean,
@@ -78,6 +105,10 @@ export default {
     },
     cancelItem() {
       this.onClose()
+      this.$emit('update:show', false)
+    },
+    cancelBtnItem() {
+      this.onBtnClose()
       this.$emit('update:show', false)
     },
     onMousewheel(e) {
@@ -110,6 +141,19 @@ export default {
     box-shadow: 2px 2px 10px 0 #cdcdcd;
     border-radius: 6px;
     border: 1px solid #e3e3e3;
+    .close {
+      position: absolute;
+      right: 10px;
+      top: 10px;
+      width: 30px;
+      height: 30px;
+      line-height: 30px;
+      text-align: center;
+      cursor: pointer;
+      i {
+        font-size: 20px;
+      }
+    }
     header {
       height: 34px;
       line-height: 34px;
@@ -117,6 +161,13 @@ export default {
       color: $color-text;
       text-align: center;
       margin-bottom: 30px;
+    }
+    .top {
+      margin-bottom: 30px;
+      text-align: center;
+      img {
+        width: 85%;
+      }
     }
     footer {
       display: flex;

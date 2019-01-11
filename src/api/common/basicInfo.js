@@ -17,6 +17,7 @@ export function getMailingAddress(data) {
     data: qs.stringify(data)
   })
 }
+// 修改昵称
 export function modifyNikename(data) {
   return request({
     url: '/ModifyNikename',
@@ -25,6 +26,7 @@ export function modifyNikename(data) {
     data: qs.stringify(data)
   })
 }
+// 修改密码
 export function updateUserPsw(data) {
   return request({
     url: '/UpdateUserPsw',
@@ -33,6 +35,7 @@ export function updateUserPsw(data) {
     data: qs.stringify(data)
   })
 }
+// 修改注册手机号
 export function modifyBindMobile(data) {
   return request({
     url: '/ModifyBindMobile',
@@ -41,6 +44,7 @@ export function modifyBindMobile(data) {
     data: qs.stringify(data)
   })
 }
+// 获取短信验证码
 export function modifyBindMobileSendCode(data) {
   return request({
     url: '/ModifyBindMobileSendCode',
@@ -49,6 +53,7 @@ export function modifyBindMobileSendCode(data) {
     data: qs.stringify(data)
   })
 }
+// 修改收货地址
 export function saveMailingAddress(data) {
   return request({
     url: '/SaveMailingAddress',
@@ -57,9 +62,19 @@ export function saveMailingAddress(data) {
     data: qs.stringify(data)
   })
 }
+// 修改交易密码
 export function tansactionPwd(data) {
   return request({
     url: '/escrow/passwordReset',
+    method: 'post',
+    headers: { 'Content-type': 'application/x-www-form-urlencoded' },
+    data: qs.stringify(data)
+  })
+}
+// 修改电子账户手机号
+export function jxMobileModify(data) {
+  return request({
+    url: '/jxMobileModify/modify',
     method: 'post',
     headers: { 'Content-type': 'application/x-www-form-urlencoded' },
     data: qs.stringify(data)
