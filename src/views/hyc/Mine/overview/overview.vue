@@ -7,7 +7,7 @@
           <span class="big">{{ totalIncomeBig }}</span> <span class="small">.{{ totalIncomeSmall }}元</span>
         </p>
       </section>
-      <button class="switcher">系统切换</button> <button class="recharge">充值</button> <button class="extract">提现</button>
+      <button class="switcher">系统切换</button> <button class="recharge"><router-link :to="{ name: 'charge' }">充值</router-link></button> <button class="extract"><router-link :to="{ name: 'tocash' }">提现</router-link></button>
     </div>
     <div class="amount" id="amount"></div>
   </div>
@@ -198,6 +198,9 @@ export default {
     }
     &:last-child {
       margin-right: 0;
+    }
+    a {
+      color: #fff;
     }
   }
 }
