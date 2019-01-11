@@ -124,12 +124,12 @@ export default new Router({
               component: () => import('@/views/hyc/Mine/lend/lend'),
               children: [
                 {
-                  path: '/qst/:status',
+                  path: 'qst/:status',
                   name: 'QSTList',
                   component: () => import('@/views/hyc/Mine/JHB/JHB')
                 },
                 {
-                  path: '/zxt/:date/:status',
+                  path: 'zxt/:date/:status',
                   name: 'ZXTList',
                   component: () => import('@/views/hyc/Mine/SB/SB')
                 }
