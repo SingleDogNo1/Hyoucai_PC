@@ -164,7 +164,7 @@ export default {
         this.chargedBalance = this.personalInfo.banlance
         return
       }
-      this.chargedBalance = this.personalInfo.banlance - 0 + ne
+      this.chargedBalance = Math.round((this.personalInfo.banlance - 0 + ne) * 100) / 100
       if (this.personalInfo.banlance.toString().indexOf('.00') > -1) {
         this.chargedBalance = this.chargedBalance + '.00'
       }

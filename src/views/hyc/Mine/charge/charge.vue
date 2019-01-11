@@ -143,7 +143,7 @@ export default {
         this.chargedBalance = this.balance
         return
       }
-      this.chargedBalance = this.balance - 0 + ne
+      this.chargedBalance = Math.round((this.balance - 0 + ne) * 100) / 100
       if (this.balance.toString().indexOf('.00') > -1) {
         this.chargedBalance = this.chargedBalance + '.00'
       }
