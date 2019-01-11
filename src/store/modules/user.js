@@ -18,10 +18,13 @@ const user = {
 
   actions: {
     logout: ({ commit }) => {
-      commit('SET_USER', '')
-      commit('SET_USERBASICINFO', '')
-      removeUser()
-      removeUserBasicInfo()
+      return new Promise(resolve => {
+        commit('SET_USER', '')
+        commit('SET_USERBASICINFO', '')
+        removeUser()
+        removeUserBasicInfo()
+        resolve()
+      })
     }
   }
 }

@@ -57,6 +57,22 @@ function getQSTInfo(data) {
   })
 }
 
+function getTrilateralPdfPathApi(data) {
+  return request({
+    url: 'protocol/getTrilateralPdfPath',
+    method: 'post',
+    data: qs.stringify(data)
+  })
+}
+
+function getPeopleInfoApi(data) {
+  return request({
+    url: 'jxLoanPeopleInfo/detail',
+    method: 'post',
+    data: qs.stringify(data)
+  })
+}
+
 function getZXTDetail(data) {
   return request({
     url: 'userInvest/userInvestInfo',
@@ -73,5 +89,7 @@ export {
   getZXTList, // 获取自选投列表
   getQSTGainPlan, // 获取轻松投收益计划
   getQSTInfo, // 获取轻松投项目组成
+  getTrilateralPdfPathApi, // 优质计划，获取项目组成三方协议
+  getPeopleInfoApi, // 获取借款人详细信息
   getZXTDetail // 获取自选投详情
 }

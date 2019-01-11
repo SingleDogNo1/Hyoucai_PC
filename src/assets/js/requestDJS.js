@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { getAuth } from './utils'
 import store from '@/store'
+import { getRetBaseURL } from './utils'
 
 const service = axios.create({
   baseURL: process.env.VUE_APP_BASE_DJS_API,
@@ -30,7 +31,7 @@ service.interceptors.response.use(
     const res = response.data
     if (res && ['505', '506'].includes(res.resultCode)) {
       store.dispatch('logout').then(() => {
-        //location.href = '/'
+        location.href = `${getRetBaseURL()}/login`
       })
       return Promise.reject('error')
     } else {
