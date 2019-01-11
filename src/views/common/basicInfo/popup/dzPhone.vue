@@ -1,29 +1,30 @@
 <template>
   <div class="box">
     <div class="modify">
-      <span class="modify_name">收货地址</span>
+      <span class="modify_name">电子账户手机号</span>
       <div class="modify_ipt_box">
-        <input class="modify_ipt" type="text" placeholder="请输入收件人姓名" v-model="consigneeName">
-        <input class="modify_ipt" type="text" placeholder="请输入收件人电话" v-model="consigneePhone">
-        <input class="modify_ipt" type="text" placeholder="请输入收件人地址" v-model="address">
+        <input class="modify_ipt" type="text" placeholder="请输入原手机号" v-model="oldMobile">
+        <input class="modify_ipt" type="text" placeholder="请输入新手机号" v-model="mobile">
+        <input class="modify_ipt" type="text" placeholder="请输入验证码" v-model="smsCode">
+        <span class="code" @click="getMobileSendCode">获取验证码</span>
       </div>
     </div>
     <div class="btn">
-      <button class="determine" @click="saveMailingAddress">保存</button>
-      <button class="cancle" @click="isShow.isShow4=!isShow.isShow4">取消</button>
+      <button class="determine" @click="jxMobileModify">立即绑定</button>
+      <button class="cancle" @click="isShow.isShow5=!isShow.isShow5">取消</button>
     </div>
   </div>
 </template>
 <script>
-import { saveMailingAddress } from '@/api/common/basicInfo'
+import { jxMobileModify, modifyBindMobileSendCode } from '@/api/common/basicInfo'
 import { mapGetters } from 'vuex'
 export default {
-  name: 'Address',
+  name: 'DzPhone',
   data() {
     return {
-      consigneeName: '',
-      consigneePhone: '',
-      address: ''
+      mobile: '',
+      smsCode: '',
+      oldMobile: ''
     }
   },
   props: ['isShow'],
@@ -32,13 +33,23 @@ export default {
   },
   components: {},
   methods: {
-    saveMailingAddress: function() {
+    jxMobileModify: function() {
+      this.isShow.isShow5 = !this.isShow.isShow5
       let obj = {}
-      obj.consigneeName = this.consigneeName
-      obj.consigneePhone = this.consigneePhone
-      obj.address = this.address
-      obj.userName = this.user.userName
-      saveMailingAddress(obj)
+      obj.newMobile = this.mobile
+      obj.smsCode = this.smsCode
+      obj.oldMobile = this.oldMobile
+      jxMobileModify(obj).then(() => {
+        this.mobile = ''
+        this.smsCode = ''
+        this.oldMobile = ''
+      })
+    },
+    getMobileSendCode: function() {
+      let data = {}
+      data.mobile = this.mobile
+      data.userName = this.user.userName
+      modifyBindMobileSendCode(data)
     }
   }
 }
@@ -78,6 +89,14 @@ export default {
         color: rgba(155, 155, 155, 1);
         line-height: 16px;
         margin-bottom: 15px;
+      }
+      .code {
+        font-size: $font-size-small-s;
+        font-weight: 400;
+        color: rgba(0, 131, 254, 1);
+        position: absolute;
+        right: 10px;
+        top: 126px;
       }
     }
   }
