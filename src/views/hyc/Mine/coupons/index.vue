@@ -8,8 +8,13 @@
     <div class="coupons_box" v-show="flag1">
       <!-- 立即领取 -->
       <div
-        v-for="(item,index) in receiveList"
-        :class="[{'receive1':item.voucherType=='VT01'},{'receive2':item.secondType==1},{'receive2_1':item.secondType==2},{'receive3':item.voucherType=='VT03'}]"
+        v-for="(item, index) in receiveList"
+        :class="[
+          { receive1: item.voucherType == 'VT01' },
+          { receive2: item.secondType == 1 },
+          { receive2_1: item.secondType == 2 },
+          { receive3: item.voucherType == 'VT03' }
+        ]"
         :key="index"
       >
         <!-- 加息券待领取 -->
@@ -30,11 +35,7 @@
         <!-- 红包待领取 -->
         <div v-show="item.voucherType=='VT02'">
           <p class="vouche_box">
-            <span class="vouche">
-              {{item.voucherFaceValue}}
-              <i>元</i>
-            </span>
-            <span class="vouche_aside">可与加息券同时使用</span>
+            <span class="vouche"> {{ item.voucherFaceValue }} <i>元</i> </span> <span class="vouche_aside">可与加息券同时使用</span>
           </p>
           <p class="start">起投金额：{{item.voucherFaceValue}}.00</p>
           <button class="receive_btn" @click="receiveRedPacket(item.id)">立即领取</button>
@@ -45,8 +46,13 @@
       </div>
       <!-- 立即使用 -->
       <div
-        v-for="(item,index) in receivedList"
-        :class="[{'receive1':item.voucherType=='VT01'},{'receive2':item.secondType==1},{'receive2_1':item.secondType==2},{'receive3':item.voucherType=='VT03'}]"
+        v-for="(item, index) in receivedList"
+        :class="[
+          { receive1: item.voucherType == 'VT01' },
+          { receive2: item.secondType == 1 },
+          { receive2_1: item.secondType == 2 },
+          { receive3: item.voucherType == 'VT03' }
+        ]"
         :key="index"
       >
         <div v-show="item.voucherType=='VT01'">
@@ -63,11 +69,7 @@
         </div>
         <div v-show="item.voucherType=='VT02'">
           <p class="vouche_box">
-            <span class="vouche">
-              {{item.voucherFaceValue}}
-              <i>元</i>
-            </span>
-            <span class="vouche_aside">可与加息券同时使用</span>
+            <span class="vouche"> {{ item.voucherFaceValue }} <i>元</i> </span> <span class="vouche_aside">可与加息券同时使用</span>
           </p>
           <p class="start">起投金额：{{item.voucherFaceValue}}.00</p>
           <button class="receive1_btn" @click="immdiateUseRed(item.id)">立即使用</button>
