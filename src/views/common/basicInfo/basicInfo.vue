@@ -76,8 +76,9 @@
         <div class="wrap_rows last_rows">
           <span class="wrap_left">电子账户手机号</span>
           <span class="wrap_center">{{escrowAccountInfo.mobile}}</span>
-          <button class="wrap_btn" @click="tansactionPwd">修改</button>
+          <button class="wrap_btn" @click="isShow.isShow5 = !isShow.isShow5">修改</button>
         </div>
+        <DzPhone v-show="isShow.isShow5" :isShow="isShow"></DzPhone>
       </div>
       <div class="openAccount" v-show="!flag">
         <div class="tips">
@@ -98,6 +99,7 @@ import Name from './popup/name'
 import Password from './popup/password'
 import Phone from './popup/phone'
 import Address from './popup/address'
+import DzPhone from './popup/dzPhone'
 export default {
   name: 'basicInfo',
   mixins: [],
@@ -105,7 +107,8 @@ export default {
     Name,
     Password,
     Phone,
-    Address
+    Address,
+    DzPhone
   },
   data() {
     return {
@@ -113,7 +116,8 @@ export default {
         isShow1: false,
         isShow2: false,
         isShow3: false,
-        isShow4: false
+        isShow4: false,
+        isShow5: false
       },
       flag: false,
       escrowAccountInfo: {},
@@ -134,6 +138,7 @@ export default {
   props: {},
   watch: {},
   methods: {
+    // 修改交易密码
     tansactionPwd: function() {
       let obj = {}
       obj.retUrl = getRetBaseURL() + '/mine/basicInfo'
@@ -329,6 +334,7 @@ export default {
           border: 1px solid rgba(251, 137, 31, 1);
           font-size: $font-size-small;
           color: rgba(251, 123, 31, 1);
+          cursor: pointer;
         }
       }
       .last_rows {
@@ -373,6 +379,7 @@ export default {
         font-weight: 400;
         color: rgba(255, 255, 255, 1);
         line-height: 20px;
+        cursor: pointer;
       }
     }
   }

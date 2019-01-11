@@ -29,7 +29,9 @@ export default {
       let anchorElement = document.getElementById(id)
       // 如果锚点存在，就跳转
       if (id) {
-        anchorElement.scrollIntoView()
+        setTimeout(() => {
+          anchorElement.scrollIntoView()
+        }, 100)
       }
     }
   },

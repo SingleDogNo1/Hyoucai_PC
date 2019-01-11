@@ -2,20 +2,31 @@
   <div class="help-center">
     <div class="container">
       <div class="nav-wrap">
-        <p class="title-wrap"><i class="iconfont icon-help"></i> <span class="title">帮助中心</span></p>
+        <p class="title-wrap">
+          <i class="iconfont icon-help"></i>
+          <span class="title">帮助中心</span>
+        </p>
         <ul class="nav-list">
-          <li v-for="(item, index) in QAList" :key="index" @click="clickItem(item.dicCode)" :class="{ on: current === item.dicCode }">
-            {{ item.dicName }}
-          </li>
+          <li
+            v-for="(item, index) in QAList"
+            :key="index"
+            @click="clickItem(item.dicCode)"
+            :class="{ on: current === item.dicCode }"
+          >{{ item.dicName }}</li>
         </ul>
       </div>
       <div class="content-wrap">
         <p class="title">常见问题</p>
         <el-collapse v-model="activeNames" @change="handleChange">
-          <el-collapse-item :name="item.question" v-for="(item, index) in QAContentList" :key="index">
+          <el-collapse-item
+            :name="item.question"
+            v-for="(item, index) in QAContentList"
+            :key="index"
+          >
             <template slot="title">
               <div class="header-wrap">
-                <i class="header-icon icon-question"></i> <span class="text">{{ item.question }}</span>
+                <i class="header-icon icon-question"></i>
+                <span class="text">{{ item.question }}</span>
               </div>
             </template>
             <div class="answer-wrap">
@@ -68,7 +79,13 @@ export default {
     }
   },
   mounted() {
-    this.getQueryQAType()
+    this.current = this.$route.query.helpCode
+    if (this.current) {
+      this.QAList = JSON.parse(localStorage.getItem('QAList'))
+      this.clickItem(this.current)
+    } else {
+      this.getQueryQAType()
+    }
   },
   watch: {
     $route() {

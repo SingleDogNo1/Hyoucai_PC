@@ -121,10 +121,9 @@ export default {
         maxLine: this.size
       }
       userInviteInfo(params).then(res => {
-        let data = res.data
-        console.log('data====', data)
+        let data = res.data.data
         this.inviteNum = data.inviteNum
-        this.inviteUserList = data.data.list
+        this.inviteUserList = data.list
         this.inviteUserList.forEach(val => {
           val.investStatus = val.investStatus === 0 ? '未投资' : '已投资'
         })
