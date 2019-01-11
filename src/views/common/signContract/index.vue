@@ -96,6 +96,7 @@ input:disabled {
       }
 
       ul:nth-of-type(1) li:nth-of-type(1) {
+        opacity: 0.3;
         background-image: linear-gradient(90deg, rgba(0, 185, 255, 0) 6%, #0083fe 100%);
         height: 2px;
         width: 61.5px;
@@ -103,6 +104,7 @@ input:disabled {
       }
 
       ul:nth-of-type(1) li:nth-of-type(3) {
+        opacity: 0.3;
         background: #0083fe;
         height: 2px;
         width: 39.5px;
@@ -110,7 +112,6 @@ input:disabled {
       }
 
       ul:nth-of-type(2) li:nth-of-type(1) {
-        opacity: 0.3;
         background: #0083fe;
         height: 2px;
         width: 39.5px;
@@ -118,14 +119,13 @@ input:disabled {
       }
 
       ul:nth-of-type(2) li:nth-of-type(3) {
-        opacity: 0.3;
         background-image: linear-gradient(-90deg, rgba(0, 185, 255, 0) 6%, #0083fe 100%);
         height: 2px;
         width: 61.5px;
         margin: 25px 0 0 5px;
       }
 
-      ul:nth-of-type(2) li img {
+      ul:nth-of-type(1) li img {
         opacity: 0.5;
       }
 

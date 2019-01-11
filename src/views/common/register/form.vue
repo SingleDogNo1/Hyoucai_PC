@@ -122,13 +122,13 @@ export default {
             this.setUser(user)
             switch (this.user.platformFlag) {
               case '1':
-                window.location.href = '/djs/#/mine/overview'
+                window.location.href = '/djs/#/account'
                 break
               case '2':
-                window.location.href = '/hyc/#/mine/overview'
+                window.location.href = '/hyc/#/account'
                 break
               default:
-                this.$router.push({ name: 'overview' })
+                this.$router.push({ name: 'account' })
             }
           } else {
             this.errorMsg = res.data.resultMsg

@@ -916,7 +916,7 @@ export default {
           if (data.data.status === 'OPEN_ACCOUNT' || data.data.status === 'SET_PASSWORD') {
             this.basicInfo()
           } else if (data.data.status === 'SIGN_PROTOCOL' || data.data.status === 'EVALUATE' || data.data.status === 'COMPLETE') {
-            window.location.href = '/user/makeAgre.html'
+            this.$router.push({ name: 'sign' })
           }
         }
       })
