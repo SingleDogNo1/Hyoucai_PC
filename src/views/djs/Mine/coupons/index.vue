@@ -10,7 +10,7 @@
       <div
         v-for="(item,index) in receiveList"
         :class="[{'receive1':item.voucherType=='VT01'},{'receive2':item.secondType==1},{'receive2_1':item.secondType==2},{'receive3':item.voucherType=='VT03'}]"
-        :key="index"
+        :key="index+'a'"
       >
         <!-- 加息券待领取 -->
         <div v-show="item.voucherType=='VT01'">
@@ -25,7 +25,7 @@
           <p class="start">出借限额{{item.amountMin | toThousands}}至{{item.amountMax | toThousands}}元</p>
           <button class="receive_btn" @click="receiveCoupon(item.id)">立即领取</button>
           <!-- 领取确定弹框 -->
-          <Dialog :show.sync="isShow1" :onConfirm="receiveCouponSuccess" :title="领取成功"></Dialog>
+          <Dialog :show.sync="isShow1" :onConfirm="receiveCouponSuccess" :title="'领取成功'"></Dialog>
         </div>
         <!-- 红包待领取 -->
         <div v-show="item.voucherType=='VT02'">
@@ -39,7 +39,7 @@
           <p class="start">起投金额：{{item.voucherFaceValue}}.00</p>
           <button class="receive_btn" @click="receiveRedPacket(item.id)">立即领取</button>
           <!-- 领取确定弹框 -->
-          <Dialog :show.sync="isShow2" :onConfirm="receiveRedPacketSuccess" :title="领取成功"></Dialog>
+          <Dialog :show.sync="isShow2" :onConfirm="receiveRedPacketSuccess" :title="'领取成功'"></Dialog>
         </div>
         <div class="endData">有效期至:{{item.validUseEndTime}}</div>
       </div>
@@ -47,7 +47,7 @@
       <div
         v-for="(item,index) in receivedList"
         :class="[{'receive1':item.voucherType=='VT01'},{'receive2':item.secondType==1},{'receive2_1':item.secondType==2},{'receive3':item.voucherType=='VT03'}]"
-        :key="index"
+        :key="index+'b'"
       >
         <div v-show="item.voucherType=='VT01'">
           <p class="vouche_box">
@@ -81,7 +81,7 @@
       <div
         v-for="(item,index) in expiredList"
         :class="[{'receive1':item.voucherType=='VT01'},{'receive2':item.secondType==1},{'receive2_1':item.secondType==2},{'receive3':item.voucherType=='VT03'}]"
-        :key="index"
+        :key="index+'c'"
       >
         <!-- 加息券 -->
         <div v-show="item.voucherType=='VT01'">
@@ -113,7 +113,7 @@
       <div
         v-for="(item,index) in usedList"
         :class="[{'receive1':item.voucherType=='VT01'},{'receive2':item.secondType==1},{'receive2_1':item.secondType==2},{'receive3':item.voucherType=='VT03'}]"
-        :key="index"
+        :key="index+'d'"
       >
         <!-- 加息券 -->
         <div v-show="item.voucherType=='VT01'">
