@@ -3,14 +3,14 @@
     <div class="modify">
       <span class="modify_name">收货地址</span>
       <div class="modify_ipt_box">
-        <input class="modify_ipt" type="text" placeholder="请输入收件人姓名" v-model="consigneeName">
-        <input class="modify_ipt" type="text" placeholder="请输入收件人电话" v-model="consigneePhone">
-        <input class="modify_ipt" type="text" placeholder="请输入收件人地址" v-model="address">
+        <input class="modify_ipt" type="text" placeholder="请输入收件人姓名" v-model="consigneeName" />
+        <input class="modify_ipt" type="text" placeholder="请输入收件人电话" v-model="consigneePhone" />
+        <input class="modify_ipt" type="text" placeholder="请输入收件人地址" v-model="address" />
       </div>
     </div>
     <div class="btn">
       <button class="determine" @click="saveMailingAddress">保存</button>
-      <button class="cancle" @click="isShow.isShow4=!isShow.isShow4">取消</button>
+      <button class="cancle" @click="isShow.isShow4 = !isShow.isShow4">取消</button>
     </div>
   </div>
 </template>
