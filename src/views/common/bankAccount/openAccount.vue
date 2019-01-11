@@ -8,12 +8,12 @@
           <div class="open_pic">
             <ul class="pic">
               <li></li>
-              <li><img height="45.6" width="45.6" src="./deposit.png" /></li>
+              <li><img height="45.6" width="45.6" src="../bankAccount/deposit.png" /></li>
               <li></li>
             </ul>
             <ul class="pic">
               <li></li>
-              <li><img height="45.6" width="45.6" src="./auth.png" /></li>
+              <li><img height="45.6" width="45.6" src="../bankAccount/auth.png" /></li>
               <li></li>
             </ul>
             <ul class="words">
@@ -42,8 +42,8 @@
               <dt><i :class="checkAgree ? 'icon-check' : 'icon-choose'" class="iconfont" @click="checkAgree = !checkAgree"></i></dt>
               <dd>
                 我已阅读并同意<a href="javascript:;" @click="agreeDialogVisible = true" class="agre_find"
-                  >《江西银行网络交易资金账户服务第三方协议》</a
-                >和<a href="javascript:;" @click="agreeDialogVisible = true" class="agre_find">《用户授权协议》</a>
+              >《江西银行网络交易资金账户服务第三方协议》</a
+              >和<a href="javascript:;" @click="agreeDialogVisible = true" class="agre_find">《用户授权协议》</a>
               </dd>
             </dl>
             <h3 v-if="errorMsg != ''">{{ errorMsg }}</h3>
@@ -118,8 +118,8 @@
               </p>
               <p>
                 为了保障甲方的合法权益，请甲方在注册或使用丙方账户服务前，详细阅读本协议。<b
-                  >甲方注册或使用账户时，即表示甲方已充分知晓并理解本协议之含义，并在此基础上接受本协议之全部内容，否则您应立即停止使用本服务和使用账户，并不进行下一步的操作。</b
-                >
+              >甲方注册或使用账户时，即表示甲方已充分知晓并理解本协议之含义，并在此基础上接受本协议之全部内容，否则您应立即停止使用本服务和使用账户，并不进行下一步的操作。</b
+              >
               </p>
 
               <h3>一、定义及解释</h3>
@@ -862,9 +862,11 @@ input:disabled {
 </style>
 
 <script type="text/javascript">
-import accountApi from '@/api/account/user'
+import accountApi from '@/api/common/openAccount'
 import { isChName, isIdcard } from '@/assets/js/regular'
 import { mapGetters } from 'vuex'
+import { postcall } from '@/assets/js/utils'
+
 export default {
   components: {},
   data() {
@@ -910,7 +912,6 @@ export default {
     // ! 用户信息完善提醒
     userInfoCompleteNotice: function(obj) {
       accountApi.userInfoCompleteNotice(obj).then(res => {
-        console.info('res', res)
         let data = res.data
         if (data.resultCode === '1') {
           if (data.data.status === 'OPEN_ACCOUNT' || data.data.status === 'SET_PASSWORD') {
@@ -984,7 +985,7 @@ export default {
           accountApi.accountOpenEncryptPage(params).then(res => {
             let accountData = res.data
             if (accountData.resultCode === '1') {
-              this.postcall(accountData.data.redirectUrl, accountData.data.paramReq)
+              postcall(accountData.data.redirectUrl, accountData.data.paramReq)
             } else {
               this.errorMsg = accountData.resultMsg
             }
@@ -994,31 +995,6 @@ export default {
           this.errorMsg = data.data.message
         }
       })
-    },
-    postcall(url, params, target) {
-      let tempform = document.createElement('form')
-      tempform.setAttribute('name', 'form')
-      tempform.action = url
-      tempform.method = 'post'
-      tempform.style.display = 'none'
-      if (target) {
-        tempform.target = target
-      }
-
-      for (let x in params) {
-        let opt = document.createElement('input')
-        opt.name = x
-        opt.value = params[x]
-        tempform.appendChild(opt)
-      }
-
-      let opt = document.createElement('input')
-      opt.type = 'submit'
-      opt.setAttribute('id', '_submit')
-      tempform.appendChild(opt)
-      document.body.appendChild(tempform)
-      tempform.submit()
-      document.body.removeChild(tempform)
     }
   },
   watch: {}

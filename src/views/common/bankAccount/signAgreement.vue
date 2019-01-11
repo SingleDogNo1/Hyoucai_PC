@@ -27,7 +27,7 @@
           <div class="form-data">
             <dl>
               <dt><i :class="checkAgree ? 'icon-check' : 'icon-choose'" class="iconfont" @click="checkAgree = !checkAgree"></i></dt>
-              <dd>我已阅读<a href="javascript:;" class="agre_find">《业务授权协议》</a></dd>
+              <dd>我已阅读<a href="javascript:;" class="agre_find" @click="$router.push({name: 'businessAuthAgreement'})">《业务授权协议》</a></dd>
             </dl>
             <button type="submit" :class="!checkAgree ? 'disabled' : ''" :disabled="!checkAgree" id="submit" @click="clickNext">立即授权</button>
           </div>
@@ -38,6 +38,56 @@
   </div>
 </template>
 
+<script type="text/javascript">
+import { investorsAuth } from '@/api/common/signAgreement'
+import { userInfoCompleteNotice } from '@/api/common/openAccount'
+import { getRetBaseURL } from '@/assets/js/utils'
+import { postcall } from '@/assets/js/utils'
+export default {
+  components: {},
+  data() {
+    return {
+      checkAgree: false,
+      status: this.$route.query.status, // 债转标为1 散标集合标为0 默认为空
+      entrance: this.$route.query.entrance // 入口标识
+    }
+  },
+  computed: {},
+  methods: {
+    clickNext() {
+      let params = {
+        retUrl: `${getRetBaseURL()}/sign`,
+        forgotPwdUrl: `${getRetBaseURL()}/mine/basicInfo`
+      }
+      if (this.status === 1) {
+        params.autoCredit = 1
+        // params.retUrl = getRetBaseURL() + this.entrance.fullPath
+      } else if (this.status === 0) {
+        params.autoBid = 1
+        // params.retUrl = getRetBaseURL() + this.entrance.fullPath
+      }
+      investorsAuth(params).then(res => {
+        if (res.data.resultCode === '1') {
+          const infoDict = res.data.data
+          postcall(infoDict.redirectUrl, infoDict.paramReq)
+        }
+      })
+    }
+  },
+  created() {
+    userInfoCompleteNotice().then(res => {
+      let response = res.data
+      if (response.resultCode === '1') {
+        if (response.data.status === 'COMPLETE' && [0, 1].includes(this.status)) {
+          // todo
+        } else if (response.data.status === 'EVALUATE' || response.data.status === 'COMPLETE') {
+          this.$router.push({ name: 'overview' })
+        }
+      }
+    })
+  }
+}
+</script>
 <style scoped lang="scss">
 input:disabled {
   background-color: rgb(235, 235, 228);
@@ -628,39 +678,3 @@ input:disabled {
   color: #4a4a4a !important;
 }
 </style>
-
-<script type="text/javascript">
-import { bidToSign } from '@/api/sign/bidToSign'
-export default {
-  components: {},
-  data() {
-    return {
-      checkAgree: false
-    }
-  },
-  computed: {},
-  mounted() {},
-  methods: {
-    bidToSign: function() {
-      let data = {
-        retUrl: location.href,
-        smsCode: '',
-        forgotPwdUrl: '',
-        mobile: ''
-      }
-      bidToSign(data).then(res => {
-        let data = res.data
-        if (data.resultCode === '1') {
-          console.log(res)
-        } else {
-          console.log(data.resultMsg)
-        }
-      })
-    },
-    clickNext: function() {
-      this.bidToSign()
-    }
-  },
-  watch: {}
-}
-</script>

@@ -90,17 +90,6 @@ export default new Router({
       ]
     },
     {
-      path: '/account',
-      component: Layout,
-      children: [
-        {
-          path: '',
-          name: 'account',
-          component: () => import(/* webpackChunkName: "register" */ '@/views/common/openAccount/index.vue')
-        }
-      ]
-    },
-    {
       path: '/mine',
       component: Layout,
       children: [
@@ -285,17 +274,6 @@ export default new Router({
       ]
     },
     {
-      path: '/sign',
-      component: Layout,
-      children: [
-        {
-          path: '', // 签约
-          name: 'sign',
-          component: () => import(/* webpackChunkName: "register" */ '@/views/common/signContract/index.vue')
-        }
-      ]
-    },
-    {
       path: '/', // 风险测评
       component: Layout,
       children: [
@@ -319,6 +297,22 @@ export default new Router({
           path: 'businessAuth', // 业务授权协议
           name: 'businessAuthAgreement',
           component: () => import('@/views/common/agreement/businessAuth')
+        }
+      ]
+    },
+    {
+      path: '/bankAccount', // 开户
+      component: Layout,
+      children: [
+        {
+          path: 'openAccount', // 开户
+          name: 'account',
+          component: () => import(/* webpackChunkName: "bankAccount" */ '@/views/common/bankAccount/openAccount.vue')
+        },
+        {
+          path: 'signAgreement', // 签约
+          name: 'sign',
+          component: () => import(/* webpackChunkName: "bankAccount" */ '@/views/common/bankAccount/signAgreement.vue')
         }
       ]
     }
