@@ -17,7 +17,6 @@ export default {
   },
   methods: {
     countUp() {
-      console.log('111', this.count)
       let demo = new CountUp(this.name, 0, this.count, 2, 2.5)
       demo.start()
     }

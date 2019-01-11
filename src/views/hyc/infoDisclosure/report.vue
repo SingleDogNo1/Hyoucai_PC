@@ -786,7 +786,6 @@ export default {
   },
   mounted() {
     this.index = this.$route.query.index
-    console.log('iundex=====', this.index)
     setTimeout(() => {
       0,
         (this.swiperBanner = new Swiper('.swiper-container-banner', {
