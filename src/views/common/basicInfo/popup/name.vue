@@ -1,12 +1,10 @@
 <template>
   <div class="box">
     <div class="modify">
-      <span class="modify_name">修改昵称</span>
-      <input class="modify_ipt" type="text" placeholder="请输入昵称" v-model="nikename">
+      <span class="modify_name">修改昵称</span> <input class="modify_ipt" type="text" placeholder="请输入昵称" v-model="nikename" />
     </div>
     <div class="btn">
-      <button class="determine" @click="modifyNikename">确定</button>
-      <button class="cancle" @click="isShow.isShow1=!isShow.isShow1">取消</button>
+      <button class="determine" @click="modifyNikename">确定</button> <button class="cancle" @click="isShow.isShow1 = !isShow.isShow1">取消</button>
     </div>
   </div>
 </template>
@@ -30,15 +28,11 @@ export default {
       let obj = {}
       obj.nikename = this.nikename
       obj.userName = this.user.userName
-      // obj.uuid
-      modifyNikename(obj).then(res => {
-        console.log(res)
-      })
+      modifyNikename(obj)
+      this.$emit('success', this.nikename)
     }
   },
-  created() {
-    this.modifyNikename()
-  }
+  created() {}
 }
 </script>
 <style lang="scss" scoped>

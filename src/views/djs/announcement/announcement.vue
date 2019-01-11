@@ -10,13 +10,7 @@
           </li>
         </ul>
         <div class="pagination-wrapper">
-          <pagination
-            v-if="total"
-            :count-page="total"
-            :size-val="size"
-            :page-val="page"
-            @handleCurrentChange="handleCurrentChange"
-          ></pagination>
+          <pagination v-if="total" :count-page="total" :size-val="size" :page-val="page" @handleCurrentChange="handleCurrentChange"></pagination>
         </div>
       </el-tab-pane>
       <el-tab-pane label="行业资讯" name="HYZX">
@@ -28,13 +22,7 @@
           </li>
         </ul>
         <div class="pagination-wrapper">
-          <pagination
-            v-if="total"
-            :count-page="total"
-            :size-val="size"
-            :page-val="page"
-            @handleCurrentChange="handleCurrentChange"
-          ></pagination>
+          <pagination v-if="total" :count-page="total" :size-val="size" :page-val="page" @handleCurrentChange="handleCurrentChange"></pagination>
         </div>
       </el-tab-pane>
       <el-tab-pane label="媒体报道" name="MTBD">
@@ -46,13 +34,7 @@
           </li>
         </ul>
         <div class="pagination-wrapper">
-          <pagination
-            v-if="total"
-            :count-page="total"
-            :size-val="size"
-            :page-val="page"
-            @handleCurrentChange="handleCurrentChange"
-          ></pagination>
+          <pagination v-if="total" :count-page="total" :size-val="size" :page-val="page" @handleCurrentChange="handleCurrentChange"></pagination>
         </div>
       </el-tab-pane>
     </el-tabs>

@@ -32,12 +32,13 @@
     <div class="content">
       <div class="area" v-for="(item, i) in list" :key="i">
         <h3 v-if="item.head">
-          <i><img :src="item.head.icon" alt=""/></i> <span>{{ item.head.title }}}</span>
+          <i><img :src="item.head.icon" alt=""/></i> <span>{{ item.head.title }}</span>
         </h3>
         <ul class="items">
           <li class="item">
             <div class="title">
-              <i></i> <span>{{ item.projectName }}</span> <em v-for="(tag, index) in item.tags" :key="index">{{ tag.tagName }}</em>
+              <i><img :src="item.iconUrl" alt=""/></i> <span>{{ item.projectName }}</span>
+              <em v-for="(tag, index) in item.tags" :key="index">{{ tag.tagName }}</em>
             </div>
             <ul class="info-wrapper">
               <li class="info">
@@ -72,7 +73,9 @@
                   <dd><el-progress :percentage="Math.round((item.accumulativeInvAmt / item.maxInvTotalAmt) * 10000) / 100"></el-progress></dd>
                 </dl>
               </li>
-              <li class="info"><el-button type="primary">下载APP</el-button></li>
+              <li class="info">
+                <el-button type="primary"> <router-link :to="{ name: 'download' }">下载APP</router-link> </el-button>
+              </li>
             </ul>
           </li>
         </ul>
@@ -101,12 +104,10 @@ export default {
       size: 10,
       total: 0,
       userName: getUser().userName,
-      // couponId: this.$router,
-      // couponId: this.$router,
       list: []
     }
   },
-  filters: {},
+  props: ['redPacketId', 'couponId'],
   methods: {
     handleCurrentChange(val) {
       this.page = val
@@ -125,7 +126,6 @@ export default {
         params.redPacketId = this.redPacketId
       }
       getList(params).then(res => {
-        console.log(res)
         let result = res.data
         this.lendCount = result.accumulativeInvAmountSum
         this.incomeCount = result.accumulativeProfitAmtSum
@@ -133,7 +133,6 @@ export default {
         this.list = result.investsList
         this.total = parseInt(result.countPage) * this.size
         this.page = parseInt(result.curPage)
-        console.log(this.lendCount)
       })
     }
   },
@@ -232,7 +231,7 @@ export default {
     width: 1140px;
     margin: 0 auto;
     .area {
-      background-color: #099ef5;
+      /*background-color: #099ef5;*/
       h3 {
         font-size: 0;
         margin-top: 30px;
@@ -271,10 +270,6 @@ export default {
               display: inline-block;
               vertical-align: top;
               @include square(22px);
-              background-position: center center;
-              background-size: 100% 100%;
-              background-repeat: no-repeat;
-              background-color: #d93f30;
             }
             span {
               display: inline-block;
@@ -285,7 +280,7 @@ export default {
             em {
               display: inline-block;
               vertical-align: top;
-              margin-top: 3px;
+              margin: 3px 5px 0 0;
               padding: 0 4px;
               border-radius: 2px;
               border: 1px solid rgba(252, 85, 65, 1);
@@ -356,9 +351,17 @@ export default {
                   float: right;
                   width: 160px;
                   height: 44px;
+                  padding: 0;
+                  line-height: 44px;
                   margin-top: 8px;
                   background-color: #fb7b1f;
                   font-size: $font-size-medium;
+                  a {
+                    display: block;
+                    width: 100%;
+                    height: 100%;
+                    color: #fff;
+                  }
                 }
               }
             }

@@ -22,10 +22,7 @@
           <el-tab-pane label="公司管理" name="GSGL">
             <div class="content" v-html="content" v-if="paramCode === 'LXWM' || paramCode === 'PTXX'"></div>
             <div class="company-management" v-if="!paramCode">
-              <div class="organizational-structure-wrap">
-                <strong>组织架构</strong>
-                <img src="./images/bg_organizational_structure.png">
-              </div>
+              <div class="organizational-structure-wrap"><strong>组织架构</strong> <img src="./images/bg_organizational_structure.png" /></div>
               <div class="executive-team-wrap">
                 <strong>高管团队</strong>
                 <ul>
@@ -127,39 +124,39 @@
           <div class="operation-data-item">
             <div class="title">
               <p class="name">平台数据统计</p>
-              <p class="deadline">数据截止至: {{platformDataStatisticsEndTime}}</p>
+              <p class="deadline">数据截止至: {{ platformDataStatisticsEndTime }}</p>
             </div>
             <ul>
               <li>
-                <p class="amount">{{accumulatedLoanAmount}}</p>
+                <p class="amount">{{ accumulatedLoanAmount }}</p>
                 <p class="desc">累计借贷金额(万元)</p>
               </li>
               <li>
-                <p class="amount">{{accumulativeLoanCount}}</p>
+                <p class="amount">{{ accumulativeLoanCount }}</p>
                 <p class="desc">累计借贷笔数(笔)</p>
               </li>
               <li>
-                <p class="amount">{{creditBalance}}</p>
+                <p class="amount">{{ creditBalance }}</p>
                 <p class="desc">借贷余额（万元）</p>
               </li>
               <li>
-                <p class="amount">{{loanBalanceCount}}</p>
+                <p class="amount">{{ loanBalanceCount }}</p>
                 <p class="desc">借贷余额笔数（笔）</p>
               </li>
               <li>
-                <p class="amount">{{cumulativeNumberOfLender}}</p>
+                <p class="amount">{{ cumulativeNumberOfLender }}</p>
                 <p class="desc">累计出借人数量（人）</p>
               </li>
               <li>
-                <p class="amount">{{cumulativeNumberOfBorrower}}</p>
+                <p class="amount">{{ cumulativeNumberOfBorrower }}</p>
                 <p class="desc">累计借款人数量（人）</p>
               </li>
               <li>
-                <p class="amount">{{currentNumberOfLender}}</p>
+                <p class="amount">{{ currentNumberOfLender }}</p>
                 <p class="desc">当前出借人数量（人）</p>
               </li>
               <li>
-                <p class="amount">{{currentNumberOfBorrower}}</p>
+                <p class="amount">{{ currentNumberOfBorrower }}</p>
                 <p class="desc">当前借款人数量（人）</p>
               </li>
             </ul>
@@ -167,63 +164,63 @@
           <div class="operation-data-item">
             <div class="title">
               <p class="name">借款数据统计</p>
-              <p class="deadline">数据截止至: {{loanStatisticsEndTime}}</p>
+              <p class="deadline">数据截止至: {{ loanStatisticsEndTime }}</p>
             </div>
             <ul>
               <li>
-                <p class="amount">{{proportionOfOutstandingAmountTopTenBorrower}}</p>
+                <p class="amount">{{ proportionOfOutstandingAmountTopTenBorrower }}</p>
                 <p class="desc">前十大借款人待还金额占比</p>
               </li>
               <li>
-                <p class="amount">{{proportionOfLargestSingleBorrowerOutstandingAmount}}</p>
+                <p class="amount">{{ proportionOfLargestSingleBorrowerOutstandingAmount }}</p>
                 <p class="desc">最大单一借款人待还金额占比</p>
               </li>
               <li>
-                <p class="amount">{{numberOfLoanBalancesAmount}}</p>
+                <p class="amount">{{ numberOfLoanBalancesAmount }}</p>
                 <p class="desc">关联关系借款余额（万元）</p>
               </li>
               <li>
-                <p class="amount">{{numberOfLoanBalances}}</p>
+                <p class="amount">{{ numberOfLoanBalances }}</p>
                 <p class="desc">关联关系借款余额笔数(笔)</p>
               </li>
               <li>
-                <p class="amount">{{overdueAmount}}</p>
+                <p class="amount">{{ overdueAmount }}</p>
                 <p class="desc">逾期金额(出借人到期未到账)(万元)</p>
               </li>
               <li>
-                <p class="amount">{{overdueCount}}</p>
+                <p class="amount">{{ overdueCount }}</p>
                 <p class="desc">逾期笔数(出借人到期未到账)(笔)</p>
               </li>
               <li>
-                <p class="amount">{{overdueAmountMoreThan90}}</p>
+                <p class="amount">{{ overdueAmountMoreThan90 }}</p>
                 <p class="desc">逾期90天(不含)以上金额(万元)</p>
               </li>
               <li>
-                <p class="amount">{{overdueCountMoreThan90}}</p>
+                <p class="amount">{{ overdueCountMoreThan90 }}</p>
                 <p class="desc">逾期90天(不含)以上笔数(笔)</p>
               </li>
               <li>
-                <p class="amount">{{accumulativeCompensationAmount}}</p>
+                <p class="amount">{{ accumulativeCompensationAmount }}</p>
                 <p class="desc">累计代偿金额(万元)</p>
               </li>
               <li>
-                <p class="amount">{{accumulativeCompensation}}</p>
+                <p class="amount">{{ accumulativeCompensation }}</p>
                 <p class="desc">累计代偿笔数(笔)</p>
               </li>
               <li>
-                <p class="amount">{{accumulativeLoanAmountPerCapita}}</p>
+                <p class="amount">{{ accumulativeLoanAmountPerCapita }}</p>
                 <p class="desc">人均累计借款金额(元)</p>
               </li>
               <li>
-                <p class="amount">{{accumulativeOutLoanAmountPerCapita}}</p>
+                <p class="amount">{{ accumulativeOutLoanAmountPerCapita }}</p>
                 <p class="desc">人均累计出借金额(元)</p>
               </li>
               <li>
-                <p class="amount">{{proportionOfLargestSingleLendingBalance}}</p>
+                <p class="amount">{{ proportionOfLargestSingleLendingBalance }}</p>
                 <p class="desc">最大单户出借余额占比</p>
               </li>
               <li>
-                <p class="amount">{{proportionOfLargestTenLendingBalance}}</p>
+                <p class="amount">{{ proportionOfLargestTenLendingBalance }}</p>
                 <p class="desc">最大十户出借余额占比</p>
               </li>
             </ul>
@@ -240,14 +237,14 @@
                   <ul>
                     <li><h2></h2></li>
                     <li>
-                      <p>{{lendingTerminalDistributeWeb}}%</p>
+                      <p>{{ lendingTerminalDistributeWeb }}%</p>
                       <span>web端</span>
                     </li>
                   </ul>
                   <ul>
                     <li><h2></h2></li>
                     <li>
-                      <p>{{lendingTerminalDistributeMobile}}%</p>
+                      <p>{{ lendingTerminalDistributeMobile }}%</p>
                       <span>移动端</span>
                     </li>
                   </ul>
@@ -259,14 +256,14 @@
                   <ul>
                     <li><img class="man" src="./images/icon_man.png" /></li>
                     <li>
-                      <p>{{lendingGenderDistributeMale}}%</p>
+                      <p>{{ lendingGenderDistributeMale }}%</p>
                       <span>男</span>
                     </li>
                   </ul>
                   <ul>
                     <li><img class="women" src="./images/icon_women.png" /></li>
                     <li>
-                      <p>{{lendingGenderDistributeFemale}}%</p>
+                      <p>{{ lendingGenderDistributeFemale }}%</p>
                       <span>女</span>
                     </li>
                   </ul>
@@ -286,35 +283,35 @@
                   <ul>
                     <li><h2></h2></li>
                     <li>
-                      <p>{{lendingAmountDistribute1}}%</p>
+                      <p>{{ lendingAmountDistribute1 }}%</p>
                       <span>1万以下</span>
                     </li>
                   </ul>
                   <ul>
                     <li><h2></h2></li>
                     <li>
-                      <p>{{lendingAmountDistribute5}}%</p>
+                      <p>{{ lendingAmountDistribute5 }}%</p>
                       <span>1-5万</span>
                     </li>
                   </ul>
                   <ul>
                     <li><h2></h2></li>
                     <li>
-                      <p>{{lendingAmountDistribute10}}%</p>
+                      <p>{{ lendingAmountDistribute10 }}%</p>
                       <span>5-10万</span>
                     </li>
                   </ul>
                   <ul>
                     <li><h2></h2></li>
                     <li>
-                      <p>{{lendingAmountDistribute20}}%</p>
+                      <p>{{ lendingAmountDistribute20 }}%</p>
                       <span>10–20万</span>
                     </li>
                   </ul>
                   <ul>
                     <li><h2></h2></li>
                     <li>
-                      <p>{{lendingAmountDistributeAbove20}}%</p>
+                      <p>{{ lendingAmountDistributeAbove20 }}%</p>
                       <span>20万以上</span>
                     </li>
                   </ul>
@@ -384,42 +381,28 @@
         </div>
       </div>
       <div class="tab-content policies" v-if="activeName === 'ZCFG'">
-        <el-tabs
-          class="about-us-tab"
-          v-model="policiesActiveName"
-          type="border-card"
-          @tab-click="handleItemClick(policiesActiveName)"
-        >
+        <el-tabs class="about-us-tab" v-model="policiesActiveName" type="border-card" @tab-click="handleItemClick(policiesActiveName)">
           <el-tab-pane label="法律法规" name="FLFG">
             <div class="laws-wrap">
               <ul>
-                <li v-for="( item, index ) in lawsList" :key="index">
-                   <router-link class="title" :to="{ name: 'announcementDetail' , params: { id: item.id }, query: { paramCode: activeName} }">
-                     {{item.title}}
-                   </router-link>
-                  <span class="time">{{item.createTime}}</span>
+                <li v-for="(item, index) in lawsList" :key="index">
+                  <router-link class="title" :to="{ name: 'announcementDetail', params: { id: item.id }, query: { paramCode: activeName } }">
+                    {{ item.title }}
+                  </router-link>
+                  <span class="time">{{ item.createTime }}</span>
                 </li>
               </ul>
             </div>
             <div class="pagination-wrapper" v-if="total > 1">
-              <pagination
-                v-if="total"
-                :count-page="total"
-                :size-val="size"
-                :page-val="page"
-                @handleCurrentChange="handleCurrentChange"
-              ></pagination>
+              <pagination v-if="total" :count-page="total" :size-val="size" :page-val="page" @handleCurrentChange="handleCurrentChange"></pagination>
             </div>
-            <img v-if="isShowBg" src="./images/bg_legal_person.png"/>
+            <img v-if="isShowBg" src="./images/bg_legal_person.png" />
           </el-tab-pane>
           <el-tab-pane label="出借人教育" name="CJRJY"> <div class="content" v-html="content"></div> </el-tab-pane>
         </el-tabs>
       </div>
       <div class="tab-content" v-if="activeName === 'FRCNH'">
-        <div class="commitment-letter">
-          <img src="./images/bg_commitment_letter.png"/>
-          <img src="./images/bg_legal_person.png"/>
-        </div>
+        <div class="commitment-letter"><img src="./images/bg_commitment_letter.png" /> <img src="./images/bg_legal_person.png" /></div>
       </div>
     </div>
   </div>
@@ -1082,7 +1065,7 @@ export default {
       if (this.$route.query.paramCode === 'ZZRY') {
         this.aboutUsActiveName = 'ZZRY'
       }
-      if(this.$route.query.paramCode === 'CJRJY') {
+      if (this.$route.query.paramCode === 'CJRJY') {
         this.activeName = 'ZCFG'
         this.policiesActiveName = 'CJRJY'
       }

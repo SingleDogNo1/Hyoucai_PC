@@ -3,8 +3,7 @@
     <ul>
       <li v-for="(item, i) in list" :key="i">
         <a :href="item.url">
-          <img class="activityPic" :src="item.picUrl" alt=""/>
-          <span class="activityDate">活动期限：{{ item.startTime }}-{{ item.endTime }}</span>
+          <img class="activityPic" :src="item.picUrl" alt="" /> <span class="activityDate">活动期限：{{ item.startTime }}-{{ item.endTime }}</span>
         </a>
       </li>
     </ul>
@@ -65,6 +64,7 @@ export default {
   background: #f4f4f4;
   ul {
     width: 1140px;
+    min-height: 400px;
     margin: 0 auto;
     padding: 10px 0 60px 0;
     display: flex;
@@ -79,6 +79,7 @@ export default {
       border-radius: 4px;
       box-sizing: border-box;
       .activityPic {
+        display: inline-block;
         width: 320px;
         height: 140px;
         padding: 20px 20px 0 20px;
@@ -92,7 +93,7 @@ export default {
         font-family: PingFangSC-Regular, sans-serif;
         color: #9b9b9b;
         text-indent: 20px;
-        padding-top: 18px;
+        padding: 18px 0;
       }
     }
     li:nth-child(3n + 1) {

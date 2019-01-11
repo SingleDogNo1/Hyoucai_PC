@@ -299,7 +299,6 @@ export default {
           let options = JSON.parse(JSON.stringify(map))
           delete options.bill99MerUrl
           let params = options
-          console.log(params)
           this.postcall(redirectUrl, params, '_blank')
         }
       })
