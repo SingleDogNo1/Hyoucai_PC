@@ -3,8 +3,7 @@
     <ul>
       <li v-for="(item, i) in list" :key="i">
         <a :href="item.url">
-          <img class="activityPic" :src="item.picUrl" alt=""/>
-          <span class="activityDate">活动期限：{{ item.startTime }}-{{ item.endTime }}</span>
+          <img class="activityPic" :src="item.picUrl" alt="" /> <span class="activityDate">活动期限：{{ item.startTime }}-{{ item.endTime }}</span>
         </a>
       </li>
     </ul>

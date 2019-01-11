@@ -55,6 +55,7 @@
 <script>
 import calendarItem from '@/components/calendar/calendar.vue'
 import api from '@/api/djs/Mine/calendar'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'calendar',
@@ -75,6 +76,9 @@ export default {
       incomeDetail: {}, // 收益详情
       dayIncome: []
     }
+  },
+  computed: {
+    ...mapGetters(['user'])
   },
   methods: {
     getLendDetail(year, month, day) {
@@ -101,8 +105,7 @@ export default {
     getIncome(year, month, day, callback) {
       api
         .getIncomeApi({
-          // TODO mock-data next line will be del
-          userName: 'djs213718xa',
+          userName: this.user.userName,
 
           year: year,
           month: month,

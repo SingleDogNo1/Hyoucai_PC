@@ -3,14 +3,14 @@
     <div class="modify">
       <span class="modify_name">修改绑定手机号</span>
       <div class="modify_ipt_box">
-        <input class="modify_ipt" type="text" placeholder="请输入手机号" v-model="mobile">
-        <input class="modify_ipt" type="text" placeholder="请输入验证码" v-model="verifyCode">
+        <input class="modify_ipt" type="text" placeholder="请输入手机号" v-model="mobile" />
+        <input class="modify_ipt" type="text" placeholder="请输入验证码" v-model="verifyCode" />
         <span class="code" @click="getMobileSendCode">获取验证码</span>
       </div>
     </div>
     <div class="btn">
       <button class="determine" @click="modifyBindMobile">立即绑定</button>
-      <button class="cancle" @click="isShow.isShow3=!isShow.isShow3">取消</button>
+      <button class="cancle" @click="isShow.isShow3 = !isShow.isShow3">取消</button>
     </div>
   </div>
 </template>

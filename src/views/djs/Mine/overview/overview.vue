@@ -8,8 +8,8 @@
         </p>
       </section>
       <el-button type="info">系统切换</el-button>
-      <el-button type="warning">充值</el-button>
-      <el-button type="warning">提现</el-button>
+      <el-button type="warning"><router-link :to="{ name: 'charge' }">充值</router-link></el-button>
+      <el-button type="warning"><router-link :to="{ name: 'tocash' }">提现</router-link></el-button>
     </div>
     <div class="amount" id="amount"></div>
 
@@ -209,6 +209,9 @@ export default {
     color: #fff;
     &:last-child {
       margin-right: 0;
+    }
+    a {
+      color: #fff;
     }
   }
 }

@@ -16,6 +16,7 @@
 
 <script>
 import { getUserBankCardList, prevChangeBankcard } from '@/api/djs/Mine/bankcard'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'bankcard',
@@ -40,11 +41,12 @@ export default {
       })
     }
   },
-  computed: {},
+  computed: {
+    ...mapGetters(['user'])
+  },
   created() {
     getUserBankCardList({
-      // TODO mock-data will be del
-      userName: 'djs213718xa'
+      userName: this.user.userName
     }).then(res => {
       if (res.data.list && res.data.list.length > 0) {
         this.bankcardList = res.data.list

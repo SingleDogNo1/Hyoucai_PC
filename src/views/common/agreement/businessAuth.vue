@@ -239,7 +239,7 @@
 
 <script>
 export default {
-  name: 'businessAuth      },'
+  name: 'businessAuth'
 }
 </script>
 
