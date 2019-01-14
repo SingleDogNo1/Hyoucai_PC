@@ -81,6 +81,22 @@ function getZXTDetail(data) {
   })
 }
 
+function getZXTGainPlan(data) {
+  return request({
+    url: 'project/gainPlan',
+    method: 'post',
+    data: qs.stringify(data)
+  })
+}
+
+function getAgreementApi(data) {
+  return request({
+    url: 'extendApi/queryAgreementCatalog',
+    method: 'post',
+    data: qs.stringify(data)
+  })
+}
+
 export {
   getInvestStatusApi, // 获取投资状态 projectType => 0: 散标 2:集合标
   getSanBiaoStatusApi, // 获取散标状态
@@ -91,5 +107,7 @@ export {
   getQSTInfo, // 获取轻松投项目组成
   getTrilateralPdfPathApi, // 优质计划，获取项目组成三方协议
   getPeopleInfoApi, // 获取借款人详细信息
-  getZXTDetail // 获取自选投详情
+  getZXTDetail, // 获取自选投详情
+  getZXTGainPlan, // 散标收益计划
+  getAgreementApi // 协议目录获取
 }

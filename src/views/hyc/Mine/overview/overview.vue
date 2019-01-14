@@ -7,7 +7,9 @@
           <span class="big">{{ totalIncomeBig }}</span> <span class="small">.{{ totalIncomeSmall }}元</span>
         </p>
       </section>
-      <button class="switcher">系统切换</button> <button class="recharge"><router-link :to="{ name: 'charge' }">充值</router-link></button> <button class="extract"><router-link :to="{ name: 'tocash' }">提现</router-link></button>
+      <el-button type="info">系统切换</el-button>
+      <el-button type="warning"><router-link :to="{ name: 'charge' }">充值</router-link></el-button>
+      <el-button type="warning"><router-link :to="{ name: 'tocash' }">提现</router-link></el-button>
     </div>
     <div class="amount" id="amount"></div>
   </div>
@@ -62,7 +64,8 @@ export default {
       await myChart.setOption({
         tooltip: {
           trigger: 'item',
-          formatter: '{a} <br/>{b}: {c} ({d}%)'
+          formatter: '{a} <br/>{b}: {c} ({d}%)',
+          alwaysShowContent: true
         },
         // title: {
         //   text: '总资产（元）',
@@ -143,6 +146,11 @@ export default {
             ]
           }
         ]
+      })
+      myChart.dispatchAction({
+        type: 'highlight',
+        seriesIndex: 0,
+        dataIndex: 0
       })
     }
 

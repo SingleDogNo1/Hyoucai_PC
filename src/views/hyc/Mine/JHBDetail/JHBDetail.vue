@@ -93,7 +93,7 @@
     </table>
 
     <WithoutSignDialog
-      :show="withoutSignDialogOption.show"
+      :show.sync="withoutSignDialogOption.show"
       :singleButton="withoutSignDialogOption.singleButton"
     >
       <div>
@@ -283,6 +283,7 @@ table tr td {
   height: 100%;
   background: #fff;
   border: 1px solid #e3e3e3;
+  padding-bottom: 25px;
   header {
     box-sizing: border-box;
     padding-left: 20px;
