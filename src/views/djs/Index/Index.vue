@@ -59,40 +59,40 @@
     <div class="introduction-wrap">
       <ul>
         <li>
-          <a>
+          <router-link  to="/infoDisclosure?paramCode=GSJJ">
             <img src="./images/icon_introdution1.png" />
             <div>
               <p class="title">平台背景</p>
               <p class="desc">江西省首批互联网中介平台</p>
             </div>
-          </a>
+          </router-link>
         </li>
         <li>
-          <a>
+          <router-link  to="/infoDisclosure?paramCode=YYSJ">
             <img src="./images/icon_introdution2.png" />
             <div>
               <p class="title">信息披露</p>
               <p class="desc">信息详细真实透明</p>
             </div>
-          </a>
+          </router-link>
         </li>
         <li>
-          <a>
+          <router-link  to="/infoDisclosure?paramCode=ZJCG">
             <img src="./images/icon_introdution3.png" />
             <div>
               <p class="title">银行存管</p>
               <p class="desc">江西银行资金存管</p>
             </div>
-          </a>
+          </router-link>
         </li>
         <li>
-          <a>
+          <router-link to="/safety" @click.native="JumpSafety('satefy-url4')">
             <img src="./images/icon_introdution4.png" />
             <div>
               <p class="title">严格风控</p>
               <p class="desc">专业风控甄选优质项目</p>
             </div>
-          </a>
+          </router-link>
         </li>
       </ul>
     </div>
@@ -185,7 +185,7 @@
           <p class="lend-desc">100元起投</p>
           <p class="lend-desc">锁定期：30天</p>
           <p class="lend-desc">已售：89.70%</p>
-          <a class="btn-invest-now" href="javascript:void(0);">立即出借</a> <a class="btn-view-detail" href="javascript:void(0);">查看详情</a>
+          <a class="btn-invest-now" href="javascript:void(0);">下载APP</a> <a class="btn-view-detail" href="javascript:void(0);">查看详情</a>
         </li>
       </ul>
     </div>
@@ -381,6 +381,15 @@ export default {
     },
     closePop() {
       this.isShowActivityPop = false
+    },
+    JumpSafety(id) {
+      localStorage.setItem('jumpId', id)
+      let jumpId = localStorage.getItem('jumpId')
+      let anchorElement = document.getElementById(jumpId)
+      // 如果锚点存在，就跳转
+      if (jumpId && anchorElement) {
+        anchorElement.scrollIntoView()
+      }
     }
   },
   mounted() {
