@@ -180,6 +180,12 @@ export default {
         background: rgba(251, 157, 31, 0.1);
         border-left: 4px solid #f8be38;
       }
+      &:hover {
+        padding-left: 66px;
+        color: $color-theme;
+        background: rgba(251, 157, 31, 0.1);
+        border-left: 4px solid #f8be38;
+      }
     }
   }
 }

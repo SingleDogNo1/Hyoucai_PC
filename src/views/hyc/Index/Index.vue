@@ -1,66 +1,87 @@
 <template>
   <div class="index">
-    <div class="swiper-container-banner">
+    <div class="swiper-container-banner" id="swiper-container-banner">
       <div class="swiper-wrapper">
-        <div class="swiper-slide swiper-no-swiping" v-for="(item, index) in bannerList" :key="index">
+        <div
+          class="swiper-slide swiper-no-swiping"
+          v-for="(item, index) in bannerList"
+          :key="index"
+        >
           <a :href="item.linkUrl">
-            <img :src="item.picUrl" class="swiper-lazy" />
+            <img :src="item.picUrl" class="swiper-lazy">
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
       </div>
       <div class="swiper-pagination-banner"></div>
-      <div class="form-container"><login-form style="margin-top: 35px"></login-form></div>
+      <div class="form-container">
+        <login-form style="margin-top: 35px"></login-form>
+      </div>
     </div>
     <div class="notice-wrap">
       <div class="notice-box">
-        <img class="notice-text" src="./images/text_notice.png" />
+        <img class="notice-text" src="./images/text_notice.png">
         <div class="notice-swiper-wrap">
           <div class="notice-item">
             <span>[网站公告]</span>
-            <div class="swiper-container-notice">
+            <div class="swiper-container-notice" id="swiper-container-notice1">
               <div class="swiper-wrapper">
                 <div class="swiper-slide" v-for="(item, index) in noticeList" :key="index">
-                  <router-link :to="{ name: 'announcementDetail', params: { id: item.id }, query: { paramCode: 'WZGG' } }">{{
+                  <router-link
+                    :to="{ name: 'announcementDetail', params: { id: item.id }, query: { paramCode: 'WZGG' } }"
+                  >
+                    {{
                     item.title
-                  }}</router-link>
+                    }}
+                  </router-link>
                 </div>
               </div>
             </div>
           </div>
           <div class="notice-item">
             <span>[行业资讯]</span>
-            <div class="swiper-container-notice">
+            <div class="swiper-container-notice" id="swiper-container-notice2">
               <div class="swiper-wrapper">
                 <div class="swiper-slide" v-for="(item, index) in industryList" :key="index">
-                  <router-link :to="{ name: 'announcementDetail', params: { id: item.id }, query: { paramCode: 'HYZX' } }">{{
+                  <router-link
+                    :to="{ name: 'announcementDetail', params: { id: item.id }, query: { paramCode: 'HYZX' } }"
+                  >
+                    {{
                     item.title
-                  }}</router-link>
+                    }}
+                  </router-link>
                 </div>
               </div>
             </div>
           </div>
           <div class="notice-item">
             <span>[媒体报道]</span>
-            <div class="swiper-container-notice">
+            <div class="swiper-container-notice" id="swiper-container-notice3">
               <div class="swiper-wrapper">
                 <div class="swiper-slide" v-for="(item, index) in mediaList" :key="index">
-                  <router-link :to="{ name: 'announcementDetail', params: { id: item.id }, query: { paramCode: 'MTBD' } }">{{
+                  <router-link
+                    :to="{ name: 'announcementDetail', params: { id: item.id }, query: { paramCode: 'MTBD' } }"
+                  >
+                    {{
                     item.title
-                  }}</router-link>
+                    }}
+                  </router-link>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <router-link :to="{ path: 'announcement', query: { paramCode: 'WZGG' } }" class="more"> 更多 <i class="iconfont icon-more"></i> </router-link>
+        <router-link :to="{ path: 'announcement', query: { paramCode: 'WZGG' } }" class="more">
+          更多
+          <i class="iconfont icon-more"></i>
+        </router-link>
       </div>
     </div>
     <div class="introduction-wrap">
       <ul>
         <li>
-          <router-link  to="/infoDisclosure?paramCode=GSJJ">
-            <img src="./images/icon_introdution1.png" />
+          <router-link to="/infoDisclosure?paramCode=GSJJ">
+            <img src="./images/icon_introdution1.png">
             <div>
               <p class="title">平台背景</p>
               <p class="desc">江西省首批互联网中介平台</p>
@@ -68,8 +89,8 @@
           </router-link>
         </li>
         <li>
-          <router-link  to="/infoDisclosure?paramCode=YYSJ">
-            <img src="./images/icon_introdution2.png" />
+          <router-link to="/infoDisclosure?paramCode=YYSJ">
+            <img src="./images/icon_introdution2.png">
             <div>
               <p class="title">信息披露</p>
               <p class="desc">信息详细真实透明</p>
@@ -77,8 +98,8 @@
           </router-link>
         </li>
         <li>
-          <router-link  to="/infoDisclosure?paramCode=ZJCG">
-            <img src="./images/icon_introdution3.png" />
+          <router-link to="/infoDisclosure?paramCode=ZJCG">
+            <img src="./images/icon_introdution3.png">
             <div>
               <p class="title">银行存管</p>
               <p class="desc">江西银行资金存管</p>
@@ -87,7 +108,7 @@
         </li>
         <li>
           <router-link to="/safety" @click.native="JumpSafety('satefy-url4')">
-            <img src="./images/icon_introdution4.png" />
+            <img src="./images/icon_introdution4.png">
             <div>
               <p class="title">严格风控</p>
               <p class="desc">专业风控甄选优质项目</p>
@@ -97,7 +118,7 @@
       </ul>
     </div>
     <div class="lend-data-wrap">
-      <img src="./images/text_lend_data.png" />
+      <img src="./images/text_lend_data.png">
       <ul>
         <li>
           <countUp v-if="accumulativeInvAmountSum" :name="count1" :count="accumulativeInvAmountSum"></countUp>
@@ -120,25 +141,31 @@
     <div class="novice-area-wrap" v-if="noviceProjectList && noviceProjectList.length > 0">
       <div class="novice-area-box">
         <div class="desc-warp">
-          <img src="./images/text_novice_area.png" /> <button class="btn-know" href="javascript:void(0);">1分钟了解汇有财</button>
+          <img :src="item.iconUrl">
+          <button class="btn-know" href="javascript:void(0);">1分钟了解汇有财</button>
         </div>
         <div class="production-wrap" v-for="(item, index) in noviceProjectList" :key="index">
           <div class="production-info">
             <div class="label-wrap">
-              <img src="./images/icon_new.png" /> <span class="title">{{ item.projectName }} {{ item.projectNo }}</span>
-              <span class="label" v-for="(tagItem, index) in item.tags" :key="index">{{ tagItem.tagName }}</span>
+              <img src="./images/icon_new.png">
+              <span class="title">{{ item.projectName }} {{ item.projectNo }}</span>
+              <span
+                class="label"
+                v-for="(tagItem, index) in item.tags"
+                :key="index"
+              >{{ tagItem.tagName }}</span>
             </div>
             <div class="returns">
               <p class="title">
                 <span class="large">{{ item.investRate }}</span> %
               </p>
-              <p class="desc">预期年化收益率</p>
+              <p class="desc">历史平均年化收益率</p>
             </div>
             <div class="term">
               <p class="title">
                 <span class="large">{{ item.investMent }}</span> 天
               </p>
-              <p class="desc">项目期限</p>
+              <p class="desc">锁定期</p>
             </div>
             <div class="amount">
               <p class="title">
@@ -147,48 +174,77 @@
               <p class="desc">融资金额</p>
             </div>
           </div>
-          <div class="btn-invest-now"><router-link :to="{ name: 'lend' }">立即出借</router-link></div>
+          <div class="btn-invest-now">
+            <router-link :to="{ name: 'lend' }">下载APP</router-link>
+          </div>
         </div>
       </div>
     </div>
-    <div class="lend-boutique-wrap" v-if="hycPopularProjectList && hycPopularProjectList.length > 0">
-      <img src="./images/text_lend_boutique.png" />
+    <div
+      class="lend-boutique-wrap"
+      v-if="hycPopularProjectList && hycPopularProjectList.length > 0"
+    >
+      <img src="./images/text_lend_boutique.png">
       <ul :class="{ two: hycPopularProjectList.length == 2 }">
         <li v-for="(item, index) in hycPopularProjectList" :key="index" @click="toLend">
           <p class="title">
-            <img :src="item.iconUrl" /> <span class="icon">{{ item.itemName }}</span>
+            <img :src="item.iconUrl">
+            <span class="icon">{{ item.itemName }}</span>
           </p>
           <div class="returns">
             <p class="title">
-              <span class="large">{{ item.investRate }}</span
-              >%
+              <span class="large">{{ item.investRate }}</span>%
             </p>
             <p class="desc">预期年化收益率</p>
           </div>
           <p class="lend-desc">{{ item.showMinInvAmount }}起投</p>
           <p class="lend-desc">锁定期：{{ item.loanMent }}</p>
-          <p class="lend-desc">已售：{{ item.showInvestPercent }}</p>
+          <p class="lend-desc">已投：{{ item.showInvestPercent }}</p>
           <div class="actions">
-            <a class="btn-invest-now" href="javascript:void(0);">下载APP</a> <a class="btn-view-detail" href="javascript:void(0);">查看详情</a>
+            <a class="btn-invest-now" href="javascript:void(0);">下载APP</a>
+            <a class="btn-view-detail" href="javascript:void(0);">查看详情</a>
           </div>
         </li>
       </ul>
     </div>
     <div class="partner-wrap">
-      <img src="./images/text_partner.png" />
+      <img src="./images/text_partner.png">
       <ul>
-        <li><img src="./images/icon_parter1.png" /></li>
-        <li><img src="./images/icon_parter2.png" /></li>
-        <li><img src="./images/icon_parter3.png" /></li>
-        <li><img src="./images/icon_parter4.png" /></li>
-        <li><img src="./images/icon_parter5.png" /></li>
-        <li><img src="./images/icon_parter6.png" /></li>
-        <li><img src="./images/icon_parter7.png" /></li>
-        <li><img src="./images/icon_parter8.png" /></li>
-        <li><img src="./images/icon_parter9.png" /></li>
         <li>
-          <router-link class="btn-more" href="javascript:void(0);" to="/infoDisclosure?paramCode=HZHB"
-            >查看更多 <i class="iconfont icon-more"></i>
+          <img src="./images/icon_parter1.png">
+        </li>
+        <li>
+          <img src="./images/icon_parter2.png">
+        </li>
+        <li>
+          <img src="./images/icon_parter3.png">
+        </li>
+        <li>
+          <img src="./images/icon_parter4.png">
+        </li>
+        <li>
+          <img src="./images/icon_parter5.png">
+        </li>
+        <li>
+          <img src="./images/icon_parter6.png">
+        </li>
+        <li>
+          <img src="./images/icon_parter7.png">
+        </li>
+        <li>
+          <img src="./images/icon_parter8.png">
+        </li>
+        <li>
+          <img src="./images/icon_parter9.png">
+        </li>
+        <li>
+          <router-link
+            class="btn-more"
+            href="javascript:void(0);"
+            to="/infoDisclosure?paramCode=HZHB"
+          >
+            查看更多
+            <i class="iconfont icon-more"></i>
           </router-link>
         </li>
       </ul>
@@ -196,7 +252,9 @@
     <div class="activity-pop" v-if="isShowActivityPop">
       <div class="content">
         <i @click="closePop" class="el-icon-circle-close-outline"></i>
-        <div class="activity-img"><button class="btn-to-investment">去投资</button></div>
+        <div class="activity-img">
+          <button class="btn-to-investment">去投资</button>
+        </div>
       </div>
     </div>
   </div>
@@ -256,8 +314,17 @@ export default {
               pagination: {
                 el: '.swiper-pagination-banner',
                 clickable: true
-              }
+              },
+              autoplayDisableOnInteraction: false
             })
+            /*鼠标移入停止轮播，鼠标离开 继续轮播*/
+            let comtainer = document.getElementById('swiper-container-banner')
+            comtainer.onmouseenter = () => {
+              this.swiperBanner.autoplay.stop()
+            }
+            comtainer.onmouseleave = () => {
+              this.swiperBanner.autoplay.start()
+            }
           }, 200)
         } else {
           this.$notify.error({
@@ -278,7 +345,7 @@ export default {
         if (data.resultCode === '1') {
           this.noticeList = data.zxdtMtbdlist
           setTimeout(() => {
-            this.swiperNotice = new Swiper('.swiper-container-notice', {
+            this.swiperNotice1 = new Swiper('#swiper-container-notice1', {
               direction: 'vertical',
               autoplay: {
                 delay: 3000,
@@ -286,6 +353,14 @@ export default {
               },
               loop: true
             })
+            /*鼠标移入停止轮播，鼠标离开 继续轮播*/
+            let comtainer = document.getElementById('swiper-container-notice1')
+            comtainer.onmouseenter = () => {
+              this.swiperNotice1.autoplay.stop()
+            }
+            comtainer.onmouseleave = () => {
+              this.swiperNotice1.autoplay.start()
+            }
           }, 200)
         }
       })
@@ -299,7 +374,7 @@ export default {
         if (data.resultCode === '1') {
           this.industryList = data.zxdtMtbdlist
           setTimeout(() => {
-            this.swiperNotice = new Swiper('.swiper-container-notice', {
+            this.swiperNotice2 = new Swiper('#swiper-container-notice2', {
               direction: 'vertical',
               autoplay: {
                 delay: 3000,
@@ -307,6 +382,14 @@ export default {
               },
               loop: true
             })
+            /*鼠标移入停止轮播，鼠标离开 继续轮播*/
+            let comtainer = document.getElementById('swiper-container-notice2')
+            comtainer.onmouseenter = () => {
+              this.swiperNotice2.autoplay.stop()
+            }
+            comtainer.onmouseleave = () => {
+              this.swiperNotice2.autoplay.start()
+            }
           }, 200)
         }
       })
@@ -320,7 +403,7 @@ export default {
         if (data.resultCode === '1') {
           this.mediaList = data.zxdtMtbdlist
           setTimeout(() => {
-            this.swiperNotice = new Swiper('.swiper-container-notice', {
+            this.swiperNotice3 = new Swiper('#swiper-container-notice3', {
               direction: 'vertical',
               autoplay: {
                 delay: 3000,
@@ -328,6 +411,14 @@ export default {
               },
               loop: true
             })
+            /*鼠标移入停止轮播，鼠标离开 继续轮播*/
+            let comtainer = document.getElementById('swiper-container-notice3')
+            comtainer.onmouseenter = () => {
+              this.swiperNotice3.autoplay.stop()
+            }
+            comtainer.onmouseleave = () => {
+              this.swiperNotice3.autoplay.start()
+            }
           }, 200)
         }
       })
@@ -479,6 +570,9 @@ export default {
                 overflow: hidden;
                 text-overflow: ellipsis;
                 white-space: nowrap;
+              }
+              a:hover {
+                color: #efa21c;
               }
             }
           }
@@ -695,9 +789,8 @@ export default {
               }
             }
             .desc {
-              width: 98px;
+              width: 137px;
               text-align: center;
-              margin-left: 6px;
               font-size: $font-size-small-s;
               color: $color-text-gray;
             }
