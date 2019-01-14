@@ -7,7 +7,7 @@
         <div><router-link to="/infoDisclosure?paramCode=PTXX">平台信息</router-link></div>
         <div><router-link to="/infoDisclosure?paramCode=FZSJ">发展事迹</router-link></div>
         <div><router-link to="/infoDisclosure?paramCode=HZHB">合作伙伴</router-link></div>
-        <div><router-link to="/infoDisclosure?paramCode=ZZRY">资质荣誉</router-link></div>
+        <div><router-link to="/infoDisclosure?paramCode=ZZRY">荣誉资质</router-link></div>
       </li>
       <li>
         <h3><i class="iconfont icon-help"></i> <span>帮助中心</span></h3>
@@ -21,7 +21,7 @@
         <div><router-link to="/safety" @click.native="JumpSafety('satefy-url3')">多重风控措施</router-link></div>
         <div><router-link to="/safety" @click.native="JumpSafety('satefy-url7')">小而分散的资产</router-link></div>
         <div><router-link to="/safety" @click.native="JumpSafety('satefy-url8')">信息隐私</router-link></div>
-        <div><router-link to="/infoDisclosure?paramCode=CJRJY">安全风险教育</router-link></div>
+        <div><router-link to="/infoDisclosure?paramCode=CJRJY">安全教育风险</router-link></div>
       </li>
       <li>
         <h3><i class="iconfont icon-tell_footer"></i> <span>联系我们</span></h3>
