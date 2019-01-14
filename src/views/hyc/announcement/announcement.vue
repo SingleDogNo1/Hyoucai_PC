@@ -102,19 +102,31 @@ export default {
   margin-top: 30px;
   /deep/ .el-tabs__nav-wrap {
     .el-tabs__item {
+      padding: 0;
       color: #5a5a5a;
+      margin-right: 40px;
       text-align: center;
+      -webkit-transition: -webkit-transform 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+      transition: -webkit-transform 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+      transition: transform 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+      transition: transform 0.3s cubic-bezier(0.645, 0.045, 0.355, 1), -webkit-transform 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
       &:hover {
         color: $color-tab-selected;
+        border-bottom: 1px solid $color-tab-selected;
+      }
+      &:nth-last() {
+        margin-right: 0;
       }
     }
     .is-active {
       color: $color-tab-selected;
+      border-bottom: 1px solid $color-tab-selected;
     }
     .el-tabs__active-bar {
       background-color: $color-tab-selected;
     }
     .el-tabs__active-bar {
+      display: none;
       height: 1px;
     }
   }
