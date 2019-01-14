@@ -59,7 +59,7 @@ export default {
   },
   props: {},
   watch: {
-    '$route.name'(ne){
+    '$route.name'(ne) {
       if (this.accountStatus === 'OPEN_ACCOUNT' && (ne === 'bankcard' || ne === 'charge' || ne === 'tocash')) {
         this.showDialog = true
       }
@@ -72,7 +72,7 @@ export default {
     onBtnClose() {
       let path = this.$route.name
       if (path != 'overview') {
-        this.$router.push({name: 'overview'})
+        this.$router.push({ name: 'overview' })
       }
     },
     viewDialog() {
@@ -141,8 +141,8 @@ export default {
                   this.showCloseBtn = true
                   this.dialogTitle = '汇有财温馨提示'
                   this.dialogDis = `您有${this.alertInfo.count}笔出借提前还款`
-                  // this.confirmText = '查看'
-                  // this.routerLink = 'message'
+                // this.confirmText = '查看'
+                // this.routerLink = 'message'
               }
             }
           }
@@ -226,8 +226,8 @@ export default {
     display: block;
     margin: 30px auto 0;
     padding: 10px 130px;
-    background-color: #09A0F9;
-    border-color: #09A0F9;
+    background-color: #09a0f9;
+    border-color: #09a0f9;
     color: #fff;
     font-size: 16px;
   }

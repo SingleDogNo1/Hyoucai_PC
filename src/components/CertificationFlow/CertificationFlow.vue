@@ -84,7 +84,10 @@ export default {
             } else if (this.userBasicInfo.escrowAccountInfo.transPassword == null) {
               this.link('progress')
             } else {
-              if (this.userBasicInfo.escrowAccountInfo && (!this.userBasicInfo.userIsOpenAccount.isAutoTender || !this.userBasicInfo.userIsOpenAccount.isBondTransfer)) {
+              if (
+                this.userBasicInfo.escrowAccountInfo &&
+                (!this.userBasicInfo.userIsOpenAccount.isAutoTender || !this.userBasicInfo.userIsOpenAccount.isBondTransfer)
+              ) {
                 this.link('signAgreement')
               } else {
                 this.$emit('regSuccess')
@@ -105,7 +108,10 @@ export default {
             } else if (this.userBasicInfo.escrowAccountInfo.transPassword == null) {
               this.link('progress')
             } else {
-              if (this.userBasicInfo.escrowAccountInfo && (!this.userBasicInfo.userIsOpenAccount.isAutoTender || !this.userBasicInfo.userIsOpenAccount.isBondTransfer)) {
+              if (
+                this.userBasicInfo.escrowAccountInfo &&
+                (!this.userBasicInfo.userIsOpenAccount.isAutoTender || !this.userBasicInfo.userIsOpenAccount.isBondTransfer)
+              ) {
                 this.link('signAgreement')
               } else {
                 if (
@@ -126,4 +132,5 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+</style>
