@@ -152,6 +152,12 @@ export default {
         seriesIndex: 0,
         dataIndex: 0
       })
+
+      myChart.dispatchAction({
+        type: 'showTip',
+        seriesIndex: 0,
+        dataIndex: 0
+      })
     }
 
     initPage()
