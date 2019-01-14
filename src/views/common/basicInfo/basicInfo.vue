@@ -41,8 +41,8 @@
         <div class="wrap_rows">
           <span class="wrap_left">风险测评</span>
           <span class="wrap_center">{{evaluatingResult.evaluatingName}}</span>
-          <button class="wrap_btn" v-show="!isEvaluation">未测评</button>
-          <button class="wrap_btn" v-show="isEvaluation">重新测评</button>
+          <button class="wrap_btn" v-show="!isEvaluation" @click="toRiskAssessment">未测评</button>
+          <button class="wrap_btn" v-show="isEvaluation" @click="toRiskAssessment">重新测评</button>
         </div>
         <div class="wrap_rows last_rows">
           <span class="wrap_left">收货地址</span>
@@ -182,6 +182,11 @@ export default {
       this.getUserBasicInfo()
       // this.$forceUpdate()
     },
+    toRiskAssessment() {
+      this.$router.push({
+        name: 'riskAss'
+      })
+    },
     getUserBasicInfo: function() {
       let data = {}
       data.userName = this.user.userName
@@ -216,14 +221,11 @@ export default {
           getMailingAddress({ userName: this.user.userName })
         }
       })
-      // console.log(this.user.userName)
     }
   },
   created() {
     this.getUserBasicInfo()
-  },
-  mounted() {},
-  destroyed() {}
+  }
 }
 </script>
 

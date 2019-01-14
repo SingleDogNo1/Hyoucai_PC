@@ -186,7 +186,7 @@ export default {
       data.userName = this.user.userName
       data.clientType = 'QD01'
       geCoupon(data).then(res => {
-        let list = JSON.parse(JSON.stringify(res.data.vouchers))
+        let list = res.data.vouchers
         this.receiveList.length = 0
         this.receivedList.length = 0
         this.unReList.length = 0
