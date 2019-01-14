@@ -85,7 +85,7 @@
           <img src="./bank.png" class="bank_logo">
           <span class="tips_content">您还未开通存管账户</span>
         </div>
-        <button class="open_btn">立即开户</button>
+        <button class="open_btn" @click="toAccount">立即开户</button>
       </div>
     </div>
   </div>
@@ -185,6 +185,11 @@ export default {
     toRiskAssessment() {
       this.$router.push({
         name: 'riskAss'
+      })
+    },
+    toAccount() {
+      this.$router.push({
+        name: 'account'
       })
     },
     getUserBasicInfo: function() {
