@@ -1,33 +1,22 @@
-import axios from '@/assets/js/requestHYC'
+import request from '@/assets/js/requestHYC'
 import qs from 'qs'
 
 function getUserBasicInfo(data) {
-  return new Promise((resolve, reject) => {
-    axios.post('UserBasicInfo', qs.stringify(data)).then(
-      res => {
-        resolve(res)
-      },
-      err => {
-        reject(err)
-      }
-    )
+  return request({
+    url: '/UserBasicInfo',
+    method: 'post',
+    data: qs.stringify(data)
   })
 }
 
-function getAmountInfo(data) {
-  return new Promise((resolve, reject) => {
-    axios.post('personalAccount/amountInfo', qs.stringify(data)).then(
-      res => {
-        resolve(res)
-      },
-      err => {
-        reject(err)
-      }
-    )
+export function getPersonalAccount() {
+  return request({
+    url: '/personalAccount/amountInfo',
+    method: 'post'
   })
 }
 
 export default {
   getUserBasicInfo, // 获取用户信息
-  getAmountInfo // 账户总览
+  getPersonalAccount // 获取个人账户信息
 }

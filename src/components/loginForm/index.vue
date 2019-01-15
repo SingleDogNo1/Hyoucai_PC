@@ -44,7 +44,7 @@
         </div>
       </div>
       <div v-if="user.userIsOpenAccount && user.userIsOpenAccount.isOpenAccount">
-        <div class="account"><span class="label">账户余额(元)</span><span class="value">12568.79</span></div>
+        <div class="account"><span class="label">账户余额(元)</span><span class="value">{{personalAccount.banlance}}</span></div>
         <div class="actions">
           <span @click="$router.push({ name: 'charge' })">充值</span> <span @click="$router.push({ name: 'tocash' })">提现</span>
         </div>
@@ -81,7 +81,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['user', 'errorNum'])
+    ...mapGetters(['user', 'errorNum', 'personalAccount'])
   },
   methods: {
     getSmsCode() {
