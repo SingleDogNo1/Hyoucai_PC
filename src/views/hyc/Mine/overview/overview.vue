@@ -7,7 +7,7 @@
           <span class="big">{{ totalIncomeBig }}</span> <span class="small">.{{ totalIncomeSmall }}元</span>
         </p>
       </section>
-      <button class="switcher">系统切换</button> <button class="recharge"><router-link :to="{ name: 'charge' }">充值</router-link></button> <button class="extract"><router-link :to="{ name: 'tocash' }">提现</router-link></button>
+      <button class="switcher" v-if="user.platformFlag === '0'" @click="switchSystem">系统切换</button> <button class="recharge"><router-link :to="{ name: 'charge' }">充值</router-link></button> <button class="extract"><router-link :to="{ name: 'tocash' }">提现</router-link></button>
     </div>
     <div class="amount" id="amount"></div>
   </div>
@@ -41,7 +41,11 @@ export default {
   computed: {
     ...mapGetters(['user'])
   },
-  methods: {},
+  methods: {
+    switchSystem() {
+      location.href = '/djs/#/mine/overview'
+    }
+  },
   mounted() {
     const $this = this
     async function initPage() {
