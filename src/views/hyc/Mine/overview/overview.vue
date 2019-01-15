@@ -7,7 +7,9 @@
           <span class="big">{{ totalIncomeBig }}</span> <span class="small">.{{ totalIncomeSmall }}元</span>
         </p>
       </section>
-      <button class="switcher" v-if="user.platformFlag === '0'" @click="switchSystem">系统切换</button> <button class="recharge"><router-link :to="{ name: 'charge' }">充值</router-link></button> <button class="extract"><router-link :to="{ name: 'tocash' }">提现</router-link></button>
+      <el-button type="info" v-if="user.platformFlag === '0'" @click="switchSystem">系统切换</el-button>
+      <el-button type="warning"><router-link :to="{ name: 'charge' }">充值</router-link></el-button>
+      <el-button type="warning"><router-link :to="{ name: 'tocash' }">提现</router-link></el-button>
     </div>
     <div class="amount" id="amount"></div>
   </div>
@@ -24,7 +26,7 @@ import 'echarts/lib/component/legend'
 import 'echarts/lib/component/graphic'
 
 import api from '@/api/hyc/Mine/overview'
-import { mapGetters } from 'vuex'
+import { mapGetters, mapMutations } from 'vuex'
 
 export default {
   name: 'overview',
@@ -44,29 +46,27 @@ export default {
   methods: {
     switchSystem() {
       location.href = '/djs/#/mine/overview'
-    }
+    },
+    ...mapMutations({
+      setPersonalAccount: 'SET_PERSONALACCOUNT'
+    })
   },
   mounted() {
     const $this = this
     async function initPage() {
       const myChart = echarts.init(document.getElementById('amount'))
-      await api
-        .getUserBasicInfo({
-          userName: $this.user.userName
-        })
-        .then(res => {
-          console.log(res)
-        })
-      await api.getAmountInfo().then(res => {
+      await api.getPersonalAccount().then(res => {
         const totalIncome = res.data.data.totalIncome
         $this.amountInfo = res.data.data
         $this.totalIncomeBig = totalIncome.split('.')[0]
         $this.totalIncomeSmall = totalIncome.split('.')[1]
+        $this.setPersonalAccount($this.amountInfo)
       })
-      await myChart.setOption({
+      myChart.setOption({
         tooltip: {
           trigger: 'item',
-          formatter: '{a} <br/>{b}: {c} ({d}%)'
+          formatter: '{a} <br/>{b}: {c} ({d}%)',
+          alwaysShowContent: true
         },
         // title: {
         //   text: '总资产（元）',
@@ -147,6 +147,17 @@ export default {
             ]
           }
         ]
+      })
+      myChart.dispatchAction({
+        type: 'highlight',
+        seriesIndex: 0,
+        dataIndex: 0
+      })
+
+      myChart.dispatchAction({
+        type: 'showTip',
+        seriesIndex: 0,
+        dataIndex: 0
       })
     }
 

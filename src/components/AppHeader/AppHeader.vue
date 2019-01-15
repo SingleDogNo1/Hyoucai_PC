@@ -194,6 +194,10 @@ export default {
             color: $color-theme;
             border-bottom: 2px solid $color-theme;
           }
+          &:hover {
+            color: $color-theme;
+            border-bottom: 2px solid #efa21c;
+          }
         }
       }
     }

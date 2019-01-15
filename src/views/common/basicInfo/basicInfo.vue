@@ -41,8 +41,8 @@
         <div class="wrap_rows">
           <span class="wrap_left">风险测评</span>
           <span class="wrap_center">{{evaluatingResult.evaluatingName}}</span>
-          <button class="wrap_btn" v-show="!isEvaluation">未测评</button>
-          <button class="wrap_btn" v-show="isEvaluation">重新测评</button>
+          <button class="wrap_btn" v-show="!isEvaluation" @click="toRiskAssessment">未测评</button>
+          <button class="wrap_btn" v-show="isEvaluation" @click="toRiskAssessment">重新测评</button>
         </div>
         <div class="wrap_rows last_rows">
           <span class="wrap_left">收货地址</span>
@@ -85,7 +85,7 @@
           <img src="./bank.png" class="bank_logo">
           <span class="tips_content">您还未开通存管账户</span>
         </div>
-        <button class="open_btn">立即开户</button>
+        <button class="open_btn" @click="toAccount">立即开户</button>
       </div>
     </div>
   </div>
@@ -182,6 +182,16 @@ export default {
       this.getUserBasicInfo()
       // this.$forceUpdate()
     },
+    toRiskAssessment() {
+      this.$router.push({
+        name: 'riskAss'
+      })
+    },
+    toAccount() {
+      this.$router.push({
+        name: 'account'
+      })
+    },
     getUserBasicInfo: function() {
       let data = {}
       data.userName = this.user.userName
@@ -216,14 +226,11 @@ export default {
           getMailingAddress({ userName: this.user.userName })
         }
       })
-      // console.log(this.user.userName)
     }
   },
   created() {
     this.getUserBasicInfo()
-  },
-  mounted() {},
-  destroyed() {}
+  }
 }
 </script>
 
