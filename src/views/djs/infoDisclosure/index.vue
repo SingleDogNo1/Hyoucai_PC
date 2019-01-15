@@ -715,14 +715,14 @@ export default {
               trigger: 'item',
               formatter: '{a} <br/>{b}: {c} ({d}%)'
             },
-            color: ['#FA8B2F', '#FB6E4A', '#FFD665', '#FFB368'],
+            color: ['#FA8B2F', '#FFD665', '#FB6E4A', '#FFB368'],
             legend: {
               orient: 'vertical',
               x: 'center',
               y: 'center',
               itemWidth: 10,
               itemHeight: 10,
-              data: ['25岁以下', '25-30岁', '31-35岁', '36岁以上']
+              data: ['25-30岁', '25岁以下', '31-35岁', '36岁以上']
             },
             series: [
               {
@@ -755,13 +755,23 @@ export default {
                   }
                 },
                 data: [
-                  { value: 20, name: '31-35岁' },
                   { value: 42, name: '25-30岁' },
                   { value: 26, name: '25岁以下' },
+                  { value: 20, name: '31-35岁' },
                   { value: 12, name: '36岁以上' }
                 ]
               }
             ]
+          })
+          ageChart.dispatchAction({
+            type: 'highlight',
+            seriesIndex: 0,
+            dataIndex: 0
+          })
+          ageChart.dispatchAction({
+            type: 'showTip',
+            seriesIndex: 0,
+            dataIndex: 0
           })
           const educationChart = echarts.init(document.getElementById('education-chart'))
           educationChart.setOption({
@@ -769,7 +779,7 @@ export default {
               trigger: 'item',
               formatter: '{a} <br/>{b}: {c} ({d}%)'
             },
-            color: ['#48AFFF', '#76DDFB', '#4ABBF7'],
+            color: ['#48AFFF', '#4ABBF7', '#76DDFB'],
             legend: {
               orient: 'vertical',
               x: 'center',
@@ -807,9 +817,19 @@ export default {
                     show: false
                   }
                 },
-                data: [{ value: 4, name: '其他' }, { value: 11, name: '硕士及博士' }, { value: 85, name: '大学及本科' }]
+                data: [{ value: 85, name: '大学及本科' }, { value: 11, name: '硕士及博士' }, { value: 4, name: '其他' }]
               }
             ]
+          })
+          educationChart.dispatchAction({
+            type: 'highlight',
+            seriesIndex: 0,
+            dataIndex: 0
+          })
+          educationChart.dispatchAction({
+            type: 'showTip',
+            seriesIndex: 0,
+            dataIndex: 0
           })
         }, 200)
       }
@@ -907,11 +927,11 @@ export default {
             legend: {
               show: false,
               orient: 'vertical',
-              x: 'right',
+              x: 'center',
               y: 'center',
               itemWidth: 10,
               itemHeight: 10,
-              data: ['web端', '移动端']
+              data: ['移动端', 'web端']
             },
             series: [
               {
@@ -938,11 +958,21 @@ export default {
                   }
                 },
                 data: [
-                  { value: parseFloat(this.lendingTerminalDistributeMobile), name: 'web端' },
-                  { value: parseFloat(this.lendingTerminalDistributeWeb), name: '移动端' }
+                  { value: parseFloat(this.lendingTerminalDistributeMobile), name: '移动端' },
+                  { value: parseFloat(this.lendingTerminalDistributeWeb), name: 'web端' }
                 ]
               }
             ]
+          })
+          terminalChart.dispatchAction({
+            type: 'highlight',
+            seriesIndex: 0,
+            dataIndex: 0
+          })
+          terminalChart.dispatchAction({
+            type: 'showTip',
+            seriesIndex: 0,
+            dataIndex: 0
           })
           const genderChart = echarts.init(document.getElementById('gender-chart'))
           genderChart.setOption({
@@ -950,7 +980,7 @@ export default {
               trigger: 'item',
               formatter: '{a} <br/>{b}: {c} ({d}%)'
             },
-            color: ['#FF5178', '#22C9FF'],
+            color: ['#22C9FF', '#FF5178'],
             legend: {
               show: false,
               orient: 'vertical',
@@ -990,6 +1020,16 @@ export default {
                 ]
               }
             ]
+          })
+          genderChart.dispatchAction({
+            type: 'highlight',
+            seriesIndex: 0,
+            dataIndex: 0
+          })
+          genderChart.dispatchAction({
+            type: 'showTip',
+            seriesIndex: 0,
+            dataIndex: 0
           })
           const amountChart = echarts.init(document.getElementById('amount-chart'))
           amountChart.setOption({
@@ -1040,6 +1080,16 @@ export default {
                 ]
               }
             ]
+          })
+          amountChart.dispatchAction({
+            type: 'highlight',
+            seriesIndex: 0,
+            dataIndex: 0
+          })
+          amountChart.dispatchAction({
+            type: 'showTip',
+            seriesIndex: 0,
+            dataIndex: 0
           })
           const lendChart = echarts.init(document.getElementById('lend-chart'))
           lendChart.setOption({
