@@ -25,8 +25,8 @@ import 'echarts/lib/component/title'
 import 'echarts/lib/component/legend'
 import 'echarts/lib/component/graphic'
 
-import api from '@/api/hyc/Mine/overview'
-import { mapGetters } from 'vuex'
+import api from '@/api/djs/Mine/overview'
+import { mapGetters, mapMutations } from 'vuex'
 import appDialog from '@/components/Dialog/Dialog'
 
 export default {
@@ -57,29 +57,25 @@ export default {
     },
     onClose() {
       console.log('onClose')
-    }
+    },
+    ...mapMutations({
+      setPersonalAccount: 'SET_PERSONALACCOUNT'
+    })
   },
   mounted() {
     const $this = this
     async function initPage() {
       const myChart = echarts.init(document.getElementById('amount'))
 
-      await api
-        .getUserBasicInfo({
-          userName: $this.user.userName
-        })
-        .then(res => {
-          console.log(res)
-        })
-
-      await api.getAmountInfo().then(res => {
-        const totalIncome = res.data.data.totalIncome
-        $this.amountInfo = res.data.data
+      await api.getPersonalAccount().then(res => {
+        const totalIncome = res.data.totalIncome
+        $this.amountInfo = res.data
         $this.totalIncomeBig = totalIncome.split('.')[0]
         $this.totalIncomeSmall = totalIncome.split('.')[1]
+        $this.setPersonalAccount($this.amountInfo)
       })
 
-      await myChart.setOption({
+      myChart.setOption({
         tooltip: {
           trigger: 'item',
           formatter: '{a} <br/>{b}: {c} ({d}%)'
