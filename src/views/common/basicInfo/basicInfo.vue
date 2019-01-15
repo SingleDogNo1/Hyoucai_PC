@@ -92,7 +92,7 @@
 </template>
 
 <script>
-import { getUserBasicInfo, getMailingAddress, tansactionPwd } from '@/api/common/basicInfo'
+import { getMailingAddress, tansactionPwd } from '@/api/common/basicInfo'
 import { mapGetters } from 'vuex'
 import { getRetBaseURL } from '@/assets/js/utils'
 import Name from './popup/name'
@@ -133,7 +133,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['user'])
+    ...mapGetters(['user', 'userBasicInfo'])
   },
   props: {},
   watch: {},
@@ -145,7 +145,6 @@ export default {
       tansactionPwd(obj).then(res => {
         let data = res.data
         let resultCode = data.resultCode
-        // let resultMsg = data.resultMsg
         if (resultCode === '1') {
           let option = data.data.paramReq
           this.postcall(data.data.redirectUrl, option)
@@ -193,39 +192,35 @@ export default {
       })
     },
     getUserBasicInfo: function() {
-      let data = {}
-      data.userName = this.user.userName
-      getUserBasicInfo(data).then(res => {
-        this.lastLoginTime = res.data.data.lastLoginTime
-        this.nickname = res.data.data.nickname
-        this.passWord = res.data.data.passWord
-        this.mobile = res.data.data.mobileMask
-        // 判断是否风险测评
-        if (res.data.data.evaluatingResult) {
-          this.isEvaluation = true
-          this.evaluatingResult = res.data.data.evaluatingResult
-        }
-        this.hasMailingAddress = res.data.data.hasMailingAddress
-        // 判断用户是否开户
-        if (res.data.data.escrowAccountInfo) {
-          this.escrowAccountInfo = res.data.data.escrowAccountInfo
-          this.flag = true
-        }
-        switch (res.data.data.infoFinishGrade) {
-          case 1:
-            this.infoFinishGrade = '低'
-            break
-          case 2:
-            this.infoFinishGrade = '中'
-            break
-          case 3:
-            this.infoFinishGrade = '高'
-            break
-        }
-        if (this.hasMailingAddress == 1) {
-          getMailingAddress({ userName: this.user.userName })
-        }
-      })
+      this.lastLoginTime = this.userBasicInfo.lastLoginTime
+      this.nickname = this.userBasicInfo.nickname
+      this.passWord = this.userBasicInfo.passWord
+      this.mobile = this.userBasicInfo.mobileMask
+      // 判断是否风险测评
+      if (this.userBasicInfo.evaluatingResult) {
+        this.isEvaluation = true
+        this.evaluatingResult = this.userBasicInfo.evaluatingResult
+      }
+      this.hasMailingAddress = this.userBasicInfo.hasMailingAddress
+      // 判断用户是否开户
+      if (this.userBasicInfo.escrowAccountInfo) {
+        this.escrowAccountInfo = this.userBasicInfo.escrowAccountInfo
+        this.flag = true
+      }
+      switch (this.userBasicInfo.infoFinishGrade) {
+        case 1:
+          this.infoFinishGrade = '低'
+          break
+        case 2:
+          this.infoFinishGrade = '中'
+          break
+        case 3:
+          this.infoFinishGrade = '高'
+          break
+      }
+      if (this.hasMailingAddress == 1) {
+        getMailingAddress({ userName: this.user.userName })
+      }
     }
   },
   created() {

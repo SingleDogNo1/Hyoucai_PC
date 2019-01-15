@@ -20,7 +20,7 @@
     </div>
     <div class="notice-wrap">
       <div class="notice-box">
-        <img class="notice-text" src="./images/text_notice.png">
+        <span class="notice-text"></span>
         <div class="notice-swiper-wrap">
           <div class="notice-item">
             <span>[网站公告]</span>
@@ -81,8 +81,8 @@
       <ul>
         <li>
           <router-link to="/infoDisclosure?paramCode=GSJJ">
-            <img src="./images/icon_introdution1.png">
             <div>
+              <span></span>
               <p class="title">平台背景</p>
               <p class="desc">江西省首批互联网中介平台</p>
             </div>
@@ -90,8 +90,8 @@
         </li>
         <li>
           <router-link to="/infoDisclosure?paramCode=YYSJ">
-            <img src="./images/icon_introdution2.png">
             <div>
+              <span></span>
               <p class="title">信息披露</p>
               <p class="desc">信息详细真实透明</p>
             </div>
@@ -99,8 +99,8 @@
         </li>
         <li>
           <router-link to="/infoDisclosure?paramCode=ZJCG">
-            <img src="./images/icon_introdution3.png">
             <div>
+              <span></span>
               <p class="title">银行存管</p>
               <p class="desc">江西银行资金存管</p>
             </div>
@@ -108,8 +108,8 @@
         </li>
         <li>
           <router-link to="/safety" @click.native="JumpSafety('satefy-url4')">
-            <img src="./images/icon_introdution4.png">
             <div>
+              <span></span>
               <p class="title">严格风控</p>
               <p class="desc">专业风控甄选优质项目</p>
             </div>
@@ -118,7 +118,7 @@
       </ul>
     </div>
     <div class="lend-data-wrap">
-      <img src="./images/text_lend_data.png">
+      <div class="text-title"></div>
       <ul>
         <li>
           <countUp v-if="accumulativeInvAmountSum" :name="count1" :count="accumulativeInvAmountSum"></countUp>
@@ -141,7 +141,7 @@
     <div class="novice-area-wrap" v-if="noviceProjectList && noviceProjectList.length > 0">
       <div class="novice-area-box">
         <div class="desc-warp">
-          <img src="./images/text_novice_area.png">
+          <div class="text-title"></div>
           <button class="btn-know" href="javascript:void(0);">1分钟了解汇有财</button>
         </div>
         <div class="production-wrap" v-for="(item, index) in noviceProjectList" :key="index">
@@ -184,7 +184,7 @@
       class="lend-boutique-wrap"
       v-if="hycPopularProjectList && hycPopularProjectList.length > 0"
     >
-      <img src="./images/text_lend_boutique.png">
+      <div class="text-title"></div>
       <ul :class="{ two: hycPopularProjectList.length == 2 }">
         <li v-for="(item, index) in hycPopularProjectList" :key="index" @click="toLend">
           <p class="title">
@@ -208,35 +208,17 @@
       </ul>
     </div>
     <div class="partner-wrap">
-      <img src="./images/text_partner.png">
+      <div class="text-title"></div>
       <ul>
-        <li>
-          <img src="./images/icon_parter1.png">
-        </li>
-        <li>
-          <img src="./images/icon_parter2.png">
-        </li>
-        <li>
-          <img src="./images/icon_parter3.png">
-        </li>
-        <li>
-          <img src="./images/icon_parter4.png">
-        </li>
-        <li>
-          <img src="./images/icon_parter5.png">
-        </li>
-        <li>
-          <img src="./images/icon_parter6.png">
-        </li>
-        <li>
-          <img src="./images/icon_parter7.png">
-        </li>
-        <li>
-          <img src="./images/icon_parter8.png">
-        </li>
-        <li>
-          <img src="./images/icon_parter9.png">
-        </li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
         <li>
           <router-link
             class="btn-more"
@@ -536,10 +518,12 @@ export default {
       margin: 0 auto;
       .notice-text {
         display: block;
-        width: 88px;
-        height: 18px;
         margin-top: 16px;
         margin-right: 20px;
+        width: 88px;
+        height: 18px;
+        background: url('./images/bg_index.png') -5px -5px;
+        background-size: 205px auto;
       }
       .notice-swiper-wrap {
         height: 50px;
@@ -551,7 +535,7 @@ export default {
           //line-height: 49px;
           margin-right: 10px;
           span {
-            vertical-align: middle;
+            vertical-align: top;
             font-size: $font-size-small-ss;
             color: $color-text;
           }
@@ -559,7 +543,7 @@ export default {
             width: 247px;
             position: relative;
             display: inline-block;
-            vertical-align: middle;
+            vertical-align: top;
             height: 100%;
             margin-left: 5px;
             font-size: $font-size-small-ss;
@@ -626,21 +610,25 @@ export default {
         height: 100%;
         margin-right: 100px;
         flex: none;
+        position: relative;
         a {
           display: flex;
-          img {
-            display: inline-block;
+          span {
+            position: absolute;
+            left: 0;
+            top: 0;
             width: 52px;
             height: 52px;
+            display: inline-block;
             transition: all 0.5s;
           }
-          img:hover {
+          span:hover {
             transform: scale(1.4);
           }
           .title {
             width: 80px;
             display: inline-block;
-            margin-left: 12px;
+            margin-left: 64px;
             vertical-align: top;
             font-size: $font-size-medium-x;
             color: $color-text;
@@ -648,18 +636,40 @@ export default {
           .desc {
             width: 168px;
             display: inline-block;
-            margin-left: 12px;
+            margin-left: 64px;
             vertical-align: middle;
             font-size: $font-size-small-s;
             color: $color-text-s;
           }
         }
       }
-      li:nth-child(2),
+      li:nth-child(1) {
+        span {
+          background: url('./images/bg_index.png') -5px -242px;
+          background-size: 205px auto;
+        }
+      }
+      li:nth-child(2) {
+        width: 176px;
+        span {
+          background: url('./images/bg_index.png') -5px -304px;
+          background-size: 205px auto;
+        }
+      }
       li:nth-child(3) {
         width: 176px;
+        span {
+          background: url('./images/bg_index.png') -5px -366px;
+          background-size: 205px auto;
+        }
       }
-      li:nth-child() {
+      li:nth-child(4) {
+        span {
+          background: url('./images/bg_index.png') -5px -428px;
+          background-size: 205px auto;
+        }
+      }
+      li:last-child() {
         margin-right: 0;
       }
     }
@@ -669,11 +679,12 @@ export default {
     margin: 0 auto;
     padding: 70px 20px 50px 20px;
     background: #fff;
-    img {
-      display: block;
+    .text-title {
       width: 158px;
       height: 38px;
       margin: 0 auto;
+      background: url('./images/bg_index.png') -5px -193px;
+      background-size: 205px auto;
     }
     ul {
       width: 1140px;
@@ -722,10 +733,12 @@ export default {
       .desc-warp {
         width: 218px;
         height: 100%;
-        img {
+        .text-title {
           display: block;
-          width: 180px;
+          width: 195px;
           height: 84px;
+          background: url('./images/bg_index.png') -5px -1192px;
+          background-size: 205px auto;
         }
         .btn-know {
           display: block;
@@ -742,8 +755,8 @@ export default {
       .production-wrap {
         width: 880px;
         height: 100%;
-        background: #fff url('./images/bg_novice_area.png') center center no-repeat;
-        background-size: 166px 130px;
+        background: #fff url('./images/bg_index.png') center -1276px no-repeat;
+        background-size: 205px auto;
         padding: 35px 40px 35px 30px;
         display: flex;
         justify-content: space-between;
@@ -838,13 +851,15 @@ export default {
   }
   .lend-boutique-wrap {
     background: #f4f4f4;
-    img {
+    .text-title {
       display: block;
       width: 159px;
       height: 38px;
       margin: 0 auto;
-      padding-bottom: 40px;
+      margin-bottom: 40px;
       text-align: center;
+      background: url('./images/bg_index.png') -5px -145px;
+      background-size: 205px auto;
     }
     ul {
       width: 1140px;
@@ -966,11 +981,13 @@ export default {
     padding-top: 60px;
     padding-bottom: 62px;
     background: #fff;
-    img {
+    .text-title {
       display: block;
       width: 158px;
       height: 38px;
       margin: 0 auto;
+      background: url('./images/bg_index.png') -5px -97px;
+      background-size: 205px auto;
     }
     ul {
       width: 1140px;
@@ -995,6 +1012,42 @@ export default {
           text-align: center;
           font-size: $font-size-medium;
           color: $color-text-blue;
+        }
+        &:nth-child(1) {
+          background: url('./images/bg_index.png') -10px -1916px;
+          background-size: 410px auto;
+        }
+        &:nth-child(2) {
+          background: url('./images/bg_index.png') -10px -2072px;
+          background-size: 410px auto;
+        }
+        &:nth-child(3) {
+          background: url('./images/bg_index.png') -10px -2228px;
+          background-size: 410px auto;
+        }
+        &:nth-child(4) {
+          background: url('./images/bg_index.png') -10px -980px;
+          background-size: 410px auto;
+        }
+        &:nth-child(5) {
+          background: url('./images/bg_index.png') -10px -1136px;
+          background-size: 410px auto;
+        }
+        &:nth-child(6) {
+          background: url('./images/bg_index.png') -10px -1292px;
+          background-size: 410px auto;
+        }
+        &:nth-child(7) {
+          background: url('./images/bg_index.png') -10px -1448px;
+          background-size: 410px auto;
+        }
+        &:nth-child(8) {
+          background: url('./images/bg_index.png') -10px -1604px;
+          background-size: 410px auto;
+        }
+        &:nth-child(9) {
+          background: url('./images/bg_index.png') -10px -1760px;
+          background-size: 410px auto;
         }
       }
       li:nth-child(5n) {
@@ -1034,7 +1087,6 @@ export default {
         margin-top: 42px;
         width: 100%;
         height: 380px;
-        background: url('./images/bg_banner.png') center center no-repeat;
         border-radius: 10px;
         .btn-to-investment {
           margin-top: 280px;
