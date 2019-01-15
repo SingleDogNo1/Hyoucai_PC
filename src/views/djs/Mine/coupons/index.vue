@@ -167,7 +167,6 @@ export default {
       usedList: []
     }
   },
-  props: {},
   computed: {
     ...mapGetters(['user'])
   },
@@ -213,7 +212,6 @@ export default {
             item.amountMax = parseInt(item.amountMax)
           })
         })
-        // console.log(res.data.vouchers)
       })
     },
     // 历史卡券
@@ -311,9 +309,7 @@ export default {
   created() {
     this.geCoupon()
     this.couponPacketHistory()
-  },
-  mounted() {},
-  destroyed() {}
+  }
 }
 </script>
 
