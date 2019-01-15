@@ -202,7 +202,6 @@ export default {
     cursor: pointer;
     width: 120px;
     height: 40px;
-    background: $color-theme;
     border-radius: 8px;
     margin: 0 15px;
     font-size: $font-size-medium;
