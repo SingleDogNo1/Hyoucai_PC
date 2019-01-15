@@ -41,11 +41,11 @@ export default {
   data() {
     return {
       msg: 'Mine',
-      showDialog: true,
+      showDialog: false,
       singleButton: false,
       confirmText: '确定',
       dialogTitle: '温馨提示',
-      dialogDis: '内容',
+      dialogDis: '',
       accountStatus: '',
       alertInfo: { haveAlert: false, count: 0, type: '' },
       routerLink: '', // 要跳转的路由
@@ -60,7 +60,7 @@ export default {
   props: {},
   watch: {
     '$route.name'(ne) {
-      if (this.accountStatus === 'OPEN_ACCOUNT' && (ne === 'bankcard' || ne === 'charge' || ne === 'tocash')) {
+      if (this.accountStatus === 'OPEN_ACCOUNT' && (ne === 'bankcard' || ne === 'charge' || ne === 'tocash' || ne === 'referralCode')) {
         this.showDialog = true
       }
     }
@@ -96,8 +96,8 @@ export default {
           this.showCloseBtn = false
           this.showLogo = false
           this.showFooter = true
-          this.showDialog = true
           if (this.alertInfo.haveAlert) {
+            this.showDialog = true
             if (this.alertInfo.type) {
               switch (this.alertInfo.type) {
                 case 'redPacket':

@@ -1,103 +1,124 @@
 <template>
   <div class="index">
-    <div class="swiper-container-banner">
+    <div class="swiper-container-banner" id="swiper-container-banner">
       <div class="swiper-wrapper">
-        <div class="swiper-slide swiper-no-swiping" v-for="(item, index) in bannerList" :key="index">
+        <div
+          class="swiper-slide swiper-no-swiping"
+          v-for="(item, index) in bannerList"
+          :key="index"
+        >
           <a :href="item.linkUrl">
-            <img :src="item.picUrl" class="swiper-lazy" />
+            <img :src="item.picUrl" class="swiper-lazy">
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
       </div>
       <div class="swiper-pagination-banner"></div>
-      <div class="form-container"><login-form style="margin-top: 35px"></login-form></div>
+      <div class="form-container">
+        <login-form style="margin-top: 35px"></login-form>
+      </div>
     </div>
     <div class="notice-wrap">
       <div class="notice-box">
-        <img class="notice-text" src="./images/text_notice.png" />
+        <span class="notice-text"></span>
         <div class="notice-swiper-wrap">
           <div class="notice-item">
             <span>[网站公告]</span>
-            <div class="swiper-container-notice">
+            <div class="swiper-container-notice" id="swiper-container-notice1">
               <div class="swiper-wrapper">
                 <div class="swiper-slide" v-for="(item, index) in noticeList" :key="index">
-                  <router-link :to="{ name: 'announcementDetail', params: { id: item.id }, query: { paramCode: 'WZGG' } }">{{
+                  <router-link
+                    :to="{ name: 'announcementDetail', params: { id: item.id }, query: { paramCode: 'WZGG' } }"
+                  >
+                    {{
                     item.title
-                  }}</router-link>
+                    }}
+                  </router-link>
                 </div>
               </div>
             </div>
           </div>
           <div class="notice-item">
             <span>[行业资讯]</span>
-            <div class="swiper-container-notice">
+            <div class="swiper-container-notice" id="swiper-container-notice2">
               <div class="swiper-wrapper">
                 <div class="swiper-slide" v-for="(item, index) in industryList" :key="index">
-                  <router-link :to="{ name: 'announcementDetail', params: { id: item.id }, query: { paramCode: 'HYZX' } }">{{
+                  <router-link
+                    :to="{ name: 'announcementDetail', params: { id: item.id }, query: { paramCode: 'HYZX' } }"
+                  >
+                    {{
                     item.title
-                  }}</router-link>
+                    }}
+                  </router-link>
                 </div>
               </div>
             </div>
           </div>
           <div class="notice-item">
             <span>[媒体报道]</span>
-            <div class="swiper-container-notice">
+            <div class="swiper-container-notice" id="swiper-container-notice3">
               <div class="swiper-wrapper">
                 <div class="swiper-slide" v-for="(item, index) in mediaList" :key="index">
-                  <router-link :to="{ name: 'announcementDetail', params: { id: item.id }, query: { paramCode: 'MTBD' } }">{{
+                  <router-link
+                    :to="{ name: 'announcementDetail', params: { id: item.id }, query: { paramCode: 'MTBD' } }"
+                  >
+                    {{
                     item.title
-                  }}</router-link>
+                    }}
+                  </router-link>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <router-link :to="{ path: 'announcement', query: { paramCode: 'WZGG' } }" class="more"> 更多 <i class="iconfont icon-more"></i> </router-link>
+        <router-link :to="{ path: 'announcement', query: { paramCode: 'WZGG' } }" class="more">
+          更多
+          <i class="iconfont icon-more"></i>
+        </router-link>
       </div>
     </div>
     <div class="introduction-wrap">
       <ul>
         <li>
-          <a>
-            <img src="./images/icon_introdution1.png" />
+          <router-link to="/infoDisclosure?paramCode=GSJJ">
             <div>
+              <span></span>
               <p class="title">平台背景</p>
               <p class="desc">江西省首批互联网中介平台</p>
             </div>
-          </a>
+          </router-link>
         </li>
         <li>
-          <a>
-            <img src="./images/icon_introdution2.png" />
+          <router-link to="/infoDisclosure?paramCode=YYSJ">
             <div>
+              <span></span>
               <p class="title">信息披露</p>
               <p class="desc">信息详细真实透明</p>
             </div>
-          </a>
+          </router-link>
         </li>
         <li>
-          <a>
-            <img src="./images/icon_introdution3.png" />
+          <router-link to="/infoDisclosure?paramCode=ZJCG">
             <div>
+              <span></span>
               <p class="title">银行存管</p>
               <p class="desc">江西银行资金存管</p>
             </div>
-          </a>
+          </router-link>
         </li>
         <li>
-          <a>
-            <img src="./images/icon_introdution4.png" />
+          <router-link to="/safety" @click.native="JumpSafety('satefy-url4')">
             <div>
+              <span></span>
               <p class="title">严格风控</p>
               <p class="desc">专业风控甄选优质项目</p>
             </div>
-          </a>
+          </router-link>
         </li>
       </ul>
     </div>
     <div class="lend-data-wrap">
-      <img src="./images/text_lend_data.png" />
+      <div class="text-title"></div>
       <ul>
         <li>
           <countUp v-if="accumulativeInvAmountSum" :name="count1" :count="accumulativeInvAmountSum"></countUp>
@@ -120,25 +141,30 @@
     <div class="novice-area-wrap" v-if="noviceProjectList && noviceProjectList.length > 0">
       <div class="novice-area-box">
         <div class="desc-warp">
-          <img src="./images/text_novice_area.png" /> <button class="btn-know" href="javascript:void(0);">1分钟了解汇有财</button>
+          <div class="text-title"></div>
+          <button class="btn-know" href="javascript:void(0);">1分钟了解汇有财</button>
         </div>
         <div class="production-wrap" v-for="(item, index) in noviceProjectList" :key="index">
           <div class="production-info">
             <div class="label-wrap">
-              <img src="./images/icon_new.png" /> <span class="title">{{ item.projectName }} {{ item.projectNo }}</span>
-              <span class="label" v-for="(tagItem, index) in item.tags" :key="index">{{ tagItem.tagName }}</span>
+              <span class="title">{{ item.projectName }} {{ item.projectNo }}</span>
+              <span
+                class="label"
+                v-for="(tagItem, index) in item.tags"
+                :key="index"
+              >{{ tagItem.tagName }}</span>
             </div>
             <div class="returns">
               <p class="title">
                 <span class="large">{{ item.investRate }}</span> %
               </p>
-              <p class="desc">预期年化收益率</p>
+              <p class="desc">历史平均年化收益率</p>
             </div>
             <div class="term">
               <p class="title">
                 <span class="large">{{ item.investMent }}</span> 天
               </p>
-              <p class="desc">项目期限</p>
+              <p class="desc">锁定期</p>
             </div>
             <div class="amount">
               <p class="title">
@@ -147,48 +173,59 @@
               <p class="desc">融资金额</p>
             </div>
           </div>
-          <div class="btn-invest-now"><router-link :to="{ name: 'lend' }">立即出借</router-link></div>
+          <div class="btn-invest-now">
+            <router-link :to="{ name: 'lend' }">下载APP</router-link>
+          </div>
         </div>
       </div>
     </div>
-    <div class="lend-boutique-wrap" v-if="hycPopularProjectList && hycPopularProjectList.length > 0">
-      <img src="./images/text_lend_boutique.png" />
+    <div
+      class="lend-boutique-wrap"
+      v-if="hycPopularProjectList && hycPopularProjectList.length > 0"
+    >
+      <div class="text-title"></div>
       <ul :class="{ two: hycPopularProjectList.length == 2 }">
         <li v-for="(item, index) in hycPopularProjectList" :key="index" @click="toLend">
           <p class="title">
-            <img :src="item.iconUrl" /> <span class="icon">{{ item.itemName }}</span>
+            <img :src="item.iconUrl">
+            <span class="icon">{{ item.itemName }}</span>
           </p>
           <div class="returns">
             <p class="title">
-              <span class="large">{{ item.investRate }}</span
-              >%
+              <span class="large">{{ item.investRate }}</span>%
             </p>
             <p class="desc">预期年化收益率</p>
           </div>
           <p class="lend-desc">{{ item.showMinInvAmount }}起投</p>
           <p class="lend-desc">锁定期：{{ item.loanMent }}</p>
-          <p class="lend-desc">已售：{{ item.showInvestPercent }}</p>
+          <p class="lend-desc">已投：{{ item.showInvestPercent }}</p>
           <div class="actions">
-            <a class="btn-invest-now" href="javascript:void(0);">立即出借</a> <a class="btn-view-detail" href="javascript:void(0);">查看详情</a>
+            <a class="btn-invest-now" href="javascript:void(0);">下载APP</a>
+            <a class="btn-view-detail" href="javascript:void(0);">查看详情</a>
           </div>
         </li>
       </ul>
     </div>
     <div class="partner-wrap">
-      <img src="./images/text_partner.png" />
+      <div class="text-title"></div>
       <ul>
-        <li><img src="./images/icon_parter1.png" /></li>
-        <li><img src="./images/icon_parter2.png" /></li>
-        <li><img src="./images/icon_parter3.png" /></li>
-        <li><img src="./images/icon_parter4.png" /></li>
-        <li><img src="./images/icon_parter5.png" /></li>
-        <li><img src="./images/icon_parter6.png" /></li>
-        <li><img src="./images/icon_parter7.png" /></li>
-        <li><img src="./images/icon_parter8.png" /></li>
-        <li><img src="./images/icon_parter9.png" /></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
         <li>
-          <router-link class="btn-more" href="javascript:void(0);" to="/infoDisclosure?paramCode=HZHB"
-            >查看更多 <i class="iconfont icon-more"></i>
+          <router-link
+            class="btn-more"
+            href="javascript:void(0);"
+            to="/infoDisclosure?paramCode=HZHB"
+          >
+            查看更多
+            <i class="iconfont icon-more"></i>
           </router-link>
         </li>
       </ul>
@@ -196,7 +233,9 @@
     <div class="activity-pop" v-if="isShowActivityPop">
       <div class="content">
         <i @click="closePop" class="el-icon-circle-close-outline"></i>
-        <div class="activity-img"><button class="btn-to-investment">去投资</button></div>
+        <div class="activity-img">
+          <button class="btn-to-investment">去投资</button>
+        </div>
       </div>
     </div>
   </div>
@@ -256,8 +295,17 @@ export default {
               pagination: {
                 el: '.swiper-pagination-banner',
                 clickable: true
-              }
+              },
+              autoplayDisableOnInteraction: false
             })
+            /*鼠标移入停止轮播，鼠标离开 继续轮播*/
+            let comtainer = document.getElementById('swiper-container-banner')
+            comtainer.onmouseenter = () => {
+              this.swiperBanner.autoplay.stop()
+            }
+            comtainer.onmouseleave = () => {
+              this.swiperBanner.autoplay.start()
+            }
           }, 200)
         } else {
           this.$notify.error({
@@ -278,7 +326,7 @@ export default {
         if (data.resultCode === '1') {
           this.noticeList = data.zxdtMtbdlist
           setTimeout(() => {
-            this.swiperNotice = new Swiper('.swiper-container-notice', {
+            this.swiperNotice1 = new Swiper('#swiper-container-notice1', {
               direction: 'vertical',
               autoplay: {
                 delay: 3000,
@@ -286,6 +334,14 @@ export default {
               },
               loop: true
             })
+            /*鼠标移入停止轮播，鼠标离开 继续轮播*/
+            let comtainer = document.getElementById('swiper-container-notice1')
+            comtainer.onmouseenter = () => {
+              this.swiperNotice1.autoplay.stop()
+            }
+            comtainer.onmouseleave = () => {
+              this.swiperNotice1.autoplay.start()
+            }
           }, 200)
         }
       })
@@ -299,7 +355,7 @@ export default {
         if (data.resultCode === '1') {
           this.industryList = data.zxdtMtbdlist
           setTimeout(() => {
-            this.swiperNotice = new Swiper('.swiper-container-notice', {
+            this.swiperNotice2 = new Swiper('#swiper-container-notice2', {
               direction: 'vertical',
               autoplay: {
                 delay: 3000,
@@ -307,6 +363,14 @@ export default {
               },
               loop: true
             })
+            /*鼠标移入停止轮播，鼠标离开 继续轮播*/
+            let comtainer = document.getElementById('swiper-container-notice2')
+            comtainer.onmouseenter = () => {
+              this.swiperNotice2.autoplay.stop()
+            }
+            comtainer.onmouseleave = () => {
+              this.swiperNotice2.autoplay.start()
+            }
           }, 200)
         }
       })
@@ -320,7 +384,7 @@ export default {
         if (data.resultCode === '1') {
           this.mediaList = data.zxdtMtbdlist
           setTimeout(() => {
-            this.swiperNotice = new Swiper('.swiper-container-notice', {
+            this.swiperNotice3 = new Swiper('#swiper-container-notice3', {
               direction: 'vertical',
               autoplay: {
                 delay: 3000,
@@ -328,6 +392,14 @@ export default {
               },
               loop: true
             })
+            /*鼠标移入停止轮播，鼠标离开 继续轮播*/
+            let comtainer = document.getElementById('swiper-container-notice3')
+            comtainer.onmouseenter = () => {
+              this.swiperNotice3.autoplay.stop()
+            }
+            comtainer.onmouseleave = () => {
+              this.swiperNotice3.autoplay.start()
+            }
           }, 200)
         }
       })
@@ -440,10 +512,12 @@ export default {
       margin: 0 auto;
       .notice-text {
         display: block;
-        width: 88px;
-        height: 18px;
         margin-top: 16px;
         margin-right: 20px;
+        width: 88px;
+        height: 18px;
+        background: url('./images/bg_index.png') -5px -5px;
+        background-size: 205px auto;
       }
       .notice-swiper-wrap {
         height: 50px;
@@ -479,6 +553,9 @@ export default {
                 overflow: hidden;
                 text-overflow: ellipsis;
                 white-space: nowrap;
+              }
+              a:hover {
+                color: #efa21c;
               }
             }
           }
@@ -527,21 +604,25 @@ export default {
         height: 100%;
         margin-right: 100px;
         flex: none;
+        position: relative;
         a {
           display: flex;
-          img {
-            display: inline-block;
+          span {
+            position: absolute;
+            left: 0;
+            top: 0;
             width: 52px;
             height: 52px;
+            display: inline-block;
             transition: all 0.5s;
           }
-          img:hover {
+          span:hover {
             transform: scale(1.4);
           }
           .title {
             width: 80px;
             display: inline-block;
-            margin-left: 12px;
+            margin-left: 64px;
             vertical-align: top;
             font-size: $font-size-medium-x;
             color: $color-text;
@@ -549,18 +630,40 @@ export default {
           .desc {
             width: 168px;
             display: inline-block;
-            margin-left: 12px;
+            margin-left: 64px;
             vertical-align: middle;
             font-size: $font-size-small-s;
             color: $color-text-s;
           }
         }
       }
-      li:nth-child(2),
+      li:nth-child(1) {
+        span {
+          background: url('./images/bg_index.png') -5px -242px;
+          background-size: 205px auto;
+        }
+      }
+      li:nth-child(2) {
+        width: 176px;
+        span {
+          background: url('./images/bg_index.png') -5px -304px;
+          background-size: 205px auto;
+        }
+      }
       li:nth-child(3) {
         width: 176px;
+        span {
+          background: url('./images/bg_index.png') -5px -366px;
+          background-size: 205px auto;
+        }
       }
-      li:nth-child() {
+      li:nth-child(4) {
+        span {
+          background: url('./images/bg_index.png') -5px -428px;
+          background-size: 205px auto;
+        }
+      }
+      li:last-child() {
         margin-right: 0;
       }
     }
@@ -571,11 +674,12 @@ export default {
     margin-bottom: 70px;
     padding: 70px 20px 50px 20px;
     background: #fff;
-    img {
-      display: block;
+    .text-title {
       width: 158px;
       height: 38px;
       margin: 0 auto;
+      background: url('./images/bg_index.png') -5px -193px;
+      background-size: 205px auto;
     }
     ul {
       width: 1140px;
@@ -624,10 +728,12 @@ export default {
       .desc-warp {
         width: 218px;
         height: 100%;
-        img {
+        .text-title {
           display: block;
-          width: 180px;
+          width: 195px;
           height: 84px;
+          background: url('./images/bg_index.png') -5px -1192px;
+          background-size: 205px auto;
         }
         .btn-know {
           display: block;
@@ -644,8 +750,8 @@ export default {
       .production-wrap {
         width: 880px;
         height: 100%;
-        background: #fff url('./images/bg_novice_area.png') center center no-repeat;
-        background-size: 166px 130px;
+        background: #fff url('./images/bg_index.png') center -1276px no-repeat;
+        background-size: 205px auto;
         padding: 35px 40px 35px 30px;
         display: flex;
         justify-content: space-between;
@@ -695,9 +801,8 @@ export default {
               }
             }
             .desc {
-              width: 98px;
+              width: 137px;
               text-align: center;
-              margin-left: 6px;
               font-size: $font-size-small-s;
               color: $color-text-gray;
             }
@@ -741,13 +846,15 @@ export default {
   }
   .lend-boutique-wrap {
     background: #f4f4f4;
-    img {
+    .text-title {
       display: block;
       width: 159px;
       height: 38px;
       margin: 0 auto;
-      padding-bottom: 40px;
+      margin-bottom: 40px;
       text-align: center;
+      background: url('./images/bg_index.png') -5px -145px;
+      background-size: 205px auto;
     }
     ul {
       width: 1140px;
@@ -873,11 +980,13 @@ export default {
     padding-top: 60px;
     padding-bottom: 62px;
     background: #fff;
-    img {
+    .text-title {
       display: block;
       width: 158px;
       height: 38px;
       margin: 0 auto;
+      background: url('./images/bg_index.png') -5px -97px;
+      background-size: 205px auto;
     }
     ul {
       width: 1140px;
@@ -902,6 +1011,42 @@ export default {
           text-align: center;
           font-size: $font-size-medium;
           color: $color-text-blue;
+        }
+        &:nth-child(1) {
+          background: url('./images/bg_index.png') -10px -1916px;
+          background-size: 410px auto;
+        }
+        &:nth-child(2) {
+          background: url('./images/bg_index.png') -10px -2072px;
+          background-size: 410px auto;
+        }
+        &:nth-child(3) {
+          background: url('./images/bg_index.png') -10px -2228px;
+          background-size: 410px auto;
+        }
+        &:nth-child(4) {
+          background: url('./images/bg_index.png') -10px -980px;
+          background-size: 410px auto;
+        }
+        &:nth-child(5) {
+          background: url('./images/bg_index.png') -10px -1136px;
+          background-size: 410px auto;
+        }
+        &:nth-child(6) {
+          background: url('./images/bg_index.png') -10px -1292px;
+          background-size: 410px auto;
+        }
+        &:nth-child(7) {
+          background: url('./images/bg_index.png') -10px -1448px;
+          background-size: 410px auto;
+        }
+        &:nth-child(8) {
+          background: url('./images/bg_index.png') -10px -1604px;
+          background-size: 410px auto;
+        }
+        &:nth-child(9) {
+          background: url('./images/bg_index.png') -10px -1760px;
+          background-size: 410px auto;
         }
       }
       li:nth-child(5n) {
@@ -941,7 +1086,6 @@ export default {
         margin-top: 42px;
         width: 100%;
         height: 380px;
-        background: url('./images/bg_banner.png') center center no-repeat;
         border-radius: 10px;
         .btn-to-investment {
           margin-top: 280px;

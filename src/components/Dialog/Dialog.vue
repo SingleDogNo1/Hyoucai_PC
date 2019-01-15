@@ -3,9 +3,7 @@
     <div class="inner">
       <div v-if="showCloseBtn" class="close" @click="cancelBtnItem"><i class="iconfont icon-guanbi1"></i></div>
       <header v-if="showTitle">{{ title }}</header>
-      <div class="top" v-if="showLogo">
-        <img src="./hyc&jxbank@2x.png" alt="">
-      </div>
+      <div class="top" v-if="showLogo"><img src="./hyc&jxbank@2x.png" alt="" /></div>
       <slot></slot>
       <div v-if="showFooter">
         <footer class="single" v-if="singleButton">
@@ -129,7 +127,8 @@ export default {
   left: 0;
   width: 100%;
   height: 100%;
-  background: transparent;
+  /*background-color: rgba(0, 0, 0, 0.2);*/
+  background-color: transparent;
   .inner {
     position: absolute;
     top: 50%;
@@ -137,7 +136,7 @@ export default {
     width: 500px;
     padding: 30px 70px;
     transform: translate3d(-50%, -50%, 0);
-    background: #fff;
+    background-color: #fff;
     box-shadow: 2px 2px 10px 0 #cdcdcd;
     border-radius: 6px;
     border: 1px solid #e3e3e3;

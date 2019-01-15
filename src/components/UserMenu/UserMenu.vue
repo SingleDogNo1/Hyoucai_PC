@@ -21,9 +21,9 @@
       <router-link class="link" tag="li" to="/mine/bankcard">银行卡</router-link>
       <router-link class="link" tag="li" to="/mine/referralCode">推荐码</router-link>
     </ul>
-    <ul class="block">
+    <ul class="block" @click="returnSelf($event)">
       <li class="title"><i class="iconfont icon-investment"></i> <span>我的出借</span></li>
-      <router-link class="link" tag="li" to="/mine/lend">我的出借</router-link>
+      <router-link class="link" tag="li" :to="{name: 'QSTList'}">我的出借</router-link>
       <router-link class="link" tag="li" to="/mine/record">交易记录</router-link>
       <router-link class="link" tag="li" to="/mine/auto-lend" v-if="user.platformFlag === '1'">自动出借</router-link>
       <router-link class="link" tag="li" to="/mine/calendar">回款日历</router-link>
@@ -48,7 +48,18 @@ export default {
       referralCode: ''
     }
   },
-  methods: {},
+  methods: {
+    returnSelf(ev) {
+      const classList = ev.target.classList
+      for (let value of classList) {
+        console.log(value)
+        if (value === 'router-link-active') {
+          alert(1)
+          return false
+        }
+      }
+    }
+  },
   computed: {
     greet() {
       let msg = '',
@@ -87,12 +98,12 @@ export default {
   created() {},
   mounted() {
     this.referralCode = this.userBasicInfo.myInviteCode
-    this.isShowReferralCode = this.$route.name === 'referralCode' ? true : false
+    this.isShowReferralCode = this.$route.name === 'referralCode'
   },
   watch: {
     $route() {
       // 刷新参数放到这里里面去触发就可以刷新相同界面了
-      this.isShowReferralCode = this.$route.name === 'referralCode' ? true : false
+      this.isShowReferralCode = this.$route.name === 'referralCode'
     }
   }
 }
@@ -175,6 +186,12 @@ export default {
       box-sizing: border-box;
       cursor: pointer;
       &.router-link-active {
+        padding-left: 66px;
+        color: $color-theme;
+        background: rgba(251, 157, 31, 0.1);
+        border-left: 4px solid #f8be38;
+      }
+      &:hover {
         padding-left: 66px;
         color: $color-theme;
         background: rgba(251, 157, 31, 0.1);
