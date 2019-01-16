@@ -225,7 +225,7 @@ export default {
       countPage1: 0,
       page2: 1,
       countPage2: 0,
-      userName: getUser().userName,
+      userName: null,
       QSList: [],
       ZXList: [],
       GRList: [],
@@ -344,6 +344,7 @@ export default {
           if (tabsArr.length > 1) {
             this.showTabs = true
           }
+          this.getQSList()
         }
       })
     }
@@ -353,8 +354,11 @@ export default {
     countUp
   },
   created() {
+    let user = getUser()
+    if (user) {
+      this.userName = user.userName
+    }
     this.getPageConfig()
-    this.getQSList()
     this.getTopMsg()
   }
 }
