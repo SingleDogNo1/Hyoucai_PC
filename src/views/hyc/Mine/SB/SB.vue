@@ -24,7 +24,7 @@
               <span>{{ item.interestStartDate }}</span> <span> - </span>
               <p>{{ item.interestEndDate }}</p>
             </td>
-            <td style="cursor:pointer; color:#FB891F;" v-if="item.invStatus === 'INVI'" @click="showDetail(item.productId)">
+            <td style="cursor:pointer; color:#FB891F;" v-if="item.invStatus === 'INVI'" @click="showDetail(item.productId, item.id)">
               <span style="color: #FB891F;">查看</span>
             </td>
             <td style="cursor:pointer; color:#FB891F;" v-else><span style="color: #eee;">查看</span></td>
@@ -87,8 +87,14 @@ export default {
         this.paginationOption.countPage = res.data.data.countPage
       })
     },
-    showDetail(id) {
-      console.log(id)
+    showDetail(productId, id) {
+      this.$router.push({
+        name: 'ZXTDetail',
+        query: {
+          productId,
+          id
+        }
+      })
     },
     changePage(page) {
       this.paginationOption.curPage = page

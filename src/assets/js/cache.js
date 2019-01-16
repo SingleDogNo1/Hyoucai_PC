@@ -71,3 +71,15 @@ export function setTackBackInt(tackBackInt) {
 export function getTackBackInt() {
   return Cookies.get('tackBackInt')
 }
+
+export function getPersonalAccount() {
+  return Cookies.getJSON('personalAccount')
+}
+
+export function setPersonalAccount(personalAccount) {
+  Cookies.set('personalAccount', personalAccount)
+}
+
+export function removePersonalAccount() {
+  Cookies.remove('personalAccount')
+}

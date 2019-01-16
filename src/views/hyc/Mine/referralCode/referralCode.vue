@@ -2,21 +2,26 @@
   <div class="referralCode">
     <div class="referral-code-wrap">
       <div class="my-referral-code">
-        <img :src="qrCodeUrl" />
+        <img :src="qrCodeUrl">
         <div class="desc">
           <p class="title">我的推荐码</p>
           <p class="content">{{ referralCode }}</p>
-          <p class="copy-text" @click="btnCopy">复制邀请码链接 <i class="iconfont icon-more"></i></p>
+          <p class="copy-text" @click="btnCopy">
+            复制邀请码链接
+            <i class="iconfont icon-more"></i>
+          </p>
         </div>
       </div>
       <p class="referral-man">
-        <span>推荐人</span> <span class="referral-name" v-if="refereeName">{{ refereeName }}</span>
+        <span>推荐人</span>
+        <span class="referral-name" v-if="refereeName">{{ refereeName }}</span>
         <button class="btn-fill" v-if="!refereeName" @click="btnFill">补填</button>
       </p>
     </div>
     <div class="tips">
       <p class="my-referral-man">
-        <span>我推荐的人</span> <span class="bold">{{ inviteNum }}位</span>
+        <span>我推荐的人</span>
+        <span class="bold">{{ inviteNum }}位</span>
       </p>
     </div>
     <el-table :data="inviteUserList" border class="referral-table">
@@ -25,7 +30,12 @@
       <el-table-column prop="investStatus" label="在投状态"></el-table-column>
     </el-table>
     <div class="pagination-wrapper">
-      <pagination :total-count="total" :size-val="size" :page-val="page" @handleCurrentChange="handleCurrentChange"></pagination>
+      <pagination
+        :total-count="total"
+        :size-val="size"
+        :page-val="page"
+        @handleCurrentChange="handleCurrentChange"
+      ></pagination>
     </div>
     <Dialog
       :show.sync="isShowFillialog"
@@ -35,10 +45,24 @@
       :onClose="closeFillDialog"
       :preventClose="preventClose"
     >
-      <div><input v-model="fillInReferral" class="fill-in-referral-input" type="number" placeholder="请输入推荐人邀请码" /></div>
+      <div>
+        <input
+          v-model="fillInReferral"
+          class="fill-in-referral-input"
+          type="number"
+          placeholder="请输入推荐人邀请码"
+        >
+      </div>
     </Dialog>
-    <Dialog :show.sync="showCopyDialog" title="汇友财温馨提示" :singleButton="singleButton" class="djs-copy-dialog">
-      <div><p class="copy-dialog-text">已成功复制推荐好友链接，您可通过微信、短信、QQ等放肆发送给好友！</p></div>
+    <Dialog
+      :show.sync="showCopyDialog"
+      title="汇友财温馨提示"
+      :singleButton="singleButton"
+      class="djs-copy-dialog"
+    >
+      <div>
+        <p class="copy-dialog-text">已成功复制推荐好友链接，您可通过微信、短信、QQ等放肆发送给好友！</p>
+      </div>
     </Dialog>
   </div>
 </template>
@@ -285,6 +309,21 @@ export default {
       &:-ms-input-placeholder {
         /* Internet Explorer 10-11 */
         color: $color-text-s;
+      }
+    }
+  }
+  .djs-copy-dialog {
+    /deep/ .single {
+      button.el-button--default {
+        color: #fff;
+        background-color: #fa600c;
+        border-color: #fa600c;
+      }
+      .el-button--default:hover,
+      .el-button--default:focus {
+        background: #fb803d;
+        border-color: #fb803d;
+        color: #fff;
       }
     }
   }
