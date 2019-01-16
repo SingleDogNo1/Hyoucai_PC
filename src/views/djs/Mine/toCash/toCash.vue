@@ -5,11 +5,11 @@
       <ul class="title">
         <li>
           <dl>
-            <dt><img src="image/jiangxi.png" alt="" /></dt>
+            <dt><img src="./image/jiangxi.png" alt="" /></dt>
             <dd><span>江西银行电子账户</span> <em>6212461250000747855</em></dd>
           </dl>
         </li>
-        <li><img src="image/long_arrow@2x.png" alt="" /></li>
+        <li><img src="./image/long_arrow@2x.png" alt="" /></li>
         <li>
           <dl>
             <dt><img :src="bankCardInfo.iconUrl" alt="" /></dt>
@@ -110,7 +110,6 @@
 <script>
 import {
   bankCardQueryApi,
-  getBankUnionNumberUrlApi,
   sysProvinceListApi,
   sysCityListApi,
   sysBankAreaListApi,
@@ -368,23 +367,16 @@ export default {
       sysBranceBankListApi(data).then(res => {
         let data = res.data
         let resultCode = data.resultCode
-        // let resultMsg = data.resultMsg
         if (resultCode === '1') {
           this.bankList = data.list
           if (!this.bankList.length) {
-            // Toast('无数据')
             this.bankName = '暂无数据'
             this.cardBankCnaps = ''
             return
           } else {
-            if (!this.cardBankCnaps) {
-              // 如果银行卡信息里有联行号和市级代码
-              this.bankName = this.bankList[0].bankName
-              this.cardBankCnaps = this.bankList[0].bankNum
-            }
+            this.bankName = this.bankList[0].bankName
+            this.cardBankCnaps = this.bankList[0].bankNum
           }
-        } else {
-          // Toast(resultMsg)
         }
       })
     },
@@ -392,21 +384,14 @@ export default {
       sysBankAreaListApi({ cityCode: cityCode }).then(res => {
         let data = res.data
         let resultCode = data.resultCode
-        // let resultMsg = data.resultMsg
         if (resultCode === '1') {
           this.areaList = data.list
           if (!this.areaList.length) {
-            // Toast('无数据')
             this.areaCode = ''
             return
           } else {
-            if (!this.areaCode) {
-              // 如果银行卡信息里有联行号和市级代码
-              this.areaCode = this.areaList[0].areaCode
-            }
+            this.areaCode = this.areaList[0].areaCode
           }
-        } else {
-          // Toast(resultMsg)
         }
       })
     },
@@ -414,21 +399,14 @@ export default {
       sysCityListApi({ provinceCode: provinceCode }).then(res => {
         let data = res.data
         let resultCode = data.resultCode
-        // let resultMsg = data.resultMsg
         if (resultCode === '1') {
           this.cityList = data.list
           if (!this.cityList.length) {
-            // Toast('无数据')
             this.cityCode = ''
             return
           } else {
-            if (!this.cityCode) {
-              // 如果银行卡信息里有联行号和市级代码
-              this.cityCode = this.cityList[0].cityCode
-            }
+            this.cityCode = this.cityList[0].cityCode
           }
-        } else {
-          // Toast(resultMsg)
         }
       })
     },
@@ -436,33 +414,14 @@ export default {
       sysProvinceListApi().then(res => {
         let data = res.data
         let resultCode = data.resultCode
-        // let resultMsg = data.resultMsg;
         if (resultCode === '1') {
           this.provinceList = data.list
           if (!this.provinceList.length) {
-            // Toast('无数据');
             this.provinceCode = ''
             return
           } else {
-            if (!this.provinceCode) {
-              // 如果银行卡信息里有联行号和省份代码
-              this.provinceCode = this.provinceList[0].provinceCode
-            }
+            this.provinceCode = this.provinceList[0].provinceCode
           }
-        } else {
-          // Toast(resultMsg)
-        }
-      })
-    },
-    getBankUnionNumberUrl() {
-      getBankUnionNumberUrlApi().then(res => {
-        let data = res.data
-        let resultCode = data.resultCode
-        // let resultMsg = data.resultMsg
-        if (resultCode === '1') {
-          this.bankUnionNumberUrl = data.data.url
-        } else {
-          // Toast(resultMsg)
         }
       })
     },
@@ -474,7 +433,6 @@ export default {
       bankCardQueryApi(data).then(res => {
         let data = res.data
         let resultCode = data.resultCode
-        // let resultMsg = data.resultMsg
         if (resultCode === '1') {
           this.bankCardInfo = data.list[0]
           if (this.bankCardInfo.openBankCode) {
@@ -485,8 +443,6 @@ export default {
             this.areaCode = this.bankCardInfo.area
             this.getSysProvinceList()
           }
-        } else {
-          // Toast(resultMsg)
         }
       })
     },

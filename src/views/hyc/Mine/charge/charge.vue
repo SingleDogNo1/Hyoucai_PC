@@ -85,6 +85,9 @@
         </el-tab-pane>
       </el-tabs>
     </div>
+    <Dialog :show.sync="showDialog" :singleButton="singleButton" class="djs-charge-dialog">
+      <div>{{ errMsg.common }}</div>
+    </Dialog>
   </div>
 </template>
 
@@ -93,19 +96,17 @@ import Clipboard from 'clipboard'
 import { bankCardQueryApi, checkAmountApi, rechargeApi, amountInfoApi } from '@/api/hyc/Mine/charge'
 import { getUser } from '@/assets/js/cache'
 import { getAuth, getRetBaseURL, Base64Utils } from '@/assets/js/utils'
+import Dialog from '@/components/Dialog/Dialog'
 
-let clipboard = new Clipboard('.copy_num')
-clipboard.on('success', function() {
-  console.log('复制成功')
-})
 const ERR_OK = '1'
 export default {
   name: 'charge',
   mixins: [],
-  components: {},
+  components: {
+    Dialog
+  },
   data() {
     return {
-      text: '充值',
       amount: '',
       smsCode: '',
       mobile: '',
@@ -132,8 +133,11 @@ export default {
       authorization: getAuth(),
       errMsg: {
         amount: '',
-        mobile: ''
-      }
+        mobile: '',
+        common: ''
+      },
+      showDialog: false,
+      singleButton: true
     }
   },
   props: ['entrance'],
@@ -296,7 +300,6 @@ export default {
     }
   },
   created() {
-    // this.checkAmount()
     this.getBankCardQuery()
     amountInfoApi().then(res => {
       if (res.data.resultCode === ERR_OK) {
@@ -304,8 +307,12 @@ export default {
         this.balance = this.chargedBalance = data.banlance
       }
     })
-  },
-  mounted() {}
+    let clipboard = new Clipboard('.copy_num')
+    clipboard.on('success', () => {
+      this.errMsg.common = '复制成功！'
+      this.showDialog = true
+    })
+  }
 }
 </script>
 
@@ -530,6 +537,9 @@ export default {
         }
       }
     }
+  }
+  .djs-charge-dialog {
+    text-align: center;
   }
 }
 </style>
