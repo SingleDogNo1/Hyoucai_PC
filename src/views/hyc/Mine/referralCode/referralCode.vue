@@ -56,7 +56,7 @@
     </Dialog>
     <Dialog
       :show.sync="showCopyDialog"
-      title="汇友财温馨提示"
+      title="汇有财温馨提示"
       :singleButton="singleButton"
       class="djs-copy-dialog"
     >
