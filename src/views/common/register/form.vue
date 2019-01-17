@@ -36,7 +36,7 @@
 
 <script>
 import PasswordStrength from '@/components/passwordStrength'
-import { cpmOrTjm, getSmsCode, userRegister } from '@/api/common/register'
+import { cpmOrTjm, getSmsCode, userRegister, validateCPM, validateTJM } from '@/api/common/register'
 import { userLogin } from '@/api/common/login'
 import { mapGetters, mapMutations } from 'vuex'
 import { countDownTime, captchaId } from '@/assets/js/const'
@@ -93,7 +93,7 @@ export default {
         }
       }, 1000)
     },
-    nextStep() {
+    async nextStep() {
       if (!isMobCode(this.form.identifyCode)) {
         this.errorMsg = '请输入正确的验证码'
         return false
@@ -105,6 +105,30 @@ export default {
       if (this.form.passWord !== this.form.confirmPassword) {
         this.errorMsg = '两次输入密码不一致'
         return false
+      }
+      if (this.cpm && this.form.inviteCode) {
+        await new Promise((resolve, reject) => {
+          validateCPM({ inviteCode: this.form.inviteCode }).then(res => {
+            if (res.data.data) {
+              resolve()
+            } else {
+              this.errorMsg = '钞票码不正确'
+              reject()
+            }
+          })
+        })
+      }
+      if (this.tjm && this.form.recommendCode) {
+        await new Promise((resolve, reject) => {
+          validateTJM({ recommendCode: this.form.recommendCode }).then(res => {
+            if (res.data.data) {
+              resolve()
+            } else {
+              this.errorMsg = '推荐码不正确'
+              reject()
+            }
+          })
+        })
       }
       this.errorMsg = ''
       userRegister(Object.assign(this.form, { mobile: this.registerMobile }))
