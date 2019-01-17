@@ -400,7 +400,7 @@
               <img v-if="isShowBg" src="./images/bg_legal_person.png" />
             </div>
           </el-tab-pane>
-          <el-tab-pane label="出借人教育" name="CJRJY"> <div class="content" v-html="content"></div> </el-tab-pane>
+          <el-tab-pane label="出借人教育" name="CJRJY"> <div v-if="policiesActiveName === 'CJRJY'" class="content" v-html="content"></div> </el-tab-pane>
         </el-tabs>
       </div>
       <div class="tab-content" v-if="activeName === 'FRCNH'">
