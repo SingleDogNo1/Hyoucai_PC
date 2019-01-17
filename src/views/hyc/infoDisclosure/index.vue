@@ -18,10 +18,10 @@
     <div class="tab-content-wrap">
       <div class="tab-content" v-if="activeName === 'GYWM'">
         <el-tabs class="about-us-tab" v-model="aboutUsActiveName" type="border-card" @tab-click="handleItemClick(aboutUsActiveName)">
-          <el-tab-pane label="公司简介" name="GSJJ"> <div class="content" v-html="content"></div> </el-tab-pane>
+          <el-tab-pane label="公司简介" name="GSJJ"> <div v-if="aboutUsActiveName === 'GSJJ'" class="content" v-html="content"></div> </el-tab-pane>
           <el-tab-pane label="公司管理" name="GSGL">
-            <div class="content" v-html="content" v-if="paramCode === 'LXWM' || paramCode === 'PTXX'"></div>
-            <div class="company-management" v-if="!paramCode">
+            <div class="content" v-html="content" v-if="aboutUsActiveName === 'GSGL' && paramCode === 'LXWM' || aboutUsActiveName === 'GSGL' && paramCode === 'PTXX'"></div>
+            <div class="company-management" v-if="aboutUsActiveName === 'GSGL' && !paramCode">
               <div class="organizational-structure-wrap"><strong>组织架构</strong> <img src="./images/bg_organizational_structure.png" /></div>
               <div class="executive-team-wrap">
                 <strong>高管团队</strong>
@@ -96,11 +96,11 @@
               <div class="shareholder-composition-wrap"><strong>股东组成</strong> <img src="./images/bg_shareholder.jpg" /></div>
             </div>
           </el-tab-pane>
-          <el-tab-pane label="组织信息" name="ZZXX"> <div class="content" v-html="content"></div> </el-tab-pane>
-          <el-tab-pane label="发展事迹" name="FZSJ"> <div class="content" v-html="content"></div> </el-tab-pane>
-          <el-tab-pane label="合作伙伴" name="HZHB"> <div class="content" v-html="content"></div> </el-tab-pane>
+          <el-tab-pane label="组织信息" name="ZZXX"> <div v-if="aboutUsActiveName === 'ZZXX'" class="content" v-html="content"></div> </el-tab-pane>
+          <el-tab-pane label="发展事迹" name="FZSJ"> <div v-if="aboutUsActiveName === 'FZSJ'" class="content" v-html="content"></div> </el-tab-pane>
+          <el-tab-pane label="合作伙伴" name="HZHB"> <div v-if="aboutUsActiveName === 'HZHB'" class="content" v-html="content"></div> </el-tab-pane>
           <el-tab-pane label="荣誉资质" name="ZZRY">
-            <div class="qualification-honor">
+            <div v-if="aboutUsActiveName === 'ZZRY'" class="qualification-honor">
               <strong>荣誉资质</strong>
               <div class="img-list">
                 <div class="img-item" v-for="(item, index) in imgList" :key="index">
@@ -116,7 +116,7 @@
               </div>
             </div>
           </el-tab-pane>
-          <el-tab-pane label="关于汇有财" name="GYHYC"> <div class="content" v-html="content"></div> </el-tab-pane>
+          <el-tab-pane label="关于汇有财" name="GYHYC"> <div v-if="aboutUsActiveName === 'GYDJS'" class="content" v-html="content"></div> </el-tab-pane>
         </el-tabs>
       </div>
       <div class="tab-content" v-if="activeName === 'YYSJ'">
@@ -349,17 +349,17 @@
       </div>
       <div class="tab-content" v-if="activeName === 'BAXX'">
         <el-tabs class="about-us-tab" v-model="recordInfoActiveName" type="border-card" @tab-click="handleItemClick(recordInfoActiveName)">
-          <el-tab-pane label="备案登记信息" name="BADJ"> <div class="content" v-html="content"></div> </el-tab-pane>
-          <el-tab-pane label="资金存管信息" name="ZJCG"> <div class="content" v-html="content"></div> </el-tab-pane>
-          <el-tab-pane label="风险管理信息" name="FXGL"> <div class="content" v-html="content"></div> </el-tab-pane>
-          <el-tab-pane label="公安网站备案" name="GAWZBA"> <div class="content" v-html="content"></div> </el-tab-pane>
-          <el-tab-pane label="电信业务经营许可证" name="ICP"> <div class="content" v-html="content"></div> </el-tab-pane>
+          <el-tab-pane label="备案登记信息" name="BADJ"> <div v-if="recordInfoActiveName === 'BADJ'" class="content" v-html="content"></div> </el-tab-pane>
+          <el-tab-pane label="资金存管信息" name="ZJCG"> <div v-if="recordInfoActiveName === 'ZJCG'" class="content" v-html="content"></div> </el-tab-pane>
+          <el-tab-pane label="风险管理信息" name="FXGL"> <div v-if="recordInfoActiveName === 'FXGL'" class="content" v-html="content"></div> </el-tab-pane>
+          <el-tab-pane label="公安网站备案" name="GAWZBA"> <div v-if="recordInfoActiveName === 'GAWZBA'" class="content" v-html="content"></div> </el-tab-pane>
+          <el-tab-pane label="电信业务经营许可证" name="ICP"> <div v-if="recordInfoActiveName === 'ICP'" class="content" v-html="content"></div> </el-tab-pane>
         </el-tabs>
       </div>
       <div class="tab-content" v-if="activeName === 'CPXG'">
         <el-tabs class="about-us-tab" v-model="productAboutActiveName" type="border-card" @tab-click="handleItemClick(productAboutActiveName)">
-          <el-tab-pane label="产品信息" name="CPXXTAB"> <div class="content" v-html="content"></div> </el-tab-pane>
-          <el-tab-pane label="资费标准" name="ZFBZ"> <div class="content" v-html="content"></div> </el-tab-pane>
+          <el-tab-pane label="产品信息" name="CPXXTAB"> <div v-if="productAboutActiveName === 'CPXXTAB'" class="content" v-html="content"></div> </el-tab-pane>
+          <el-tab-pane label="资费标准" name="ZFBZ"> <div v-if="productAboutActiveName === 'ZFBZ'" class="content" v-html="content"></div> </el-tab-pane>
         </el-tabs>
       </div>
       <div class="tab-content" v-if="activeName === 'SHXX'">
@@ -383,20 +383,22 @@
       <div class="tab-content policies" v-if="activeName === 'ZCFG'">
         <el-tabs class="about-us-tab" v-model="policiesActiveName" type="border-card" @tab-click="handleItemClick(policiesActiveName)">
           <el-tab-pane label="法律法规" name="FLFG">
-            <div class="laws-wrap">
-              <ul>
-                <li v-for="(item, index) in lawsList" :key="index">
-                  <router-link class="title" :to="{ name: 'announcementDetail', params: { id: item.id }, query: { paramCode: activeName } }">{{
-                    item.title
-                  }}</router-link>
-                  <span class="time">{{ item.createTime }}</span>
-                </li>
-              </ul>
+            <div v-if="policiesActiveName === 'FLFG'">
+              <div class="laws-wrap">
+                <ul>
+                  <li v-for="(item, index) in lawsList" :key="index">
+                    <router-link class="title" :to="{ name: 'announcementDetail', params: { id: item.id }, query: { paramCode: activeName } }">{{
+                      item.title
+                    }}</router-link>
+                    <span class="time">{{ item.createTime }}</span>
+                  </li>
+                </ul>
+              </div>
+              <div class="pagination-wrapper" v-if="total > 1">
+                <pagination v-if="total" :count-page="total" :size-val="size" :page-val="page" @handleCurrentChange="handleCurrentChange"></pagination>
+              </div>
+              <img v-if="isShowBg" src="./images/bg_legal_person.png" />
             </div>
-            <div class="pagination-wrapper" v-if="total > 1">
-              <pagination v-if="total" :count-page="total" :size-val="size" :page-val="page" @handleCurrentChange="handleCurrentChange"></pagination>
-            </div>
-            <img v-if="isShowBg" src="./images/bg_legal_person.png" />
           </el-tab-pane>
           <el-tab-pane label="出借人教育" name="CJRJY"> <div class="content" v-html="content"></div> </el-tab-pane>
         </el-tabs>
