@@ -28,7 +28,7 @@
           <span>帮助中心</span>
         </h3>
         <router-link
-          :to="{ path: 'helpCenter', query: { helpCode: item.dicCode } }"
+          :to="{ name: 'helpCenter', query: { helpCode: item.dicCode } }"
           v-for="(item, index) in QAList"
           :key="index"
         >
