@@ -227,21 +227,39 @@
         </li>
       </ul>
       <br>
-      <ul class="no_border">
-        <li>
-          （签字）电子签字
-          <em class></em>
-        </li>
-        <li>
-          （签章）电子签章
-          <em class></em>
-        </li>
-      </ul>
-      <br>
-      <ul class="no_border">
-        <li>日期：</li>
-        <li>日期：</li>
-      </ul>
+      <table class="t_f">
+        <tr>
+          <td>甲方：（签字）</td>
+          <td class="r_se"></td>
+          <td>乙方：（签字）</td>
+          <td></td>
+        </tr>
+        <tr class="se_t">
+          <td>日期：</td>
+          <td class="r_se">
+            <em class="name1"></em>
+          </td>
+          <td>日期：</td>
+          <td>
+            <em class="name2"></em>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="4">丙方：江西汇通金融信息服务有限公司</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>（盖章）</td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>日期：</td>
+          <td class="cachel"></td>
+          <td></td>
+          <td></td>
+        </tr>
+      </table>
     </div>
   </div>
 </template>
@@ -359,9 +377,13 @@ export default {
 
 .registerAgre .u_content .t_f {
   border: 1px solid #ccc;
-  width: 974px;
+  width: 100%;
   height: 198px;
   margin-top: 20px;
+}
+
+.registerAgre .u_content .t_f td {
+  padding-left: 20px;
 }
 
 .registerAgre .u_content .t_f .se_t {
