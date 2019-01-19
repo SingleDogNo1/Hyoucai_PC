@@ -186,20 +186,15 @@
           <i class="circle"></i>甲方已详细阅读并完全同意本协议条款，并承诺甲方对乙方的授权均是不可撤销的授权，乙方在甲方授权范围内所实施的法律行为及所产生的法律后果，甲方均予以认可并独自承担。甲方完全知晓并愿意承担因本协议所带来的或与之相关的一切风险，包括但不限于信用风险、网络技术风险、流动性风险、宏观经济风险等。
         </strong>
       </p>
-
       <br>
       <center>（以下为签署页，无正文）</center>
       <br>
       <br>
       <br>
       <br>
-      <ul class="no_border">
-        <li>
-          <strong>甲方：</strong>（ ）
-        </li>
-        <li>
-          <strong>乙方：江西汇通金融信息服务有限公司</strong>
-        </li>
+      <ul class=" flex-show no_border">
+        <li>甲方：（ ）</li>
+        <li>乙方：江西汇通金融信息服务有限公司</li>
       </ul>
       <br>
       <ul class="no_border">
@@ -322,7 +317,7 @@ export default {
 .container .u_content ul li {
   text-align: left;
   float: left;
-  width: 473px;
+  width: 50%;
   height: 32px;
   border: 1px solid #e5e5e5;
   border-top: none;
