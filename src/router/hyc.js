@@ -208,6 +208,17 @@ export default new Router({
       ]
     },
     {
+      path: '/', // 出借详情
+      component: Layout,
+      children: [
+        {
+          path: 'lendDetail',
+          name: 'lendDetail',
+          component: () => import(/* webpackChunkName: "lend" */ '@/views/hyc/lend/detail.vue')
+        }
+      ]
+    },
+    {
       path: '/announcement', // 网站公告
       component: Layout,
       children: [
