@@ -215,6 +215,11 @@ export default new Router({
           path: 'lendDetail',
           name: 'lendDetail',
           component: () => import(/* webpackChunkName: "lend" */ '@/views/hyc/lend/detail.vue')
+        },
+        {
+          path: 'projectDetail', // 项目组成详情
+          name: 'projectDetail',
+          component: () => import(/* webpackChunkName: "lend" */ '@/views/hyc/lend/projectDetail.vue')
         }
       ]
     },
