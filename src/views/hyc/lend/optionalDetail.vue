@@ -93,6 +93,232 @@
         @tab-click="handleItemClick()"
       >
         <el-tab-pane label="项目信息 " name="XMXX">
+          <div v-if="lendDetailActiveName === 'XMXX'" class="content">
+            <section>
+              <p class="title">
+                <span class="title-boder"></span>
+                <span class="title-text">基本信息</span>
+              </p>
+              <div class="essential-information">
+                <div class="txt">
+                  <p>
+                    <span class="left">项目名称：</span>
+                    <span class="right">JY00000000001</span>
+                  </p>
+                  <p>
+                    <span class="left">还款方式：</span>
+                    <span class="right">按月还息，到期还本</span>
+                  </p>
+                </div>
+                <div class="txt">
+                  <p>
+                    <span class="left">合同编号：</span>
+                    <span class="right">2017051202J</span>
+                  </p>
+                  <p>
+                    <span class="left">融资金额：</span>
+                    <span class="right">1,000,000元</span>
+                  </p>
+                </div>
+                <div class="txt">
+                  <p>
+                    <span class="left">借贷期限：</span>
+                    <span class="right">6个月</span>
+                  </p>
+                  <p>
+                    <span class="left">历史年化收益率：</span>
+                    <span class="right">5.0%</span>
+                  </p>
+                </div>
+              </div>
+              <p class="title">
+                <span class="title-boder"></span>
+                <span class="title-text">审核信息</span>
+              </p>
+              <table class="examine">
+                <tr class="examine-title">
+                  <td>身份信息</td>
+                  <td>认证情况</td>
+                  <td>身份信息</td>
+                  <td>认证情况</td>
+                </tr>
+                <tr>
+                  <td>身份证认证</td>
+                  <td>
+                    <img src="./image/bg.png">
+                  </td>
+                  <td>运营商认证</td>
+                  <td>中国移动运营商认证通过</td>
+                </tr>
+                <tr>
+                  <td>学信网认证</td>
+                  <td>白领</td>
+                  <td>脸识别</td>
+                  <td>
+                    <img src="./image/bg.png">
+                  </td>
+                </tr>
+                <tr>
+                  <td>签约</td>
+                  <td>
+                    <img src="./image/bg.png">
+                  </td>
+                  <td>银行卡认证</td>
+                  <td>6228 **** **** 1234银行卡账户、开户名、开户手机、身份证号认证成功</td>
+                </tr>
+                <tr>
+                  <td>互联网资讯报告</td>
+                  <td>
+                    <img src="./image/bg.png">
+                  </td>
+                  <td></td>
+                  <td></td>
+                </tr>
+              </table>
+              <p class="title">
+                <span class="title-boder"></span>
+                <span class="title-text">还款来源</span>
+              </p>
+              <div class="repayment">借款人固定工作收入</div>
+              <p class="title">
+                <span class="title-boder"></span>
+                <span class="title-text">相关费用</span>
+              </p>
+              <table class="examine cost">
+                <tr class="examine-title">
+                  <td class="left">相关操作</td>
+                  <td class="right">收费标准</td>
+                </tr>
+                <tr>
+                  <td>转让手续费</td>
+                  <td>按每笔转让收取，费用为年化金额0.6%</td>
+                </tr>
+                <tr>
+                  <td>提现／充值／投资</td>
+                  <td>免费</td>
+                </tr>
+              </table>
+              <!-- <p class="title">
+                <span class="title-boder"></span>
+                <span class="title-text">借款人信息</span>
+              </p>
+              <div class="borrower">
+                <div class="borrower-box">
+                  <p class="borrower-box-left">
+                    <span class="left">借款人姓名：</span>
+                    <span class="right"></span>
+                  </p>
+                  <p class="borrower-box-center">
+                    <span class="left">性别：</span>
+                    <span class="right"></span>
+                  </p>
+                  <p>
+                    <span class="left">身份证号：</span>
+                    <span class="right"></span>
+                  </p>
+                </div>
+                <div class="borrower-box">
+                  <p class="borrower-box-left">
+                    <span class="left">年龄：</span>
+                    <span class="right"></span>
+                  </p>
+                  <p class="borrower-box-center">
+                    <span class="left">行业：</span>
+                    <span class="right"></span>
+                  </p>
+                  <p>
+                    <span class="left">居住地址：</span>
+                    <span class="right"></span>
+                  </p>
+                </div>
+                <div class="borrower-box">
+                  <p class="borrower-box-left">
+                    <span class="left">婚姻状况：</span>
+                    <span class="right"></span>
+                  </p>
+                  <p class="borrower-box-center">
+                    <span class="left">月收入：</span>
+                    <span class="right"></span>
+                  </p>
+                  <p>
+                    <span class="left">借款金额：</span>
+                    <span class="right"></span>
+                  </p>
+                </div>
+                <div class="borrower-box">
+                  <p class="borrower-box-left">
+                    <span class="left">借款用途：</span>
+                    <span class="right"></span>
+                  </p>
+                  <p class="borrower-box-center">
+                    <span class="left">借款主体性质：</span>
+                    <span class="right"></span>
+                  </p>
+                  <p>
+                    <span class="left">借款期限：</span>
+                    <span class="right"></span>
+                  </p>
+                </div>
+                <div class="borrower-box">
+                  <p class="borrower-box-left">
+                    <span class="left">还款来源：</span>
+                    <span class="right"></span>
+                  </p>
+                  <p class="borrower-box-center">
+                    <span class="left">逾期金额：</span>
+                    <span class="right"></span>
+                  </p>
+                  <p></p>
+                </div>
+                <p class="borrower-txt">
+                  <span class="left">征信报告：</span>
+                  <span class="right">核查人银行征信报告，该借款人近6个月无逾</span>
+                </p>
+                <p class="borrower-txt">
+                  <span class="left">在其他网络借贷平台借款情况：</span>
+                  <span class="right">借款人保证在不同网络借贷信息中介机构平台借款总余额与本合同借款金额合计总额不超过人民币100万元</span>
+                </p>
+              </div>
+              <p class="title">
+                <span class="title-boder"></span>
+                <span class="title-text">贷后情况</span>
+              </p>
+              <div class="situation">
+                <div class="situation-div situation-left">
+                  <p>
+                    <span class="left">平台历史逾期次数：</span>
+                    <span class="right">0次</span>
+                  </p>
+                  <p>
+                    <span class="left">借款人还款能力变化情况：</span>
+                    <span class="right">未发现异常</span>
+                  </p>
+                </div>
+                <div class="situation-div situation-center">
+                  <p>
+                    <span class="left">平台历史逾期金额：</span>
+                    <span class="right">0.00元</span>
+                  </p>
+                  <p>
+                    <span class="left">借款人涉诉情况：</span>
+                    <span class="right">未发现新增涉诉</span>
+                  </p>
+                </div>
+                <div class="situation-div situation-right">
+                  <p>
+                    <span class="left">借款资金运用情况：</span>
+                    <span class="right">未发现挪用</span>
+                  </p>
+                  <p>
+                    <span class="left">借款人受行政处罚情况：</span>
+                    <span class="right">未发现新增行政处罚</span>
+                  </p>
+                </div>
+              </div>-->
+            </section>
+          </div>
+        </el-tab-pane>
+        <el-tab-pane label="出借详情" name="CJXQ">
           <div v-if="lendDetailActiveName === 'CJXQ'" class="content">
             <p
               class="desc"
@@ -159,7 +385,7 @@
             </ul>
           </div>
         </el-tab-pane>
-        <el-tab-pane label="出借详情" name="JRJL">
+        <el-tab-pane label="加入记录" name="JRJL">
           <div v-if="lendDetailActiveName === 'JRJL'" class="content">
             <el-table
               :header-cell-style="{ background: '#f0f7ff'}"
@@ -181,72 +407,131 @@
             </div>
           </div>
         </el-tab-pane>
-        <el-tab-pane label="加入记录" name="XMZC">
-          <div v-if="lendDetailActiveName === 'XMZC'" class="content">
-            <el-table
-              :header-cell-style="{ background: '#f0f7ff'}"
-              class="project-composition-table"
-              :data="projectCompositionData"
-              border
-            >
-              <el-table-column align="center" prop="mobile" label="借款人" width="220"></el-table-column>
-              <el-table-column align="center" height="40" prop="invAmt" label="借款金额(元)" width="214"></el-table-column>
-              <el-table-column
-                align="center"
-                height="40"
-                prop="invTime"
-                label="历史平均年化收益率"
-                width="232"
-              ></el-table-column>
-              <el-table-column align="center" height="40" prop="invTime" label="还款状态" width="205"></el-table-column>
-              <el-table-column align="center" height="40" prop="invTime" label="项目详情" width="204">
-                <template slot-scope="scope">
-                  <a href="javascript:void(0);" class="view-detail">详情</a>
-                </template>
-              </el-table-column>
-            </el-table>
-            <div class="pagination-wrapper">
-              <pagination
-                :count-page="total"
-                :size-val="size"
-                :page-val="page"
-                @handleCurrentChange="handleCurrentChange"
-              ></pagination>
-            </div>
-          </div>
-        </el-tab-pane>
-        <el-tab-pane label="借款人信息" name="XMZC">
-          <div v-if="lendDetailActiveName === 'XMZC'" class="content">
-            <el-table
-              :header-cell-style="{ background: '#f0f7ff'}"
-              class="project-composition-table"
-              :data="projectCompositionData"
-              border
-            >
-              <el-table-column align="center" prop="mobile" label="借款人" width="220"></el-table-column>
-              <el-table-column align="center" height="40" prop="invAmt" label="借款金额(元)" width="214"></el-table-column>
-              <el-table-column
-                align="center"
-                height="40"
-                prop="invTime"
-                label="历史平均年化收益率"
-                width="232"
-              ></el-table-column>
-              <el-table-column align="center" height="40" prop="invTime" label="还款状态" width="205"></el-table-column>
-              <el-table-column align="center" height="40" prop="invTime" label="项目详情" width="204">
-                <template slot-scope="scope">
-                  <a href="javascript:void(0);" class="view-detail">详情</a>
-                </template>
-              </el-table-column>
-            </el-table>
-            <div class="pagination-wrapper">
-              <pagination
-                :count-page="total"
-                :size-val="size"
-                :page-val="page"
-                @handleCurrentChange="handleCurrentChange"
-              ></pagination>
-            </div>
+        <el-tab-pane label="借款人信息" name="JKRXX">
+          <div v-if="lendDetailActiveName === 'JKRXX'" class="content">
+            <section>
+              <p class="title">
+                <span class="title-boder"></span>
+                <span class="title-text">借款人信息</span>
+              </p>
+              <div class="borrower">
+                <div class="borrower-box">
+                  <p class="borrower-box-left">
+                    <span class="left">借款人姓名：</span>
+                    <span class="right"></span>
+                  </p>
+                  <p class="borrower-box-center">
+                    <span class="left">性别：</span>
+                    <span class="right"></span>
+                  </p>
+                  <p>
+                    <span class="left">身份证号：</span>
+                    <span class="right"></span>
+                  </p>
+                </div>
+                <div class="borrower-box">
+                  <p class="borrower-box-left">
+                    <span class="left">年龄：</span>
+                    <span class="right"></span>
+                  </p>
+                  <p class="borrower-box-center">
+                    <span class="left">行业：</span>
+                    <span class="right"></span>
+                  </p>
+                  <p>
+                    <span class="left">居住地址：</span>
+                    <span class="right"></span>
+                  </p>
+                </div>
+                <div class="borrower-box">
+                  <p class="borrower-box-left">
+                    <span class="left">婚姻状况：</span>
+                    <span class="right"></span>
+                  </p>
+                  <p class="borrower-box-center">
+                    <span class="left">月收入：</span>
+                    <span class="right"></span>
+                  </p>
+                  <p>
+                    <span class="left">借款金额：</span>
+                    <span class="right"></span>
+                  </p>
+                </div>
+                <div class="borrower-box">
+                  <p class="borrower-box-left">
+                    <span class="left">借款用途：</span>
+                    <span class="right"></span>
+                  </p>
+                  <p class="borrower-box-center">
+                    <span class="left">借款主体性质：</span>
+                    <span class="right"></span>
+                  </p>
+                  <p>
+                    <span class="left">借款期限：</span>
+                    <span class="right"></span>
+                  </p>
+                </div>
+                <div class="borrower-box">
+                  <p class="borrower-box-left">
+                    <span class="left">还款来源：</span>
+                    <span class="right"></span>
+                  </p>
+                  <p class="borrower-box-center">
+                    <span class="left">逾期金额：</span>
+                    <span class="right"></span>
+                  </p>
+                  <p></p>
+                </div>
+                <p class="borrower-txt">
+                  <span class="left">征信报告：</span>
+                  <span class="right">核查人银行征信报告，该借款人近6个月无逾</span>
+                </p>
+                <p class="borrower-txt">
+                  <span class="left">在其他网络借贷平台借款情况：</span>
+                  <span class="right">借款人保证在不同网络借贷信息中介机构平台借款总余额与本合同借款金额合计总额不超过人民币100万元</span>
+                  <a class="view-detail" href="javascript:void(0);">
+                    点击查看
+                    <i class="iconfont icon-more"></i>
+                  </a>
+                </p>
+              </div>
+              <p class="title">
+                <span class="title-boder"></span>
+                <span class="title-text">贷后情况</span>
+              </p>
+              <div class="situation">
+                <div class="situation-div situation-left">
+                  <p>
+                    <span class="left">平台历史逾期次数：</span>
+                    <span class="right">0次</span>
+                  </p>
+                  <p>
+                    <span class="left">借款人还款能力变化情况：</span>
+                    <span class="right">未发现异常</span>
+                  </p>
+                </div>
+                <div class="situation-div situation-center">
+                  <p>
+                    <span class="left">平台历史逾期金额：</span>
+                    <span class="right">0.00元</span>
+                  </p>
+                  <p>
+                    <span class="left">借款人涉诉情况：</span>
+                    <span class="right">未发现新增涉诉</span>
+                  </p>
+                </div>
+                <div class="situation-div situation-right">
+                  <p>
+                    <span class="left">借款资金运用情况：</span>
+                    <span class="right">未发现挪用</span>
+                  </p>
+                  <p>
+                    <span class="left">借款人受行政处罚情况：</span>
+                    <span class="right">未发现新增行政处罚</span>
+                  </p>
+                </div>
+              </div>
+            </section>
           </div>
         </el-tab-pane>
         <el-tab-pane label="风险告知" name="FXGZS">
@@ -254,7 +539,8 @@
             <p>尊敬的出借人：</p>
             <p>恭喜您成为江西汇通金融信息服务有服公司运营的网络借贷平台—汇有财平台的用户。感谢您参与/出借本服务/出借标的，在您签署本《风险告知书》之前，请您认真、仔细阅读以下内容及本平台制定并发布的规则制度及其更新或修正的内容，本《风险告知书》经您确认，即视为您已详细了解并理解本风险告知书的全部内容，对其中揭示的风险均有足够的认识，您可在了解融资项目信贷风险后，根据您的金融产品出借经历、风险认知能力、风险识别能力和风险承受能力，自主选择将来源合法的自有资金通过汇有财平台进行资金出借。当您点击“出借”、“申请出借”、“立即出借”、“确认出借”、“同意协议”、“接受协议”或类似文字时，即视为您已经充...</p>
             <p class="view-more">
-              <router-link  target="_blank" :to="{ name: 'riskNoticationLetterAgreement'}">点击查看更多
+              <router-link target="_blank" :to="{ name: 'riskNoticationLetterAgreement'}">
+                点击查看更多
                 <i class="iconfont icon-more"></i>
               </router-link>
             </p>
@@ -262,6 +548,21 @@
         </el-tab-pane>
       </el-tabs>
     </section>
+    <div class="review-info">
+      <div class="content">
+        <div class="close-wrap">
+          <i @click.stop="close" class="el-icon-circle-close-outline close"></i>
+          <img
+            class="front"
+            src="https://www.hyoucai.com:8082/huiyoucaifiles/picture/certification/2018-09-25/idCardM_a_BD20180925023001020650_djs361466uv.png"
+          >
+          <img
+            class="back"
+            src="https://www.hyoucai.com:8082/huiyoucaifiles/picture/certification/2018-09-25/idCardM_b_BD20180925023001020650_djs361466uv.png"
+          >
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -696,6 +997,132 @@ export default {
     }
     .content {
       padding: 15px;
+      section {
+        .title {
+          .title-boder {
+            display: inline-block;
+            width: 6px;
+            height: 16px;
+            background: rgba(251, 157, 31, 1);
+            vertical-align: middle;
+          }
+          .title-text {
+            display: inline-block;
+            font-size: 16px;
+            color: rgba(74, 74, 74, 1);
+            line-height: 22px;
+            margin-left: 5px;
+            vertical-align: middle;
+          }
+        }
+        .essential-information {
+          display: flex;
+          margin: 11px 112px 0 0;
+          justify-content: space-between;
+          margin-bottom: 39px;
+          .txt {
+            height: 80px;
+            font-size: $font-size-small;
+            color: rgba(155, 155, 155, 1);
+            line-height: 40px;
+            .right {
+              color: rgba(74, 74, 74, 1);
+            }
+          }
+        }
+        .examine {
+          margin: 21px 0 32px;
+          width: 100%;
+          tr {
+            width: 100%;
+            td {
+              width: 25%;
+              height: 40px;
+              border: 1px solid rgba(227, 227, 227, 1);
+              text-align: center;
+              color: rgba(155, 155, 155, 1);
+              font-size: $font-size-small-ss;
+              line-height: 14px;
+              padding: 0 20px;
+              img {
+                width: 24px;
+                height: 17px;
+                border-radius: 2px;
+                vertical-align: middle;
+              }
+            }
+            .left {
+              width: 30%;
+            }
+          }
+          .examine-title {
+            background: rgba(240, 247, 255, 1);
+            td {
+              color: rgba(74, 74, 74, 1);
+            }
+          }
+        }
+        .repayment {
+          font-size: 14px;
+          color: rgba(155, 155, 155, 1);
+          line-height: 14px;
+          margin: 20px 0 58px;
+        }
+        .cost {
+          margin-top: 25px;
+          margin-bottom: 20px;
+        }
+        .borrower {
+          margin: 19px 0 50px;
+          font-size: $font-size-small-s;
+          .borrower-box {
+            height: 30px;
+            line-height: 30px;
+            display: flex;
+            .borrower-box-left {
+              width: 196px;
+              height: 210px;
+            }
+            .borrower-box-center {
+              width: 140px;
+              height: 150px;
+              margin-left: 150px;
+              margin-right: 150px;
+            }
+          }
+          .left {
+            color: rgba(155, 155, 155, 1);
+          }
+          .borrower-txt {
+            height: 30px;
+            line-height: 30px;
+            .view-detail {
+              margin-left: 115px;
+              font-size: $font-size-small-s;
+              color: #fb7b1f;
+            }
+          }
+        }
+        .situation {
+          margin: 10px 0 36px;
+          display: flex;
+          font-size: $font-size-small;
+          .situation-left {
+            width: 272px;
+            height: 80px;
+          }
+          .situation-div {
+            color: rgba(155, 155, 155, 1);
+            line-height: 40px;
+            .right {
+              color: rgba(74, 74, 74, 1);
+            }
+          }
+          .situation-center {
+            margin: 0 98px 0 106px;
+          }
+        }
+      }
       .desc {
         font-size: $font-size-small-s;
         color: $color-text-s;
@@ -786,6 +1213,52 @@ export default {
           display: block;
           color: #fc5541;
         }
+      }
+    }
+  }
+  .review-info {
+    position: fixed;
+    z-index: 100000;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    .content {
+      position: fixed;
+      display: table;
+      z-index: 100001;
+      width: 420px;
+      height: 530px;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      margin: auto;
+      text-align: center;
+      background: #fff;
+      box-shadow: 0px 4px 16px 0px rgba(0, 0, 0, 0.32);
+      border-radius: 8px;
+      overflow: hidden;
+      .close-wrap {
+        position: relative;
+        width: 100%;
+        .close {
+          position: absolute;
+          top: 16px;
+          right: 16px;
+          color: #4a4a4a;
+          font-size: 28px;
+        }
+      }
+      img {
+        display: block;
+        width: 329px;
+        height: 205px;
+        margin: 0 auto;
+      }
+      img.front {
+        padding-top: 60px;
+        margin-bottom: 20px;  
       }
     }
   }
