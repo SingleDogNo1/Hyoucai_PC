@@ -1,6 +1,6 @@
 <template>
   <div class="borrow">
-    <img src="./banner.png" alt class="banner" />
+    <img src="./banner.png" alt class="banner">
     <div class="block advantage">
       <h3>我们的优势</h3>
       <ul>
@@ -25,9 +25,14 @@
       <div class="block intro">
         <h3>借款产品</h3>
         <div class="detail">
-          <div class="left"><img alt src="./qianbaik_ico.png" /></div>
+          <div class="left">
+            <img alt src="./qianbaik_ico.png">
+          </div>
           <div class="right">
-            <div class="title"><span>仟佰快</span> <button>分期还款</button></div>
+            <div class="title">
+              <span>仟佰快</span>
+              <button>分期还款</button>
+            </div>
             <div>
               <p>贷款对象：</p>
               <span>有消费需求的客户</span>
@@ -38,7 +43,9 @@
             </div>
             <div class="operable">
               <p>贷款额度：</p>
-              <em>{{ amount }}</em> <span>元</span> <button :class="['add', { disable: isMax }]" @click="addAmount"></button>
+              <em>{{ amount }}</em>
+              <span>元</span>
+              <button :class="['add', { disable: isMax }]" @click="addAmount"></button>
               <button :class="['del', { disable: isMin }]" @click="delAmount"></button>
             </div>
             <div>
@@ -127,6 +134,7 @@ export default {
   .banner {
     font-size: 0;
     width: 100%;
+    height: 400px;
   }
   .block {
     width: 1140px;
@@ -232,7 +240,6 @@ export default {
             }
             button {
               @include square(28px);
-              background: #000;
               margin-right: 12px;
               background-size: contain;
               &.add {
