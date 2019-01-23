@@ -56,7 +56,7 @@
           <tr>
             <td>身份证认证</td>
             <td>
-              <img src="./image/bg.png">
+              <img @click="flag=!flag" src="./image/bg.png">
             </td>
             <td>运营商认证</td>
             <td>中国移动运营商认证通过</td>
@@ -228,6 +228,9 @@
         </div>
       </section>
     </div>
+    <div class="id-image" v-show="flag">
+      <button @click="flag=!flag" class="id-cancel">取消</button>
+    </div>
   </div>
 </template>
 
@@ -311,24 +314,24 @@ export default {
         }
       }
       .examine {
-        margin: 21px 0 32px;
-        width: 90%;
+        margin: 21px 50px 32px 0;
         tr {
           width: 100%;
           td {
             width: 25%;
             height: 40px;
-            line-height: 40px;
             border: 1px solid rgba(227, 227, 227, 1);
             text-align: center;
+            font-size: $font-size-small-ss;
             color: rgba(155, 155, 155, 1);
-            font-size: $font-size-small-s;
-            line-height: 12px;
+            line-height: 14px;
+            padding: 0 15px;
             img {
               width: 24px;
               height: 17px;
               border-radius: 2px;
               vertical-align: middle;
+              cursor: pointer;
             }
           }
           .left {
@@ -396,6 +399,29 @@ export default {
           margin: 0 98px 0 106px;
         }
       }
+    }
+  }
+  .id-image {
+    width: 420px;
+    height: 530px;
+    background: rgba(255, 255, 255, 1);
+    box-shadow: 0px 4px 16px 0px rgba(0, 0, 0, 0.32);
+    border-radius: 8px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    .id-cancel {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      width: 29px;
+      height: 29px;
+      border-radius: 50%;
+      border: 1px solid rgba(74, 74, 74, 1);
+      cursor: pointer;
     }
   }
 }
