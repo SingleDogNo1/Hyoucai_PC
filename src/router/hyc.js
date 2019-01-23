@@ -208,18 +208,24 @@ export default new Router({
       ]
     },
     {
-      path: '/', // 出借详情
+      path: '/', // 出借详情(轻松投)
       component: Layout,
       children: [
         {
-          path: 'lendDetail',
-          name: 'lendDetail',
-          component: () => import(/* webpackChunkName: "lend" */ '@/views/hyc/lend/detail.vue')
-        },
+          path: 'easyDetail',
+          name: 'easyDetail',
+          component: () => import(/* webpackChunkName: "lend" */ '@/views/hyc/lend/easyDetail.vue')
+        }
+      ]
+    },
+    {
+      path: '/', // 出借详情(自选投)
+      component: Layout,
+      children: [
         {
-          path: 'projectDetail', // 项目组成详情
-          name: 'projectDetail',
-          component: () => import(/* webpackChunkName: "lend" */ '@/views/hyc/lend/projectDetail.vue')
+          path: 'optionalDetail',
+          name: 'optionalDetail',
+          component: () => import(/* webpackChunkName: "lend" */ '@/views/hyc/lend/optionalDetail.vue')
         }
       ]
     },

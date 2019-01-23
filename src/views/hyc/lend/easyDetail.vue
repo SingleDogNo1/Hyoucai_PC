@@ -66,13 +66,13 @@
             <span class="value">100,000.00元</span>
           </p>
           <div class="risk-notice">
-            <el-checkbox v-model="checked">
+            <el-checkbox v-model="isAgree">
               已阅读并同意
               <a href="#">《风险告知书》</a>
             </el-checkbox>
           </div>
           <div class="all-lending">
-            <el-checkbox class="all-lending-checkbox" v-model="checked">全部出借</el-checkbox>
+            <el-checkbox class="all-lending-checkbox" v-model="isAllLending">全部出借</el-checkbox>
           </div>
           <div class="action">
             <input class="amount-input">
@@ -164,20 +164,67 @@
             <el-table
               :header-cell-style="{ background: '#f0f7ff'}"
               class="join-record-table"
-              :data="tableData"
+              :data="joinRecordData"
               border
             >
-              <el-table-column align="center" prop="mobile" label="出借人" width="359"></el-table-column>
-              <el-table-column align="center" height="40" prop="invAmt" label="出借金额" width="358"></el-table-column>
-              <el-table-column align="center" height="40" prop="invTime" label="出借时间" width="358"></el-table-column>
+              <el-table-column align="center" prop="mobile" label="出借人"></el-table-column>
+              <el-table-column align="center" height="40" prop="invAmt" label="出借金额"></el-table-column>
+              <el-table-column align="center" height="40" prop="invTime" label="出借时间"></el-table-column>
             </el-table>
+            <div class="pagination-wrapper">
+              <pagination
+                :count-page="total"
+                :size-val="size"
+                :page-val="page"
+                @handleCurrentChange="handleCurrentChange"
+              ></pagination>
+            </div>
           </div>
         </el-tab-pane>
         <el-tab-pane label="项目组成" name="XMZC">
-          <div v-if="lendDetailActiveName === 'XMZC'" class="content"></div>
+          <div v-if="lendDetailActiveName === 'XMZC'" class="content">
+            <el-table
+              :header-cell-style="{ background: '#f0f7ff'}"
+              class="project-composition-table"
+              :data="projectCompositionData"
+              border
+            >
+              <el-table-column align="center" prop="mobile" label="借款人" width="220"></el-table-column>
+              <el-table-column align="center" height="40" prop="invAmt" label="借款金额(元)" width="214"></el-table-column>
+              <el-table-column
+                align="center"
+                height="40"
+                prop="invTime"
+                label="历史平均年化收益率"
+                width="232"
+              ></el-table-column>
+              <el-table-column align="center" height="40" prop="invTime" label="还款状态" width="205"></el-table-column>
+              <el-table-column align="center" height="40" prop="invTime" label="项目详情" width="204">
+                <template slot-scope="scope">
+                  <a href="javascript:void(0);" class="view-detail">详情</a>
+                </template>
+              </el-table-column>
+            </el-table>
+            <div class="pagination-wrapper">
+              <pagination
+                :count-page="total"
+                :size-val="size"
+                :page-val="page"
+                @handleCurrentChange="handleCurrentChange"
+              ></pagination>
+            </div>
+          </div>
         </el-tab-pane>
         <el-tab-pane label="风险告知书" name="FXGZS">
-          <div v-if="lendDetailActiveName === 'FXGZS'" class="content"></div>
+          <div v-if="lendDetailActiveName === 'FXGZS'" class="content">
+            <p>尊敬的出借人：</p>
+            <p>恭喜您成为江西汇通金融信息服务有服公司运营的网络借贷平台—汇有财平台的用户。感谢您参与/出借本服务/出借标的，在您签署本《风险告知书》之前，请您认真、仔细阅读以下内容及本平台制定并发布的规则制度及其更新或修正的内容，本《风险告知书》经您确认，即视为您已详细了解并理解本风险告知书的全部内容，对其中揭示的风险均有足够的认识，您可在了解融资项目信贷风险后，根据您的金融产品出借经历、风险认知能力、风险识别能力和风险承受能力，自主选择将来源合法的自有资金通过汇有财平台进行资金出借。当您点击“出借”、“申请出借”、“立即出借”、“确认出借”、“同意协议”、“接受协议”或类似文字时，即视为您已经充...</p>
+            <p class="view-more">
+              <router-link  target="_blank" :to="{ name: 'riskNoticationLetterAgreement'}">点击查看更多
+                <i class="iconfont icon-more"></i>
+              </router-link>
+            </p>
+          </div>
         </el-tab-pane>
       </el-tabs>
     </section>
@@ -185,11 +232,39 @@
 </template>
 
 <script>
+import Pagination from '@/components/pagination/pagination'
 export default {
   data() {
     return {
-      lendDetailActiveName: 'JRJL',
-      tableData: [
+      lendDetailActiveName: 'FXGZS',
+      isAgree: true,
+      isAllLending: true,
+      page: 1,
+      size: 10,
+      total: 0,
+      joinRecordData: [
+        {
+          mobile: '186*****5668',
+          invAmt: '10418.00',
+          invTime: '2017-05-18 11:19:50'
+        },
+        {
+          mobile: '186*****5668',
+          invAmt: '10418.00',
+          invTime: '2017-05-18 11:19:50'
+        },
+        {
+          mobile: '186*****5668',
+          invAmt: '10418.00',
+          invTime: '2017-05-18 11:19:50'
+        },
+        {
+          mobile: '186*****5668',
+          invAmt: '10418.00',
+          invTime: '2017-05-18 11:19:50'
+        }
+      ],
+      projectCompositionData: [
         {
           mobile: '186*****5668',
           invAmt: '10418.00',
@@ -213,8 +288,15 @@ export default {
       ]
     }
   },
+  components: {
+    Pagination
+  },
   methods: {
-    handleItemClick() {}
+    handleItemClick() {},
+    handleCurrentChange(val) {
+      this.page = val
+      this.getList()
+    }
   }
 }
 </script>
@@ -633,14 +715,42 @@ export default {
           }
         }
       }
-      .join-record-table {
+      .join-record-table,
+      .project-composition-table {
         width: 1080px;
-        /deep/ th,
-        td {
-          padding: 8px 0;
+        table-layout: fixed;
+        /deep/ thead {
+          color: $color-text;
+          font-size: $font-size-small;
+          line-height: 20px;
+          th {
+            padding: 8px 0;
+          }
         }
-        /deep/ td {
-          color: $color-text-s;
+        /deep/ tbody {
+          td {
+            padding: 8px 0;
+            color: $color-text-s;
+            font-size: $font-size-small-s;
+            .view-detail {
+              font-size: $font-size-small-s;
+              color: #fab645;
+            }
+          }
+        }
+      }
+      .view-more {
+        position: relative;
+        width: 100%;
+        height: 25px;
+        line-height: 25px;
+        margin-top: 20px;
+        a {
+          position: absolute;
+          top: 0;
+          right: 0;
+          display: block;
+          color: #fc5541;
         }
       }
     }
