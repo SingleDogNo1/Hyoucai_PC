@@ -1227,14 +1227,17 @@ export default {
     margin-bottom: 47px;
     padding: 0 12px;
     .about-us-tab {
-      /deep/ .el-tabs__item {
-        height: 60px;
-        line-height: 58px;
-        font-size: $font-size-small-s;
-        color: $color-text-s;
-        &.is-active {
-          box-shadow: inset 0 2px 0 0 #fb9d1f;
-          color: #fb891f;
+      /deep/ .el-tabs__header {
+        background-color: #fff;
+        /deep/ .el-tabs__item {
+          height: 60px;
+          line-height: 60px;
+          font-size: $font-size-small-s;
+          color: $color-text-s;
+          &.is-active {
+            box-shadow: inset 0 2px 0 0 #fb9d1f;
+            color: #fb891f;
+          }
         }
       }
       .company-management {
