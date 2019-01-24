@@ -145,7 +145,7 @@
                 <tr>
                   <td>身份证认证</td>
                   <td>
-                    <img src="./image/bg.png">
+                    <img @click="openReviewInfoPop" src="./image/bg.png">
                   </td>
                   <td>运营商认证</td>
                   <td>中国移动运营商认证通过</td>
@@ -153,9 +153,9 @@
                 <tr>
                   <td>学信网认证</td>
                   <td>白领</td>
-                  <td>脸识别</td>
+                  <td>人脸识别</td>
                   <td>
-                    <img src="./image/bg.png">
+                    <img @click="openFaceRecognitionPop" src="./image/bg.png">
                   </td>
                 </tr>
                 <tr>
@@ -169,7 +169,7 @@
                 <tr>
                   <td>互联网资讯报告</td>
                   <td>
-                    <img src="./image/bg.png">
+                    <img @click="openReportPop" src="./image/bg.png">
                   </td>
                   <td></td>
                   <td></td>
@@ -548,10 +548,10 @@
         </el-tab-pane>
       </el-tabs>
     </section>
-    <div class="review-info">
+    <div class="authentication-pop" v-if="isShowAuthenticationPop">
       <div class="content">
         <div class="close-wrap">
-          <i @click.stop="close" class="el-icon-circle-close-outline close"></i>
+          <i @click="closeReviewInfoPop" class="el-icon-circle-close-outline close"></i>
           <img
             class="front"
             src="https://www.hyoucai.com:8082/huiyoucaifiles/picture/certification/2018-09-25/idCardM_a_BD20180925023001020650_djs361466uv.png"
@@ -560,6 +560,51 @@
             class="back"
             src="https://www.hyoucai.com:8082/huiyoucaifiles/picture/certification/2018-09-25/idCardM_b_BD20180925023001020650_djs361466uv.png"
           >
+        </div>
+      </div>
+    </div>
+    <div class="face-recognition-pop" v-if="isShowFaceRecognitionPop">
+      <div class="content face-content">
+        <div class="close-wrap">
+          <i @click="closeFaceRecognitionPop" class="el-icon-circle-close-outline close"></i>
+          <img
+            class="face"
+            src="https://www.hyoucai.com:8082/huiyoucaifiles/picture/certification/2018-09-25/faceM_BD20180925023001020650_djs361466uv.png"
+          >
+        </div>
+      </div>
+    </div>
+    <div class="report-pop" v-if="isShowReportPop">
+      <div class="content report-content">
+        <div class="close-wrap">
+          <i @click="closeReportPop" class="el-icon-circle-close-outline close"></i>
+          <h3>互联网资信报告</h3>
+          <ul>
+            <li>
+              <span>姓名：</span>
+              <span>张*</span>
+            </li>
+            <li>
+              <span>身份证号：</span>
+              <span>4108**********0103</span>
+            </li>
+            <li>
+              <span>年龄：</span>
+              <span>3*</span>
+            </li>
+            <li>
+              <span>出生地区：</span>
+              <span>河南省焦作市</span>
+            </li>
+            <li>
+              <span>性别：</span>
+              <span>女</span>
+            </li>
+            <li>
+              <span>是否实名认证：</span>
+              <span>是</span>
+            </li>
+          </ul>
         </div>
       </div>
     </div>
@@ -620,7 +665,10 @@ export default {
           invAmt: '10418.00',
           invTime: '2017-05-18 11:19:50'
         }
-      ]
+      ],
+      isShowAuthenticationPop: false,
+      isShowFaceRecognitionPop: false,
+      isShowReportPop: false
     }
   },
   components: {
@@ -631,6 +679,24 @@ export default {
     handleCurrentChange(val) {
       this.page = val
       this.getList()
+    },
+    openReviewInfoPop() {
+      this.isShowAuthenticationPop = true
+    },
+    openFaceRecognitionPop() {
+      this.isShowFaceRecognitionPop = true
+    },
+    openReportPop() {
+      this.isShowReportPop = true
+    },
+    closeReviewInfoPop() {
+      this.isShowAuthenticationPop = false
+    },
+    closeFaceRecognitionPop() {
+      this.isShowFaceRecognitionPop = false
+    },
+    closeReportPop() {
+      this.isShowReportPop = false
     }
   }
 }
@@ -983,16 +1049,19 @@ export default {
     margin-top: 20px;
     margin-bottom: 38px;
     background: #fff;
-    /deep/ .el-tabs__item {
-      border-top: 4px solid transparent;
-      height: 49px;
-      line-height: 40px;
-      padding: 0 30px;
-      font-size: $font-size-small-s;
-      color: $color-text-s;
-      &.is-active {
-        border-top: 4px solid #ffb01a;
-        color: #fb891f;
+    /deep/ .el-tabs__header {
+      background-color: #fff;
+      /deep/ .el-tabs__item {
+        border-top: 4px solid transparent;
+        height: 49px;
+        line-height: 40px;
+        padding: 0 30px;
+        font-size: $font-size-small-s;
+        color: $color-text-s;
+        &.is-active {
+          border-top: 4px solid #ffb01a;
+          color: #fb891f;
+        }
       }
     }
     .content {
@@ -1216,7 +1285,9 @@ export default {
       }
     }
   }
-  .review-info {
+  .authentication-pop,
+  .face-recognition-pop,
+  .report-pop {
     position: fixed;
     z-index: 100000;
     top: 0;
@@ -1228,7 +1299,6 @@ export default {
       display: table;
       z-index: 100001;
       width: 420px;
-      height: 530px;
       top: 0;
       right: 0;
       bottom: 0;
@@ -1248,6 +1318,7 @@ export default {
           right: 16px;
           color: #4a4a4a;
           font-size: 28px;
+          cursor: pointer;
         }
       }
       img {
@@ -1255,13 +1326,49 @@ export default {
         width: 329px;
         height: 205px;
         margin: 0 auto;
+        margin-bottom: 20px;
       }
       img.front {
         padding-top: 60px;
-        margin-bottom: 20px;  
       }
+      img.face {
+        width: 140px;
+        height: 140px;
+        padding-top: 20px;
+      }
+      h3 {
+        padding-top: 20px;
+        font-size: $font-size-medium-x;
+        font-weight: 500;
+        color: $color-text-s;
+      }
+      ul {
+        width: 450px;
+        margin: 0 auto;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-top: 10px;
+        padding-bottom: 20px;
+        li {
+          font-size: $font-size-small;
+          color: $color-text-s;
+          text-align: left;
+          &:nth-child(2n) {
+            width: 60%;
+          }
+          &:nth-child(2n + 1) {
+            width: 40%;
+          }
+        }
+      }
+    }
+    .content.face-content {
+      width: 300px;
+    }
+    .report-content {
+      width: 490px;
     }
   }
 }
 </style>
-
