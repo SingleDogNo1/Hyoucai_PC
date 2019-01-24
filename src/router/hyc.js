@@ -208,6 +208,28 @@ export default new Router({
       ]
     },
     {
+      path: '/', // 出借详情(轻松投)
+      component: Layout,
+      children: [
+        {
+          path: 'easyDetail',
+          name: 'easyDetail',
+          component: () => import(/* webpackChunkName: "lend" */ '@/views/hyc/lend/easyDetail.vue')
+        }
+      ]
+    },
+    {
+      path: '/', // 出借详情(自选投)
+      component: Layout,
+      children: [
+        {
+          path: 'optionalDetail',
+          name: 'optionalDetail',
+          component: () => import(/* webpackChunkName: "lend" */ '@/views/hyc/lend/optionalDetail.vue')
+        }
+      ]
+    },
+    {
       path: '/announcement', // 网站公告
       component: Layout,
       children: [
@@ -297,6 +319,21 @@ export default new Router({
           path: 'businessAuth', // 业务授权协议
           name: 'businessAuthAgreement',
           component: () => import('@/views/common/agreement/businessAuth')
+        },
+        {
+          path: 'riskNoticationLetter', // 风险告知书
+          name: 'riskNoticationLetterAgreement',
+          component: () => import('@/views/djs/agreement/riskNoticationLetter')
+        },
+        {
+          path: 'debtAssignment', // 债权转让
+          name: 'debtAssignmentAgreement',
+          component: () => import('@/views/hyc/agreement/debtAssignment')
+        },
+        {
+          path: 'threeParty', // 三方协议
+          name: 'threePartyAgreement',
+          component: () => import('@/views/hyc/agreement/threeParty')
         }
       ]
     },

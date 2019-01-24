@@ -71,7 +71,7 @@
             </div>
           </div>
         </div>
-        <router-link :to="{ path: 'announcement', query: { paramCode: 'WZGG' } }" class="more">
+        <router-link :to="{ name: 'announcement', query: { paramCode: 'WZGG' } }" class="more">
           更多
           <i class="iconfont icon-more"></i>
         </router-link>

@@ -309,6 +309,11 @@ export default new Router({
           path: 'debtAssignment', // 债权转让
           name: 'debtAssignmentAgreement',
           component: () => import('@/views/djs/agreement/debtAssignment')
+        },
+        {
+          path: 'riskNoticationLetter', // 风险告知书
+          name: 'riskNoticationLetterAgreement',
+          component: () => import('@/views/djs/agreement/riskNoticationLetter')
         }
       ]
     },

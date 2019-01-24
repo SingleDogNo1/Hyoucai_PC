@@ -71,7 +71,7 @@
             </div>
           </div>
         </div>
-        <router-link :to="{ path: 'announcement', query: { paramCode: 'WZGG' } }" class="more">
+        <router-link :to="{ name: 'announcement', query: { paramCode: 'WZGG' } }" class="more">
           更多
           <i class="iconfont icon-more"></i>
         </router-link>
@@ -529,7 +529,7 @@ export default {
           //line-height: 49px;
           margin-right: 10px;
           span {
-            vertical-align: middle;
+            vertical-align: top;
             font-size: $font-size-small-ss;
             color: $color-text;
           }
@@ -537,7 +537,7 @@ export default {
             width: 247px;
             position: relative;
             display: inline-block;
-            vertical-align: middle;
+            vertical-align: top;
             height: 100%;
             margin-left: 5px;
             font-size: $font-size-small-ss;
