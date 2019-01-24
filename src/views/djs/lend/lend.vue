@@ -49,32 +49,30 @@
               </li>
               <li class="info">
                 <dl>
-                  <dt>{{ item.investMent }} 天</dt>
-                  <dd>锁定期限</dd>
-                </dl>
-              </li>
-              <li class="info">
-                <dl>
                   <dt>{{ item.minInvAmt }}元</dt>
                   <dd>起投金额</dd>
                 </dl>
               </li>
               <li class="info">
                 <dl>
-                  <dt>{{ item.enablAmt }}元</dt>
-                  <dd>剩余可投金额</dd>
+                  <dt>{{ item.investMent }} 天</dt>
+                  <dd>锁定期限</dd>
                 </dl>
               </li>
               <li class="info">
                 <dl>
-                  <dt>
-                    已投<span class="hight-light">{{ (((item.accumulativeInvAmt / item.maxInvTotalAmt) * 10000) / 100).toFixed(1) }}%</span>
-                  </dt>
                   <dd><el-progress :percentage="Math.round((item.accumulativeInvAmt / item.maxInvTotalAmt) * 10000) / 100"></el-progress></dd>
                 </dl>
               </li>
               <li class="info">
-                <el-button type="primary"> <router-link :to="{ name: 'download' }">下载APP</router-link> </el-button>
+                <template v-if="item.status === '1'">
+                  <el-button v-if="item.enablAmt > 0" @click.native="judgeBooking"> 授权出借 </el-button>
+                  <el-button disabled v-else-if="item.enablAmt === '0'">还款中</el-button>
+                </template>
+                <template v-else>
+                  <!--<el-button type="primary"> <router-link :to="{ name: 'download' }">下载APP</router-link> </el-button>-->
+                  <el-button type="primary" @click.native="judgeBooking"> 预售中 </el-button>
+                </template>
               </li>
             </ul>
           </li>
@@ -109,6 +107,13 @@ export default {
   },
   props: ['redPacketId', 'couponId'],
   methods: {
+    judgeBooking() {
+      if (this.userName) {
+        this.$router.push({name: 'lend_detail'})
+      } else {
+        this.$router.push({name: 'login'})
+      }
+    },
     handleCurrentChange(val) {
       this.page = val
       this.getData()
@@ -332,6 +337,9 @@ export default {
                     font-size: $font-size-medium;
                   }
                 }
+                dd {
+                  margin-top: 20px;
+                }
                 span {
                   margin-left: 5px;
                   color: #fc5541;
@@ -360,6 +368,11 @@ export default {
                   margin-top: 8px;
                   background-color: #fb7b1f;
                   font-size: $font-size-medium;
+                  color: #fff;
+                  &.is-disabled {
+                    background-color: #ccc;
+                    border-color: #ccc;
+                  }
                   a {
                     display: block;
                     width: 100%;
