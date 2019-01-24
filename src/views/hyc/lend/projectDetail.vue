@@ -3,7 +3,7 @@
     <div class="content">
       <header>
         <span>《三方协议》</span>
-        <button class="cancel">取消</button>
+        <i class="el-icon-circle-close-outline cancel" @click="change"></i>
       </header>
       <section>
         <p class="title">
@@ -64,7 +64,7 @@
           <tr>
             <td>学信网认证</td>
             <td>白领</td>
-            <td>脸识别</td>
+            <td>人脸识别</td>
             <td>
               <img src="./image/bg.png">
             </td>
@@ -189,6 +189,7 @@
             <span class="left">在其他网络借贷平台借款情况：</span>
             <span class="right">借款人保证在不同网络借贷信息中介机构平台借款总余额与本合同借款金额合计总额不超过人民币100万元</span>
           </p>
+          <p class="look-detail">点击查看>></p>
         </div>
         <p class="title">
           <span class="title-boder"></span>
@@ -229,20 +230,32 @@
       </section>
     </div>
     <div class="id-image" v-show="flag">
-      <button @click="flag=!flag" class="id-cancel">取消</button>
+      <i @click="flag=!flag" class="el-icon-circle-close-outline close"></i>
+      <img
+        class="front"
+        src="https://www.hyoucai.com:8082/huiyoucaifiles/picture/certification/2018-09-25/idCardM_a_BD20180925023001020650_djs361466uv.png"
+      >
+      <img
+        class="back"
+        src="https://www.hyoucai.com:8082/huiyoucaifiles/picture/certification/2018-09-25/idCardM_b_BD20180925023001020650_djs361466uv.png"
+      >
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'projectDetal',
+  name: 'ProjectDetal',
   data() {
     return {
       flag: false
     }
   },
-  methods: {}
+  methods: {
+    change: function() {
+      this.$emit('changeProjectDetail')
+    }
+  }
 }
 </script>
 
@@ -251,6 +264,9 @@ export default {
 .content-box {
   padding: 120px 200px 110px;
   background: rgba(227, 227, 227, 1);
+  position: absolute;
+  top: 0;
+  z-index: 2;
   .content {
     background: rgba(255, 255, 255, 1);
     border-radius: 6px;
@@ -274,8 +290,9 @@ export default {
         width: 29px;
         height: 29px;
         border-radius: 50%;
-        border: 1px solid rgba(74, 74, 74, 1);
         cursor: pointer;
+        color: #4a4a4a;
+        font-size: 32px;
       }
     }
     section {
@@ -352,11 +369,13 @@ export default {
         margin: 20px 0 58px;
       }
       .cost {
-        margin: 25px 0 61px;
+        margin-top: 25px;
+        margin-bottom: 20px;
       }
       .borrower {
         margin: 19px 0 50px;
         font-size: $font-size-small-s;
+        position: relative;
         .borrower-box {
           height: 30px;
           line-height: 30px;
@@ -378,6 +397,15 @@ export default {
         .borrower-txt {
           height: 30px;
           line-height: 30px;
+        }
+        .look-detail {
+          width: 94px;
+          height: $font-size-small-s;
+          color: rgba(251, 123, 31, 1);
+          line-height: $font-size-small-s;
+          position: absolute;
+          right: 57px;
+          bottom: 8px;
         }
       }
       .situation {
@@ -413,15 +441,25 @@ export default {
     right: 0;
     bottom: 0;
     margin: auto;
-    .id-cancel {
+    .close {
       position: absolute;
       top: 16px;
       right: 16px;
       width: 29px;
       height: 29px;
-      border-radius: 50%;
-      border: 1px solid rgba(74, 74, 74, 1);
       cursor: pointer;
+      color: #4a4a4a;
+      font-size: 28px;
+    }
+    img {
+      display: block;
+      width: 329px;
+      height: 205px;
+      margin: 0 auto;
+    }
+    img.front {
+      padding-top: 60px;
+      margin-bottom: 20px;
     }
   }
 }

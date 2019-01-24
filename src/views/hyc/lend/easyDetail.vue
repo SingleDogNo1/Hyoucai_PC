@@ -200,8 +200,12 @@
               ></el-table-column>
               <el-table-column align="center" height="40" prop="invTime" label="还款状态" width="205"></el-table-column>
               <el-table-column align="center" height="40" prop="invTime" label="项目详情" width="204">
-                <template slot-scope="scope">
-                  <a href="javascript:void(0);" class="view-detail">详情</a>
+                <template>
+                  <a
+                    href="javascript:void(0);"
+                    class="view-detail"
+                    @click="isProjectDetail=!isProjectDetail"
+                  >详情</a>
                 </template>
               </el-table-column>
             </el-table>
@@ -220,7 +224,8 @@
             <p>尊敬的出借人：</p>
             <p>恭喜您成为江西汇通金融信息服务有服公司运营的网络借贷平台—汇有财平台的用户。感谢您参与/出借本服务/出借标的，在您签署本《风险告知书》之前，请您认真、仔细阅读以下内容及本平台制定并发布的规则制度及其更新或修正的内容，本《风险告知书》经您确认，即视为您已详细了解并理解本风险告知书的全部内容，对其中揭示的风险均有足够的认识，您可在了解融资项目信贷风险后，根据您的金融产品出借经历、风险认知能力、风险识别能力和风险承受能力，自主选择将来源合法的自有资金通过汇有财平台进行资金出借。当您点击“出借”、“申请出借”、“立即出借”、“确认出借”、“同意协议”、“接受协议”或类似文字时，即视为您已经充...</p>
             <p class="view-more">
-              <router-link  target="_blank" :to="{ name: 'riskNoticationLetterAgreement'}">点击查看更多
+              <router-link target="_blank" :to="{ name: 'riskNoticationLetterAgreement'}">
+                点击查看更多
                 <i class="iconfont icon-more"></i>
               </router-link>
             </p>
@@ -228,17 +233,20 @@
         </el-tab-pane>
       </el-tabs>
     </section>
+    <ProjectDetail @changeProjectDetail="changeProjectDetail" v-show="isProjectDetail"/>
   </div>
 </template>
 
 <script>
 import Pagination from '@/components/pagination/pagination'
+import ProjectDetail from './projectDetail'
 export default {
   data() {
     return {
       lendDetailActiveName: 'FXGZS',
       isAgree: true,
       isAllLending: true,
+      isProjectDetail: false,
       page: 1,
       size: 10,
       total: 0,
@@ -289,13 +297,17 @@ export default {
     }
   },
   components: {
-    Pagination
+    Pagination,
+    ProjectDetail
   },
   methods: {
     handleItemClick() {},
     handleCurrentChange(val) {
       this.page = val
       this.getList()
+    },
+    changeProjectDetail() {
+      this.isProjectDetail = false
     }
   }
 }
@@ -305,6 +317,8 @@ export default {
 @import '../../../assets/css/theme';
 .lend-detail {
   padding-top: 30px;
+  position: relative;
+  overflow: auto;
   .production-info {
     position: relative;
     width: 1138px;
@@ -757,4 +771,3 @@ export default {
   }
 }
 </style>
-

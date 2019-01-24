@@ -46,3 +46,12 @@ export function getPageConfig() {
     method: 'POST'
   })
 }
+
+export function getProjectDetail(data) {
+  // 项目详情
+  return request({
+    url: '/collection/projectDetail',
+    method: 'POST',
+    data: data
+  })
+}

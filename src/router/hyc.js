@@ -226,6 +226,11 @@ export default new Router({
           path: 'optionalDetail',
           name: 'optionalDetail',
           component: () => import(/* webpackChunkName: "lend" */ '@/views/hyc/lend/optionalDetail.vue')
+        },
+        {
+          path: 'loanDetail',
+          name: 'loanDetail',
+          component: () => import(/* webpackChunkName: "lend" */ '@/views/hyc/lend/loanDetail.vue')
         }
       ]
     },
