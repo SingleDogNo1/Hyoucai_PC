@@ -1,30 +1,30 @@
 <template>
-  <div class="lend-detail">
+  <div class="lend-detail" v-cloak>
     <section class="production-info">
       <div class="title">
         <h2>
           <img src="./image/icon_hui.png">
-          <span>汇选（6个月）1620190117</span>
+          <span>{{projectInfo.itemName}}</span>
         </h2>
       </div>
       <div class="content">
         <div class="decs-wrap">
           <div class="item">
             <p class="value">
-              <strong>5.5</strong>
+              <strong>{{projectInfo.investRate}}</strong>
               <span class="red">%</span>
             </p>
             <p class="desc">预期年化收益率</p>
           </div>
           <div class="item">
             <p class="value">
-              <span>100,000,000</span>
+              <span>{{projectInfo.surplusAmt}}</span>
             </p>
             <p class="desc">剩余可投(元)</p>
           </div>
           <div class="item">
             <p class="value">
-              <span>22</span>
+              <span>{{projectInfo.investPeopleCount}}</span>
               <span>人</span>
             </p>
             <p class="desc">已购人数</p>
@@ -32,19 +32,19 @@
         </div>
         <div class="progress-wrap">
           <span class="title">项目进度</span>
-          <el-progress :percentage="63.56"></el-progress>
-          <span class="score">63.56%</span>
+          <el-progress :percentage="projectInfo.investPercent"></el-progress>
+          <span class="score">{{projectInfo.investPercent}}%</span>
         </div>
       </div>
       <div class="tips">
         <div class="method">
           <span class="title">计息方式：</span>
-          <span>等额本息</span>
+          <span>{{projectInfo.interestRate}}</span>
         </div>
         <div class="countdown">
           <span class="title">募集倒计时：</span>
-          <span class="large">6天</span>
-          <span>18:40:49</span>
+          <span class="large">{{projectInfo.investEndDay}} </span>
+          <span>{{projectInfo.investEndTime}}</span>
         </div>
       </div>
       <div class="invest-module">
@@ -96,49 +96,51 @@
           <div v-if="lendDetailActiveName === 'CJXQ'" class="content">
             <p
               class="desc"
-            >投资月月盈即可享受30天优惠收益，预期年化净收益率达7%。 加入当日生息，30天到期后本息自动转入账户余额，届时投资人可自主选择按本息复投或本金复投模式继续投资，坐享收益。</p>
+            >{{investDetail.appDesc}}</p>
             <ul class="detail-list">
               <li>
                 <p class="title">
                   <span>协议</span>
                 </p>
-                <a class="value" href="#">《点金石债权转让协议》（范本）</a>
+                <router-link target="_blank" class="value" :to="{ name: 'threePartyAgreement', query: {productId: productId}}">
+                  《三方协议》
+                </router-link>
               </li>
               <li>
                 <p class="title">
                   <span>出借目标</span>
                 </p>
-                <span class="value">所有点金石的用户，寻求安全、灵活、稳定高收益的投资人。</span>
+                <span class="value">{{investDetail.investTarget}}</span>
               </li>
               <li>
                 <p class="title">
                   <span>锁定期</span>
                 </p>
-                <span class="value">90天</span>
+                <span class="value">{{investDetail.dueDate}}</span>
               </li>
               <li>
                 <p class="title">
                   <span>起息时间</span>
                 </p>
-                <span class="value">以所投标的实际起息时间为准。</span>
+                <span class="value">{{investDetail.interestStartDate}}</span>
               </li>
               <li>
                 <p class="title">
                   <span>利息分配</span>
                 </p>
-                <span class="value">单标复审成功计息，到期即可提现。</span>
+                <span class="value">{{investDetail.profitShare}}</span>
               </li>
               <li>
                 <p class="title">
                   <span>退出机制</span>
                 </p>
-                <span class="value">等额本息自动转入账户余额。</span>
+                <span class="value">{{investDetail.existSystem}}</span>
               </li>
               <li>
                 <p class="title">
                   <span>费用说明</span>
                 </p>
-                <span class="value">暂无任何手续费。</span>
+                <span class="value">{{investDetail.costdes}}</span>
               </li>
               <li>
                 <p class="title">
@@ -146,14 +148,13 @@
                 </p>
                 <span
                   class="value"
-                >根据借款人当前情况进行评估，借款人具有偿还贷款的能力，但不排除未来借款人因收入下降、过度举债等因素导致财务状况恶化，从而发生逾期的可能。</span>
+                >{{investDetail.riskAppraisal}}</span>
               </li>
               <li>
                 <p class="title">
                   <span>出借人适当性管理提示</span>
                 </p>
-                <span class="value">1.该标的的每一个借款人在本平台借款余额未超过20万元，符合监管政策要求；
-                  <br>2.出借人应根据自身的出借偏好和风险承受能力进行独立判断和作出决策，并自行承担资金出借的风险与责任，包括但不限于可能的本息损失。网贷有风险，出借需谨慎。
+                <span class="value">{{investDetail.riskManagementTip}}
                 </span>
               </li>
             </ul>
@@ -189,19 +190,19 @@
               :data="projectCompositionData"
               border
             >
-              <el-table-column align="center" prop="mobile" label="借款人" width="220"></el-table-column>
-              <el-table-column align="center" height="40" prop="invAmt" label="借款金额(元)" width="214"></el-table-column>
+              <el-table-column align="center" prop="borrowerName" label="借款人" width="220"></el-table-column>
+              <el-table-column align="center" height="40" prop="loanAmt" label="借款金额(元)" width="214"></el-table-column>
               <el-table-column
                 align="center"
                 height="40"
-                prop="invTime"
+                prop="loanRate"
                 label="历史平均年化收益率"
                 width="232"
               ></el-table-column>
-              <el-table-column align="center" height="40" prop="invTime" label="还款状态" width="205"></el-table-column>
+              <el-table-column align="center" height="40" prop="loanStatus" label="还款状态" width="205"></el-table-column>
               <el-table-column align="center" height="40" prop="invTime" label="项目详情" width="204">
                 <template slot-scope="scope">
-                  <a href="javascript:void(0);" class="view-detail">详情</a>
+                  <a href="javascript:void(0);" :projectNo="scope.row.projectNo" class="view-detail">详情</a>
                 </template>
               </el-table-column>
             </el-table>
@@ -220,7 +221,8 @@
             <p>尊敬的出借人：</p>
             <p>恭喜您成为江西汇通金融信息服务有服公司运营的网络借贷平台—汇有财平台的用户。感谢您参与/出借本服务/出借标的，在您签署本《风险告知书》之前，请您认真、仔细阅读以下内容及本平台制定并发布的规则制度及其更新或修正的内容，本《风险告知书》经您确认，即视为您已详细了解并理解本风险告知书的全部内容，对其中揭示的风险均有足够的认识，您可在了解融资项目信贷风险后，根据您的金融产品出借经历、风险认知能力、风险识别能力和风险承受能力，自主选择将来源合法的自有资金通过汇有财平台进行资金出借。当您点击“出借”、“申请出借”、“立即出借”、“确认出借”、“同意协议”、“接受协议”或类似文字时，即视为您已经充...</p>
             <p class="view-more">
-              <router-link  target="_blank" :to="{ name: 'riskNoticationLetterAgreement'}">点击查看更多
+              <router-link target="_blank" :to="{ name: 'riskNoticationLetterAgreement'}">
+                点击查看更多
                 <i class="iconfont icon-more"></i>
               </router-link>
             </p>
@@ -233,70 +235,161 @@
 
 <script>
 import Pagination from '@/components/pagination/pagination'
+import { timeCountDown } from '@/assets/js/utils'
+import { investDetail, investRecord, projectCompo } from '@/api/hyc/lendDetail'
 export default {
   data() {
     return {
-      lendDetailActiveName: 'FXGZS',
+      lendDetailActiveName: 'CJXQ',
+      productId: '',
+      itemId: '',
       isAgree: true,
       isAllLending: true,
       page: 1,
       size: 10,
       total: 0,
-      joinRecordData: [
-        {
-          mobile: '186*****5668',
-          invAmt: '10418.00',
-          invTime: '2017-05-18 11:19:50'
-        },
-        {
-          mobile: '186*****5668',
-          invAmt: '10418.00',
-          invTime: '2017-05-18 11:19:50'
-        },
-        {
-          mobile: '186*****5668',
-          invAmt: '10418.00',
-          invTime: '2017-05-18 11:19:50'
-        },
-        {
-          mobile: '186*****5668',
-          invAmt: '10418.00',
-          invTime: '2017-05-18 11:19:50'
-        }
-      ],
-      projectCompositionData: [
-        {
-          mobile: '186*****5668',
-          invAmt: '10418.00',
-          invTime: '2017-05-18 11:19:50'
-        },
-        {
-          mobile: '186*****5668',
-          invAmt: '10418.00',
-          invTime: '2017-05-18 11:19:50'
-        },
-        {
-          mobile: '186*****5668',
-          invAmt: '10418.00',
-          invTime: '2017-05-18 11:19:50'
-        },
-        {
-          mobile: '186*****5668',
-          invAmt: '10418.00',
-          invTime: '2017-05-18 11:19:50'
-        }
-      ]
+      projectInfo: {
+        investEndDay: '',
+        investEndTime: '',
+        investRate: '',
+        itemName: '',
+        surplusAmt: '',
+        investPeopleCount: '',
+        investPercent: 0,
+        interestRate: '',
+      },
+      investDetail: {
+        appDesc: '',
+        threeAgreeJumpUrl: '',
+        investTarget: '',
+        dueDate: '',
+        interestStartDate: '',
+        profitShare: '',
+        existSystem: '',
+        costdes: '',
+        riskAppraisal: '',
+        riskManagementTip: ''
+      },
+      joinRecordData: [],
+      projectCompositionData: []
     }
   },
   components: {
     Pagination
   },
   methods: {
-    handleItemClick() {},
+    handleItemClick() {
+      switch (this.lendDetailActiveName) {
+        case 'CJXQ':
+          this.getLendDetailList()
+          break;
+        case 'JRJL':
+          this.getJoinRecordList()
+          break;
+        case 'XMZC':
+          this.getProjectCompoList()
+          break;
+      }
+    },
     handleCurrentChange(val) {
       this.page = val
-      this.getList()
+      this.handleItemClick()
+    },
+    getInvestDetailList() {
+      this.productId = this.$route.query.productId
+      this.itemId = this.$route.query.itemId
+      let postData = {
+        productId: this.productId,
+        itemId: this.itemId
+      }
+      investDetail(postData).then(res => {
+        let data = res.data.data
+        let projectInfo = data.projectInfo
+        let investEndTimestamp = projectInfo.investEndTimestamp
+        this.projectInfo.itemName = projectInfo.itemName
+        this.projectInfo.investRate = projectInfo.investRate
+        this.projectInfo.surplusAmt = projectInfo.surplusAmt
+        this.projectInfo.investPeopleCount = projectInfo.investPeopleCount
+        this.projectInfo.investPercent = projectInfo.investPercent
+        this.projectInfo.interestRate = projectInfo.interestRate
+
+        let investDetail = data.investDetail
+        this.investDetail.appDesc = investDetail.appDesc
+        this.investDetail.investTarget = investDetail.investTarget
+        this.investDetail.dueDate = investDetail.dueDate
+        this.investDetail.interestStartDate = investDetail.interestStartDate
+        this.investDetail.profitShare = investDetail.profitShare
+        this.investDetail.existSystem = investDetail.existSystem
+        this.investDetail.costdes = investDetail.costdes
+        this.investDetail.riskAppraisal = investDetail.riskAppraisal
+        this.investDetail.riskManagementTip = investDetail.riskManagementTip
+    
+        timeCountDown(investEndTimestamp, data => {
+          if (data.indexOf('天') > -1) {
+            this.projectInfo.investEndDay = data.substr(0, data.indexOf('天') + 1)
+            this.projectInfo.investEndTime = data.substr(data.indexOf('天') + 1, data.length - 1)
+          } else {
+            this.projectInfo.investEndTime = data
+          }
+        })
+      })
+    },
+    getLendDetailList() {
+      this.productId = this.$route.query.productId
+      this.itemId = this.$route.query.itemId
+      let postData = {
+        productId: this.productId,
+        itemId: this.itemId
+      }
+      investDetail(postData).then(res => {
+        let data = res.data.data
+        let investDetail = data.investDetail
+        this.investDetail.appDesc = investDetail.appDesc
+        this.investDetail.investTarget = investDetail.investTarget
+        this.investDetail.dueDate = investDetail.dueDate
+        this.investDetail.interestStartDate = investDetail.interestStartDate
+        this.investDetail.profitShare = investDetail.profitShare
+        this.investDetail.existSystem = investDetail.existSystem
+        this.investDetail.costdes = investDetail.costdes
+        this.investDetail.riskAppraisal = investDetail.riskAppraisal
+        this.investDetail.riskManagementTip = investDetail.riskManagementTip
+      })
+    },
+    getJoinRecordList() {
+      this.productId = this.$route.query.productId
+      this.itemId = this.$route.query.itemId
+      let postData = {
+        productId: this.productId,
+        itemId: this.itemId,
+        curPage: this.page,
+        maxLine: this.size
+      }
+      investRecord(postData).then(res => {
+        let data = res.data.data
+        this.joinRecordData = data.list
+        this.total = parseInt(data.countPage)
+        this.page = parseInt(data.curPage)
+      })
+    },
+    getProjectCompoList() {
+      this.productId = this.$route.query.productId
+      this.itemId = this.$route.query.itemId
+      let postData = {
+        productId: this.productId,
+        itemId: this.itemId,
+        curPage: this.page,
+        maxLine: this.size
+      }
+      projectCompo(postData).then(res => {
+        let data = res.data.data
+        this.projectCompositionData = data.list
+        this.total = parseInt(data.countPage)
+        this.page = parseInt(data.curPage)
+      })
     }
+  },
+  mounted() {
+    this.getInvestDetailList()
   }
 }
 </script>
@@ -409,14 +502,15 @@ export default {
         .score {
           display: inline-block;
           margin-left: -44px;
-          width: 64px;
+          width: 72px;
           height: 24px;
           line-height: 24px;
-          background: url('./image/score_bk.png') center center no-repeat;
+          background: url('./image/bg_invest_percent.png') center center no-repeat;
           font-size: $font-size-small-s;
           color: #fff;
-          text-align: right;
-          padding-right: 8px;
+          text-align: center;
+          background-size: cover;
+          padding-left: 4px;
         }
       }
     }
