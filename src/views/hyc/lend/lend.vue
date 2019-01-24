@@ -72,11 +72,11 @@
                 </li>
                 <li class="info">
                   <template v-if="item.status !== 1">
-                    <el-button v-if="item.investPercent < 100" @click.native="judgeBooking"> 授权出借 </el-button>
+                    <el-button v-if="item.investPercent < 100" @click.native="judgeBooking(item)"> 授权出借 </el-button>
                     <el-button disabled v-else>还款中</el-button>
                   </template>
                   <template v-else>
-                    <el-button type="primary" @click.native="judgeBooking"> 预售中 </el-button>
+                    <el-button type="primary" @click.native="judgeBooking(item)"> 预售中 </el-button>
                   </template>
                 </li>
               </ul>
@@ -124,11 +124,11 @@
                 </li>
                 <li class="info">
                   <template v-if="item.status !== 0">
-                    <el-button v-if="item.status === 1" @click.native="judgeBooking"> 授权出借 </el-button>
+                    <el-button v-if="item.status === 1" @click.native="judgeBooking(item)"> 授权出借 </el-button>
                     <el-button disabled v-else>还款中</el-button>
                   </template>
                   <template v-else>
-                    <el-button type="primary" @click.native="judgeBooking"> 预售中 </el-button>
+                    <el-button type="primary" @click.native="judgeBooking(item)"> 预售中 </el-button>
                   </template>
                 </li>
               </ul>
@@ -237,9 +237,9 @@ export default {
     judgeBooking(item) {
       if (this.userName) {
         if (item.itemId) {
-          this.$router.push({name: 'easyDetail', params:{productId: item.productId, itemId: item.itemId}})
+          this.$router.push({name: 'easyDetail', query:{productId: item.productId, itemId: item.itemId}})
         } else {
-          this.$router.push({name: 'optionalDetail', params:{projectNo: item.projectNo}})
+          this.$router.push({name: 'optionalDetail', query:{projectNo: item.projectNo}})
         }
       } else {
         this.$router.push({name: 'login'})
