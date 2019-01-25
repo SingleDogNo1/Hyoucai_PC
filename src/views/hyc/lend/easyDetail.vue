@@ -201,14 +201,13 @@
               ></el-table-column>
               <el-table-column align="center" height="40" prop="loanStatus" label="还款状态" width="205"></el-table-column>
               <el-table-column align="center" height="40" prop="invTime" label="项目详情" width="204">
-                <template>
+                <template slot-scope="scope">
                   <a
+                    :projectNo="scope.row.projectNo"
                     href="javascript:void(0);"
                     class="view-detail"
                     @click="isProjectDetail=!isProjectDetail"
                   >详情</a>
-                <template slot-scope="scope">
-                  <a href="javascript:void(0);" :projectNo="scope.row.projectNo" class="view-detail">详情</a>
                 </template>
               </el-table-column>
             </el-table>
