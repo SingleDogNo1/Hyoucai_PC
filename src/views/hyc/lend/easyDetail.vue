@@ -49,8 +49,10 @@
       </div>
       <div class="invest-module">
         <h2>
-          <span class="status-title">出借中…</span>
-          <button class="status-btn">开户</button>
+          <span class="status-title">{{investStatusTitle}}</span>
+          <button v-if="investStatus != 'Unopened'" class="status-btn">
+            <router-link :to="{ name: 'charge' }">{{investStatusBtn}}</router-link>
+          </button>
         </h2>
         <div class="content">
           <p class="available-balance">
@@ -70,12 +72,12 @@
               <router-link target="_blank" :to="{ name: 'riskNoticationLetterAgreement'}">《风险告知书》</router-link>
             </el-checkbox>
           </div>
-          <div class="all-lending">
+          <div class="all-lending" v-if="investStatus === lending">
             <el-checkbox class="all-lending-checkbox" v-model="isAllLending">全部出借</el-checkbox>
           </div>
           <div class="action">
             <input class="amount-input" v-model="invAmount" @keyup="handleExpectedIncome">
-            <button class="action-btn">立即开户</button>
+            <button class="action-btn" :disabled="isDisableInvestBtn">{{investBtn}}</button>
           </div>
           <p class="expected-profits">
             <span class="title">预期收益：</span>
@@ -265,6 +267,11 @@ export default {
       page: 1,
       size: 10,
       total: 0,
+      investStatus: '', // 投资状态
+      investStatusTitle: '出借中...', // 投资状态文字
+      investStatusBtn: '充值', // 投资按钮状态文字
+      investBtn: '申请出借',
+      isDisableInvestBtn: false, // 是否禁用申请出借按钮
       invAmount: '',
       expectedIncome: '0.00',
       projectInfo: {
@@ -277,7 +284,8 @@ export default {
         investPercent: 0,
         interestRate: '',
         minInvAmount: '',
-        maxInvTotalAmount: ''
+        maxInvTotalAmount: '',
+        status: 0
       },
       investDetail: {
         appDesc: '',
@@ -321,6 +329,28 @@ export default {
     },
     getUserBasicInfo() {
       console.log('userBasicInfo===', this.userBasicInfo)
+      if (!this.userBasicInfo.escrowAccountInfo) {
+        this.investStatus = 'Unopened' // 状态为为开户
+        this.investStatusTitle = '未开户'
+        this.investBtn = '立即开户'
+      }
+    },
+    getInvestStatus() {
+      console.log('status===', this.projectInfo.status)
+      //this.projectInfo.status = 0
+      switch (
+        this.projectInfo.status // 0.预售    1.出借中   2.满标   3.已完结
+      ) {
+        case 0:
+          this.investStatusTitle = '预售中....'
+          this.investStatus = 'willSale'
+          this.isDisableInvestBtn = true
+          break
+        case 1:
+          this.investStatusTitle = '出借中....'
+          this.investStatus = 'lending'
+          break
+      }
     },
     handleCurrentChange(val) {
       this.page = val
@@ -361,6 +391,19 @@ export default {
         this.projectInfo.interestRate = projectInfo.interestRate
         this.projectInfo.minInvAmount = projectInfo.minInvAmount
         this.projectInfo.maxInvTotalAmount = projectInfo.maxInvTotalAmount
+        this.projectInfo.status = projectInfo.status
+
+        // 预售状态中，募集倒计时不倒计
+        if (this.projectInfo.status !== 0) {
+          timeCountDown(investEndTimestamp, data => {
+            if (data.indexOf('天') > -1) {
+              this.projectInfo.investEndDay = data.substr(0, data.indexOf('天') + 1)
+              this.projectInfo.investEndTime = data.substr(data.indexOf('天') + 1, data.length - 1)
+            } else {
+              this.projectInfo.investEndTime = data
+            }
+          })
+        }
 
         let investDetail = data.investDetail
         this.investDetail.appDesc = investDetail.appDesc
@@ -373,14 +416,8 @@ export default {
         this.investDetail.riskAppraisal = investDetail.riskAppraisal
         this.investDetail.riskManagementTip = investDetail.riskManagementTip
 
-        timeCountDown(investEndTimestamp, data => {
-          if (data.indexOf('天') > -1) {
-            this.projectInfo.investEndDay = data.substr(0, data.indexOf('天') + 1)
-            this.projectInfo.investEndTime = data.substr(data.indexOf('天') + 1, data.length - 1)
-          } else {
-            this.projectInfo.investEndTime = data
-          }
-        })
+        this.getUserBasicInfo()
+        this.getInvestStatus()
       })
     },
     getLendDetailList() {
@@ -438,7 +475,6 @@ export default {
     }
   },
   mounted() {
-    this.getUserBasicInfo()
     this.getInvestDetailList()
   }
 }
@@ -604,7 +640,7 @@ export default {
         justify-content: space-around;
         padding: 0 20px;
         .status-title {
-          width: 80px;
+          width: 100px;
           height: 55px;
           line-height: 52px;
           font-size: $font-size-medium-x;
@@ -612,15 +648,22 @@ export default {
           margin-right: 120px;
         }
         .status-btn {
-          width: 60px;
+          width: 70px;
           height: 30px;
-          line-height: 28px;
+          line-height: 30px;
           background: #0083fe;
           font-size: $font-size-small;
           color: #fff;
           text-align: center;
           margin-top: 12px;
           border-radius: 4px;
+          padding: 0;
+          a {
+            display: block;
+            width: 100%;
+            height: 100%;
+            color: #fff;
+          }
           &:hover {
             background: lighten(#0083fe, 5%);
             cursor: pointer;
@@ -756,6 +799,13 @@ export default {
             font-size: $font-size-medium;
             color: #fff;
             cursor: pointer;
+            &:disabled {
+              background: #b1b1b1;
+              &:hover {
+                background: #b1b1b1;
+                cursor: not-allowed;
+              }
+            }
             &:hover {
               background: lighten(#fb891f, 5%);
               cursor: pointer;
