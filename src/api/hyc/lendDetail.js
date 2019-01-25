@@ -11,6 +11,16 @@ export function investDetail(data) {
   })
 }
 
+// 预期收益计算
+export function expectedIncome(data) {
+  return request({
+    url: 'ExpectedIncome',
+    method: 'post',
+    headers: { 'Content-type': 'application/x-www-form-urlencoded' },
+    data: qs.stringify(data)
+  })
+}
+
 // 获取优质计划-加入记录
 export function investRecord(data) {
   return request({

@@ -43,7 +43,7 @@
         </div>
         <div class="countdown">
           <span class="title">募集倒计时：</span>
-          <span class="large">{{projectInfo.investEndDay}} </span>
+          <span class="large">{{projectInfo.investEndDay}}</span>
           <span>{{projectInfo.investEndTime}}</span>
         </div>
       </div>
@@ -59,28 +59,27 @@
           </p>
           <p class="starting-amount">
             <span class="title">起投金额</span>
-            <span class="value">100.00元</span>
+            <span class="value">{{projectInfo.minInvAmount}}元</span>
           </p>
           <p class="single-limit">
             <span class="title">单人限额</span>
-            <span class="value">100,000.00元</span>
+            <span class="value">{{projectInfo.maxInvTotalAmount}}元</span>
           </p>
           <div class="risk-notice">
-            <el-checkbox v-model="isAgree">
-              已阅读并同意
-              <a href="#">《风险告知书》</a>
+            <el-checkbox v-model="isAgree">已阅读并同意
+              <router-link target="_blank" :to="{ name: 'riskNoticationLetterAgreement'}">《风险告知书》</router-link>
             </el-checkbox>
           </div>
           <div class="all-lending">
             <el-checkbox class="all-lending-checkbox" v-model="isAllLending">全部出借</el-checkbox>
           </div>
           <div class="action">
-            <input class="amount-input">
+            <input class="amount-input" v-model="invAmount" @keyup="handleExpectedIncome">
             <button class="action-btn">立即开户</button>
           </div>
           <p class="expected-profits">
             <span class="title">预期收益：</span>
-            <span class="value">0.00</span>
+            <span class="value">{{expectedIncome}}元</span>
           </p>
         </div>
       </div>
@@ -94,17 +93,17 @@
       >
         <el-tab-pane label="出借详情" name="CJXQ">
           <div v-if="lendDetailActiveName === 'CJXQ'" class="content">
-            <p
-              class="desc"
-            >{{investDetail.appDesc}}</p>
+            <p class="desc">{{investDetail.appDesc}}</p>
             <ul class="detail-list">
               <li>
                 <p class="title">
                   <span>协议</span>
                 </p>
-                <router-link target="_blank" class="value" :to="{ name: 'threePartyAgreement', query: {productId: productId}}">
-                  《三方协议》
-                </router-link>
+                <router-link
+                  target="_blank"
+                  class="value"
+                  :to="{ name: 'threePartyAgreement', query: {productId: productId}}"
+                >《三方协议》</router-link>
               </li>
               <li>
                 <p class="title">
@@ -146,16 +145,13 @@
                 <p class="title">
                   <span>项目风险评估及可能产生的风险结果</span>
                 </p>
-                <span
-                  class="value"
-                >{{investDetail.riskAppraisal}}</span>
+                <span class="value">{{investDetail.riskAppraisal}}</span>
               </li>
               <li>
                 <p class="title">
                   <span>出借人适当性管理提示</span>
                 </p>
-                <span class="value">{{investDetail.riskManagementTip}}
-                </span>
+                <span class="value">{{investDetail.riskManagementTip}}</span>
               </li>
             </ul>
           </div>
@@ -191,7 +187,13 @@
               border
             >
               <el-table-column align="center" prop="borrowerName" label="借款人" width="220"></el-table-column>
-              <el-table-column align="center" height="40" prop="loanAmt" label="借款金额(元)" width="214"></el-table-column>
+              <el-table-column
+                align="center"
+                height="40"
+                prop="loanAmt"
+                label="借款金额(元)"
+                width="214"
+              ></el-table-column>
               <el-table-column
                 align="center"
                 height="40"
@@ -199,7 +201,13 @@
                 label="历史平均年化收益率"
                 width="232"
               ></el-table-column>
-              <el-table-column align="center" height="40" prop="loanStatus" label="还款状态" width="205"></el-table-column>
+              <el-table-column
+                align="center"
+                height="40"
+                prop="loanStatus"
+                label="还款状态"
+                width="205"
+              ></el-table-column>
               <el-table-column align="center" height="40" prop="invTime" label="项目详情" width="204">
                 <template slot-scope="scope">
                   <a
@@ -240,9 +248,10 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import Pagination from '@/components/pagination/pagination'
 import { timeCountDown } from '@/assets/js/utils'
-import { investDetail, investRecord, projectCompo } from '@/api/hyc/lendDetail'
+import { investDetail, investRecord, projectCompo, expectedIncome } from '@/api/hyc/lendDetail'
 import ProjectDetail from './projectDetail'
 export default {
   data() {
@@ -250,12 +259,14 @@ export default {
       lendDetailActiveName: 'CJXQ',
       productId: '',
       itemId: '',
-      isAgree: true,
-      isAllLending: true,
+      isAgree: false,
+      isAllLending: false,
       isProjectDetail: false,
       page: 1,
       size: 10,
       total: 0,
+      invAmount: '',
+      expectedIncome: '0.00',
       projectInfo: {
         investEndDay: '',
         investEndTime: '',
@@ -264,7 +275,9 @@ export default {
         surplusAmt: '',
         investPeopleCount: '',
         investPercent: 0,
-        interestRate: ''
+        interestRate: '',
+        minInvAmount: '',
+        maxInvTotalAmount: ''
       },
       investDetail: {
         appDesc: '',
@@ -286,6 +299,12 @@ export default {
     Pagination,
     ProjectDetail
   },
+  computed: {
+    ...mapState({
+      user: state => state.user.user,
+      userBasicInfo: state => state.user.userBasicInfo
+    })
+  },
   methods: {
     handleItemClick() {
       switch (this.lendDetailActiveName) {
@@ -300,9 +319,24 @@ export default {
           break
       }
     },
+    getUserBasicInfo() {
+      console.log('userBasicInfo===', this.userBasicInfo)
+    },
     handleCurrentChange(val) {
       this.page = val
       this.getList()
+    },
+    handleExpectedIncome(item) {
+      console.log(this.invAmount)
+      let postData = {
+        invAmount: this.invAmount,
+        investRate: this.projectInfo.investRate,
+        productId: this.productId
+      }
+      expectedIncome(postData).then(res => {
+        let data = res.data.data
+        this.expectedIncome = data.expectedIncome
+      })
     },
     changeProjectDetail() {
       this.isProjectDetail = false
@@ -325,6 +359,8 @@ export default {
         this.projectInfo.investPeopleCount = projectInfo.investPeopleCount
         this.projectInfo.investPercent = projectInfo.investPercent
         this.projectInfo.interestRate = projectInfo.interestRate
+        this.projectInfo.minInvAmount = projectInfo.minInvAmount
+        this.projectInfo.maxInvTotalAmount = projectInfo.maxInvTotalAmount
 
         let investDetail = data.investDetail
         this.investDetail.appDesc = investDetail.appDesc
@@ -402,6 +438,7 @@ export default {
     }
   },
   mounted() {
+    this.getUserBasicInfo()
     this.getInvestDetailList()
   }
 }
