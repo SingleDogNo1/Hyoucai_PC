@@ -52,9 +52,7 @@ export default {
     returnSelf(ev) {
       const classList = ev.target.classList
       for (let value of classList) {
-        console.log(value)
         if (value === 'router-link-active') {
-          alert(1)
           return false
         }
       }
