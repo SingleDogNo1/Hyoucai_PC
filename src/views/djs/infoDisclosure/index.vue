@@ -18,10 +18,10 @@
     <div class="tab-content-wrap">
       <div class="tab-content" v-if="activeName === 'GYWM'">
         <el-tabs class="about-us-tab" v-model="aboutUsActiveName" type="border-card" @tab-click="handleItemClick(aboutUsActiveName)">
-          <el-tab-pane label="公司简介" name="GSJJ"> <div class="content" v-html="content"></div> </el-tab-pane>
+          <el-tab-pane label="公司简介" name="GSJJ"> <div v-if="aboutUsActiveName === 'GSJJ'" class="content" v-html="content"></div> </el-tab-pane>
           <el-tab-pane label="公司管理" name="GSGL">
-            <div class="content" v-html="content" v-if="paramCode === 'LXWM' || paramCode === 'PTXX'"></div>
-            <div class="company-management" v-if="!paramCode">
+            <div class="content" v-html="content" v-if="aboutUsActiveName === 'GSGL' && paramCode === 'LXWM' || aboutUsActiveName === 'GSGL' && paramCode === 'PTXX'"></div>
+            <div class="company-management" v-if="aboutUsActiveName === 'GSGL' && !paramCode">
               <div class="organizational-structure-wrap"><strong>组织架构</strong> <img src="./images/bg_organizational_structure.png" /></div>
               <div class="executive-team-wrap">
                 <strong>高管团队</strong>
@@ -96,12 +96,12 @@
               <div class="shareholder-composition-wrap"><strong>股东组成</strong> <img src="./images/bg_shareholder.jpg" /></div>
             </div>
           </el-tab-pane>
-          <el-tab-pane label="组织信息" name="ZZXX"> <div class="content" v-html="content"></div> </el-tab-pane>
-          <el-tab-pane label="发展事迹" name="FZSJ"> <div class="content" v-html="content"></div> </el-tab-pane>
-          <el-tab-pane label="合作伙伴" name="HZHB"> <div class="content" v-html="content"></div> </el-tab-pane>
-          <el-tab-pane label="资质荣誉" name="ZZRY">
-            <div class="qualification-honor">
-              <strong>资质荣誉</strong>
+          <el-tab-pane label="组织信息" name="ZZXX"> <div v-if="aboutUsActiveName === 'ZZXX'" class="content" v-html="content"></div> </el-tab-pane>
+          <el-tab-pane label="发展事迹" name="FZSJ"> <div v-if="aboutUsActiveName === 'FZSJ'" class="content" v-html="content"></div> </el-tab-pane>
+          <el-tab-pane label="合作伙伴" name="HZHB"> <div v-if="aboutUsActiveName === 'HZHB'" class="content" v-html="content"></div> </el-tab-pane>
+          <el-tab-pane label="荣誉资质" name="ZZRY">
+            <div v-if="aboutUsActiveName === 'ZZRY'" class="qualification-honor">
+              <strong>荣誉资质</strong>
               <div class="img-list">
                 <div class="img-item" v-for="(item, index) in imgList" :key="index">
                   <img :src="item.picUrl" @click="bigImg(index)" />
@@ -116,7 +116,7 @@
               </div>
             </div>
           </el-tab-pane>
-          <el-tab-pane label="关于点金石" name="GYDJS"> <div class="content" v-html="content"></div> </el-tab-pane>
+          <el-tab-pane label="关于点金石" name="GYDJS"> <div v-if="aboutUsActiveName === 'GYDJS'" class="content" v-html="content"></div> </el-tab-pane>
         </el-tabs>
       </div>
       <div class="tab-content" v-if="activeName === 'YYSJ'">
@@ -349,17 +349,17 @@
       </div>
       <div class="tab-content" v-if="activeName === 'BAXX'">
         <el-tabs class="about-us-tab" v-model="recordInfoActiveName" type="border-card" @tab-click="handleItemClick(recordInfoActiveName)">
-          <el-tab-pane label="备案登记信息" name="BADJ"> <div class="content" v-html="content"></div> </el-tab-pane>
-          <el-tab-pane label="资金存管信息" name="ZJCG"> <div class="content" v-html="content"></div> </el-tab-pane>
-          <el-tab-pane label="风险管理信息" name="FXGL"> <div class="content" v-html="content"></div> </el-tab-pane>
-          <el-tab-pane label="公安网站备案" name="GAWZBA"> <div class="content" v-html="content"></div> </el-tab-pane>
-          <el-tab-pane label="电信业务经营许可证" name="ICP"> <div class="content" v-html="content"></div> </el-tab-pane>
+          <el-tab-pane label="备案登记信息" name="BADJ"> <div v-if="recordInfoActiveName === 'BADJ'" class="content" v-html="content"></div> </el-tab-pane>
+          <el-tab-pane label="资金存管信息" name="ZJCG"> <div v-if="recordInfoActiveName === 'ZJCG'" class="content" v-html="content"></div> </el-tab-pane>
+          <el-tab-pane label="风险管理信息" name="FXGL"> <div v-if="recordInfoActiveName === 'FXGL'" class="content" v-html="content"></div> </el-tab-pane>
+          <el-tab-pane label="公安网站备案" name="GAWZBA"> <div v-if="recordInfoActiveName === 'GAWZBA'" class="content" v-html="content"></div> </el-tab-pane>
+          <el-tab-pane label="电信业务经营许可证" name="ICP"> <div v-if="recordInfoActiveName === 'ICP'" class="content" v-html="content"></div> </el-tab-pane>
         </el-tabs>
       </div>
       <div class="tab-content" v-if="activeName === 'CPXG'">
         <el-tabs class="about-us-tab" v-model="productAboutActiveName" type="border-card" @tab-click="handleItemClick(productAboutActiveName)">
-          <el-tab-pane label="产品信息" name="CPXXTAB"> <div class="content" v-html="content"></div> </el-tab-pane>
-          <el-tab-pane label="资费标准" name="ZFBZ"> <div class="content" v-html="content"></div> </el-tab-pane>
+          <el-tab-pane label="产品信息" name="CPXXTAB"> <div v-if="productAboutActiveName === 'CPXXTAB'" class="content" v-html="content"></div> </el-tab-pane>
+          <el-tab-pane label="资费标准" name="ZFBZ"> <div v-if="productAboutActiveName === 'ZFBZ'" class="content" v-html="content"></div> </el-tab-pane>
         </el-tabs>
       </div>
       <div class="tab-content" v-if="activeName === 'SHXX'">
@@ -383,22 +383,24 @@
       <div class="tab-content policies" v-if="activeName === 'ZCFG'">
         <el-tabs class="about-us-tab" v-model="policiesActiveName" type="border-card" @tab-click="handleItemClick(policiesActiveName)">
           <el-tab-pane label="法律法规" name="FLFG">
-            <div class="laws-wrap">
-              <ul>
-                <li v-for="(item, index) in lawsList" :key="index">
-                  <router-link class="title" :to="{ name: 'announcementDetail', params: { id: item.id }, query: { paramCode: activeName } }">
-                    {{ item.title }}
-                  </router-link>
-                  <span class="time">{{ item.createTime }}</span>
-                </li>
-              </ul>
+            <div v-if="policiesActiveName === 'FLFG'">
+              <div class="laws-wrap">
+                <ul>
+                  <li v-for="(item, index) in lawsList" :key="index">
+                    <router-link class="title" :to="{ name: 'announcementDetail', params: { id: item.id }, query: { paramCode: activeName } }">{{
+                      item.title
+                    }}</router-link>
+                    <span class="time">{{ item.createTime }}</span>
+                  </li>
+                </ul>
+              </div>
+              <div class="pagination-wrapper" v-if="total > 1">
+                <pagination v-if="total" :count-page="total" :size-val="size" :page-val="page" @handleCurrentChange="handleCurrentChange"></pagination>
+              </div>
+              <img v-if="isShowBg" src="./images/bg_legal_person.png" />
             </div>
-            <div class="pagination-wrapper" v-if="total > 1">
-              <pagination v-if="total" :count-page="total" :size-val="size" :page-val="page" @handleCurrentChange="handleCurrentChange"></pagination>
-            </div>
-            <img v-if="isShowBg" src="./images/bg_legal_person.png" />
           </el-tab-pane>
-          <el-tab-pane label="出借人教育" name="CJRJY"> <div class="content" v-html="content"></div> </el-tab-pane>
+          <el-tab-pane label="出借人教育" name="CJRJY"> <div v-if="policiesActiveName === 'CJRJY'" class="content" v-html="content"></div> </el-tab-pane>
         </el-tabs>
       </div>
       <div class="tab-content" v-if="activeName === 'FRCNH'">
@@ -595,6 +597,231 @@ export default {
       if (this.activeName === 'YYSJ') {
         //this.handleItemClick(this.activeName)
         this.handleOperationalData()
+      }
+      if (this.activeName === 'BAXX') {
+        this.recordInfoActiveName = 'BADJ'
+        this.handleItemClick(this.recordInfoActiveName)
+      }
+      if (this.activeName === 'CPXG') {
+        this.productAboutActiveName = 'CPXXTAB'
+        this.handleItemClick(this.productAboutActiveName)
+      }
+      if (this.activeName === 'ZCFG') {
+        this.policiesActiveName = 'FLFG'
+        this.handleItemClick(this.policiesActiveName)
+      }
+    },
+    handleItemClick(tabItem) {
+      this.paramCode = ''
+      if (tabItem === 'GSGL' && !this.paramCode) {
+        setTimeout(() => {
+          const ageChart = echarts.init(document.getElementById('age-chart'))
+          ageChart.setOption({
+            tooltip: {
+              trigger: 'item',
+              formatter: '{a} <br/>{b}: {c} ({d}%)'
+            },
+            color: ['#FA8B2F', '#FFD665', '#FB6E4A', '#FFB368'],
+            legend: {
+              orient: 'vertical',
+              x: 'center',
+              y: 'center',
+              itemWidth: 10,
+              itemHeight: 10,
+              data: ['25-30岁', '25岁以下', '31-35岁', '36岁以上']
+            },
+            series: [
+              {
+                name: '年龄分布',
+                type: 'pie',
+                radius: ['50%', '70%'],
+                avoidLabelOverlap: false,
+                label: {
+                  normal: {
+                    show: true,
+                    position: 'outer', //标签的位置
+                    textStyle: {
+                      fontWeight: 100,
+                      fontSize: 12 //文字的字体大小
+                    },
+                    formatter: '{d}%',
+                    padding: [0, -20]
+                  },
+                  emphasis: {
+                    show: true,
+                    textStyle: {
+                      fontSize: '12',
+                      fontWeight: 'bold'
+                    }
+                  }
+                },
+                labelLine: {
+                  normal: {
+                    show: false
+                  }
+                },
+                data: [
+                  { value: 42, name: '25-30岁' },
+                  { value: 26, name: '25岁以下' },
+                  { value: 20, name: '31-35岁' },
+                  { value: 12, name: '36岁以上' }
+                ]
+              }
+            ]
+          })
+          ageChart.dispatchAction({
+            type: 'highlight',
+            seriesIndex: 0,
+            dataIndex: 0
+          })
+          ageChart.dispatchAction({
+            type: 'showTip',
+            seriesIndex: 0,
+            dataIndex: 0
+          })
+          const educationChart = echarts.init(document.getElementById('education-chart'))
+          educationChart.setOption({
+            tooltip: {
+              trigger: 'item',
+              formatter: '{a} <br/>{b}: {c} ({d}%)'
+            },
+            color: ['#48AFFF', '#4ABBF7', '#76DDFB'],
+            legend: {
+              orient: 'vertical',
+              x: 'center',
+              y: 'center',
+              itemWidth: 10,
+              itemHeight: 10,
+              data: ['大学及本科', '硕士及博士', '其他']
+            },
+            series: [
+              {
+                name: '学历分布',
+                type: 'pie',
+                radius: ['50%', '70%'],
+                avoidLabelOverlap: false,
+                label: {
+                  normal: {
+                    show: true,
+                    position: 'outer', //标签的位置
+                    textStyle: {
+                      fontWeight: 100,
+                      fontSize: 12 //文字的字体大小
+                    },
+                    formatter: '{d}%'
+                  },
+                  emphasis: {
+                    show: true,
+                    textStyle: {
+                      fontSize: '12',
+                      fontWeight: 'bold'
+                    }
+                  }
+                },
+                labelLine: {
+                  normal: {
+                    show: false
+                  }
+                },
+                data: [{ value: 85, name: '大学及本科' }, { value: 11, name: '硕士及博士' }, { value: 4, name: '其他' }]
+              }
+            ]
+          })
+          educationChart.dispatchAction({
+            type: 'highlight',
+            seriesIndex: 0,
+            dataIndex: 0
+          })
+          educationChart.dispatchAction({
+            type: 'showTip',
+            seriesIndex: 0,
+            dataIndex: 0
+          })
+        }, 200)
+      }
+      let postData = {
+        curPage: this.page,
+        maxLine: this.size,
+        paramCode: tabItem
+      }
+      getList(postData).then(res => {
+        let data = res.data
+        if (data.zxdtMtbdlist.length > 0) {
+          this.content = data.zxdtMtbdlist[0].content
+          if (tabItem === 'FLFG') {
+            this.lawsList = data.zxdtMtbdlist
+            this.total = parseInt(data.countPage)
+            this.page = parseInt(data.curPage)
+            this.isShowBg = true
+          }
+        }
+      })
+    },
+    bigImg(index) {
+      this.showBigImg = true
+      this.num = index
+    },
+    prev() {
+      if (this.num == 0) {
+        this.num = 11
+      }
+      this.num--
+    },
+    next() {
+      if (this.num == 10) {
+        this.num = -1
+      }
+      this.num++
+    },
+    close() {
+      this.showBigImg = false
+    },
+    handleOperationalData() {
+      getOperationalData().then(res => {
+        let data = res.data.data
+        this.accumulatedLoanAmount = data.accumulatedLoanAmount
+        this.accumulativeCompensation = data.accumulativeCompensation
+        this.accumulativeCompensationAmount = data.accumulativeCompensationAmount
+        this.accumulativeLoanAmountPerCapita = data.accumulativeLoanAmountPerCapita
+        this.accumulativeLoanCount = data.accumulativeLoanCount
+        this.accumulativeOutLoanAmountPerCapita = data.accumulativeOutLoanAmountPerCapita
+        this.creditBalance = data.creditBalance
+        this.cumulativeNumberOfBorrower = data.cumulativeNumberOfBorrower
+        this.cumulativeNumberOfLender = data.cumulativeNumberOfLender
+        this.currentNumberOfBorrower = data.currentNumberOfBorrower
+        this.currentNumberOfLender = data.currentNumberOfLender
+        this.lendingAgeDistributeAmount18 = data.lendingAgeDistributeAmount18
+        this.lendingAgeDistributeAmount20 = data.lendingAgeDistributeAmount20
+        this.lendingAgeDistributeAmount30 = data.lendingAgeDistributeAmount30
+        this.lendingAgeDistributeAmount40 = data.lendingAgeDistributeAmount40
+        this.lendingAgeDistributeAmount50 = data.lendingAgeDistributeAmount50
+        this.lendingAgeDistributePer18 = data.lendingAgeDistributePer18
+        this.lendingAgeDistributePer20 = data.lendingAgeDistributePer20
+        this.lendingAgeDistributePer30 = data.lendingAgeDistributePer30
+        this.lendingAgeDistributePer40 = data.lendingAgeDistributePer40
+        this.lendingAgeDistributePer50 = data.lendingAgeDistributePer50
+        this.lendingAmountDistribute1 = data.lendingAmountDistribute1
+        this.lendingAmountDistribute5 = data.lendingAmountDistribute5
+        this.lendingAmountDistribute10 = data.lendingAmountDistribute10
+        this.lendingAmountDistribute20 = data.lendingAmountDistribute20
+        this.lendingAmountDistributeAbove20 = data.lendingAmountDistributeAbove20
+        this.lendingGenderDistributeFemale = data.lendingGenderDistributeFemale
+        this.lendingGenderDistributeMale = data.lendingGenderDistributeMale
+        this.lendingTerminalDistributeMobile = data.lendingTerminalDistributeMobile
+        this.lendingTerminalDistributeWeb = data.lendingTerminalDistributeWeb
+        this.loanBalanceCount = data.loanBalanceCount
+        this.loanStatisticsEndTime = data.loanStatisticsEndTime
+        this.numberOfLoanBalances = data.numberOfLoanBalances
+        this.numberOfLoanBalancesAmount = data.numberOfLoanBalancesAmount
+        this.overdueAmount = data.overdueAmount
+        this.overdueAmountMoreThan90 = data.overdueAmountMoreThan90
+        this.overdueCount = data.overdueCount
+        this.overdueCountMoreThan90 = data.overdueCountMoreThan90
+        this.platformDataStatisticsEndTime = data.platformDataStatisticsEndTime
+        this.proportionOfLargestSingleBorrowerOutstandingAmount = data.proportionOfLargestSingleBorrowerOutstandingAmount
+        this.proportionOfLargestSingleLendingBalance = data.proportionOfLargestSingleLendingBalance
+        this.proportionOfLargestTenLendingBalance = data.proportionOfLargestTenLendingBalance
+        this.proportionOfOutstandingAmountTopTenBorrower = data.proportionOfOutstandingAmountTopTenBorrower
         setTimeout(() => {
           const terminalChart = echarts.init(document.getElementById('terminal-chart'))
           terminalChart.setOption({
@@ -606,11 +833,11 @@ export default {
             legend: {
               show: false,
               orient: 'vertical',
-              x: 'right',
+              x: 'center',
               y: 'center',
               itemWidth: 10,
               itemHeight: 10,
-              data: ['web端', '移动端']
+              data: ['移动端', 'web端']
             },
             series: [
               {
@@ -637,11 +864,21 @@ export default {
                   }
                 },
                 data: [
-                  { value: parseFloat(this.lendingTerminalDistributeMobile), name: 'web端' },
-                  { value: parseFloat(this.lendingTerminalDistributeWeb), name: '移动端' }
+                  { value: parseFloat(this.lendingTerminalDistributeMobile), name: '移动端' },
+                  { value: parseFloat(this.lendingTerminalDistributeWeb), name: 'web端' }
                 ]
               }
             ]
+          })
+          terminalChart.dispatchAction({
+            type: 'highlight',
+            seriesIndex: 0,
+            dataIndex: 0
+          })
+          terminalChart.dispatchAction({
+            type: 'showTip',
+            seriesIndex: 0,
+            dataIndex: 0
           })
           const genderChart = echarts.init(document.getElementById('gender-chart'))
           genderChart.setOption({
@@ -649,7 +886,7 @@ export default {
               trigger: 'item',
               formatter: '{a} <br/>{b}: {c} ({d}%)'
             },
-            color: ['#FF5178', '#22C9FF'],
+            color: ['#22C9FF', '#FF5178'],
             legend: {
               show: false,
               orient: 'vertical',
@@ -689,6 +926,16 @@ export default {
                 ]
               }
             ]
+          })
+          genderChart.dispatchAction({
+            type: 'highlight',
+            seriesIndex: 0,
+            dataIndex: 0
+          })
+          genderChart.dispatchAction({
+            type: 'showTip',
+            seriesIndex: 0,
+            dataIndex: 0
           })
           const amountChart = echarts.init(document.getElementById('amount-chart'))
           amountChart.setOption({
@@ -739,6 +986,16 @@ export default {
                 ]
               }
             ]
+          })
+          amountChart.dispatchAction({
+            type: 'highlight',
+            seriesIndex: 0,
+            dataIndex: 0
+          })
+          amountChart.dispatchAction({
+            type: 'showTip',
+            seriesIndex: 0,
+            dataIndex: 0
           })
           const lendChart = echarts.init(document.getElementById('lend-chart'))
           lendChart.setOption({
@@ -838,211 +1095,6 @@ export default {
             ]
           })
         }, 200)
-      }
-      if (this.activeName === 'BAXX') {
-        this.recordInfoActiveName = 'BADJ'
-        this.handleItemClick(this.recordInfoActiveName)
-      }
-      if (this.activeName === 'CPXG') {
-        this.productAboutActiveName = 'CPXXTAB'
-        this.handleItemClick(this.productAboutActiveName)
-      }
-      if (this.activeName === 'ZCFG') {
-        this.policiesActiveName = 'FLFG'
-        this.handleItemClick(this.policiesActiveName)
-      }
-    },
-    handleItemClick(tabItem) {
-      this.paramCode = ''
-      if (tabItem === 'GSGL' && !this.paramCode) {
-        setTimeout(() => {
-          const ageChart = echarts.init(document.getElementById('age-chart'))
-          ageChart.setOption({
-            tooltip: {
-              trigger: 'item',
-              formatter: '{a} <br/>{b}: {c} ({d}%)'
-            },
-            color: ['#FA8B2F', '#FB6E4A', '#FFD665', '#FFB368'],
-            legend: {
-              orient: 'vertical',
-              x: 'center',
-              y: 'center',
-              itemWidth: 10,
-              itemHeight: 10,
-              data: ['25岁以下', '25-30岁', '31-35岁', '36岁以上']
-            },
-            series: [
-              {
-                name: '年龄分布',
-                type: 'pie',
-                radius: ['50%', '70%'],
-                avoidLabelOverlap: false,
-                label: {
-                  normal: {
-                    show: true,
-                    position: 'outer', //标签的位置
-                    textStyle: {
-                      fontWeight: 100,
-                      fontSize: 12 //文字的字体大小
-                    },
-                    formatter: '{d}%',
-                    padding: [0, -20]
-                  },
-                  emphasis: {
-                    show: true,
-                    textStyle: {
-                      fontSize: '12',
-                      fontWeight: 'bold'
-                    }
-                  }
-                },
-                labelLine: {
-                  normal: {
-                    show: false
-                  }
-                },
-                data: [
-                  { value: 20, name: '31-35岁' },
-                  { value: 42, name: '25-30岁' },
-                  { value: 26, name: '25岁以下' },
-                  { value: 12, name: '36岁以上' }
-                ]
-              }
-            ]
-          })
-          const educationChart = echarts.init(document.getElementById('education-chart'))
-          educationChart.setOption({
-            tooltip: {
-              trigger: 'item',
-              formatter: '{a} <br/>{b}: {c} ({d}%)'
-            },
-            color: ['#48AFFF', '#76DDFB', '#4ABBF7'],
-            legend: {
-              orient: 'vertical',
-              x: 'center',
-              y: 'center',
-              itemWidth: 10,
-              itemHeight: 10,
-              data: ['大学及本科', '硕士及博士', '其他']
-            },
-            series: [
-              {
-                name: '学历分布',
-                type: 'pie',
-                radius: ['50%', '70%'],
-                avoidLabelOverlap: false,
-                label: {
-                  normal: {
-                    show: true,
-                    position: 'outer', //标签的位置
-                    textStyle: {
-                      fontWeight: 100,
-                      fontSize: 12 //文字的字体大小
-                    },
-                    formatter: '{d}%'
-                  },
-                  emphasis: {
-                    show: true,
-                    textStyle: {
-                      fontSize: '12',
-                      fontWeight: 'bold'
-                    }
-                  }
-                },
-                labelLine: {
-                  normal: {
-                    show: false
-                  }
-                },
-                data: [{ value: 4, name: '其他' }, { value: 11, name: '硕士及博士' }, { value: 85, name: '大学及本科' }]
-              }
-            ]
-          })
-        }, 200)
-      }
-      let postData = {
-        curPage: this.page,
-        maxLine: this.size,
-        paramCode: tabItem
-      }
-      getList(postData).then(res => {
-        let data = res.data
-        if (data.zxdtMtbdlist.length > 0) {
-          this.content = data.zxdtMtbdlist[0].content
-          if (tabItem === 'FLFG') {
-            this.lawsList = data.zxdtMtbdlist
-            this.total = parseInt(data.countPage)
-            this.page = parseInt(data.curPage)
-            this.isShowBg = true
-          }
-        }
-      })
-    },
-    bigImg(index) {
-      this.showBigImg = true
-      this.num = index
-    },
-    prev() {
-      if (this.num == 0) {
-        this.num = 11
-      }
-      this.num--
-    },
-    next() {
-      if (this.num == 10) {
-        this.num = -1
-      }
-      this.num++
-    },
-    close() {
-      this.showBigImg = false
-    },
-    handleOperationalData() {
-      getOperationalData().then(res => {
-        let data = res.data.data
-        this.accumulatedLoanAmount = data.accumulatedLoanAmount
-        this.accumulativeCompensation = data.accumulativeCompensation
-        this.accumulativeCompensationAmount = data.accumulativeCompensationAmount
-        this.accumulativeLoanAmountPerCapita = data.accumulativeLoanAmountPerCapita
-        this.accumulativeLoanCount = data.accumulativeLoanCount
-        this.accumulativeOutLoanAmountPerCapita = data.accumulativeOutLoanAmountPerCapita
-        this.creditBalance = data.creditBalance
-        this.cumulativeNumberOfBorrower = data.cumulativeNumberOfBorrower
-        this.cumulativeNumberOfLender = data.cumulativeNumberOfLender
-        this.currentNumberOfBorrower = data.currentNumberOfBorrower
-        this.currentNumberOfLender = data.currentNumberOfLender
-        this.lendingAgeDistributeAmount18 = data.lendingAgeDistributeAmount18
-        this.lendingAgeDistributeAmount20 = data.lendingAgeDistributeAmount20
-        this.lendingAgeDistributeAmount30 = data.lendingAgeDistributeAmount30
-        this.lendingAgeDistributeAmount40 = data.lendingAgeDistributeAmount40
-        this.lendingAgeDistributeAmount50 = data.lendingAgeDistributeAmount50
-        this.lendingAgeDistributePer18 = data.lendingAgeDistributePer18
-        this.lendingAgeDistributePer20 = data.lendingAgeDistributePer20
-        this.lendingAgeDistributePer30 = data.lendingAgeDistributePer30
-        this.lendingAgeDistributePer40 = data.lendingAgeDistributePer40
-        this.lendingAgeDistributePer50 = data.lendingAgeDistributePer50
-        this.lendingAmountDistribute1 = data.lendingAmountDistribute1
-        this.lendingAmountDistribute5 = data.lendingAmountDistribute5
-        this.lendingAmountDistribute10 = data.lendingAmountDistribute10
-        this.lendingAmountDistribute20 = data.lendingAmountDistribute20
-        this.lendingAmountDistributeAbove20 = data.lendingAmountDistributeAbove20
-        this.lendingGenderDistributeFemale = data.lendingGenderDistributeFemale
-        this.lendingGenderDistributeMale = data.lendingGenderDistributeMale
-        this.lendingTerminalDistributeMobile = data.lendingTerminalDistributeMobile
-        this.lendingTerminalDistributeWeb = data.lendingTerminalDistributeWeb
-        this.loanBalanceCount = data.loanBalanceCount
-        this.loanStatisticsEndTime = data.loanStatisticsEndTime
-        this.numberOfLoanBalances = data.numberOfLoanBalances
-        this.numberOfLoanBalancesAmount = data.numberOfLoanBalancesAmount
-        this.overdueAmount = data.overdueAmount
-        this.overdueAmountMoreThan90 = data.overdueAmountMoreThan90
-        this.overdueCount = data.overdueCount
-        this.overdueCountMoreThan90 = data.overdueCountMoreThan90
-        this.platformDataStatisticsEndTime = data.platformDataStatisticsEndTime
-        this.proportionOfLargestSingleBorrowerOutstandingAmount = data.proportionOfLargestSingleBorrowerOutstandingAmount
-        this.proportionOfLargestSingleLendingBalance = data.proportionOfLargestSingleLendingBalance
-        this.proportionOfLargestTenLendingBalance = data.proportionOfLargestTenLendingBalance
-        this.proportionOfOutstandingAmountTopTenBorrower = data.proportionOfOutstandingAmountTopTenBorrower
       })
     },
     openPDF(url) {
@@ -1068,6 +1120,18 @@ export default {
       if (this.$route.query.paramCode === 'CJRJY') {
         this.activeName = 'ZCFG'
         this.policiesActiveName = 'CJRJY'
+      }
+      if (this.$route.query.paramCode === 'GSJJ') {
+        this.activeName = 'GYWM'
+        this.aboutUsActiveName = 'GSJJ'
+      }
+      if (this.$route.query.paramCode === 'YYSJ') {
+        this.activeName = 'YYSJ'
+        this.handleOperationalData()
+      }
+      if (this.$route.query.paramCode === 'ZJCG') {
+        this.activeName = 'BAXX'
+        this.recordInfoActiveName = 'ZJCG'
       }
       this.paramCode = this.$route.query.paramCode
       if (this.paramCode) {
@@ -1163,14 +1227,17 @@ export default {
     margin-bottom: 47px;
     padding: 0 12px;
     .about-us-tab {
-      /deep/ .el-tabs__item {
-        height: 60px;
-        line-height: 58px;
-        font-size: $font-size-small-s;
-        color: $color-text-s;
-        &.is-active {
-          box-shadow: inset 0 2px 0 0 #fb9d1f;
-          color: #fb891f;
+      /deep/ .el-tabs__header {
+        background-color: #fff;
+        /deep/ .el-tabs__item {
+          height: 60px;
+          line-height: 60px;
+          font-size: $font-size-small-s;
+          color: $color-text-s;
+          &.is-active {
+            box-shadow: inset 0 2px 0 0 #fb9d1f;
+            color: #fb891f;
+          }
         }
       }
       .company-management {

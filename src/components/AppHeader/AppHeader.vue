@@ -2,10 +2,12 @@
   <header class="app-header-wrapper">
     <div class="header">
       <div class="left">
-        <img src="./logo.png" class="logo" alt="" @click="$router.push('/')" />
+        <div class="logo" @click="$router.push('/')"></div>
         <div class="swiper-container slogan">
           <div class="swiper-wrapper">
-            <div class="swiper-slide"><img src="./slogan.png" alt="" /></div>
+            <div class="swiper-slide">
+              <div class="slogan-text"></div>
+            </div>
           </div>
         </div>
       </div>
@@ -21,13 +23,20 @@
           <router-link tag="li" to="/infoDisclosure?paramCode=LXWM">联系我们</router-link>
           <li class="wx-qr-code">
             <i class="iconfont icon-weChat_nav" @mouseenter="showWXCode" @mouseleave="hideWXCode"></i>
-            <transition name="fade"> <div class="qr-code" v-show="WXCodeFlag"></div> </transition>
+            <transition name="fade">
+              <div class="qr-code" v-show="WXCodeFlag"></div>
+            </transition>
           </li>
           <li class="app-qr-code">
             <i class="iconfont icon-phone_nav" @mouseenter="showAppCode" @mouseleave="hideAppCode"></i>
-            <transition name="fade"> <div class="qr-code" v-show="AppCodeFlag"></div> </transition>
+            <transition name="fade">
+              <div class="qr-code" v-show="AppCodeFlag"></div>
+            </transition>
           </li>
-          <li class="contact"><i class="iconfont icon-tell_nav"></i> <img src="./tel.png" alt="" /></li>
+          <li class="contact">
+            <i class="iconfont icon-tell_nav"></i>
+            <span class="tel-text"></span>
+          </li>
         </ul>
         <ul class="navs">
           <router-link tag="li" to="/">首页</router-link>
@@ -122,9 +131,19 @@ export default {
       align-items: center;
       .logo {
         @include cube(146px, 56px);
+        width: 148px;
+        height: 56px;
+        background: url('bg_header.png') -10px -151px;
+        background-size: 172px auto;
       }
       .slogan {
         @include cube(164px, 56px);
+        .slogan-text {
+          width: 162px;
+          height: 56px;
+          background: url('bg_header.png') -10px -217px;
+          background-size: 172px auto;
+        }
       }
     }
     .right {
@@ -158,7 +177,9 @@ export default {
             position: absolute;
             @include square(100px);
             margin-left: -50px;
-            background: url('./wx-qr-code.png') 0 / contain;
+            width: 100px;
+            height: 100px;
+            background: url('bg_header.png') -10px -178px;
           }
         }
         .app-qr-code {
@@ -166,13 +187,19 @@ export default {
             position: absolute;
             @include square(100px);
             margin-left: -50px;
-            background: url('./app-qr-code.png') 0 / contain;
+            width: 100px;
+            height: 100px;
+            background: url('bg_header.png') -10px -54px;
           }
         }
         .contact {
-          img {
+          .tel-text {
+            display: inline-block;
             margin-left: 5px;
-            width: 110px;
+            width: 98px;
+            height: 12px;
+            background: url('bg_header.png') -5px -5px;
+            background-size: 172px auto;
           }
         }
       }
@@ -193,6 +220,10 @@ export default {
           &.router-link-exact-active {
             color: $color-theme;
             border-bottom: 2px solid $color-theme;
+          }
+          &:hover {
+            color: $color-theme;
+            border-bottom: 2px solid #efa21c;
           }
         }
       }

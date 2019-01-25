@@ -1,19 +1,13 @@
 <template>
   <div class="basicInfo">
     <header>
-      <div class="last_time">上次登录时间:&nbsp;&nbsp;{{lastLoginTime}}</div>
+      <div class="last_time">上次登录时间:&nbsp;&nbsp;{{ lastLoginTime }}</div>
       <div class="data_full">
-        <span class="text">资料完整度</span>
-        <span class="bar"></span>
-        <span class="crade">{{infoFinishGrade}}</span>
+        <span class="text">资料完整度</span> <span class="bar"></span> <span class="crade">{{ infoFinishGrade }}</span>
       </div>
       <div class="authentication">
-        <div class="identity">
-          <img src="./identity.png">
-        </div>
-        <div class="phone">
-          <img src="./phone.png">
-        </div>
+        <div class="identity"><img src="./identity.png" /></div>
+        <div class="phone"><img src="./phone.png" /></div>
       </div>
     </header>
     <!-- 个人信息 -->
@@ -21,32 +15,27 @@
       <h3 class="title">个人信息</h3>
       <div class="wrap">
         <div class="wrap_rows">
-          <span class="wrap_left">昵称修改</span>
-          <span class="wrap_center">{{nickname}}</span>
+          <span class="wrap_left">昵称修改</span> <span class="wrap_center">{{ nickname }}</span>
           <button class="wrap_btn" @click="isShow.isShow1 = !isShow.isShow1">修改</button>
         </div>
         <Name v-show="isShow.isShow1" :isShow="isShow" @success="success"></Name>
         <div class="wrap_rows">
-          <span class="wrap_left">登录密码</span>
-          <span class="wrap_center">{{passWord}}</span>
+          <span class="wrap_left">登录密码</span> <span class="wrap_center">{{ passWord }}</span>
           <button class="wrap_btn" @click="isShow.isShow2 = !isShow.isShow2">修改</button>
         </div>
         <Password v-show="isShow.isShow2" :isShow="isShow"></Password>
         <div class="wrap_rows">
-          <span class="wrap_left">注册手机号</span>
-          <span class="wrap_center">{{mobile}}</span>
+          <span class="wrap_left">注册手机号</span> <span class="wrap_center">{{ mobile }}</span>
           <button class="wrap_btn" @click="isShow.isShow3 = !isShow.isShow3">修改</button>
         </div>
         <Phone v-show="isShow.isShow3" :isShow="isShow" :oldMobile="mobile"></Phone>
         <div class="wrap_rows">
-          <span class="wrap_left">风险测评</span>
-          <span class="wrap_center">{{evaluatingResult.evaluatingName}}</span>
-          <button class="wrap_btn" v-show="!isEvaluation">未测评</button>
-          <button class="wrap_btn" v-show="isEvaluation">重新测评</button>
+          <span class="wrap_left">风险测评</span> <span class="wrap_center">{{ evaluatingResult.evaluatingName }}</span>
+          <button class="wrap_btn" v-show="!isEvaluation" @click="toRiskAssessment">未测评</button>
+          <button class="wrap_btn" v-show="isEvaluation" @click="toRiskAssessment">重新测评</button>
         </div>
         <div class="wrap_rows last_rows">
-          <span class="wrap_left">收货地址</span>
-          <span class="wrap_center">{{address}}</span>
+          <span class="wrap_left">收货地址</span> <span class="wrap_center">{{ address }}</span>
           <button class="wrap_btn" @click="isShow.isShow4 = !isShow.isShow4">修改</button>
         </div>
         <Address v-show="isShow.isShow4" :isShow="isShow"></Address>
@@ -57,42 +46,34 @@
       <h3 class="title">存管信息</h3>
       <div class="wrap" v-show="flag">
         <div class="wrap_rows">
-          <span class="wrap_left">真实姓名</span>
-          <span class="wrap_center">{{escrowAccountInfo.name}}</span>
+          <span class="wrap_left">真实姓名</span> <span class="wrap_center">{{ escrowAccountInfo.name }}</span>
         </div>
         <div class="wrap_rows">
-          <span class="wrap_left">身份证号</span>
-          <span class="wrap_center">{{escrowAccountInfo.idNo}}</span>
+          <span class="wrap_left">身份证号</span> <span class="wrap_center">{{ escrowAccountInfo.idNo }}</span>
         </div>
         <div class="wrap_rows">
-          <span class="wrap_left">存管账户</span>
-          <span class="wrap_center">{{escrowAccountInfo.accountId}}</span>
+          <span class="wrap_left">存管账户</span> <span class="wrap_center">{{ escrowAccountInfo.accountId }}</span>
         </div>
         <div class="wrap_rows">
-          <span class="wrap_left">交易密码</span>
-          <span class="wrap_center">{{escrowAccountInfo.transPassword}}</span>
+          <span class="wrap_left">交易密码</span> <span class="wrap_center">{{ escrowAccountInfo.transPassword }}</span>
           <button class="wrap_btn" @click="tansactionPwd">修改</button>
         </div>
         <div class="wrap_rows last_rows">
-          <span class="wrap_left">电子账户手机号</span>
-          <span class="wrap_center">{{escrowAccountInfo.mobile}}</span>
+          <span class="wrap_left">电子账户手机号</span> <span class="wrap_center">{{ escrowAccountInfo.mobile }}</span>
           <button class="wrap_btn" @click="isShow.isShow5 = !isShow.isShow5">修改</button>
         </div>
         <DzPhone v-show="isShow.isShow5" :isShow="isShow"></DzPhone>
       </div>
       <div class="openAccount" v-show="!flag">
-        <div class="tips">
-          <img src="./bank.png" class="bank_logo">
-          <span class="tips_content">您还未开通存管账户</span>
-        </div>
-        <button class="open_btn">立即开户</button>
+        <div class="tips"><img src="./bank.png" class="bank_logo" /> <span class="tips_content">您还未开通存管账户</span></div>
+        <button class="open_btn" @click="toAccount">立即开户</button>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { getUserBasicInfo, getMailingAddress, tansactionPwd } from '@/api/common/basicInfo'
+import { getMailingAddress, tansactionPwd } from '@/api/common/basicInfo'
 import { mapGetters } from 'vuex'
 import { getRetBaseURL } from '@/assets/js/utils'
 import Name from './popup/name'
@@ -133,7 +114,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['user'])
+    ...mapGetters(['user', 'userBasicInfo'])
   },
   props: {},
   watch: {},
@@ -145,7 +126,6 @@ export default {
       tansactionPwd(obj).then(res => {
         let data = res.data
         let resultCode = data.resultCode
-        // let resultMsg = data.resultMsg
         if (resultCode === '1') {
           let option = data.data.paramReq
           this.postcall(data.data.redirectUrl, option)
@@ -182,48 +162,51 @@ export default {
       this.getUserBasicInfo()
       // this.$forceUpdate()
     },
-    getUserBasicInfo: function() {
-      let data = {}
-      data.userName = this.user.userName
-      getUserBasicInfo(data).then(res => {
-        this.lastLoginTime = res.data.data.lastLoginTime
-        this.nickname = res.data.data.nickname
-        this.passWord = res.data.data.passWord
-        this.mobile = res.data.data.mobileMask
-        // 判断是否风险测评
-        if (res.data.data.evaluatingResult) {
-          this.isEvaluation = true
-          this.evaluatingResult = res.data.data.evaluatingResult
-        }
-        this.hasMailingAddress = res.data.data.hasMailingAddress
-        // 判断用户是否开户
-        if (res.data.data.escrowAccountInfo) {
-          this.escrowAccountInfo = res.data.data.escrowAccountInfo
-          this.flag = true
-        }
-        switch (res.data.data.infoFinishGrade) {
-          case 1:
-            this.infoFinishGrade = '低'
-            break
-          case 2:
-            this.infoFinishGrade = '中'
-            break
-          case 3:
-            this.infoFinishGrade = '高'
-            break
-        }
-        if (this.hasMailingAddress == 1) {
-          getMailingAddress({ userName: this.user.userName })
-        }
+    toRiskAssessment() {
+      this.$router.push({
+        name: 'riskAss'
       })
-      // console.log(this.user.userName)
+    },
+    toAccount() {
+      this.$router.push({
+        name: 'account'
+      })
+    },
+    getUserBasicInfo: function() {
+      this.lastLoginTime = this.userBasicInfo.lastLoginTime
+      this.nickname = this.userBasicInfo.nickname
+      this.passWord = this.userBasicInfo.passWord
+      this.mobile = this.userBasicInfo.mobileMask
+      // 判断是否风险测评
+      if (this.userBasicInfo.evaluatingResult) {
+        this.isEvaluation = true
+        this.evaluatingResult = this.userBasicInfo.evaluatingResult
+      }
+      this.hasMailingAddress = this.userBasicInfo.hasMailingAddress
+      // 判断用户是否开户
+      if (this.userBasicInfo.escrowAccountInfo) {
+        this.escrowAccountInfo = this.userBasicInfo.escrowAccountInfo
+        this.flag = true
+      }
+      switch (this.userBasicInfo.infoFinishGrade) {
+        case 1:
+          this.infoFinishGrade = '低'
+          break
+        case 2:
+          this.infoFinishGrade = '中'
+          break
+        case 3:
+          this.infoFinishGrade = '高'
+          break
+      }
+      if (this.hasMailingAddress == 1) {
+        getMailingAddress({ userName: this.user.userName })
+      }
     }
   },
   created() {
     this.getUserBasicInfo()
-  },
-  mounted() {},
-  destroyed() {}
+  }
 }
 </script>
 

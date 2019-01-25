@@ -285,6 +285,14 @@ export default {
       })
     },
     submitUnionPay() {
+      if (!this.amount) {
+        this.errMsg.amount = '请输入充值金额！'
+        return false
+      }
+      if (this.amount && this.amount < 100) {
+        this.errMsg.amount = '100元起充！'
+        return false
+      }
       let data = {
         amount: this.amount,
         rechargeType: 'KQ',
@@ -314,17 +322,10 @@ export default {
       }
 
       for (let x in params) {
-        if (tempform.action.indexOf('?') > -1) {
-          tempform.action += '&' + x + '=' + params[x]
-        } else {
-          tempform.action += '?' + x + '=' + params[x]
-        }
-        // 不能添加到action中，弃用
-        // let opt = document.createElement('input')
-        // opt.setAttribute('name', x)
-        // opt.setAttribute('value', params[x])
-        // console.log(opt)
-        // tempform.appendChild(opt)
+        let opt = document.createElement('input')
+        opt.setAttribute('name', x)
+        opt.setAttribute('value', params[x])
+        tempform.appendChild(opt)
       }
       let opt = document.createElement('input')
       opt.type = 'submit'

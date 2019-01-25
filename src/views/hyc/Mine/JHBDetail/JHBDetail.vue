@@ -1,21 +1,19 @@
 <template>
   <div class="jhb-detail-wrapper">
-    <header>
-      注：本标为按天计息标，借款人可能提前还款。如果出现提前还款，您所获得实际利息将按借款人实际借款天数计算，请知悉！
-    </header>
+    <header>注：本标为按天计息标，借款人可能提前还款。如果出现提前还款，您所获得实际利息将按借款人实际借款天数计算，请知悉！</header>
     <div class="income coupon" v-if="BenefitPlan.useCoupon === '1'">
       <div class="title">加息收益</div>
       <ul>
         <li>
-          <span>{{BenefitPlan.userCouponRateTemp}}</span>
+          <span>{{ BenefitPlan.userCouponRateTemp }}</span>
           <p>加息利率</p>
         </li>
         <li>
-          <span>{{BenefitPlan.userCouponDays}}</span>
+          <span>{{ BenefitPlan.userCouponDays }}</span>
           <p>加息天数</p>
         </li>
         <li>
-          <span>{{BenefitPlan.userCouponAmount}}</span>
+          <span>{{ BenefitPlan.userCouponAmount }}</span>
           <p>待收加息收益(元)</p>
         </li>
       </ul>
@@ -24,168 +22,132 @@
       <div class="title">收益计划</div>
       <ul>
         <li>
-          <span>{{BenefitPlan.investmentPeriod}}</span>
+          <span>{{ BenefitPlan.investmentPeriod }}</span>
           <p>锁定期</p>
         </li>
         <li>
-          <span>{{BenefitPlan.interestRate}}</span>
+          <span>{{ BenefitPlan.interestRate }}</span>
           <p>计息方式</p>
         </li>
         <li>
-          <span>{{BenefitPlan.investAmount}}</span>
+          <span>{{ BenefitPlan.investAmount }}</span>
           <p>出借本金(元)</p>
         </li>
         <li>
-          <span>{{BenefitPlan.interest}}</span>
+          <span>{{ BenefitPlan.interest }}</span>
           <p>待收利息(元)</p>
         </li>
       </ul>
     </div>
     <table cellspacing="0">
       <thead>
-      <tr>
-        <th>回款日期</th>
-        <th>本金(元)</th>
-        <th>利息(元)</th>
-        <th>状态</th>
-      </tr>
+        <tr>
+          <th>回款日期</th>
+          <th>本金(元)</th>
+          <th>利息(元)</th>
+          <th>状态</th>
+        </tr>
       </thead>
       <tbody>
-      <template v-for="(item, index) in BenefitPlan.gainPlanPerTermList">
-        <tr
-          :key="index"
-          :class="{'done': item.status === '已结清'}"
-        >
-          <td>{{item.gainDate}}</td>
-          <td>{{item.principalPerTerm}}</td>
-          <td>{{item.interest}}</td>
-          <td>{{item.status}}</td>
-        </tr>
-      </template>
+        <template v-for="(item, index) in BenefitPlan.gainPlanPerTermList">
+          <tr :key="index" :class="{ done: item.status === '已结清' }">
+            <td>{{ item.gainDate }}</td>
+            <td>{{ item.principalPerTerm }}</td>
+            <td>{{ item.interest }}</td>
+            <td>{{ item.status }}</td>
+          </tr>
+        </template>
       </tbody>
     </table>
-    <div class="income">
-      <div class="title">项目组成</div>
-    </div>
+    <div class="income"><div class="title">项目组成</div></div>
     <table class="income-table">
       <thead>
-      <tr>
-        <th>标的号</th>
-        <th>出借本金(元)</th>
-        <th>利息(元)</th>
-        <th>借款人详情</th>
-        <th>操作</th>
-      </tr>
+        <tr>
+          <th>标的号</th>
+          <th>出借本金(元)</th>
+          <th>利息(元)</th>
+          <th>借款人详情</th>
+          <th>操作</th>
+        </tr>
       </thead>
       <tbody>
-      <tr
-        v-for="(item, index) in itemDesign"
-        :key="index"
-      >
-        <td>{{item.productId}}</td>
-        <td>{{item.invAmount}}</td>
-        <td>{{item.interest}}</td>
-        <td><p @click="showDetail(item.productId)">查看</p></td>
-        <td v-if="item.showUrl"><a :href="item.showUrl" target="_blank">《三方协议》</a></td>
-        <td v-else><p @click="withoutSignDialog">《三方协议》</p></td>
-      </tr>
+        <tr v-for="(item, index) in itemDesign" :key="index">
+          <td>{{ item.productId }}</td>
+          <td>{{ item.invAmount }}</td>
+          <td>{{ item.interest }}</td>
+          <td><p @click="showDetail(item.productId)">查看</p></td>
+          <td v-if="item.showUrl"><a :href="item.showUrl" target="_blank">《三方协议》</a></td>
+          <td v-else><p @click="withoutSignDialog">《三方协议》</p></td>
+        </tr>
       </tbody>
     </table>
 
-    <WithoutSignDialog
-      :show.sync="withoutSignDialogOption.show"
-      :singleButton="withoutSignDialogOption.singleButton"
-    >
-      <div>
-        暂未签署该协议
-      </div>
+    <WithoutSignDialog :show="withoutSignDialogOption.show" :singleButton="withoutSignDialogOption.singleButton">
+      <div>暂未签署该协议</div>
     </WithoutSignDialog>
 
     <div class="people-info-wrapper" v-if="peopleInfoDialogShow">
       <div class="inner">
-        <div class="close" @click="peopleInfoDialogShow = false">
-          <i class="iconfont icon-guanbi1"></i>
-        </div>
+        <div class="close" @click="peopleInfoDialogShow = false"><i class="iconfont icon-guanbi1"></i></div>
         <h1>借款人详情</h1>
         <div class="lists">
           <ul>
             <li>
-              <b>借款人姓名：</b>
-              <span>{{personalInfo.borrowerName}}</span>
+              <b>借款人姓名：</b> <span>{{ personalInfo.borrowerName }}</span>
             </li>
             <li>
-              <b>年龄：</b>
-              <span>{{personalInfo.age}}</span>
+              <b>年龄：</b> <span>{{ personalInfo.age }}</span>
             </li>
             <li>
-              <b>婚姻状况：</b>
-              <span>{{personalInfo.maritalStatus}}</span>
+              <b>婚姻状况：</b> <span>{{ personalInfo.maritalStatus }}</span>
             </li>
             <li>
-              <b>借款用途：</b>
-              <span>{{personalInfo.loanAim}}</span>
+              <b>借款用途：</b> <span>{{ personalInfo.loanAim }}</span>
             </li>
             <li>
-              <b>还款来源：</b>
-              <span>{{personalInfo.paymentSource}}</span>
+              <b>还款来源：</b> <span>{{ personalInfo.paymentSource }}</span>
             </li>
           </ul>
           <ul>
             <li>
-              <b>性别：</b>
-              <span>{{personalInfo.sex}}</span>
+              <b>性别：</b> <span>{{ personalInfo.sex }}</span>
             </li>
             <li>
-              <b>行业：</b>
-              <span>{{personalInfo.industry}}</span>
+              <b>行业：</b> <span>{{ personalInfo.industry }}</span>
             </li>
             <li>
-              <b>月收入：</b>
-              <span>{{personalInfo.income}}</span>
+              <b>月收入：</b> <span>{{ personalInfo.income }}</span>
             </li>
             <li>
-              <b>借款主体性质：</b>
-              <span>{{personalInfo.borrowerTheme}}</span>
+              <b>借款主体性质：</b> <span>{{ personalInfo.borrowerTheme }}</span>
             </li>
             <li>
-              <b>逾期金额：</b>
-              <span>{{personalInfo.amountOverride}}</span>
+              <b>逾期金额：</b> <span>{{ personalInfo.amountOverride }}</span>
             </li>
           </ul>
           <ul>
             <li>
-              <b>身份证号：</b>
-              <span>{{personalInfo.idNum}}</span>
+              <b>身份证号：</b> <span>{{ personalInfo.idNum }}</span>
             </li>
             <li>
-              <b>居住地址：</b>
-              <span>{{personalInfo.domicile}}</span>
+              <b>居住地址：</b> <span>{{ personalInfo.domicile }}</span>
             </li>
             <li>
-              <b>借款金额：</b>
-              <span>{{personalInfo.prinAmt}}</span>
+              <b>借款金额：</b> <span>{{ personalInfo.prinAmt }}</span>
             </li>
             <li>
-              <b>借款期限：</b>
-              <span>{{personalInfo.loanDay}}</span>
+              <b>借款期限：</b> <span>{{ personalInfo.loanDay }}</span>
             </li>
           </ul>
         </div>
         <div class="report">
-          <b>征信报告：</b>
-          <span>{{personalInfo.creditReport}}</span>
+          <b>征信报告：</b> <span>{{ personalInfo.creditReport }}</span>
         </div>
         <div class="other">
-          <b>
-            在其他网络借贷平台借款情况：
-          </b>
+          <b> 在其他网络借贷平台借款情况： </b>
           <div>
-            <span>{{personalInfo.borrowSituation}}</span>
-            <a
-              v-if="personalInfo.guaranteeProtocolUrl"
-              :href="personalInfo.guaranteeProtocolUrl"
-              target="_blank"
-            >点击查看>></a>
+            <span>{{ personalInfo.borrowSituation }}</span>
+            <a v-if="personalInfo.guaranteeProtocolUrl" :href="personalInfo.guaranteeProtocolUrl" target="_blank">点击查看>></a>
           </div>
         </div>
       </div>
@@ -283,7 +245,6 @@ table tr td {
   height: 100%;
   background: #fff;
   border: 1px solid #e3e3e3;
-  padding-bottom: 25px;
   header {
     box-sizing: border-box;
     padding-left: 20px;

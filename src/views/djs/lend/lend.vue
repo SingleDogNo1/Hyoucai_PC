@@ -103,7 +103,7 @@ export default {
       page: 1,
       size: 10,
       total: 0,
-      userName: getUser().userName,
+      userName: null,
       list: []
     }
   },
@@ -141,6 +141,10 @@ export default {
     countUp
   },
   created() {
+    let user = getUser()
+    if (user) {
+      this.userName = user.userName
+    }
     this.getData()
   }
 }

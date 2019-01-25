@@ -1,6 +1,6 @@
 <template>
-  <div class="detail">
-    <el-tabs v-model="activeName" @tab-click="handleClick">
+  <div class="detail" :class="{ padding34: activeName === 'ZCFG'}">
+    <el-tabs v-model="activeName" @tab-click="handleClick" v-if="activeName === 'WZGG' || activeName === 'HYZX' || activeName === 'MTBD'">
       <el-tab-pane label="网站公告" name="WZGG"></el-tab-pane>
       <el-tab-pane label="行业资讯" name="HYZX"></el-tab-pane>
       <el-tab-pane label="媒体报道" name="MTBD"></el-tab-pane>
@@ -254,5 +254,8 @@ export default {
       }
     }
   }
+}
+.detail.padding34 {
+  padding-top: 34px;
 }
 </style>

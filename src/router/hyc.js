@@ -297,6 +297,21 @@ export default new Router({
           path: 'businessAuth', // 业务授权协议
           name: 'businessAuthAgreement',
           component: () => import('@/views/common/agreement/businessAuth')
+        },
+        {
+          path: 'riskNoticationLetter', // 风险告知书
+          name: 'riskNoticationLetterAgreement',
+          component: () => import('@/views/djs/agreement/riskNoticationLetter')
+        },
+        {
+          path: 'debtAssignment', // 债权转让
+          name: 'debtAssignmentAgreement',
+          component: () => import('@/views/hyc/agreement/debtAssignment')
+        },
+        {
+          path: 'threeParty', // 三方协议
+          name: 'threePartyAgreement',
+          component: () => import('@/views/hyc/agreement/threeParty')
         }
       ]
     },
