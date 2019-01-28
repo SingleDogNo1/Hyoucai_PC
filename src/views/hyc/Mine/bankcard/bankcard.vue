@@ -4,8 +4,8 @@
     <div class="card-item">
       <header>
         <div class="bank-name">
-          <img :src="bankcardInfo.bankcardInfo" :alt="bankcardInfo.openBankName" />
-          <span>{{ bankcardInfo.openBankName }}</span>
+          <img :src="bankcardInfo.iconUrl" :alt="bankcardInfo.openBankName" />
+          <span>{{ bankcardInfo.bankName }}</span>
         </div>
         <div class="card-type">储蓄卡</div>
       </header>
@@ -49,8 +49,9 @@ export default {
     getUserBankCardInfo({
       userName: this.user.userName
     }).then(res => {
-      if (res.data.list && res.data.list.length > 0) {
-        this.bankcardInfo = res.data.list
+      console.log(res.data.data)
+      if (res.data.resultCode === '1') {
+        this.bankcardInfo = res.data.data
       }
     })
   },
