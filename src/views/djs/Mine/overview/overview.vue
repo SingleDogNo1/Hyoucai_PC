@@ -66,7 +66,6 @@ export default {
     const $this = this
     async function initPage() {
       const myChart = echarts.init(document.getElementById('amount'))
-
       await api.getPersonalAccount().then(res => {
         const totalIncome = res.data.totalIncome
         $this.amountInfo = res.data
@@ -131,7 +130,39 @@ export default {
           top: 'middle',
           right: 100,
           itemGap: 30,
-          data: ['可用余额', '在投本金', '冻结金额', '待收利息']
+          data: ['可用余额', '在投本金', '冻结金额', '待收利息'],
+          formatter: function(name) {
+            const data = [
+              { value: parseFloat($this.amountInfo.banlance), name: '可用余额' },
+              { value: parseFloat($this.amountInfo.waitBackPrincipal), name: '在投本金' },
+              { value: parseFloat($this.amountInfo.freezeAmount), name: '冻结金额' },
+              { value: parseFloat($this.amountInfo.waitBackInterest), name: '待收利息' }
+            ]
+            let target
+            for (let i = 0; i < data.length; i++) {
+              if (data[i].name === name) {
+                target = data[i].value
+              }
+            }
+            let arr = ['{b|' + name + '（元）}', '{a|' + target + '}']
+            return arr.join('\n')
+          },
+          textStyle: {
+            rich: {
+              a: {
+                fontSize: 20,
+                verticalAlign: 'top',
+                align: 'center',
+                padding: [0, 0, 28, 0]
+              },
+              b: {
+                fontSize: 14,
+                align: 'center',
+                padding: [0, 10, 0, 0],
+                lineHeight: 25
+              }
+            }
+          }
         },
         series: [
           {
