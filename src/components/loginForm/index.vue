@@ -197,6 +197,7 @@ export default {
           let user = res.data.data
           this.setUser(user)
           setLoginUsername(this.userName)
+          this.setErrorNum(0)
           this.doJumpSystem()
         } else {
           this.error_pwd = res.data.resultMsg
@@ -214,6 +215,7 @@ export default {
           let user = res.data.data
           this.setUser(user)
           setLoginUsername(this.userName)
+          this.setErrorNum(0)
           this.doJumpSystem()
         } else {
           this.error_sms = res.data.resultMsg
