@@ -208,6 +208,35 @@ export default new Router({
       ]
     },
     {
+      path: '/', // 出借详情(轻松投)
+      component: Layout,
+      children: [
+        {
+          path: 'easyDetail',
+          name: 'easyDetail',
+          component: () => import(/* webpackChunkName: "lend" */ '@/views/hyc/lend/easyDetail.vue'),
+          props: route => ({ productId: route.query.productId, itemId: route.query.itemId })
+        }
+      ]
+    },
+    {
+      path: '/', // 出借详情(自选投)
+      component: Layout,
+      children: [
+        {
+          path: 'optionalDetail',
+          name: 'optionalDetail',
+          component: () => import(/* webpackChunkName: "lend" */ '@/views/hyc/lend/optionalDetail.vue'),
+          props: route => ({ productNo: route.query.productNo })
+        },
+        {
+          path: 'popup',
+          name: 'popup',
+          component: () => import(/* webpackChunkName: "lend" */ '@/views/hyc/lend/popup/popup1.vue')
+        }
+      ]
+    },
+    {
       path: '/announcement', // 网站公告
       component: Layout,
       children: [
