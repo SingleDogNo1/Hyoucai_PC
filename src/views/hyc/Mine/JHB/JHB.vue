@@ -1,6 +1,8 @@
 <template>
   <div class="planDetail">
-    <div class="detail-table">
+    <div class="detail-table"
+         v-if="invList.length > 0"
+    >
       <!-- 申请中 -->
       <table cellspacing="0" v-if="invList.length > 0 && invStatus === 'JHB_SQZ'">
         <thead>
@@ -100,17 +102,20 @@
         @handleCurrentChange="changePage"
       ></pagination>
     </div>
+    <NoData v-else></NoData>
   </div>
 </template>
 
 <script>
 import pagination from '@/components/pagination/pagination'
+import NoData from '@/components/NoData'
 import { getQSTList } from '@/api/hyc/Mine/lend'
 
 export default {
   name: 'planDetail',
   components: {
-    pagination
+    pagination,
+    NoData
   },
   data() {
     return {
@@ -170,6 +175,10 @@ export default {
 @import '../../../../assets/css/theme';
 
 .planDetail {
+  min-height: 512px;
+  background: #fff;
+  padding-top: 25px;
+  position: relative;
   .nav {
     display: flex;
     height: 60px;

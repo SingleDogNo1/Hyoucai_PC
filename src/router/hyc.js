@@ -111,7 +111,7 @@ export default new Router({
             {
               path: 'bankcard', // 银行卡
               name: 'bankcard',
-              component: () => import('@/views/djs/Mine/bankcard/bankcard')
+              component: () => import('@/views/hyc/Mine/bankcard/bankcard')
             },
             {
               path: 'referralCode', // 推荐码
