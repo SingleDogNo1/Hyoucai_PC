@@ -678,7 +678,7 @@ export default {
   .lend-data-wrap {
     width: 100%;
     margin: 0 auto;
-    padding: 30px 20px 50px 20px;
+    padding: 50px 20px;
     background: #fff;
     .text-title {
       width: 158px;
