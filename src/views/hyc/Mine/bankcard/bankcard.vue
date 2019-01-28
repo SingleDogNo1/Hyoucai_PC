@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import { getUserBankCardInfo, prevChangeBankcard } from '@/api/hyc/Mine/bankcard'
+import { getUserBankCardInfo, changeBankcard } from '@/api/hyc/Mine/bankcard'
 import { mapState } from 'vuex'
 
 export default {
@@ -32,12 +32,11 @@ export default {
   watch: {},
   methods: {
     unbind() {
-      prevChangeBankcard({
-        bankCardNo: this.bankcardInfo.cardNo
+      changeBankcard({
+        retUrl: window.location.href
       }).then(res => {
-        if (!res.data.canModify) {
-          alert(res.data.message)
-          return false
+        if (res.data.data.resultCode === '1') {
+          console.log(res)
         }
       })
     }

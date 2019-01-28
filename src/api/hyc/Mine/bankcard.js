@@ -27,7 +27,21 @@ function prevChangeBankcard(data) {
   })
 }
 
+function changeBankcard(data) {
+  return new Promise((resolve, reject) => {
+    axios.post('cardUnbind/unbindPage', qs.stringify(data)).then(
+      res => {
+        resolve(res)
+      },
+      err => {
+        reject(err)
+      }
+    )
+  })
+}
+
 export {
   getUserBankCardInfo, // 获取用户银行卡列表
-  prevChangeBankcard // 用户更换银行卡前校验接口
+  prevChangeBankcard, // 判断银行卡是否可以解绑
+  changeBankcard // 用户更换银行卡前校验接口
 }
