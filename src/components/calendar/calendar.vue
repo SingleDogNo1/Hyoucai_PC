@@ -419,7 +419,7 @@ export default {
       this.year = now.getFullYear()
       this.month = now.getMonth()
       this.day = now.getDate()
-      this.render(this.year, this.month + 1)
+      this.render(this.year, this.month)
       this.monthSwiper.slideTo(this.month + 1, 0)
       // 遍历当前日找到选中
       this.days.forEach(v => {

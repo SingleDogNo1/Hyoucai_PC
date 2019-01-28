@@ -5,7 +5,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <% if(process.env.NODE_ENV === 'production') { %>
+    <title>汇有财-唯有赚钱不能停,上海敬庸科技</title>
+    <% } else { %>
     <title>汇有财-唯有加班不能停,上海敬庸科技</title>
+    <% } %>
     <script src="http://cstaticdun.126.net/load.min.js"></script>
   </head>
   <body>
