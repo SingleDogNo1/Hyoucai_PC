@@ -49,7 +49,10 @@
       </div>
       <div class="invest-module">
         <h2>
-          <span class="status-title">{{investStatusTitle}}</span>
+          <span
+            :class="{ 'unopened-status-title': investStatus === 'unopened' }"
+            class="status-title"
+          >{{investStatusTitle}}</span>
           <button v-if="investStatus != 'unopened'" class="status-btn">
             <router-link :to="{ name: 'charge' }">{{investStatusBtn}}</router-link>
           </button>
@@ -57,7 +60,7 @@
         <div class="content">
           <p class="available-balance">
             <span class="title">可用余额</span>
-            <span class="value">未开户</span>
+            <span class="value">{{projectInfo.balance}}</span>
           </p>
           <p class="starting-amount">
             <span class="title">起投金额</span>
@@ -75,14 +78,22 @@
           <div class="all-lending" v-if="investStatus === 'lending'">
             <el-checkbox class="all-lending-checkbox" v-model="isAllLending">全部出借</el-checkbox>
           </div>
-          <div class="action">
+          <div class="action" v-if="investStatus === 'willSale' || investStatus === 'lending'">
             <input class="amount-input" v-model="invAmount" @keyup="handleExpectedIncome">
-            <button class="action-btn" :disabled="isDisableInvestBtn" @click="handleInvest">{{investBtn}}</button>
+            <button
+              class="action-btn"
+              :disabled="isDisableInvestBtn"
+              @click="handleInvest"
+            >{{investBtn}}</button>
+          </div>
+          <div class="action" v-if="investStatus === 'fullyMarked' || investStatus === 'finished'">
+            <button class="action-btn-disabled" @click="handleInvest">{{investStatusTitle}}</button>
           </div>
           <p class="expected-profits">
             <span class="title">预期收益：</span>
             <span class="value">{{expectedIncome}}元</span>
           </p>
+          <p class="err-msg" v-if="errMsg">{{errMsg}}</p>
         </div>
       </div>
     </section>
@@ -246,6 +257,17 @@
       </el-tabs>
     </section>
     <ProjectDetail @changeProjectDetail="changeProjectDetail" v-show="isProjectDetail"/>
+    <Dialog
+      :show.sync="isShowSignDialog"
+      title="汇有财温馨提示"
+      confirmText="签约"
+      class="sign-dialog"
+      :onConfirm="toSign"
+    >
+      <div>
+        <p>您当前未签约或签约状态不符合合规要求，<br />请重新签约！</p>
+      </div>
+    </Dialog>
   </div>
 </template>
 
@@ -254,8 +276,10 @@ import { mapState } from 'vuex'
 import moment from 'moment'
 import Pagination from '@/components/pagination/pagination'
 import { timeCountDown } from '@/assets/js/utils'
-import { investDetail, investRecord, projectCompo, expectedIncome } from '@/api/hyc/lendDetail'
+import { investDetail, investRecord, projectCompo, expectedIncome, amountInfo, queryKHAgreementList } from '@/api/hyc/lendDetail'
 import ProjectDetail from './projectDetail'
+import Dialog from '@/components/Dialog/Dialog'
+
 export default {
   data() {
     return {
@@ -286,7 +310,8 @@ export default {
         interestRate: '',
         minInvAmount: '',
         maxInvTotalAmount: '',
-        status: 0
+        status: 0,
+        balance: ''
       },
       investDetail: {
         appDesc: '',
@@ -301,12 +326,15 @@ export default {
         riskManagementTip: ''
       },
       joinRecordData: [],
-      projectCompositionData: []
+      projectCompositionData: [],
+      errMsg: '',
+      isShowSignDialog: false
     }
   },
   components: {
     Pagination,
-    ProjectDetail
+    ProjectDetail,
+    Dialog
   },
   computed: {
     ...mapState({
@@ -329,15 +357,19 @@ export default {
       }
     },
     getUserBasicInfo() {
+      console.log(this.userBasicInfo)
+      //this.userBasicInfo.escrowAccountInfo = ''
       if (!this.userBasicInfo.escrowAccountInfo) {
         this.investStatus = 'unopened' // 状态为为开户
         this.investStatusTitle = '未开户'
         this.investBtn = '立即开户'
+      } else {
+        this.getInvestStatus()
       }
     },
     getInvestStatus() {
       console.log('status===', this.projectInfo.status)
-      this.projectInfo.status = 0
+      this.projectInfo.status = 1
       switch (
         this.projectInfo.status // 0.预售    1.出借中   2.满标   3.已完结
       ) {
@@ -349,6 +381,14 @@ export default {
         case 1:
           this.investStatusTitle = '出借中....'
           this.investStatus = 'lending'
+          break
+        case 2:
+          this.investStatusTitle = '已满标'
+          this.investStatus = 'fullyMarked'
+          break
+        default:
+          this.investStatusTitle = '已完结'
+          this.investStatus = 'finished'
           break
       }
     },
@@ -392,7 +432,6 @@ export default {
         this.projectInfo.minInvAmount = projectInfo.minInvAmount
         this.projectInfo.maxInvTotalAmount = projectInfo.maxInvTotalAmount
         this.projectInfo.status = projectInfo.status
-        this.projectInfo.status = 0
 
         // 预售状态中，募集倒计时不倒计
         timeCountDown(investEndTimestamp, this.projectInfo.status, data => {
@@ -416,7 +455,7 @@ export default {
         this.investDetail.riskManagementTip = investDetail.riskManagementTip
 
         this.getUserBasicInfo()
-        this.getInvestStatus()
+        this.getAmountInfo()
       })
     },
     getLendDetailList() {
@@ -472,12 +511,29 @@ export default {
         this.page = parseInt(data.curPage)
       })
     },
+    getAmountInfo() {
+      amountInfo().then(res => {
+        let data = res.data.data
+        this.projectInfo.balance = this.investStatus === 'unopened' ? '未开户' : data.banlance
+      })
+    },
     handleInvest() {
-      console.log(this.investStatus)
+      this.errMsg = ''
       // 如果是未开户，点击去开户页面
-      if(this.investStatus === 'unopened') {
-        this.$router.push({ name: 'account'})
+      if (this.investStatus === 'unopened') {
+        this.$router.push({ name: 'account' })
       }
+      // 如果没勾选风险告知书，弹出提示
+      if (!this.isAgree) {
+        this.errMsg = '请确认并同意《风险告知书》'
+        return
+      }
+      if (!this.userBasicInfo.registerProtocolSigned) {
+        this.isShowSignDialog = true
+      }
+    },
+    toSign() {
+      this.$router.push({ name: 'sign' })
     }
   },
   mounted() {
@@ -653,6 +709,9 @@ export default {
           color: $color-text;
           margin-right: 120px;
         }
+        .unopened-status-title {
+          width: 140px;
+        }
         .status-btn {
           width: 70px;
           height: 30px;
@@ -800,15 +859,16 @@ export default {
             display: inline-block;
             width: 111px;
             height: 46px;
+            line-height: 46px;
             background: #fb891f;
             text-align: center;
             font-size: $font-size-medium;
             color: #fff;
             cursor: pointer;
             &:disabled {
-              background: #b1b1b1;
+              background: #e3e3e3;
               &:hover {
-                background: #b1b1b1;
+                background: #e3e3e3;
                 cursor: not-allowed;
               }
             }
@@ -817,6 +877,17 @@ export default {
               cursor: pointer;
             }
           }
+          .action-btn-disabled {
+            display: inline-block;
+            width: 100%;
+            height: 46px;
+            line-height: 46px;
+            background: #e3e3e3;
+            text-align: center;
+            font-size: $font-size-medium;
+            color: #fff;
+            border-radius: 6px;
+          }
         }
         .expected-profits {
           display: flex;
@@ -824,7 +895,7 @@ export default {
           height: 16px;
           line-height: 16px;
           margin-top: 20px;
-          margin-bottom: 17px;
+          margin-bottom: 13px;
           justify-content: space-around;
           font-size: $font-size-small;
           color: $color-text;
@@ -840,6 +911,12 @@ export default {
             line-height: 16px;
             text-align: right;
           }
+        }
+        .err-msg {
+          width: 100%;
+          font-size: $font-size-small-ss;
+          color: #e9122c;
+          text-align: center;
         }
       }
     }
@@ -955,6 +1032,11 @@ export default {
           color: #fc5541;
         }
       }
+    }
+  }
+  .sign-dialog {
+    p {
+      line-height: 26px;
     }
   }
 }

@@ -40,3 +40,11 @@ export function projectCompo(data) {
     data: qs.stringify(data)
   })
 }
+
+// 电子账户余额查询
+export function amountInfo() {
+  return request({
+    url: 'personalAccount/amountInfo',
+    method: 'post'
+  })
+}
