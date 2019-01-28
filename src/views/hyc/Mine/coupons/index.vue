@@ -2,10 +2,10 @@
   <div class="coupons">
     <header>
       <div class="card" :class="{ active: flag1 }" @click="changeFlag1">可用卡券</div>
-      <div class="card" :class="{ active: flag2 }" @click="changeFlag2">历史卡券</div>
+      <div class="card" :class="[{ active: flag2 },{ actives : flag2 }]" @click="changeFlag2">历史卡券</div>
     </header>
     <!-- 可用卡券 -->
-    <div class="coupons_box" v-if="flag1">
+    <div class="coupons_box" :class="{bg:flag}" v-if="flag1">
       <!-- 立即领取 -->
       <div
         v-for="(item, index) in receiveList"
@@ -70,7 +70,7 @@
       </div>
     </div>
     <!-- 历史卡券 -->
-    <div class="message_box" v-if="flag2">
+    <div class="message_box" :class="{bg:flags}" v-if="flag2">
       <!-- 已过期 -->
       <div
         v-for="(item, index) in expiredList"
@@ -144,6 +144,8 @@ export default {
   },
   data() {
     return {
+      flag: false,
+      flags: false,
       isShow1: false,
       isShow2: false,
       flag1: true,
@@ -173,6 +175,9 @@ export default {
       let data = {}
       data.clientType = 'QD01'
       geCoupon(data).then(res => {
+        if (res.data.data.list.length == 0) {
+          this.flag = true
+        }
         let list = res.data.data.list
         this.receiveList.length = 0
         this.receivedList.length = 0
@@ -200,7 +205,6 @@ export default {
             item.amountMax = parseInt(item.amountMax)
           })
         })
-        // console.log(res.data.vouchers)
       })
     },
     // 历史卡券
@@ -208,6 +212,9 @@ export default {
       let obj = {}
       obj.userName = this.user.userName
       couponPacketHistory(obj).then(res => {
+        if (res.data.data.list == 0) {
+          this.flags = true
+        }
         let list = JSON.parse(JSON.stringify(res.data.data.list))
         list.map(item => {
           switch (item.status) {
@@ -308,7 +315,7 @@ export default {
 @import '../../../../assets/css/theme.scss';
 .coupons {
   header {
-    width: 840px;
+    width: 844px;
     background: rgba(255, 255, 255, 1);
     border: 1px solid rgba(229, 229, 229, 1);
     display: flex;
@@ -334,10 +341,14 @@ export default {
       font-weight: 400;
       color: rgba(251, 137, 31, 1);
     }
+    .actives {
+      border-left: 1px solid rgba(229, 229, 229, 1);
+    }
   }
   .coupons_box,
   .message_box {
-    height: auto;
+    min-height: 700px;
+    background: #fff;
     display: flex;
     flex-wrap: wrap;
     padding-left: 29px;
@@ -436,6 +447,9 @@ export default {
     .receive2_1 {
       background-image: url(./xianjin.png);
     }
+  }
+  .bg {
+    background: #fff url(./bg.png) no-repeat center;
   }
   .message_box {
     .receive1,
