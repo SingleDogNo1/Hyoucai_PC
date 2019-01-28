@@ -211,7 +211,7 @@
         class="ele"
       >本协议项下的通知如以公示方式作出，一经在本网站公示即视为已经送达。除此之外，其他向贵方个人发布的具有专属性的通知将由本网站向贵方在注册时提供的电子邮箱，或本网站在贵方的个人账户中为贵方设置的站内消息系统栏，或贵方在注册后在本网站绑定的手机发送，一经发出即视为已经送达。贵方应密切关注贵方的电子邮箱、站内消息系统栏中的邮件、信息及手机中的短信信息。贵方同意本网站出于向贵方提供服务之目的，可以向贵方的电子邮箱、站内消息系统栏和手机发送有关通知或提醒；若贵方不愿意接收，请在本网站相应系统板块进行设置。但贵方同时同意并确认，若贵方设置了不接收有关通知或提醒，则贵方有可能收不到该等通知信息，贵方不得以贵方未收到或未阅读该等通知信息而主张相关通知未送达于贵方，并承担由此造成的全部责任。且贵方同意，如果因本合同的签订和履行而发生争议，则上述地址也将作为争议解决机构送达相关通知和文书的有效送达地址。</p>
       <h3>十、适用法律和管辖</h3>
-      <p class="ele temp_yuan" style="display: none;">本协议的签订、生效、履行、争议的解决均适用中华人民共和国法律。
+      <p class="ele temp_yuan">本协议的签订、生效、履行、争议的解决均适用中华人民共和国法律。
         <br>如因本协议产生或与本协议有关的所有纠纷，双方应当协商解决，协商不成的，均应向本协议签订地即江西省南昌市红谷滩新区有管辖权的人民法院提起诉讼。
       </p>
       <h3>十一、其他</h3>
@@ -227,21 +227,39 @@
         </li>
       </ul>
       <br>
-      <ul class="no_border">
-        <li>
-          （签字）电子签字
-          <em class></em>
-        </li>
-        <li>
-          （签章）电子签章
-          <em class></em>
-        </li>
-      </ul>
-      <br>
-      <ul class="no_border">
-        <li>日期：</li>
-        <li>日期：</li>
-      </ul>
+      <table class="t_f">
+        <tr>
+          <td>甲方：（签字）</td>
+          <td class="r_se"></td>
+          <td>乙方：（签字）</td>
+          <td></td>
+        </tr>
+        <tr class="se_t">
+          <td>日期：</td>
+          <td class="r_se">
+            <em class="name1"></em>
+          </td>
+          <td>日期：</td>
+          <td>
+            <em class="name2"></em>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="4">丙方：江西汇通金融信息服务有限公司</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>（盖章）</td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>日期：</td>
+          <td class="cachel"></td>
+          <td></td>
+          <td></td>
+        </tr>
+      </table>
     </div>
   </div>
 </template>
@@ -359,9 +377,13 @@ export default {
 
 .registerAgre .u_content .t_f {
   border: 1px solid #ccc;
-  width: 974px;
+  width: 100%;
   height: 198px;
   margin-top: 20px;
+}
+
+.registerAgre .u_content .t_f td {
+  padding-left: 20px;
 }
 
 .registerAgre .u_content .t_f .se_t {

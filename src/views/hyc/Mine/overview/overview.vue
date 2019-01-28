@@ -7,7 +7,7 @@
           <span class="big">{{ totalIncomeBig }}</span> <span class="small">.{{ totalIncomeSmall }}元</span>
         </p>
       </section>
-      <el-button type="info" v-if="user.platformFlag === '0'" @click="switchSystem">系统切换</el-button>
+      <el-button type="info" v-if="user.platformFlag === '3'" @click="switchSystem">系统切换</el-button>
       <el-button type="warning"><router-link :to="{ name: 'charge' }">充值</router-link></el-button>
       <el-button type="warning"><router-link :to="{ name: 'tocash' }">提现</router-link></el-button>
     </div>
@@ -203,7 +203,6 @@ export default {
     cursor: pointer;
     width: 120px;
     height: 40px;
-    background: $color-theme;
     border-radius: 8px;
     margin: 0 15px;
     font-size: $font-size-medium;

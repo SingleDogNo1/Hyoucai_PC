@@ -90,7 +90,7 @@ export default {
       })
     },
     showDetail(id) {
-      alert(id)
+      console.log(id)
       // this.$router.push({
       //   name: '',
       //   query: id
