@@ -1,18 +1,7 @@
 <template>
   <div class="content">
-    <p class="title">设置自动出借，省心赚钱</p>
-    <p class="success">
-      <span class="success-span">您已成功出借XXXXYYY.YY元</span>
-      <button class="success-btn">查看我的出借>></button>
-    </p>
-    <el-radio-group v-model="radio" class="radio">
-      <el-radio :label="1">本金到期后自动出借</el-radio>
-      <el-radio :label="2">本息到期后自动出借</el-radio>
-    </el-radio-group>
-    <p class="agreement">《自动出借协议》</p>
-    <p
-      class="txt"
-    >在本金自动出借模式下，每月产品到期时，系统自动将利息转入用户汇有财账户，本金继续出借。用户可在【我的账户】-【自动出借】界面取消，如有任何疑问，请联系客服：400-099-7979。</p>
+    <p class="title">汇有财温馨提示</p>
+    <p class="txt"></p>
     <div class="btn">
       <button class="confirm">确定</button>
       <button class="cancel">取消</button>
@@ -22,9 +11,7 @@
 <script>
 export default {
   data() {
-    return {
-      radio: 1
-    }
+    return {}
   }
 }
 </script>
@@ -49,20 +36,17 @@ export default {
   }
   .success {
     width: 430px;
-    height: 70px;
-    line-height: 70px;
+    height: 80px;
     background: rgba(243, 242, 242, 1);
     margin: 30px auto;
     .success-span {
-      font-size: 18px;
-      color: rgba(155, 155, 155, 1);
-      margin-left: 15px;
-    }
-    .success-btn {
-      font-size: $font-size-small-s;
-      color: rgba(251, 139, 31, 1);
-      margin-left: 65px;
-      background: rgba(243, 242, 242, 1);
+      display: inline-block;
+      width: 378px;
+      height: 48px;
+      font-size: $font-size-medium;
+      color: rgba(91, 91, 91, 1);
+      line-height: 24px;
+      margin: 16px 0 0 20px;
     }
   }
   /deep/ .radio {

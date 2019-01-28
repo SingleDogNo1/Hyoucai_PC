@@ -232,7 +232,7 @@ export default new Router({
         {
           path: 'popup',
           name: 'popup',
-          component: () => import(/* webpackChunkName: "lend" */ '@/views/hyc/lend/popup/popup1.vue')
+          component: () => import(/* webpackChunkName: "lend" */ '@/views/hyc/lend/popup/popup4.vue')
         }
       ]
     },
