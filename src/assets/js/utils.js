@@ -81,8 +81,8 @@ export function postcall(url, params, target) {
   document.body.removeChild(tempform)
 }
 
-//格式化时间倒计时(将XXX秒格式化为X天 HH:MM:DD)
-export function timeCountDown(t, callback) {
+//格式化时间倒计时(将XXX秒格式化为X天 HH:MM:DD，status为0，倒计时停止)
+export function timeCountDown(t, status, callback) {
   let d = (t - (t % 86400)) / 86400
   let h = ((t - (t % 3600)) / 3600) % 24
   let i = ((t - (t % 60)) / 60) % 60
@@ -95,14 +95,15 @@ export function timeCountDown(t, callback) {
   stime += i < 10 ? '0' + i + ':' : i + ':'
   stime += s < 10 ? '0' + s : s
   callback(stime)
+  if(status === 0) return  
   t--
   if (t >= 0) {
     setTimeout(function() {
-      timeCountDown(t, callback)
+      timeCountDown(t, status, callback)
     }, 1000)
   } else {
     setTimeout(function() {
-      timeCountDown(0, callback)
+      timeCountDown(0, status, callback)
     }, 1000)
   }
 }

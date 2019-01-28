@@ -44,13 +44,13 @@
         <div class="countdown">
           <span class="title">募集倒计时：</span>
           <span class="large">{{projectInfo.investEndDay}}</span>
-          <span>{{projectInfo.investEndTime}}</span>
+          <span> {{projectInfo.investEndTime}}</span>
         </div>
       </div>
       <div class="invest-module">
         <h2>
           <span class="status-title">{{investStatusTitle}}</span>
-          <button v-if="investStatus != 'Unopened'" class="status-btn">
+          <button v-if="investStatus != 'unopened'" class="status-btn">
             <router-link :to="{ name: 'charge' }">{{investStatusBtn}}</router-link>
           </button>
         </h2>
@@ -72,12 +72,12 @@
               <router-link target="_blank" :to="{ name: 'riskNoticationLetterAgreement'}">《风险告知书》</router-link>
             </el-checkbox>
           </div>
-          <div class="all-lending" v-if="investStatus === lending">
+          <div class="all-lending" v-if="investStatus === 'lending'">
             <el-checkbox class="all-lending-checkbox" v-model="isAllLending">全部出借</el-checkbox>
           </div>
           <div class="action">
             <input class="amount-input" v-model="invAmount" @keyup="handleExpectedIncome">
-            <button class="action-btn" :disabled="isDisableInvestBtn">{{investBtn}}</button>
+            <button class="action-btn" :disabled="isDisableInvestBtn" @click="handleInvest">{{investBtn}}</button>
           </div>
           <p class="expected-profits">
             <span class="title">预期收益：</span>
@@ -251,6 +251,7 @@
 
 <script>
 import { mapState } from 'vuex'
+import moment from 'moment'
 import Pagination from '@/components/pagination/pagination'
 import { timeCountDown } from '@/assets/js/utils'
 import { investDetail, investRecord, projectCompo, expectedIncome } from '@/api/hyc/lendDetail'
@@ -328,16 +329,15 @@ export default {
       }
     },
     getUserBasicInfo() {
-      console.log('userBasicInfo===', this.userBasicInfo)
       if (!this.userBasicInfo.escrowAccountInfo) {
-        this.investStatus = 'Unopened' // 状态为为开户
+        this.investStatus = 'unopened' // 状态为为开户
         this.investStatusTitle = '未开户'
         this.investBtn = '立即开户'
       }
     },
     getInvestStatus() {
       console.log('status===', this.projectInfo.status)
-      //this.projectInfo.status = 0
+      this.projectInfo.status = 0
       switch (
         this.projectInfo.status // 0.预售    1.出借中   2.满标   3.已完结
       ) {
@@ -392,18 +392,17 @@ export default {
         this.projectInfo.minInvAmount = projectInfo.minInvAmount
         this.projectInfo.maxInvTotalAmount = projectInfo.maxInvTotalAmount
         this.projectInfo.status = projectInfo.status
+        this.projectInfo.status = 0
 
         // 预售状态中，募集倒计时不倒计
-        if (this.projectInfo.status !== 0) {
-          timeCountDown(investEndTimestamp, data => {
-            if (data.indexOf('天') > -1) {
-              this.projectInfo.investEndDay = data.substr(0, data.indexOf('天') + 1)
-              this.projectInfo.investEndTime = data.substr(data.indexOf('天') + 1, data.length - 1)
-            } else {
-              this.projectInfo.investEndTime = data
-            }
-          })
-        }
+        timeCountDown(investEndTimestamp, this.projectInfo.status, data => {
+          if (data.indexOf('天') > -1) {
+            this.projectInfo.investEndDay = data.substr(0, data.indexOf('天') + 1)
+            this.projectInfo.investEndTime = data.substr(data.indexOf('天') + 1, data.length - 1)
+          } else {
+            this.projectInfo.investEndTime = data
+          }
+        })
 
         let investDetail = data.investDetail
         this.investDetail.appDesc = investDetail.appDesc
@@ -472,6 +471,13 @@ export default {
         this.total = parseInt(data.countPage)
         this.page = parseInt(data.curPage)
       })
+    },
+    handleInvest() {
+      console.log(this.investStatus)
+      // 如果是未开户，点击去开户页面
+      if(this.investStatus === 'unopened') {
+        this.$router.push({ name: 'account'})
+      }
     }
   },
   mounted() {
