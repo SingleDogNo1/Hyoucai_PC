@@ -102,7 +102,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../../../assets/css/theme';
+@import '../../../../assets/css/theme';
 .content-box {
   padding: 120px 200px 110px;
   background: rgba(227, 227, 227, 1);

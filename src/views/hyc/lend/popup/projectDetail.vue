@@ -56,7 +56,7 @@
           <tr>
             <td>身份证认证</td>
             <td>
-              <img @click="flag=!flag" src="./image/bg.png">
+              <img @click="flag=!flag" src="./../image/bg.png">
             </td>
             <td>运营商认证</td>
             <td>中国移动运营商认证通过</td>
@@ -66,13 +66,13 @@
             <td>白领</td>
             <td>人脸识别</td>
             <td>
-              <img src="./image/bg.png">
+              <img src="./../image/bg.png">
             </td>
           </tr>
           <tr>
             <td>签约</td>
             <td>
-              <img src="./image/bg.png">
+              <img src="./../image/bg.png">
             </td>
             <td>银行卡认证</td>
             <td>6228 **** **** 1234银行卡账户、开户名、开户手机、身份证号认证成功</td>
@@ -80,7 +80,7 @@
           <tr>
             <td>互联网资讯报告</td>
             <td>
-              <img src="./image/bg.png">
+              <img src="./../image/bg.png">
             </td>
             <td></td>
             <td></td>
@@ -260,7 +260,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../../../assets/css/theme';
+@import '../../../../assets/css/theme';
 .content-box {
   padding: 120px 200px 110px;
   background: rgba(227, 227, 227, 1);

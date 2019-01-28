@@ -254,7 +254,7 @@ import { mapState } from 'vuex'
 import Pagination from '@/components/pagination/pagination'
 import { timeCountDown } from '@/assets/js/utils'
 import { investDetail, investRecord, projectCompo, expectedIncome } from '@/api/hyc/lendDetail'
-import ProjectDetail from './projectDetail'
+import ProjectDetail from './popup/projectDetail'
 export default {
   data() {
     return {
@@ -356,8 +356,8 @@ export default {
       this.page = val
       this.getList()
     },
-    handleExpectedIncome(item) {
-      console.log(this.invAmount)
+    handleExpectedIncome() {
+      // console.log(this.invAmount)
       let postData = {
         invAmount: this.invAmount,
         investRate: this.projectInfo.investRate,

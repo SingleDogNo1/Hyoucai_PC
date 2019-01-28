@@ -230,9 +230,9 @@ export default new Router({
           props: route => ({ productNo: route.query.productNo })
         },
         {
-          path: 'loanDetail',
-          name: 'loanDetail',
-          component: () => import(/* webpackChunkName: "lend" */ '@/views/hyc/lend/loanDetail.vue')
+          path: 'popup',
+          name: 'popup',
+          component: () => import(/* webpackChunkName: "lend" */ '@/views/hyc/lend/popup/popup1.vue')
         }
       ]
     },
