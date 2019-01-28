@@ -479,6 +479,7 @@ export default {
     img {
       width: 100%;
       height: 500px;
+      object-fit: cover
     }
     .swiper-pagination-banner {
       position: absolute;
