@@ -65,8 +65,7 @@ export default {
       myChart.setOption({
         tooltip: {
           trigger: 'item',
-          formatter: '{a} <br/>{b}: {c} ({d}%)',
-          alwaysShowContent: true
+          formatter: '{a} <br/>{b}: {c} ({d}%)'
         },
         graphic: [
           {
@@ -99,9 +98,11 @@ export default {
         ],
         color: ['#F8DF38', '#F98128', '#42B1FF', '#37F1BE'],
         legend: {
-          orient: 'vertical',
           top: 'middle',
+          left: 370,
           right: 100,
+          itemWidth: 20,
+          itemHeight: 20,
           itemGap: 30,
           data: ['可用余额', '在投本金', '冻结金额', '待收利息'],
           formatter: function(name) {
