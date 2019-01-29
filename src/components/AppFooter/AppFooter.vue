@@ -92,10 +92,8 @@
       </ul>
       <div class="copyright">
         <span>&copy;</span>
-        <span>2019 江西汇通金融信息服务有限公司</span>
-        <img src="https://www.idjshi.com/public/image/pageImg/icon-an.png" style="vertical-align: middle;">
+        <span>2013-2020 江西汇通金融信息服务有限公司 版权所有</span>
         <a href="http://www.miibeian.gov.cn/">赣ICP备13002945号-4 免责声明</a>
-        <a href=""></a>
       </div>
       <div class="copy-img">
         <a target="_blank" href="http://si.trustutn.org/info?sn=396180320000637017253&certType=4"></a>
@@ -124,7 +122,8 @@
 </template>
 
 <script>
-import { queryQAType } from '@/api/djs/helpCenter'
+import { djsQueryQAType } from '@/api/djs/helpCenter'
+import { hycQueryQAType } from '@/api/hyc/helpCenter'
 import { getFriendLink } from '@/api/common/footer'
 
 export default {
@@ -152,9 +151,17 @@ export default {
     hideAndCode() {
       this.AndCodeFlag = false
     },
-    getQueryQAType() {
-      queryQAType().then(res => {
+    getDJSQueryQAType() {
+      djsQueryQAType().then(res => {
         let data = res.data
+        this.QAList = data.list
+        localStorage.setItem('QAList', JSON.stringify(this.QAList))
+      })
+    },
+    getHYCQueryQAType() {
+      hycQueryQAType().then(res => {
+        let data = res.data.data
+        console.log('data===', data)
         this.QAList = data.list
         localStorage.setItem('QAList', JSON.stringify(this.QAList))
       })
@@ -170,7 +177,8 @@ export default {
     }
   },
   mounted() {
-    this.getQueryQAType()
+    // 判断平台
+    window.location.href.indexOf('hyc') > -1 ? this.getHYCQueryQAType() : this.getDJSQueryQAType()
     getFriendLink().then(res => {
       this.friendLinks = res.data.friendLinks
     })
