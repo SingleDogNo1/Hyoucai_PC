@@ -68,22 +68,6 @@ export default {
           formatter: '{a} <br/>{b}: {c} ({d}%)',
           alwaysShowContent: true
         },
-        // title: {
-        //   text: '总资产（元）',
-        //   subtext: $this.amountInfo.totalAmount,
-        //   left: '20%',
-        //   top: 'center',
-        //   x: 'center',
-        //   textStyle: {
-        //     width: '100px',
-        //     color: '#4a4a4a',
-        //     fontSize: 14,
-        //   },
-        //   subtextStyle: {
-        //     color: '#4a4a4a',
-        //     fontSize: 20,
-        //   }
-        // },
         graphic: [
           {
             type: 'text',
@@ -119,7 +103,39 @@ export default {
           top: 'middle',
           right: 100,
           itemGap: 30,
-          data: ['可用余额', '在投本金', '冻结金额', '待收利息']
+          data: ['可用余额', '在投本金', '冻结金额', '待收利息'],
+          formatter: function(name) {
+            const data = [
+              { value: parseFloat($this.amountInfo.banlance), name: '可用余额' },
+              { value: parseFloat($this.amountInfo.waitBackPrincipal), name: '在投本金' },
+              { value: parseFloat($this.amountInfo.freezeAmount), name: '冻结金额' },
+              { value: parseFloat($this.amountInfo.waitBackInterest), name: '待收利息' }
+            ]
+            let target
+            for (let i = 0; i < data.length; i++) {
+              if (data[i].name === name) {
+                target = data[i].value
+              }
+            }
+            let arr = ['{a|' + name + '(元)}', '{b|' + target + '}']
+            return arr.join('\n')
+          },
+          textStyle: {
+            rich: {
+              a: {
+                fontSize: 14,
+                align: 'center',
+                padding: [0, 10, 0, 10],
+                lineHeight: 25
+              },
+              b: {
+                fontSize: 20,
+                verticalAlign: 'top',
+                align: 'center',
+                padding: [0, 0, 8, 0]
+              }
+            }
+          }
         },
         series: [
           {
