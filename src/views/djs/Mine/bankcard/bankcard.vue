@@ -4,11 +4,12 @@
     <div class="card-item" v-for="(item, index) in bankcardList" :key="index">
       <header>
         <div class="bank-name">
-          <img :src="item.iconUrl" :alt="item.bankName" /> <span>{{ item.bankName }}</span>
+          <img :src="item.iconUrl" :alt="item.bankName">
+          <span>{{ item.bankName }}</span>
         </div>
         <div class="card-type">储蓄卡</div>
       </header>
-      <section>{{ item.cardNo }}</section>
+      <section v-html="item.cardNo"></section>
       <footer @click="unbind">解绑</footer>
     </div>
   </div>
@@ -50,6 +51,17 @@ export default {
     }).then(res => {
       if (res.data.list && res.data.list.length > 0) {
         this.bankcardList = res.data.list
+        this.bankcardList.forEach(val => {
+          let no = val.cardNo
+          let len = no.length
+          val.cardNo =
+            '<span>' +
+            no.substring(0, 4) +
+            '</span><span class="point">····</span><span class="point">····</span><span>' +
+            no.substring(len - 4, len) +
+            '</span>'
+        })
+        console.log('this.bankcardList===', this.bankcardList)
       }
     })
   },
@@ -99,14 +111,25 @@ export default {
       }
     }
     section {
-      margin-top: 35px;
+      display: flex;
+      margin-top: 15px;
       font-size: $font-size-small;
       color: $color-text;
+      align-items: center;
+      /deep/ span {
+        display: inline-block;
+        margin-right: 16px;
+      }
+      /deep/ span.point {
+        height: 52px;
+        line-height: 47px;
+        font-size: 40px;
+      }
     }
     footer {
       margin-top: 40px;
       text-align: end;
-      color: $color-theme;
+      color: #DB011B;
       cursor: pointer;
     }
   }

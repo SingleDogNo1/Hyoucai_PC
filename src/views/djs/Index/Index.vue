@@ -175,18 +175,18 @@
             </div>
           </div>
           <div class="btn-invest-now">
-            <router-link :to="{ name: 'lend' }">下载APP</router-link>
+            <router-link :to="{ name: 'download' }">下载APP</router-link>
           </div>
         </div>
       </div>
     </div>
     <div
       class="lend-boutique-wrap"
-      v-if="hycPopularProjectList && hycPopularProjectList.length > 0"
+      v-if="popularProjectList && popularProjectList.length > 0"
     >
       <div class="text-title"></div>
       <ul :class="{ two: hycPopularProjectList.length == 2 }">
-        <li v-for="(item, index) in hycPopularProjectList" :key="index" @click="toLend">
+        <li v-for="(item, index) in hycPopularProjectList" :key="index" @click="toDownload">
           <p class="title">
             <img :src="item.iconUrl">
             <span class="icon">{{ item.itemName }}</span>
@@ -436,6 +436,7 @@ export default {
     getQualityList(data) {
       getQualityList(data).then(res => {
         let data = res.data
+        data.noviceProjectList = null
         this.noviceProjectList = data.noviceProjectList
         this.noviceProjectList.forEach(val => {
           val.investMent = val.investMent.substr(0, val.investMent.length - 1)
