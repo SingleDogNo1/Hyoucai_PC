@@ -1,43 +1,80 @@
 <template>
   <div class="bankcard">
-    <div class="title">我的银行卡</div>
-    <div class="card-item">
+    <div class="title">
+      <span v-if="bankcardInfo.openBankName">我的银行卡</span>
+      <span v-else>绑定银行卡</span>
+    </div>
+    <div class="card-item" v-if="bankcardInfo.openBankName">
       <header>
         <div class="bank-name">
-          <img :src="bankcardInfo.bankcardInfo" :alt="bankcardInfo.openBankName" />
-          <span>{{ bankcardInfo.openBankName }}</span>
+          <img :src="bankcardInfo.iconUrl" :alt="bankcardInfo.openBankName" />
+          <span>{{ bankcardInfo.bankName }}</span>
         </div>
         <div class="card-type">储蓄卡</div>
       </header>
       <section>{{ user.userBasicInfo.escrowAccountInfo.bankCard  }}</section>
       <footer @click="unbind">解绑</footer>
     </div>
+    <div class="no-card" v-else>
+      <button @click="toBindCard">添加银行卡</button>
     </div>
+
+    <bankcard-dialog
+      :show.sync="bankcardDialog">
+      <div class="dialog-msg">{{bankcardMsg}}</div>
+    </bankcard-dialog>
+  </div>
 </template>
 
 <script>
-import { getUserBankCardInfo, prevChangeBankcard } from '@/api/hyc/Mine/bankcard'
+import { getUserBankCardInfo, unbindCardApi, bindCardApi } from '@/api/hyc/Mine/bankcard'
 import { mapState } from 'vuex'
+import bankcardDialog from '@/components/Dialog/Dialog'
 
 export default {
   name: 'bankcard',
   mixins: [],
-  components: {},
+  components: {
+    bankcardDialog
+  },
   data() {
     return {
-      bankcardInfo: {}
+      bankcardInfo: {},
+      bankcardDialog: false,
+      bankcardMsg: ''
     }
   },
   props: {},
   watch: {},
   methods: {
     unbind() {
-      prevChangeBankcard({
-        bankCardNo: this.bankcardInfo.cardNo
+      unbindCardApi({
+        retUrl: window.location.href
       }).then(res => {
-        if (!res.data.canModify) {
-          alert(res.data.message)
-          return false
+        console.log(res)
+        if (res.data.resultCode === '1') {
+          // success
+          // TODO linkto bank page
+        } else if (res.data.resultCode === '60007' || res.data.resultCode === '60008') {
+          //"60007","账面余额不为0，不能解除绑定" ;"60008","有债权关系不能解绑"
+          this.bankcardDialog = true
+          this.bankcardMsg = res.data.resultMsg
+        } else {
+          this.bankcardDialog = true
+          this.bankcardMsg = res.data.resultMsg
+        }
+      })
+    },
+    toBindCard() {
+      bindCardApi({
+        retUrl: window.location.href
+      }).then(res => {
+        console.log(res)
+        if (res.data.resultCode === '1') {
+          // success
+        } else {
+          this.bankcardDialog = true
+          this.bankcardMsg = res.data.resultMsg
         }
       })
     }
@@ -49,13 +86,11 @@ export default {
     getUserBankCardInfo({
       userName: this.user.userName
     }).then(res => {
-      if (res.data.list && res.data.list.length > 0) {
-        this.bankcardInfo = res.data.list
+      console.log(res.data.data)
+      if (res.data.resultCode === '1') {
+        this.bankcardInfo = res.data.data
       }
     })
-  },
-  mounted() {
-    console.log(this.user.userBasicInfo.escrowAccountInfo.bankCard)
   }
 }
 </script>
@@ -112,6 +147,14 @@ export default {
       color: $color-theme;
       cursor: pointer;
     }
+  }
+  .no-card {
+    width: 100%;
+    height: 700px;
+    background: #000;
+  }
+  .dialog-msg {
+    text-align: center;
   }
 }
 </style>

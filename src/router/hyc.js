@@ -330,6 +330,17 @@ export default new Router({
           component: () => import(/* webpackChunkName: "bankAccount" */ '@/views/common/bankAccount/signAgreement.vue')
         }
       ]
+    },
+    {
+      path: '/', // 联系我们
+      component: Layout,
+      children: [
+        {
+          path: 'contact',
+          name: 'contact',
+          component: () => import(/* webpackChunkName: "contact" */ '@/views/hyc/contact/index.vue')
+        }
+      ]
     }
   ]
 })
