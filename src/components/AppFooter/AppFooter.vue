@@ -122,7 +122,8 @@
 </template>
 
 <script>
-import { queryQAType } from '@/api/djs/helpCenter'
+import { djsQueryQAType } from '@/api/djs/helpCenter'
+import { hycQueryQAType } from '@/api/hyc/helpCenter'
 import { getFriendLink } from '@/api/common/footer'
 
 export default {
@@ -150,9 +151,17 @@ export default {
     hideAndCode() {
       this.AndCodeFlag = false
     },
-    getQueryQAType() {
-      queryQAType().then(res => {
+    getDJSQueryQAType() {
+      djsQueryQAType().then(res => {
         let data = res.data
+        this.QAList = data.list
+        localStorage.setItem('QAList', JSON.stringify(this.QAList))
+      })
+    },
+    getHYCQueryQAType() {
+      hycQueryQAType().then(res => {
+        let data = res.data.data
+        console.log('data===', data)
         this.QAList = data.list
         localStorage.setItem('QAList', JSON.stringify(this.QAList))
       })
@@ -168,7 +177,7 @@ export default {
     }
   },
   mounted() {
-    this.getQueryQAType()
+    window.location.href.indexOf('hyc') > -1 ? this.getHYCQueryQAType() : this.getDJSQueryQAType()
     getFriendLink().then(res => {
       this.friendLinks = res.data.friendLinks
     })

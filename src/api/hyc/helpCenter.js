@@ -2,7 +2,7 @@ import request from '@/assets/js/requestHYC'
 import qs from 'qs'
 
 // QA类别查询
-export function queryQAType() {
+export function hycQueryQAType() {
   return request({
     url: '/QueryQAType',
     method: 'get',
