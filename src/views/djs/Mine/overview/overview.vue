@@ -79,22 +79,6 @@ export default {
           trigger: 'item',
           formatter: '{a} <br/>{b}: {c} ({d}%)'
         },
-        // title: {
-        //   text: '总资产（元）',
-        //   subtext: $this.amountInfo.totalAmount,
-        //   left: '20%',
-        //   top: 'center',
-        //   x: 'center',
-        //   textStyle: {
-        //     width: '100px',
-        //     color: '#4a4a4a',
-        //     fontSize: 14,
-        //   },
-        //   subtextStyle: {
-        //     color: '#4a4a4a',
-        //     fontSize: 20,
-        //   }
-        // },
         graphic: [
           {
             type: 'text',
@@ -126,9 +110,11 @@ export default {
         ],
         color: ['#F8DF38', '#F98128', '#42B1FF', '#37F1BE'],
         legend: {
-          orient: 'vertical',
           top: 'middle',
+          left: 370,
           right: 100,
+          itemWidth: 20,
+          itemHeight: 20,
           itemGap: 30,
           data: ['可用余额', '在投本金', '冻结金额', '待收利息'],
           formatter: function(name) {
@@ -144,22 +130,22 @@ export default {
                 target = data[i].value
               }
             }
-            let arr = ['{b|' + name + '（元）}', '{a|' + target + '}']
+            let arr = ['{a|' + name + '(元)}', '{b|' + target + '}']
             return arr.join('\n')
           },
           textStyle: {
             rich: {
               a: {
+                fontSize: 14,
+                align: 'center',
+                padding: [0, 10, 0, 10],
+                lineHeight: 25
+              },
+              b: {
                 fontSize: 20,
                 verticalAlign: 'top',
                 align: 'center',
-                padding: [0, 0, 28, 0]
-              },
-              b: {
-                fontSize: 14,
-                align: 'center',
-                padding: [0, 10, 0, 0],
-                lineHeight: 25
+                padding: [0, 0, 8, 0]
               }
             }
           }
