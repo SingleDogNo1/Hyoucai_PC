@@ -20,7 +20,7 @@
         <el-tabs class="about-us-tab" v-model="aboutUsActiveName" type="border-card" @tab-click="handleItemClick(aboutUsActiveName)">
           <el-tab-pane label="公司简介" name="GSJJ"> <div v-if="aboutUsActiveName === 'GSJJ'" class="content" v-html="content"></div> </el-tab-pane>
           <el-tab-pane label="公司管理" name="GSGL">
-            <div class="content" v-html="content" v-if="aboutUsActiveName === 'GSGL' && paramCode === 'LXWM' || aboutUsActiveName === 'GSGL' && paramCode === 'PTXX'"></div>
+            <div class="content" v-html="content" v-if="aboutUsActiveName === 'GSGL' || aboutUsActiveName === 'GSGL' && paramCode === 'PTXX'"></div>
             <div class="company-management" v-if="aboutUsActiveName === 'GSGL' && !paramCode">
               <div class="organizational-structure-wrap"><strong>组织架构</strong> <img src="./images/bg_organizational_structure.png" /></div>
               <div class="executive-team-wrap">
@@ -1105,7 +1105,7 @@ export default {
       this.handlePoliciesClick()
     },
     init() {
-      if (this.$route.query.paramCode === 'LXWM' || this.$route.query.paramCode === 'PTXX') {
+      if (this.$route.query.paramCode === 'PTXX') {
         this.aboutUsActiveName = 'GSGL'
       }
       if (this.$route.query.paramCode === 'HZHB') {
