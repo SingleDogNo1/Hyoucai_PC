@@ -117,7 +117,7 @@
         </li>
       </ul>
     </div>
-    <div class="lend-data-wrap">
+    <div class="lend-data-wrap" v-if="user">
       <div class="text-title"></div>
       <ul>
         <li>
@@ -248,6 +248,8 @@ import CountUp from '@/components/countUp/index'
 import LoginForm from '@/components/loginForm'
 import { getBanner, getOperateData, getQualityList } from '@/api/djs/index'
 import { getList } from '@/api/djs/announcement'
+import { mapGetters } from 'vuex'
+
 export default {
   data() {
     return {
@@ -272,6 +274,9 @@ export default {
   components: {
     CountUp,
     LoginForm
+  },
+  computed: {
+    ...mapGetters(['user'])
   },
   methods: {
     getBanner() {
@@ -428,8 +433,8 @@ export default {
         this.invTodayAmt = toDecimal2(data.invTodayAmt)
       })
     },
-    getQualityList() {
-      getQualityList().then(res => {
+    getQualityList(data) {
+      getQualityList(data).then(res => {
         let data = res.data
         this.noviceProjectList = data.noviceProjectList
         this.noviceProjectList.forEach(val => {
@@ -455,7 +460,14 @@ export default {
     this.getBanner()
     this.getNotice()
     this.getOperateData()
-    this.getQualityList()
+    if(this.user) {
+      let postData = {
+        userName: this.user.userName
+      }
+      this.getQualityList(postData)
+    } else {
+      this.getQualityList()
+    }
   }
 }
 </script>
@@ -473,7 +485,8 @@ export default {
     z-index: 1;
     img {
       width: 100%;
-      height: 100%;
+      height: 500px;
+      object-fit: cover
     }
     .swiper-pagination-banner {
       position: absolute;
@@ -597,6 +610,7 @@ export default {
   .introduction-wrap {
     width: 100%;
     padding-top: 40px;
+    padding-bottom: 40px;
     background: #fff;
     ul {
       height: 52px;
@@ -677,7 +691,7 @@ export default {
   .lend-data-wrap {
     width: 100%;
     margin: 0 auto;
-    padding: 70px 20px 50px 20px;
+    padding: 50px 20px;
     background: #fff;
     .text-title {
       width: 158px;
@@ -722,7 +736,7 @@ export default {
   }
   .novice-area-wrap {
     background: #f4f4f4;
-    padding-top: 70px;
+    padding-top: 60px;
     padding-bottom: 60px;
     .novice-area-box {
       width: 1140px;

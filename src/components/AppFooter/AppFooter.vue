@@ -19,7 +19,7 @@
           <router-link to="/infoDisclosure?paramCode=HZHB">合作伙伴</router-link>
         </div>
         <div>
-          <router-link to="/infoDisclosure?paramCode=ZZRY">荣誉资质</router-link>
+          <router-link to="/infoDisclosure?paramCode=ZZRY">资质荣誉</router-link>
         </div>
       </li>
       <li>
@@ -31,11 +31,7 @@
           :to="{ name: 'helpCenter', query: { helpCode: item.dicCode } }"
           v-for="(item, index) in QAList"
           :key="index"
-        >
-          {{
-          item.dicName
-          }}
-        </router-link>
+        >{{item.dicName}}</router-link>
       </li>
       <li>
         <h3>
@@ -55,7 +51,7 @@
           <router-link to="/safety" @click.native="JumpSafety('satefy-url8')">信息隐私</router-link>
         </div>
         <div>
-          <router-link to="/infoDisclosure?paramCode=CJRJY">安全教育风险</router-link>
+          <router-link to="/infoDisclosure?paramCode=CJRJY">安全风险教育</router-link>
         </div>
       </li>
       <li>
@@ -64,8 +60,8 @@
           <span>联系我们</span>
         </h3>
         <div>400-0997-979</div>
-        <div>(周一到周六)</div>
-        <div>上午09:00 - 12:00</div>
+        <div>工作日</div>
+        <div>上午 09:00 - 12:00</div>
         <div>下午 13:00 - 18:00</div>
         <div>cs@idjshi.com</div>
       </li>
@@ -96,7 +92,7 @@
       </ul>
       <div class="copyright">
         <span>&copy;</span>
-        <span>2013-2017 江西汇通金融信息服务有限公司 版权所有</span>
+        <span>2013-2020 江西汇通金融信息服务有限公司 版权所有</span>
         <a href="http://www.miibeian.gov.cn/">赣ICP备13002945号-4 免责声明</a>
       </div>
       <div class="copy-img">

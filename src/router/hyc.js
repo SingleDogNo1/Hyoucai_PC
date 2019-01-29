@@ -111,7 +111,7 @@ export default new Router({
             {
               path: 'bankcard', // 银行卡
               name: 'bankcard',
-              component: () => import('@/views/djs/Mine/bankcard/bankcard')
+              component: () => import('@/views/hyc/Mine/bankcard/bankcard')
             },
             {
               path: 'referralCode', // 推荐码
@@ -328,6 +328,17 @@ export default new Router({
           path: 'signAgreement', // 签约
           name: 'sign',
           component: () => import(/* webpackChunkName: "bankAccount" */ '@/views/common/bankAccount/signAgreement.vue')
+        }
+      ]
+    },
+    {
+      path: '/', // 联系我们
+      component: Layout,
+      children: [
+        {
+          path: 'contact',
+          name: 'contact',
+          component: () => import(/* webpackChunkName: "contact" */ '@/views/hyc/contact/index.vue')
         }
       ]
     }

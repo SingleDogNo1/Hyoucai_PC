@@ -1,6 +1,6 @@
 <template>
   <div class="sanbiao">
-    <div class="detail-table">
+    <div class="detail-table" v-if="invList.length > 0">
       <!-- 申请中 -->
       <table cellspacing="0" v-if="invList && invList.length > 0">
         <thead>
@@ -31,7 +31,6 @@
           </tr>
         </tbody>
       </table>
-      <div class="no-data" v-else>么有数据</div>
       <!-- 分页器 -->
       <pagination
         class="page"
@@ -41,18 +40,21 @@
         @handleCurrentChange="changePage"
       ></pagination>
     </div>
+    <NoData v-else></NoData>
   </div>
 </template>
 
 <script>
 import { getZXTList } from '@/api/hyc/Mine/lend'
 import pagination from '@/components/pagination/pagination'
+import NoData from '@/components/NoData'
 
 export default {
   name: 'SB',
   mixins: [],
   components: {
-    pagination
+    pagination,
+    NoData
   },
   data() {
     return {
@@ -112,6 +114,10 @@ export default {
 @import '../../../../assets/css/theme';
 
 .sanbiao {
+  min-height: 512px;
+  background: #fff;
+  padding-top: 25px;
+  position: relative;
   .nav {
     display: flex;
     height: 60px;

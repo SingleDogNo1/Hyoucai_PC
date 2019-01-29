@@ -924,7 +924,6 @@ export default {
     },
     basicInfo: function() {
       accountApi.basicInfo({ _auth: true }).then(res => {
-        console.info('basicInfo res', res)
         let data = res.data
         if (data.resultCode === '1') {
           if (!data.data.isOpenAccount) {
@@ -943,8 +942,6 @@ export default {
       })
     },
     clickNext: function() {
-      console.info('clickNext')
-
       if (!isChName(this.formData.name.val)) {
         this.errorMsg = '请输入正确的姓名!!'
         this.$refs.userNameRef.focus()
@@ -971,8 +968,7 @@ export default {
     userInfoAuth: function(params) {
       accountApi.userInfoAuth(params).then(res => {
         let data = res.data
-        console.info('userInfoAuth data ==>', data)
-        if (data.data.isSuccess == '1') {
+        if (data.data.isSuccess === '1') {
           let params = {
             _auth: true,
             _type: 'post',
@@ -989,7 +985,6 @@ export default {
             } else {
               this.errorMsg = accountData.resultMsg
             }
-            console.info('accountOpenEncryptPage', accountData)
           })
         } else {
           this.errorMsg = data.data.message
