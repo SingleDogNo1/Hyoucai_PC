@@ -338,7 +338,7 @@ export default new Router({
         {
           path: 'contact',
           name: 'contact',
-          component: () => import(/* webpackChunkName: "activity" */ '@/views/hyc/contact/index.vue')
+          component: () => import(/* webpackChunkName: "contact" */ '@/views/hyc/contact/index.vue')
         }
       ]
     }
