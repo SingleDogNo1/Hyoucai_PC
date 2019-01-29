@@ -94,7 +94,6 @@
         <span>&copy;</span>
         <span>2013-2020 江西汇通金融信息服务有限公司 版权所有</span>
         <a href="http://www.miibeian.gov.cn/">赣ICP备13002945号-4 免责声明</a>
-        <a href=""></a>
       </div>
       <div class="copy-img">
         <a target="_blank" href="http://si.trustutn.org/info?sn=396180320000637017253&certType=4"></a>
