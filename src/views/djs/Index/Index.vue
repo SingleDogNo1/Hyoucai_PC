@@ -460,7 +460,7 @@ export default {
     this.getBanner()
     this.getNotice()
     this.getOperateData()
-    if(this.user) {
+    if (this.user) {
       let postData = {
         userName: this.user.userName
       }
@@ -486,7 +486,7 @@ export default {
     img {
       width: 100%;
       height: 500px;
-      object-fit: cover
+      object-fit: cover;
     }
     .swiper-pagination-banner {
       position: absolute;
