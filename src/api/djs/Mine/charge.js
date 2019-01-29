@@ -5,7 +5,7 @@ export function userBankCardList(data) {
   return request({
     url: '/UserBankCardList',
     method: 'POST',
-    headers: { 'Content-type': 'application/x-www-form-urlencoded', version: '2.0', platform: 'pc' },
+    headers: { 'Content-type': 'application/x-www-form-urlencoded', version: '1.0', platform: 'pc' },
     data: Qs.stringify(data)
   })
 }

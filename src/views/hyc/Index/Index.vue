@@ -184,7 +184,7 @@
       v-if="hycPopularProjectList && hycPopularProjectList.length > 0"
     >
       <div class="text-title"></div>
-      <ul :class="{ two: hycPopularProjectList.length == 2 }">
+      <ul :class="{ 'two': hycPopularProjectList.length == 2, 'one': hycPopularProjectList.length == 1}">
         <li v-for="(item, index) in hycPopularProjectList" :key="index" @click="toDownload">
           <p class="title">
             <img :src="item.iconUrl">
@@ -448,6 +448,15 @@ export default {
     },
     toDownload() {
       this.$router.push({ name: 'download' })
+    },
+    JumpSafety(id) {
+      localStorage.setItem('jumpId', id)
+      let jumpId = localStorage.getItem('jumpId')
+      let anchorElement = document.getElementById(jumpId)
+      // 如果锚点存在，就跳转
+      if (jumpId && anchorElement) {
+        anchorElement.scrollIntoView()
+      }
     }
   },
   mounted() {
