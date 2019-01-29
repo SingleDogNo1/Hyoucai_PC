@@ -284,11 +284,10 @@
 
 <script>
 import { mapState } from 'vuex'
-import moment from 'moment'
 import Pagination from '@/components/pagination/pagination'
 import { timeCountDown } from '@/assets/js/utils'
-import { investDetail, investRecord, projectCompo, expectedIncome, amountInfo, queryKHAgreementList } from '@/api/hyc/lendDetail'
-import ProjectDetail from './projectDetail'
+import { investDetail, investRecord, projectCompo, expectedIncome, amountInfo } from '@/api/hyc/lendDetail'
+import ProjectDetail from './popup/projectDetail'
 import Dialog from '@/components/Dialog/Dialog'
 
 export default {
@@ -409,7 +408,7 @@ export default {
       this.page = val
       this.getList()
     },
-    handleExpectedIncome(item) {
+    handleExpectedIncome() {
       console.log(this.invAmount)
       let postData = {
         invAmount: this.invAmount,

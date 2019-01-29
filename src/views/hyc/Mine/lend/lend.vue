@@ -3,11 +3,11 @@
     <header>
       <img src="./icon.png" alt="" />
       <div class="earning">
-        <p>123.456元</p>
+        <p>{{personalAccount.totalIncome}}元</p>
         <span>累计利息收益</span>
       </div>
       <div class="lend">
-        <p>1234.567元</p>
+        <p>{{personalAccount.totalInvAmount}}元</p>
         <span>累计出借</span>
       </div>
     </header>
@@ -16,7 +16,7 @@
         <h1>出借类别</h1>
         <ul>
           <li :class="{ active: typeStatusIndex === 0 }" @click="showQST(QSTStatus[QSTStatusIndex].statusCode)">轻松投</li>
-          <li :class="{ active: typeStatusIndex === 1 }" @click="showZXT()">自选投</li>
+          <li :class="{ active: typeStatusIndex === 1 }" @click="showZXT">自选投</li>
         </ul>
       </div>
       <div class="nav bid-status" v-if="typeStatusIndex === 0">
@@ -27,9 +27,7 @@
             :key="index"
             :class="{ active: index === QSTStatusIndex }"
             @click="changeQSTStatus(index, item.statusCode)"
-          >
-            {{ item.statusName }}
-          </li>
+          >{{ item.statusName }}</li>
         </ul>
       </div>
       <div class="nav bid-date" v-if="dateStatus && dateStatus.length > 0">
@@ -40,9 +38,7 @@
             :key="index"
             :class="{ active: index === dateStatusIndex }"
             @click="changeDateStatus(index, item.value)"
-          >
-            {{ item.key }}
-          </li>
+          >{{ item.key }}</li>
         </ul>
       </div>
       <div class="nav bid-status" v-if="typeStatusIndex === 1">
@@ -53,24 +49,21 @@
             :key="index"
             :class="{ active: index === ZXTStatusIndex }"
             @click="changeZXTStatus(index, item.value)"
-          >
-            {{ item.key }}
-          </li>
+          >{{ item.key }}</li>
         </ul>
       </div>
-
-      <div class="detail-wrapper"><router-view></router-view></div>
+      <div class="detail-wrapper">
+        <router-view></router-view>
+      </div>
     </section>
   </div>
 </template>
 
 <script>
 import { getInvestStatusApi, getDefaultStatusApi, getSanBiaoStatusApi } from '@/api/hyc/Mine/lend'
-
+import { mapGetters } from 'vuex'
 export default {
   name: 'lend',
-  mixins: [],
-  components: {},
   data() {
     return {
       typeStatusIndex: 0, // 出借类别索引 0: 轻松投  1: 自选投
@@ -81,6 +74,9 @@ export default {
       dateStatus: [], // 交易时间tab
       dateStatusIndex: 0 // 交易时间tab的索引
     }
+  },
+  computed: {
+    ...mapGetters(['personalAccount'])
   },
   methods: {
     changeQSTStatus(index, status) {
@@ -186,9 +182,7 @@ export default {
       })
     }
     initStatus()
-  },
-  mounted() {},
-  destroyed() {}
+  }
 }
 </script>
 
@@ -268,11 +262,6 @@ export default {
     &.bid-status {
       border-bottom: 1px solid #e3e3e3;
     }
-  }
-  .detail-wrapper {
-    min-height: 512px;
-    background: #fff;
-    padding-top: 25px;
   }
 }
 </style>

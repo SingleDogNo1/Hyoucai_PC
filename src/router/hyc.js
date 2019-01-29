@@ -111,7 +111,7 @@ export default new Router({
             {
               path: 'bankcard', // 银行卡
               name: 'bankcard',
-              component: () => import('@/views/djs/Mine/bankcard/bankcard')
+              component: () => import('@/views/hyc/Mine/bankcard/bankcard')
             },
             {
               path: 'referralCode', // 推荐码
@@ -230,9 +230,9 @@ export default new Router({
           props: route => ({ productNo: route.query.productNo })
         },
         {
-          path: 'loanDetail',
-          name: 'loanDetail',
-          component: () => import(/* webpackChunkName: "lend" */ '@/views/hyc/lend/loanDetail.vue')
+          path: 'popup',
+          name: 'popup',
+          component: () => import(/* webpackChunkName: "lend" */ '@/views/hyc/lend/popup/popup4.vue')
         }
       ]
     },

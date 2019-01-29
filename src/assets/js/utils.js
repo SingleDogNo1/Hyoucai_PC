@@ -95,7 +95,7 @@ export function timeCountDown(t, status, callback) {
   stime += i < 10 ? '0' + i + ':' : i + ':'
   stime += s < 10 ? '0' + s : s
   callback(stime)
-  if(status === 0) return  
+  if (status === 0) return
   t--
   if (t >= 0) {
     setTimeout(function() {
