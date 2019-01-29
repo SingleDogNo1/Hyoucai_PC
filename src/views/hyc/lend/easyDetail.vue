@@ -268,6 +268,17 @@
         <p>您当前未签约或签约状态不符合合规要求，<br />请重新签约！</p>
       </div>
     </Dialog>
+    <Dialog
+      :show.sync="isShowRiskDialog"
+      title="汇有财温馨提示"
+      :confirmText="riskConfirmText"
+      class="sign-dialog"
+      :onConfirm="toSign"
+    >
+      <div>
+        <p>您当前未签约或签约状态不符合合规要求，<br />请重新签约！</p>
+      </div>
+    </Dialog>
   </div>
 </template>
 
@@ -328,7 +339,9 @@ export default {
       joinRecordData: [],
       projectCompositionData: [],
       errMsg: '',
-      isShowSignDialog: false
+      isShowSignDialog: false,
+      isShowRiskDialog: true,
+      riskConfirmText: ''
     }
   },
   components: {
