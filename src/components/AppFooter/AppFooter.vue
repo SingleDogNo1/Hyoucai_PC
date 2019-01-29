@@ -177,6 +177,7 @@ export default {
     }
   },
   mounted() {
+    // 判断平台
     window.location.href.indexOf('hyc') > -1 ? this.getHYCQueryQAType() : this.getDJSQueryQAType()
     getFriendLink().then(res => {
       this.friendLinks = res.data.friendLinks
