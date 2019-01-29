@@ -146,10 +146,10 @@ export default {
             this.setUser(user)
             switch (this.user.platformFlag) {
               case '1':
-                window.location.href = '/djs/#/account'
+                window.location.href = '/djs/#/bankAccount/openAccount'
                 break
               case '2':
-                window.location.href = '/hyc/#/account'
+                window.location.href = '/hyc/#/bankAccount/openAccount'
                 break
               default:
                 this.$router.push({ name: 'account' })
