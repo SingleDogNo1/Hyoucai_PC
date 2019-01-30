@@ -151,6 +151,7 @@ export default {
       }
       userInviteInfo(params).then(res => {
         let data = res.data
+        this.referralCode = data.myInviteCode
         this.inviteNum = data.inviteNum
         this.inviteUserList = data.inviteUser
         this.inviteUserList.forEach(val => {
@@ -169,7 +170,6 @@ export default {
   },
   created() {},
   mounted() {
-    this.referralCode = this.userBasicInfo.myInviteCode
     this.refereeName = this.userBasicInfo.refereeName
     this.userName = this.user.userName
     let postData = {
