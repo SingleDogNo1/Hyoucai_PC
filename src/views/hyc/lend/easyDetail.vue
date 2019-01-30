@@ -272,11 +272,11 @@
       :show.sync="isShowRiskDialog"
       title="汇有财温馨提示"
       :confirmText="riskConfirmText"
-      class="sign-dialog"
-      :onConfirm="toSign"
+      class="risk-dialog"
+      :onConfirm="toRisk"
     >
       <div>
-        <p>您当前未签约或签约状态不符合合规要求，<br />请重新签约！</p>
+        <p>您当前出借的额度或期限不符合您的风险评测<br />等级分布，若您在上次评测后风险承受能力发<br />生改变，请您重新进行风险评测！</p>
       </div>
     </Dialog>
   </div>
@@ -340,7 +340,7 @@ export default {
       errMsg: '',
       isShowSignDialog: false,
       isShowRiskDialog: true,
-      riskConfirmText: ''
+      riskConfirmText: '重新评测'
     }
   },
   components: {
@@ -546,6 +546,9 @@ export default {
     },
     toSign() {
       this.$router.push({ name: 'sign' })
+    },
+    toRisk() {
+      
     }
   },
   mounted() {
@@ -763,12 +766,12 @@ export default {
           .title {
             width: 64px;
             line-height: 16px;
-            margin-right: 92px;
+            margin-right: 30px;
             color: $color-text-s;
             border: 0;
           }
           .value {
-            width: 99px;
+            width: 160px;
             line-height: 16px;
             text-align: right;
           }
@@ -1046,7 +1049,7 @@ export default {
       }
     }
   }
-  .sign-dialog {
+  .sign-dialog, .risk-dialog {
     p {
       line-height: 26px;
     }
