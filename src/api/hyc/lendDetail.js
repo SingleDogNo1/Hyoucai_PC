@@ -41,10 +41,34 @@ export function projectCompo(data) {
   })
 }
 
-// 电子账户余额查询
+// 电子账户余额查询(轻松投)
+export function amountQuery() {
+  return request({
+    url: 'balanceQuery/query',
+    method: 'post'
+  })
+}
+
+// 电子账户余额查询(自选投)
 export function amountInfo() {
   return request({
     url: 'personalAccount/amountInfo',
+    method: 'post'
+  })
+}
+
+// 系统维护
+export function systemMaintenance() {
+  return request({
+    url: 'collection/systemMaintenance',
+    method: 'get'
+  })
+}
+
+// 账户金额同步
+export function amountSync() {
+  return request({
+    url: 'amountSync/sync',
     method: 'post'
   })
 }

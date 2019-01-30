@@ -279,6 +279,17 @@
         <p v-html="riskContent"></p>
       </div>
     </Dialog>
+    <Dialog
+      :show.sync="isShowSystemMaintenanceDialog"
+      title="汇有财温馨提示"
+      confirmText="我知道了"
+      class="system-maintenance-dialog"
+      :singleButton="singleButton"
+    >
+      <div>
+        <p>当前系统正在维护中，当日23:45-次日0:15分钟暂不可进行出借！</p>
+      </div>
+    </Dialog>
   </div>
 </template>
 
@@ -286,7 +297,7 @@
 import { mapState } from 'vuex'
 import Pagination from '@/components/pagination/pagination'
 import { timeCountDown } from '@/assets/js/utils'
-import { investDetail, investRecord, projectCompo, expectedIncome, amountInfo } from '@/api/hyc/lendDetail'
+import { investDetail, investRecord, projectCompo, expectedIncome, amountInfo, systemMaintenance, amountSync } from '@/api/hyc/lendDetail'
 import ProjectDetail from './popup/projectDetail'
 import Dialog from '@/components/Dialog/Dialog'
 
@@ -341,6 +352,8 @@ export default {
       errMsg: '',
       isShowSignDialog: false,
       isShowRiskDialog: false,
+      isShowSystemMaintenanceDialog: false,
+      singleButton: true,
       riskConfirmText: '重新评测',
       riskContent: '您当前出借的额度或期限不符合您的风险评测<br />等级分布，若您在上次评测后风险承受能力发<br />生改变，请您重新进行风险评测！'
     }
@@ -446,7 +459,6 @@ export default {
         this.projectInfo.minInvAmount = projectInfo.minInvAmount
         this.projectInfo.maxInvTotalAmount = projectInfo.maxInvTotalAmount
         this.projectInfo.status = projectInfo.status
-        this.projectInfo.balance = projectInfo.balance
         this.projectInfo.maxInvAmount = projectInfo.maxInvAmount
 
         // 预售状态中，募集倒计时不倒计
@@ -471,7 +483,7 @@ export default {
         this.investDetail.riskManagementTip = investDetail.riskManagementTip
 
         this.getUserBasicInfo()
-        this.getAmountInfo()
+        this.getAmountQuery()
       })
     },
     getLendDetailList() {
@@ -527,47 +539,66 @@ export default {
         this.page = parseInt(data.curPage)
       })
     },
-    getAmountInfo() {
+    getAmountQuery() {
       amountInfo().then(res => {
-        let data = res.data.data
-        this.projectInfo.balance = this.investStatus === 'unopened' ? '未开户' : data.banlance
+        let data = res.data
+        console.log('data===', data)
+        if(data.resultCode === "1") {
+          this.projectInfo.balance = this.investStatus === 'unopened' ? '未开户' : data.data.banlance
+          console.log(this.projectInfo.balance)
+        }
       })
     },
     handleInvest() {
       this.errMsg = ''
-      // 如果是未开户，点击去开户页面
-      if (this.investStatus === 'unopened') {
-        this.$router.push({ name: 'account' })
-      }
-      // 如果没勾选风险告知书，弹出提示
-      if (!this.isAgree) {
-        this.errMsg = '请确认并同意《风险告知书》'
-        return
-      }
-      // 是否已经签约
-      this.userBasicInfo.userIsOpenAccount.registerProtocolSigned = true
-      if (!this.userBasicInfo.userIsOpenAccount.registerProtocolSigned) {
-        this.isShowSignDialog = true
-        return
-      }
-      // 是否进行过风险测评
-      this.userBasicInfo.evaluatingResult = true
-      if(!this.userBasicInfo.evaluatingResult) {
-        this.riskContent = '您当前还未风险评测或评测已过期，请进行风险评测。'
-        this.riskConfirmText = '立即评测'
-        this.isShowRiskDialog = true
-        return
-      }
-      // 单人限额是否超过
-      if(this.invAmount > this.projectInfo.maxInvTotalAmount) {
-        this.errMsg = '单人限额' + this.projectInfo.maxInvTotalAmount + '元'
-        return
-      }
-      // 单笔限额是否超过
-      if(this.invAmount > this.projectInfo.maxInvAmount) {
-        this.errMsg = '单笔限额' + this.projectInfo.maxInvAmount + '元'
-        return
-      }
+      systemMaintenance().then( res=> {
+        let data = res.data
+        // 此时段为系统维护
+        if(data.resultCode === "60056") {
+          this.isShowSystemMaintenanceDialog = true
+        } else {
+          amountSync().then( res=> {
+            let data = res.data
+            console.log('data====', data)
+            if (data.resultCode === '1') {
+              this.projectInfo.balance = data.data.availBal
+            }
+          })
+          // 如果是未开户，点击去开户页面
+          if (this.investStatus === 'unopened') {
+            this.$router.push({ name: 'account' })
+          }
+          // 如果没勾选风险告知书，弹出提示
+          if (!this.isAgree) {
+            this.errMsg = '请确认并同意《风险告知书》'
+            return
+          }
+          // 是否已经签约
+          this.userBasicInfo.userIsOpenAccount.registerProtocolSigned = true
+          if (!this.userBasicInfo.userIsOpenAccount.registerProtocolSigned) {
+            this.isShowSignDialog = true
+            return
+          }
+          // 是否进行过风险测评
+          this.userBasicInfo.evaluatingResult = true
+          if(!this.userBasicInfo.evaluatingResult) {
+            this.riskContent = '您当前还未风险评测或评测已过期，请进行风险评测。'
+            this.riskConfirmText = '立即评测'
+            this.isShowRiskDialog = true
+            return
+          }
+          // 单人限额是否超过
+          if(this.invAmount > this.projectInfo.maxInvTotalAmount) {
+            this.errMsg = '单人限额' + this.projectInfo.maxInvTotalAmount + '元'
+            return
+          }
+          // 单笔限额是否超过
+          if(this.invAmount > this.projectInfo.maxInvAmount) {
+            this.errMsg = '单笔限额' + this.projectInfo.maxInvAmount + '元'
+            return
+          }
+        }
+      })
     },
     toSign() {
       this.$router.push({ name: 'sign' })
@@ -1074,7 +1105,7 @@ export default {
       }
     }
   }
-  .sign-dialog, .risk-dialog {
+  .sign-dialog, .risk-dialog, .system-maintenance-dialog {
     p {
       font-size: $font-size-small;
       line-height: 26px;
