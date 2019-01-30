@@ -276,7 +276,7 @@
       :onConfirm="toRisk"
     >
       <div>
-        <p>您当前出借的额度或期限不符合您的风险评测<br />等级分布，若您在上次评测后风险承受能力发<br />生改变，请您重新进行风险评测！</p>
+        <p v-html="riskContent"></p>
       </div>
     </Dialog>
   </div>
@@ -321,7 +321,8 @@ export default {
         minInvAmount: '',
         maxInvTotalAmount: '',
         status: 0,
-        balance: ''
+        balance: '',
+        maxInvAmount: ''
       },
       investDetail: {
         appDesc: '',
@@ -339,8 +340,9 @@ export default {
       projectCompositionData: [],
       errMsg: '',
       isShowSignDialog: false,
-      isShowRiskDialog: true,
-      riskConfirmText: '重新评测'
+      isShowRiskDialog: false,
+      riskConfirmText: '重新评测',
+      riskContent: '您当前出借的额度或期限不符合您的风险评测<br />等级分布，若您在上次评测后风险承受能力发<br />生改变，请您重新进行风险评测！'
     }
   },
   components: {
@@ -444,6 +446,8 @@ export default {
         this.projectInfo.minInvAmount = projectInfo.minInvAmount
         this.projectInfo.maxInvTotalAmount = projectInfo.maxInvTotalAmount
         this.projectInfo.status = projectInfo.status
+        this.projectInfo.balance = projectInfo.balance
+        this.projectInfo.maxInvAmount = projectInfo.maxInvAmount
 
         // 预售状态中，募集倒计时不倒计
         timeCountDown(investEndTimestamp, this.projectInfo.status, data => {
@@ -540,15 +544,36 @@ export default {
         this.errMsg = '请确认并同意《风险告知书》'
         return
       }
-      if (!this.userBasicInfo.registerProtocolSigned) {
+      // 是否已经签约
+      this.userBasicInfo.userIsOpenAccount.registerProtocolSigned = true
+      if (!this.userBasicInfo.userIsOpenAccount.registerProtocolSigned) {
         this.isShowSignDialog = true
+        return
+      }
+      // 是否进行过风险测评
+      this.userBasicInfo.evaluatingResult = true
+      if(!this.userBasicInfo.evaluatingResult) {
+        this.riskContent = '您当前还未风险评测或评测已过期，请进行风险评测。'
+        this.riskConfirmText = '立即评测'
+        this.isShowRiskDialog = true
+        return
+      }
+      // 单人限额是否超过
+      if(this.invAmount > this.projectInfo.maxInvTotalAmount) {
+        this.errMsg = '单人限额' + this.projectInfo.maxInvTotalAmount + '元'
+        return
+      }
+      // 单笔限额是否超过
+      if(this.invAmount > this.projectInfo.maxInvAmount) {
+        this.errMsg = '单笔限额' + this.projectInfo.maxInvAmount + '元'
+        return
       }
     },
     toSign() {
       this.$router.push({ name: 'sign' })
     },
     toRisk() {
-      
+      this.$router.push({ name: 'riskAss' })
     }
   },
   mounted() {
@@ -915,14 +940,14 @@ export default {
           font-size: $font-size-small;
           color: $color-text;
           .title {
-            width: 108px;
+            width: 117px;
             line-height: 16px;
-            margin-right: 92px;
+            margin-right: 30px;
             color: $color-text;
             border: 0;
           }
           .value {
-            width: 99px;
+            width: 200px;
             line-height: 16px;
             text-align: right;
           }
@@ -1051,6 +1076,7 @@ export default {
   }
   .sign-dialog, .risk-dialog {
     p {
+      font-size: $font-size-small;
       line-height: 26px;
     }
   }
