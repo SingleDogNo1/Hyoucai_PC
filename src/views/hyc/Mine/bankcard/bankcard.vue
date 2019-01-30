@@ -1,10 +1,10 @@
 <template>
   <div class="bankcard">
     <div class="title">
-      <span v-if="bankcardInfo.openBankName">我的银行卡</span>
+      <span v-if="bankcardInfo.cardNo">我的银行卡</span>
       <span v-else>绑定银行卡</span>
     </div>
-    <div class="card-item" v-if="bankcardInfo.openBankName">
+    <div class="card-item" v-if="bankcardInfo.cardNo">
       <header>
         <div class="bank-name">
           <img :src="bankcardInfo.iconUrl" :alt="bankcardInfo.openBankName" />
@@ -12,7 +12,7 @@
         </div>
         <div class="card-type">储蓄卡</div>
       </header>
-      <section>{{ user.userBasicInfo.escrowAccountInfo.bankCard  }}</section>
+      <section>{{ user.userBasicInfo.escrowAccountInfo.bankCard | encrypt }}</section>
       <footer @click="unbind">解绑</footer>
     </div>
     <div class="no-card" v-else>
@@ -46,18 +46,44 @@ export default {
       bankcardMsg: ''
     }
   },
-  props: {},
-  watch: {},
+  filters: {
+    encrypt(value) {
+      return `${value.slice(0, 4)}  ••••  ••••  ${value.slice(-4)}`
+    }
+  },
   methods: {
+    postcall(url, params, target) {
+      let tempform = document.createElement('form')
+      tempform.setAttribute('name', 'form')
+      tempform.action = url
+      tempform.method = 'post'
+      tempform.style.display = 'none'
+      if (target) {
+        tempform.target = target
+      }
+
+      for (let x in params) {
+        let opt = document.createElement('input')
+        opt.setAttribute('name', x)
+        opt.setAttribute('value', params[x])
+        tempform.appendChild(opt)
+      }
+      let opt = document.createElement('input')
+      opt.type = 'submit'
+      opt.setAttribute('id', '_submit')
+      tempform.appendChild(opt)
+      document.body.appendChild(tempform)
+      tempform.submit()
+      document.body.removeChild(tempform)
+    },
     unbind() {
       unbindCardApi({
         retUrl: window.location.href
       }).then(res => {
-        console.log(res)
         if (res.data.resultCode === '1') {
-          // success
-          // TODO linkto bank page
+          this.postcall(res.data.data.redirectUrl, res.data.data.paramReq)
         } else if (res.data.resultCode === '60007' || res.data.resultCode === '60008') {
+          // TODO 这个异常的处理方式和下面的异常是否相同？？
           //"60007","账面余额不为0，不能解除绑定" ;"60008","有债权关系不能解绑"
           this.bankcardDialog = true
           this.bankcardMsg = res.data.resultMsg
@@ -86,9 +112,8 @@ export default {
   },
   created() {
     getUserBankCardInfo({
-      userName: this.user.userName
+      userName: this.user.user.userName
     }).then(res => {
-      console.log(res.data.data)
       if (res.data.resultCode === '1') {
         this.bankcardInfo = res.data.data
       }
@@ -146,7 +171,7 @@ export default {
     footer {
       margin-top: 40px;
       text-align: end;
-      color: $color-theme;
+      color: #db011b;
       cursor: pointer;
     }
   }

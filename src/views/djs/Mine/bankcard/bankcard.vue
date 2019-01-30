@@ -1,49 +1,77 @@
 <template>
   <div class="bankcard">
-    <div class="title">我的银行卡</div>
-    <div class="card-item" v-for="(item, index) in bankcardList" :key="index">
-      <header>
-        <div class="bank-name">
-          <img :src="item.iconUrl" :alt="item.bankName">
-          <span>{{ item.bankName }}</span>
-        </div>
-        <div class="card-type">储蓄卡</div>
-      </header>
-      <section v-html="item.cardNo"></section>
-      <footer @click="unbind">解绑</footer>
+    <div class="title">
+      <span>我的银行卡</span>
     </div>
+    <template v-if="bankcardList.length > 0">
+      <div class="card-item" v-for="(item, index) in bankcardList" :key="index">
+        <header>
+          <div class="bank-name">
+            <img :src="item.iconUrl" :alt="item.bankName" /> <span>{{ item.bankName }}</span>
+          </div>
+          <div class="card-type">储蓄卡</div>
+        </header>
+        <section>{{ item.cardNo | encrypt }}</section>
+        <footer @click="unbind">解绑</footer>
+      </div>
+    </template>
+    <div class="no-card" v-else>
+      <button @click="toBindCard">去绑定银行卡</button>
+    </div>
+    <bankcard-dialog :show.sync="showDialog">
+      <div class="dialog-text">{{dialogMsg}}</div>
+    </bankcard-dialog>
   </div>
 </template>
 
 <script>
-import { getUserBankCardList, prevChangeBankcard } from '@/api/djs/Mine/bankcard'
+import bankcardDialog from '@/components/Dialog/Dialog'
+import { getUserBankCardList, prevChangeBankcard, userChangeBankCard } from '@/api/djs/Mine/bankcard'
 import { mapGetters } from 'vuex'
 
 export default {
   name: 'bankcard',
   mixins: [],
-  components: {},
+  components: {
+    bankcardDialog
+  },
   data() {
     return {
-      bankcardList: []
+      bankcardList: [],
+      showDialog: false,
+      dialogMsg: ''
     }
   },
-  props: {},
-  watch: {},
+  filters: {
+    encrypt(value) {
+      return `${value.slice(0, 4)}  ••••  ••••  ${value.slice(-4)}`
+    }
+  },
   methods: {
     unbind() {
       prevChangeBankcard({
         bankCardNo: this.bankcardList[0].cardNo
       }).then(res => {
-        if (!res.data.canModify) {
-          alert(res.data.message)
-          return false
+        if (res.data.canModify) {
+          userChangeBankCard({
+            bankCardNo: this.bankcardList[0].cardNo
+          }).then(res => {
+            console.log(res)
+          })
+        } else {
+          this.showDialog = true
+          this.dialogMsg = res.data.message
         }
+      })
+    },
+    toBindCard() {
+      this.$router.push({
+        name: 'addBankCard'
       })
     }
   },
   computed: {
-    ...mapGetters(['user'])
+    ...mapGetters(['user', 'userBasicInfo'])
   },
   created() {
     getUserBankCardList({
@@ -51,17 +79,6 @@ export default {
     }).then(res => {
       if (res.data.list && res.data.list.length > 0) {
         this.bankcardList = res.data.list
-        this.bankcardList.forEach(val => {
-          let no = val.cardNo
-          let len = no.length
-          val.cardNo =
-            '<span>' +
-            no.substring(0, 4) +
-            '</span><span class="point">····</span><span class="point">····</span><span>' +
-            no.substring(len - 4, len) +
-            '</span>'
-        })
-        console.log('this.bankcardList===', this.bankcardList)
       }
     })
   },
@@ -111,27 +128,20 @@ export default {
       }
     }
     section {
-      display: flex;
-      margin-top: 15px;
+      margin-top: 35px;
       font-size: $font-size-small;
       color: $color-text;
-      align-items: center;
-      /deep/ span {
-        display: inline-block;
-        margin-right: 16px;
-      }
-      /deep/ span.point {
-        height: 52px;
-        line-height: 47px;
-        font-size: 40px;
-      }
     }
     footer {
       margin-top: 40px;
       text-align: end;
-      color: #DB011B;
+      color: #db011b;
       cursor: pointer;
     }
+  }
+  .no-card {
+    height: 740px;
+    background: #000;
   }
 }
 </style>

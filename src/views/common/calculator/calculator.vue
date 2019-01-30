@@ -6,27 +6,28 @@
         <el-form :inline="true" :model="calculator" class="demo-form-inline">
           <div class="input-wrapper">
             <el-form-item label="出借金额">
-              <el-input v-model="calculator.sum" placeholder="出借金额"
-                ><template slot="append"
-                  >元</template
-                ></el-input
-              >
+              <el-input v-model="calculator.sum" placeholder="出借金额">
+                <template slot="append">元</template>
+              </el-input>
+              <p v-if="amountError">{{amountErrorMsg}}</p>
             </el-form-item>
             <el-form-item label="历史平均年化收益率">
-              <el-input v-model="calculator.rate" placeholder="历史平均年化收益率"
-                ><template slot="append"
-                  >%</template
-                ></el-input
-              >
+              <el-input v-model="calculator.rate" placeholder="历史平均年化收益率">
+                <template slot="append">%</template>
+              </el-input>
+              <p v-if="rateError">{{rateErrorMsg}}</p>
             </el-form-item>
           </div>
           <div class="input-wrapper">
             <el-form-item label="出借期限">
-              <el-input v-model="calculator.duration" placeholder="出借期限"
-                ><template slot="append"
-                  ><span class="el-icon-caret el-icon-caret-left" @click="changeDuration"></span><i>{{ termType | termFilter }}</i
-                  ><span class="el-icon-caret el-icon-caret-right" @click="changeDuration"></span></template
-              ></el-input>
+              <el-input v-model="calculator.duration" placeholder="出借期限">
+                <template slot="append">
+                  <span class="el-icon-caret el-icon-caret-left" @click="changeDuration"></span>
+                  <i>{{ termType | termFilter }}</i>
+                  <span class="el-icon-caret el-icon-caret-right" @click="changeDuration"></span>
+                </template>
+              </el-input>
+              <p v-if="durationError">{{durationErrorMsg}}</p>
             </el-form-item>
             <el-form-item label="还款方式">
               <el-select v-model="calculator.type" placeholder="还款方式">
@@ -73,6 +74,10 @@ import { calculator } from '@/api/common/calculator'
 import { getRetBaseURL } from '@/assets/js/utils'
 
 const ERR_OK = '1'
+const [
+  reg_float, // 非零正数（小数 && 整数）
+  reg_Int // 非零正整数
+] = [/^(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*))$/, /^\+?[1-9][0-9]*$/]
 export default {
   name: 'calculator',
   data() {
@@ -93,11 +98,17 @@ export default {
         duration: '',
         type: 2
       },
-      termType: 1,
+      termType: 2,
       expectedRevenue: 0,
       totalSum: 0,
       tableData: [],
-      system: getRetBaseURL()
+      system: getRetBaseURL(),
+      amountError: false,
+      amountErrorMsg: '请输入正确的出借金额',
+      rateError: false,
+      rateErrorMsg: '请输入正确的历史平均年化收益率 ',
+      durationError: false,
+      durationErrorMsg: '请输入正确的出借期限'
     }
   },
   watch: {
@@ -123,13 +134,19 @@ export default {
         ]
       }
     },
-    calculator: {
-      handler(val) {
-        if (val.type === 1) {
-          this.termType = 2
-        }
-      },
-      deep: true
+    'calculator.type'(val) {
+      if (val === 1) {
+        this.termType = 2
+      }
+    },
+    'calculator.sum'(val) {
+      this.amountError = !reg_float.test(val)
+    },
+    'calculator.rate'(val) {
+      this.rateError = !reg_float.test(val)
+    },
+    'calculator.duration'(val) {
+      this.durationError = !reg_Int.test(val)
     }
   },
   filters: {
@@ -157,25 +174,33 @@ export default {
         termType: this.termType,
         repayment: this.calculator.type
       }
-      calculator(params).then(res => {
-        let data = res.data
-        if (data.resultCode === ERR_OK) {
-          let result = data.incomeCalculatorBean
-          this.expectedRevenue = result.allInterest
-          this.totalSum = result.totalPrincipalInterest
-          this.tableData = result.incomePlanList
-        }
-      })
+      if (!this.calculator.sum) {
+        this.amountError = true
+      } else if (!this.calculator.rate) {
+        this.rateError = true
+      } else if (!this.calculator.duration) {
+        this.durationError = true
+      } else {
+        calculator(params).then(res => {
+          let data = res.data
+          if (data.resultCode === ERR_OK) {
+            let result = data.incomeCalculatorBean
+            this.expectedRevenue = result.allInterest
+            this.totalSum = result.totalPrincipalInterest
+            this.tableData = result.incomePlanList
+          }
+        })
+      }
     },
     resetCalc() {
       this.types = [
         {
-          label: '等额本息',
-          value: 1
-        },
-        {
           label: '先息后本',
           value: 2
+        },
+        {
+          label: '等额本息',
+          value: 1
         }
       ]
       this.calculator = {
@@ -184,7 +209,7 @@ export default {
         duration: '',
         type: 2
       }
-      this.termType = 1
+      this.termType = 2
       this.expectedRevenue = 0
       this.totalSum = 0
       this.tableData = []
@@ -242,63 +267,71 @@ export default {
       padding: 63px 60px 15px;
       background-color: #fbfbfb;
       /deep/ .el-form--inline {
-        > div {
-          &.input-wrapper {
-            display: flex;
-            .el-form-item {
-              flex: 1;
-              .el-form-item__label {
-                font-size: 18px;
-              }
-              .el-form-item__content {
-                width: 250px;
-                .el-input-group__append {
-                  padding: 0 8px;
-                  background-color: #f8f8f8;
+        .input-wrapper {
+          display: flex;
+          p {
+            margin: 10px 0;
+            text-align: center;
+            border: 1px solid #e84518;
+            background: #ffe5e5;
+            color: #e84518;
+            border-radius: 5px;
+            font-size: 12px;
+          }
+          .el-form-item {
+            margin-bottom: 0;
+            flex: 1;
+            .el-form-item__label {
+              font-size: 18px;
+            }
+            .el-form-item__content {
+              width: 250px;
+              .el-input-group__append {
+                padding: 0 8px;
+                background-color: #f8f8f8;
+                color: #cdcdcd;
+                span {
                   color: #cdcdcd;
-                  span {
-                    color: #cdcdcd;
-                    cursor: pointer;
-                  }
+                  cursor: pointer;
                 }
-              }
-              .el-select {
-                width: 250px;
-                .el-input__suffix {
-                  height: 38px;
-                  padding: 0 2px;
-                  top: 1px;
-                  right: 1px;
-                  border-left: 1px solid #dcdfe6;
-                  border-top-right-radius: 4px;
-                  border-bottom-right-radius: 4px;
-                  background-color: #f8f8fb;
-                }
-              }
-              &:nth-of-type(1) {
-                text-align: left;
-              }
-              &:nth-of-type(2) {
-                text-align: right;
               }
             }
-          }
-          &.btn-wrapper {
-            margin: 18px 0;
-            padding-left: 85px;
-            .el-form-item {
-              .el-form-item__content {
-                width: 250px;
-                button {
-                  width: 100%;
-                }
+            .el-select {
+              width: 250px;
+              .el-input__suffix {
+                height: 38px;
+                padding: 0 2px;
+                top: 1px;
+                right: 1px;
+                border-left: 1px solid #dcdfe6;
+                border-top-right-radius: 4px;
+                border-bottom-right-radius: 4px;
+                background-color: #f8f8fb;
               }
-              &:nth-of-type(2) {
-                margin-left: 60px;
-                button {
-                  background-color: #099ef5;
-                  border-color: #099ef5;
-                }
+            }
+            &:nth-of-type(1) {
+              text-align: left;
+            }
+            &:nth-of-type(2) {
+              text-align: right;
+            }
+          }
+        }
+        .btn-wrapper {
+          margin: 18px 0;
+          padding-left: 85px;
+          .el-form-item {
+            .el-form-item__content {
+              width: 250px;
+              button {
+                width: 100%;
+              }
+            }
+            &:nth-of-type(2) {
+              margin-left: 60px;
+              button {
+                background-color: #099ef5;
+                border-color: #099ef5;
               }
             }
           }

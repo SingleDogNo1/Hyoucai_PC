@@ -11,11 +11,11 @@
           <span @click="popValidation">{{ countDownText }}</span>
         </div>
         <div class="form-item pwd">
-          <i class="iconfont icon-password"></i> <input type="password" v-model="form.passWord" placeholder="输入8-20位字母和数字组合" />
+          <i class="iconfont icon-password"></i> <input type="password" v-model="form.passWord" placeholder="输入8-20位字母和数字组合" maxlength="20" onkeydown="if(/[^a-zA-Z0-9]/.test(event.key)) return false" />
           <password-strength class="passwordStrength" :pwd="form.passWord"></password-strength>
         </div>
         <div class="form-item">
-          <i class="iconfont icon-password"></i> <input type="password" v-model="form.confirmPassword" placeholder="输入8-20位字母和数字组合" />
+          <i class="iconfont icon-password"></i> <input type="password" v-model="form.confirmPassword" placeholder="输入8-20位字母和数字组合" maxlength="20" onkeydown="if(/[^a-zA-Z0-9]/.test(event.key)) return false" />
         </div>
         <div class="form-item" v-if="cpm === 'true'">
           <i class="iconfont icon-code"></i> <input type="text" v-model="form.inviteCode" placeholder="输入钞票码(选填)" />
@@ -70,6 +70,12 @@ export default {
     ...mapGetters(['user', 'registerMobile'])
   },
   methods: {
+    checkCode(e) {
+      //const key = e.key;
+      console.log(e)
+      //this.form.passWord = this.form.passWord.replace(/[^a-zA-Z0-9]/g,'')
+      return false
+    },
     popValidation() {
       if (this.countDownText === '获取验证码')
         // 弹出滑块验证码
@@ -95,7 +101,7 @@ export default {
     },
     async nextStep() {
       if (!isMobCode(this.form.identifyCode)) {
-        this.errorMsg = '请输入正确的验证码'
+        this.errorMsg = '请输入正确的手机验证码！'
         return false
       }
       if (!isPassword(this.form.passWord)) {

@@ -239,7 +239,8 @@ export default {
       let params = {
         userName: this.userName,
         curPage: this.page,
-        maxLine: this.size
+        maxLine: this.size,
+        channel: 1
       }
       if (this.couponId) {
         params.couponId = this.couponId
@@ -261,7 +262,8 @@ export default {
       let params = {
         userName: this.userName,
         curPage: this.page1,
-        maxLine: this.size
+        maxLine: this.size,
+        channel: '1'
       }
       if (this.couponId) {
         params.couponId = this.couponId
@@ -283,7 +285,8 @@ export default {
       let params = {
         userName: this.userName,
         curPage: this.page2,
-        maxLine: this.size
+        maxLine: this.size,
+        channel: '1'
       }
       if (this.couponId) {
         params.couponId = this.couponId
