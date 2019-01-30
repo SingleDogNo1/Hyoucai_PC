@@ -1,4 +1,5 @@
 import request from '@/assets/js/requestHYC'
+import qs from 'qs'
 
 export function getCountMsg(data) {
   return request({
@@ -14,7 +15,7 @@ export function getQSList(data) {
     headers: {
       version: '2.0'
     },
-    data: data
+    data: qs.stringify(data)
   })
 }
 
@@ -25,7 +26,7 @@ export function getZXList(data) {
     headers: {
       version: '2.0'
     },
-    data: data
+    data: qs.stringify(data)
   })
 }
 
@@ -36,7 +37,7 @@ export function getGRList(data) {
     headers: {
       version: '2.0'
     },
-    data: data
+    data: qs.stringify(data)
   })
 }
 
