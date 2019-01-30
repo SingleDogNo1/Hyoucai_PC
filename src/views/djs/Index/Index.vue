@@ -169,9 +169,9 @@
             </div>
             <div class="amount">
               <p class="title">
-                <span class="large">{{ item.maxInvTotalAmt }}</span> 元
+                <span class="large">{{ item.enablAmt }}</span> 元
               </p>
-              <p class="desc">融资金额</p>
+              <p class="desc">剩余额度</p>
             </div>
           </div>
           <div class="btn-invest-now">
