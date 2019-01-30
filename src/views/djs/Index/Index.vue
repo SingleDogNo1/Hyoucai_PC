@@ -436,7 +436,6 @@ export default {
     getQualityList(data) {
       getQualityList(data).then(res => {
         let data = res.data
-        data.noviceProjectList = null
         this.noviceProjectList = data.noviceProjectList
         this.noviceProjectList.forEach(val => {
           val.investMent = val.investMent.substr(0, val.investMent.length - 1)

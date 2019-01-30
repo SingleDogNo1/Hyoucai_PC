@@ -6,7 +6,7 @@ export function getBanner(data) {
   return request({
     url: '/HomeBannerPic',
     method: 'post',
-    headers: { 'Content-type': 'application/x-www-form-urlencoded' },
+    headers: { 'Content-type': 'application/x-www-form-urlencoded', version: '2.0' },
     data: qs.stringify(data)
   })
 }
