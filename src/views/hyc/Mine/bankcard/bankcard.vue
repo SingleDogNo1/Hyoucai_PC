@@ -16,7 +16,9 @@
       <footer @click="unbind">解绑</footer>
     </div>
     <div class="no-card" v-else>
-      <button @click="toBindCard">添加银行卡</button>
+      <div class="wrap">
+        <button @click="toBindCard"><img src="./images/icon_nocard.png"/><span>添加银行卡</span></button>
+      </div>
     </div>
 
     <bankcard-dialog
@@ -151,7 +153,30 @@ export default {
   .no-card {
     width: 100%;
     height: 700px;
-    background: #000;
+    line-height: 700px;
+    .wrap {
+      width: 200px;
+      height: 50px;
+      margin: 0 auto;
+      button {
+        width: 100%;
+        height: 100%;
+        margin: 0 auto;
+        background: #fff;
+        cursor: pointer;
+        img {
+          display: inline-block;
+          width: 50px;
+          height: 50px;
+          margin-right: 12px;
+        }
+        span{
+          display: inline-block;
+          height: 100%;
+          line-height: 50px;
+        }
+      }
+    }
   }
   .dialog-msg {
     text-align: center;
