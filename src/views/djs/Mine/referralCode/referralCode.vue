@@ -49,7 +49,7 @@
         <input
           v-model="fillInReferral"
           class="fill-in-referral-input"
-          type="number"
+          type="text"
           placeholder="请输入推荐人邀请码"
         >
       </div>
@@ -73,6 +73,7 @@ import Clipboard from 'clipboard'
 import Pagination from '@/components/pagination/pagination'
 import Dialog from '@/components/Dialog/Dialog'
 import { saveInviteCode, qRCodeShare, userInviteInfo } from '@/api/djs/Mine/referralCode'
+import { referralCodeReg } from '@/assets/js/utils'
 
 export default {
   name: 'referralCode',
@@ -119,12 +120,16 @@ export default {
         this.$message({ message: '推荐人邀请码不能为空', type: 'error' })
         return
       }
+      if(!referralCodeReg(this.fillInReferral)) {
+        this.$message({ message: '推荐人邀请码格式有误，请重新输入', type: 'error' })
+        return
+      }
       let postData = {
         inviteCode: this.fillInReferral
       }
       saveInviteCode(postData).then(res => {
         let data = res.data
-        if (data.resultCode === 1) {
+        if (data.resultCode === '1') {
           this.$notify({ title: '成功', message: '推荐人邀请码填写成功', type: 'success', duration: 2000 })
         } else {
           this.$notify({ title: '失败', message: data.resultMsg, type: 'error', duration: 2000 })
@@ -184,7 +189,7 @@ export default {
   },
   watch: {
     fillInReferral: function(val) {
-      this.preventClose = !val ? true : false
+      this.preventClose = (!val || !referralCodeReg(val) ) ? true : false
     }
   }
 }
