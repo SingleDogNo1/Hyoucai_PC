@@ -41,7 +41,6 @@
 import pagination from '@/components/pagination/pagination'
 import { getRecord } from '@/api/djs/Mine/record'
 import { getUser } from '@/assets/js/cache'
-import { getAuth } from '@/assets/js/utils'
 const ERR_OK = '1'
 export default {
   name: 'record',
@@ -95,8 +94,7 @@ export default {
       page: 1,
       size: 10,
       countPage: 0,
-      userName: getUser().userName,
-      authorization: getAuth()
+      userName: getUser().userName
     }
   },
   filters: {
@@ -117,10 +115,8 @@ export default {
     getRecordList() {
       let params = {
         userName: this.userName,
-        authorization: this.authorization,
         timeType: this.timeType,
-        curPage: this.page,
-        maxLine: this.size
+        curPage: this.page
       }
       if (this.tranType) {
         params.tranType = this.tranType

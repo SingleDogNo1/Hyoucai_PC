@@ -45,22 +45,24 @@
         <el-tab-pane label="转账充值">
           <div class="transfer-charge">
             <div class="left">
-              <div class="charge-phone"><img src="./image/charge-phone.png" /></div>
+              <div class="charge-phone"><img src="./image/charge-phone.png" alt="" /></div>
             </div>
             <div class="right">
-              <img src="./image/unionpay.png" />
-              <div class="des">您可以使用您的银行卡，通过线下跨行转账（柜台、网银、手机银行）方式将资金充值到您的江西银行电子账户。</div>
+              <img src="./image/unionpay.png" alt="" />
+              <div class="des">
+                您可以使用您注册汇有财时绑定的银行卡，通过线下跨行转账（柜台、网银、手机银行APP）方式将资金充值到您的江西银行电子账户。
+              </div>
               <ul class="items">
                 <li>
                   <dl>
                     <dt>您收款方户名:</dt>
-                    <dd>杨阳</dd>
+                    <dd>江西汇通金融信息服务有限公司</dd>
                   </dl>
                 </li>
                 <li>
                   <dl>
                     <dt>收款方账号:</dt>
-                    <dd>6212 4611 4000 0276 031 <span class="copy_num" :data-clipboard-text="6212461140000276031">复制</span></dd>
+                    <dd>7919 1331 4800 301 <span class="copy_num" :data-clipboard-text="791913314800301">复制</span></dd>
                   </dl>
                 </li>
                 <li>
@@ -76,10 +78,12 @@
                   </dl>
                 </li>
               </ul>
+              <h6 @click="showDetail">线下充值流程更改说明，点击查看>></h6>
               <p>温馨提示：</p>
-              <p>1、充值过程中收取的转账费用，以银行规定为准，汇有财不收取任何手续费用；</p>
-              <p>2、如资金未到账，请联系汇有财客服：<a href="javascript:;">400-78-96266</a></p>
-              <div class="last-tip">充值两小时后请到“账户总览”页面点击资金同步按钮进行资金同步。</div>
+              <p>1、以上账户为汇有财平台在江西银行的存管账户，平台将根据您的转账金额自动发放至您的电子账户，资金安全由第三方江西银行全权保障。</p>
+              <p>
+                充值过程中收取的转账费用，以银行规定为准，汇有财不收取任何手续费用；如资金未到账，请联系汇有财客服：<a href="javascript:void(0);">400-78-96266</a>
+              </p>
             </div>
           </div>
         </el-tab-pane>
@@ -147,7 +151,7 @@ export default {
         this.chargedBalance = this.balance
         return
       }
-      this.chargedBalance = Math.round((this.balance - 0 + ne) * 100) / 100
+      this.chargedBalance = Math.round((this.balance + ne) * 100) / 100
       if (this.balance.toString().indexOf('.00') > -1) {
         this.chargedBalance = this.chargedBalance + '.00'
       }
@@ -218,7 +222,7 @@ export default {
       this.errMsg.mobile = ''
     },
     checkAmount() {
-      this.checkInput()
+      // this.checkInput()
       let data = {
         userName: this.userName,
         authorization: this.authorization,
@@ -228,9 +232,10 @@ export default {
       checkAmountApi(data).then(res => {
         let data = res.data
         let resultCode = data.resultCode
-        // let resultMsg = data.resultMsg
         if (resultCode === '1') {
           this.reCharge()
+        } else {
+          alert(data.resultMsg)
         }
       })
     },
@@ -254,10 +259,13 @@ export default {
       rechargeApi(data).then(res => {
         let data = res.data
         let resultCode = data.resultCode
-        // let resultMsg = data.resultMsg
+        let resultMsg = data.resultMsg
         if (resultCode === '1') {
           let option = data.data.paramReq
           this.postcall(data.data.redirectUrl, option)
+        } else {
+          this.showDialog = true
+          this.errMsg.common = resultMsg
         }
       })
     },
@@ -295,6 +303,14 @@ export default {
           let no = this.bankCardInfo.cardNo
           let len = no.length
           this.backCardNo = no.substring(0, 4) + '*******' + no.substring(len - 4, len)
+        }
+      })
+    },
+    showDetail() {
+      this.$router.push({
+        name: 'announcementDetail',
+        params: {
+          id: '2156'
         }
       })
     }
@@ -519,6 +535,13 @@ export default {
                   }
                 }
               }
+            }
+            h6 {
+              line-height: 26px;
+              color: #fb7b1f;
+              font-size: 14px;
+              margin-bottom: 30px;
+              cursor: pointer;
             }
             > p {
               margin-bottom: 8px;

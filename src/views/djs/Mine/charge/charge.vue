@@ -280,7 +280,7 @@ export default {
       userRechargePreVerify().then(res => {
         let data = res.data
         if (data.resultCode === ERR_OK) {
-          this.isBankcardSupport = data.isBankcardSupport
+          this.isBankcardSupport = data.bankcardSupport
         }
       })
     },
@@ -374,7 +374,7 @@ export default {
           let no = JSON.parse(JSON.stringify(this.bankCardInfo.cardNo))
           let len = no.length
           this.bankCardNo = no.substring(0, 4) + '*******' + no.substring(len - 4, len)
-          // this.getBasicInfo()
+          this.getBasicInfo()
         }
       })
     }

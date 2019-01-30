@@ -5,35 +5,42 @@
       <div class="operate-wrapper">
         <el-form :inline="true" :model="calculator" class="demo-form-inline">
           <div class="input-wrapper">
-            <el-form-item label="出借金额">
-              <el-input v-model="calculator.sum" placeholder="出借金额"
-                ><template slot="append"
-                  >元</template
-                ></el-input
-              >
-            </el-form-item>
-            <el-form-item label="历史平均年化收益率">
-              <el-input v-model="calculator.rate" placeholder="历史平均年化收益率"
-                ><template slot="append"
-                  >%</template
-                ></el-input
-              >
-            </el-form-item>
+            <div class="block">
+              <el-form-item label="出借金额">
+                <el-input v-model="calculator.sum" placeholder="出借金额">
+                  <template slot="append">元</template>
+                </el-input>
+              </el-form-item>
+              <p>error</p>
+            </div>
+           <div class="block">
+             <el-form-item label="历史平均年化收益率">
+               <el-input v-model="calculator.rate" placeholder="历史平均年化收益率">
+                 <template slot="append">%</template>
+               </el-input>
+             </el-form-item>
+           </div>
           </div>
           <div class="input-wrapper">
-            <el-form-item label="出借期限">
-              <el-input v-model="calculator.duration" placeholder="出借期限"
-                ><template slot="append"
-                  ><span class="el-icon-caret el-icon-caret-left" @click="changeDuration"></span><i>{{ termType | termFilter }}</i
-                  ><span class="el-icon-caret el-icon-caret-right" @click="changeDuration"></span></template
-              ></el-input>
-            </el-form-item>
-            <el-form-item label="还款方式">
-              <el-select v-model="calculator.type" placeholder="还款方式">
-                <el-option v-for="(type, i) in types" :key="i" :label="type.label" :value="type.value"></el-option>
-              </el-select>
-              <el-button slot="append" icon="el-icon-search"></el-button>
-            </el-form-item>
+            <div class="block">
+              <el-form-item label="出借期限">
+                <el-input v-model="calculator.duration" placeholder="出借期限">
+                  <template slot="append">
+                    <span class="el-icon-caret el-icon-caret-left" @click="changeDuration"></span>
+                    <i>{{ termType | termFilter }}</i>
+                    <span class="el-icon-caret el-icon-caret-right" @click="changeDuration"></span>
+                  </template>
+                </el-input>
+              </el-form-item>
+            </div>
+            <div class="block">
+              <el-form-item label="还款方式">
+                <el-select v-model="calculator.type" placeholder="还款方式">
+                  <el-option v-for="(type, i) in types" :key="i" :label="type.label" :value="type.value"></el-option>
+                </el-select>
+                <el-button slot="append" icon="el-icon-search"></el-button>
+              </el-form-item>
+            </div>
           </div>
           <div class="btn-wrapper">
             <el-form-item> <el-button type="primary" @click="submitCalc">开始计算</el-button> </el-form-item>
@@ -93,7 +100,7 @@ export default {
         duration: '',
         type: 2
       },
-      termType: 1,
+      termType: 2,
       expectedRevenue: 0,
       totalSum: 0,
       tableData: [],
@@ -170,12 +177,12 @@ export default {
     resetCalc() {
       this.types = [
         {
-          label: '等额本息',
-          value: 1
-        },
-        {
           label: '先息后本',
           value: 2
+        },
+        {
+          label: '等额本息',
+          value: 1
         }
       ]
       this.calculator = {
@@ -184,7 +191,7 @@ export default {
         duration: '',
         type: 2
       }
-      this.termType = 1
+      this.termType = 2
       this.expectedRevenue = 0
       this.totalSum = 0
       this.tableData = []
@@ -245,8 +252,10 @@ export default {
         > div {
           &.input-wrapper {
             display: flex;
-            .el-form-item {
+            .block {
               flex: 1;
+            }
+            .el-form-item {
               .el-form-item__label {
                 font-size: 18px;
               }

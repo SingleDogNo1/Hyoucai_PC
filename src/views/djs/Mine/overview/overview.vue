@@ -12,8 +12,6 @@
       <el-button type="warning"><router-link :to="{ name: 'tocash' }">提现</router-link></el-button>
     </div>
     <div class="amount" id="amount"></div>
-
-    <appDialog :show.sync="dialogOptions.show" :onConfirm="onConfirm" :onClose="onClose"> <div>hello, dialog</div> </appDialog>
   </div>
 </template>
 
@@ -27,14 +25,10 @@ import 'echarts/lib/component/graphic'
 
 import api from '@/api/djs/Mine/overview'
 import { mapGetters, mapMutations } from 'vuex'
-import appDialog from '@/components/Dialog/Dialog'
 
 export default {
   name: 'overview',
   mixins: [],
-  components: {
-    appDialog
-  },
   data() {
     return {
       dialogOptions: {
@@ -52,19 +46,13 @@ export default {
     switchSystem() {
       location.href = '/hyc/#/mine/overview'
     },
-    onConfirm() {
-      console.log('onConfirm')
-    },
-    onClose() {
-      console.log('onClose')
-    },
     ...mapMutations({
       setPersonalAccount: 'SET_PERSONALACCOUNT'
     })
   },
   mounted() {
     const $this = this
-    async function initPage() {
+    ;(async function initPage() {
       const myChart = echarts.init(document.getElementById('amount'))
       await api.getPersonalAccount().then(res => {
         const totalIncome = res.data.totalIncome
@@ -79,22 +67,6 @@ export default {
           trigger: 'item',
           formatter: '{a} <br/>{b}: {c} ({d}%)'
         },
-        // title: {
-        //   text: '总资产（元）',
-        //   subtext: $this.amountInfo.totalAmount,
-        //   left: '20%',
-        //   top: 'center',
-        //   x: 'center',
-        //   textStyle: {
-        //     width: '100px',
-        //     color: '#4a4a4a',
-        //     fontSize: 14,
-        //   },
-        //   subtextStyle: {
-        //     color: '#4a4a4a',
-        //     fontSize: 20,
-        //   }
-        // },
         graphic: [
           {
             type: 'text',
@@ -126,17 +98,19 @@ export default {
         ],
         color: ['#F8DF38', '#F98128', '#42B1FF', '#37F1BE'],
         legend: {
-          orient: 'vertical',
           top: 'middle',
+          left: 370,
           right: 100,
+          itemWidth: 20,
+          itemHeight: 20,
           itemGap: 30,
           data: ['可用余额', '在投本金', '冻结金额', '待收利息'],
           formatter: function(name) {
             const data = [
-              { value: parseFloat($this.amountInfo.banlance), name: '可用余额' },
-              { value: parseFloat($this.amountInfo.waitBackPrincipal), name: '在投本金' },
-              { value: parseFloat($this.amountInfo.freezeAmount), name: '冻结金额' },
-              { value: parseFloat($this.amountInfo.waitBackInterest), name: '待收利息' }
+              { value: $this.amountInfo.banlance, name: '可用余额' },
+              { value: $this.amountInfo.waitBackPrincipal, name: '在投本金' },
+              { value: $this.amountInfo.freezeAmount, name: '冻结金额' },
+              { value: $this.amountInfo.waitBackInterest, name: '待收利息' }
             ]
             let target
             for (let i = 0; i < data.length; i++) {
@@ -144,22 +118,22 @@ export default {
                 target = data[i].value
               }
             }
-            let arr = ['{b|' + name + '（元）}', '{a|' + target + '}']
+            let arr = ['{a|' + name + '(元)}', '{b|' + target + '}']
             return arr.join('\n')
           },
           textStyle: {
             rich: {
               a: {
+                fontSize: 14,
+                align: 'center',
+                padding: [0, 10, 0, 10],
+                lineHeight: 25
+              },
+              b: {
                 fontSize: 20,
                 verticalAlign: 'top',
                 align: 'center',
-                padding: [0, 0, 28, 0]
-              },
-              b: {
-                fontSize: 14,
-                align: 'center',
-                padding: [0, 10, 0, 0],
-                lineHeight: 25
+                padding: [0, 0, 8, 0]
               }
             }
           }
@@ -191,9 +165,7 @@ export default {
           }
         ]
       })
-    }
-
-    initPage()
+    })()
   }
 }
 </script>
