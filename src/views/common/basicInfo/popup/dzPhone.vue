@@ -8,7 +8,7 @@
           <input class="modify_ipt" type="text" placeholder="请输入新手机号" v-model="mobile">
           <input class="modify_ipt" type="text" placeholder="请输入验证码" v-model="smsCode">
           <span class="code" @click="getMobileSendCode" v-if="!showCountDown">获取验证码</span>
-          <span class="code" v-if="showCountDown">{{countDown}}</span>
+          <span class="code" v-if="showCountDown">{{countDown}}s</span>
           <p class="txt">{{txt}}</p>
         </div>
       </div>
@@ -54,9 +54,7 @@ export default {
   },
   methods: {
     jxMobileModify: function() {
-      if (!this.smsCode) {
-        this.txt = '验证码不能为空!'
-      } else if (this.smsCode === this.resultCode) {
+      if (this.smsCode === this.resultCode) {
         this.isShow.isShow5 = !this.isShow.isShow5
         let obj = {}
         obj.newMobile = this.mobile
@@ -94,6 +92,7 @@ export default {
           this.resultCode = res.data.resultCode
         } else {
           this.errMsg.common = res.data.resultMsg
+          this.countDown = 0
         }
       })
     }

@@ -52,9 +52,7 @@ export default {
   },
   methods: {
     modifyBindMobile: function() {
-      if (!this.smsCode) {
-        this.txt = '验证码不能为空!'
-      } else if (this.verifyCode == this.resultCode) {
+      if (this.verifyCode == this.resultCode) {
         this.isShow.isShow3 = !this.isShow.isShow3
         let obj = {}
         obj.mobile = this.mobile
@@ -89,6 +87,7 @@ export default {
           this.resultCode = res.data.resultCode
         } else {
           this.errMsg.common = res.data.resultMsg
+          this.countDown = 0
         }
       })
     }
