@@ -56,7 +56,7 @@ export default {
   methods: {
     clickNext() {
       let params = {
-        retUrl: `${getRetBaseURL()}/sign`,
+        retUrl: `${getRetBaseURL()}/bankAccount/signAgreement`,
         forgotPwdUrl: `${getRetBaseURL()}/mine/basicInfo`
       }
       if (this.status === 1) {
