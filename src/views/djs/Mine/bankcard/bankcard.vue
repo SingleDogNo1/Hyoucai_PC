@@ -26,7 +26,7 @@
 
 <script>
 import bankcardDialog from '@/components/Dialog/Dialog'
-import { getUserBankCardList, prevChangeBankcard } from '@/api/djs/Mine/bankcard'
+import { getUserBankCardList, prevChangeBankcard, userChangeBankCard } from '@/api/djs/Mine/bankcard'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -52,7 +52,13 @@ export default {
       prevChangeBankcard({
         bankCardNo: this.bankcardList[0].cardNo
       }).then(res => {
-        if (!res.data.canModify) {
+        if (res.data.canModify) {
+          userChangeBankCard({
+            bankCardNo: this.bankcardList[0].cardNo
+          }).then(res => {
+            console.log(res)
+          })
+        } else {
           this.showDialog = true
           this.dialogMsg = res.data.message
         }
