@@ -55,20 +55,14 @@
                 </li>
                 <li class="info">
                   <dl>
-                    <dt>{{ item.loanMent }}</dt>
-                    <dd>锁定期限</dd>
-                  </dl>
-                </li>
-                <li class="info">
-                  <dl>
                     <dt>{{ item.minInvAmount }}元</dt>
                     <dd>起投金额</dd>
                   </dl>
                 </li>
                 <li class="info">
                   <dl>
-                    <dt>{{ item.surplusAmt }}元</dt>
-                    <dd>剩余可投金额</dd>
+                    <dt>{{ item.loanMent }}</dt>
+                    <dd>锁定期</dd>
                   </dl>
                 </li>
                 <li class="info">
@@ -110,20 +104,14 @@
                 </li>
                 <li class="info">
                   <dl>
-                    <dt>{{ item.loanMent }}</dt>
-                    <dd>锁定期限</dd>
-                  </dl>
-                </li>
-                <li class="info">
-                  <dl>
                     <dt>{{ item.minInvAmount }}元</dt>
                     <dd>起投金额</dd>
                   </dl>
                 </li>
                 <li class="info">
                   <dl>
-                    <dt>{{ item.surplusAmt }}元</dt>
-                    <dd>剩余可投金额</dd>
+                    <dt>{{ item.loanMent }}</dt>
+                    <dd>锁定期</dd>
                   </dl>
                 </li>
                 <li class="info">
@@ -165,20 +153,14 @@
                 </li>
                 <li class="info">
                   <dl>
-                    <dt>{{ item.loanMent }}</dt>
-                    <dd>锁定期限</dd>
-                  </dl>
-                </li>
-                <li class="info">
-                  <dl>
                     <dt>{{ item.minInvAmount }}元</dt>
                     <dd>起投金额</dd>
                   </dl>
                 </li>
                 <li class="info">
                   <dl>
-                    <dt>{{ item.surplusAmt }}元</dt>
-                    <dd>剩余可投金额</dd>
+                    <dt>{{ item.loanMent }}</dt>
+                    <dd>锁定期</dd>
                   </dl>
                 </li>
                 <li class="info">

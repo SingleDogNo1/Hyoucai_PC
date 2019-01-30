@@ -49,20 +49,14 @@
               </li>
               <li class="info">
                 <dl>
-                  <dt>{{ item.investMent }} 天</dt>
-                  <dd>锁定期限</dd>
-                </dl>
-              </li>
-              <li class="info">
-                <dl>
                   <dt>{{ item.minInvAmt }}元</dt>
                   <dd>起投金额</dd>
                 </dl>
               </li>
               <li class="info">
                 <dl>
-                  <dt>{{ item.enablAmt }}元</dt>
-                  <dd>剩余可投金额</dd>
+                  <dt>{{ item.investMent }} 天</dt>
+                  <dd>锁定期限</dd>
                 </dl>
               </li>
               <li class="info">

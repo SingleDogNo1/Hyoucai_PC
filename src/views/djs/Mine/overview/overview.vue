@@ -12,8 +12,6 @@
       <el-button type="warning"><router-link :to="{ name: 'tocash' }">提现</router-link></el-button>
     </div>
     <div class="amount" id="amount"></div>
-
-    <appDialog :show.sync="dialogOptions.show" :onConfirm="onConfirm" :onClose="onClose"> <div>hello, dialog</div> </appDialog>
   </div>
 </template>
 
@@ -27,14 +25,10 @@ import 'echarts/lib/component/graphic'
 
 import api from '@/api/djs/Mine/overview'
 import { mapGetters, mapMutations } from 'vuex'
-import appDialog from '@/components/Dialog/Dialog'
 
 export default {
   name: 'overview',
   mixins: [],
-  components: {
-    appDialog
-  },
   data() {
     return {
       dialogOptions: {
@@ -52,19 +46,13 @@ export default {
     switchSystem() {
       location.href = '/hyc/#/mine/overview'
     },
-    onConfirm() {
-      console.log('onConfirm')
-    },
-    onClose() {
-      console.log('onClose')
-    },
     ...mapMutations({
       setPersonalAccount: 'SET_PERSONALACCOUNT'
     })
   },
   mounted() {
     const $this = this
-    async function initPage() {
+    ;(async function initPage() {
       const myChart = echarts.init(document.getElementById('amount'))
       await api.getPersonalAccount().then(res => {
         const totalIncome = res.data.totalIncome
@@ -119,10 +107,10 @@ export default {
           data: ['可用余额', '在投本金', '冻结金额', '待收利息'],
           formatter: function(name) {
             const data = [
-              { value: parseFloat($this.amountInfo.banlance), name: '可用余额' },
-              { value: parseFloat($this.amountInfo.waitBackPrincipal), name: '在投本金' },
-              { value: parseFloat($this.amountInfo.freezeAmount), name: '冻结金额' },
-              { value: parseFloat($this.amountInfo.waitBackInterest), name: '待收利息' }
+              { value: $this.amountInfo.banlance, name: '可用余额' },
+              { value: $this.amountInfo.waitBackPrincipal, name: '在投本金' },
+              { value: $this.amountInfo.freezeAmount, name: '冻结金额' },
+              { value: $this.amountInfo.waitBackInterest, name: '待收利息' }
             ]
             let target
             for (let i = 0; i < data.length; i++) {
@@ -177,9 +165,7 @@ export default {
           }
         ]
       })
-    }
-
-    initPage()
+    })()
   }
 }
 </script>
