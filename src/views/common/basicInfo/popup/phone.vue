@@ -53,6 +53,7 @@ export default {
     modifyBindMobile: function() {
       if (this.mobile) {
         if (this.verifyCode) {
+          this.txt = ''
           this.isShow.isShow3 = !this.isShow.isShow3
           let obj = {}
           obj.mobile = this.mobile

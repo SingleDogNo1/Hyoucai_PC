@@ -44,7 +44,7 @@
             </span>
             <span class="vouche_aside">可与加息券同时使用</span>
           </p>
-          <p class="start">起投金额：{{ item.voucherFaceValue | toThousands }}元</p>
+          <p class="start">起投金额：{{ item.amountMin | toThousands }}元</p>
           <button
             v-show="item.intoAccount==0"
             class="receive_btn"
@@ -94,7 +94,7 @@
             </span>
             <span class="vouche_aside">可与加息券同时使用</span>
           </p>
-          <p class="start">起投金额：{{ item.voucherFaceValue | toThousands }}元</p>
+          <p class="start">起投金额：{{ item.amountMin | toThousands }}元</p>
           <button
             v-show="item.secondType == 2&&item.intoAccount==0"
             class="receive1_btn"
@@ -142,7 +142,7 @@
             </span>
             <span class="vouche_aside">可与加息券同时使用</span>
           </p>
-          <p class="start">起投金额：{{ item.voucherFaceValue | toThousands }}元</p>
+          <p class="start">起投金额：{{ item.amountMin | toThousands }}元</p>
         </div>
         <div class="endData">有效期至{{ item.validUseEndTime }}</div>
         <button class="receive1_btn">已过期</button>
@@ -182,7 +182,7 @@
             </span>
             <span class="vouche_aside">可与加息券同时使用</span>
           </p>
-          <p class="start">起投金额：{{ item.voucherFaceValue | toThousands }}元</p>
+          <p class="start">起投金额：{{ item.amountMin | toThousands }}元</p>
         </div>
         <div class="endData">有效期至{{ item.validUseEndTime }}</div>
         <button class="receive1_btn">已使用</button>
