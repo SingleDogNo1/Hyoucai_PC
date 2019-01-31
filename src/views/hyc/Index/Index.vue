@@ -184,7 +184,7 @@
       v-if="hycPopularProjectList && hycPopularProjectList.length > 0"
     >
       <div class="text-title"></div>
-      <ul :class="{ 'two': hycPopularProjectList.length == 2, 'one': hycPopularProjectList.length == 1}">
+      <ul :class="{ 'two': hycPopularProjectList.length == 2, 'one': hycPopularProjectList.length == 1 }">
         <li v-for="(item, index) in hycPopularProjectList" :key="index" @click="toDownload">
           <p class="title">
             <img :src="item.iconUrl">
@@ -504,6 +504,7 @@ export default {
         background: rgba(255, 255, 255, 0.6);
         opacity: 1;
         margin: 0 5px;
+        outline: 0;
       }
       /deep/ .swiper-pagination-bullet-active {
         width: 20px;
