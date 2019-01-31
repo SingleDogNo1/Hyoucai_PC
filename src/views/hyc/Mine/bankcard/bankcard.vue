@@ -7,7 +7,7 @@
     <div class="card-item" v-if="bankcardInfo.cardNo">
       <header>
         <div class="bank-name">
-          <img :src="bankcardInfo.iconUrl" :alt="bankcardInfo.openBankName" />
+          <img :src="bankcardInfo.iconUrl" :alt="bankcardInfo.openBankName">
           <span>{{ bankcardInfo.bankName }}</span>
         </div>
         <div class="card-type">储蓄卡</div>
@@ -16,11 +16,15 @@
       <footer @click="unbind">解绑</footer>
     </div>
     <div class="no-card" v-else>
-      <button @click="toBindCard">添加银行卡</button>
+      <div class="wrap">
+        <button @click="toBindCard">
+          <img src="./images/icon_nocard.png">
+          <span>添加银行卡</span>
+        </button>
+      </div>
     </div>
 
-    <bankcard-dialog
-      :show.sync="bankcardDialog">
+    <bankcard-dialog :show.sync="bankcardDialog">
       <div class="dialog-msg">{{bankcardMsg}}</div>
     </bankcard-dialog>
   </div>
@@ -175,8 +179,34 @@ export default {
   }
   .no-card {
     width: 100%;
-    height: 700px;
-    background: #000;
+    height: 100%;
+    .wrap {
+      width: 380px;
+      height: 200px;
+      padding: 70px;
+      background: rgba(255, 255, 255, 1);
+      box-shadow: 1px 1px 2px 0px rgba(218, 218, 218, 1);
+      border-radius: 4px;
+      border: 1px solid rgba(227, 227, 227, 1);
+      button {
+        width: 100%;
+        height: 52px;
+        margin: 0 auto;
+        background: #fff;
+        cursor: pointer;
+        img {
+          display: inline-block;
+          width: 50px;
+          height: 50px;
+          margin-right: 12px;
+        }
+        span {
+          display: inline-block;
+          height: 50px;
+          line-height: 50px;
+        }
+      }
+    }
   }
   .dialog-msg {
     text-align: center;

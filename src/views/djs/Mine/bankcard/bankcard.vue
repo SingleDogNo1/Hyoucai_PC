@@ -16,7 +16,9 @@
       </div>
     </template>
     <div class="no-card" v-else>
-      <button @click="toBindCard">去绑定银行卡</button>
+      <div class="wrap">
+        <button @click="toBindCard"><img src="./images/icon_nocard.png"/><span>添加银行卡</span></button>
+      </div>
     </div>
     <bankcard-dialog :show.sync="showDialog">
       <div class="dialog-text">{{dialogMsg}}</div>
@@ -140,8 +142,36 @@ export default {
     }
   }
   .no-card {
-    height: 740px;
-    background: #000;
+    width: 100%;
+    height: 700px;
+    line-height: 700px;
+    .wrap {
+      width: 380px;
+      height: 200px;
+      padding: 70px;
+      background: rgba(255, 255, 255, 1);
+      box-shadow: 1px 1px 2px 0px rgba(218, 218, 218, 1);
+      border-radius: 4px;
+      border: 1px solid rgba(227, 227, 227, 1);
+      button {
+        width: 100%;
+        height: 52px;
+        margin: 0 auto;
+        background: #fff;
+        cursor: pointer;
+        img {
+          display: inline-block;
+          width: 50px;
+          height: 50px;
+          margin-right: 12px;
+        }
+        span {
+          display: inline-block;
+          height: 50px;
+          line-height: 50px;
+        }
+      }
+    }
   }
 }
 </style>

@@ -38,6 +38,8 @@
 
 <script>
 import { mapState } from 'vuex'
+import { userInviteInfo } from '@/api/djs/Mine/referralCode'
+
 export default {
   name: 'UserMenu',
   mixins: [],
@@ -93,9 +95,18 @@ export default {
       userBasicInfo: state => state.user.userBasicInfo
     })
   },
-  created() {},
+  created() {
+    if (this.user.platformFlag === '1') {
+      // 点金石用户
+      userInviteInfo({ userName: this.user.userName }).then(res => {
+        this.referralCode = res.data.myInviteCode
+      })
+    } else {
+      // 汇有财用户
+      this.referralCode = this.userBasicInfo.myInviteCode
+    }
+  },
   mounted() {
-    this.referralCode = this.userBasicInfo.myInviteCode
     this.isShowReferralCode = this.$route.name === 'referralCode'
   },
   watch: {

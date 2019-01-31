@@ -23,6 +23,10 @@
         <span>我推荐的人</span>
         <span class="bold">{{ inviteNum }}位</span>
       </p>
+      <!-- <p class="my-referral-man">
+        <span>当前合计在投金额</span>
+        <span class="bold">{{ totalInvestAmount }}元</span>
+      </p> -->
     </div>
     <el-table :data="inviteUserList" border class="referral-table">
       <el-table-column prop="createTime" label="注册日期"></el-table-column>
@@ -100,7 +104,8 @@ export default {
       isErrMsg: false,
       preventClose: true,
       copyUrl: '',
-      inviteNum: ''
+      inviteNum: '',
+      totalInvestAmount: ''
     }
   },
   props: {},
@@ -120,7 +125,7 @@ export default {
         this.$message({ message: '推荐人邀请码不能为空', type: 'error' })
         return
       }
-      if(!referralCodeReg(this.fillInReferral)) {
+      if (!referralCodeReg(this.fillInReferral)) {
         this.$message({ message: '推荐人邀请码格式有误，请重新输入', type: 'error' })
         return
       }
@@ -151,8 +156,8 @@ export default {
       }
       userInviteInfo(params).then(res => {
         let data = res.data
-        this.referralCode = data.myInviteCode
         this.inviteNum = data.inviteNum
+        this.totalInvestAmount = data.totalInvestAmount
         this.inviteUserList = data.inviteUser
         this.inviteUserList.forEach(val => {
           val.investStatus = val.investStatus === 0 ? '未投资' : '已投资'
@@ -170,6 +175,7 @@ export default {
   },
   created() {},
   mounted() {
+    this.referralCode = this.userBasicInfo.myInviteCode
     this.refereeName = this.userBasicInfo.refereeName
     this.userName = this.user.userName
     let postData = {
@@ -189,7 +195,7 @@ export default {
   },
   watch: {
     fillInReferral: function(val) {
-      this.preventClose = (!val || !referralCodeReg(val) ) ? true : false
+      this.preventClose = !val || !referralCodeReg(val) ? true : false
     }
   }
 }
