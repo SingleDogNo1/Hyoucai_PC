@@ -290,6 +290,16 @@
         <p>当前系统正在维护中，当日23:45-次日0:15分钟暂不可进行出借！</p>
       </div>
     </Dialog>
+    <Dialog
+      :show.sync="isShowConfirmInvestmentDialog"
+      title="确认出借"
+      confirmText="确认出借"
+      class="confirm-investment-dialog"
+    >
+      <div>
+        <p>当前系统正在维护中，当日23:45-次日0:15分钟暂不可进行出借！</p>
+      </div>
+    </Dialog>
   </div>
 </template>
 
@@ -355,7 +365,8 @@ export default {
       isShowSystemMaintenanceDialog: false,
       singleButton: true,
       riskConfirmText: '重新评测',
-      riskContent: '您当前出借的额度或期限不符合您的风险评测<br />等级分布，若您在上次评测后风险承受能力发<br />生改变，请您重新进行风险评测！'
+      riskContent: '您当前出借的额度或期限不符合您的风险评测<br />等级分布，若您在上次评测后风险承受能力发<br />生改变，请您重新进行风险评测！',
+      isShowConfirmInvestmentDialog: true
     }
   },
   components: {
