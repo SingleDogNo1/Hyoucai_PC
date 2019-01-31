@@ -98,7 +98,7 @@ export default {
         duration: '',
         type: 2
       },
-      termType: 2,
+      termType: 1,
       expectedRevenue: 0,
       totalSum: 0,
       tableData: [],
