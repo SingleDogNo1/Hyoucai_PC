@@ -31,11 +31,8 @@
               </li>
               <li>
                 <span class="title">银行卡号</span>
-                <input type="text" placeholder="请输入银行卡号" v-if="isBankcardSupport" readonly v-model="bankCardNo" /><input
-                  type="text"
-                  placeholder="请输入银行卡号"
-                  v-else
-                />
+                <input type="text" placeholder="请输入银行卡号" v-if="isBankcardSupport" readonly v-model="bankCardNo" />
+                <input type="text" placeholder="请输入银行卡号" v-else />
               </li>
               <li>
                 <span class="title">开户银行</span>

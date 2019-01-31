@@ -24,7 +24,7 @@ export function getQualityList(data) {
   return request({
     url: '/homePage/projectList',
     method: 'post',
-    headers: { 'Content-type': 'application/x-www-form-urlencoded'},
+    headers: { 'Content-type': 'application/x-www-form-urlencoded' },
     data: qs.stringify(data)
   })
 }

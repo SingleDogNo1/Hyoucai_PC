@@ -120,7 +120,7 @@ export default {
         this.$message({ message: '推荐人邀请码不能为空', type: 'error' })
         return
       }
-      if(!referralCodeReg(this.fillInReferral)) {
+      if (!referralCodeReg(this.fillInReferral)) {
         this.$message({ message: '推荐人邀请码格式有误，请重新输入', type: 'error' })
         return
       }
@@ -189,7 +189,7 @@ export default {
   },
   watch: {
     fillInReferral: function(val) {
-      this.preventClose = (!val || !referralCodeReg(val) ) ? true : false
+      this.preventClose = !val || !referralCodeReg(val) ? true : false
     }
   }
 }
