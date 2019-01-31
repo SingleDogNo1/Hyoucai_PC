@@ -55,11 +55,12 @@ export default {
         bankCardNo: this.bankcardList[0].cardNo
       }).then(res => {
         if (res.data.canModify) {
-          userChangeBankCard({
-            bankCardNo: this.bankcardList[0].cardNo
-          }).then(res => {
-            console.log(res)
-          })
+          // userChangeBankCard({
+          //   bankCardNo: this.bankcardList[0].cardNo
+          // }).then(res => {
+          //   console.log(res)
+            this.toBindCard()
+          //})
         } else {
           this.showDialog = true
           this.dialogMsg = res.data.message
