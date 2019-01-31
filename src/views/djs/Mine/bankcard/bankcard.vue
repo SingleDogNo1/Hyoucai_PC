@@ -144,7 +144,6 @@ export default {
   .no-card {
     width: 100%;
     height: 700px;
-    line-height: 700px;
     .wrap {
       width: 380px;
       height: 200px;
