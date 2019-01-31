@@ -4,9 +4,9 @@
       <div class="modify">
         <span class="modify_name">电子账户手机号</span>
         <div class="modify_ipt_box">
-          <input class="modify_ipt" type="text" placeholder="请输入原手机号" v-model="oldMobile">
-          <input class="modify_ipt" type="text" placeholder="请输入新手机号" v-model="mobile">
-          <input class="modify_ipt" type="text" placeholder="请输入验证码" v-model="smsCode">
+          <input class="modify_ipt" type="number" placeholder="请输入原手机号" v-model="oldMobile">
+          <input class="modify_ipt" type="number" placeholder="请输入新手机号" v-model="mobile">
+          <input class="modify_ipt" type="number" placeholder="请输入验证码" v-model="smsCode">
           <span class="code" @click="getMobileSendCode" v-if="!showCountDown">获取验证码</span>
           <span class="code" v-if="showCountDown">{{countDown}}s</span>
           <p class="txt">{{txt}}</p>
@@ -38,7 +38,6 @@ export default {
       countDown: 90,
       showDialog: false,
       singleButton: true,
-      resultCode: '',
       txt: '',
       errMsg: {
         common: ''
@@ -54,19 +53,23 @@ export default {
   },
   methods: {
     jxMobileModify: function() {
-      if (this.smsCode === this.resultCode) {
-        this.isShow.isShow5 = !this.isShow.isShow5
-        let obj = {}
-        obj.newMobile = this.mobile
-        obj.smsCode = this.smsCode
-        obj.oldMobile = this.oldMobile
-        jxMobileModify(obj).then(() => {
-          this.mobile = ''
-          this.smsCode = ''
-          this.oldMobile = ''
-        })
+      if (this.mobile && this.oldMobile) {
+        if (this.smsCode) {
+          this.isShow.isShow5 = !this.isShow.isShow5
+          let obj = {}
+          obj.newMobile = this.mobile
+          obj.smsCode = this.smsCode
+          obj.oldMobile = this.oldMobile
+          jxMobileModify(obj).then(() => {
+            this.mobile = ''
+            this.smsCode = ''
+            this.oldMobile = ''
+          })
+        } else {
+          this.txt = '验证码不能为空'
+        }
       } else {
-        this.txt = '验证码错误，请重新输入！'
+        this.txt = '手机号不能为空'
       }
     },
     getMobileSendCode: function() {
@@ -89,7 +92,6 @@ export default {
         this.showDialog = true
         if (res.data.resultMsg === 'SUCCESS') {
           this.errMsg.common = '验证码发送成功！'
-          this.resultCode = res.data.resultCode
         } else {
           this.errMsg.common = res.data.resultMsg
           this.countDown = 0
