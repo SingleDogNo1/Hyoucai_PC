@@ -158,7 +158,7 @@ export default new Router({
             {
               path: 'calendar', // 回款日历
               name: 'lendCalendar',
-              component: () => import('@/views/djs/Mine/calendar/calendar')
+              component: () => import('@/views/hyc/Mine/calendar/calendar')
             },
             {
               path: 'coupons', // 我的卡券
