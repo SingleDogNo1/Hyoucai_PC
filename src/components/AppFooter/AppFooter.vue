@@ -90,10 +90,11 @@
           <a :href="item.fsLink">{{ item.fsTitle }}</a>
         </li>
       </ul>
+      <p class="tips"><span>投诉举报电话：江西省政府金融办 0791-889182319</span><span>江西省银监局 0791-86766811</span><span>江西省互联网金融协会 400-915-8227</span></p>
       <div class="copyright">
         <span>&copy;</span>
-        <span>2013-2020 江西汇通金融信息服务有限公司 版权所有</span>
-        <a href="http://www.miibeian.gov.cn/">赣ICP备13002945号-4 免责声明</a>
+        <span>2019 江西汇通金融信息服务有限公司</span>
+        <a href="http://www.miibeian.gov.cn/"> 赣ICP备13002945号-11</a>
       </div>
       <div class="copy-img">
         <a target="_blank" href="http://si.trustutn.org/info?sn=396180320000637017253&certType=4"></a>
@@ -261,7 +262,7 @@ export default {
     }
   }
   .btm {
-    height: 190px;
+    height: 240px;
     background: #353b44;
     color: #fff;
     .partner {
@@ -279,6 +280,19 @@ export default {
             color: $color-theme;
           }
         }
+        &:last-child {
+          border: none;
+        }
+      }
+    }
+    .tips {
+      text-align: center;
+      font-size: 14px;
+      padding-top: 30px;
+      span{
+        display: inline-block;
+        padding: 0 18px;
+        border-right: 1px solid #9b9b9b;
         &:last-child {
           border: none;
         }
