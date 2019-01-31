@@ -23,10 +23,10 @@
         <span>我推荐的人</span>
         <span class="bold">{{ inviteNum }}位</span>
       </p>
-      <p class="my-referral-man">
+      <!-- <p class="my-referral-man">
         <span>当前合计在投金额</span>
         <span class="bold">{{ totalInvestAmount }}元</span>
-      </p>
+      </p> -->
     </div>
     <el-table :data="inviteUserList" border class="referral-table">
       <el-table-column prop="createTime" label="注册日期"></el-table-column>
