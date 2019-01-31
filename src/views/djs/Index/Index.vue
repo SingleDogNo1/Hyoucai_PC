@@ -185,11 +185,11 @@
       v-if="popularProjectList && popularProjectList.length > 0"
     >
       <div class="text-title"></div>
-      <ul :class="{ two: hycPopularProjectList.length == 2 }">
-        <li v-for="(item, index) in hycPopularProjectList" :key="index" @click="toDownload">
+      <ul :class="{ two: popularProjectList.length == 2, 'one': popularProjectList.length == 1 }">
+        <li v-for="(item, index) in popularProjectList" :key="index" @click="toDownload">
           <p class="title">
             <img :src="item.iconUrl">
-            <span class="icon">{{ item.itemName }}</span>
+            <span class="icon">{{ item.projectName }}</span>
           </p>
           <div class="returns">
             <p class="title">
@@ -197,8 +197,8 @@
             </p>
             <p class="desc">预期年化收益率</p>
           </div>
-          <p class="lend-desc">{{ item.showMinInvAmount }}起投</p>
-          <p class="lend-desc">锁定期：{{ item.loanMent }}</p>
+          <p class="lend-desc">{{ item.minInvAmt }}起投</p>
+          <p class="lend-desc">锁定期：{{ item.investMent }}</p>
           <p class="lend-desc">已投：{{ item.showInvestPercent }}</p>
           <div class="actions">
             <a class="btn-invest-now" href="javascript:void(0);">下载APP</a>
@@ -436,15 +436,21 @@ export default {
     getQualityList(data) {
       getQualityList(data).then(res => {
         let data = res.data
+        console.log('data===', data)
         this.noviceProjectList = data.noviceProjectList
-        this.noviceProjectList.forEach(val => {
-          val.investMent = val.investMent.substr(0, val.investMent.length - 1)
-        })
+        if(this.noviceProjectList) {
+          this.noviceProjectList.forEach(val => {
+            val.investMent = val.investMent.substr(0, val.investMent.length - 1)
+          })
+        }
         this.popularProjectList = data.popularProjectList
       })
     },
     closePop() {
       this.isShowActivityPop = false
+    },
+    toDownload() {
+      this.$router.push({ name: 'download' })
     },
     JumpSafety(id) {
       localStorage.setItem('jumpId', id)
@@ -501,6 +507,7 @@ export default {
         background: rgba(255, 255, 255, 0.6);
         opacity: 1;
         margin: 0 5px;
+        outline: 0;
       }
       /deep/ .swiper-pagination-bullet-active {
         width: 20px;
@@ -864,6 +871,7 @@ export default {
     }
   }
   .lend-boutique-wrap {
+    padding-top: 60px;
     background: #f4f4f4;
     .text-title {
       display: block;
@@ -883,18 +891,19 @@ export default {
       display: flex;
       justify-content: space-between;
       li {
-        width: 220px;
-        height: 328px;
+        width: 360px;
+        height: 334px;
         background: #fff;
         box-shadow: 1px 1px 10px #eee;
         border-radius: 2px;
-        padding: 34px 70px;
+        padding: 34px 0;
         transition: all 0.5s;
         border-top: 4px solid #fff;
         cursor: pointer;
         .title {
-          width: 88px;
+          width: 98%;
           height: 22px;
+          text-align: center;
           margin: 0 auto;
           img {
             display: inline-block;
@@ -944,33 +953,36 @@ export default {
           text-align: center;
           margin-bottom: 14px;
         }
-        .btn-invest-now {
-          position: absolute;
-          display: block;
-          width: 220px;
-          height: 46px;
-          line-height: 46px;
-          color: #ffb01a;
-          margin-top: 20px;
-          border: 1px solid #ffb01a;
-          border-radius: 6px;
-          text-align: center;
-          transition: all 0.5s;
-          opacity: 1;
-        }
-        .btn-view-detail {
-          position: absolute;
-          display: block;
-          opacity: 0;
-          width: 220px;
-          height: 48px;
-          line-height: 48px;
-          color: #fff;
-          margin-top: 20px;
-          background: rgba(251, 123, 31, 1);
-          border-radius: 6px;
-          text-align: center;
-          transition: all 0.5s;
+        .actions {
+          padding: 0 69px;
+          .btn-invest-now {
+            position: absolute;
+            display: block;
+            width: 220px;
+            height: 46px;
+            line-height: 46px;
+            color: #ffb01a;
+            margin-top: 20px;
+            border: 1px solid #ffb01a;
+            border-radius: 6px;
+            text-align: center;
+            transition: all 0.5s;
+            opacity: 1;
+          }
+          .btn-view-detail {
+            position: absolute;
+            display: block;
+            opacity: 0;
+            width: 220px;
+            height: 48px;
+            line-height: 48px;
+            color: #fff;
+            margin-top: 20px;
+            background: rgba(251, 123, 31, 1);
+            border-radius: 6px;
+            text-align: center;
+            transition: all 0.5s;
+          }
         }
       }
       li:hover {
