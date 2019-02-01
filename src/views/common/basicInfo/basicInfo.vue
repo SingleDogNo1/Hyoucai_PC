@@ -30,8 +30,8 @@
         </div>
         <Phone v-show="isShow.isShow3" :isShow="isShow" :oldMobile="mobile"></Phone>
         <div class="wrap_rows">
-          <span class="wrap_left">风险测评</span> <span class="wrap_center">{{ evaluatingResult.evaluatingName }}</span>
-          <button class="wrap_btn" v-show="!isEvaluation" @click="toRiskAssessment">未测评</button>
+          <span class="wrap_left">风险测评</span> <span class="wrap_center">{{ evaluatingResult.evaluatingName || '未评测'}}</span>
+          <button class="wrap_btn" v-show="!isEvaluation" @click="toRiskAssessment">去评测</button>
           <button class="wrap_btn" v-show="isEvaluation" @click="toRiskAssessment">重新测评</button>
         </div>
         <div class="wrap_rows last_rows">
@@ -177,6 +177,7 @@ export default {
       this.nickname = this.userBasicInfo.nickname
       this.passWord = this.userBasicInfo.passWord
       this.mobile = this.userBasicInfo.mobileMask
+      console.log('this.userBasicInfo===', this.userBasicInfo)
       // 判断是否风险测评
       if (this.userBasicInfo.evaluatingResult) {
         this.isEvaluation = true

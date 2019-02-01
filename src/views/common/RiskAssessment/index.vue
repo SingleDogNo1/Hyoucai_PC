@@ -326,7 +326,9 @@ export default {
         evaluatingResult: this.resultType
       }
       if (this.isColor) {
-        saveEvaluatingResultApi(data).then(() => {})
+        saveEvaluatingResultApi(data).then(() => {
+          this.$router.push({ name: 'basicInfo'})
+        })
       }
     }
   }
