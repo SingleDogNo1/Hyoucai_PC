@@ -8,7 +8,7 @@
         <thead>
           <th>项目名称</th>
           <th>申请本金（元）</th>
-          <th>历史平均年化收益率（元）</th>
+          <th>历史平均年化收益率</th>
           <th>申请时间</th>
         </thead>
         <tbody>
@@ -25,7 +25,7 @@
         <thead>
           <th style="width: 160px;">项目名称</th>
           <th style="width: 140px;">出借本金（元）</th>
-          <th style="width: 170px;">历史平均年化收益率（元）</th>
+          <th style="width: 170px;">历史平均年化收益率</th>
           <th style="width: 120px;">利息（元）</th>
           <th style="width: 120px;">锁定期</th>
           <th>操作</th>
@@ -54,7 +54,7 @@
         <thead>
           <th>项目名称</th>
           <th>返还本金（元）</th>
-          <th>历史平均年化收益率（元）</th>
+          <th>历史平均年化收益率</th>
           <th>获得收益（元）</th>
           <th>锁定期</th>
         </thead>
@@ -81,7 +81,7 @@
         <thead>
           <th>项目名称</th>
           <th>申请本金（元）</th>
-          <th>历史平均年化收益率（元）</th>
+          <th>历史平均年化收益率</th>
           <th>申请时间</th>
         </thead>
         <tbody>

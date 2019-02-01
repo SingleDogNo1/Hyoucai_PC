@@ -361,6 +361,7 @@ export default {
       }
       if (this.isColor) {
         saveEvaluatingResultApi(data).then(() => {
+          //this.$router.push({ name: 'basicInfo'})
           this.isShow = true
         })
       }

@@ -30,8 +30,8 @@
         </div>
         <Phone v-show="isShow.isShow3" :isShow="isShow" :oldMobile="mobile"></Phone>
         <div class="wrap_rows">
-          <span class="wrap_left">风险测评</span> <span class="wrap_center">{{ evaluatingResult.evaluatingName }}</span>
-          <button class="wrap_btn" v-show="!isEvaluation" @click="toRiskAssessment">未测评</button>
+          <span class="wrap_left">风险测评</span> <span class="wrap_center">{{ evaluatingResult.evaluatingName || '未评测'}}</span>
+          <button class="wrap_btn" v-show="!isEvaluation" @click="toRiskAssessment">去评测</button>
           <button class="wrap_btn" v-show="isEvaluation" @click="toRiskAssessment">重新测评</button>
         </div>
         <div class="wrap_rows last_rows">
@@ -66,7 +66,7 @@
       </div>
       <div class="openAccount" v-show="!flag">
         <div class="tips"><img src="./bank.png" class="bank_logo" /> <span class="tips_content">您还未开通存管账户</span></div>
-        <button class="open_btn" @click="toAccount">立即开户</button>
+        <button class="open_btn" @click="toAccount">开通存管账户</button>
       </div>
     </div>
   </div>

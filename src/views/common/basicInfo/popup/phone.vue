@@ -2,18 +2,23 @@
   <div class="wrap">
     <div class="box">
       <div class="modify">
-        <span class="modify_name">修改绑定手机号</span>
+        <span class="modify_name">注册手机号</span>
         <div class="modify_ipt_box">
-          <input class="modify_ipt" type="number" placeholder="请输入手机号" v-model="mobile">
-          <input class="modify_ipt" type="number" placeholder="请输入验证码" v-model="verifyCode">
-          <span class="code" @click="getMobileSendCode" v-if="!showCountDown">获取验证码</span>
-          <span class="code" v-if="showCountDown">{{countDown}}s</span>
-          <p class="txt">{{txt}}</p>
+          <input class="modify_ipt" type="text" maxLength="11" placeholder="请输入原手机号" v-model="mobile">
+          <p class="txt">{{mobileTxt}}</p>
+          <input class="modify_ipt" type="text" maxLength="11" placeholder="请输入新手机号" v-model="newMobile">
+          <p class="txt">{{newMobileTxt}}</p>
+          <div class="verifyCode-wrap">
+            <input class="modify_ipt" type="number" placeholder="请输入验证码" v-model="verifyCode">
+            <span class="code" @click="getMobileSendCode" v-if="!showCountDown">{{countDownText}}</span>
+            <span class="code" v-if="showCountDown">{{countDown}}s</span>
+          </div>
+          <p class="txt">{{verifyCodeTxt}}</p>
         </div>
       </div>
       <div class="btn">
         <button class="determine" @click="modifyBindMobile">立即绑定</button>
-        <button class="cancle" @click="isShow.isShow3 = !isShow.isShow3">取消</button>
+        <button class="cancle" @click="close">取消</button>
       </div>
     </div>
     <errDialog :show.sync="showDialog" :singleButton="singleButton" class="djs-charge-dialog">
@@ -25,11 +30,14 @@
 import { modifyBindMobile, modifyBindMobileSendCode } from '@/api/common/basicInfo'
 import { mapGetters } from 'vuex'
 import errDialog from '@/components/Dialog/Dialog'
+import { isMobile, isMobCode, isPassword } from '@/assets/js/regular'
+
 export default {
   name: 'Phone',
   data() {
     return {
       mobile: '',
+      newMobile: '',
       showCountDown: false,
       timeInterval: null,
       countDown: 90,
@@ -39,7 +47,10 @@ export default {
         common: ''
       },
       verifyCode: '',
-      txt: ''
+      mobileTxt: '',
+      newMobileTxt: '',
+      verifyCodeTxt: '',
+      countDownText: '获取验证码'
     }
   },
   components: {
@@ -50,49 +61,94 @@ export default {
     ...mapGetters(['user'])
   },
   methods: {
-    modifyBindMobile: function() {
-      if (this.mobile) {
-        if (this.verifyCode) {
-          this.txt = ''
-          this.isShow.isShow3 = !this.isShow.isShow3
-          let obj = {}
-          obj.mobile = this.mobile
-          obj.userName = this.user.userName
-          obj.verifyCode = this.verifyCode
-          obj.oldMobile = this.oldMobile
-          modifyBindMobile(obj)
-        } else {
-          this.txt = '验证码不能为空'
+    checkInfo: function() {
+      if (!this.showCountDown) {
+        if (this.mobile.trim() === '') {
+          this.mobileTxt = '原手机号不能为空'
+          return false
         }
+        if (!isMobile(this.mobile) || this.mobile.trim() !== this.user.mobile) {
+          this.mobileTxt = '原手机号输入错误'
+          return false
+        } else {
+          this.mobileTxt = ''
+        }
+        if (this.newMobile.trim() === '') {
+          this.newMobileTxt = '新手机号不能为空'
+          return false
+        }
+        if (!isMobile(this.newMobile)) {
+          this.newMobileTxt = '请输入正确格式手机号'
+          return false
+        } else {
+          this.newMobileTxt = ''
+        }
+      }
+    },
+    modifyBindMobile: function() {
+      this.verifyCodeTxt = ''
+      //this.showCountDown = true
+      if (this.checkInfo() === false) return
+      if (!this.showCountDown) {
+        this.verifyCodeTxt = '请先点击获取验证码'
+        return
       } else {
-        this.txt = '手机号不能为空'
+        let obj = {}
+        obj.mobile = this.newMobile
+        obj.userName = this.user.userName
+        obj.verifyCode = this.verifyCode
+        obj.oldMobile = this.mobile
+        modifyBindMobile(obj).then(res => {
+          let data = res.data
+          if (data.resultCode === '1') {
+            this.$notify({ title: '成功', message: '手机号修改成功', type: 'success', duration: 2000 })
+            this.close()
+          } else {
+            this.verifyCodeTxt = data.resultMsg
+          }
+        })
       }
     },
     getMobileSendCode: function() {
-      this.showCountDown = true
+      if (this.checkInfo() === false) return
       let data = {}
       data.mobile = this.mobile
       data.userName = this.user.userName
-      if (this.timeInterval) {
-        clearInterval(this.timeInterval)
-      }
-      this.timeInterval = setInterval(() => {
-        this.countDown--
-        if (this.countDown <= 0) {
-          this.showCountDown = false
-          this.countDown = 90
-          clearInterval(this.timeInterval)
-        }
-      }, 1000)
       modifyBindMobileSendCode(data).then(res => {
-        this.showDialog = true
-        if (res.data.resultMsg === 'SUCCESS') {
+        if (res.data.resultCode === '1') {
+          this.showDialog = true
           this.errMsg.common = '验证码发送成功！'
+          this.showCountDown = true
+          if (this.timeInterval) {
+            clearInterval(this.timeInterval)
+          }
+          this.timeInterval = setInterval(() => {
+            this.countDown--
+            if (this.countDown <= 0) {
+              this.showCountDown = false
+              this.countDown = 90
+              clearInterval(this.timeInterval)
+            }
+          }, 1000)
         } else {
-          this.errMsg.common = res.data.resultMsg
-          this.countDown = 0
+          this.verifyCodeTxt = res.data.resultMsg
+          //this.countDown = 0
         }
       })
+    },
+    clearInfo: function() {
+      this.mobile = ''
+      this.newMobile = ''
+      this.verifyCode = ''
+      this.mobileTxt = ''
+      this.newMobileTxt = ''
+      this.verifyCodeTxt = ''
+      this.showCountDown = false
+      clearInterval(this.timeInterval)
+    },
+    close() {
+      this.isShow.isShow3 = !this.isShow.isShow3
+      this.clearInfo()
     }
   }
 }
@@ -133,26 +189,32 @@ export default {
           font-weight: 400;
           color: rgba(155, 155, 155, 1);
           line-height: 16px;
-          margin-bottom: 15px;
+          margin: 7px 0;
+          &nth:nth-child(1) {
+            margin-top: 0;
+          }
         }
         .txt {
           color: red;
           font-size: $font-size-small-s;
         }
-        .code {
-          display: inline-block;
-          width: 96px;
-          height: $font-size-medium;
-          line-height: $font-size-medium;
-          text-align: center;
-          border-left: 1px solid rgba(218, 218, 218, 1);
-          font-size: $font-size-small-s;
-          font-weight: 400;
-          color: rgba(0, 131, 254, 1);
-          position: absolute;
-          right: 10px;
-          top: 68px;
-          cursor: pointer;
+        .verifyCode-wrap {
+          position: relative;
+          .code {
+            display: inline-block;
+            width: 96px;
+            height: $font-size-medium;
+            line-height: $font-size-medium;
+            text-align: center;
+            border-left: 1px solid rgba(218, 218, 218, 1);
+            font-size: $font-size-small-s;
+            font-weight: 400;
+            color: rgba(0, 131, 254, 1);
+            position: absolute;
+            right: 10px;
+            top: 19px;
+            cursor: pointer;
+          }
         }
       }
     }

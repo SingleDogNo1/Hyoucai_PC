@@ -11,7 +11,7 @@
       </div>
       <div class="btn">
         <button class="determine" @click="saveMailingAddress">保存</button>
-        <button class="cancle" @click="isShow.isShow4 = !isShow.isShow4">取消</button>
+        <button class="cancle" @click="close">取消</button>
       </div>
     </div>
     <errDialog :show.sync="showDialog" :singleButton="singleButton" class="djs-charge-dialog">
@@ -46,15 +46,26 @@ export default {
   },
   methods: {
     saveMailingAddress: function() {
-      this.showDialog = true
       let obj = {}
       obj.consigneeName = this.consigneeName
       obj.consigneePhone = this.consigneePhone
       obj.address = this.address
       obj.userName = this.user.userName
       saveMailingAddress(obj).then(res => {
-        this.errMsg.common = res.data.resultMsg
+        if (res.data.resultCode === '1') {
+          this.$notify({ title: '成功', message: '收货地址修改成功', type: 'success', duration: 2000 })
+          this.close()
+        } else {
+          this.showDialog = true
+          this.errMsg.common = res.data.resultMsg
+        }
       })
+    },
+    close() {
+      this.consigneeName = ''
+      this.consigneePhone = ''
+      this.address = ''
+      this.isShow.isShow4 = !this.isShow.isShow4
     }
   }
 }
