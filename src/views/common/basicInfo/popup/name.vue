@@ -1,10 +1,13 @@
 <template>
   <div class="box">
     <div class="modify">
-      <span class="modify_name">修改昵称</span> <input class="modify_ipt" type="text" placeholder="请输入昵称" v-model="nikename" />
+      <span class="modify_name">修改昵称</span>
+      <input class="modify_ipt" type="text" placeholder="请输入昵称" v-model="nikename">
+      <p class="txt">{{txt}}</p>
     </div>
     <div class="btn">
-      <button class="determine" @click="modifyNikename">确定</button> <button class="cancle" @click="isShow.isShow1 = !isShow.isShow1">取消</button>
+      <button class="determine" @click="modifyNikename">确定</button>
+      <button class="cancle" @click="isShow.isShow1 = !isShow.isShow1">取消</button>
     </div>
   </div>
 </template>
@@ -15,7 +18,8 @@ export default {
   name: 'Name',
   data() {
     return {
-      nikename: ''
+      nikename: '',
+      txt: ''
     }
   },
   computed: {
@@ -24,12 +28,16 @@ export default {
   props: ['isShow'],
   methods: {
     modifyNikename: function() {
-      this.isShow.isShow1 = !this.isShow.isShow1
-      let obj = {}
-      obj.nikename = this.nikename
-      obj.userName = this.user.userName
-      modifyNikename(obj)
-      this.$emit('success', this.nikename)
+      if (this.nikename) {
+        this.isShow.isShow1 = !this.isShow.isShow1
+        let obj = {}
+        obj.nikename = this.nikename
+        obj.userName = this.user.userName
+        modifyNikename(obj)
+        this.$emit('success', this.nikename)
+      } else {
+        this.txt = '昵称不能为空'
+      }
     }
   },
   created() {}
@@ -51,6 +59,11 @@ export default {
       font-weight: 400;
       color: rgba(90, 90, 90, 1);
       line-height: 16px;
+    }
+    .txt {
+      color: red;
+      font-size: $font-size-small-s;
+      margin-left: 80px;
     }
     .modify_ipt {
       width: 280px;

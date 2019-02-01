@@ -7,7 +7,7 @@
           <th style="width: 270px;">项目名称</th>
           <th style="width: 120px;">出借本金（元）</th>
           <th style="width: 120px;">利息（元）</th>
-          <th style="width: 110px;">历史平均年化收益率（元）</th>
+          <th style="width: 110px;">历史平均年化收益率</th>
           <th style="width: 100px;">锁定期</th>
           <th>查看详情</th>
         </thead>

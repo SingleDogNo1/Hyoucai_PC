@@ -66,7 +66,7 @@
       </div>
       <div class="openAccount" v-show="!flag">
         <div class="tips"><img src="./bank.png" class="bank_logo" /> <span class="tips_content">您还未开通存管账户</span></div>
-        <button class="open_btn" @click="toAccount">立即开户</button>
+        <button class="open_btn" @click="toAccount">开通存管账户</button>
       </div>
     </div>
   </div>
@@ -177,7 +177,6 @@ export default {
       this.nickname = this.userBasicInfo.nickname
       this.passWord = this.userBasicInfo.passWord
       this.mobile = this.userBasicInfo.mobileMask
-      console.log('this.userBasicInfo===', this.userBasicInfo)
       // 判断是否风险测评
       if (this.userBasicInfo.evaluatingResult) {
         this.isEvaluation = true

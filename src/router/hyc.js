@@ -274,11 +274,11 @@ export default new Router({
       ]
     },
     {
-      path: '/', // 风险测评
+      path: '/',
       component: Layout,
       children: [
         {
-          path: 'riskAss',
+          path: 'riskAss', // 风险测评
           name: 'riskAss',
           component: () => import(/* webpackChunkName: "riskAss" */ '@/views/common/RiskAssessment/index.vue')
         }
