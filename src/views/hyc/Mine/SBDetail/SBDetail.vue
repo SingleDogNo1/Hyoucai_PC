@@ -1,11 +1,19 @@
 <template>
   <div class="SBDetail">
     <div class="sb-detail-wrapper">
-      <header>
-        注：本标为按天计息标，借款人可能提前还款。如果出现提前还款，您所获得实际利息将按借款人实际借款天数计算，请知悉！
-      </header>
+      <header>注：本标为按天计息标，借款人可能提前还款。如果出现提前还款，您所获得实际利息将按借款人实际借款天数计算，请知悉！</header>
       <div class="income coupon" v-if="BenefitPlan.useCoupon === '1'">
-        <div class="title">加息收益</div>
+        <div class="title">
+          <span>加息收益</span>
+          <i class="iconfont icon-changjianwenti">
+            <div class="formula-pop">
+              <div class="box">
+                <p>加息公式:</p>
+                <p>{ 待收本金 * (加息年化/360) * 加息天数 }</p>
+              </div>
+            </div>
+          </i>
+        </div>
         <ul>
           <li>
             <span>{{BenefitPlan.userCouponRateTemp}}</span>
@@ -44,25 +52,22 @@
       </div>
       <table cellspacing="0">
         <thead>
-        <tr>
-          <th>回款日期</th>
-          <th>本金(元)</th>
-          <th>利息(元)</th>
-          <th>状态</th>
-        </tr>
+          <tr>
+            <th>回款日期</th>
+            <th>本金(元)</th>
+            <th>利息(元)</th>
+            <th>状态</th>
+          </tr>
         </thead>
         <tbody>
-        <template v-for="(item, index) in BenefitPlan.gainPlanPerTermList">
-          <tr
-            :key="index"
-            :class="{'done': item.status === '已结清'}"
-          >
-            <td>{{item.gainDate}}</td>
-            <td>{{item.principalPerTerm}}</td>
-            <td>{{item.interest}}</td>
-            <td>{{item.status}}</td>
-          </tr>
-        </template>
+          <template v-for="(item, index) in BenefitPlan.gainPlanPerTermList">
+            <tr :key="index" :class="{'done': item.status === '已结清'}">
+              <td>{{item.gainDate}}</td>
+              <td>{{item.principalPerTerm}}</td>
+              <td>{{item.interest}}</td>
+              <td>{{item.status}}</td>
+            </tr>
+          </template>
         </tbody>
       </table>
       <div class="people-info-wrapper">
@@ -136,16 +141,14 @@
           <span>{{personalInfo.creditReport}}</span>
         </div>
         <div class="other">
-          <b>
-            在其他网络借贷平台借款情况：
-          </b>
+          <b>在其他网络借贷平台借款情况：</b>
           <div>
             <span>{{personalInfo.borrowSituation}}</span>
             <a
               v-if="personalInfo.guaranteeProtocolUrl"
               :href="personalInfo.guaranteeProtocolUrl"
-              target="_blank">点击查看>>
-            </a>
+              target="_blank"
+            >点击查看>></a>
           </div>
         </div>
         <a
@@ -257,6 +260,67 @@ table tr td {
       margin-left: 20px;
       padding-left: 12px;
       position: relative;
+      .icon-changjianwenti {
+        display: inline-block;
+        margin-left: 6px;
+        //position: absolute;
+        cursor: pointer;
+        &:hover {
+          color: #fb9d1f;
+          .formula-pop {
+            display: block;
+          }
+        }
+      }
+      .formula-pop {
+        display: none;
+        position: absolute;
+        top: -13px;
+        left: 74px;
+        .box {
+          position: relative;
+          width: 252px;
+          height: 40px;
+          border: 1px solid #fb7b1f;
+          margin-top: 6px;
+          margin-left: 36px;
+          box-sizing: border-box;
+          font-size: 14px;
+          padding: 4px 10px;
+          box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+          background: #fff;
+          border-radius: 4px;
+          p {
+            line-height: 15px;
+            font-size: $font-size-small-ss;
+            color: $color-text;
+          }
+        }
+        .box:before,
+        .box:after {
+          position: absolute;
+          content: '';
+          width: 10px;
+          height: 10px;
+          bottom: -8px;
+          top: 42%;
+          margin-left: -16px;
+          overflow: hidden;
+          pointer-events: none;
+          -webkit-transform: rotate(135deg);
+          -mz-transform: rotate(135deg);
+          transform: rotate(135deg);
+        }
+        .box:before {
+          background: #fb7b1f;
+          box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+        .box:after {
+          top: 15px;
+          left: 11px;
+          background: #fff;
+        }
+      }
       &:after {
         content: '';
         display: block;

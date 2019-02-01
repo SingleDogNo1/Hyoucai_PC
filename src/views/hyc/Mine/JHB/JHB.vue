@@ -41,9 +41,9 @@
               </p>
               <p v-else>0</p>
             </td>
-            <td>
+            <td style="text-align: left;">
               <span>{{ item.interestStartDate }}</span> <span>-</span>
-              <p>{{ item.interestEndDate }}</p>
+              <span>{{ item.interestEndDate }}</span>
             </td>
             <td style="cursor:pointer;" @click="showLendDetail(item.id, item.projectType)"><span style="color: #FB891F;">查看</span></td>
           </tr>
@@ -69,9 +69,9 @@
               </p>
               <p v-else>0</p>
             </td>
-            <td>
+            <td style="text-align: left;">
               <span>{{ item.interestStartDate }}</span> <span>-</span>
-              <p>{{ item.interestEndDate }}</p>
+              <span>{{ item.interestEndDate }}</span>
             </td>
           </tr>
         </tbody>

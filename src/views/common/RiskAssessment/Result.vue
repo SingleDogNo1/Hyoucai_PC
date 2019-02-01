@@ -5,7 +5,7 @@
     </div>
     <p class="type">{{resultTitle}}</p>
     <p class="detail">{{resultFont}}</p>
-    <button class="invest" @click="goInvest">去投资</button>
+    <button class="invest" @click="goInvest">去出借</button>
     <button class="agin" @click="getAgin">重新测评</button>
   </section>
 </template>

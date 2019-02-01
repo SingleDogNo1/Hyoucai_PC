@@ -20,9 +20,9 @@
             <td v-else>{{ item.invAmount }}</td>
             <td>{{ item.waitAmount }}</td>
             <td>{{ item.yearRate }}</td>
-            <td>
+            <td style="text-align: left;">
               <span>{{ item.interestStartDate }}</span> <span> - </span>
-              <p>{{ item.interestEndDate }}</p>
+              <span>{{ item.interestEndDate }}</span>
             </td>
             <td style="cursor:pointer; color:#FB891F;" v-if="item.invStatus === 'INVI'" @click="showDetail(item.productId, item.id)">
               <span style="color: #FB891F;">查看</span>
