@@ -123,7 +123,7 @@ export default {
       }
       let data = {
         verifyCode: this.smsCode,
-        mobileNo: this.mobile,
+        mobile: this.mobile,
         bankCardNo: this.bankCardNo
       }
       userChangeBankCard(data).then(res => {

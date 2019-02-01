@@ -187,7 +187,7 @@
       <ul :class="{ 'two': hycPopularProjectList.length == 2, 'one': hycPopularProjectList.length == 1 }">
         <li v-for="(item, index) in hycPopularProjectList" :key="index" @click="toDownload">
           <p class="title">
-            <img :src="item.iconUrl">
+            <img :src="item.iconUrl" v-if="item.iconUrl">
             <span class="icon">{{ item.itemName }}</span>
           </p>
           <div class="returns">
