@@ -4,8 +4,8 @@
       <div class="modify">
         <span class="modify_name">修改绑定手机号</span>
         <div class="modify_ipt_box">
-          <input class="modify_ipt" type="text" placeholder="请输入手机号" v-model="mobile">
-          <input class="modify_ipt" type="text" placeholder="请输入验证码" v-model="verifyCode">
+          <input class="modify_ipt" type="number" placeholder="请输入手机号" v-model="mobile">
+          <input class="modify_ipt" type="number" placeholder="请输入验证码" v-model="verifyCode">
           <span class="code" @click="getMobileSendCode" v-if="!showCountDown">获取验证码</span>
           <span class="code" v-if="showCountDown">{{countDown}}s</span>
           <p class="txt">{{txt}}</p>
@@ -39,7 +39,6 @@ export default {
         common: ''
       },
       verifyCode: '',
-      resultCode: '',
       txt: ''
     }
   },
@@ -52,16 +51,21 @@ export default {
   },
   methods: {
     modifyBindMobile: function() {
-      if (this.verifyCode == this.resultCode) {
-        this.isShow.isShow3 = !this.isShow.isShow3
-        let obj = {}
-        obj.mobile = this.mobile
-        obj.userName = this.user.userName
-        obj.verifyCode = this.verifyCode
-        obj.oldMobile = this.oldMobile
-        modifyBindMobile(obj)
+      if (this.mobile) {
+        if (this.verifyCode) {
+          this.txt = ''
+          this.isShow.isShow3 = !this.isShow.isShow3
+          let obj = {}
+          obj.mobile = this.mobile
+          obj.userName = this.user.userName
+          obj.verifyCode = this.verifyCode
+          obj.oldMobile = this.oldMobile
+          modifyBindMobile(obj)
+        } else {
+          this.txt = '验证码不能为空'
+        }
       } else {
-        this.txt = '验证码错误，请重新输入！'
+        this.txt = '手机号不能为空'
       }
     },
     getMobileSendCode: function() {
@@ -84,7 +88,6 @@ export default {
         this.showDialog = true
         if (res.data.resultMsg === 'SUCCESS') {
           this.errMsg.common = '验证码发送成功！'
-          this.resultCode = res.data.resultCode
         } else {
           this.errMsg.common = res.data.resultMsg
           this.countDown = 0

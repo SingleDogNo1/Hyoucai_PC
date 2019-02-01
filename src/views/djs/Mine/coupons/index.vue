@@ -23,7 +23,7 @@
           <p class="vouche_box">
             <span class="vouche">
               {{ item.voucherFaceValue }}
-              <i>%</i>
+              <i class="vouche_i">%</i>
               <i class="font">利息</i>
             </span>
             <span class="vouche_aside">可加息{{ item.validDays }}天</span>
@@ -40,11 +40,11 @@
           <p class="vouche_box">
             <span class="vouche">
               {{ item.voucherFaceValue }}
-              <i>元</i>
+              <i class="vouche_i">元</i>
             </span>
             <span class="vouche_aside">可与加息券同时使用</span>
           </p>
-          <p class="start">起投金额：{{ item.voucherFaceValue | toThousands }}元</p>
+          <p class="start">起投金额：{{ item.amountMin | toThousands }}元</p>
           <button
             v-show="item.intoAccount==0"
             class="receive_btn"
@@ -76,7 +76,7 @@
           <p class="vouche_box">
             <span class="vouche">
               {{ item.voucherFaceValue }}
-              <i>%</i>
+              <i class="vouche_i">%</i>
               <i class="font">利息</i>
             </span>
             <span class="vouche_aside">可加息{{ item.validDays }}天</span>
@@ -90,11 +90,11 @@
           <p class="vouche_box">
             <span class="vouche">
               {{ item.voucherFaceValue }}
-              <i>元</i>
+              <i class="vouche_i">元</i>
             </span>
             <span class="vouche_aside">可与加息券同时使用</span>
           </p>
-          <p class="start">起投金额：{{ item.voucherFaceValue | toThousands }}元</p>
+          <p class="start">起投金额：{{ item.amountMin | toThousands }}元</p>
           <button
             v-show="item.secondType == 2&&item.intoAccount==0"
             class="receive1_btn"
@@ -124,7 +124,7 @@
           <p class="vouche_box">
             <span class="vouche">
               {{ item.voucherFaceValue }}
-              <i>%</i>
+              <i class="vouche_i">%</i>
               <i class="font">利息</i>
             </span>
             <span class="vouche_aside">可加息{{ item.validDays }}天</span>
@@ -138,11 +138,11 @@
           <p class="vouche_box">
             <span class="vouche">
               {{ item.voucherFaceValue }}
-              <i>元</i>
+              <i class="vouche_i">元</i>
             </span>
             <span class="vouche_aside">可与加息券同时使用</span>
           </p>
-          <p class="start">起投金额：{{ item.voucherFaceValue | toThousands }}元</p>
+          <p class="start">起投金额：{{ item.amountMin | toThousands }}元</p>
         </div>
         <div class="endData">有效期至{{ item.validUseEndTime }}</div>
         <button class="receive1_btn">已过期</button>
@@ -164,7 +164,7 @@
           <p class="vouche_box">
             <span class="vouche">
               {{ item.voucherFaceValue }}
-              <i>%</i>
+              <i class="vouche_i">%</i>
               <i class="font">利息</i>
             </span>
             <span class="vouche_aside">可加息{{ item.validDays }}天</span>
@@ -178,11 +178,11 @@
           <p class="vouche_box">
             <span class="vouche">
               {{ item.voucherFaceValue }}
-              <i>元</i>
+              <i class="vouche_i">元</i>
             </span>
             <span class="vouche_aside">可与加息券同时使用</span>
           </p>
-          <p class="start">起投金额：{{ item.voucherFaceValue | toThousands }}元</p>
+          <p class="start">起投金额：{{ item.amountMin | toThousands }}元</p>
         </div>
         <div class="endData">有效期至{{ item.validUseEndTime }}</div>
         <button class="receive1_btn">已使用</button>
@@ -428,9 +428,10 @@ export default {
           font-weight: 600;
           color: rgba(255, 255, 255, 1);
           margin-left: 33px;
-          i {
+          .vouche_i {
             font-size: $font-size-large-x;
             font-weight: 400;
+            margin-left: -8px;
           }
         }
         .vouche_aside {
