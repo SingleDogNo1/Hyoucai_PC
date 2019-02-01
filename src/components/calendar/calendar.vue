@@ -457,8 +457,8 @@ export default {
     }
   },
   mounted() {
-    this.initMonth()
     this.init()
+    this.initMonth()
   }
 }
 </script>
