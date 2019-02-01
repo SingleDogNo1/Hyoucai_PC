@@ -18,7 +18,7 @@
           <i class="iconfont icon-password"></i> <input type="password" v-model="form.confirmPassword" placeholder="输入8-20位字母和数字组合" maxlength="20" onkeydown="if(/[^a-zA-Z0-9]/.test(event.key)) return false" />
         </div>
         <div class="form-item" v-if="cpm === 'true'">
-          <i class="iconfont icon-code"></i> <input type="text" v-model="form.inviteCode" placeholder="输入钞票码(选填)" />
+          <i class="iconfont icon-code"></i> <input type="text" v-model="form.inviteCode" placeholder="输入推荐码(选填)" />
         </div>
         <div class="form-item" v-if="tjm === 'true'">
           <i class="iconfont icon-code"></i> <input type="text" v-model="form.recommendCode" placeholder="输入推荐码(选填)" />
@@ -118,7 +118,7 @@ export default {
             if (res.data.data) {
               resolve()
             } else {
-              this.errorMsg = '钞票码不正确'
+              this.errorMsg = '推荐码不正确'
               reject()
             }
           })

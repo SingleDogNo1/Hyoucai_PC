@@ -31,11 +31,8 @@
               </li>
               <li>
                 <span class="title">银行卡号</span>
-                <input type="text" placeholder="请输入银行卡号" v-if="isBankcardSupport" readonly v-model="bankCardNo" /><input
-                  type="text"
-                  placeholder="请输入银行卡号"
-                  v-else
-                />
+                <input type="text" placeholder="请输入银行卡号" v-if="isBankcardSupport" readonly v-model="bankCardNo" />
+                <input type="text" placeholder="请输入银行卡号" v-else />
               </li>
               <li>
                 <span class="title">开户银行</span>
@@ -100,6 +97,10 @@
     <Dialog :show.sync="showDialog" :singleButton="singleButton" class="djs-charge-dialog">
       <div>{{ errMsg.common }}</div>
     </Dialog>
+    <Dialog :show.sync="showDialogSuccess" :showTitle="false" class="djs-charge-dialog">
+      <img style="width:70px;height:70px;margin-bottom: 10px;" src="./image/success.png" alt="">
+      <div>充值成功</div>
+    </Dialog>
   </div>
 </template>
 
@@ -155,6 +156,7 @@ export default {
       },
       singleButton: true,
       showDialog: false,
+      showDialogSuccess: false,
       isBankcardSupport: false // 快钱是否支持用户当前银行卡
     }
   },
@@ -269,8 +271,7 @@ export default {
       rechargeApiDirectPayServer(data).then(res => {
         let data = res.data
         if (data.resultCode === ERR_OK) {
-          this.showDialog = true
-          this.errMsg.common = '充值成功！'
+          this.showDialogSuccess = true
         } else {
           this.errMsg.smsCode = data.resultMsg
         }
@@ -653,6 +654,7 @@ export default {
     }
   }
   .djs-charge-dialog {
+    text-align: center;
     div {
       text-align: center;
     }
