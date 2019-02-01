@@ -12,6 +12,10 @@ import '@/assets/fonts/iconfont/iconfont.css'
 Vue.config.productionTip = false
 Vue.use(VueLazyload)
 
+router.afterEach(() => {
+  document.querySelector('.layout') && document.querySelector('.layout').scrollIntoView()
+})
+
 new Vue({
   router,
   store,

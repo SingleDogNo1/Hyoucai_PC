@@ -38,13 +38,20 @@
           <th>回款金额</th>
           <th>操作</th>
         </thead>
-        <tbody>
+        <tbody v-if="dayIncome.length > 0">
           <tr v-for="(item, index) in dayIncome" :key="index">
             <td>{{ item.collectTime }}</td>
             <td>{{ item.productName }}</td>
             <td>{{ item.rate }}</td>
             <td>{{ item.amount }}元</td>
             <td class="show" @click="showDetail(`要查看${item.productName}的内容`)">操作</td>
+          </tr>
+        </tbody>
+        <tbody v-else>
+          <tr>
+            <td colspan="5">
+              您当前没有回款记录
+            </td>
           </tr>
         </tbody>
       </table>
@@ -83,7 +90,7 @@ export default {
   methods: {
     getLendDetail(year, month, day) {
       this.getIncome(year, month + 1, day, res => {
-        if (res.data.details && res.data.details.length > 0) {
+        if (res.data.details) {
           this.dayIncome = res.data.details
           this.showDetailTable = true
         }
