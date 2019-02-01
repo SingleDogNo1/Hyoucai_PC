@@ -98,7 +98,7 @@ export default {
         duration: '',
         type: 2
       },
-      termType: 1,
+      termType: window.location.href.indexOf('hyc') > -1 ? 2 : 1, // 判断平台
       expectedRevenue: 0,
       totalSum: 0,
       tableData: [],
@@ -193,23 +193,33 @@ export default {
       }
     },
     resetCalc() {
-      this.types = [
-        {
-          label: '先息后本',
-          value: 2
-        },
-        {
-          label: '等额本息',
-          value: 1
-        }
-      ]
       this.calculator = {
         sum: '',
         rate: '',
         duration: '',
         type: 2
       }
-      this.termType = 2
+      this.termType = window.location.href.indexOf('hyc') > -1 ? 2 : 1
+      if(this.termType === 1) {
+        this.types = [
+          {
+            label: '先息后本',
+            value: 2
+          }
+        ]
+      } else {
+        this.calculator.type = 1
+        this.types = [
+          {
+            label: '等额本息',
+            value: 1
+          },
+          {
+            label: '先息后本',
+            value: 2
+          }
+        ]
+      }
       this.expectedRevenue = 0
       this.totalSum = 0
       this.tableData = []

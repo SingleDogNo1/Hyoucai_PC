@@ -7,7 +7,7 @@
           <th style="width: 270px;">项目名称</th>
           <th style="width: 120px;">出借本金（元）</th>
           <th style="width: 120px;">利息（元）</th>
-          <th style="width: 110px;">历史平均年化收益率（元）</th>
+          <th style="width: 110px;">历史平均年化收益率</th>
           <th style="width: 100px;">锁定期</th>
           <th>查看详情</th>
         </thead>
@@ -20,9 +20,9 @@
             <td v-else>{{ item.invAmount }}</td>
             <td>{{ item.waitAmount }}</td>
             <td>{{ item.yearRate }}</td>
-            <td>
+            <td style="text-align: left;">
               <span>{{ item.interestStartDate }}</span> <span> - </span>
-              <p>{{ item.interestEndDate }}</p>
+              <span>{{ item.interestEndDate }}</span>
             </td>
             <td style="cursor:pointer; color:#FB891F;" v-if="item.invStatus === 'INVI'" @click="showDetail(item.productId, item.id)">
               <span style="color: #FB891F;">查看</span>

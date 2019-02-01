@@ -147,7 +147,7 @@
         <div class="production-wrap" v-for="(item, index) in noviceProjectList" :key="index">
           <div class="production-info">
             <div class="label-wrap">
-              <img :src="item.iconUrl">
+              <img :src="item.iconUrl" v-if="item.iconUrl">
               <span class="title">{{ item.projectName }} {{ item.projectNo }}</span>
               <span
                 class="label"
@@ -188,7 +188,7 @@
       <ul :class="{ two: popularProjectList.length == 2, 'one': popularProjectList.length == 1 }">
         <li v-for="(item, index) in popularProjectList" :key="index" @click="toDownload">
           <p class="title">
-            <img :src="item.iconUrl">
+            <img :src="item.iconUrl" v-if="item.iconUrl">
             <span class="icon">{{ item.projectName }}</span>
           </p>
           <div class="returns">
