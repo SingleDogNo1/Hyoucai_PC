@@ -96,6 +96,7 @@ export default {
     })
   },
   created() {
+    console.log('this.user===', this.user)
     if (this.user.platformFlag === '1') {
       // 点金石用户
       userInviteInfo({ userName: this.user.userName }).then(res => {

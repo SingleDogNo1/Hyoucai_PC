@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper">
-    <div class="top">
+    <div class="top" v-if="user">
       <img src="./image/date_back.png" />
       <ul>
         <li>
@@ -191,6 +191,7 @@ import pagination from '@/components/pagination/pagination'
 import countUp from '@/components/countUp/index'
 import { getPageConfig, getCountMsg, getQSList, getZXList, getGRList } from '@/api/hyc/lend'
 import { getUser } from '@/assets/js/cache'
+import { mapGetters } from 'vuex'
 
 const ERR_OK = '1'
 export default {
@@ -338,6 +339,9 @@ export default {
     pagination,
     countUp
   },
+  computed: {
+    ...mapGetters(['user'])
+  },
   created() {
     let user = getUser()
     if (user) {
@@ -356,7 +360,6 @@ export default {
   .top {
     position: relative;
     width: 100%;
-    margin-bottom: 30px;
     img {
       width: 100%;
     }
@@ -433,6 +436,7 @@ export default {
   .content {
     width: 1140px;
     margin: 0 auto;
+    margin-top: 30px;
     .tabs {
       height: 36px;
       font-size: 0;
