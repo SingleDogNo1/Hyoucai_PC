@@ -80,15 +80,17 @@
       <table cellspacing="0" v-if="invList.length > 0 && invStatus === 'JHB_YTK'">
         <thead>
           <th>项目名称</th>
-          <th>申请本金（元）</th>
+          <th>退款本金（元）</th>
           <th>历史平均年化收益率</th>
-          <th>申请时间</th>
+          <th>申请本金（元）</th>
+          <th>退款时间</th>
         </thead>
         <tbody>
           <tr v-for="(item, index) in invList" :key="index">
             <td>{{ item.itemName && item.productName ? item.itemName : item.productName }}</td>
-            <td>{{ item.refundAmount }}</td>
+            <td>{{ item.returnAmount }}</td>
             <td>{{ item.yearRate }}</td>
+            <td>{{ item.applyAmount }}</td>
             <td>{{ item.refundDate }}</td>
           </tr>
         </tbody>
