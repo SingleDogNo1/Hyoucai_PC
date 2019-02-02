@@ -18,11 +18,11 @@
         </thead>
         <tbody>
           <tr v-for="item in listDetail" :key="item.id">
-            <td>{{ item.takeBackInterest }}元</td>
+            <td>{{ item.takeBackInterest }}</td>
             <td>{{ item.waitAllBackInterest }}</td>
             <td>{{ item.intSumStartDate.split(' ')[0] }}</td>
             <td>{{ item.invOverDate }}</td>
-            <td>{{ item.totalPrinAmount }}元</td>
+            <td>{{ item.totalPrinAmount }}</td>
             <td>
               <span
                 v-if="item.isRedeem === '1' && item.invStatus !== 'INVZ' && item.invStatus !== 'INPZ' && item.item.invStatus !== 'INVY'"

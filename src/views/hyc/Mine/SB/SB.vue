@@ -4,7 +4,7 @@
       <!-- 申请中 -->
       <table cellspacing="0" v-if="invList && invList.length > 0">
         <thead>
-          <th style="width: 270px;">项目名称</th>
+          <th style="width: 270px;"></th>
           <th style="width: 120px;">出借本金（元）</th>
           <th style="width: 120px;">利息（元）</th>
           <th style="width: 110px;">历史平均年化收益率</th>
@@ -21,7 +21,7 @@
             <td>{{ item.waitAmount }}</td>
             <td>{{ item.yearRate }}</td>
             <td style="text-align: left;">
-              <span>{{ item.interestStartDate }}</span> <span> - </span>
+              <span>{{ item.interestStartDate }}</span> <span>-</span>
               <span>{{ item.interestEndDate }}</span>
             </td>
             <td style="cursor:pointer; color:#FB891F;" v-if="item.invStatus === 'INVI'" @click="showDetail(item.productId, item.id)">
