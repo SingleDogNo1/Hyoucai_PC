@@ -59,7 +59,7 @@
         </thead>
         <tbody>
           <tr v-for="item in listZQ" :key="item.id">
-            <td>{{ item.applicationNo }}元</td>
+            <td>{{ item.applicationNo }}</td>
             <td>{{ item.investRate }}%</td>
             <td>{{ item.invAmt }}</td>
             <td>{{ item.repaymentStatus }}</td>

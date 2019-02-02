@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper">
-    <div class="top">
+    <div class="top" v-if="user">
       <img src="./image/date_back.png" />
       <ul>
         <li>
@@ -86,6 +86,7 @@ import pagination from '@/components/pagination/pagination'
 import countUp from '@/components/countUp/index'
 import { getList } from '@/api/djs/lend'
 import { getUser } from '@/assets/js/cache'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'lend',
@@ -133,6 +134,9 @@ export default {
   components: {
     pagination,
     countUp
+  },
+  computed: {
+    ...mapGetters(['user'])
   },
   created() {
     let user = getUser()

@@ -172,7 +172,7 @@ export default {
         let data = res.data
         this.showDialog = true
         if (data.resultCode === ERR_OK) {
-          this.errMsg.common = '修改银行卡成功！'
+          this.errMsg.common = '发送短信验证码成功！'
         } else {
           this.errMsg.common = data.resultMsg
         }

@@ -99,6 +99,16 @@
         </tr>
       </tbody>
     </table>
+    <!-- 分页器 -->
+    <div class="pagination-wrapper">
+      <pagination
+        v-if="countPage"
+        :count-page="countPage"
+        :size-val="size"
+        :page-val="page"
+        @handleCurrentChange="handleCurrentChange"
+      ></pagination>
+    </div>
 
     <WithoutSignDialog
       :show.sync="withoutSignDialogOption.show"
@@ -201,11 +211,13 @@
 import { getQSTGainPlan, getQSTInfo, getTrilateralPdfPathApi, getPeopleInfoApi } from '@/api/hyc/Mine/lend'
 import { mapGetters } from 'vuex'
 import WithoutSignDialog from '@/components/Dialog/Dialog'
+import Pagination from '@/components/pagination/pagination'
 
 export default {
   name: 'JHBDetail',
   components: {
-    WithoutSignDialog
+    WithoutSignDialog,
+    Pagination
   },
   data() {
     return {
@@ -219,7 +231,10 @@ export default {
       peopleInfoDialogShow: false,
       BenefitPlan: [], // 收益计划
       itemDesign: [], // 项目组成
-      personalInfo: {}
+      personalInfo: {},
+      page: 1,
+      size: 10,
+      countPage: 0
     }
   },
   methods: {
@@ -235,6 +250,36 @@ export default {
           this.peopleInfoDialogShow = true
         }
       })
+    },
+    getQSTInfo() {
+      getQSTInfo({
+        curPage: this.page,
+        maxLine: this.size,
+        recordPackageId: this.projectNo,
+        productType: this.productType
+      }).then(res => {
+        this.itemDesign = res.data.data.collectionInverstInfo
+        const lists = res.data.data.collectionInverstInfo
+        this.countPage = res.data.data.countPage
+        this.page = res.data.data.curPage
+        for (let i = 0; i < lists.length; i++) {
+          let list = lists[i]
+          getTrilateralPdfPathApi({
+            loginUsername: this.user.userName,
+            invRecordId: list.id
+          }).then(res => {
+            if (res.data.resultCode === '1') {
+              this.$set(list, 'showUrl', res.data.protocolPdfPath)
+            } else {
+              this.$set(list, 'showUrl', null)
+            }
+          })
+        }
+      })
+    },
+    handleCurrentChange(val) {
+      this.page = val
+      this.getQSTInfo()
     }
   },
   computed: {
@@ -249,26 +294,7 @@ export default {
       this.BenefitPlan = res.data.data
     })
 
-    getQSTInfo({
-      recordPackageId: this.projectNo,
-      productType: this.productType
-    }).then(res => {
-      this.itemDesign = res.data.data.collectionInverstInfo
-      const lists = res.data.data.collectionInverstInfo
-      for (let i = 0; i < lists.length; i++) {
-        let list = lists[i]
-        getTrilateralPdfPathApi({
-          loginUsername: this.user.userName,
-          invRecordId: list.id
-        }).then(res => {
-          if (res.data.resultCode === '1') {
-            this.$set(list, 'showUrl', res.data.protocolPdfPath)
-          } else {
-            this.$set(list, 'showUrl', null)
-          }
-        })
-      }
-    })
+    this.getQSTInfo()
   }
 }
 </script>

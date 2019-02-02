@@ -4,8 +4,8 @@
       <img :src="imgSrc">
     </div>
     <p class="type">{{resultTitle}}</p>
-    <p class="detail">{{resultFont}}</p>
-    <button class="invest" @click="goInvest">去出借</button>
+    <p class="detail" v-html="resultFont"></p>
+    <button class="invest" @click="goInvest">立即出借</button>
     <button class="agin" @click="getAgin">重新测评</button>
   </section>
 </template>
