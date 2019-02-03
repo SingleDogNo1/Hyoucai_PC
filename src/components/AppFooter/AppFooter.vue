@@ -162,7 +162,6 @@ export default {
     getHYCQueryQAType() {
       hycQueryQAType().then(res => {
         let data = res.data.data
-        console.log('data===', data)
         this.QAList = data.list
         localStorage.setItem('QAList', JSON.stringify(this.QAList))
       })
@@ -289,7 +288,7 @@ export default {
       text-align: center;
       font-size: 14px;
       padding-top: 30px;
-      span{
+      span {
         display: inline-block;
         padding: 0 18px;
         border-right: 1px solid #9b9b9b;

@@ -263,7 +263,7 @@ table tr td {
       .icon-changjianwenti {
         display: inline-block;
         margin-left: 6px;
-        //position: absolute;
+        position: absolute;
         cursor: pointer;
         &:hover {
           color: #fb9d1f;
@@ -276,7 +276,7 @@ table tr td {
         display: none;
         position: absolute;
         top: -13px;
-        left: 74px;
+        left: -10px;
         .box {
           position: relative;
           width: 252px;
