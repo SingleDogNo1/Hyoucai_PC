@@ -44,7 +44,7 @@
             <td>{{ item.productName }}</td>
             <td>{{ item.rate }}</td>
             <td>{{ item.amount }}元</td>
-            <td class="show" @click="showDetail(`要查看${item.productName}的内容`)">操作</td>
+            <td class="show" @click="showDetail(`要查看${item.productName}的内容`)">查看详情</td>
           </tr>
         </tbody>
         <tbody v-else>
@@ -90,8 +90,9 @@ export default {
   methods: {
     getLendDetail(year, month, day) {
       this.getIncome(year, month + 1, day, res => {
-        if (res.data.details) {
-          this.dayIncome = res.data.details
+        let data = res.data.data
+        if (data.details && data.details.length > 0) {
+          this.dayIncome = data.details
           this.showDetailTable = true
         }
       })
