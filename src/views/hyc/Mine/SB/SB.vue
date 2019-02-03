@@ -19,9 +19,9 @@
             <td v-if="item.invStatus === 'INTK'">{{ item.applyAmount }}</td>
             <td v-else>{{ item.invAmount }}</td>
             <td>{{ item.waitAmount }}</td>
-            <td>{{ item.yearRate }}</td>
+            <td>{{ item.yearRate }}<span v-if="item.couponRate">+{{item.couponRate}}%</span></td>
             <td style="text-align: left;">
-              <span>{{ item.interestStartDate }}</span> <span> - </span>
+              <span>{{ item.interestStartDate }}</span> <span>-</span>
               <span>{{ item.interestEndDate }}</span>
             </td>
             <td style="cursor:pointer; color:#FB891F;" v-if="item.invStatus === 'INVI'" @click="showDetail(item.productId, item.id)">
