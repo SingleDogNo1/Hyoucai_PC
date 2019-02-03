@@ -269,8 +269,10 @@ export default {
             invRecordId: list.id
           }).then(res => {
             if (res.data.resultCode === '1') {
-              this.$set(list, 'showUrl', res.data.protocolPdfPath)
+              console.log(1)
+              this.$set(list, 'showUrl', res.data.data.protocolPdfPath)
             } else {
+              console.log(2)
               this.$set(list, 'showUrl', null)
             }
           })
@@ -458,6 +460,9 @@ table tr td {
       cursor: pointer;
       color: $color-theme;
     }
+  }
+  .pagination-wrapper {
+    margin-top: 20px;
   }
 }
 
