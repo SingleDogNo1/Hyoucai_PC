@@ -47,7 +47,7 @@ export default {
   data() {
     return {
       title: '风险评测',
-      isShow: true,
+      isShow: false,
       radio: [],
       scoreArr: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       questionsObj: {
