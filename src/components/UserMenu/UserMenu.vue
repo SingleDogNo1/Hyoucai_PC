@@ -39,6 +39,7 @@
 <script>
 import { mapState } from 'vuex'
 import { userInviteInfo } from '@/api/djs/Mine/referralCode'
+import { currentPlatform } from '@/assets/js/utils'
 
 export default {
   name: 'UserMenu',
@@ -97,7 +98,7 @@ export default {
   },
   created() {
     console.log('this.user===', this.user)
-    if (this.user.platformFlag === '1') {
+    if (this.user.platformFlag === '1' || (this.user.platformFlag === '3' && currentPlatform() === 'djs')) {
       // 点金石用户
       userInviteInfo({ userName: this.user.userName }).then(res => {
         this.referralCode = res.data.myInviteCode

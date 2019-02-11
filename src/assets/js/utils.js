@@ -86,3 +86,8 @@ export function referralCodeReg(referralCode) {
   let reg = /^(h|d)(.*[0-9])$/
   return reg.test(referralCode)
 }
+
+export function currentPlatform() {
+  const str = window.location.pathname
+  return str.indexOf('djs') > 0 ? 'djs' : 'hyc'
+}
