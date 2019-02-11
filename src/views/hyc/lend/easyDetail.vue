@@ -318,9 +318,22 @@
           <div class="swiper-container-red-envelope">
             <div class="swiper-wrapper">
               <div class="swiper-slide swiper-no-swiping">
-                <div class="red-envelope-box">
-
-                </div>
+                <div class="red-envelope-box"></div>
+              </div>
+              <div class="swiper-slide swiper-no-swiping">
+                <div class="red-envelope-box"></div>
+              </div>
+              <div class="swiper-slide swiper-no-swiping">
+                <div class="red-envelope-box"></div>
+              </div>
+              <div class="swiper-slide swiper-no-swiping">
+                <div class="red-envelope-box"></div>
+              </div>
+              <div class="swiper-slide swiper-no-swiping">
+                <div class="red-envelope-box"></div>
+              </div>
+              <div class="swiper-slide swiper-no-swiping">
+                <div class="red-envelope-box"></div>
               </div>
             </div>
           </div>
@@ -331,6 +344,7 @@
 </template>
 
 <script>
+import Swiper from 'swiper/dist/js/swiper'
 import { mapState } from 'vuex'
 import Pagination from '@/components/pagination/pagination'
 import { timeCountDown } from '@/assets/js/utils'
@@ -643,10 +657,32 @@ export default {
     },
     toRisk() {
       this.$router.push({ name: 'riskAss' })
+    },
+    redEnvelopeSwiper() {
+      setTimeout(() => {
+        this.swiperBanner = new Swiper('.swiper-container-red-envelope', {
+          paginationClickable: true,
+					observer: true,
+					observeParents: true,
+					loopAdditionalSlides: 1,
+					initialSlide: 2,
+					effect: "coverflow",
+					slidesPerView: 1.3, // 一屏装几个slider
+					centeredSlides: true,
+					coverflowEffect: {
+						rotate: 0,
+						stretch: 40, // slider 间距，越小间距越大
+						depth: 30,
+						modifier: 1,
+						slideShadows: false
+					},
+        })
+      }, 200)
     }
   },
   mounted() {
     this.getInvestDetailList()
+    this.redEnvelopeSwiper()
   }
 }
 </script>
@@ -1191,10 +1227,15 @@ export default {
         .swiper-container-red-envelope {
           width: 560px;
           margin: 0 auto;
+          position: relative;
+          overflow: hidden;
+          list-style: none;
+          padding: 0;
+          z-index: 1;
           /deep/ .red-envelope-box {
             width: 378px;
             height: 105px;
-            background: url("./image/bg_red_envelope_nochoose.png") center center no-repeat;
+            background: url('./image/bg_red_envelope_nochoose.png') center center no-repeat;
           }
         }
       }
