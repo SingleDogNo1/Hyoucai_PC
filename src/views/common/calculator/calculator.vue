@@ -210,23 +210,15 @@ export default {
         termType: this.termType,
         repayment: this.calculator.type
       }
-      if (!this.calculator.sum) {
-        this.amountError = true
-      } else if (!this.calculator.rate) {
-        this.rateError = true
-      } else if (!this.calculator.duration) {
-        this.durationError = true
-      } else {
-        calculator(params).then(res => {
-          let data = res.data
-          if (data.resultCode === ERR_OK) {
-            let result = data.incomeCalculatorBean
-            this.expectedRevenue = result.allInterest
-            this.totalSum = result.totalPrincipalInterest
-            this.tableData = result.incomePlanList
-          }
-        })
-      }
+      calculator(params).then(res => {
+        let data = res.data
+        if (data.resultCode === ERR_OK) {
+          let result = data.incomeCalculatorBean
+          this.expectedRevenue = result.allInterest
+          this.totalSum = result.totalPrincipalInterest
+          this.tableData = result.incomePlanList
+        }
+      })
     },
     resetCalc() {
       this.calculator = {
