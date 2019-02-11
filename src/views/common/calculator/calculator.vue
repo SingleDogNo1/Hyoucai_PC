@@ -6,26 +6,30 @@
         <el-form :inline="true" :model="calculator" class="demo-form-inline">
           <div class="input-wrapper">
             <el-form-item label="出借金额">
-              <input type="text" @input="inputSum" placeholder="出借金额" ref="refSum"/>
+              <input type="text" @input="inputSum" placeholder="出借金额" ref="refSum" />
               <div class="unit">元</div>
               <p>
                 <em v-if="errMsg.errSum">{{ errMsg.errSum }}</em>
               </p>
             </el-form-item>
             <el-form-item label="历史平均年化收益率">
-              <input type="text" @input="inputRate" placeholder="历史平均年化收益率"  ref="refRate"/>
+              <input type="text" @input="inputRate" placeholder="历史平均年化收益率" ref="refRate" />
               <div class="unit">%</div>
-              <p><em v-if="errMsg.errRate">{{ errMsg.errRate }}</em></p>
+              <p>
+                <em v-if="errMsg.errRate">{{ errMsg.errRate }}</em>
+              </p>
             </el-form-item>
           </div>
           <div class="input-wrapper">
             <el-form-item label="出借期限">
-              <input type="text" @input="inputDuration" placeholder="出借期限"  ref="refDuration"/>
+              <input type="text" @input="inputDuration" placeholder="出借期限" ref="refDuration" />
               <div class="unit">
                 <span class="el-icon-caret el-icon-caret-left" @click="changeDuration"></span> <i>{{ termType | termFilter }}</i>
                 <span class="el-icon-caret el-icon-caret-right" @click="changeDuration"></span>
               </div>
-              <p v-if="errMsg.errDuration"><em>{{ errMsg.errDuration }}</em></p>
+              <p v-if="errMsg.errDuration">
+                <em>{{ errMsg.errDuration }}</em>
+              </p>
             </el-form-item>
             <el-form-item label="还款方式">
               <el-select v-model.trim="calculator.type" placeholder="还款方式">
@@ -93,7 +97,7 @@ export default {
         duration: '',
         type: 2
       },
-      termType: 1,
+      termType: window.location.href.indexOf('hyc') > -1 ? 2 : 1, // 判断平台
       expectedRevenue: 0,
       totalSum: 0,
       tableData: [],
@@ -128,13 +132,10 @@ export default {
         ]
       }
     },
-    calculator: {
-      handler(val) {
-        if (val.type === 1) {
-          this.termType = 2
-        }
-      },
-      deep: true
+    'calculator.type'(val) {
+      if (val === 1) {
+        this.termType = 2
+      }
     }
   },
   filters: {
@@ -162,9 +163,6 @@ export default {
         .replace(/\./g, '')
         .replace('$#$', '.')
       e.target.value = e.target.value.replace(/^(-)*(\d+)\.(\d\d).*$/, '$1$2.$3')
-      if (e.target.value.indexOf('.') < 0 && e.target.value !== '') {
-        e.target.value = parseFloat(e.target.value)
-      }
       this.calculator.sum = e.target.value
     },
     inputRate(e) {
@@ -175,9 +173,6 @@ export default {
         .replace(/\./g, '')
         .replace('$#$', '.')
       e.target.value = e.target.value.replace(/^(-)*(\d+)\.(\d\d).*$/, '$1$2.$3')
-      if (e.target.value.indexOf('.') < 0 && e.target.value !== '') {
-        e.target.value = parseFloat(e.target.value)
-      }
       this.calculator.rate = e.target.value
     },
     inputDuration(e) {
@@ -215,27 +210,25 @@ export default {
         termType: this.termType,
         repayment: this.calculator.type
       }
-      calculator(params).then(res => {
-        let data = res.data
-        if (data.resultCode === ERR_OK) {
-          let result = data.incomeCalculatorBean
-          this.expectedRevenue = result.allInterest
-          this.totalSum = result.totalPrincipalInterest
-          this.tableData = result.incomePlanList
-        }
-      })
+      if (!this.calculator.sum) {
+        this.amountError = true
+      } else if (!this.calculator.rate) {
+        this.rateError = true
+      } else if (!this.calculator.duration) {
+        this.durationError = true
+      } else {
+        calculator(params).then(res => {
+          let data = res.data
+          if (data.resultCode === ERR_OK) {
+            let result = data.incomeCalculatorBean
+            this.expectedRevenue = result.allInterest
+            this.totalSum = result.totalPrincipalInterest
+            this.tableData = result.incomePlanList
+          }
+        })
+      }
     },
     resetCalc() {
-      this.types = [
-        {
-          label: '等额本息',
-          value: 1
-        },
-        {
-          label: '先息后本',
-          value: 2
-        }
-      ]
       this.calculator = {
         sum: '',
         rate: '',
@@ -250,7 +243,27 @@ export default {
         errRate: '',
         errDuration: ''
       }
-      this.termType = 1
+      this.termType = window.location.href.indexOf('hyc') > -1 ? 2 : 1
+      if (this.termType === 1) {
+        this.types = [
+          {
+            label: '先息后本',
+            value: 2
+          }
+        ]
+      } else {
+        this.calculator.type = 1
+        this.types = [
+          {
+            label: '等额本息',
+            value: 1
+          },
+          {
+            label: '先息后本',
+            value: 2
+          }
+        ]
+      }
       this.expectedRevenue = 0
       this.totalSum = 0
       this.tableData = []
@@ -375,10 +388,7 @@ export default {
                   padding: 0 8px;
                   background-color: #f8f8f8;
                   color: #cdcdcd;
-                  span {
-                    color: #cdcdcd;
-                    cursor: pointer;
-                  }
+                  cursor: pointer;
                 }
                 p {
                   position: absolute;
@@ -399,43 +409,50 @@ export default {
                   }
                 }
               }
-              .el-select {
-                width: 250px;
-                .el-input__suffix {
-                  height: 38px;
-                  padding: 0 2px;
-                  top: 1px;
-                  right: 1px;
-                  border-left: 1px solid #dcdfe6;
-                  border-top-right-radius: 4px;
-                  border-bottom-right-radius: 4px;
-                  background-color: #f8f8fb;
+            }
+            .el-select {
+              width: 250px;
+              .el-input__suffix {
+                height: 38px;
+                padding: 0 2px;
+                top: 1px;
+                right: 1px;
+                border-left: 1px solid #dcdfe6;
+                border-top-right-radius: 4px;
+                border-bottom-right-radius: 4px;
+                background-color: #f8f8fb;
+              }
+            }
+            &:nth-of-type(1) {
+              text-align: left;
+            }
+            &:nth-of-type(2) {
+              .el-form-item {
+                &:nth-of-type(2) {
+                  text-align: right;
+                  .el-form-item__content {
+                    margin-right: 16px;
+                  }
                 }
-              }
-              &:nth-of-type(1) {
-                text-align: left;
-              }
-              &:nth-of-type(2) {
-                text-align: right;
               }
             }
           }
-          &.btn-wrapper {
-            margin: 18px 0;
-            padding-left: 85px;
-            .el-form-item {
-              .el-form-item__content {
-                width: 250px;
-                button {
-                  width: 100%;
-                }
+        }
+        .btn-wrapper {
+          margin: 18px 0;
+          padding-left: 85px;
+          .el-form-item {
+            .el-form-item__content {
+              width: 250px;
+              button {
+                width: 100%;
               }
-              &:nth-of-type(2) {
-                margin-left: 60px;
-                button {
-                  background-color: #099ef5;
-                  border-color: #099ef5;
-                }
+            }
+            &:nth-of-type(2) {
+              margin-left: 60px;
+              button {
+                background-color: #099ef5;
+                border-color: #099ef5;
               }
             }
           }
