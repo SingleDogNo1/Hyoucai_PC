@@ -336,6 +336,8 @@
                 <div class="red-envelope-box"></div>
               </div>
             </div>
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
           </div>
         </div>
       </div>
@@ -662,20 +664,24 @@ export default {
       setTimeout(() => {
         this.swiperBanner = new Swiper('.swiper-container-red-envelope', {
           paginationClickable: true,
-					observer: true,
-					observeParents: true,
-					loopAdditionalSlides: 1,
-					initialSlide: 2,
-					effect: "coverflow",
-					slidesPerView: 1.3, // 一屏装几个slider
-					centeredSlides: true,
-					coverflowEffect: {
-						rotate: 0,
-						stretch: 40, // slider 间距，越小间距越大
-						depth: 30,
-						modifier: 1,
-						slideShadows: false
-					},
+          observer: true,
+          observeParents: true,
+          loopAdditionalSlides: 1,
+          initialSlide: 1,
+          effect: 'coverflow',
+          slidesPerView: 1.3, // 一屏装几个slider
+          centeredSlides: true,
+          coverflowEffect: {
+            rotate: 0,
+            stretch: 35,
+            depth: 20,
+            modifier: 1,
+            slideShadows: false
+          },
+          navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev'
+          }
         })
       }, 200)
     }
@@ -1216,8 +1222,10 @@ export default {
         }
       }
       .red-envelope-wrap {
+        position: relative;
         width: 664px;
         margin: 0 auto;
+        margin-bottom: 53px;
         .title {
           margin-left: 52px;
           margin-bottom: 14px;
@@ -1225,7 +1233,7 @@ export default {
           color: $color-text-s;
         }
         .swiper-container-red-envelope {
-          width: 560px;
+          width: 100%;
           margin: 0 auto;
           position: relative;
           overflow: hidden;
@@ -1237,7 +1245,27 @@ export default {
             height: 105px;
             background: url('./image/bg_red_envelope_nochoose.png') center center no-repeat;
           }
+          .swiper-button-prev {
+            left: 0;
+            right: auto;
+            background: url('./image/swiper_prev.png') no-repeat center center;
+            height: 48px;
+            width: 48px;
+            background-size: cover;
+          }
+          .swiper-button-next {
+            right: 0;
+            left: auto;
+            background: url('./image/swiper_next.png') no-repeat center center;
+            height: 48px;
+            width: 48px;
+            background-size: cover;
+          }
         }
+      }
+      footer {
+        width: 382px;
+        margin: 0 auto;
       }
     }
   }
