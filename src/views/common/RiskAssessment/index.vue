@@ -358,6 +358,7 @@ export default {
         this.resultFont =
           '出借人有较高的风险承受能力，是富有冒险精神的激进型出借人，在出借收益波动的情况下，仍然能保持激进的出借理念。故出借人在平台的最高出借额不得超过500万元人民币，可选择任意出借期限的产品。<p style="text-align: center">本次测评有效期6个月</p>'
       }
+      document.querySelector('.layout') && document.querySelector('.layout').scrollIntoView()
       let data = {
         authorization: this.authorization,
         evaluatingResult: this.resultType
@@ -377,7 +378,7 @@ export default {
     ...mapGetters(['userBasicInfo'])
   },
   mounted() {
-    if (this.$route.query.status) { 
+    if (this.$route.query.status) {
       // 判断是否风险测评
       if (this.userBasicInfo.evaluatingResult) {
         switch (this.userBasicInfo.evaluatingResult.evaluatingCode) {
@@ -398,16 +399,19 @@ export default {
             this.resultTitle = '积极型'
             this.resultFont =
               '出借人有一定的风险承受能力，对出借收益比较敏感，期望进行长期且持续的出借，愿意通过分散化的出借以取得出借组合的均衡发展。故出借人在平台的最高出借额不得超过50万元人民币，出借期限建议为3个月内（包括3个月）。<p style="text-align: center">本次测评有效期6个月</p>'
+            break
           case 'JQX':
             this.resultType = 'JQX'
             this.resultTitle = '进取型'
             this.resultFont =
               '出借人愿意通过承担较高的风险来换取更高的出借回报，在出借时倾向以流动性较低、收益较高的出借方式获取收益。故出借人在平台的最高出借额不得超过100万元人民币，出借期限建议为6个月内（包括6个月）。<p style="text-align: center">本次测评有效期6个月</p>'
+            break
           case 'JINX':
             this.resultType = 'JINX'
             this.resultTitle = '激进型'
             this.resultFont =
               '出借人有较高的风险承受能力，是富有冒险精神的激进型出借人，在出借收益波动的情况下，仍然能保持激进的出借理念。故出借人在平台的最高出借额不得超过500万元人民币，可选择任意出借期限的产品。<p style="text-align: center">本次测评有效期6个月</p>'
+            break
         }
         this.isShow = true
       }
