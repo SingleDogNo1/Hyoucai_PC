@@ -176,7 +176,7 @@ export default {
   created() {},
   mounted() {
     this.referralCode = this.userBasicInfo.myInviteCode
-    this.refereeName = this.userBasicInfo.recommendName
+    this.refereeName = this.userBasicInfo.refereeName
     this.userName = this.user.userName
     let postData = {
       userName: this.userName
