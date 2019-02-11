@@ -3,11 +3,12 @@
     <div class="modify">
       <span class="modify_name">修改登录密码</span>
       <div class="modify_ipt_box">
-        <input class="modify_ipt" type="text" placeholder="请输入旧密码" v-model="oldPwd" />
-        <input class="modify_ipt" type="text" placeholder="请输入新密码" v-model="newPwd" />
-        <input class="modify_ipt" type="text" placeholder="请输入确认密码" @blur="isIdentical" v-model="newPwd2" />
+        <input class="modify_ipt" type="password" placeholder="请输入旧密码" v-model="oldPwd" />
+        <input class="modify_ipt" type="password" placeholder="请输入新密码" v-model="newPwd" />
+        <password-strength class="passwordStrength" :pwd="newPwd"></password-strength>
+        <input class="modify_ipt" type="password" placeholder="请输入确认密码" @blur="isIdentical" v-model="newPwd2" />
         <!-- 两次输入密码不同时的提示信息-->
-        <span class="tips" v-show="flag">新密码两次输入不一致</span>
+        <span class="tips" v-show="flag">{{errMsg}}</span>
         <!-- <PasswordStrength :pwd="newPwd" class="pwd_strength"/> -->
       </div>
     </div>
@@ -17,7 +18,7 @@
   </div>
 </template>
 <script>
-// import PasswordStrength from '@/components/passwordStrength'
+import PasswordStrength from '@/components/passwordStrength'
 import { updateUserPsw } from '@/api/common/basicInfo'
 import { mapGetters } from 'vuex'
 export default {
@@ -27,12 +28,13 @@ export default {
       oldPwd: '',
       newPwd: '',
       newPwd2: '',
-      flag: false
+      flag: false,
+      errMsg: ''
     }
   },
   props: ['isShow'],
   components: {
-    // PasswordStrength
+    PasswordStrength
   },
   computed: {
     ...mapGetters(['user'])
@@ -41,6 +43,7 @@ export default {
     isIdentical: function() {
       if (this.newPwd != this.newPwd2) {
         this.flag = true
+        this.errMsg = '新密码两次输入不一致'
       } else {
         this.flag = false
       }
@@ -50,11 +53,16 @@ export default {
       obj.userName = this.user.userName
       obj.oldPassWord = this.oldPwd
       obj.newPassWord = this.newPwd
-      updateUserPsw(obj)
-      // .then(() => {
-      //   console.log(res)
-      // })
-      this.isShow.isShow2 = !this.isShow.isShow2
+      updateUserPsw(obj).then(res => {
+        let data = res.data
+        // 错误需要提示
+        if (data.resultCode !== '1') {
+          this.flag = true
+          this.errMsg = data.resultMsg
+        } else {
+          this.isShow.isShow2 = !this.isShow.isShow2
+        }
+      })
     }
   },
   created() {}
@@ -84,6 +92,11 @@ export default {
       margin-left: 12px;
       width: 294px;
       position: relative;
+      .passwordStrength {
+        position: absolute;
+        top: 65px;
+        right: -150px;
+      }
       .modify_ipt {
         width: 280px;
         height: 40px;

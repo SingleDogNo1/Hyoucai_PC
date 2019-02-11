@@ -2,7 +2,17 @@
   <div class="jhb-detail-wrapper">
     <header>注：本标为按天计息标，借款人可能提前还款。如果出现提前还款，您所获得实际利息将按借款人实际借款天数计算，请知悉！</header>
     <div class="income coupon" v-if="BenefitPlan.useCoupon === '1'">
-      <div class="title">加息收益</div>
+      <div class="title">
+        <span>加息收益</span>
+        <i class="iconfont icon-changjianwenti">
+          <div class="formula-pop">
+            <div class="box">
+              <p>加息公式:</p>
+              <p>{ 待收本金 * (加息年化/360) * 加息天数 }</p>
+            </div>
+          </div>
+        </i>
+      </div>
       <ul>
         <li>
           <span>{{ BenefitPlan.userCouponRateTemp }}</span>
@@ -59,7 +69,9 @@
         </template>
       </tbody>
     </table>
-    <div class="income"><div class="title">项目组成</div></div>
+    <div class="income">
+      <div class="title">项目组成</div>
+    </div>
     <table class="income-table">
       <thead>
         <tr>
@@ -75,79 +87,119 @@
           <td>{{ item.productId }}</td>
           <td>{{ item.invAmount }}</td>
           <td>{{ item.interest }}</td>
-          <td><p @click="showDetail(item.productId)">查看</p></td>
-          <td v-if="item.showUrl"><a :href="item.showUrl" target="_blank">《三方协议》</a></td>
-          <td v-else><p @click="withoutSignDialog">《三方协议》</p></td>
+          <td>
+            <p @click="showDetail(item.productId)">查看</p>
+          </td>
+          <td v-if="item.showUrl">
+            <a :href="item.showUrl" target="_blank">《三方协议》</a>
+          </td>
+          <td v-else>
+            <p @click="withoutSignDialog">《三方协议》</p>
+          </td>
         </tr>
       </tbody>
     </table>
+    <!-- 分页器 -->
+    <div class="pagination-wrapper">
+      <pagination
+        v-if="countPage"
+        :count-page="countPage"
+        :size-val="size"
+        :page-val="page"
+        @handleCurrentChange="handleCurrentChange"
+      ></pagination>
+    </div>
 
-    <WithoutSignDialog :show="withoutSignDialogOption.show" :singleButton="withoutSignDialogOption.singleButton">
+    <WithoutSignDialog
+      :show.sync="withoutSignDialogOption.show"
+      :singleButton="withoutSignDialogOption.singleButton"
+    >
       <div>暂未签署该协议</div>
     </WithoutSignDialog>
 
     <div class="people-info-wrapper" v-if="peopleInfoDialogShow">
       <div class="inner">
-        <div class="close" @click="peopleInfoDialogShow = false"><i class="iconfont icon-guanbi1"></i></div>
+        <div class="close" @click="peopleInfoDialogShow = false">
+          <i class="iconfont icon-guanbi1"></i>
+        </div>
         <h1>借款人详情</h1>
         <div class="lists">
           <ul>
             <li>
-              <b>借款人姓名：</b> <span>{{ personalInfo.borrowerName }}</span>
+              <b>借款人姓名：</b>
+              <span>{{ personalInfo.borrowerName }}</span>
             </li>
             <li>
-              <b>年龄：</b> <span>{{ personalInfo.age }}</span>
+              <b>年龄：</b>
+              <span>{{ personalInfo.age }}</span>
             </li>
             <li>
-              <b>婚姻状况：</b> <span>{{ personalInfo.maritalStatus }}</span>
+              <b>婚姻状况：</b>
+              <span>{{ personalInfo.maritalStatus }}</span>
             </li>
             <li>
-              <b>借款用途：</b> <span>{{ personalInfo.loanAim }}</span>
+              <b>借款用途：</b>
+              <span>{{ personalInfo.loanAim }}</span>
             </li>
             <li>
-              <b>还款来源：</b> <span>{{ personalInfo.paymentSource }}</span>
-            </li>
-          </ul>
-          <ul>
-            <li>
-              <b>性别：</b> <span>{{ personalInfo.sex }}</span>
-            </li>
-            <li>
-              <b>行业：</b> <span>{{ personalInfo.industry }}</span>
-            </li>
-            <li>
-              <b>月收入：</b> <span>{{ personalInfo.income }}</span>
-            </li>
-            <li>
-              <b>借款主体性质：</b> <span>{{ personalInfo.borrowerTheme }}</span>
-            </li>
-            <li>
-              <b>逾期金额：</b> <span>{{ personalInfo.amountOverride }}</span>
+              <b>还款来源：</b>
+              <span>{{ personalInfo.paymentSource }}</span>
             </li>
           </ul>
           <ul>
             <li>
-              <b>身份证号：</b> <span>{{ personalInfo.idNum }}</span>
+              <b>性别：</b>
+              <span>{{ personalInfo.sex }}</span>
             </li>
             <li>
-              <b>居住地址：</b> <span>{{ personalInfo.domicile }}</span>
+              <b>行业：</b>
+              <span>{{ personalInfo.industry }}</span>
             </li>
             <li>
-              <b>借款金额：</b> <span>{{ personalInfo.prinAmt }}</span>
+              <b>月收入：</b>
+              <span>{{ personalInfo.income }}</span>
             </li>
             <li>
-              <b>借款期限：</b> <span>{{ personalInfo.loanDay }}</span>
+              <b>借款主体性质：</b>
+              <span>{{ personalInfo.borrowerTheme }}</span>
+            </li>
+            <li>
+              <b>逾期金额：</b>
+              <span>{{ personalInfo.amountOverride }}</span>
+            </li>
+          </ul>
+          <ul>
+            <li>
+              <b>身份证号：</b>
+              <span>{{ personalInfo.idNum }}</span>
+            </li>
+            <li>
+              <b>居住地址：</b>
+              <span>{{ personalInfo.domicile }}</span>
+            </li>
+            <li>
+              <b>借款金额：</b>
+              <span>{{ personalInfo.prinAmt }}</span>
+            </li>
+            <li>
+              <b>借款期限：</b>
+              <span>{{ personalInfo.loanDay }}</span>
             </li>
           </ul>
         </div>
         <div class="report">
-          <b>征信报告：</b> <span>{{ personalInfo.creditReport }}</span>
+          <b>征信报告：</b>
+          <span>{{ personalInfo.creditReport }}</span>
         </div>
         <div class="other">
-          <b> 在其他网络借贷平台借款情况： </b>
+          <b>在其他网络借贷平台借款情况：</b>
           <div>
             <span>{{ personalInfo.borrowSituation }}</span>
-            <a v-if="personalInfo.guaranteeProtocolUrl" :href="personalInfo.guaranteeProtocolUrl" target="_blank">点击查看>></a>
+            <a
+              v-if="personalInfo.guaranteeProtocolUrl"
+              :href="personalInfo.guaranteeProtocolUrl"
+              target="_blank"
+            >点击查看>></a>
           </div>
         </div>
       </div>
@@ -159,11 +211,13 @@
 import { getQSTGainPlan, getQSTInfo, getTrilateralPdfPathApi, getPeopleInfoApi } from '@/api/hyc/Mine/lend'
 import { mapGetters } from 'vuex'
 import WithoutSignDialog from '@/components/Dialog/Dialog'
+import Pagination from '@/components/pagination/pagination'
 
 export default {
   name: 'JHBDetail',
   components: {
-    WithoutSignDialog
+    WithoutSignDialog,
+    Pagination
   },
   data() {
     return {
@@ -177,7 +231,10 @@ export default {
       peopleInfoDialogShow: false,
       BenefitPlan: [], // 收益计划
       itemDesign: [], // 项目组成
-      personalInfo: {}
+      personalInfo: {},
+      page: 1,
+      size: 10,
+      countPage: 0
     }
   },
   methods: {
@@ -193,6 +250,38 @@ export default {
           this.peopleInfoDialogShow = true
         }
       })
+    },
+    getQSTInfo() {
+      getQSTInfo({
+        curPage: this.page,
+        maxLine: this.size,
+        recordPackageId: this.projectNo,
+        productType: this.productType
+      }).then(res => {
+        this.itemDesign = res.data.data.collectionInverstInfo
+        const lists = res.data.data.collectionInverstInfo
+        this.countPage = res.data.data.countPage
+        this.page = res.data.data.curPage
+        for (let i = 0; i < lists.length; i++) {
+          let list = lists[i]
+          getTrilateralPdfPathApi({
+            loginUsername: this.user.userName,
+            invRecordId: list.id
+          }).then(res => {
+            if (res.data.resultCode === '1') {
+              console.log(1)
+              this.$set(list, 'showUrl', res.data.data.protocolPdfPath)
+            } else {
+              console.log(2)
+              this.$set(list, 'showUrl', null)
+            }
+          })
+        }
+      })
+    },
+    handleCurrentChange(val) {
+      this.page = val
+      this.getQSTInfo()
     }
   },
   computed: {
@@ -207,26 +296,7 @@ export default {
       this.BenefitPlan = res.data.data
     })
 
-    getQSTInfo({
-      recordPackageId: this.projectNo,
-      productType: this.productType
-    }).then(res => {
-      this.itemDesign = res.data.data.collectionInverstInfo
-      const lists = res.data.data.collectionInverstInfo
-      for (let i = 0; i < lists.length; i++) {
-        let list = lists[i]
-        getTrilateralPdfPathApi({
-          loginUsername: this.user.userName,
-          invRecordId: list.id
-        }).then(res => {
-          if (res.data.resultCode === '1') {
-            this.$set(list, 'showUrl', res.data.protocolPdfPath)
-          } else {
-            this.$set(list, 'showUrl', null)
-          }
-        })
-      }
-    })
+    this.getQSTInfo()
   }
 }
 </script>
@@ -268,6 +338,67 @@ table tr td {
       margin-left: 20px;
       padding-left: 12px;
       position: relative;
+      .icon-changjianwenti {
+        display: inline-block;
+        margin-left: 6px;
+        //position: absolute;
+        cursor: pointer;
+        &:hover {
+          color: #fb9d1f;
+          .formula-pop {
+            display: block;
+          }
+        }
+      }
+      .formula-pop {
+        display: none;
+        position: absolute;
+        top: -13px;
+        left: 74px;
+        .box {
+          position: relative;
+          width: 252px;
+          height: 40px;
+          border: 1px solid #fb7b1f;
+          margin-top: 6px;
+          margin-left: 36px;
+          box-sizing: border-box;
+          font-size: 14px;
+          padding: 4px 10px;
+          box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+          background: #fff;
+          border-radius: 4px;
+          p {
+            line-height: 15px;
+            font-size: $font-size-small-ss;
+            color: $color-text;
+          }
+        }
+        .box:before,
+        .box:after {
+          position: absolute;
+          content: '';
+          width: 10px;
+          height: 10px;
+          bottom: -8px;
+          top: 42%;
+          margin-left: -16px;
+          overflow: hidden;
+          pointer-events: none;
+          -webkit-transform: rotate(135deg);
+          -mz-transform: rotate(135deg);
+          transform: rotate(135deg);
+        }
+        .box:before {
+          background: #fb7b1f;
+          box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+        .box:after {
+          top: 15px;
+          left: 11px;
+          background: #fff;
+        }
+      }
       &:after {
         content: '';
         display: block;
@@ -329,6 +460,9 @@ table tr td {
       cursor: pointer;
       color: $color-theme;
     }
+  }
+  .pagination-wrapper {
+    margin-top: 20px;
   }
 }
 
@@ -424,3 +558,31 @@ table tr td {
   }
 }
 </style>
+<style lang="scss">
+.el-popover {
+  width: 252px !important;
+  z-index: 99999 !important;
+  position: absolute;
+  top: 200px !important;
+  left: 432px !important;
+  padding: 6px 10px !important;
+  border: 1px solid #fb7b1f !important;
+  /deep/ p {
+    font-size: 12px !important;
+    color: #4a4a4a;
+  }
+}
+.el-popper[x-placement^='right'] .popper__arrow {
+  border-color: #fff !important;
+  border-right-color: #fb7b1f !important;
+}
+.el-popper[x-placement^='right'] .popper__arrow:before {
+  border-color: #fff !important;
+  border-right-color: #fb7b1f !important;
+}
+.el-popper[x-placement^='right'] .popper__arrow:after {
+  border-color: #fff !important;
+  border-right-color: #fff !important;
+}
+</style>
+

@@ -1,27 +1,42 @@
 <template>
   <ul class="fixed-nav">
     <li @click="toCaculator">
-      <i>收益<br />计算器</i>
+      <i>收益
+        <br>计算器
+      </i>
     </li>
     <li @click="toRiskAssessment">
-      <i>风险<br />评测</i>
+      <i>风险
+        <br>评测
+      </i>
     </li>
     <li @click="toDownload" @mouseenter="showCode" @mouseleave="hideCode">
-      <i>扫码<br />下载</i> <transition name="slide"> <div class="code" v-show="codeFlag"></div> </transition>
+      <i>扫码
+        <br>下载
+      </i>
+      <transition name="slide">
+        <div class="code" v-show="codeFlag"></div>
+      </transition>
     </li>
     <li @click="toTop(speed)">
-      <i>返回<br />顶部</i>
+      <i>返回
+        <br>顶部
+      </i>
     </li>
   </ul>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
   data() {
     return {
       codeFlag: false,
       speed: 50
     }
+  },
+  computed: {
+    ...mapGetters(['userBasicInfo'])
   },
   methods: {
     showCode() {
@@ -45,9 +60,22 @@ export default {
       })
     },
     toRiskAssessment() {
-      this.$router.push({
-        name: 'riskAss'
-      })
+      if (!this.userBasicInfo) {
+        this.$router.push({
+          name: 'login'
+        })
+      } else {
+        if (this.userBasicInfo.evaluatingResult) {
+          this.$router.push({
+            name: 'riskAss',
+            query: { status: 'isDone' }
+          })
+        } else {
+          this.$router.push({
+            name: 'riskAss'
+          })
+        }
+      }
     },
     toDownload() {
       this.$router.push({

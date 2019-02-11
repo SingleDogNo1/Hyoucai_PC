@@ -4,34 +4,50 @@
       <header ref="Title">
         <div class="head_gradient">{{ title }}</div>
       </header>
-      <section class="content">
-        <div>
-          1.我们将对您的风险承担能力进行评估,请根据您的自身实际情况如实填写问卷,以便我们了解您的风险承担类型,进而根据您的风险承担能力选择适合您的理财产品。
-        </div>
-        <div>2.评估结果仅供参考,不构成出借建议。为了及时了解您的风险承受能力,建议您持续做好动态评估,我们承诺对您的所有个人资料保密</div>
-        <div class="content_text">本问卷包含10个问题，每个问题请根据您的自身实际情况选择一个选项。</div>
-      </section>
-      <el-form :model="questionsObj">
-        <section class="problem_box" v-for="(item, index) in questionsObj.questions" :key="index">
-          <p class="problem_title">{{ item.title }}</p>
-          <el-radio-group v-model="radio[index]" @change="getChoice($event, index)">
-            <el-radio class="matchClass" v-for="(answer, i) in item.answers" :key="i" :label="answer.score">{{ answer.des }}</el-radio>
-          </el-radio-group>
+      <div v-show="!isShow" class="isShow">
+        <section class="content">
+          <div>1.我们将对您的风险承担能力进行评估,请根据您的自身实际情况如实填写问卷,以便我们了解您的风险承担类型,进而根据您的风险承担能力选择适合您的理财产品。</div>
+          <div>2.评估结果仅供参考,不构成出借建议。为了及时了解您的风险承受能力,建议您持续做好动态评估,我们承诺对您的所有个人资料保密</div>
+          <div class="content_text">本问卷包含10个问题，每个问题请根据您的自身实际情况选择一个选项。</div>
         </section>
-        <div class="submit_box">
-          <div class="submit" :class="{ active: isColor }" @click="submit()"><button class="submit_text">提交评测</button></div>
-        </div>
-      </el-form>
+        <el-form :model="questionsObj">
+          <section class="problem_box" v-for="(item, index) in questionsObj.questions" :key="index">
+            <p class="problem_title">{{ item.title }}</p>
+            <el-radio-group v-model="radio[index]" @change="getChoice($event, index)">
+              <el-radio
+                class="matchClass"
+                v-for="(answer, i) in item.answers"
+                :key="i"
+                :label="answer.score"
+              >{{ answer.des }}</el-radio>
+            </el-radio-group>
+          </section>
+          <div class="submit_box">
+            <div class="submit" :class="{ active: isColor }" @click="submit()">提交评测</div>
+          </div>
+        </el-form>
+      </div>
+      <Result
+        v-show="isShow"
+        :resultTitle="resultTitle"
+        :resultFont="resultFont"
+        :resultType="resultType"
+        @changeShow="changeShow()"
+      />
     </div>
   </div>
 </template>
 <script>
 import { saveEvaluatingResultApi } from '@/api/common/risk'
 import { getAuth } from '@/assets/js/utils'
+import Result from './Result.vue'
+import { mapGetters } from 'vuex'
+
 export default {
   data() {
     return {
       title: '风险评测',
+      isShow: false,
       radio: [],
       scoreArr: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       questionsObj: {
@@ -285,7 +301,10 @@ export default {
       },
       isColor: false,
       resultType: '',
-      authorization: getAuth()
+      authorization: getAuth(),
+      resultTitle: '',
+      resultFont: '',
+      evaluatingResult: {}
     }
   },
   methods: {
@@ -305,6 +324,9 @@ export default {
       }
       // console.log(this.scoreArr, scoreNum)
     },
+    changeShow() {
+      this.isShow = false
+    },
     submit: function() {
       let totalScore = 0
       this.scoreArr.map(item => {
@@ -312,21 +334,86 @@ export default {
       })
       if (totalScore <= 10) {
         this.resultType = 'BSX'
+        this.resultTitle = '保守型'
+        this.resultFont =
+          '出借人对风险非常敏感，风险承受度较低，对比收益更关心的是本金安全，出借时建议选择风险水平偏低的产品，适当回避风险的同时保证收益，跑赢通胀，故出借人在平台的最高出借金额不得超过10万元人民币，出借期限建议为3个月内（包括3个月）。<p style="text-align: center">本次测评有效期6个月</p>'
       } else if (totalScore > 10 && totalScore < 30) {
         this.resultType = 'JSX'
+        this.resultTitle = '谨慎型'
+        this.resultFont =
+          '出借人能够承担较低的出借风险和波动，在出借时倾向以短期、持续、渐进的出借方式获取收益。故出借人在平台的最高出借金额不得超过20万元人民币，出借期限建议为3个月内（包括3个月）。<p style="text-align: center">本次测评有效期6个月</p>'
       } else if (totalScore >= 30 && totalScore < 42) {
         this.resultType = 'JJX'
+        this.resultTitle = '积极型'
+        this.resultFont =
+          '出借人有一定的风险承受能力，对出借收益比较敏感，期望进行长期且持续的出借，愿意通过分散化的出借以取得出借组合的均衡发展。故出借人在平台的最高出借额不得超过50万元人民币，出借期限建议为3个月内（包括3个月）。<p style="text-align: center">本次测评有效期6个月</p>'
       } else if (totalScore >= 42 && totalScore < 50) {
         this.resultType = 'JQX'
+        this.resultTitle = '进取型'
+        this.resultFont =
+          '出借人愿意通过承担较高的风险来换取更高的出借回报，在出借时倾向以流动性较低、收益较高的出借方式获取收益。故出借人在平台的最高出借额不得超过100万元人民币，出借期限建议为6个月内（包括6个月）。<p style="text-align: center">本次测评有效期6个月</p>'
       } else if (totalScore == 50) {
         this.resultType = 'JINX'
+        this.resultTitle = '激进型'
+        this.resultFont =
+          '出借人有较高的风险承受能力，是富有冒险精神的激进型出借人，在出借收益波动的情况下，仍然能保持激进的出借理念。故出借人在平台的最高出借额不得超过500万元人民币，可选择任意出借期限的产品。<p style="text-align: center">本次测评有效期6个月</p>'
       }
+      document.querySelector('.layout') && document.querySelector('.layout').scrollIntoView()
       let data = {
         authorization: this.authorization,
         evaluatingResult: this.resultType
       }
       if (this.isColor) {
-        saveEvaluatingResultApi(data).then(() => {})
+        saveEvaluatingResultApi(data).then(() => {
+          //this.$router.push({ name: 'basicInfo'})
+          this.isShow = true
+        })
+      }
+    }
+  },
+  components: {
+    Result
+  },
+  computed: {
+    ...mapGetters(['userBasicInfo'])
+  },
+  mounted() {
+    if (this.$route.query.status) {
+      // 判断是否风险测评
+      if (this.userBasicInfo.evaluatingResult) {
+        switch (this.userBasicInfo.evaluatingResult.evaluatingCode) {
+          case 'BSX':
+            this.resultType = 'BSX'
+            this.resultTitle = '保守型'
+            this.resultFont =
+              '出借人对风险非常敏感，风险承受度较低，对比收益更关心的是本金安全，出借时建议选择风险水平偏低的产品，适当回避风险的同时保证收益，跑赢通胀，故出借人在平台的最高出借金额不得超过10万元人民币，出借期限建议为3个月内（包括3个月）。<p style="text-align: center">本次测评有效期6个月</p>'
+            break
+          case 'JSX':
+            this.resultType = 'JSX'
+            this.resultTitle = '谨慎型'
+            this.resultFont =
+              '出借人能够承担较低的出借风险和波动，在出借时倾向以短期、持续、渐进的出借方式获取收益。故出借人在平台的最高出借金额不得超过20万元人民币，出借期限建议为3个月内（包括3个月）。<p style="text-align: center">本次测评有效期6个月</p>'
+            break
+          case 'JJX':
+            this.resultType = 'JJX'
+            this.resultTitle = '积极型'
+            this.resultFont =
+              '出借人有一定的风险承受能力，对出借收益比较敏感，期望进行长期且持续的出借，愿意通过分散化的出借以取得出借组合的均衡发展。故出借人在平台的最高出借额不得超过50万元人民币，出借期限建议为3个月内（包括3个月）。<p style="text-align: center">本次测评有效期6个月</p>'
+            break
+          case 'JQX':
+            this.resultType = 'JQX'
+            this.resultTitle = '进取型'
+            this.resultFont =
+              '出借人愿意通过承担较高的风险来换取更高的出借回报，在出借时倾向以流动性较低、收益较高的出借方式获取收益。故出借人在平台的最高出借额不得超过100万元人民币，出借期限建议为6个月内（包括6个月）。<p style="text-align: center">本次测评有效期6个月</p>'
+            break
+          case 'JINX':
+            this.resultType = 'JINX'
+            this.resultTitle = '激进型'
+            this.resultFont =
+              '出借人有较高的风险承受能力，是富有冒险精神的激进型出借人，在出借收益波动的情况下，仍然能保持激进的出借理念。故出借人在平台的最高出借额不得超过500万元人民币，可选择任意出借期限的产品。<p style="text-align: center">本次测评有效期6个月</p>'
+            break
+        }
+        this.isShow = true
       }
     }
   }
@@ -337,9 +424,12 @@ export default {
 @import '../../../assets/css/theme';
 
 .risk_box {
-  background: rgba(255, 255, 255, 1);
   padding-top: 30px;
+  margin-bottom: 57px;
+  font-family: PingFangSC-Regular;
+  font-weight: 400;
   .risk {
+    background: rgba(255, 255, 255, 1);
     width: 1140px;
     border: 1px solid rgba(229, 229, 229, 1);
     margin: 0 auto;
@@ -384,13 +474,9 @@ export default {
     .problem_box {
       margin-left: 30px;
       margin-bottom: 30px;
-      font-family: PingFangSC-Regular;
-      font-weight: 400;
       .problem_title {
         margin-bottom: 10px;
         font-size: 16px;
-        font-family: PingFangSC-Regular;
-        font-weight: 400;
         color: rgba(74, 74, 74, 1);
         line-height: 24px;
       }
@@ -425,26 +511,17 @@ export default {
       .submit {
         width: 300px;
         height: 40px;
+        line-height: 40px;
+        text-align: center;
         background: #ccc;
         border-radius: 4px;
         margin: 0 auto 70px;
-        padding-top: 11px;
-        .submit_text {
-          font-size: 16px;
-          background: #ccc;
-          font-family: PingFangSC-Regular;
-          font-weight: 400;
-          color: rgba(255, 255, 255, 1);
-          line-height: 16px;
-          display: block;
-          margin: auto;
-        }
+        font-size: 16px;
+        color: rgba(255, 255, 255, 1);
       }
       .active {
         background: rgba(251, 123, 31, 1);
-        .submit_text {
-          background: rgba(251, 123, 31, 1);
-        }
+        cursor: pointer;
       }
     }
   }

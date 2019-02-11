@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper">
-    <div class="top">
+    <div class="top" v-if="user">
       <img src="./image/date_back.png" />
       <ul>
         <li>
@@ -49,20 +49,14 @@
               </li>
               <li class="info">
                 <dl>
-                  <dt>{{ item.investMent }} 天</dt>
-                  <dd>锁定期限</dd>
-                </dl>
-              </li>
-              <li class="info">
-                <dl>
                   <dt>{{ item.minInvAmt }}元</dt>
                   <dd>起投金额</dd>
                 </dl>
               </li>
               <li class="info">
                 <dl>
-                  <dt>{{ item.enablAmt }}元</dt>
-                  <dd>剩余可投金额</dd>
+                  <dt>{{ item.investMent }} 天</dt>
+                  <dd>锁定期限</dd>
                 </dl>
               </li>
               <li class="info">
@@ -93,6 +87,7 @@ import pagination from '@/components/pagination/pagination'
 import countUp from '@/components/countUp/index'
 import { getList } from '@/api/djs/lend'
 import { getUser } from '@/assets/js/cache'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'lend',
@@ -141,6 +136,9 @@ export default {
   components: {
     pagination,
     countUp
+  },
+  computed: {
+    ...mapGetters(['user'])
   },
   created() {
     let user = getUser()

@@ -80,3 +80,14 @@ export function postcall(url, params, target) {
   tempform.submit()
   document.body.removeChild(tempform)
 }
+
+// 推荐码正则校验
+export function referralCodeReg(referralCode) {
+  let reg = /^(h|d)(.*[0-9])$/
+  return reg.test(referralCode)
+}
+
+export function currentPlatform() {
+  const str = window.location.pathname
+  return str.indexOf('djs') > 0 ? 'djs' : 'hyc'
+}

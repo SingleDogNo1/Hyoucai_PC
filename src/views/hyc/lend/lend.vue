@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper">
-    <div class="top">
+    <div class="top" v-if="user">
       <img src="./image/date_back.png" />
       <ul>
         <li>
@@ -55,20 +55,14 @@
                 </li>
                 <li class="info">
                   <dl>
-                    <dt>{{ item.loanMent }}</dt>
-                    <dd>锁定期限</dd>
-                  </dl>
-                </li>
-                <li class="info">
-                  <dl>
                     <dt>{{ item.minInvAmount }}元</dt>
                     <dd>起投金额</dd>
                   </dl>
                 </li>
                 <li class="info">
                   <dl>
-                    <dt>{{ item.surplusAmt }}元</dt>
-                    <dd>剩余可投金额</dd>
+                    <dt>{{ item.loanMent }}</dt>
+                    <dd>锁定期</dd>
                   </dl>
                 </li>
                 <li class="info">
@@ -110,20 +104,14 @@
                 </li>
                 <li class="info">
                   <dl>
-                    <dt>{{ item.loanMent }}</dt>
-                    <dd>锁定期限</dd>
-                  </dl>
-                </li>
-                <li class="info">
-                  <dl>
                     <dt>{{ item.minInvAmount }}元</dt>
                     <dd>起投金额</dd>
                   </dl>
                 </li>
                 <li class="info">
                   <dl>
-                    <dt>{{ item.surplusAmt }}元</dt>
-                    <dd>剩余可投金额</dd>
+                    <dt>{{ item.loanMent }}</dt>
+                    <dd>锁定期</dd>
                   </dl>
                 </li>
                 <li class="info">
@@ -165,20 +153,14 @@
                 </li>
                 <li class="info">
                   <dl>
-                    <dt>{{ item.loanMent }}</dt>
-                    <dd>锁定期限</dd>
-                  </dl>
-                </li>
-                <li class="info">
-                  <dl>
                     <dt>{{ item.minInvAmount }}元</dt>
                     <dd>起投金额</dd>
                   </dl>
                 </li>
                 <li class="info">
                   <dl>
-                    <dt>{{ item.surplusAmt }}元</dt>
-                    <dd>剩余可投金额</dd>
+                    <dt>{{ item.loanMent }}</dt>
+                    <dd>锁定期</dd>
                   </dl>
                 </li>
                 <li class="info">
@@ -209,6 +191,7 @@ import pagination from '@/components/pagination/pagination'
 import countUp from '@/components/countUp/index'
 import { getPageConfig, getCountMsg, getQSList, getZXList, getGRList } from '@/api/hyc/lend'
 import { getUser } from '@/assets/js/cache'
+import { mapGetters } from 'vuex'
 
 const ERR_OK = '1'
 export default {
@@ -257,7 +240,8 @@ export default {
       let params = {
         userName: this.userName,
         curPage: this.page,
-        maxLine: this.size
+        maxLine: this.size,
+        channel: 1
       }
       if (this.couponId) {
         params.couponId = this.couponId
@@ -279,7 +263,8 @@ export default {
       let params = {
         userName: this.userName,
         curPage: this.page1,
-        maxLine: this.size
+        maxLine: this.size,
+        channel: '1'
       }
       if (this.couponId) {
         params.couponId = this.couponId
@@ -301,7 +286,8 @@ export default {
       let params = {
         userName: this.userName,
         curPage: this.page2,
-        maxLine: this.size
+        maxLine: this.size,
+        channel: '1'
       }
       if (this.couponId) {
         params.couponId = this.couponId
@@ -353,6 +339,9 @@ export default {
     pagination,
     countUp
   },
+  computed: {
+    ...mapGetters(['user'])
+  },
   created() {
     let user = getUser()
     if (user) {
@@ -371,7 +360,6 @@ export default {
   .top {
     position: relative;
     width: 100%;
-    margin-bottom: 30px;
     img {
       width: 100%;
     }
@@ -448,6 +436,7 @@ export default {
   .content {
     width: 1140px;
     margin: 0 auto;
+    margin-top: 30px;
     .tabs {
       height: 36px;
       font-size: 0;

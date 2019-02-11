@@ -7,6 +7,12 @@
         </a>
       </li>
     </ul>
+    <div class="no-activity" v-else>
+      <div>
+        <img src="./noActivity.png" alt="">
+        <p>暂无活动信息</p>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -98,6 +104,19 @@ export default {
     }
     li:nth-child(3n + 1) {
       margin-left: 0;
+    }
+  }
+  div.no-activity{
+    width:1140px;
+    height: 490px;
+    margin: 30px auto;
+    background: #fff;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    p{
+      margin-top:27px;
+      color:rgba(155,155,155,1);
     }
   }
 }

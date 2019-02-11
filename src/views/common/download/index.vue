@@ -82,9 +82,9 @@
       }
     }
     .dl-banner {
-      width: 387px;
+      width: 397px;
       height: 497px;
-      background: url(./banner.png) top right;
+      background: url(banner.png) top right;
       position: absolute;
       top: 52px;
       right: 0;

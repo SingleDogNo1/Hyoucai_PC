@@ -12,7 +12,8 @@
         :class="[
           { receive1: item.voucherType == 'VT01' },
           { receive2: item.secondType == 1 },
-          { receive2_1: item.secondType == 2 },
+          { receive2_1: item.secondType == 2&&item.intoAccount==0 },
+          { receive2_2: item.secondType == 2&&item.intoAccount==1 },
           { receive3: item.voucherType == 'VT03' }
         ]"
         :key="index + 'a'"
@@ -22,14 +23,14 @@
           <p class="vouche_box">
             <span class="vouche">
               {{ item.voucherFaceValue }}
-              <i>%</i>
+              <i class="vouche_i">%</i>
               <i class="font">利息</i>
             </span>
-            <span class="vouche_aside">可加息券{{ item.validDays }}天</span>
+            <span class="vouche_aside">可加息{{ item.validDays }}天</span>
           </p>
           <p
             class="start"
-          >出借限额{{ item.amountMin | toThousands }}至{{ item.amountMax | toThousands }}元</p>
+          >出借限额：{{ item.amountMin | toThousands }}元至{{ item.amountMax | toThousands }}元</p>
           <button class="receive_btn" @click="receiveCoupon(item.id)">立即领取</button>
           <!-- 领取确定弹框 -->
           <Dialog :show.sync="isShow1" :onConfirm="receiveCouponSuccess" :title="'领取成功'"></Dialog>
@@ -39,16 +40,25 @@
           <p class="vouche_box">
             <span class="vouche">
               {{ item.voucherFaceValue }}
-              <i>元</i>
+              <i class="vouche_i">元</i>
             </span>
             <span class="vouche_aside">可与加息券同时使用</span>
           </p>
-          <p class="start">起投金额：{{ item.voucherFaceValue }}.00</p>
-          <button class="receive_btn" @click="receiveRedPacket(item.id)">立即领取</button>
+          <p class="start">起投金额：{{ item.amountMin | toThousands }}元</p>
+          <button
+            v-show="item.intoAccount==0"
+            class="receive_btn"
+            @click="receiveRedPacket(item.id)"
+          >立即领取</button>
+          <button
+            v-show="item.intoAccount==1"
+            class="receive_btn"
+            @click="receiveRedPacket(item.id)"
+          >计入账户</button>
           <!-- 领取确定弹框 -->
           <Dialog :show.sync="isShow2" :onConfirm="receiveRedPacketSuccess" :title="'领取成功'"></Dialog>
         </div>
-        <div class="endData">有效期至:{{ item.validUseEndTime }}</div>
+        <div class="endData">有效期至{{ item.validUseEndTime }}</div>
       </div>
       <!-- 立即使用 -->
       <div
@@ -56,7 +66,8 @@
         :class="[
           { receive1: item.voucherType == 'VT01' },
           { receive2: item.secondType == 1 },
-          { receive2_1: item.secondType == 2 },
+          { receive2_1: item.secondType == 2&&item.intoAccount==0 },
+          { receive2_3: item.secondType == 2&&item.intoAccount==1 },
           { receive3: item.voucherType == 'VT03' }
         ]"
         :key="index + 'b'"
@@ -65,28 +76,33 @@
           <p class="vouche_box">
             <span class="vouche">
               {{ item.voucherFaceValue }}
-              <i>%</i>
+              <i class="vouche_i">%</i>
               <i class="font">利息</i>
             </span>
-            <span class="vouche_aside">可加息券{{ item.validDays }}天</span>
+            <span class="vouche_aside">可加息{{ item.validDays }}天</span>
           </p>
           <p
             class="start"
-          >出借限额{{ item.amountMin | toThousands }}至{{ item.amountMax | toThousands }}元</p>
+          >出借限额：{{ item.amountMin | toThousands }}元至{{ item.amountMax | toThousands }}元</p>
           <button class="receive1_btn" @click="immdiateUse(item.id)">立即使用</button>
         </div>
         <div v-show="item.voucherType == 'VT02'">
           <p class="vouche_box">
             <span class="vouche">
               {{ item.voucherFaceValue }}
-              <i>元</i>
+              <i class="vouche_i">元</i>
             </span>
             <span class="vouche_aside">可与加息券同时使用</span>
           </p>
-          <p class="start">起投金额：{{ item.voucherFaceValue }}.00</p>
-          <button class="receive1_btn" @click="immdiateUseRed(item.id)">立即使用</button>
+          <p class="start">起投金额：{{ item.amountMin | toThousands }}元</p>
+          <button
+            v-show="item.secondType == 2&&item.intoAccount==0"
+            class="receive1_btn"
+            @click="immdiateUseRed(item.id)"
+          >立即使用</button>
+          <button v-show="item.secondType == 2&&item.intoAccount==1" class="receive_cash_btn">立即使用</button>
         </div>
-        <div class="endData">有效期至:{{ item.validUseEndTime }}</div>
+        <div class="endData">有效期至{{ item.validUseEndTime }}</div>
       </div>
     </div>
     <!-- 历史卡券 -->
@@ -97,7 +113,8 @@
         :class="[
           { receive1: item.voucherType == 'VT01' },
           { receive2: item.secondType == 1 },
-          { receive2_1: item.secondType == 2 },
+          { receive2_1: item.secondType == 2&&item.intoAccount==0 },
+          { receive2_2: item.secondType == 2&&item.intoAccount==1 },
           { receive3: item.voucherType == 'VT03' }
         ]"
         :key="index + 'c'"
@@ -107,27 +124,27 @@
           <p class="vouche_box">
             <span class="vouche">
               {{ item.voucherFaceValue }}
-              <i>%</i>
+              <i class="vouche_i">%</i>
               <i class="font">利息</i>
             </span>
-            <span class="vouche_aside">可加息券{{ item.validDays }}天</span>
+            <span class="vouche_aside">可加息{{ item.validDays }}天</span>
           </p>
           <p
             class="start"
-          >出借限额{{ item.amountMin | toThousands }}至{{ item.amountMax | toThousands }}元</p>
+          >出借限额：{{ item.amountMin | toThousands }}元至{{ item.amountMax | toThousands }}元</p>
         </div>
         <!-- 红包 -->
         <div v-show="item.voucherType == 'VT02'">
           <p class="vouche_box">
             <span class="vouche">
               {{ item.voucherFaceValue }}
-              <i>元</i>
+              <i class="vouche_i">元</i>
             </span>
             <span class="vouche_aside">可与加息券同时使用</span>
           </p>
-          <p class="start">起投金额：{{ item.voucherFaceValue }}.00</p>
+          <p class="start">起投金额：{{ item.amountMin | toThousands }}元</p>
         </div>
-        <div class="endData">有效期至:{{ item.validUseEndTime }}</div>
+        <div class="endData">有效期至{{ item.validUseEndTime }}</div>
         <button class="receive1_btn">已过期</button>
       </div>
       <!-- 已使用 -->
@@ -136,7 +153,8 @@
         :class="[
           { receive1: item.voucherType == 'VT01' },
           { receive2: item.secondType == 1 },
-          { receive2_1: item.secondType == 2 },
+          { receive2_1: item.secondType == 2&&item.intoAccount==0 },
+          { receive2_2: item.secondType == 2&&item.intoAccount==1 },
           { receive3: item.voucherType == 'VT03' }
         ]"
         :key="index + 'd'"
@@ -146,27 +164,27 @@
           <p class="vouche_box">
             <span class="vouche">
               {{ item.voucherFaceValue }}
-              <i>%</i>
+              <i class="vouche_i">%</i>
               <i class="font">利息</i>
             </span>
-            <span class="vouche_aside">可加息券{{ item.validDays }}天</span>
+            <span class="vouche_aside">可加息{{ item.validDays }}天</span>
           </p>
           <p
             class="start"
-          >出借限额{{ item.amountMin | toThousands }}至{{ item.amountMax | toThousands }}元</p>
+          >出借限额：{{ item.amountMin | toThousands }}元至{{ item.amountMax | toThousands }}元</p>
         </div>
         <!-- 红包 -->
         <div v-show="item.voucherType == 'VT02'">
           <p class="vouche_box">
             <span class="vouche">
               {{ item.voucherFaceValue }}
-              <i>元</i>
+              <i class="vouche_i">元</i>
             </span>
             <span class="vouche_aside">可与加息券同时使用</span>
           </p>
-          <p class="start">起投金额：{{ item.voucherFaceValue }}.00</p>
+          <p class="start">起投金额：{{ item.amountMin | toThousands }}元</p>
         </div>
-        <div class="endData">有效期至:{{ item.validUseEndTime }}</div>
+        <div class="endData">有效期至{{ item.validUseEndTime }}</div>
         <button class="receive1_btn">已使用</button>
       </div>
     </div>
@@ -387,13 +405,15 @@ export default {
   .message_box {
     background: #fff;
     min-height: 700px;
-    display: flex;
-    flex-wrap: wrap;
     padding-left: 29px;
     padding-top: 41px;
+    overflow: hidden;
     .receive1,
     .receive2,
-    .receive2_1 {
+    .receive2_1,
+    .receive2_2,
+    .receive2_3 {
+      float: left;
       width: 378px;
       height: 105px;
       margin-right: 25px;
@@ -408,9 +428,10 @@ export default {
           font-weight: 600;
           color: rgba(255, 255, 255, 1);
           margin-left: 33px;
-          i {
+          .vouche_i {
             font-size: $font-size-large-x;
             font-weight: 400;
+            margin-left: -8px;
           }
         }
         .vouche_aside {
@@ -439,7 +460,8 @@ export default {
         line-height: 18px;
       }
       .receive_btn,
-      .receive1_btn {
+      .receive1_btn,
+      .receive_cash_btn {
         display: inline-block;
         width: 52px;
         height: 105px;
@@ -459,6 +481,10 @@ export default {
           display: inline-block;
           white-space: normal;
         }
+      }
+      .receive_cash_btn {
+        color: rgba(155, 155, 155, 1);
+        background: rgba(235, 235, 235, 1);
       }
       .endData {
         margin-left: 33px;
@@ -483,7 +509,32 @@ export default {
       background-image: url(./dikoulq.png);
     }
     .receive2_1 {
+      background-image: url(./touzilq.png);
+    }
+    .receive2_2 {
       background-image: url(./xianjin.png);
+    }
+    .receive2_3 {
+      background-image: url(./xianjinsy.png);
+      .vouche_box {
+        .vouche {
+          color: rgba(155, 155, 155, 1);
+        }
+        .vouche_aside {
+          border: 1px solid rgba(155, 155, 155, 1);
+          color: rgba(155, 155, 155, 1);
+        }
+      }
+      .start {
+        color: rgba(155, 155, 155, 1);
+      }
+      /deep/ .receive1_btn {
+        color: rgba(155, 155, 155, 1);
+        background: rgba(235, 235, 235, 1);
+      }
+      .endData {
+        color: rgba(155, 155, 155, 1);
+      }
     }
   }
   .bg {
@@ -492,6 +543,7 @@ export default {
   .message_box {
     .receive1,
     .receive2,
+    .receive2_1,
     .receive2_1 {
       .vouche_box {
         .vouche {
@@ -527,6 +579,9 @@ export default {
       background-image: url(./dikouysy.png);
     }
     .receive2_1 {
+      background-image: url(./touziysy.png);
+    }
+    .receive2_2 {
       background-image: url(./xianjinsy.png);
     }
   }
