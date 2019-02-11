@@ -44,7 +44,7 @@
         <div class="countdown">
           <span class="title">募集倒计时：</span>
           <span class="large">{{projectInfo.investEndDay}}</span>
-          <span> {{projectInfo.investEndTime}}</span>
+          <span>{{projectInfo.investEndTime}}</span>
         </div>
       </div>
       <div class="invest-module">
@@ -265,7 +265,9 @@
       :onConfirm="toSign"
     >
       <div>
-        <p>您当前未签约或签约状态不符合合规要求，<br />请重新签约！</p>
+        <p>您当前未签约或签约状态不符合合规要求，
+          <br>请重新签约！
+        </p>
       </div>
     </Dialog>
     <Dialog
@@ -297,7 +299,32 @@
       class="confirm-investment-dialog"
     >
       <div>
-        <p>当前系统正在维护中，当日23:45-次日0:15分钟暂不可进行出借！</p>
+        <ul class="amount-list">
+          <li>
+            <p class="title">1000.00</p>
+            <p class="desc">出借金额(元)</p>
+          </li>
+          <li>
+            <p class="title">1000.00</p>
+            <p class="desc">支付金额(元)</p>
+          </li>
+          <li>
+            <p class="title">20.00</p>
+            <p class="desc">预期收益(元)</p>
+          </li>
+        </ul>
+        <div class="red-envelope-wrap">
+          <p class="title">红包</p>
+          <div class="swiper-container-red-envelope">
+            <div class="swiper-wrapper">
+              <div class="swiper-slide swiper-no-swiping">
+                <div class="red-envelope-box">
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </Dialog>
   </div>
@@ -554,7 +581,7 @@ export default {
       amountInfo().then(res => {
         let data = res.data
         console.log('data===', data)
-        if(data.resultCode === "1") {
+        if (data.resultCode === '1') {
           this.projectInfo.balance = this.investStatus === 'unopened' ? '未开户' : data.data.banlance
           console.log(this.projectInfo.balance)
         }
@@ -562,13 +589,13 @@ export default {
     },
     handleInvest() {
       this.errMsg = ''
-      systemMaintenance().then( res=> {
+      systemMaintenance().then(res => {
         let data = res.data
         // 此时段为系统维护
-        if(data.resultCode === "60056") {
+        if (data.resultCode === '60056') {
           this.isShowSystemMaintenanceDialog = true
         } else {
-          amountSync().then( res=> {
+          amountSync().then(res => {
             let data = res.data
             console.log('data====', data)
             if (data.resultCode === '1') {
@@ -592,19 +619,19 @@ export default {
           }
           // 是否进行过风险测评
           this.userBasicInfo.evaluatingResult = true
-          if(!this.userBasicInfo.evaluatingResult) {
+          if (!this.userBasicInfo.evaluatingResult) {
             this.riskContent = '您当前还未风险评测或评测已过期，请进行风险评测。'
             this.riskConfirmText = '立即评测'
             this.isShowRiskDialog = true
             return
           }
           // 单人限额是否超过
-          if(this.invAmount > this.projectInfo.maxInvTotalAmount) {
+          if (this.invAmount > this.projectInfo.maxInvTotalAmount) {
             this.errMsg = '单人限额' + this.projectInfo.maxInvTotalAmount + '元'
             return
           }
           // 单笔限额是否超过
-          if(this.invAmount > this.projectInfo.maxInvAmount) {
+          if (this.invAmount > this.projectInfo.maxInvAmount) {
             this.errMsg = '单笔限额' + this.projectInfo.maxInvAmount + '元'
             return
           }
@@ -1116,10 +1143,61 @@ export default {
       }
     }
   }
-  .sign-dialog, .risk-dialog, .system-maintenance-dialog {
+  .sign-dialog,
+  .risk-dialog,
+  .system-maintenance-dialog,
+  .confirm-investment-dialog {
     p {
       font-size: $font-size-small;
       line-height: 26px;
+    }
+  }
+  .confirm-investment-dialog {
+    /deep/ .inner {
+      width: 718px;
+      padding: 30px 0;
+      .amount-list {
+        display: flex;
+        width: 443px;
+        margin: 0 auto;
+        margin-top: 42px;
+        margin-bottom: 40px;
+        justify-content: space-between;
+        li {
+          text-align: center;
+          margin-right: 112px;
+          p.title {
+            color: #fb891f;
+            font-size: $font-size-small;
+          }
+          p.desc {
+            color: $color-text;
+            font-size: $font-size-small-ss;
+          }
+          &:last-child {
+            margin-right: 0;
+          }
+        }
+      }
+      .red-envelope-wrap {
+        width: 664px;
+        margin: 0 auto;
+        .title {
+          margin-left: 52px;
+          margin-bottom: 14px;
+          font-size: $font-size-small;
+          color: $color-text-s;
+        }
+        .swiper-container-red-envelope {
+          width: 560px;
+          margin: 0 auto;
+          /deep/ .red-envelope-box {
+            width: 378px;
+            height: 105px;
+            background: url("./image/bg_red_envelope_nochoose.png") center center no-repeat;
+          }
+        }
+      }
     }
   }
 }
