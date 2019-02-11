@@ -8,19 +8,15 @@
             <el-form-item label="出借金额">
               <input type="text" @input="inputSum" placeholder="出借金额" ref="refSum"/>
               <div class="unit">元</div>
+              <p>
+                <em v-if="errMsg.errSum">{{ errMsg.errSum }}</em>
+              </p>
             </el-form-item>
             <el-form-item label="历史平均年化收益率">
               <input type="text" @input="inputRate" placeholder="历史平均年化收益率"  ref="refRate"/>
               <div class="unit">%</div>
+              <p><em v-if="errMsg.errRate">{{ errMsg.errRate }}</em></p>
             </el-form-item>
-          </div>
-          <div class="err-wrapper">
-            <span
-              ><em v-if="errMsg.errSum">{{ errMsg.errSum }}</em></span
-            >
-            <span
-              ><em v-if="errMsg.errRate">{{ errMsg.errRate }}</em></span
-            >
           </div>
           <div class="input-wrapper">
             <el-form-item label="出借期限">
@@ -29,6 +25,7 @@
                 <span class="el-icon-caret el-icon-caret-left" @click="changeDuration"></span> <i>{{ termType | termFilter }}</i>
                 <span class="el-icon-caret el-icon-caret-right" @click="changeDuration"></span>
               </div>
+              <p v-if="errMsg.errDuration"><em>{{ errMsg.errDuration }}</em></p>
             </el-form-item>
             <el-form-item label="还款方式">
               <el-select v-model.trim="calculator.type" placeholder="还款方式">
@@ -36,9 +33,6 @@
               </el-select>
               <el-button slot="append" icon="el-icon-search"></el-button>
             </el-form-item>
-          </div>
-          <div class="err-wrapper">
-            <span v-if="errMsg.errDuration">{{ errMsg.errDuration }}</span>
           </div>
           <div class="btn-wrapper">
             <el-form-item> <el-button type="primary" @click="submitCalc">开始计算</el-button> </el-form-item>
@@ -63,8 +57,9 @@
         </li>
       </ul>
     </div>
-    <h3 v-if="calculator.type === 1">回款明细</h3>
-    <el-table v-if="calculator.type === 1" :data="tableData" class="calculator-table">
+    <!--v-if="calculator.type === 1"-->
+    <h3>回款明细</h3>
+    <el-table :data="tableData" class="calculator-table">
       <el-table-column prop="term" label="期数"></el-table-column>
       <el-table-column prop="totalPrincipalInterest" label="回款本息(元)"></el-table-column>
       <el-table-column prop="principal" label="回款本金(元)"></el-table-column>
@@ -250,6 +245,11 @@ export default {
       this.$refs.refSum.value = ''
       this.$refs.refRate.value = ''
       this.$refs.refDuration.value = ''
+      this.errMsg = {
+        errSum: '',
+        errRate: '',
+        errDuration: ''
+      }
       this.termType = 1
       this.expectedRevenue = 0
       this.totalSum = 0
@@ -313,7 +313,7 @@ export default {
             display: flex;
             .el-form-item {
               flex: 1;
-              margin-bottom: 0;
+              margin-bottom: 62px;
               .el-form-item__label {
                 font-size: 18px;
               }
@@ -380,6 +380,24 @@ export default {
                     cursor: pointer;
                   }
                 }
+                p {
+                  position: absolute;
+                  left: 0;
+                  top: 40px;
+                  width: 100%;
+                  text-align: center;
+                  em {
+                    display: inline-block;
+                    box-sizing: border-box;
+                    width: 100%;
+                    margin: 10px 0;
+                    border: 1px solid #e84518;
+                    background: #ffe5e5;
+                    border-radius: 5px;
+                    font-size: 12px;
+                    color: #e84518;
+                  }
+                }
               }
               .el-select {
                 width: 250px;
@@ -399,36 +417,6 @@ export default {
               }
               &:nth-of-type(2) {
                 text-align: right;
-              }
-            }
-          }
-          &.err-wrapper {
-            overflow: hidden;
-            font-size: 0;
-            height: 50px;
-            line-height: 50px;
-            span {
-              display: inline-block;
-              vertical-align: top;
-              width: 50%;
-              color: red;
-              font-size: 12px;
-            }
-          }
-          &:nth-of-type(2) {
-            span {
-              &:nth-of-type(1) {
-                text-indent: 85px;
-              }
-              &:nth-of-type(2) {
-                text-indent: 190px;
-              }
-            }
-          }
-          &:nth-of-type(4) {
-            span {
-              &:nth-of-type(1) {
-                text-indent: 85px;
               }
             }
           }
