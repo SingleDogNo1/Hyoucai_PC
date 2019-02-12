@@ -315,25 +315,104 @@
         </ul>
         <div class="red-envelope-wrap">
           <p class="title">红包</p>
-          <div class="swiper-container-red-envelope">
-            <div class="swiper-wrapper">
-              <div class="swiper-slide swiper-no-swiping">
-                <div class="red-envelope-box"></div>
+          <div class="swiper-wrap">
+            <div class="swiper-container-red-envelope">
+              <div class="swiper-wrapper">
+                <div class="swiper-slide swiper-no-swiping">
+                  <div class="red-envelope-box">
+                    <p class="vouche-box">
+                      <span class="vouche">
+                        20
+                        <i>元</i>
+                      </span>
+                      <span class="vouche-aside">可与加息券同时使用</span>
+                    </p>
+                    <p class="start">起投金额：121.00</p>
+                    <div class="endData">有效期至:2019-02-28</div>
+                    <button class="receive-btn" @click="receiveRedPacket(item.id)">选取</button>
+                  </div>
+                </div>
+                <div class="swiper-slide swiper-no-swiping">
+                  <div class="red-envelope-box">
+                    <p class="vouche-box">
+                      <span class="vouche">
+                        20
+                        <i>元</i>
+                      </span>
+                      <span class="vouche-aside">可与加息券同时使用</span>
+                    </p>
+                    <p class="start">起投金额：121.00</p>
+                    <div class="endData">有效期至:2019-02-28</div>
+                    <button class="receive-btn" @click="receiveRedPacket(item.id)">选取</button>
+                  </div>
+                </div>
+                <div class="swiper-slide swiper-no-swiping">
+                  <div class="red-envelope-box">
+                    <p class="vouche-box">
+                      <span class="vouche">
+                        20
+                        <i>元</i>
+                      </span>
+                      <span class="vouche-aside">可与加息券同时使用</span>
+                    </p>
+                    <p class="start">起投金额：121.00</p>
+                    <div class="endData">有效期至:2019-02-28</div>
+                    <button class="receive-btn" @click="receiveRedPacket(item.id)">选取</button>
+                  </div>
+                </div>
               </div>
-              <div class="swiper-slide swiper-no-swiping">
-                <div class="red-envelope-box"></div>
-              </div>
-              <div class="swiper-slide swiper-no-swiping">
-                <div class="red-envelope-box"></div>
-              </div>
-              <div class="swiper-slide swiper-no-swiping">
-                <div class="red-envelope-box"></div>
-              </div>
-              <div class="swiper-slide swiper-no-swiping">
-                <div class="red-envelope-box"></div>
-              </div>
-              <div class="swiper-slide swiper-no-swiping">
-                <div class="red-envelope-box"></div>
+            </div>
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
+          </div>
+        </div>
+        <div class="rate-stamp-wrap">
+          <p class="title">加息券</p>
+          <div class="swiper-wrap">
+            <div class="swiper-container-red-envelope">
+              <div class="swiper-wrapper">
+                <div class="swiper-slide swiper-no-swiping">
+                  <div class="red-envelope-box">
+                    <p class="vouche-box">
+                      <span class="vouche">
+                        20
+                        <i>元</i>
+                      </span>
+                      <span class="vouche-aside">可与加息券同时使用</span>
+                    </p>
+                    <p class="start">起投金额：121.00</p>
+                    <div class="endData">有效期至:2019-02-28</div>
+                    <button class="receive-btn" @click="receiveRedPacket(item.id)">选取</button>
+                  </div>
+                </div>
+                <div class="swiper-slide swiper-no-swiping">
+                  <div class="red-envelope-box">
+                    <p class="vouche-box">
+                      <span class="vouche">
+                        20
+                        <i>元</i>
+                      </span>
+                      <span class="vouche-aside">可与加息券同时使用</span>
+                    </p>
+                    <p class="start">起投金额：121.00</p>
+                    <div class="endData">有效期至:2019-02-28</div>
+                    <button class="receive-btn" @click="receiveRedPacket(item.id)">选取</button>
+                  </div>
+                </div>
+                <div class="swiper-slide swiper-no-swiping">
+                  <div class="red-envelope-box">
+                    <p class="vouche-box">
+                      <span class="vouche">
+                        20
+                        <i>元</i>
+                      </span>
+                      <span class="vouche-aside">可与加息券同时使用</span>
+                    </p>
+                    <p class="start">起投金额：121.00</p>
+                    <div class="endData">有效期至:2019-02-28</div>
+                    <button class="receive-btn" @click="receiveRedPacket(item.id)">选取</button>
+                  </div>
+                </div>
               </div>
             </div>
             <div class="swiper-button-prev"></div>
@@ -1221,7 +1300,7 @@ export default {
           }
         }
       }
-      .red-envelope-wrap {
+      .red-envelope-wrap, .rate-stamp-wrap {
         position: relative;
         width: 664px;
         margin: 0 auto;
@@ -1232,34 +1311,119 @@ export default {
           font-size: $font-size-small;
           color: $color-text-s;
         }
-        .swiper-container-red-envelope {
+        .swiper-wrap {
           width: 100%;
-          margin: 0 auto;
-          position: relative;
-          overflow: hidden;
-          list-style: none;
-          padding: 0;
-          z-index: 1;
-          /deep/ .red-envelope-box {
-            width: 378px;
-            height: 105px;
-            background: url('./image/bg_red_envelope_nochoose.png') center center no-repeat;
+          .swiper-container-red-envelope {
+            width: 560px;
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+            list-style: none;
+            padding: 0;
+            z-index: 1;
+            /deep/ .red-envelope-box {
+              position: relative;
+              width: 378px;
+              height: 105px;
+              background: url('./image/bg_red_envelope_nochoose.png') center center no-repeat;
+              cursor: pointer;
+              &:hover {
+                .receive-btn {
+                  background: rgba(255, 227, 17, 1);
+                  color: rgba(255, 58, 41, 1);
+                  border: 1px solid rgba(255, 227, 17, 1);
+                }
+              }
+              .vouche-box {
+                padding-top: 19px;
+                margin-bottom: 4px;
+                .vouche {
+                  font-size: $font-size-large-xxx;
+                  font-family: PingFangSC-Semibold;
+                  font-weight: 600;
+                  color: $color-text-s;
+                  margin-left: 33px;
+                  i {
+                    font-size: $font-size-large-x;
+                    font-weight: 400;
+                  }
+                }
+                .vouche-aside {
+                  display: inline-block;
+                  padding: 1px 6px;
+                  text-align: center;
+                  height: 18px;
+                  border-radius: 100px;
+                  border: 1px solid $color-text-s;
+                  font-size: $font-size-small-ss;
+                  font-family: PingFang-SC-Regular;
+                  font-weight: 400;
+                  color: $color-text-s;
+                  line-height: 18px;
+                  margin-left: 8px;
+                  position: relative;
+                  top: -4px;
+                }
+              }
+              .start {
+                margin-left: 33px;
+                font-size: $font-size-small-ss;
+                font-family: PingFang-SC-Regular;
+                font-weight: 400;
+                color: $color-text-s;
+                line-height: 20px;
+              }
+              .endData {
+                margin-left: 33px;
+                font-size: $font-size-small-ss;
+                font-family: PingFang-SC-Regular;
+                font-weight: 400;
+                color: $color-text-s;
+                line-height: 18px;
+              }
+              .receive-btn {
+                display: inline-block;
+                width: 52px;
+                height: 105px;
+                background: #fff;
+                border-radius: 4px;
+                padding: 13px 17px;
+                font-size: 18px;
+                font-family: PingFangSC-Semibold;
+                font-weight: 600;
+                color: $color-text-s;
+                border: 1px solid #dadada;
+                line-height: 20px;
+                top: 0;
+                right: 0;
+                position: absolute;
+                cursor: pointer;
+                span {
+                  display: inline-block;
+                  white-space: normal;
+                }
+              }
+            }
           }
           .swiper-button-prev {
             left: 0;
+            margin-top: 0;
             right: auto;
             background: url('./image/swiper_prev.png') no-repeat center center;
-            height: 48px;
-            width: 48px;
+            height: 33px;
+            width: 33px;
             background-size: cover;
+            outline: 0;
           }
           .swiper-button-next {
             right: 0;
+            margin-top: 0;
             left: auto;
             background: url('./image/swiper_next.png') no-repeat center center;
-            height: 48px;
-            width: 48px;
+            height: 33px;
+            width: 33px;
             background-size: cover;
+            outline: 0;
           }
         }
       }
