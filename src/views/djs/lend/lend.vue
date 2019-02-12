@@ -199,6 +199,9 @@ export default {
           dd {
             font-size: 16px;
             letter-spacing: 1px;
+            p {
+              letter-spacing: 7px;
+            }
           }
         }
         &:nth-of-type(1) {
