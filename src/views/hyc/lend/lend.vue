@@ -362,6 +362,26 @@ export default {
     width: 100%;
     img {
       width: 100%;
+      @media screen and (min-width: 1140px) and (max-width: 1365px) {
+        max-width: none;
+        width: 120%;
+      }
+      @media screen and (min-width: 1366px) and (max-width: 1500px) {
+        max-width: none;
+        width: 115%;
+      }
+      @media screen and (min-width: 1501px) and (max-width: 1630px) {
+        max-width: none;
+        width: 107%;
+      }
+      @media screen and (min-width: 1631px) and (max-width: 1800px) {
+        max-width: none;
+        width: 103%;
+      }
+      @media screen and (min-width: 1801px) and (max-width: 1919px) {
+        max-width: none;
+        width: 101%;
+      }
     }
     ul {
       position: absolute;
@@ -478,6 +498,9 @@ export default {
             background-size: 100% 100%;
             background-repeat: no-repeat;
             background-color: #666666;
+            img {
+              width: 100%;
+            }
           }
           span {
             display: inline-block;
@@ -506,6 +529,9 @@ export default {
                 background-size: 100% 100%;
                 background-repeat: no-repeat;
                 background-color: #d93f30;
+                img {
+                  width: 100%;
+                }
               }
               span {
                 display: inline-block;
