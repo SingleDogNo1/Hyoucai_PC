@@ -243,6 +243,7 @@ export default {
     },
     showDetail(id) {
       getPeopleInfoApi({
+        nameEncrypt: true,
         projectNo: id
       }).then(res => {
         if (res.data.resultCode === '1') {
