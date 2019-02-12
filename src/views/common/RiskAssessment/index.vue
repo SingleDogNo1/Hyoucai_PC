@@ -4,7 +4,7 @@
       <header ref="Title">
         <div class="head_gradient">{{ title }}</div>
       </header>
-      <div v-show="!isShow" class="isShow">
+      <div v-if="!isShow" class="isShow">
         <section class="content">
           <div>1.我们将对您的风险承担能力进行评估,请根据您的自身实际情况如实填写问卷,以便我们了解您的风险承担类型,进而根据您的风险承担能力选择适合您的理财产品。</div>
           <div>2.评估结果仅供参考,不构成出借建议。为了及时了解您的风险承受能力,建议您持续做好动态评估,我们承诺对您的所有个人资料保密</div>
@@ -28,7 +28,7 @@
         </el-form>
       </div>
       <Result
-        v-show="isShow"
+        v-if="isShow"
         :resultTitle="resultTitle"
         :resultFont="resultFont"
         :resultType="resultType"
@@ -326,6 +326,9 @@ export default {
     },
     changeShow() {
       this.isShow = false
+      this.radio = []
+      this.scoreArr = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+      this.isColor = false
     },
     submit: function() {
       let totalScore = 0
