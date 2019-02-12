@@ -97,7 +97,6 @@ export default {
     })
   },
   created() {
-    console.log('this.user===', this.user)
     if (this.user.platformFlag === '1' || (this.user.platformFlag === '3' && currentPlatform() === 'djs')) {
       // 点金石用户
       userInviteInfo({ userName: this.user.userName }).then(res => {

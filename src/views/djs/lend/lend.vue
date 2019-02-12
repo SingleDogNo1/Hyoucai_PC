@@ -75,7 +75,8 @@
         </ul>
       </div>
       <div class="pagination-wrapper">
-        <pagination v-if="total" :total-count="total" :size-val="size" :page-val="page" @handleCurrentChange="handleCurrentChange"></pagination>
+        <!--<pagination v-if="total" :total-count="total" :size-val="size" :page-val="page" @handleCurrentChange="handleCurrentChange"></pagination>-->
+        <pagination :count-page="countPage" :page-val="page" @handleCurrentChange="handleCurrentChange"></pagination>
       </div>
     </div>
   </div>
@@ -98,6 +99,7 @@ export default {
       page: 1,
       size: 10,
       total: 0,
+      countPage: 0,
       userName: null,
       list: []
     }
@@ -126,7 +128,7 @@ export default {
         this.incomeCount = result.accumulativeProfitAmtSum
         this.todayCount = result.invTodayAmt
         this.list = result.investsList
-        this.total = parseInt(result.countPage) * this.size
+        this.countPage = result.countPage
         this.page = parseInt(result.curPage)
       })
     }
@@ -197,6 +199,9 @@ export default {
           dd {
             font-size: 16px;
             letter-spacing: 1px;
+            p {
+              letter-spacing: 7px;
+            }
           }
         }
         &:nth-of-type(1) {

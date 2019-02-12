@@ -191,6 +191,7 @@ export default {
       })
       // 获取借款人详情
       const personalInfo = await getPeopleInfoApi({
+        nameEncrypt: true,
         projectNo: $this.projectNo
       })
       // 获取可用协议列表

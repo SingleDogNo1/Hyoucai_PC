@@ -6,31 +6,33 @@
         <el-form :inline="true" :model="calculator" class="demo-form-inline">
           <div class="input-wrapper">
             <el-form-item label="出借金额">
-              <el-input v-model="calculator.sum" placeholder="出借金额">
-                <template slot="append">元</template>
-              </el-input>
-              <p v-if="amountError">{{amountErrorMsg}}</p>
+              <input type="text" @input="inputSum" placeholder="出借金额" ref="refSum" />
+              <div class="unit">元</div>
+              <p>
+                <em v-if="errMsg.errSum">{{ errMsg.errSum }}</em>
+              </p>
             </el-form-item>
             <el-form-item label="历史平均年化收益率">
-              <el-input v-model="calculator.rate" placeholder="历史平均年化收益率">
-                <template slot="append">%</template>
-              </el-input>
-              <p v-if="rateError">{{rateErrorMsg}}</p>
+              <input type="text" @input="inputRate" placeholder="历史平均年化收益率" ref="refRate" />
+              <div class="unit">%</div>
+              <p>
+                <em v-if="errMsg.errRate">{{ errMsg.errRate }}</em>
+              </p>
             </el-form-item>
           </div>
           <div class="input-wrapper">
             <el-form-item label="出借期限">
-              <el-input v-model="calculator.duration" placeholder="出借期限">
-                <template slot="append">
-                  <span class="el-icon-caret el-icon-caret-left" @click="changeDuration"></span>
-                  <i>{{ termType | termFilter }}</i>
-                  <span class="el-icon-caret el-icon-caret-right" @click="changeDuration"></span>
-                </template>
-              </el-input>
-              <p v-if="durationError">{{durationErrorMsg}}</p>
+              <input type="text" @input="inputDuration" placeholder="出借期限" ref="refDuration" />
+              <div class="unit">
+                <span class="el-icon-caret el-icon-caret-left" @click="changeDuration"></span> <i>{{ termType | termFilter }}</i>
+                <span class="el-icon-caret el-icon-caret-right" @click="changeDuration"></span>
+              </div>
+              <p v-if="errMsg.errDuration">
+                <em>{{ errMsg.errDuration }}</em>
+              </p>
             </el-form-item>
             <el-form-item label="还款方式">
-              <el-select v-model="calculator.type" placeholder="还款方式">
+              <el-select v-model.trim="calculator.type" placeholder="还款方式">
                 <el-option v-for="(type, i) in types" :key="i" :label="type.label" :value="type.value"></el-option>
               </el-select>
               <el-button slot="append" icon="el-icon-search"></el-button>
@@ -59,12 +61,13 @@
         </li>
       </ul>
     </div>
-    <h3 v-if="calculator.type === 1">回款明细</h3>
-    <el-table v-if="calculator.type === 1" :data="tableData" class="calculator-table">
-      <el-table-column prop="term" label="期数"> </el-table-column>
-      <el-table-column prop="totalPrincipalInterest" label="回款本息(元)"> </el-table-column>
-      <el-table-column prop="principal" label="回款本金(元)"> </el-table-column>
-      <el-table-column prop="interest" label="利息(元)"> </el-table-column>
+    <!--v-if="calculator.type === 1"-->
+    <h3>回款明细</h3>
+    <el-table :data="tableData" class="calculator-table">
+      <el-table-column prop="term" label="期数"></el-table-column>
+      <el-table-column prop="totalPrincipalInterest" label="回款本息(元)"></el-table-column>
+      <el-table-column prop="principal" label="回款本金(元)"></el-table-column>
+      <el-table-column prop="interest" label="利息(元)"></el-table-column>
     </el-table>
   </div>
 </template>
@@ -74,10 +77,6 @@ import { calculator } from '@/api/common/calculator'
 import { getRetBaseURL } from '@/assets/js/utils'
 
 const ERR_OK = '1'
-const [
-  reg_float, // 非零正数（小数 && 整数）
-  reg_Int // 非零正整数
-] = [/^(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*))$/, /^\+?[1-9][0-9]*$/]
 export default {
   name: 'calculator',
   data() {
@@ -103,12 +102,11 @@ export default {
       totalSum: 0,
       tableData: [],
       system: getRetBaseURL(),
-      amountError: false,
-      amountErrorMsg: '请输入正确的出借金额',
-      rateError: false,
-      rateErrorMsg: '请输入正确的历史平均年化收益率 ',
-      durationError: false,
-      durationErrorMsg: '请输入正确的出借期限'
+      errMsg: {
+        errSum: '',
+        errRate: '',
+        errDuration: ''
+      }
     }
   },
   watch: {
@@ -138,15 +136,6 @@ export default {
       if (val === 1) {
         this.termType = 2
       }
-    },
-    'calculator.sum'(val) {
-      this.amountError = !reg_float.test(val)
-    },
-    'calculator.rate'(val) {
-      this.rateError = !reg_float.test(val)
-    },
-    'calculator.duration'(val) {
-      this.durationError = !reg_Int.test(val)
     }
   },
   filters: {
@@ -166,7 +155,54 @@ export default {
         this.termType = 2
       }
     },
+    inputSum(e) {
+      e.target.value = e.target.value.replace(/[^\d.]/g, '')
+      e.target.value = e.target.value.replace(/\.{2,}/g, '.')
+      e.target.value = e.target.value
+        .replace('.', '$#$')
+        .replace(/\./g, '')
+        .replace('$#$', '.')
+      e.target.value = e.target.value.replace(/^(-)*(\d+)\.(\d\d).*$/, '$1$2.$3')
+      this.calculator.sum = e.target.value
+    },
+    inputRate(e) {
+      e.target.value = e.target.value.replace(/[^\d.]/g, '')
+      e.target.value = e.target.value.replace(/\.{2,}/g, '.')
+      e.target.value = e.target.value
+        .replace('.', '$#$')
+        .replace(/\./g, '')
+        .replace('$#$', '.')
+      e.target.value = e.target.value.replace(/^(-)*(\d+)\.(\d\d).*$/, '$1$2.$3')
+      this.calculator.rate = e.target.value
+    },
+    inputDuration(e) {
+      e.target.value = e.target.value.replace(/[^\d.]/g, '')
+      e.target.value = e.target.value.replace(/\./g, '')
+      e.target.value = e.target.value.replace(/^(-)*(\d+)\.(\d\d).*$/, '$1$2.$3')
+      this.calculator.duration = e.target.value
+    },
     submitCalc() {
+      var reg = /(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/
+      if (!reg.test(this.calculator.sum)) {
+        this.errMsg.errSum = '请输入正确的出借金额'
+        return
+      } else {
+        this.errMsg.errSum = ''
+      }
+
+      if (!reg.test(this.calculator.rate)) {
+        this.errMsg.errRate = '请输入正确的历史平均年化收益率'
+        return
+      } else {
+        this.errMsg.errRate = ''
+      }
+      if (!this.calculator.duration) {
+        this.errMsg.errDuration = '请输入正确的出借期限'
+        return
+      } else {
+        this.errMsg.errDuration = ''
+      }
+
       let params = {
         amount: this.calculator.sum,
         yearRate: this.calculator.rate,
@@ -174,23 +210,15 @@ export default {
         termType: this.termType,
         repayment: this.calculator.type
       }
-      if (!this.calculator.sum) {
-        this.amountError = true
-      } else if (!this.calculator.rate) {
-        this.rateError = true
-      } else if (!this.calculator.duration) {
-        this.durationError = true
-      } else {
-        calculator(params).then(res => {
-          let data = res.data
-          if (data.resultCode === ERR_OK) {
-            let result = data.incomeCalculatorBean
-            this.expectedRevenue = result.allInterest
-            this.totalSum = result.totalPrincipalInterest
-            this.tableData = result.incomePlanList
-          }
-        })
-      }
+      calculator(params).then(res => {
+        let data = res.data
+        if (data.resultCode === ERR_OK) {
+          let result = data.incomeCalculatorBean
+          this.expectedRevenue = result.allInterest
+          this.totalSum = result.totalPrincipalInterest
+          this.tableData = result.incomePlanList
+        }
+      })
     },
     resetCalc() {
       this.calculator = {
@@ -199,8 +227,16 @@ export default {
         duration: '',
         type: 2
       }
+      this.$refs.refSum.value = ''
+      this.$refs.refRate.value = ''
+      this.$refs.refDuration.value = ''
+      this.errMsg = {
+        errSum: '',
+        errRate: '',
+        errDuration: ''
+      }
       this.termType = window.location.href.indexOf('hyc') > -1 ? 2 : 1
-      if(this.termType === 1) {
+      if (this.termType === 1) {
         this.types = [
           {
             label: '先息后本',
@@ -277,32 +313,92 @@ export default {
       padding: 63px 60px 15px;
       background-color: #fbfbfb;
       /deep/ .el-form--inline {
-        .input-wrapper {
-          display: flex;
-          p {
-            margin: 10px 0;
-            text-align: center;
-            border: 1px solid #e84518;
-            background: #ffe5e5;
-            color: #e84518;
-            border-radius: 5px;
-            font-size: 12px;
-          }
-          .el-form-item {
-            margin-bottom: 0;
-            flex: 1;
-            .el-form-item__label {
-              font-size: 18px;
-            }
-            .el-form-item__content {
-              width: 250px;
-              .el-input-group__append {
-                padding: 0 8px;
-                background-color: #f8f8f8;
-                color: #cdcdcd;
-                span {
+        > div {
+          &.input-wrapper {
+            display: flex;
+            .el-form-item {
+              flex: 1;
+              margin-bottom: 62px;
+              .el-form-item__label {
+                font-size: 18px;
+              }
+              .el-form-item__content {
+                position: relative;
+                width: 250px;
+                display: inline-table;
+                input {
+                  display: table-cell;
+                  vertical-align: middle;
+                  box-sizing: border-box;
+                  width: 100%;
+                  height: 40px;
+                  line-height: 40px;
+                  padding: 0 15px;
+                  outline: none;
+                  border: 1px solid #dcdfe6;
+                  border-radius: 4px;
+                  border-top-right-radius: 0;
+                  border-bottom-right-radius: 0;
+                  background-color: #fff;
+                  &:focus {
+                    border-color: #f7be39;
+                  }
+                }
+                .el-select {
+                  input {
+                    border-top-right-radius: 4px;
+                    border-bottom-right-radius: 4px;
+                  }
+                }
+                ::-webkit-input-placeholder {
+                  color: #dcdfe6;
+                }
+                :-moz-placeholder {
+                  color: #dcdfe6;
+                }
+                ::-moz-placeholder {
+                  color: #dcdfe6;
+                }
+                :-ms-input-placeholder {
+                  color: #dcdfe6;
+                }
+                .unit {
+                  display: table-cell;
+                  vertical-align: middle;
+                  height: 38px;
+                  line-height: 38px;
+                  padding: 0 8px;
+                  color: #cdcdcd;
+                  background-color: #f8f8f8;
+                  border: 1px solid #dcdfe6;
+                  border-left: 0;
+                  border-radius: 4px;
+                  border-top-left-radius: 0;
+                  border-bottom-left-radius: 0;
+                }
+                .el-input-group__append {
+                  padding: 0 8px;
+                  background-color: #f8f8f8;
                   color: #cdcdcd;
                   cursor: pointer;
+                }
+                p {
+                  position: absolute;
+                  left: 0;
+                  top: 40px;
+                  width: 100%;
+                  text-align: center;
+                  em {
+                    display: inline-block;
+                    box-sizing: border-box;
+                    width: 100%;
+                    margin: 10px 0;
+                    border: 1px solid #e84518;
+                    background: #ffe5e5;
+                    border-radius: 5px;
+                    font-size: 12px;
+                    color: #e84518;
+                  }
                 }
               }
             }
@@ -323,7 +419,14 @@ export default {
               text-align: left;
             }
             &:nth-of-type(2) {
-              text-align: right;
+              .el-form-item {
+                &:nth-of-type(2) {
+                  text-align: right;
+                  .el-form-item__content {
+                    margin-right: 16px;
+                  }
+                }
+              }
             }
           }
         }
