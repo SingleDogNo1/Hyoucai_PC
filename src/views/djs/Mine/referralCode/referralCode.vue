@@ -158,7 +158,7 @@ export default {
         let data = res.data
         this.inviteNum = data.inviteNum
         this.referralCode = data.myInviteCode
-        this.refereeName = data.recommendName
+        //this.refereeName = data.inviteCode
         this.totalInvestAmount = data.totalInvestAmount
         this.inviteUserList = data.inviteUser
         this.inviteUserList.forEach(val => {
@@ -178,7 +178,7 @@ export default {
   created() {},
   mounted() {
     //this.referralCode = this.userBasicInfo.myInviteCode
-    //this.refereeName = this.userBasicInfo.refereeName
+    this.refereeName = this.userBasicInfo.inviteCode
     this.userName = this.user.userName
     let postData = {
       userName: this.userName
