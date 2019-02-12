@@ -3,28 +3,28 @@
     <section class="production-info">
       <div class="title">
         <h2>
-          <img src="./image/icon_hui.png">
-          <span>汇选（6个月）1620190117</span>
+          <img src="./image/icon_ying.png">
+          <span>{{projectInfo.projectName}}</span>
         </h2>
       </div>
       <div class="content">
         <div class="decs-wrap">
           <div class="item">
             <p class="value">
-              <strong>5.5</strong>
+              <strong>{{projectInfo.investRate}}</strong>
               <span class="red">%</span>
             </p>
             <p class="desc">预期年化收益率</p>
           </div>
           <div class="item">
             <p class="value">
-              <span>100,000,000</span>
+              <span>{{projectInfo.surplusAmt}}</span>
             </p>
             <p class="desc">剩余可投(元)</p>
           </div>
           <div class="item">
             <p class="value">
-              <span>22</span>
+              <span>{{projectInfo.investPeopleCount}}</span>
               <span>人</span>
             </p>
             <p class="desc">已购人数</p>
@@ -32,8 +32,8 @@
         </div>
         <div class="progress-wrap">
           <span class="title">项目进度</span>
-          <el-progress :percentage="63.56"></el-progress>
-          <span class="score">63.56%</span>
+          <el-progress :percentage="projectInfo.investPercent"></el-progress>
+          <span class="score">{{projectInfo.investPercent}}%</span>
         </div>
       </div>
       <div class="tips">
@@ -43,8 +43,8 @@
         </div>
         <div class="countdown">
           <span class="title">募集倒计时：</span>
-          <span class="large">6天</span>
-          <span>18:40:49</span>
+          <span class="large">{{projectInfo.investEndDay}}</span>
+          <span>{{projectInfo.investEndTime}}</span>
         </div>
       </div>
       <div class="invest-module">
@@ -103,31 +103,31 @@
                 <div class="txt">
                   <p>
                     <span class="left">项目名称：</span>
-                    <span class="right">JY00000000001</span>
+                    <span class="right">{{productDetail.projectName}}</span>
                   </p>
                   <p>
                     <span class="left">还款方式：</span>
-                    <span class="right">按月还息，到期还本</span>
+                    <span class="right">{{productDetail.repaymentWay}}</span>
                   </p>
                 </div>
                 <div class="txt">
                   <p>
                     <span class="left">合同编号：</span>
-                    <span class="right">2017051202J</span>
+                    <span class="right">{{productDetail.contractNum}}</span>
                   </p>
                   <p>
                     <span class="left">融资金额：</span>
-                    <span class="right">1,000,000元</span>
+                    <span class="right">{{productDetail.loanAmt}}</span>
                   </p>
                 </div>
                 <div class="txt">
                   <p>
                     <span class="left">借贷期限：</span>
-                    <span class="right">6个月</span>
+                    <span class="right">{{productDetail.loanMent}}</span>
                   </p>
                   <p>
                     <span class="left">历史年化收益率：</span>
-                    <span class="right">5.0%</span>
+                    <span class="right">{{productDetail.investRate}}</span>
                   </p>
                 </div>
               </div>
@@ -141,7 +141,15 @@
                   <td>认证情况</td>
                   <td>身份信息</td>
                   <td>认证情况</td>
+                 <tr v-for="(item, index) in auditInfoList" :key="index">
+                  <td>身份证认证</td>
+                  <td>
+                    <img @click="openReviewInfoPop" src="./image/bg.png">
+                  </td>
+                  <td>运营商认证</td>
+                  <td>中国移动运营商认证通过</td>
                 </tr>
+                <!-- </tr>
                 <tr>
                   <td>身份证认证</td>
                   <td>
@@ -173,7 +181,7 @@
                   </td>
                   <td></td>
                   <td></td>
-                </tr>
+                </tr> -->
               </table>
               <p class="title">
                 <span class="title-boder"></span>
@@ -612,60 +620,68 @@
 </template>
 
 <script>
+import Swiper from 'swiper/dist/js/swiper'
+import { mapState } from 'vuex'
 import Pagination from '@/components/pagination/pagination'
+import { timeCountDown } from '@/assets/js/utils'
+import { optionalInvestDetail, amountInfo } from '@/api/hyc/lendDetail'
+import ProjectDetail from './popup/projectDetail'
+import Dialog from '@/components/Dialog/Dialog'
 export default {
   data() {
     return {
       lendDetailActiveName: 'XMXX',
+      projectNo: '',
       isAgree: true,
       isAllLending: true,
       page: 1,
       size: 10,
       total: 0,
-      joinRecordData: [
-        {
-          mobile: '186*****5668',
-          invAmt: '10418.00',
-          invTime: '2017-05-18 11:19:50'
-        },
-        {
-          mobile: '186*****5668',
-          invAmt: '10418.00',
-          invTime: '2017-05-18 11:19:50'
-        },
-        {
-          mobile: '186*****5668',
-          invAmt: '10418.00',
-          invTime: '2017-05-18 11:19:50'
-        },
-        {
-          mobile: '186*****5668',
-          invAmt: '10418.00',
-          invTime: '2017-05-18 11:19:50'
-        }
-      ],
-      projectCompositionData: [
-        {
-          mobile: '186*****5668',
-          invAmt: '10418.00',
-          invTime: '2017-05-18 11:19:50'
-        },
-        {
-          mobile: '186*****5668',
-          invAmt: '10418.00',
-          invTime: '2017-05-18 11:19:50'
-        },
-        {
-          mobile: '186*****5668',
-          invAmt: '10418.00',
-          invTime: '2017-05-18 11:19:50'
-        },
-        {
-          mobile: '186*****5668',
-          invAmt: '10418.00',
-          invTime: '2017-05-18 11:19:50'
-        }
-      ],
+      investStatus: '', // 投资状态
+      investStatusTitle: '出借中...', // 投资状态文字
+      investStatusBtn: '充值', // 投资按钮状态文字
+      investBtn: '申请出借',
+      isDisableInvestBtn: false, // 是否禁用申请出借按钮
+      invAmount: '',
+      expectedIncome: '0.00',
+      projectInfo: {
+        investEndDay: '',
+        investEndTime: '',
+        investRate: '',
+        projectName: '',
+        surplusAmt: '',
+        investPeopleCount: '',
+        investPercent: 0,
+        interestRate: '',
+        minInvAmount: '',
+        maxInvTotalAmount: '',
+        status: 0,
+        balance: '',
+        maxInvAmount: ''
+      },
+      investDetail: {
+        appDesc: '',
+        threeAgreeJumpUrl: '',
+        investTarget: '',
+        dueDate: '',
+        interestStartDate: '',
+        profitShare: '',
+        existSystem: '',
+        costdes: '',
+        riskAppraisal: '',
+        riskManagementTip: ''
+      },
+      productDetail: {
+        projectName: '',
+        contractNum: '',
+        productName: '',
+        loanMent: '',
+        repaymentWay: '',
+        loanAmt: '',
+        investRate: '',
+        loanDate: ''
+      },
+      auditInfoList: [],
       isShowAuthenticationPop: false,
       isShowFaceRecognitionPop: false,
       isShowReportPop: false
@@ -674,11 +690,125 @@ export default {
   components: {
     Pagination
   },
+  computed: {
+    ...mapState({
+      user: state => state.user.user,
+      userBasicInfo: state => state.user.userBasicInfo
+    })
+  },
   methods: {
     handleItemClick() {},
     handleCurrentChange(val) {
       this.page = val
       this.getList()
+    },
+    getUserBasicInfo() {
+      console.log(this.userBasicInfo)
+      //this.userBasicInfo.escrowAccountInfo = ''
+      if (!this.userBasicInfo.escrowAccountInfo) {
+        this.investStatus = 'unopened' // 状态为为开户
+        this.investStatusTitle = '未开户'
+        this.investBtn = '立即开户'
+      } else {
+        this.getInvestStatus()
+      }
+    },
+    getInvestStatus() {
+      console.log('status===', this.projectInfo.status)
+      this.projectInfo.status = 1
+      switch (
+        this.projectInfo.status // 0.预售    1.出借中   2.满标   3.已完结
+      ) {
+        case 0:
+          this.investStatusTitle = '预售中....'
+          this.investStatus = 'willSale'
+          this.isDisableInvestBtn = true
+          break
+        case 1:
+          this.investStatusTitle = '出借中....'
+          this.investStatus = 'lending'
+          break
+        case 2:
+          this.investStatusTitle = '已满标'
+          this.investStatus = 'fullyMarked'
+          break
+        default:
+          this.investStatusTitle = '已完结'
+          this.investStatus = 'finished'
+          break
+      }
+    },
+    getInvestDetailList() {
+      this.projectNo = this.$route.query.projectNo
+      let postData = {
+        projectNo: this.projectNo
+      }
+      optionalInvestDetail(postData).then(res => {
+        let data = res.data.data
+        console.log('data===', data)
+        let projectInfo = data.projectInfo
+        let investEndTimestamp = projectInfo.investEndTimestamp
+        this.projectInfo.projectName = projectInfo.projectName
+        this.projectInfo.investRate = projectInfo.investRate
+        this.projectInfo.surplusAmt = projectInfo.surplusAmt
+        this.projectInfo.investPeopleCount = projectInfo.investPeopleCount
+        this.projectInfo.investPercent = projectInfo.investPercent
+        this.projectInfo.interestRate = projectInfo.interestRate
+        this.projectInfo.minInvAmount = projectInfo.minInvAmount
+        this.projectInfo.maxInvTotalAmount = projectInfo.maxInvTotalAmount
+        this.projectInfo.status = projectInfo.status
+        this.projectInfo.maxInvAmount = projectInfo.maxInvAmount
+
+        // 预售状态中，募集倒计时不倒计
+        timeCountDown(investEndTimestamp, this.projectInfo.status, data => {
+          if (data.indexOf('天') > -1) {
+            this.projectInfo.investEndDay = data.substr(0, data.indexOf('天') + 1)
+            this.projectInfo.investEndTime = data.substr(data.indexOf('天') + 1, data.length - 1)
+          } else {
+            this.projectInfo.investEndTime = data
+          }
+        })
+
+        let productDetail = data.productDetail
+        this.productDetail.projectName = productDetail.projectName
+        this.productDetail.repaymentWay = productDetail.repaymentWay
+        this.productDetail.contractNum = productDetail.contractNum
+        this.productDetail.loanAmt = productDetail.loanAmt
+        this.productDetail.loanMent = productDetail.loanMent
+        this.productDetail.investRate = productDetail.investRate
+        
+        let auditInfoList = productDetail.auditInfoList
+        auditInfoList.forEach(item => {
+          switch (item.field) {
+            case 'haveIDCard':
+              item.result = require('./image/bg.png') 
+              break
+            case 'faceRecognition':
+              item.result = require('./image/bg.png') 
+              break
+            case 'signing':
+              item.result = require('./image/bg.png') 
+              break
+            case 'internetInformation':
+              item.result = require('./image/bg.png') 
+              break
+          }
+        })
+        this.auditInfoList = auditInfoList
+
+        this.getUserBasicInfo()
+        this.getAmountQuery()
+      })
+    },
+    getAmountQuery() {
+      amountInfo().then(res => {
+        let data = res.data
+        console.log('data===', data)
+        if (data.resultCode === '1') {
+          this.projectInfo.balance = this.investStatus === 'unopened' ? '未开户' : data.data.banlance
+          console.log(this.projectInfo.balance)
+        }
+      })
     },
     openReviewInfoPop() {
       this.isShowAuthenticationPop = true
@@ -698,6 +828,9 @@ export default {
     closeReportPop() {
       this.isShowReportPop = false
     }
+  },
+  mounted () {
+    this.getInvestDetailList()
   }
 }
 </script>
@@ -810,14 +943,15 @@ export default {
         .score {
           display: inline-block;
           margin-left: -44px;
-          width: 64px;
+          width: 72px;
           height: 24px;
           line-height: 24px;
-          background: url('./image/score_bk.png') center center no-repeat;
+          background: url('./image/bg_invest_percent.png') center center no-repeat;
           font-size: $font-size-small-s;
           color: #fff;
-          text-align: right;
-          padding-right: 8px;
+          text-align: center;
+          background-size: cover;
+          padding-left: 4px;
         }
       }
     }

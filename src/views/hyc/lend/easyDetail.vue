@@ -321,14 +321,13 @@
                 <div class="swiper-slide swiper-no-swiping">
                   <div class="red-envelope-box">
                     <p class="vouche-box">
-                      <span class="vouche">
-                        20
+                      <span class="vouche">20
                         <i>元</i>
                       </span>
                       <span class="vouche-aside">可与加息券同时使用</span>
                     </p>
-                    <p class="start">起投金额：121.00</p>
-                    <div class="endData">有效期至:2019-02-28</div>
+                    <p class="start">起投金额：121.00元</p>
+                    <div class="endData">有效期至2019-02-28</div>
                     <button class="receive-btn" @click="receiveRedPacket(item.id)">选取</button>
                   </div>
                 </div>
@@ -341,8 +340,8 @@
                       </span>
                       <span class="vouche-aside">可与加息券同时使用</span>
                     </p>
-                    <p class="start">起投金额：121.00</p>
-                    <div class="endData">有效期至:2019-02-28</div>
+                    <p class="start">起投金额：121.00元</p>
+                    <div class="endData">有效期至2019-02-28</div>
                     <button class="receive-btn" @click="receiveRedPacket(item.id)">选取</button>
                   </div>
                 </div>
@@ -355,8 +354,8 @@
                       </span>
                       <span class="vouche-aside">可与加息券同时使用</span>
                     </p>
-                    <p class="start">起投金额：121.00</p>
-                    <div class="endData">有效期至:2019-02-28</div>
+                    <p class="start">起投金额：121.00元</p>
+                    <div class="endData">有效期至2019-02-28</div>
                     <button class="receive-btn" @click="receiveRedPacket(item.id)">选取</button>
                   </div>
                 </div>
@@ -369,54 +368,51 @@
         <div class="rate-stamp-wrap">
           <p class="title">加息券</p>
           <div class="swiper-wrap">
-            <div class="swiper-container-red-envelope">
+            <div class="swiper-container-rate-stamp">
               <div class="swiper-wrapper">
                 <div class="swiper-slide swiper-no-swiping">
-                  <div class="red-envelope-box">
+                  <div class="rate-stamp-box">
                     <p class="vouche-box">
                       <span class="vouche">
-                        20
-                        <i>元</i>
+                        4<i>%</i><i class="font"> 利息</i>
                       </span>
-                      <span class="vouche-aside">可与加息券同时使用</span>
+                      <span class="vouche-aside">可加息30天</span>
                     </p>
-                    <p class="start">起投金额：121.00</p>
-                    <div class="endData">有效期至:2019-02-28</div>
+                    <p class="start">投资限额：111至1111元</p>
+                    <div class="endData">有效期至2019-02-28</div>
                     <button class="receive-btn" @click="receiveRedPacket(item.id)">选取</button>
                   </div>
                 </div>
                 <div class="swiper-slide swiper-no-swiping">
-                  <div class="red-envelope-box">
+                  <div class="rate-stamp-box">
                     <p class="vouche-box">
                       <span class="vouche">
-                        20
-                        <i>元</i>
+                        4<i>%</i><i class="font"> 利息</i>
                       </span>
-                      <span class="vouche-aside">可与加息券同时使用</span>
+                      <span class="vouche-aside">可加息30天</span>
                     </p>
-                    <p class="start">起投金额：121.00</p>
-                    <div class="endData">有效期至:2019-02-28</div>
+                    <p class="start">投资限额：111至1111元</p>
+                    <div class="endData">有效期至2019-02-28</div>
                     <button class="receive-btn" @click="receiveRedPacket(item.id)">选取</button>
                   </div>
                 </div>
                 <div class="swiper-slide swiper-no-swiping">
-                  <div class="red-envelope-box">
+                  <div class="rate-stamp-box">
                     <p class="vouche-box">
                       <span class="vouche">
-                        20
-                        <i>元</i>
+                        4<i>%</i><i class="font"> 利息</i>
                       </span>
-                      <span class="vouche-aside">可与加息券同时使用</span>
+                      <span class="vouche-aside">可加息30天</span>
                     </p>
-                    <p class="start">起投金额：121.00</p>
-                    <div class="endData">有效期至:2019-02-28</div>
+                    <p class="start">投资限额：111至1111元</p>
+                    <div class="endData">有效期至2019-02-28</div>
                     <button class="receive-btn" @click="receiveRedPacket(item.id)">选取</button>
                   </div>
-                </div>
+                </div> 
               </div>
             </div>
-            <div class="swiper-button-prev"></div>
-            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev1"></div>
+            <div class="swiper-button-next1"></div>
           </div>
         </div>
       </div>
@@ -429,7 +425,7 @@ import Swiper from 'swiper/dist/js/swiper'
 import { mapState } from 'vuex'
 import Pagination from '@/components/pagination/pagination'
 import { timeCountDown } from '@/assets/js/utils'
-import { investDetail, investRecord, projectCompo, expectedIncome, amountInfo, systemMaintenance, amountSync } from '@/api/hyc/lendDetail'
+import { easyInvestDetail, investRecord, projectCompo, expectedIncome, amountInfo, systemMaintenance, amountSync } from '@/api/hyc/lendDetail'
 import ProjectDetail from './popup/projectDetail'
 import Dialog from '@/components/Dialog/Dialog'
 
@@ -579,7 +575,7 @@ export default {
         productId: this.productId,
         itemId: this.itemId
       }
-      investDetail(postData).then(res => {
+      easyInvestDetail(postData).then(res => {
         let data = res.data.data
         let projectInfo = data.projectInfo
         let investEndTimestamp = projectInfo.investEndTimestamp
@@ -626,7 +622,7 @@ export default {
         productId: this.productId,
         itemId: this.itemId
       }
-      investDetail(postData).then(res => {
+      easyInvestDetail(postData).then(res => {
         let data = res.data.data
         let investDetail = data.investDetail
         this.investDetail.appDesc = investDetail.appDesc
@@ -741,7 +737,7 @@ export default {
     },
     redEnvelopeSwiper() {
       setTimeout(() => {
-        this.swiperBanner = new Swiper('.swiper-container-red-envelope', {
+        this.redEnvelopeSwiper = new Swiper('.swiper-container-red-envelope', {
           paginationClickable: true,
           observer: true,
           observeParents: true,
@@ -763,11 +759,37 @@ export default {
           }
         })
       }, 200)
+    },
+    rateStampSwiper() {
+      setTimeout(() => {
+        this.rateStampSwiper = new Swiper('.swiper-container-rate-stamp', {
+          paginationClickable: true,
+          observer: true,
+          observeParents: true,
+          loopAdditionalSlides: 1,
+          initialSlide: 1,
+          effect: 'coverflow',
+          slidesPerView: 1.3, // 一屏装几个slider
+          centeredSlides: true,
+          coverflowEffect: {
+            rotate: 0,
+            stretch: 35,
+            depth: 20,
+            modifier: 1,
+            slideShadows: false
+          },
+          navigation: {
+            nextEl: '.swiper-button-next1',
+            prevEl: '.swiper-button-prev1'
+          }
+        })
+      }, 300)
     }
   },
   mounted() {
     this.getInvestDetailList()
     this.redEnvelopeSwiper()
+    this.rateStampSwiper()
   }
 }
 </script>
@@ -1300,7 +1322,8 @@ export default {
           }
         }
       }
-      .red-envelope-wrap, .rate-stamp-wrap {
+      .red-envelope-wrap,
+      .rate-stamp-wrap {
         position: relative;
         width: 664px;
         margin: 0 auto;
@@ -1313,7 +1336,7 @@ export default {
         }
         .swiper-wrap {
           width: 100%;
-          .swiper-container-red-envelope {
+          .swiper-container-red-envelope, .swiper-container-rate-stamp {
             width: 560px;
             margin: 0 auto;
             position: relative;
@@ -1321,7 +1344,7 @@ export default {
             list-style: none;
             padding: 0;
             z-index: 1;
-            /deep/ .red-envelope-box {
+            /deep/ .red-envelope-box, /deep/ .rate-stamp-box {
               position: relative;
               width: 378px;
               height: 105px;
@@ -1332,6 +1355,7 @@ export default {
                   background: rgba(255, 227, 17, 1);
                   color: rgba(255, 58, 41, 1);
                   border: 1px solid rgba(255, 227, 17, 1);
+                  border-left: 0;
                 }
               }
               .vouche-box {
@@ -1341,11 +1365,14 @@ export default {
                   font-size: $font-size-large-xxx;
                   font-family: PingFangSC-Semibold;
                   font-weight: 600;
-                  color: $color-text-s;
+                  color: $color-text;
                   margin-left: 33px;
                   i {
                     font-size: $font-size-large-x;
                     font-weight: 400;
+                  }
+                  .font {
+                    font-size: 16px;
                   }
                 }
                 .vouche-aside {
@@ -1393,6 +1420,7 @@ export default {
                 font-weight: 600;
                 color: $color-text-s;
                 border: 1px solid #dadada;
+                border-left: 0;
                 line-height: 20px;
                 top: 0;
                 right: 0;
@@ -1404,8 +1432,13 @@ export default {
                 }
               }
             }
+            /deep/ .rate-stamp-box {
+              background: url('./image/bg_rate_stamp.png') center center no-repeat;
+            }
           }
           .swiper-button-prev {
+            position: absolute;
+            top: 50%;
             left: 0;
             margin-top: 0;
             right: auto;
@@ -1416,6 +1449,8 @@ export default {
             outline: 0;
           }
           .swiper-button-next {
+            position: absolute;
+            top: 50%;
             right: 0;
             margin-top: 0;
             left: auto;
@@ -1424,6 +1459,37 @@ export default {
             width: 33px;
             background-size: cover;
             outline: 0;
+          }
+          .swiper-button-prev1 {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            margin-top: 0;
+            right: auto;
+            background: url('./image/swiper_prev.png') no-repeat center center;
+            height: 33px;
+            width: 33px;
+            background-size: cover;
+            outline: 0;
+            cursor: pointer;
+          }
+          .swiper-button-next1 {
+            position: absolute;
+            top: 50%;
+            right: 0;
+            margin-top: 0;
+            left: auto;
+            background: url('./image/swiper_next.png') no-repeat center center;
+            height: 33px;
+            width: 33px;
+            background-size: cover;
+            outline: 0;
+            cursor: pointer;
+          }
+          .swiper-button-prev1.swiper-button-disabled, .swiper-button-next1.swiper-button-disabled {
+            opacity: 0.35;
+            cursor: auto;
+            pointer-events: none;
           }
         }
       }

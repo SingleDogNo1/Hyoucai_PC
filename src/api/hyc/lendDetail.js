@@ -2,7 +2,7 @@ import request from '@/assets/js/requestHYC'
 import qs from 'qs'
 
 // 优质计划-投资详情2.0
-export function investDetail(data) {
+export function easyInvestDetail(data) {
   return request({
     url: 'collection/investDetail/2.0',
     method: 'post',
@@ -70,5 +70,16 @@ export function amountSync() {
   return request({
     url: 'amountSync/sync',
     method: 'post'
+  })
+}
+
+// 散标标的详情接口
+
+export function optionalInvestDetail(data) {
+  return request({
+    url: 'project/projectDetail',
+    method: 'post',
+    headers: { 'Content-type': 'application/x-www-form-urlencoded' },
+    data: qs.stringify(data)
   })
 }
