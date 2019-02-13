@@ -16,7 +16,7 @@
       </li>
       <li>
         <i></i>
-        <span class="value">咨询、投诉、举报电子邮箱: cs@idjshi.com</span>
+        <span class="value">咨询、投诉、举报电子邮箱：cs@idjshi.com</span>
       </li>
     </ul>
     <p class="tips">如果您在使用汇有财的过程中有任何疑问，请您与汇有财客服人员联系。</p>
