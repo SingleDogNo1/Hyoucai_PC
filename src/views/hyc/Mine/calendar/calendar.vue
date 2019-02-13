@@ -44,14 +44,12 @@
             <td>{{ item.productName }}</td>
             <td>{{ item.rate }}</td>
             <td>{{ item.amount }}元</td>
-            <td class="show" @click="showDetail(`要查看${item.productName}的内容`)">查看详情</td>
+            <td class="show" @click="showDetail(item)">查看详情</td>
           </tr>
         </tbody>
         <tbody v-else>
           <tr>
-            <td colspan="5">
-              您当前没有回款记录
-            </td>
+            <td colspan="5">您当前没有回款记录</td>
           </tr>
         </tbody>
       </table>
@@ -97,12 +95,36 @@ export default {
         }
       })
     },
-    showDetail(id) {
-      console.log(id)
-      // this.$router.push({
-      //   name: '',
-      //   query: id
-      // })
+    showDetail(item) {
+      // 判断productType是集合标还是散标 (0：散标，1：债转标，2：集合标)
+      // 判断settlementFlags是否是已结清，如果是已结清，跳转到已结清的页面，否则跳转到我的出借的项目详情页面 (0-未结清 1-已结清)
+      item.settlementFlags = '1'
+      item.productType = '0'
+      if (item.settlementFlags === '1') {
+        this.$router.push({
+          name: 'userLend',
+          query: { productType: item.productType, settlementFlags: item.settlementFlags }
+        })
+      } else {
+        if (item.productType === '0') {
+          this.$router.push({
+            name: 'QSTDetail',
+            query: {
+              id: item.recordPackageId,
+              type: item.productType
+            }
+          })
+        }
+        if (item.productType === '2') {
+          this.$router.push({
+            name: 'ZXTDetail',
+            query: {
+              productId: item.projectNo,
+              id: item.invRecordId
+            }
+          })
+        }
+      }
     },
     getPrevMonth(month, year) {
       this.getIncome(year, month)

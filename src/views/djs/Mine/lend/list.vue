@@ -82,7 +82,8 @@ export default {
         page: 1,
         size: 10
       },
-      investedTotal: null
+      investedTotal: null,
+      settlementFlags: ''
     }
   },
   computed: {
@@ -116,6 +117,11 @@ export default {
     })
   },
   created() {
+    //判斷settlementFlags (0-未结清 1-已结清)
+    this.settlementFlags = this.$route.query.settlementFlags
+    if(this.settlementFlags === '1') {
+      this.tabIndex = 1
+    }
     this.getInvestingList()
     this.getInvestedList()
   }
