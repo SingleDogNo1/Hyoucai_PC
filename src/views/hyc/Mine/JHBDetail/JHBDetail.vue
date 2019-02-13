@@ -1,7 +1,7 @@
 <template>
   <div class="jhb-detail-wrapper">
     <header>注：本标为按天计息标，借款人可能提前还款。如果出现提前还款，您所获得实际利息将按借款人实际借款天数计算，请知悉！</header>
-    <div class="income coupon" v-if="BenefitPlan.useCoupon === '1'">
+    <div class="income coupon" v-if="BenefitPlan.useCoupon === '1' && BenefitPlan.userCouponDays && BenefitPlan.userCouponAmount">
       <div class="title">
         <span>加息收益</span>
         <i class="iconfont icon-changjianwenti">

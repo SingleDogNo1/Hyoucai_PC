@@ -25,9 +25,12 @@
         <tr style="height: 20px;"></tr>
         <tr v-for="(day, k1) in days" :key="k1" :style="{ 'animation-delay': k1 * 30 + 'ms' }">
           <td v-for="(child, k2) in day" :key="k2" :class="{ selected: child.selected, disabled: child.disabled }" @click="select(k1, k2, $event)">
-            <span :class="{ red: k2 === 0 || k2 === 6 || ((child.isLunarFestival || child.isGregorianFestival) && lunar) }"> {{ child.day }} </span>
+            <span
+              :class="{
+                red: k2 === 0 || k2 === 6 || ((child.isLunarFestival || child.isGregorianFestival) && lunar),
+                isSpecial: child.isLunarFestival || child.isGregorianFestival }"
+            > {{ child.day }} </span>
             <div class="text" v-if="child.eventName !== undefined">{{ child.eventName }}</div>
-            <!--<div class="text" :class="{'isLunarFestival':child.isLunarFestival,'isGregorianFestival':child.isGregorianFestival}" v-if="lunar">{{child.lunar}}</div>-->
             <div
               class="text"
               :class="{ isLunarFestival: child.isLunarFestival, isGregorianFestival: child.isGregorianFestival }"
@@ -481,7 +484,6 @@ export default {
     span {
       cursor: pointer;
     }
-
     .calendar-info {
       height: 100%;
       padding-top: 3px;
@@ -528,7 +530,7 @@ export default {
     width: 100%;
     margin-bottom: 10px;
     border-collapse: collapse;
-    color: #444444;
+    color: #444;
     .table-header {
       height: 30px;
       border-bottom: 1px solid #ebebeb;
@@ -551,7 +553,6 @@ export default {
       position: relative;
       vertical-align: top;
       &.week {
-        font-size: 10px;
         pointer-events: none !important;
         cursor: default !important;
       }
@@ -565,19 +566,15 @@ export default {
       }
       span {
         display: block;
-        width: 40px;
-        height: 40px;
+        width: 50px;
+        height: 50px;
         font-size: 16px;
-        line-height: 40px;
+        line-height: 50px;
         margin: 0 auto;
-        border-radius: 20px;
-      }
-      &:not(.selected) span:not(.red):hover {
-        background: #4235fa;
-        color: #444;
-      }
-      &:not(.selected) span.red:hover {
-        background: #4235fa;
+        border-radius: 50%;
+        &.isSpecial {
+          line-height: 35px;
+        }
       }
       &:not(.disabled) span.red {
         color: #ea6151;
@@ -606,11 +603,11 @@ export default {
           &.red {
             background-color: #ea6151;
             color: #fff;
-            &:hover {
-              background-color: #72ea54;
-              color: #fff;
-            }
           }
+        }
+        .isGregorianFestival,
+        .isLunarFestival {
+          color: #fff;
         }
       }
     }
