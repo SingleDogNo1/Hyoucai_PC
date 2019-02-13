@@ -22,7 +22,7 @@
       <div class="wrap">
         <div class="wrap_rows">
           <span class="wrap_left">昵称修改</span>
-          <span class="wrap_center">{{ nickname }}</span>
+          <span class="wrap_center">{{ userBasicInfo.nickname }}</span>
           <button class="wrap_btn" @click="isShow.isShow1 = !isShow.isShow1">修改</button>
         </div>
         <Name v-show="isShow.isShow1" :isShow="isShow" @success="success"></Name>
@@ -47,9 +47,9 @@
         <div class="wrap_rows last_rows">
           <span class="wrap_left">收货地址</span>
           <span class="wrap_center">{{ address }}</span>
-          <button class="wrap_btn" @click="isShow.isShow4 = !isShow.isShow4">修改</button>
+          <button class="wrap_btn" @click="isShow.isShow4 = !isShow.isShow4">{{msg}}</button>
         </div>
-        <Address v-show="isShow.isShow4" :isShow="isShow"></Address>
+        <Address v-show="isShow.isShow4" :isShow="isShow" :getMailingAddress="getMailingAddress"></Address>
       </div>
     </div>
     <!-- 存管信息 -->
@@ -92,16 +92,15 @@
 </template>
 
 <script>
+import { userBasicInfo } from '@/api/common/login'
 import { getMailingAddress, tansactionPwd } from '@/api/common/basicInfo'
-import { mapGetters } from 'vuex'
+import { mapGetters, mapMutations } from 'vuex'
 import { getRetBaseURL } from '@/assets/js/utils'
 import Name from './popup/name'
 import Password from './popup/password'
 import Phone from './popup/phone'
 import Address from './popup/address'
 import DzPhone from './popup/dzPhone'
-import Result from '@/views/common/RiskAssessment/Result'
-console.log(Result)
 
 export default {
   name: 'basicInfo',
@@ -111,8 +110,7 @@ export default {
     Password,
     Phone,
     Address,
-    DzPhone,
-    Result
+    DzPhone
   },
   data() {
     return {
@@ -126,7 +124,6 @@ export default {
       flag: false,
       escrowAccountInfo: {},
       lastLoginTime: '',
-      nickname: '',
       passWord: '',
       mobile: '',
       infoFinishGrade: '',
@@ -136,7 +133,8 @@ export default {
       isEvaluation: false,
       resultType: '',
       resultTitle: '',
-      resultFont: ''
+      resultFont: '',
+      msg: ''
     }
   },
   computed: {
@@ -145,6 +143,9 @@ export default {
   props: {},
   watch: {},
   methods: {
+    ...mapMutations({
+      setUserBasicInfo: 'SET_USERBASICINFO'
+    }),
     // 修改交易密码
     tansactionPwd: function() {
       let obj = {}
@@ -167,7 +168,6 @@ export default {
       if (target) {
         tempform.target = target
       }
-
       for (let x in params) {
         let opt = document.createElement('input')
         opt.name = x
@@ -183,16 +183,11 @@ export default {
       tempform.submit()
       document.body.removeChild(tempform)
     },
-    success(val) {
-      this.nickname = val
-      this.getUserBasicInfo()
-      // this.$forceUpdate()
-    },
     toRiskAssessment() {
       if (this.userBasicInfo.evaluatingResult) {
         this.$router.push({
           name: 'riskAss',
-          query: {status: 'isDone'}
+          query: { status: 'isDone' }
         })
       } else {
         this.$router.push({
@@ -207,7 +202,6 @@ export default {
     },
     getUserBasicInfo: function() {
       this.lastLoginTime = this.userBasicInfo.lastLoginTime
-      this.nickname = this.userBasicInfo.nickname
       this.passWord = this.userBasicInfo.passWord
       this.mobile = this.userBasicInfo.mobileMask
       // 判断是否风险测评
@@ -233,8 +227,27 @@ export default {
           break
       }
       if (this.hasMailingAddress == 1) {
-        getMailingAddress({ userName: this.user.userName })
+        getMailingAddress({ userName: this.user.userName }).then(res => {
+          this.address = res.data.data.address
+          this.msg = '修改'
+        })
+      } else {
+        this.address = '未设置收货地址'
+        this.msg = '设置'
       }
+    },
+    getMailingAddress: function() {
+      getMailingAddress({ userName: this.user.userName }).then(res => {
+        this.address = res.data.data.address
+        this.msg = '修改'
+      })
+    },
+    success() {
+      userBasicInfo({
+        userName: this.user.userName
+      }).then(res => {
+        this.setUserBasicInfo(res.data.data)
+      })
     }
   },
   created() {

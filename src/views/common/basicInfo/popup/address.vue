@@ -37,7 +37,7 @@ export default {
       }
     }
   },
-  props: ['isShow'],
+  props: ['isShow', 'getMailingAddress'],
   computed: {
     ...mapGetters(['user'])
   },
@@ -65,6 +65,7 @@ export default {
       this.consigneeName = ''
       this.consigneePhone = ''
       this.address = ''
+      this.getMailingAddress()
       this.isShow.isShow4 = !this.isShow.isShow4
     }
   }

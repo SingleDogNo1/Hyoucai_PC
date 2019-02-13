@@ -30,7 +30,7 @@
 import { modifyBindMobile, modifyBindMobileSendCode } from '@/api/common/basicInfo'
 import { mapGetters } from 'vuex'
 import errDialog from '@/components/Dialog/Dialog'
-import { isMobile, isMobCode, isPassword } from '@/assets/js/regular'
+import { isMobile } from '@/assets/js/regular'
 
 export default {
   name: 'Phone',
@@ -112,7 +112,7 @@ export default {
     getMobileSendCode: function() {
       if (this.checkInfo() === false) return
       let data = {}
-      data.mobile = this.mobile
+      data.mobile = this.newMobile
       data.userName = this.user.userName
       modifyBindMobileSendCode(data).then(res => {
         if (res.data.resultCode === '1') {
