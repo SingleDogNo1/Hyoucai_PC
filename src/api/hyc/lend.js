@@ -55,3 +55,11 @@ export function getProjectDetail(data) {
     data: data
   })
 }
+
+export function getPeopleLoanInfo(data) {
+  return request({
+    url: '/collection/peopleLoanInfo',
+    method: 'GET',
+    data: data
+  })
+}

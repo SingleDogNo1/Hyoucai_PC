@@ -18,27 +18,27 @@
             </p>
             <p>
               <span class="left">还款方式：</span>
-              <span class="right">按月还息，到期还本</span>
+              <span class="right">{{repaymentWay}}</span>
             </p>
           </div>
           <div class="txt">
             <p>
               <span class="left">合同编号：</span>
-              <span class="right">2017051202J</span>
+              <span class="right">{{loanNo}}</span>
             </p>
             <p>
               <span class="left">融资金额：</span>
-              <span class="right">1,000,000元</span>
+              <span class="right">{{prinAmt}}</span>
             </p>
           </div>
           <div class="txt">
             <p>
               <span class="left">借贷期限：</span>
-              <span class="right">6个月</span>
+              <span class="right">{{loanDay}}</span>
             </p>
             <p>
               <span class="left">历史年化收益率：</span>
-              <span class="right">5.0%</span>
+              <span class="right">{{rate}}.0%</span>
             </p>
           </div>
         </div>
@@ -90,7 +90,7 @@
           <span class="title-boder"></span>
           <span class="title-text">还款来源</span>
         </p>
-        <div class="repayment">借款人固定工作收入</div>
+        <div class="repayment">{{paymentSource}}</div>
         <p class="title">
           <span class="title-boder"></span>
           <span class="title-text">相关费用</span>
@@ -117,77 +117,77 @@
           <div class="borrower-box">
             <p class="borrower-box-left">
               <span class="left">借款人姓名：</span>
-              <span class="right"></span>
+              <span class="right">{{borrowerName}}</span>
             </p>
             <p class="borrower-box-center">
               <span class="left">性别：</span>
-              <span class="right"></span>
+              <span class="right">{{sex}}</span>
             </p>
             <p>
               <span class="left">身份证号：</span>
-              <span class="right"></span>
+              <span class="right">{{idNum}}</span>
             </p>
           </div>
           <div class="borrower-box">
             <p class="borrower-box-left">
               <span class="left">年龄：</span>
-              <span class="right"></span>
+              <span class="right">{{age}}</span>
             </p>
             <p class="borrower-box-center">
               <span class="left">行业：</span>
-              <span class="right"></span>
+              <span class="right">{{industry}}</span>
             </p>
             <p>
               <span class="left">居住地址：</span>
-              <span class="right"></span>
+              <span class="right">{{domicile}}</span>
             </p>
           </div>
           <div class="borrower-box">
             <p class="borrower-box-left">
               <span class="left">婚姻状况：</span>
-              <span class="right"></span>
+              <span class="right">{{maritalStatus}}</span>
             </p>
             <p class="borrower-box-center">
               <span class="left">月收入：</span>
-              <span class="right"></span>
+              <span class="right">{{income}}</span>
             </p>
             <p>
               <span class="left">借款金额：</span>
-              <span class="right"></span>
+              <span class="right">{{prinAmt}}</span>
             </p>
           </div>
           <div class="borrower-box">
             <p class="borrower-box-left">
               <span class="left">借款用途：</span>
-              <span class="right"></span>
+              <span class="right">{{loanAim}}</span>
             </p>
             <p class="borrower-box-center">
-              <span class="left">借款主体性质：</span>
-              <span class="right"></span>
+              <span class="left">借款人主体性质：</span>
+              <span class="right">{{borrowerTheme}}</span>
             </p>
             <p>
               <span class="left">借款期限：</span>
-              <span class="right"></span>
+              <span class="right">{{loanDay}}</span>
             </p>
           </div>
           <div class="borrower-box">
             <p class="borrower-box-left">
               <span class="left">还款来源：</span>
-              <span class="right"></span>
+              <span class="right">{{paymentSource}}</span>
             </p>
             <p class="borrower-box-center">
               <span class="left">逾期金额：</span>
-              <span class="right"></span>
+              <span class="right">{{amountOverride}}</span>
             </p>
             <p></p>
           </div>
           <p class="borrower-txt">
             <span class="left">征信报告：</span>
-            <span class="right">核查人银行征信报告，该借款人近6个月无逾</span>
+            <span class="right">{{creditReport}}</span>
           </p>
           <p class="borrower-txt">
             <span class="left">在其他网络借贷平台借款情况：</span>
-            <span class="right">借款人保证在不同网络借贷信息中介机构平台借款总余额与本合同借款金额合计总额不超过人民币100万元</span>
+            <span class="right">{{borrowSituation}}</span>
           </p>
           <p class="look-detail">点击查看>></p>
         </div>
@@ -244,17 +244,63 @@
 </template>
 
 <script>
+import { getPeopleInfoApi } from '@/api/hyc/Mine/lend'
+// import {getPeopleLoanInfo} from '@/api/hyc/lend'
 export default {
   name: 'ProjectDetal',
   data() {
     return {
-      flag: false
+      flag: false,
+      borrowerName: '',
+      sex: '',
+      idNum: '',
+      age: '',
+      industry: '',
+      domicile: '',
+      maritalStatus: '',
+      income: '',
+      prinAmt: '',
+      loanAim: '',
+      borrowerTheme: '',
+      loanDay: '',
+      paymentSource: '',
+      amountOverride: '',
+      creditReport: '',
+      borrowSituation: '',
+      loanNo: '',
+      repaymentWay: '',
+      rate: ''
     }
   },
+  props: ['projectNo', 'projectType'],
   methods: {
     change: function() {
       this.$emit('changeProjectDetail')
     }
+  },
+  created() {
+    getPeopleInfoApi({ projectNo: 'BD20190125104251004113', nameEncrypt: true }).then(res => {
+      let data = res.data.data
+      this.borrowerName = data.borrowerName
+      this.sex = data.sex
+      this.idNum = data.idNum
+      this.age = data.age
+      this.domicile = data.domicile
+      this.maritalStatus = data.maritalStatus
+      this.industry = data.industry
+      this.income = data.income
+      this.prinAmt = data.prinAmt
+      this.loanAim = data.loanAim
+      this.borrowerTheme = data.borrowerTheme
+      this.loanDay = data.loanDay
+      this.paymentSource = data.paymentSource
+      this.amountOverride = data.amountOverride
+      this.creditReport = data.creditReport
+      this.borrowSituation = data.borrowSituation
+      this.loanNo = data.loanNo
+      this.repaymentWay = data.repaymentWay
+      this.rate = data.rate
+    })
   }
 }
 </script>
