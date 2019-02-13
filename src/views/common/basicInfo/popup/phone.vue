@@ -112,7 +112,7 @@ export default {
     getMobileSendCode: function() {
       if (this.checkInfo() === false) return
       let data = {}
-      data.mobile = this.mobile
+      data.mobile = this.newMobile
       data.userName = this.user.userName
       modifyBindMobileSendCode(data).then(res => {
         if (res.data.resultCode === '1') {
