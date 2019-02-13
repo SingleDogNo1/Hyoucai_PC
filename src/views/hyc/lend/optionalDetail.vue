@@ -49,39 +49,51 @@
       </div>
       <div class="invest-module">
         <h2>
-          <span class="status-title">出借中…</span>
-          <button class="status-btn">开户</button>
+          <span
+            :class="{ 'unopened-status-title': investStatus === 'unopened' }"
+            class="status-title"
+          >{{investStatusTitle}}</span>
+          <button v-if="investStatus != 'unopened'" class="status-btn">
+            <router-link :to="{ name: 'charge' }">{{investStatusBtn}}</router-link>
+          </button>
         </h2>
         <div class="content">
           <p class="available-balance">
             <span class="title">可用余额</span>
-            <span class="value">未开户</span>
+            <span class="value">{{projectInfo.balance}}</span>
           </p>
           <p class="starting-amount">
             <span class="title">起投金额</span>
-            <span class="value">100.00元</span>
+            <span class="value">{{projectInfo.minInvAmount}}元</span>
           </p>
           <p class="single-limit">
             <span class="title">单人限额</span>
-            <span class="value">100,000.00元</span>
+            <span class="value">{{projectInfo.maxInvTotalAmount}}元</span>
           </p>
           <div class="risk-notice">
-            <el-checkbox v-model="isAgree">
-              已阅读并同意
-              <a href="#">《风险告知书》</a>
+            <el-checkbox v-model="isAgree">已阅读并同意
+              <router-link target="_blank" :to="{ name: 'riskNoticationLetterAgreement'}">《风险告知书》</router-link>
             </el-checkbox>
           </div>
-          <div class="all-lending">
+          <div class="all-lending" v-if="investStatus === 'lending'">
             <el-checkbox class="all-lending-checkbox" v-model="isAllLending">全部出借</el-checkbox>
           </div>
-          <div class="action">
-            <input class="amount-input">
-            <button class="action-btn">立即开户</button>
+          <div class="action" v-if="investStatus === 'willSale' || investStatus === 'lending'">
+            <input class="amount-input" v-model="invAmount" @keyup="handleExpectedIncome">
+            <button
+              class="action-btn"
+              :disabled="isDisableInvestBtn"
+              @click="handleInvest"
+            >{{investBtn}}</button>
+          </div>
+          <div class="action" v-if="investStatus === 'fullyMarked' || investStatus === 'finished'">
+            <button class="action-btn-disabled" @click="handleInvest">{{investStatusTitle}}</button>
           </div>
           <p class="expected-profits">
             <span class="title">预期收益：</span>
-            <span class="value">0.00</span>
+            <span class="value">{{expectedIncome}}元</span>
           </p>
+          <p class="err-msg" v-if="errMsg">{{errMsg}}</p>
         </div>
       </div>
     </section>
@@ -139,7 +151,8 @@
                 <tr class="examine-title">
                   <td>身份信息</td>
                   <td>认证情况</td>
-                 <tr v-for="(item, index) in auditInfoList" :key="index">
+                </tr>
+                <tr v-for="(item, index) in auditInfoList" :key="index">
                   <td>身份证认证</td>
                   <td>
                     <img @click="openReviewInfoPop" src="./image/bg.png">
@@ -179,13 +192,14 @@
                   </td>
                   <td></td>
                   <td></td>
-                </tr> -->
+                </tr>-->
               </table>
               <table class="examine">
                 <tr class="examine-title">
                   <td>身份信息</td>
                   <td>认证情况</td>
-                 <tr v-for="(item, index) in auditInfoList" :key="index">
+                </tr>
+                <tr v-for="(item, index) in auditInfoList" :key="index">
                   <td>身份证认证</td>
                   <td>
                     <img @click="openReviewInfoPop" src="./image/bg.png">
@@ -225,7 +239,7 @@
                   </td>
                   <td></td>
                   <td></td>
-                </tr> -->
+                </tr>-->
               </table>
               <p class="title">
                 <span class="title-boder"></span>
@@ -372,67 +386,65 @@
         </el-tab-pane>
         <el-tab-pane label="出借详情" name="CJXQ">
           <div v-if="lendDetailActiveName === 'CJXQ'" class="content">
-            <p
-              class="desc"
-            >投资月月盈即可享受30天优惠收益，预期年化净收益率达7%。 加入当日生息，30天到期后本息自动转入账户余额，届时投资人可自主选择按本息复投或本金复投模式继续投资，坐享收益。</p>
+            <p class="desc">{{investDetail.appDesc}}</p>
             <ul class="detail-list">
               <li>
                 <p class="title">
                   <span>协议</span>
                 </p>
-                <a class="value" href="#">《点金石债权转让协议》（范本）</a>
+                <router-link
+                  target="_blank"
+                  class="value"
+                  :to="{ name: 'threePartyAgreement', query: {productId: productId}}"
+                >《三方协议》</router-link>
               </li>
               <li>
                 <p class="title">
                   <span>出借目标</span>
                 </p>
-                <span class="value">所有点金石的用户，寻求安全、灵活、稳定高收益的投资人。</span>
+                <span class="value">{{investDetail.investTarget}}</span>
               </li>
               <li>
                 <p class="title">
                   <span>锁定期</span>
                 </p>
-                <span class="value">90天</span>
+                <span class="value">{{investDetail.dueDate}}</span>
               </li>
               <li>
                 <p class="title">
                   <span>起息时间</span>
                 </p>
-                <span class="value">以所投标的实际起息时间为准。</span>
+                <span class="value">{{investDetail.interestStartDate}}</span>
               </li>
               <li>
                 <p class="title">
                   <span>利息分配</span>
                 </p>
-                <span class="value">单标复审成功计息，到期即可提现。</span>
+                <span class="value">{{investDetail.profitShare}}</span>
               </li>
               <li>
                 <p class="title">
                   <span>退出机制</span>
                 </p>
-                <span class="value">等额本息自动转入账户余额。</span>
+                <span class="value">{{investDetail.existSystem}}</span>
               </li>
               <li>
                 <p class="title">
                   <span>费用说明</span>
                 </p>
-                <span class="value">暂无任何手续费。</span>
+                <span class="value">{{investDetail.costdes}}</span>
               </li>
               <li>
                 <p class="title">
                   <span>项目风险评估及可能产生的风险结果</span>
                 </p>
-                <span
-                  class="value"
-                >根据借款人当前情况进行评估，借款人具有偿还贷款的能力，但不排除未来借款人因收入下降、过度举债等因素导致财务状况恶化，从而发生逾期的可能。</span>
+                <span class="value">{{investDetail.riskAppraisal}}</span>
               </li>
               <li>
                 <p class="title">
                   <span>出借人适当性管理提示</span>
                 </p>
-                <span class="value">1.该标的的每一个借款人在本平台借款余额未超过20万元，符合监管政策要求；
-                  <br>2.出借人应根据自身的出借偏好和风险承受能力进行独立判断和作出决策，并自行承担资金出借的风险与责任，包括但不限于可能的本息损失。网贷有风险，出借需谨慎。
-                </span>
+                <span class="value">{{investDetail.riskManagementTip}}</span>
               </li>
             </ul>
           </div>
@@ -660,6 +672,170 @@
         </div>
       </div>
     </div>
+    <Dialog
+      :show.sync="isShowSignDialog"
+      title="汇有财温馨提示"
+      confirmText="签约"
+      class="sign-dialog"
+      :onConfirm="toSign"
+    >
+      <div>
+        <p>您当前未签约或签约状态不符合合规要求，
+          <br>请重新签约！
+        </p>
+      </div>
+    </Dialog>
+    <Dialog
+      :show.sync="isShowRiskDialog"
+      title="汇有财温馨提示"
+      :confirmText="riskConfirmText"
+      class="risk-dialog"
+      :onConfirm="toRisk"
+    >
+      <div>
+        <p v-html="riskContent"></p>
+      </div>
+    </Dialog>
+    <Dialog
+      :show.sync="isShowSystemMaintenanceDialog"
+      title="汇有财温馨提示"
+      confirmText="我知道了"
+      class="system-maintenance-dialog"
+      :singleButton="singleButton"
+    >
+      <div>
+        <p>当前系统正在维护中，当日23:45-次日0:15分钟暂不可进行出借！</p>
+      </div>
+    </Dialog>
+    <Dialog
+      :show.sync="isShowConfirmInvestmentDialog"
+      title="确认出借"
+      confirmText="确认出借"
+      class="confirm-investment-dialog"
+    >
+      <div>
+        <ul class="amount-list">
+          <li>
+            <p class="title">1000.00</p>
+            <p class="desc">出借金额(元)</p>
+          </li>
+          <li>
+            <p class="title">1000.00</p>
+            <p class="desc">支付金额(元)</p>
+          </li>
+          <li>
+            <p class="title">20.00</p>
+            <p class="desc">预期收益(元)</p>
+          </li>
+        </ul>
+        <div class="red-envelope-wrap">
+          <p class="title">红包</p>
+          <div class="swiper-wrap">
+            <div class="swiper-container-red-envelope">
+              <div class="swiper-wrapper">
+                <div class="swiper-slide swiper-no-swiping">
+                  <div class="red-envelope-box">
+                    <p class="vouche-box">
+                      <span class="vouche">
+                        20
+                        <i>元</i>
+                      </span>
+                      <span class="vouche-aside">可与加息券同时使用</span>
+                    </p>
+                    <p class="start">起投金额：121.00元</p>
+                    <div class="endData">有效期至2019-02-28</div>
+                    <button class="receive-btn" @click="receiveRedPacket(item.id)">选取</button>
+                  </div>
+                </div>
+                <div class="swiper-slide swiper-no-swiping">
+                  <div class="red-envelope-box">
+                    <p class="vouche-box">
+                      <span class="vouche">
+                        20
+                        <i>元</i>
+                      </span>
+                      <span class="vouche-aside">可与加息券同时使用</span>
+                    </p>
+                    <p class="start">起投金额：121.00元</p>
+                    <div class="endData">有效期至2019-02-28</div>
+                    <button class="receive-btn" @click="receiveRedPacket(item.id)">选取</button>
+                  </div>
+                </div>
+                <div class="swiper-slide swiper-no-swiping">
+                  <div class="red-envelope-box">
+                    <p class="vouche-box">
+                      <span class="vouche">
+                        20
+                        <i>元</i>
+                      </span>
+                      <span class="vouche-aside">可与加息券同时使用</span>
+                    </p>
+                    <p class="start">起投金额：121.00元</p>
+                    <div class="endData">有效期至2019-02-28</div>
+                    <button class="receive-btn" @click="receiveRedPacket(item.id)">选取</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
+          </div>
+        </div>
+        <div class="rate-stamp-wrap">
+          <p class="title">加息券</p>
+          <div class="swiper-wrap">
+            <div class="swiper-container-rate-stamp">
+              <div class="swiper-wrapper">
+                <div class="swiper-slide swiper-no-swiping">
+                  <div class="rate-stamp-box">
+                    <p class="vouche-box">
+                      <span class="vouche">4
+                        <i>%</i>
+                        <i class="font">利息</i>
+                      </span>
+                      <span class="vouche-aside">可加息30天</span>
+                    </p>
+                    <p class="start">投资限额：111至1111元</p>
+                    <div class="endData">有效期至2019-02-28</div>
+                    <button class="receive-btn" @click="receiveRedPacket(item.id)">选取</button>
+                  </div>
+                </div>
+                <div class="swiper-slide swiper-no-swiping">
+                  <div class="rate-stamp-box">
+                    <p class="vouche-box">
+                      <span class="vouche">4
+                        <i>%</i>
+                        <i class="font">利息</i>
+                      </span>
+                      <span class="vouche-aside">可加息30天</span>
+                    </p>
+                    <p class="start">投资限额：111至1111元</p>
+                    <div class="endData">有效期至2019-02-28</div>
+                    <button class="receive-btn" @click="receiveRedPacket(item.id)">选取</button>
+                  </div>
+                </div>
+                <div class="swiper-slide swiper-no-swiping">
+                  <div class="rate-stamp-box">
+                    <p class="vouche-box">
+                      <span class="vouche">4
+                        <i>%</i>
+                        <i class="font">利息</i>
+                      </span>
+                      <span class="vouche-aside">可加息30天</span>
+                    </p>
+                    <p class="start">投资限额：111至1111元</p>
+                    <div class="endData">有效期至2019-02-28</div>
+                    <button class="receive-btn" @click="receiveRedPacket(item.id)">选取</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="swiper-button-prev1"></div>
+            <div class="swiper-button-next1"></div>
+          </div>
+        </div>
+      </div>
+    </Dialog>
   </div>
 </template>
 
@@ -668,7 +844,7 @@ import Swiper from 'swiper/dist/js/swiper'
 import { mapState } from 'vuex'
 import Pagination from '@/components/pagination/pagination'
 import { timeCountDown } from '@/assets/js/utils'
-import { optionalInvestDetail, amountInfo } from '@/api/hyc/lendDetail'
+import { optionalInvestDetail, amountInfo, optionalInvestRecord, expectedIncome, systemMaintenance, amountSync } from '@/api/hyc/lendDetail'
 import ProjectDetail from './popup/projectDetail'
 import Dialog from '@/components/Dialog/Dialog'
 export default {
@@ -676,8 +852,8 @@ export default {
     return {
       lendDetailActiveName: 'XMXX',
       projectNo: '',
-      isAgree: true,
-      isAllLending: true,
+      isAgree: false,
+      isAllLending: false,
       page: 1,
       size: 10,
       total: 0,
@@ -726,9 +902,19 @@ export default {
         loanDate: ''
       },
       auditInfoList: [],
+      joinRecordData: [],
+      productId: '',
       isShowAuthenticationPop: false,
       isShowFaceRecognitionPop: false,
-      isShowReportPop: false
+      isShowReportPop: false,
+      errMsg: '',
+      isShowSignDialog: false,
+      isShowRiskDialog: false,
+      isShowSystemMaintenanceDialog: false,
+      singleButton: true,
+      riskConfirmText: '重新评测',
+      riskContent: '您当前出借的额度或期限不符合您的风险评测<br />等级分布，若您在上次评测后风险承受能力发<br />生改变，请您重新进行风险评测！',
+      isShowConfirmInvestmentDialog: true
     }
   },
   components: {
@@ -741,10 +927,37 @@ export default {
     })
   },
   methods: {
-    handleItemClick() {},
+    handleItemClick() {
+      switch (this.lendDetailActiveName) {
+        case 'XMXX':
+          this.getLendDetailList()
+          break
+        case 'CJXQ':
+          this.getLendDetailList()
+          break
+        case 'JRJL':
+          this.getJoinRecordList()
+          break
+        case 'JKRXX':
+          //this.getProjectCompoList()
+          break
+      }
+    },
     handleCurrentChange(val) {
       this.page = val
-      this.getList()
+      this.getJoinRecordList()
+    },
+    handleExpectedIncome() {
+      console.log(this.invAmount)
+      let postData = {
+        invAmount: this.invAmount,
+        investRate: this.projectInfo.investRate,
+        productId: this.productId
+      }
+      expectedIncome(postData).then(res => {
+        let data = res.data.data
+        this.expectedIncome = data.expectedIncome
+      })
     },
     getUserBasicInfo() {
       console.log(this.userBasicInfo)
@@ -784,6 +997,7 @@ export default {
     },
     getInvestDetailList() {
       this.projectNo = this.$route.query.projectNo
+      this.productId = this.$route.query.productId
       let postData = {
         projectNo: this.projectNo
       }
@@ -820,21 +1034,21 @@ export default {
         this.productDetail.loanAmt = productDetail.loanAmt
         this.productDetail.loanMent = productDetail.loanMent
         this.productDetail.investRate = productDetail.investRate
-        
+
         let auditInfoList = productDetail.auditInfoList
         auditInfoList.forEach(item => {
           switch (item.field) {
             case 'haveIDCard':
-              item.result = require('./image/bg.png') 
+              item.result = require('./image/bg.png')
               break
             case 'faceRecognition':
-              item.result = require('./image/bg.png') 
+              item.result = require('./image/bg.png')
               break
             case 'signing':
-              item.result = require('./image/bg.png') 
+              item.result = require('./image/bg.png')
               break
             case 'internetInformation':
-              item.result = require('./image/bg.png') 
+              item.result = require('./image/bg.png')
               break
           }
         })
@@ -842,6 +1056,39 @@ export default {
 
         this.getUserBasicInfo()
         this.getAmountQuery()
+      })
+    },
+    getLendDetailList() {
+      this.projectNo = this.$route.query.projectNo
+      let postData = {
+        projectNo: this.projectNo
+      }
+      optionalInvestDetail(postData).then(res => {
+        let data = res.data.data
+        let investDetail = data.investDetail
+        this.investDetail.appDesc = investDetail.appDesc
+        this.investDetail.investTarget = investDetail.investTarget
+        this.investDetail.dueDate = investDetail.dueDate
+        this.investDetail.interestStartDate = investDetail.interestStartDate
+        this.investDetail.profitShare = investDetail.profitShare
+        this.investDetail.existSystem = investDetail.existSystem
+        this.investDetail.costdes = investDetail.costdes
+        this.investDetail.riskAppraisal = investDetail.riskAppraisal
+        this.investDetail.riskManagementTip = investDetail.riskManagementTip
+      })
+    },
+    getJoinRecordList() {
+      this.projectNo = this.$route.query.projectNo
+      let postData = {
+        projectNo: this.projectNo,
+        curPage: this.page,
+        maxLine: this.size
+      }
+      optionalInvestRecord(postData).then(res => {
+        let data = res.data.data
+        this.joinRecordData = data.list
+        this.total = parseInt(data.countPage)
+        this.page = parseInt(data.curPage)
       })
     },
     getAmountQuery() {
@@ -871,9 +1118,116 @@ export default {
     },
     closeReportPop() {
       this.isShowReportPop = false
+    },
+    handleInvest() {
+      this.errMsg = ''
+      systemMaintenance().then(res => {
+        let data = res.data
+        // 此时段为系统维护
+        if (data.resultCode === '60056') {
+          this.isShowSystemMaintenanceDialog = true
+        } else {
+          amountSync().then(res => {
+            let data = res.data
+            console.log('data====', data)
+            if (data.resultCode === '1') {
+              this.projectInfo.balance = data.data.availBal
+            }
+          })
+          // 如果是未开户，点击去开户页面
+          if (this.investStatus === 'unopened') {
+            this.$router.push({ name: 'account' })
+          }
+          // 如果没勾选风险告知书，弹出提示
+          if (!this.isAgree) {
+            this.errMsg = '请确认并同意《风险告知书》'
+            return
+          }
+          // 是否已经签约
+          this.userBasicInfo.userIsOpenAccount.registerProtocolSigned = true
+          if (!this.userBasicInfo.userIsOpenAccount.registerProtocolSigned) {
+            this.isShowSignDialog = true
+            return
+          }
+          // 是否进行过风险测评
+          this.userBasicInfo.evaluatingResult = true
+          if (!this.userBasicInfo.evaluatingResult) {
+            this.riskContent = '您当前还未风险评测或评测已过期，请进行风险评测。'
+            this.riskConfirmText = '立即评测'
+            this.isShowRiskDialog = true
+            return
+          }
+          // 单人限额是否超过
+          if (this.invAmount > this.projectInfo.maxInvTotalAmount) {
+            this.errMsg = '单人限额' + this.projectInfo.maxInvTotalAmount + '元'
+            return
+          }
+          // 单笔限额是否超过
+          if (this.invAmount > this.projectInfo.maxInvAmount) {
+            this.errMsg = '单笔限额' + this.projectInfo.maxInvAmount + '元'
+            return
+          }
+        }
+      })
+    },
+    toSign() {
+      this.$router.push({ name: 'sign' })
+    },
+    toRisk() {
+      this.$router.push({ name: 'riskAss' })
+    },
+    redEnvelopeSwiper() {
+      setTimeout(() => {
+        this.redEnvelopeSwiper = new Swiper('.swiper-container-red-envelope', {
+          paginationClickable: true,
+          observer: true,
+          observeParents: true,
+          loopAdditionalSlides: 1,
+          initialSlide: 1,
+          effect: 'coverflow',
+          slidesPerView: 1.3, // 一屏装几个slider
+          centeredSlides: true,
+          coverflowEffect: {
+            rotate: 0,
+            stretch: 35,
+            depth: 20,
+            modifier: 1,
+            slideShadows: false
+          },
+          navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev'
+          }
+        })
+      }, 200)
+    },
+    rateStampSwiper() {
+      setTimeout(() => {
+        this.rateStampSwiper = new Swiper('.swiper-container-rate-stamp', {
+          paginationClickable: true,
+          observer: true,
+          observeParents: true,
+          loopAdditionalSlides: 1,
+          initialSlide: 1,
+          effect: 'coverflow',
+          slidesPerView: 1.3, // 一屏装几个slider
+          centeredSlides: true,
+          coverflowEffect: {
+            rotate: 0,
+            stretch: 35,
+            depth: 20,
+            modifier: 1,
+            slideShadows: false
+          },
+          navigation: {
+            nextEl: '.swiper-button-next1',
+            prevEl: '.swiper-button-prev1'
+          }
+        })
+      }, 300)
     }
   },
-  mounted () {
+  mounted() {
     this.getInvestDetailList()
   }
 }
@@ -1037,23 +1391,33 @@ export default {
         justify-content: space-around;
         padding: 0 20px;
         .status-title {
-          width: 80px;
+          width: 100px;
           height: 55px;
           line-height: 52px;
           font-size: $font-size-medium-x;
           color: $color-text;
           margin-right: 120px;
         }
+        .unopened-status-title {
+          width: 140px;
+        }
         .status-btn {
-          width: 60px;
+          width: 70px;
           height: 30px;
-          line-height: 28px;
+          line-height: 30px;
           background: #0083fe;
           font-size: $font-size-small;
           color: #fff;
           text-align: center;
           margin-top: 12px;
           border-radius: 4px;
+          padding: 0;
+          a {
+            display: block;
+            width: 100%;
+            height: 100%;
+            color: #fff;
+          }
           &:hover {
             background: lighten(#0083fe, 5%);
             cursor: pointer;
@@ -1076,12 +1440,12 @@ export default {
           .title {
             width: 64px;
             line-height: 16px;
-            margin-right: 92px;
+            margin-right: 30px;
             color: $color-text-s;
             border: 0;
           }
           .value {
-            width: 99px;
+            width: 160px;
             line-height: 16px;
             text-align: right;
           }
@@ -1184,15 +1548,34 @@ export default {
             display: inline-block;
             width: 111px;
             height: 46px;
+            line-height: 46px;
             background: #fb891f;
             text-align: center;
             font-size: $font-size-medium;
             color: #fff;
             cursor: pointer;
+            &:disabled {
+              background: #e3e3e3;
+              &:hover {
+                background: #e3e3e3;
+                cursor: not-allowed;
+              }
+            }
             &:hover {
               background: lighten(#fb891f, 5%);
               cursor: pointer;
             }
+          }
+          .action-btn-disabled {
+            display: inline-block;
+            width: 100%;
+            height: 46px;
+            line-height: 46px;
+            background: #e3e3e3;
+            text-align: center;
+            font-size: $font-size-medium;
+            color: #fff;
+            border-radius: 6px;
           }
         }
         .expected-profits {
@@ -1201,22 +1584,28 @@ export default {
           height: 16px;
           line-height: 16px;
           margin-top: 20px;
-          margin-bottom: 17px;
+          margin-bottom: 13px;
           justify-content: space-around;
           font-size: $font-size-small;
           color: $color-text;
           .title {
-            width: 108px;
+            width: 117px;
             line-height: 16px;
-            margin-right: 92px;
+            margin-right: 30px;
             color: $color-text;
             border: 0;
           }
           .value {
-            width: 99px;
+            width: 200px;
             line-height: 16px;
             text-align: right;
           }
+        }
+        .err-msg {
+          width: 100%;
+          font-size: $font-size-small-ss;
+          color: #e9122c;
+          text-align: center;
         }
       }
     }
@@ -1546,6 +1935,219 @@ export default {
     }
     .report-content {
       width: 490px;
+    }
+  }
+  .sign-dialog,
+  .risk-dialog,
+  .system-maintenance-dialog,
+  .confirm-investment-dialog {
+    p {
+      font-size: $font-size-small;
+      line-height: 26px;
+    }
+  }
+  .confirm-investment-dialog {
+    /deep/ .inner {
+      width: 718px;
+      padding: 30px 0;
+      .amount-list {
+        display: flex;
+        width: 443px;
+        margin: 0 auto;
+        margin-top: 42px;
+        margin-bottom: 40px;
+        justify-content: space-between;
+        li {
+          text-align: center;
+          margin-right: 112px;
+          p.title {
+            color: #fb891f;
+            font-size: $font-size-small;
+          }
+          p.desc {
+            color: $color-text;
+            font-size: $font-size-small-ss;
+          }
+          &:last-child {
+            margin-right: 0;
+          }
+        }
+      }
+      .red-envelope-wrap,
+      .rate-stamp-wrap {
+        position: relative;
+        width: 664px;
+        margin: 0 auto;
+        margin-bottom: 53px;
+        .title {
+          margin-left: 52px;
+          margin-bottom: 14px;
+          font-size: $font-size-small;
+          color: $color-text-s;
+        }
+        .swiper-wrap {
+          width: 100%;
+          .swiper-container-red-envelope, .swiper-container-rate-stamp {
+            width: 560px;
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+            list-style: none;
+            padding: 0;
+            z-index: 1;
+            /deep/ .red-envelope-box, /deep/ .rate-stamp-box {
+              position: relative;
+              width: 378px;
+              height: 105px;
+              background: url('./image/bg_red_envelope_nochoose.png') center center no-repeat;
+              cursor: pointer;
+              &:hover {
+                .receive-btn {
+                  background: rgba(255, 227, 17, 1);
+                  color: rgba(255, 58, 41, 1);
+                  border: 1px solid rgba(255, 227, 17, 1);
+                  border-left: 0;
+                }
+              }
+              .vouche-box {
+                padding-top: 19px;
+                margin-bottom: 4px;
+                .vouche {
+                  font-size: $font-size-large-xxx;
+                  font-family: PingFangSC-Semibold;
+                  font-weight: 600;
+                  color: $color-text;
+                  margin-left: 33px;
+                  i {
+                    font-size: $font-size-large-x;
+                    font-weight: 400;
+                  }
+                  .font {
+                    font-size: 16px;
+                  }
+                }
+                .vouche-aside {
+                  display: inline-block;
+                  padding: 1px 6px;
+                  text-align: center;
+                  height: 18px;
+                  border-radius: 100px;
+                  border: 1px solid $color-text-s;
+                  font-size: $font-size-small-ss;
+                  font-family: PingFang-SC-Regular;
+                  font-weight: 400;
+                  color: $color-text-s;
+                  line-height: 18px;
+                  margin-left: 8px;
+                  position: relative;
+                  top: -4px;
+                }
+              }
+              .start {
+                margin-left: 33px;
+                font-size: $font-size-small-ss;
+                font-family: PingFang-SC-Regular;
+                font-weight: 400;
+                color: $color-text-s;
+                line-height: 20px;
+              }
+              .endData {
+                margin-left: 33px;
+                font-size: $font-size-small-ss;
+                font-family: PingFang-SC-Regular;
+                font-weight: 400;
+                color: $color-text-s;
+                line-height: 18px;
+              }
+              .receive-btn {
+                display: inline-block;
+                width: 52px;
+                height: 105px;
+                background: #fff;
+                border-radius: 4px;
+                padding: 13px 17px;
+                font-size: 18px;
+                font-family: PingFangSC-Semibold;
+                font-weight: 600;
+                color: $color-text-s;
+                border: 1px solid #dadada;
+                border-left: 0;
+                line-height: 20px;
+                top: 0;
+                right: 0;
+                position: absolute;
+                cursor: pointer;
+                span {
+                  display: inline-block;
+                  white-space: normal;
+                }
+              }
+            }
+            /deep/ .rate-stamp-box {
+              background: url('./image/bg_rate_stamp.png') center center no-repeat;
+            }
+          }
+          .swiper-button-prev {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            margin-top: 0;
+            right: auto;
+            background: url('./image/swiper_prev.png') no-repeat center center;
+            height: 33px;
+            width: 33px;
+            background-size: cover;
+            outline: 0;
+          }
+          .swiper-button-next {
+            position: absolute;
+            top: 50%;
+            right: 0;
+            margin-top: 0;
+            left: auto;
+            background: url('./image/swiper_next.png') no-repeat center center;
+            height: 33px;
+            width: 33px;
+            background-size: cover;
+            outline: 0;
+          }
+          .swiper-button-prev1 {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            margin-top: 0;
+            right: auto;
+            background: url('./image/swiper_prev.png') no-repeat center center;
+            height: 33px;
+            width: 33px;
+            background-size: cover;
+            outline: 0;
+            cursor: pointer;
+          }
+          .swiper-button-next1 {
+            position: absolute;
+            top: 50%;
+            right: 0;
+            margin-top: 0;
+            left: auto;
+            background: url('./image/swiper_next.png') no-repeat center center;
+            height: 33px;
+            width: 33px;
+            background-size: cover;
+            outline: 0;
+            cursor: pointer;
+          }
+          .swiper-button-prev1.swiper-button-disabled, .swiper-button-next1.swiper-button-disabled {
+            opacity: 0.35;
+            cursor: auto;
+            pointer-events: none;
+          }
+        }
+      }
+      footer {
+        width: 382px;
+        margin: 0 auto;
+      }
     }
   }
 }

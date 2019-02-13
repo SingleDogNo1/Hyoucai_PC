@@ -22,7 +22,7 @@ export function expectedIncome(data) {
 }
 
 // 获取优质计划-加入记录
-export function investRecord(data) {
+export function easyInvestRecord(data) {
   return request({
     url: 'collection/investRecord',
     method: 'post',
@@ -74,10 +74,19 @@ export function amountSync() {
 }
 
 // 散标标的详情接口
-
 export function optionalInvestDetail(data) {
   return request({
     url: 'project/projectDetail',
+    method: 'post',
+    headers: { 'Content-type': 'application/x-www-form-urlencoded' },
+    data: qs.stringify(data)
+  })
+}
+
+// 根据标的编号查询散标投资记录
+export function optionalInvestRecord(data) {
+  return request({
+    url: 'project/investRecord',
     method: 'post',
     headers: { 'Content-type': 'application/x-www-form-urlencoded' },
     data: qs.stringify(data)
