@@ -30,7 +30,7 @@
 import { modifyBindMobile, modifyBindMobileSendCode } from '@/api/common/basicInfo'
 import { mapGetters } from 'vuex'
 import errDialog from '@/components/Dialog/Dialog'
-import { isMobile, isMobCode, isPassword } from '@/assets/js/regular'
+import { isMobile } from '@/assets/js/regular'
 
 export default {
   name: 'Phone',

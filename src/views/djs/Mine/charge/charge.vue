@@ -380,7 +380,7 @@ export default {
       })
     },
     confirmCharged() {
-      this.$router.push({'name': 'overview'})
+      this.$router.push({ name: 'overview' })
     }
   },
   created() {

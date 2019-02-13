@@ -51,7 +51,7 @@ export function saveMailingAddress(data) {
   return request({
     url: '/SaveMailingAddress',
     method: 'post',
-    headers: { 'Content-type': 'application/x-www-form-urlencoded', version: '2.0'},
+    headers: { 'Content-type': 'application/x-www-form-urlencoded', version: '2.0' },
     data: qs.stringify(data)
   })
 }

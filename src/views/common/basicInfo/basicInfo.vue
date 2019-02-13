@@ -100,8 +100,8 @@ import Password from './popup/password'
 import Phone from './popup/phone'
 import Address from './popup/address'
 import DzPhone from './popup/dzPhone'
-import Result from '@/views/common/RiskAssessment/Result'
-console.log(Result)
+// import Result from '@/views/common/RiskAssessment/Result'
+// console.log(Result)
 
 export default {
   name: 'basicInfo',
@@ -111,8 +111,8 @@ export default {
     Password,
     Phone,
     Address,
-    DzPhone,
-    Result
+    DzPhone
+    // Result
   },
   data() {
     return {
@@ -192,7 +192,7 @@ export default {
       if (this.userBasicInfo.evaluatingResult) {
         this.$router.push({
           name: 'riskAss',
-          query: {status: 'isDone'}
+          query: { status: 'isDone' }
         })
       } else {
         this.$router.push({

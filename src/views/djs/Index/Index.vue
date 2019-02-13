@@ -438,7 +438,7 @@ export default {
         let data = res.data
         console.log('data===', data)
         this.noviceProjectList = data.noviceProjectList
-        if(this.noviceProjectList) {
+        if (this.noviceProjectList) {
           this.noviceProjectList.forEach(val => {
             val.investMent = val.investMent.substr(0, val.investMent.length - 1)
           })

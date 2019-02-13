@@ -586,4 +586,3 @@ table tr td {
   border-right-color: #fff !important;
 }
 </style>
-
