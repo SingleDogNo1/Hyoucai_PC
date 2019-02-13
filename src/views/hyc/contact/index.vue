@@ -8,11 +8,11 @@
       </li>
       <li>
         <i></i>
-        <span class="value">咨询、投诉、举报联系电话：：400-099-7979</span>
+        <span class="value">咨询、投诉、举报联系电话：400-099-7979</span>
       </li>
       <li>
         <i></i>
-        <span class="value">联系时间：工作日： 09:00 - 12:00 13:00 - 18:00</span>
+        <span class="value">联系时间：工作日 09:00 - 12:00 13:00 - 18:00</span>
       </li>
       <li>
         <i></i>
