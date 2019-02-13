@@ -97,7 +97,7 @@
     <Dialog :show.sync="showDialog" :singleButton="singleButton" class="djs-charge-dialog">
       <div>{{ errMsg.common }}</div>
     </Dialog>
-    <Dialog :show.sync="showDialogSuccess" :showTitle="false" class="djs-charge-dialog">
+    <Dialog :show.sync="showDialogSuccess" :showTitle="false" :onConfirm="confirmCharged" :onClose="confirmCharged" class="djs-charge-dialog">
       <img style="width:70px;height:70px;margin-bottom: 10px;" src="./image/success.png" alt="">
       <div>充值成功</div>
     </Dialog>
@@ -378,6 +378,9 @@ export default {
           this.getBasicInfo()
         }
       })
+    },
+    confirmCharged() {
+      this.$router.push({ name: 'overview' })
     }
   },
   created() {

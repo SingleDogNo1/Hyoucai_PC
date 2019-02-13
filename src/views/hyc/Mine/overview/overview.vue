@@ -53,7 +53,7 @@ export default {
   },
   mounted() {
     const $this = this
-    async function initPage() {
+    ;(async function initPage() {
       const myChart = echarts.init(document.getElementById('amount'))
       await api.getPersonalAccount().then(res => {
         const totalIncome = res.data.data.totalIncome
@@ -107,10 +107,10 @@ export default {
           data: ['可用余额', '在投本金', '冻结金额', '待收利息'],
           formatter: function(name) {
             const data = [
-              { value: parseFloat($this.amountInfo.banlance), name: '可用余额' },
-              { value: parseFloat($this.amountInfo.waitBackPrincipal), name: '在投本金' },
-              { value: parseFloat($this.amountInfo.freezeAmount), name: '冻结金额' },
-              { value: parseFloat($this.amountInfo.waitBackInterest), name: '待收利息' }
+              { value: $this.amountInfo.banlance, name: '可用余额' },
+              { value: $this.amountInfo.waitBackPrincipal, name: '在投本金' },
+              { value: $this.amountInfo.freezeAmount, name: '冻结金额' },
+              { value: $this.amountInfo.waitBackInterest, name: '待收利息' }
             ]
             let target
             for (let i = 0; i < data.length; i++) {
@@ -165,20 +165,7 @@ export default {
           }
         ]
       })
-      myChart.dispatchAction({
-        type: 'highlight',
-        seriesIndex: 0,
-        dataIndex: 0
-      })
-
-      myChart.dispatchAction({
-        type: 'showTip',
-        seriesIndex: 0,
-        dataIndex: 0
-      })
-    }
-
-    initPage()
+    })()
   }
 }
 </script>

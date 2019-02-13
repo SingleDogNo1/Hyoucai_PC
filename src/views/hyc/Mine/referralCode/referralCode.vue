@@ -35,7 +35,7 @@
     </el-table>
     <div class="pagination-wrapper">
       <pagination
-        :total-count="total"
+        :count-page="total"
         :size-val="size"
         :page-val="page"
         @handleCurrentChange="handleCurrentChange"
@@ -65,7 +65,7 @@
       class="djs-copy-dialog"
     >
       <div>
-        <p class="copy-dialog-text">已成功复制推荐好友链接，您可通过微信、短信、QQ等放肆发送给好友！</p>
+        <p class="copy-dialog-text">已成功复制推荐好友链接，您可通过微信、短信、QQ等方式发送给好友！</p>
       </div>
     </Dialog>
   </div>
@@ -176,7 +176,7 @@ export default {
   created() {},
   mounted() {
     this.referralCode = this.userBasicInfo.myInviteCode
-    this.refereeName = this.userBasicInfo.refereeName
+    this.refereeName = this.userBasicInfo.inviteCode
     this.userName = this.user.userName
     let postData = {
       userName: this.userName
@@ -296,6 +296,10 @@ export default {
     /deep/ .cell {
       text-align: center;
     }
+  }
+  .pagination-wrapper {
+    margin-top: 20px;
+    margin-bottom: 15px;
   }
   .djs-fill-dialog {
     .fill-in-referral-input {

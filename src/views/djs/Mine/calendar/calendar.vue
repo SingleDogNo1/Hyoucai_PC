@@ -29,7 +29,8 @@
         </div>
       </div>
     </div>
-    <div v-if="showDetailTable" class="table">
+    <!--<div v-if="showDetailTable" class="table">-->
+    <div class="table">
       <table class="detail">
         <thead>
           <th>回款时间</th>
@@ -39,19 +40,17 @@
           <th>操作</th>
         </thead>
         <tbody v-if="dayIncome.length > 0">
-          <tr v-for="(item, index) in dayIncome" :key="index" >
+          <tr v-for="(item, index) in dayIncome" :key="index">
             <td>{{ item.collectTime }}</td>
             <td>{{ item.productName }}</td>
-            <td>{{ item.rate }}</td>
+            <td>{{ item.rate }}%</td>
             <td>{{ item.amount }}元</td>
-            <td class="show" @click="showDetail(`要查看${item.productName}的内容`)">查看详情</td>
+            <td class="show" @click="showDetail(item)">查看详情</td>
           </tr>
         </tbody>
         <tbody v-else>
           <tr>
-            <td colspan="5">
-              您当前没有回款记录
-            </td>
+            <td colspan="5">您当前没有回款记录</td>
           </tr>
         </tbody>
       </table>
@@ -79,7 +78,7 @@ export default {
       year: 0,
       month: 0,
       day: 0,
-      showDetailTable: false, // 是否显示底部的table
+      // showDetailTable: false, // 是否显示底部的table
       incomeDetail: {}, // 收益详情
       dayIncome: []
     }
@@ -92,16 +91,29 @@ export default {
       this.getIncome(year, month + 1, day, res => {
         if (res.data.details) {
           this.dayIncome = res.data.details
-          this.showDetailTable = true
+          // this.showDetailTable = true
         }
       })
     },
-    showDetail(id) {
-      console.log(id)
-      // this.$router.push({
-      //   name: '',
-      //   query: id
-      // })
+    showDetail(data) {
+      /*
+      *  data.settlementFlags === '1': 已结清
+      *  data.settlementFlags === '0': 未结清
+      *  data.projectNo: 项目编号
+      * */
+      if (data.settlementFlags === '1') {
+        this.$router.push({
+          name: 'lendList',
+          query: { settlementFlags: data.settlementFlags }
+        })
+      } else {
+        this.$router.push({
+          name: 'lendDetail',
+          query: {
+            projectNo: data.projectNo
+          }
+        })
+      }
     },
     getPrevMonth(month, year) {
       this.getIncome(year, month)
@@ -113,7 +125,6 @@ export default {
       api
         .getIncomeApi({
           userName: this.user.userName,
-
           year: year,
           month: month,
           day: day,
@@ -195,7 +206,7 @@ export default {
       border-bottom: 1px solid #e3e3e3;
     }
     td {
-      font-size: $font-size-small;
+      font-size: $font-size-small-s;
       text-align: center;
       &.show {
         cursor: pointer;

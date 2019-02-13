@@ -42,12 +42,12 @@ export default new Router({
         {
           path: 'mobile',
           name: 'registerMobile',
-          component: () => import(/* webpackChunkName: "register" */ '@/views/common/register/mobile.vue')
+          component: () => import('@/views/common/register/mobile.vue')
         },
         {
           path: 'form',
           name: 'registerForm',
-          component: () => import(/* webpackChunkName: "register" */ '@/views/common/register/form.vue')
+          component: () => import('@/views/common/register/form.vue')
         }
       ]
     },
@@ -58,7 +58,7 @@ export default new Router({
         {
           path: '',
           name: 'login',
-          component: () => import(/* webpackChunkName: "register" */ '@/views/common/login/login.vue')
+          component: () => import('@/views/common/login/login.vue')
         }
       ]
     },
@@ -69,12 +69,12 @@ export default new Router({
         {
           path: '',
           name: 'forgetPWD',
-          component: () => import(/* webpackChunkName: "register" */ '@/views/common/login/forgetPassword.vue')
+          component: () => import('@/views/common/login/forgetPassword.vue')
         },
         {
           path: 'resetResult',
           name: 'resetResult',
-          component: () => import(/* webpackChunkName: "register" */ '@/views/common/login/resetResult.vue')
+          component: () => import('@/views/common/login/resetResult.vue')
         }
       ]
     },
@@ -85,7 +85,7 @@ export default new Router({
         {
           path: '',
           name: 'download',
-          component: () => import(/* webpackChunkName: "register" */ '@/views/common/download/index.vue')
+          component: () => import('@/views/common/download/index.vue')
         }
       ]
     },

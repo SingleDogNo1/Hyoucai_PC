@@ -196,7 +196,7 @@ export default {
       } else {
         this.errMsg.errRate = ''
       }
-      if (!this.calculator.duration) {
+      if (!reg.test(this.calculator.duration)) {
         this.errMsg.errDuration = '请输入正确的出借期限'
         return
       } else {
