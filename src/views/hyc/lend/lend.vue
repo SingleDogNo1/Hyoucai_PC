@@ -83,6 +83,9 @@
         <div class="pagination-wrapper">
           <pagination :count-page="countPage" :page-val="page" @handleCurrentChange="handleCurrentChange"></pagination>
         </div>
+        <div class="no-data-wrapper" v-if="QSList.length === 0">
+          <noData :type="noDataType"></noData>
+        </div>
       </div>
       <div class="area-wrapper" v-if="tabActive === 1">
         <div class="area" v-for="(item, i) in ZXList" :key="i">
@@ -131,6 +134,9 @@
         </div>
         <div class="pagination-wrapper">
           <pagination :count-page="countPage1" :page-val="page1" @handleCurrentChange="handleCurrentChange1"></pagination>
+        </div>
+        <div class="no-data-wrapper" v-if="ZXList.length === 0">
+          <noData :type="noDataType"></noData>
         </div>
       </div>
       <div class="area-wrapper" v-if="tabActive === 2">
@@ -181,6 +187,9 @@
         <div class="pagination-wrapper">
           <pagination :count-page="countPage2" :page-val="page2" @handleCurrentChange="handleCurrentChange2"></pagination>
         </div>
+        <div class="no-data-wrapper" v-if="GRList.length === 0">
+          <noData :type="noDataType"></noData>
+        </div>
       </div>
     </div>
   </div>
@@ -189,6 +198,7 @@
 <script>
 import pagination from '@/components/pagination/pagination'
 import countUp from '@/components/countUp/index'
+import noData from '@/components/NoData/index'
 import { getPageConfig, getCountMsg, getQSList, getZXList, getGRList } from '@/api/hyc/lend'
 import { getUser } from '@/assets/js/cache'
 import { mapGetters } from 'vuex'
@@ -218,7 +228,8 @@ export default {
         TZ_ZQZR: ''
       },
       showTabs: false,
-      tabActive: 0
+      tabActive: 0,
+      noDataType: 'production'
     }
   },
   props: ['redPacketId', 'couponId'],
@@ -337,7 +348,8 @@ export default {
   },
   components: {
     pagination,
-    countUp
+    countUp,
+    noData
   },
   computed: {
     ...mapGetters(['user'])
@@ -494,10 +506,6 @@ export default {
             @include square(19px);
             margin-right: 8px;
             margin-top: 2px;
-            background-position: center center;
-            background-size: 100% 100%;
-            background-repeat: no-repeat;
-            background-color: #666666;
             img {
               width: 100%;
             }
@@ -525,10 +533,6 @@ export default {
                 display: inline-block;
                 vertical-align: top;
                 @include square(22px);
-                background-position: center center;
-                background-size: 100% 100%;
-                background-repeat: no-repeat;
-                background-color: #d93f30;
                 img {
                   width: 100%;
                 }
@@ -639,6 +643,10 @@ export default {
             border-bottom: 1px solid #e5e5e5;
           }
         }
+      }
+      .no-data-wrapper {
+        height: 570px;
+        margin: 30px auto;
       }
     }
     .pagination-wrapper {
