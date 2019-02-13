@@ -50,9 +50,7 @@
         </tbody>
         <tbody v-else>
           <tr>
-            <td colspan="5">
-              您当前没有回款记录
-            </td>
+            <td colspan="5">您当前没有回款记录</td>
           </tr>
         </tbody>
       </table>
@@ -98,24 +96,38 @@ export default {
         }
       })
     },
-    showDetail(data) {
-      console.log(data)
+    showDetail(item) {
       /*
       *  data.settlementFlags === '1': 已结清
       *  data.settlementFlags === '0': 未结清
       *  data.projectNo: 项目编号
       */
-      if (data.settlementFlags === '1') {
+      item.settlementFlags = '1'
+      item.productType = '0'
+      if (item.settlementFlags === '1') {
         this.$router.push({
-          name: 'lendList'
+          name: 'userLend',
+          query: { productType: item.productType, settlementFlags: item.settlementFlags }
         })
       } else {
-        this.$router.push({
-          name: 'lendDetail',
-          query: {
-            projectNo: data.projectNo
-          }
-        })
+        if (item.productType === '0') {
+          this.$router.push({
+            name: 'QSTDetail',
+            query: {
+              id: item.recordPackageId,
+              type: item.productType
+            }
+          })
+        }
+        if (item.productType === '2') {
+          this.$router.push({
+            name: 'ZXTDetail',
+            query: {
+              productId: item.projectNo,
+              id: item.invRecordId
+            }
+          })
+        }
       }
     },
     getPrevMonth(month, year) {

@@ -40,7 +40,7 @@
           <th>操作</th>
         </thead>
         <tbody v-if="dayIncome.length > 0">
-          <tr v-for="(item, index) in dayIncome" :key="index" >
+          <tr v-for="(item, index) in dayIncome" :key="index">
             <td>{{ item.collectTime }}</td>
             <td>{{ item.productName }}</td>
             <td>{{ item.rate }}%</td>
@@ -50,9 +50,7 @@
         </tbody>
         <tbody v-else>
           <tr>
-            <td colspan="5">
-              您当前没有回款记录
-            </td>
+            <td colspan="5">您当前没有回款记录</td>
           </tr>
         </tbody>
       </table>
@@ -105,7 +103,8 @@ export default {
       * */
       if (data.settlementFlags === '1') {
         this.$router.push({
-          name: 'lendList'
+          name: 'lendList',
+          query: { settlementFlags: data.settlementFlags }
         })
       } else {
         this.$router.push({

@@ -75,8 +75,10 @@
         </ul>
       </div>
       <div class="pagination-wrapper">
-        <!--<pagination v-if="total" :total-count="total" :size-val="size" :page-val="page" @handleCurrentChange="handleCurrentChange"></pagination>-->
         <pagination :count-page="countPage" :page-val="page" @handleCurrentChange="handleCurrentChange"></pagination>
+      </div>
+      <div class="no-data-wrapper" v-if="list.length === 0">
+        <noData :type="noDataType"></noData>
       </div>
     </div>
   </div>
@@ -85,6 +87,7 @@
 <script>
 import pagination from '@/components/pagination/pagination'
 import countUp from '@/components/countUp/index'
+import noData from '@/components/NoData/index'
 import { getList } from '@/api/djs/lend'
 import { getUser } from '@/assets/js/cache'
 import { mapGetters } from 'vuex'
@@ -101,7 +104,8 @@ export default {
       total: 0,
       countPage: 0,
       userName: null,
-      list: []
+      list: [],
+      noDataType: 'production'
     }
   },
   props: ['redPacketId', 'couponId'],
@@ -135,7 +139,8 @@ export default {
   },
   components: {
     pagination,
-    countUp
+    countUp,
+    noData
   },
   computed: {
     ...mapGetters(['user'])
@@ -269,10 +274,6 @@ export default {
           @include square(19px);
           margin-right: 8px;
           margin-top: 2px;
-          background-position: center center;
-          background-size: 100% 100%;
-          background-repeat: no-repeat;
-          background-color: #666666;
           img {
             width: 100%;
           }
@@ -413,6 +414,10 @@ export default {
     }
     .pagination-wrapper {
       margin-bottom: 29px;
+    }
+    .no-data-wrapper {
+      height: 570px;
+      margin: 30px auto;
     }
   }
 }

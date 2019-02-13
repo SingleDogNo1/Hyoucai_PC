@@ -72,7 +72,9 @@ export default {
       ZXTStatus: [], // 汇选投状态tab
       ZXTStatusIndex: 0, // 汇选投状态tab的索引
       dateStatus: [], // 交易时间tab
-      dateStatusIndex: 0 // 交易时间tab的索引
+      dateStatusIndex: 0, // 交易时间tab的索引
+      productType: '',
+      settlementFlags: ''
     }
   },
   computed: {
@@ -80,6 +82,7 @@ export default {
   },
   methods: {
     changeQSTStatus(index, status) {
+      console.log('status===', status, index)
       this.QSTStatusIndex = index
       this.$router.push({
         name: 'QSTList',
@@ -120,12 +123,17 @@ export default {
         // 获取轻松投默认显示的状态
         await getDefaultStatusApi().then(res => {
           const status = res.data.data.invStatus
-          $this.QSTStatus.find((value, index) => {
-            if (value.statusCode === status) {
-              $this.QSTStatusIndex = index
-            }
-          })
+          if ($this.settlementFlags === '1' && $this.productType === '2') {
+            $this.QSTStatusIndex = 2
+          } else {
+            $this.QSTStatus.find((value, index) => {
+              if (value.statusCode === status) {
+                $this.QSTStatusIndex = index
+              }
+            })
+          }
         })
+        console.log($this.$route.query)
         // 跳转到轻松投详情
         await $this.$router.push({
           name: 'QSTList',
@@ -144,20 +152,36 @@ export default {
           $this.dateStatus = statusList.dateStatus
           $this.ZXTStatus = statusList.invStatus
         })
-        // 跳转到散标详情
-        await $this.$router.push({
-          name: 'ZXTList',
-          params: {
-            date: $this.dateStatus[$this.dateStatusIndex].value,
-            status: $this.ZXTStatus[$this.ZXTStatusIndex].value
-          }
-        })
+        if ($this.settlementFlags === '1' && $this.productType === '0') {
+          $this.ZXTStatusIndex = 4
+          // 跳转到散标详情
+          await $this.$router.push({
+            name: 'ZXTList',
+            params: {
+              date: $this.dateStatus[$this.dateStatusIndex].value,
+              status: 'INJQ'
+            }
+          })
+        } else {
+          // 跳转到散标详情
+          await $this.$router.push({
+            name: 'ZXTList',
+            params: {
+              date: $this.dateStatus[$this.dateStatusIndex].value,
+              status: $this.ZXTStatus[$this.ZXTStatusIndex].value
+            }
+          })
+        }
       }
       initZXTTab()
     }
   },
   created() {
     const $this = this
+    //判断productType(0：散标，1：债转标，2：集合标)
+    //settlementFlags(0-未结清 1-已结清)
+    $this.productType = $this.$route.query.productType
+    $this.settlementFlags = $this.$route.query.settlementFlags
     async function initStatus() {
       // 获取状态
       await getInvestStatusApi({
@@ -174,12 +198,19 @@ export default {
           }
         })
       })
-      await $this.$router.push({
-        name: 'QSTList',
-        params: {
-          status: $this.QSTStatus[$this.QSTStatusIndex].statusCode
-        }
-      })
+      if ($this.settlementFlags === '1' && $this.productType === '2') {
+        $this.showQST('JHB_YJQ')
+      }
+      if ($this.settlementFlags === '1' && $this.productType === '0') {
+        $this.showZXT()
+      } else {
+        await $this.$router.push({
+          name: 'QSTList',
+          params: {
+            status: $this.QSTStatus[$this.QSTStatusIndex].statusCode
+          }
+        })
+      }
     }
     initStatus()
   }
