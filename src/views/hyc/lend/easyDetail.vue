@@ -225,6 +225,7 @@
                 <template slot-scope="scope">
                   <a
                     :projectNo="scope.row.projectNo"
+                    :projectType="projectInfo.projectType"
                     href="javascript:void(0);"
                     class="view-detail"
                     @click="isProjectDetail=!isProjectDetail"
@@ -321,7 +322,8 @@
                 <div class="swiper-slide swiper-no-swiping">
                   <div class="red-envelope-box">
                     <p class="vouche-box">
-                      <span class="vouche">20
+                      <span class="vouche">
+                        20
                         <i>元</i>
                       </span>
                       <span class="vouche-aside">可与加息券同时使用</span>
@@ -373,8 +375,9 @@
                 <div class="swiper-slide swiper-no-swiping">
                   <div class="rate-stamp-box">
                     <p class="vouche-box">
-                      <span class="vouche">
-                        4<i>%</i><i class="font"> 利息</i>
+                      <span class="vouche">4
+                        <i>%</i>
+                        <i class="font">利息</i>
                       </span>
                       <span class="vouche-aside">可加息30天</span>
                     </p>
@@ -386,8 +389,9 @@
                 <div class="swiper-slide swiper-no-swiping">
                   <div class="rate-stamp-box">
                     <p class="vouche-box">
-                      <span class="vouche">
-                        4<i>%</i><i class="font"> 利息</i>
+                      <span class="vouche">4
+                        <i>%</i>
+                        <i class="font">利息</i>
                       </span>
                       <span class="vouche-aside">可加息30天</span>
                     </p>
@@ -399,8 +403,9 @@
                 <div class="swiper-slide swiper-no-swiping">
                   <div class="rate-stamp-box">
                     <p class="vouche-box">
-                      <span class="vouche">
-                        4<i>%</i><i class="font"> 利息</i>
+                      <span class="vouche">4
+                        <i>%</i>
+                        <i class="font">利息</i>
                       </span>
                       <span class="vouche-aside">可加息30天</span>
                     </p>
@@ -408,7 +413,7 @@
                     <div class="endData">有效期至2019-02-28</div>
                     <button class="receive-btn" @click="receiveRedPacket(item.id)">选取</button>
                   </div>
-                </div> 
+                </div>
               </div>
             </div>
             <div class="swiper-button-prev1"></div>
@@ -461,7 +466,8 @@ export default {
         maxInvTotalAmount: '',
         status: 0,
         balance: '',
-        maxInvAmount: ''
+        maxInvAmount: '',
+        projectType: ''
       },
       investDetail: {
         appDesc: '',
@@ -589,6 +595,8 @@ export default {
         this.projectInfo.maxInvTotalAmount = projectInfo.maxInvTotalAmount
         this.projectInfo.status = projectInfo.status
         this.projectInfo.maxInvAmount = projectInfo.maxInvAmount
+        this.projectInfo.projectType = projectInfo.projectType
+        // console.log(this.projectInfo.projectType+'---------')
 
         // 预售状态中，募集倒计时不倒计
         timeCountDown(investEndTimestamp, this.projectInfo.status, data => {
@@ -1336,7 +1344,8 @@ export default {
         }
         .swiper-wrap {
           width: 100%;
-          .swiper-container-red-envelope, .swiper-container-rate-stamp {
+          .swiper-container-red-envelope,
+          .swiper-container-rate-stamp {
             width: 560px;
             margin: 0 auto;
             position: relative;
@@ -1344,7 +1353,8 @@ export default {
             list-style: none;
             padding: 0;
             z-index: 1;
-            /deep/ .red-envelope-box, /deep/ .rate-stamp-box {
+            /deep/ .red-envelope-box,
+            /deep/ .rate-stamp-box {
               position: relative;
               width: 378px;
               height: 105px;
@@ -1486,7 +1496,8 @@ export default {
             outline: 0;
             cursor: pointer;
           }
-          .swiper-button-prev1.swiper-button-disabled, .swiper-button-next1.swiper-button-disabled {
+          .swiper-button-prev1.swiper-button-disabled,
+          .swiper-button-next1.swiper-button-disabled {
             opacity: 0.35;
             cursor: auto;
             pointer-events: none;
