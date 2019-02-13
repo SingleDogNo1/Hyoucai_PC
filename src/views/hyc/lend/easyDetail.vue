@@ -558,10 +558,15 @@ export default {
       this.getProjectCompoList()
     },
     handleExpectedIncome(e) {
-      console.log(e, this.invAmount)
-      if (e.keyCode < 40 && e.keyCode > 36) {
-          return
-        }
+      e.target.value = e.target.value.replace(/[^\d.]/g, '')
+      e.target.value = e.target.value.replace(/\.{2,}/g, '.')
+      e.target.value = e.target.value
+        .replace('.', '$#$')
+        .replace(/\./g, '')
+        .replace('$#$', '.')
+      e.target.value = e.target.value.replace(/^(-)*(\d+)\.(\d\d).*$/, '$1$2.$3')
+      this.invAmount = e.target.value
+      console.log('this.invAmount====', this.invAmount)
       let postData = {
         invAmount: this.invAmount,
         investRate: this.projectInfo.investRate,
