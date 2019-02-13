@@ -9,7 +9,9 @@
       <!--<div v-if="type === 'notice'" class="notice"></div>-->
       <!--<div v-if="type === 'network'" class="network"></div>-->
     <!--</section>-->
+    <img src="./bd_ico@2x.png" alt="">
     <p v-if="type === 'data'">暂无数据</p>
+    <p v-if="type === 'production'">暂无产品</p>
     <p v-if="type === 'event'">这里空空如也</p>
     <p v-if="type === 'redpacket'">暂无红包</p>
     <p v-if="type === 'coupon'">暂无加息券</p>
@@ -29,6 +31,7 @@ export default {
     type: {
       /*
            * type === 'data'       没有数据(default)
+           * type === 'prodution'   没有产品
            * type === 'event'       这里空空如也（活动中心没有数据）
            * type === 'redpacket'  没有红包
            * type === 'coupon'     没有加息券
@@ -53,15 +56,17 @@ export default {
 @import '../../assets/css/mixins.scss';
 
 .__no__data {
-  position: absolute;
   width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  border: 1px solid #e5e5e5;
+  background-color: #fff;
   img {
     display: block;
-    margin: 0 auto 0.08rem;
+    width: 103px;
+    margin: 0 auto 24px;
   }
   // section {
   // div {
@@ -81,7 +86,7 @@ export default {
   p,
   div {
     font-size: 16px;
-    color: $color-text;
+    color: $color-text-s;
     text-align: center;
   }
   button {
