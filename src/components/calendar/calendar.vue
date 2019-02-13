@@ -577,7 +577,7 @@ export default {
         }
       }
       &:not(.disabled) span.red {
-        color: #ea6151;
+        color: #ff543f;
       }
       &.selected span {
         background-color: #5e7a88;
@@ -596,12 +596,12 @@ export default {
       }
       .isGregorianFestival,
       .isLunarFestival {
-        color: #ea6151;
+        color: #ff543f;
       }
       &.selected {
         span {
           &.red {
-            background-color: #ea6151;
+            background-color: #ff543f;
             color: #fff;
           }
         }
