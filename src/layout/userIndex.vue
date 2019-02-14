@@ -61,7 +61,10 @@ export default {
   watch: {
     '$route.name'(ne) {
       // 未开户状态下点击“我的账户”页面中的“银行卡”“充值”“提现”“自动出借”“我的推荐码”，均弹出开户弹框，该弹框只在进入“我的账户”弹出，在侧边栏切换至“账户总览”时，不弹出
-      if (this.accountStatus === 'OPEN_ACCOUNT' && (ne === 'bankcard' || ne === 'charge' || ne === 'tocash' || ne === 'referralCode' || ne === 'auto-lend')) {
+      if (
+        this.accountStatus === 'OPEN_ACCOUNT' &&
+        (ne === 'bankcard' || ne === 'charge' || ne === 'tocash' || ne === 'referralCode' || ne === 'auto-lend')
+      ) {
         this.showDialog = true
       }
     }

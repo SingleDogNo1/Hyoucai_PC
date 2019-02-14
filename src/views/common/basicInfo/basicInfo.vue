@@ -3,11 +3,17 @@
     <header>
       <div class="last_time">上次登录时间:&nbsp;&nbsp;{{ lastLoginTime }}</div>
       <div class="data_full">
-        <span class="text">资料完整度</span> <span class="bar"></span> <span class="crade">{{ infoFinishGrade }}</span>
+        <span class="text">资料完整度</span>
+        <span class="bar"></span>
+        <span class="crade">{{ infoFinishGrade }}</span>
       </div>
       <div class="authentication">
-        <div class="identity"><img src="./identity.png" /></div>
-        <div class="phone"><img src="./phone.png" /></div>
+        <div class="identity">
+          <img src="./identity.png">
+        </div>
+        <div class="phone">
+          <img src="./phone.png">
+        </div>
       </div>
     </header>
     <!-- 个人信息 -->
@@ -15,30 +21,46 @@
       <h3 class="title">个人信息</h3>
       <div class="wrap">
         <div class="wrap_rows">
-          <span class="wrap_left">昵称修改</span> <span class="wrap_center">{{ userBasicInfo.nickname }}</span>
-          <button class="wrap_btn" @click="isShow.isShow1 = !isShow.isShow1">修改</button>
+          <span class="wrap_left">昵称修改</span>
+          <span class="wrap_center">{{ userBasicInfo.nickname }}</span>
+          <button class="wrap_btn" @click="changeName">修改</button>
         </div>
-        <Name v-show="isShow.isShow1" :isShow="isShow" @success="success"></Name>
+        <Name v-show="isShow.isShow1" :isShow="isShow" @success="success" ref="nameChild"></Name>
         <div class="wrap_rows">
-          <span class="wrap_left">登录密码</span> <span class="wrap_center">{{ passWord }}</span>
-          <button class="wrap_btn" @click="isShow.isShow2 = !isShow.isShow2">修改</button>
+          <span class="wrap_left">登录密码</span>
+          <span class="wrap_center">{{ passWord }}</span>
+          <button class="wrap_btn" @click="changePwd">修改</button>
         </div>
-        <Password v-show="isShow.isShow2" :isShow="isShow"></Password>
+        <Password v-show="isShow.isShow2" :isShow="isShow" ref="pwdChild"></Password>
         <div class="wrap_rows">
-          <span class="wrap_left">注册手机号</span> <span class="wrap_center">{{ mobile }}</span>
-          <button class="wrap_btn" @click="isShow.isShow3 = !isShow.isShow3">修改</button>
+          <span class="wrap_left">注册手机号</span>
+          <span class="wrap_center">{{ userBasicInfo.mobileMask }}</span>
+          <button class="wrap_btn" @click="changePhone">修改</button>
         </div>
-        <Phone v-show="isShow.isShow3" :isShow="isShow" :oldMobile="mobile"></Phone>
+        <Phone
+          v-show="isShow.isShow3"
+          :isShow="isShow"
+          :oldMobile="mobile"
+          @success="success"
+          ref="phoneChild"
+        ></Phone>
         <div class="wrap_rows">
-          <span class="wrap_left">风险测评</span> <span class="wrap_center">{{ evaluatingResult.evaluatingName || '未评测' }}</span>
+          <span class="wrap_left">风险测评</span>
+          <span class="wrap_center">{{ evaluatingResult.evaluatingName || '未评测'}}</span>
           <button class="wrap_btn" v-show="!isEvaluation" @click="toRiskAssessment">去评测</button>
           <button class="wrap_btn" v-show="isEvaluation" @click="toRiskAssessment">重新测评</button>
         </div>
         <div class="wrap_rows last_rows">
-          <span class="wrap_left">收货地址</span> <span class="wrap_center">{{ address }}</span>
-          <button class="wrap_btn" @click="isShow.isShow4 = !isShow.isShow4">{{ msg }}</button>
+          <span class="wrap_left">收货地址</span>
+          <span class="wrap_center">{{ address }}</span>
+          <button class="wrap_btn" @click="changeAddress">{{msg}}</button>
         </div>
-        <Address v-show="isShow.isShow4" :isShow="isShow" :getMailingAddress="getMailingAddress"></Address>
+        <Address
+          v-show="isShow.isShow4"
+          :isShow="isShow"
+          :getMailingAddress="getMailingAddress"
+          ref="childAddress"
+        ></Address>
       </div>
     </div>
     <!-- 存管信息 -->
@@ -46,26 +68,34 @@
       <h3 class="title">存管信息</h3>
       <div class="wrap" v-show="flag">
         <div class="wrap_rows">
-          <span class="wrap_left">真实姓名</span> <span class="wrap_center">{{ escrowAccountInfo.name }}</span>
+          <span class="wrap_left">真实姓名</span>
+          <span class="wrap_center">{{ escrowAccountInfo.name }}</span>
         </div>
         <div class="wrap_rows">
-          <span class="wrap_left">身份证号</span> <span class="wrap_center">{{ escrowAccountInfo.idNo }}</span>
+          <span class="wrap_left">身份证号</span>
+          <span class="wrap_center">{{ escrowAccountInfo.idNo }}</span>
         </div>
         <div class="wrap_rows">
-          <span class="wrap_left">存管账户</span> <span class="wrap_center">{{ escrowAccountInfo.accountId }}</span>
+          <span class="wrap_left">存管账户</span>
+          <span class="wrap_center">{{ escrowAccountInfo.accountId }}</span>
         </div>
         <div class="wrap_rows">
-          <span class="wrap_left">交易密码</span> <span class="wrap_center">{{ escrowAccountInfo.transPassword }}</span>
+          <span class="wrap_left">交易密码</span>
+          <span class="wrap_center">{{ escrowAccountInfo.transPassword }}</span>
           <button class="wrap_btn" @click="tansactionPwd">修改</button>
         </div>
         <div class="wrap_rows last_rows">
-          <span class="wrap_left">电子账户手机号</span> <span class="wrap_center">{{ escrowAccountInfo.mobile }}</span>
-          <button class="wrap_btn" @click="isShow.isShow5 = !isShow.isShow5">修改</button>
+          <span class="wrap_left">电子账户手机号</span>
+          <span class="wrap_center">{{ escrowAccountInfo.mobile }}</span>
+          <button class="wrap_btn" @click="changeDzPhone">修改</button>
         </div>
-        <DzPhone v-show="isShow.isShow5" :isShow="isShow"></DzPhone>
+        <DzPhone v-show="isShow.isShow5" :isShow="isShow" @success="success" ref="dzPhoneChild"></DzPhone>
       </div>
       <div class="openAccount" v-show="!flag">
-        <div class="tips"><img src="./bank.png" class="bank_logo" /> <span class="tips_content">您还未开通存管账户</span></div>
+        <div class="tips">
+          <img src="./bank.png" class="bank_logo">
+          <span class="tips_content">您还未开通存管账户</span>
+        </div>
         <button class="open_btn" @click="toAccount">开通存管账户</button>
       </div>
     </div>
@@ -124,6 +154,41 @@ export default {
   props: {},
   watch: {},
   methods: {
+    changeName() {
+      this.isShow.isShow1 = !this.isShow.isShow1
+      this.$refs.nameChild.nikename = ''
+      this.$refs.nameChild.txt = ''
+    },
+    changePwd() {
+      this.isShow.isShow2 = !this.isShow.isShow2
+      this.$refs.pwdChild.oldPwd = ''
+      this.$refs.pwdChild.newPwd = ''
+      this.$refs.pwdChild.newPwd2 = ''
+      this.$refs.pwdChild.errMsg = ''
+    },
+    changePhone() {
+      this.isShow.isShow3 = !this.isShow.isShow3
+      this.$refs.phoneChild.mobile = ''
+      this.$refs.phoneChild.newMobile = ''
+      this.$refs.phoneChild.verifyCode = ''
+      this.$refs.phoneChild.mobileTxt = ''
+      this.$refs.phoneChild.newMobileTxt = ''
+      this.$refs.phoneChild.verifyCodeTxt = ''
+    },
+    changeDzPhone() {
+      this.isShow.isShow5 = !this.isShow.isShow5
+      this.$refs.dzPhoneChild.mobile = ''
+      this.$refs.dzPhoneChild.smsCode = ''
+      this.$refs.dzPhoneChild.oldMobile = ''
+      this.$refs.dzPhoneChild.errMsg.common = ''
+    },
+    changeAddress() {
+      this.isShow.isShow4 = !this.isShow.isShow4
+      this.$refs.childAddress.consigneeName = ''
+      this.$refs.childAddress.consigneePhone = ''
+      this.$refs.childAddress.address = ''
+      this.$refs.childAddress.txt = ''
+    },
     ...mapMutations({
       setUserBasicInfo: 'SET_USERBASICINFO'
     }),
@@ -184,7 +249,6 @@ export default {
     getUserBasicInfo: function() {
       this.lastLoginTime = this.userBasicInfo.lastLoginTime
       this.passWord = this.userBasicInfo.passWord
-      this.mobile = this.userBasicInfo.mobileMask
       // 判断是否风险测评
       if (this.userBasicInfo.evaluatingResult) {
         this.isEvaluation = true
@@ -210,7 +274,7 @@ export default {
       if (this.hasMailingAddress == 1) {
         getMailingAddress({ userName: this.user.userName }).then(res => {
           this.address = res.data.data.address
-          this.msg = '修改'
+          this.msg = '编辑'
         })
       } else {
         this.address = '未设置收货地址'
@@ -220,7 +284,7 @@ export default {
     getMailingAddress: function() {
       getMailingAddress({ userName: this.user.userName }).then(res => {
         this.address = res.data.data.address
-        this.msg = '修改'
+        this.msg = '编辑'
       })
     },
     success() {
@@ -229,6 +293,7 @@ export default {
       }).then(res => {
         this.setUserBasicInfo(res.data.data)
       })
+      this.getUserBasicInfo()
     }
   },
   created() {

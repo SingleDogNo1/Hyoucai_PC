@@ -2,14 +2,23 @@
   <div class="content">
     <div class="box">
       <div class="modify">
-        <span class="modify_name">修改昵称</span> <input class="modify_ipt" type="text" placeholder="请输入昵称" v-model="nikename" />
-        <p class="txt">{{ txt }}</p>
+        <span class="modify_name">修改昵称</span>
+        <input class="modify_ipt" type="text" placeholder="请输入昵称" v-model="nikename">
+        <p class="txt">{{txt}}</p>
       </div>
       <div class="btn">
-        <button class="determine" @click="modifyNikename">确定</button> <button class="cancle" @click="isShow.isShow1 = !isShow.isShow1">取消</button>
+        <button class="determine" @click="modifyNikename">确定</button>
+        <button class="cancle" @click="cancle">取消</button>
       </div>
     </div>
-    <errDialog :show.sync="showDialog" :singleButton="singleButton" class="djs-charge-dialog" :onClose="show"> <div>修改成功</div> </errDialog>
+    <errDialog
+      :show.sync="showDialog"
+      :singleButton="singleButton"
+      class="djs-charge-dialog"
+      :onClose="show"
+    >
+      <div>修改成功</div>
+    </errDialog>
   </div>
 </template>
 <script>
@@ -34,6 +43,9 @@ export default {
   },
   props: ['isShow'],
   methods: {
+    cancle() {
+      this.isShow.isShow1 = !this.isShow.isShow1
+    },
     modifyNikename: function() {
       if (this.nikename) {
         let obj = {}
@@ -52,6 +64,7 @@ export default {
       this.isShow.isShow1 = !this.isShow.isShow1
       this.$emit('success')
       this.nikename = ''
+      this.txt = ''
     }
   },
   created() {}

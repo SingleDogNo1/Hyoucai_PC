@@ -14,16 +14,24 @@
       </div>
       <div class="btn">
         <button class="determine" @click="jxMobileModify">立即绑定</button>
-        <button class="cancle" @click="isShow.isShow5 = !isShow.isShow5">取消</button>
+        <button class="cancle" @click="close">取消</button>
       </div>
     </div>
     <errDialog :show.sync="showDialog" :singleButton="singleButton" class="djs-charge-dialog">
       <div>{{ errMsg.common }}</div>
     </errDialog>
+    <errDialog
+      :show.sync="showDialog1"
+      :singleButton="singleButton"
+      class="djs-charge-dialog"
+      :onClose="close"
+    >
+      <div>{{ errMsg.common }}</div>
+    </errDialog>
   </div>
 </template>
 <script>
-import { jxMobileModify, modifyBindMobileSendCode } from '@/api/common/basicInfo'
+import { jxMobileModify, sendSms } from '@/api/common/basicInfo'
 import { mapGetters } from 'vuex'
 import errDialog from '@/components/Dialog/Dialog'
 export default {
@@ -37,6 +45,7 @@ export default {
       timeInterval: null,
       countDown: 90,
       showDialog: false,
+      showDialog1: false,
       singleButton: true,
       txt: '',
       errMsg: {
@@ -55,15 +64,21 @@ export default {
     jxMobileModify: function() {
       if (this.mobile && this.oldMobile) {
         if (this.smsCode) {
-          this.isShow.isShow5 = !this.isShow.isShow5
           let obj = {}
           obj.newMobile = this.mobile
           obj.smsCode = this.smsCode
           obj.oldMobile = this.oldMobile
-          jxMobileModify(obj).then(() => {
+          jxMobileModify(obj).then(res => {
             this.mobile = ''
             this.smsCode = ''
             this.oldMobile = ''
+            this.showDialog1 = true
+            if (res.data.resultMsg === 'SUCCESS') {
+              this.errMsg.common = '绑定成功'
+            } else {
+              this.errMsg.common = res.data.resultMsg
+              this.countDown = 0
+            }
           })
         } else {
           this.txt = '验证码不能为空'
@@ -76,7 +91,7 @@ export default {
       this.showCountDown = true
       let data = {}
       data.mobile = this.mobile
-      data.userName = this.user.userName
+      data.srvTxCode = 'mobileModifyPlus'
       if (this.timeInterval) {
         clearInterval(this.timeInterval)
       }
@@ -88,7 +103,7 @@ export default {
           clearInterval(this.timeInterval)
         }
       }, 1000)
-      modifyBindMobileSendCode(data).then(res => {
+      sendSms(data).then(res => {
         this.showDialog = true
         if (res.data.resultMsg === 'SUCCESS') {
           this.errMsg.common = '验证码发送成功！'
@@ -97,6 +112,14 @@ export default {
           this.countDown = 0
         }
       })
+    },
+    close() {
+      this.isShow.isShow5 = !this.isShow.isShow5
+      this.showDialog1 = false
+      this.mobile = ''
+      this.smsCode = ''
+      this.oldMobile = ''
+      this.errMsg.common = ''
     }
   }
 }

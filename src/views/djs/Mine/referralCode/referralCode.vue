@@ -51,7 +51,7 @@ import { mapState } from 'vuex'
 import Clipboard from 'clipboard'
 import Pagination from '@/components/pagination/pagination'
 import Dialog from '@/components/Dialog/Dialog'
-import { saveInviteCode, qRCodeShare, userInviteInfo, myInviteCode } from '@/api/djs/Mine/referralCode'
+import { saveInviteCode, qRCodeShare, userInviteInfo } from '@/api/djs/Mine/referralCode'
 import { referralCodeReg } from '@/assets/js/utils'
 
 export default {

@@ -32,7 +32,7 @@ export function userInviteInfo(data) {
 }
 
 // 钞票码或推荐码显隐
-export function cpmOrTjm(data) {
+export function cpmOrTjm() {
   return request({
     url: '/user/cpmOrTjm',
     method: 'post',

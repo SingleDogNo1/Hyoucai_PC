@@ -168,10 +168,10 @@ export default {
       })
     })
     // 先查询是推荐码还是钞票码,钞票码用refereeName，推荐码用recommendName
-    cpmOrTjm().then(res=> {
+    cpmOrTjm().then(res => {
       let data = res.data
       this.isTjm = data.tjm ? true : false
-      myInviteCode().then(res=> {
+      myInviteCode().then(res => {
         this.refereeName = this.isTjm ? res.data.data.recommendName : res.data.data.refereeName
       })
     })
