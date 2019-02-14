@@ -40,7 +40,7 @@
         <thead>
           <tr>
             <th>项目名称</th>
-            <th>转让价格</th>
+            <th>转让价格（元）</th>
             <th>转让日期</th>
             <th>状态</th>
           </tr>
@@ -82,7 +82,8 @@ export default {
         page: 1,
         size: 10
       },
-      investedTotal: null
+      investedTotal: null,
+      settlementFlags: ''
     }
   },
   computed: {
@@ -116,6 +117,11 @@ export default {
     })
   },
   created() {
+    //判斷settlementFlags (0-未结清 1-已结清)
+    this.settlementFlags = this.$route.query.settlementFlags
+    if (this.settlementFlags === '1') {
+      this.tabIndex = 1
+    }
     this.getInvestingList()
     this.getInvestedList()
   }

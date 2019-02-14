@@ -131,11 +131,6 @@ export default {
 
 .borrow {
   background: #fff;
-  .banner {
-    font-size: 0;
-    width: 100%;
-    height: 400px;
-  }
   .block {
     width: 1140px;
     margin: 0 auto;

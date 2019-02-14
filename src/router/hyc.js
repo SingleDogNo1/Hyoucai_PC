@@ -42,12 +42,12 @@ export default new Router({
         {
           path: 'mobile',
           name: 'registerMobile',
-          component: () => import(/* webpackChunkName: "register" */ '@/views/common/register/mobile.vue')
+          component: () => import('@/views/common/register/mobile.vue')
         },
         {
           path: 'form',
           name: 'registerForm',
-          component: () => import(/* webpackChunkName: "register" */ '@/views/common/register/form.vue')
+          component: () => import('@/views/common/register/form.vue')
         }
       ]
     },
@@ -58,7 +58,7 @@ export default new Router({
         {
           path: '',
           name: 'login',
-          component: () => import(/* webpackChunkName: "register" */ '@/views/common/login/login.vue')
+          component: () => import('@/views/common/login/login.vue')
         }
       ]
     },
@@ -69,12 +69,12 @@ export default new Router({
         {
           path: '',
           name: 'forgetPWD',
-          component: () => import(/* webpackChunkName: "register" */ '@/views/common/login/forgetPassword.vue')
+          component: () => import('@/views/common/login/forgetPassword.vue')
         },
         {
           path: 'resetResult',
           name: 'resetResult',
-          component: () => import(/* webpackChunkName: "register" */ '@/views/common/login/resetResult.vue')
+          component: () => import('@/views/common/login/resetResult.vue')
         }
       ]
     },
@@ -85,7 +85,7 @@ export default new Router({
         {
           path: '',
           name: 'download',
-          component: () => import(/* webpackChunkName: "register" */ '@/views/common/download/index.vue')
+          component: () => import('@/views/common/download/index.vue')
         }
       ]
     },
@@ -158,7 +158,7 @@ export default new Router({
             {
               path: 'calendar', // 回款日历
               name: 'lendCalendar',
-              component: () => import('@/views/djs/Mine/calendar/calendar')
+              component: () => import('@/views/hyc/Mine/calendar/calendar')
             },
             {
               path: 'coupons', // 我的卡券
@@ -303,11 +303,11 @@ export default new Router({
       ]
     },
     {
-      path: '/', // 风险测评
+      path: '/',
       component: Layout,
       children: [
         {
-          path: 'riskAss',
+          path: 'riskAss', // 风险测评
           name: 'riskAss',
           component: () => import(/* webpackChunkName: "riskAss" */ '@/views/common/RiskAssessment/index.vue')
         }
@@ -357,6 +357,17 @@ export default new Router({
           path: 'signAgreement', // 签约
           name: 'sign',
           component: () => import(/* webpackChunkName: "bankAccount" */ '@/views/common/bankAccount/signAgreement.vue')
+        }
+      ]
+    },
+    {
+      path: '/', // 联系我们
+      component: Layout,
+      children: [
+        {
+          path: 'contact',
+          name: 'contact',
+          component: () => import(/* webpackChunkName: "contact" */ '@/views/hyc/contact/index.vue')
         }
       ]
     }

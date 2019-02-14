@@ -21,7 +21,7 @@
       <div class="content">
         <el-table :data="tableData" border class="record-table">
           <el-table-column prop="createTime" label="交易日期"> </el-table-column>
-          <el-table-column prop="tranType" label="交易类型"> </el-table-column>
+          <el-table-column prop="tranTypeName" label="交易类型"> </el-table-column>
           <el-table-column label="金额明细(元)">
             <template slot-scope="scope">
               <a :class="matchClass(scope.row.amount)">{{ scope.row.amount | plusFilter }}</a>
@@ -41,7 +41,6 @@
 import pagination from '@/components/pagination/pagination'
 import { getRecord } from '@/api/djs/Mine/record'
 import { getUser } from '@/assets/js/cache'
-import { getAuth } from '@/assets/js/utils'
 const ERR_OK = '1'
 export default {
   name: 'record',
@@ -95,8 +94,7 @@ export default {
       page: 1,
       size: 10,
       countPage: 0,
-      userName: getUser().userName,
-      authorization: getAuth()
+      userName: getUser().userName
     }
   },
   filters: {
@@ -117,10 +115,8 @@ export default {
     getRecordList() {
       let params = {
         userName: this.userName,
-        authorization: this.authorization,
         timeType: this.timeType,
-        curPage: this.page,
-        maxLine: this.size
+        curPage: this.page
       }
       if (this.tranType) {
         params.tranType = this.tranType

@@ -3,7 +3,6 @@
     <div class="total-info">
       <div class="item">
         <div><img src="./logo.png" alt="" /></div>
-        <div><span>点金石</span></div>
       </div>
       <div class="item">
         <div>

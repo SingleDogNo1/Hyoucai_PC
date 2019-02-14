@@ -62,7 +62,7 @@
                 <li class="info">
                   <dl>
                     <dt>{{ item.loanMent }}</dt>
-                    <dd>锁定期限</dd>
+                    <dd>锁定期</dd>
                   </dl>
                 </li>
                 <li class="info">
@@ -85,6 +85,9 @@
         </div>
         <div class="pagination-wrapper">
           <pagination :count-page="countPage" :page-val="page" @handleCurrentChange="handleCurrentChange"></pagination>
+        </div>
+        <div class="no-data-wrapper" v-if="QSList.length === 0">
+          <noData :type="noDataType"></noData>
         </div>
       </div>
       <div class="area-wrapper" v-if="tabActive === 1">
@@ -114,7 +117,7 @@
                 <li class="info">
                   <dl>
                     <dt>{{ item.loanMent }}</dt>
-                    <dd>锁定期限</dd>
+                    <dd>锁定期</dd>
                   </dl>
                 </li>
                 <li class="info">
@@ -138,6 +141,9 @@
         <div class="pagination-wrapper">
           <pagination :count-page="countPage1" :page-val="page1" @handleCurrentChange="handleCurrentChange1"></pagination>
         </div>
+        <div class="no-data-wrapper" v-if="ZXList.length === 0">
+          <noData :type="noDataType"></noData>
+        </div>
       </div>
       <div class="area-wrapper" v-if="tabActive === 2">
         <div class="area" v-for="(item, i) in GRList" :key="i">
@@ -159,20 +165,14 @@
                 </li>
                 <li class="info">
                   <dl>
-                    <dt>{{ item.loanMent }}</dt>
-                    <dd>锁定期限</dd>
-                  </dl>
-                </li>
-                <li class="info">
-                  <dl>
                     <dt>{{ item.minInvAmount }}元</dt>
                     <dd>起投金额</dd>
                   </dl>
                 </li>
                 <li class="info">
                   <dl>
-                    <dt>{{ item.surplusAmt }}元</dt>
-                    <dd>剩余可投金额</dd>
+                    <dt>{{ item.loanMent }}</dt>
+                    <dd>锁定期</dd>
                   </dl>
                 </li>
                 <li class="info">
@@ -193,6 +193,9 @@
         <div class="pagination-wrapper">
           <pagination :count-page="countPage2" :page-val="page2" @handleCurrentChange="handleCurrentChange2"></pagination>
         </div>
+        <div class="no-data-wrapper" v-if="GRList.length === 0">
+          <noData :type="noDataType"></noData>
+        </div>
       </div>
     </div>
   </div>
@@ -201,8 +204,10 @@
 <script>
 import pagination from '@/components/pagination/pagination'
 import countUp from '@/components/countUp/index'
+import noData from '@/components/NoData/index'
 import { getPageConfig, getCountMsg, getQSList, getZXList, getGRList } from '@/api/hyc/lend'
 import { getUser } from '@/assets/js/cache'
+import { mapGetters } from 'vuex'
 
 const ERR_OK = '1'
 export default {
@@ -229,7 +234,8 @@ export default {
         TZ_ZQZR: ''
       },
       showTabs: false,
-      tabActive: 0
+      tabActive: 0,
+      noDataType: 'production'
     }
   },
   props: ['redPacketId', 'couponId'],
@@ -262,7 +268,8 @@ export default {
       let params = {
         userName: this.userName,
         curPage: this.page,
-        maxLine: this.size
+        maxLine: this.size,
+        channel: 1
       }
       if (this.couponId) {
         params.couponId = this.couponId
@@ -284,7 +291,8 @@ export default {
       let params = {
         userName: this.userName,
         curPage: this.page1,
-        maxLine: this.size
+        maxLine: this.size,
+        channel: '1'
       }
       if (this.couponId) {
         params.couponId = this.couponId
@@ -306,7 +314,8 @@ export default {
       let params = {
         userName: this.userName,
         curPage: this.page2,
-        maxLine: this.size
+        maxLine: this.size,
+        channel: '1'
       }
       if (this.couponId) {
         params.couponId = this.couponId
@@ -356,7 +365,11 @@ export default {
   },
   components: {
     pagination,
-    countUp
+    countUp,
+    noData
+  },
+  computed: {
+    ...mapGetters(['user'])
   },
   created() {
     let user = getUser()
@@ -376,9 +389,28 @@ export default {
   .top {
     position: relative;
     width: 100%;
-    margin-bottom: 30px;
     img {
       width: 100%;
+      @media screen and (min-width: 1140px) and (max-width: 1365px) {
+        max-width: none;
+        width: 120%;
+      }
+      @media screen and (min-width: 1366px) and (max-width: 1500px) {
+        max-width: none;
+        width: 115%;
+      }
+      @media screen and (min-width: 1501px) and (max-width: 1630px) {
+        max-width: none;
+        width: 107%;
+      }
+      @media screen and (min-width: 1631px) and (max-width: 1800px) {
+        max-width: none;
+        width: 103%;
+      }
+      @media screen and (min-width: 1801px) and (max-width: 1919px) {
+        max-width: none;
+        width: 101%;
+      }
     }
     ul {
       position: absolute;
@@ -418,6 +450,9 @@ export default {
           dd {
             font-size: 16px;
             letter-spacing: 1px;
+            p {
+              letter-spacing: 7px;
+            }
           }
         }
         &:nth-of-type(1) {
@@ -453,6 +488,7 @@ export default {
   .content {
     width: 1140px;
     margin: 0 auto;
+    margin-top: 30px;
     .tabs {
       height: 36px;
       font-size: 0;
@@ -487,10 +523,9 @@ export default {
             @include square(19px);
             margin-right: 8px;
             margin-top: 2px;
-            background-position: center center;
-            background-size: 100% 100%;
-            background-repeat: no-repeat;
-            background-color: #666666;
+            img {
+              width: 100%;
+            }
           }
           span {
             display: inline-block;
@@ -515,9 +550,9 @@ export default {
                 display: inline-block;
                 vertical-align: top;
                 @include square(22px);
-                background-position: center center;
-                background-size: 100% 100%;
-                background-repeat: no-repeat;
+                img {
+                  width: 100%;
+                }
               }
               span {
                 display: inline-block;
@@ -629,6 +664,10 @@ export default {
             border-bottom: 1px solid #e5e5e5;
           }
         }
+      }
+      .no-data-wrapper {
+        height: 570px;
+        margin: 30px auto;
       }
     }
     .pagination-wrapper {

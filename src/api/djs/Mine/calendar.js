@@ -1,16 +1,11 @@
-import axios from '@/assets/js/requestDJS'
+import request from '@/assets/js/requestDJS'
 import qs from 'qs'
 
 function getIncomeApi(data) {
-  return new Promise((resolve, reject) => {
-    axios.post('userInfo/incomeDetailed', qs.stringify(data)).then(
-      res => {
-        resolve(res)
-      },
-      err => {
-        reject(err)
-      }
-    )
+  return request({
+    url: 'userInfo/incomeDetailed',
+    method: 'post',
+    data: qs.stringify(data)
   })
 }
 

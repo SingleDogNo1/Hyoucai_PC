@@ -2,32 +2,27 @@ import axios from '@/assets/js/requestHYC'
 import qs from 'qs'
 
 function getUserBankCardInfo(data) {
-  return new Promise((resolve, reject) => {
-    axios.post('bankCardQuery/query', qs.stringify(data)).then(
-      res => {
-        resolve(res)
-      },
-      err => {
-        reject(err)
-      }
-    )
+  return axios({
+    url: 'bankCardQuery/query',
+    method: 'post',
+    data: qs.stringify(data)
   })
 }
 
-function prevChangeBankcard(data) {
-  return new Promise((resolve, reject) => {
-    axios.post('bankCard/userChangeBankCardPreVerify', qs.stringify(data)).then(
-      res => {
-        resolve(res)
-      },
-      err => {
-        reject(err)
-      }
-    )
+function bindCardApi(data) {
+  return axios({
+    url: 'cardBindPage/bind',
+    method: 'post',
+    data: qs.stringify(data)
   })
 }
 
-export {
-  getUserBankCardInfo, // 获取用户银行卡列表
-  prevChangeBankcard // 用户更换银行卡前校验接口
+function unbindCardApi(data) {
+  return axios({
+    url: 'cardUnbind/unbindPage',
+    method: 'post',
+    data: qs.stringify(data)
+  })
 }
+
+export { bindCardApi, getUserBankCardInfo, unbindCardApi }

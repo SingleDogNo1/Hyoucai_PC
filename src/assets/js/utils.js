@@ -107,3 +107,14 @@ export function timeCountDown(t, status, callback) {
     }, 1000)
   }
 }
+
+// 推荐码正则校验
+export function referralCodeReg(referralCode) {
+  let reg = /^(h|d)(.*[0-9])$/
+  return reg.test(referralCode)
+}
+
+export function currentPlatform() {
+  const str = window.location.pathname
+  return str.indexOf('djs') > 0 ? 'djs' : 'hyc'
+}
