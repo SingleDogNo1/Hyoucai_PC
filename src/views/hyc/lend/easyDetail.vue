@@ -1523,5 +1523,5 @@ export default {
       }
     }
   }
-}
+} 
 </style>
