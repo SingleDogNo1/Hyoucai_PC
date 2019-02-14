@@ -98,7 +98,7 @@
       <div>{{ errMsg.common }}</div>
     </Dialog>
     <Dialog :show.sync="showDialogSuccess" :showTitle="false" :onConfirm="confirmCharged" :onClose="confirmCharged" class="djs-charge-dialog">
-      <img style="width:70px;height:70px;margin-bottom: 10px;" src="./image/success.png" alt="">
+      <img style="width:70px;height:70px;margin-bottom: 10px;" src="./image/success.png" alt="" />
       <div>充值成功</div>
     </Dialog>
   </div>

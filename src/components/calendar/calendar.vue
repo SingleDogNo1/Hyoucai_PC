@@ -28,8 +28,11 @@
             <span
               :class="{
                 red: k2 === 0 || k2 === 6 || ((child.isLunarFestival || child.isGregorianFestival) && lunar),
-                isSpecial: child.isLunarFestival || child.isGregorianFestival }"
-            > {{ child.day }} </span>
+                isSpecial: child.isLunarFestival || child.isGregorianFestival
+              }"
+            >
+              {{ child.day }}
+            </span>
             <div class="text" v-if="child.eventName !== undefined">{{ child.eventName }}</div>
             <div
               class="text"

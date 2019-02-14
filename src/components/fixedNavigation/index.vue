@@ -1,27 +1,16 @@
 <template>
   <ul class="fixed-nav">
     <li @click="toCaculator">
-      <i>收益
-        <br>计算器
-      </i>
+      <i>收益 <br />计算器 </i>
     </li>
     <li @click="toRiskAssessment">
-      <i>风险
-        <br>评测
-      </i>
+      <i>风险 <br />评测 </i>
     </li>
     <li @click="toDownload" @mouseenter="showCode" @mouseleave="hideCode">
-      <i>扫码
-        <br>下载
-      </i>
-      <transition name="slide">
-        <div class="code" v-show="codeFlag"></div>
-      </transition>
+      <i>扫码 <br />下载 </i> <transition name="slide"> <div class="code" v-show="codeFlag"></div> </transition>
     </li>
     <li @click="toTop(speed)">
-      <i>返回
-        <br>顶部
-      </i>
+      <i>返回 <br />顶部 </i>
     </li>
   </ul>
 </template>

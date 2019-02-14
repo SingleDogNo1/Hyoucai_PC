@@ -4,22 +4,19 @@
       <div class="modify">
         <span class="modify_name">注册手机号</span>
         <div class="modify_ipt_box">
-          <input class="modify_ipt" type="text" maxLength="11" placeholder="请输入原手机号" v-model="mobile">
-          <p class="txt">{{mobileTxt}}</p>
-          <input class="modify_ipt" type="text" maxLength="11" placeholder="请输入新手机号" v-model="newMobile">
-          <p class="txt">{{newMobileTxt}}</p>
+          <input class="modify_ipt" type="text" maxLength="11" placeholder="请输入原手机号" v-model="mobile" />
+          <p class="txt">{{ mobileTxt }}</p>
+          <input class="modify_ipt" type="text" maxLength="11" placeholder="请输入新手机号" v-model="newMobile" />
+          <p class="txt">{{ newMobileTxt }}</p>
           <div class="verifyCode-wrap">
-            <input class="modify_ipt" type="number" placeholder="请输入验证码" v-model="verifyCode">
-            <span class="code" @click="getMobileSendCode" v-if="!showCountDown">{{countDownText}}</span>
-            <span class="code" v-if="showCountDown">{{countDown}}s</span>
+            <input class="modify_ipt" type="number" placeholder="请输入验证码" v-model="verifyCode" />
+            <span class="code" @click="getMobileSendCode" v-if="!showCountDown">{{ countDownText }}</span>
+            <span class="code" v-if="showCountDown">{{ countDown }}s</span>
           </div>
-          <p class="txt">{{verifyCodeTxt}}</p>
+          <p class="txt">{{ verifyCodeTxt }}</p>
         </div>
       </div>
-      <div class="btn">
-        <button class="determine" @click="modifyBindMobile">立即绑定</button>
-        <button class="cancle" @click="close">取消</button>
-      </div>
+      <div class="btn"><button class="determine" @click="modifyBindMobile">立即绑定</button> <button class="cancle" @click="close">取消</button></div>
     </div>
     <errDialog :show.sync="showDialog" :singleButton="singleButton" class="djs-charge-dialog">
       <div>{{ errMsg.common }}</div>

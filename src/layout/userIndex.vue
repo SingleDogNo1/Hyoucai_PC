@@ -1,12 +1,11 @@
 <template>
   <div class="mine-wrapper" v-if="userBasicInfo">
     <user-menu></user-menu>
-    <div class="wrapper">
-      <router-view />
-    </div>
+    <div class="wrapper"><router-view /></div>
     <Dialog
       ref="alertDialog"
       :showTitle="showTitle"
+      :title="dialogTitle"
       :showLogo="showLogo"
       :showFooter="showFooter"
       :showCloseBtn="showCloseBtn"
@@ -50,6 +49,7 @@ export default {
       alertInfo: { haveAlert: false, count: 0, type: '' },
       routerLink: '', // 要跳转的路由
       routerParam: '',
+      dialogTitle: '汇有才温馨提示',
       showCloseBtn: false,
       showTitle: true,
       showLogo: false,
@@ -60,7 +60,8 @@ export default {
   props: {},
   watch: {
     '$route.name'(ne) {
-      if (this.accountStatus === 'OPEN_ACCOUNT' && (ne === 'bankcard' || ne === 'charge' || ne === 'tocash' || ne === 'referralCode')) {
+      // 未开户状态下点击“我的账户”页面中的“银行卡”“充值”“提现”“自动出借”“我的推荐码”，均弹出开户弹框，该弹框只在进入“我的账户”弹出，在侧边栏切换至“账户总览”时，不弹出
+      if (this.accountStatus === 'OPEN_ACCOUNT' && (ne === 'bankcard' || ne === 'charge' || ne === 'tocash' || ne === 'referralCode' || ne === 'auto-lend')) {
         this.showDialog = true
       }
     }
@@ -83,6 +84,7 @@ export default {
         .then(res => {
           console.log(res)
         })
+      this.viewDialog()
     },
     viewDialog() {
       this.showDialog = false
@@ -105,6 +107,8 @@ export default {
           this.showCloseBtn = false
           this.showLogo = false
           this.showFooter = true
+          // this.alertInfo.haveAlert = true
+          // this.alertInfo.type = 'refund'
           if (this.alertInfo.haveAlert) {
             this.showDialog = true
             if (this.alertInfo.type) {
@@ -113,45 +117,49 @@ export default {
                   this.showCloseBtn = true
                   this.dialogTitle = `您收到${this.alertInfo.count}个红包`
                   this.dialogDis = `${this.alertInfo.count}个红包已存入您的账户`
-                  // this.confirmText = '查看我的红包'
-                  // this.routerLink = 'coupons'
+                  this.confirmText = '查看我的红包'
+                  this.routerLink = 'lendCoupons'
+                  this.routerParam = ''
                   break
                 case 'coupon':
                   this.showCloseBtn = true
                   this.dialogTitle = `您收到${this.alertInfo.count}个加息券`
                   this.dialogDis = `${this.alertInfo.count}个加息券已存入您的账户`
-                  // this.confirmText = '查看我的加息券'
-                  // this.routerLink = 'coupons'
+                  this.confirmText = '查看我的加息券'
+                  this.routerLink = 'lendCoupons'
+                  this.routerParam = ''
                   break
                 case 'refund':
                   this.showCloseBtn = true
                   this.dialogTitle = '汇有财温馨提示'
                   this.dialogDis = `银行系统原因，您有${this.alertInfo.count}笔出借退款项未匹配成功，已退回`
-                  // this.confirmText = '查看'
-                  // this.routerLink = 'message'
+                  this.confirmText = '去查看'
+                  this.routerLink = 'lend'
+                  this.routerParam = ''
                   break
                 case 'refundBeforeDueDate':
                   this.showCloseBtn = true
                   this.dialogTitle = '提前还款通知'
                   this.dialogDis = this.alertInfo.message
-                  // this.confirmText = '查看'
-                  // this.routerLink = 'history'
-                  // this.routerParam = this.alertInfo.projectType
+                  this.confirmText = '我知道了'
+                  this.routerLink = ''
+                  this.routerParam = ''
                   break
                 case 'evaluate':
                   this.showCloseBtn = false
                   this.dialogTitle = '温馨提示'
                   this.dialogDis = this.alertInfo.message
-                  // this.confirmText = '我知道了'
-                  // this.routerLink = ''
-                  // this.routerParam = ''
+                  this.confirmText = '我知道了'
+                  this.routerLink = ''
+                  this.routerParam = ''
                   break
                 default:
                   this.showCloseBtn = true
                   this.dialogTitle = '汇有财温馨提示'
                   this.dialogDis = `您有${this.alertInfo.count}笔出借提前还款`
-                // this.confirmText = '查看'
-                // this.routerLink = 'message'
+                  this.confirmText = '我知道了'
+                  this.routerLink = ''
+                  this.routerParam = ''
               }
             }
           }

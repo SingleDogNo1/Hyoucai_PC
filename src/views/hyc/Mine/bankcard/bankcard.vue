@@ -1,14 +1,10 @@
 <template>
   <div class="bankcard">
-    <div class="title">
-      <span v-if="bankcardInfo.cardNo">我的银行卡</span>
-      <span v-else>绑定银行卡</span>
-    </div>
+    <div class="title"><span v-if="bankcardInfo.cardNo">我的银行卡</span> <span v-else>绑定银行卡</span></div>
     <div class="card-item" v-if="bankcardInfo.cardNo">
       <header>
         <div class="bank-name">
-          <img :src="bankcardInfo.iconUrl" :alt="bankcardInfo.openBankName">
-          <span>{{ bankcardInfo.bankName }}</span>
+          <img :src="bankcardInfo.iconUrl" :alt="bankcardInfo.openBankName" /> <span>{{ bankcardInfo.bankName }}</span>
         </div>
         <div class="card-type">储蓄卡</div>
       </header>
@@ -17,15 +13,12 @@
     </div>
     <div class="no-card" v-else>
       <div class="wrap">
-        <button @click="toBindCard">
-          <img src="./images/icon_nocard.png">
-          <span>添加银行卡</span>
-        </button>
+        <button @click="toBindCard"><img src="./images/icon_nocard.png" /> <span>添加银行卡</span></button>
       </div>
     </div>
 
     <bankcard-dialog :show.sync="bankcardDialog">
-      <div class="dialog-msg">{{bankcardMsg}}</div>
+      <div class="dialog-msg">{{ bankcardMsg }}</div>
     </bankcard-dialog>
   </div>
 </template>
