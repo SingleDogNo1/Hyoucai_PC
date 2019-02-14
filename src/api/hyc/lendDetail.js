@@ -6,7 +6,6 @@ export function easyInvestDetail(data) {
   return request({
     url: 'collection/investDetail/2.0',
     method: 'post',
-    headers: { 'Content-type': 'application/x-www-form-urlencoded' },
     data: qs.stringify(data)
   })
 }
@@ -16,7 +15,6 @@ export function expectedIncome(data) {
   return request({
     url: 'ExpectedIncome',
     method: 'post',
-    headers: { 'Content-type': 'application/x-www-form-urlencoded' },
     data: qs.stringify(data)
   })
 }
@@ -26,7 +24,6 @@ export function easyInvestRecord(data) {
   return request({
     url: 'collection/investRecord',
     method: 'post',
-    headers: { 'Content-type': 'application/x-www-form-urlencoded' },
     data: qs.stringify(data)
   })
 }
@@ -36,7 +33,6 @@ export function projectCompo(data) {
   return request({
     url: 'collection/projectCompo',
     method: 'post',
-    headers: { 'Content-type': 'application/x-www-form-urlencoded' },
     data: qs.stringify(data)
   })
 }
@@ -78,7 +74,6 @@ export function optionalInvestDetail(data) {
   return request({
     url: 'project/projectDetail',
     method: 'post',
-    headers: { 'Content-type': 'application/x-www-form-urlencoded' },
     data: qs.stringify(data)
   })
 }
@@ -88,7 +83,24 @@ export function optionalInvestRecord(data) {
   return request({
     url: 'project/investRecord',
     method: 'post',
-    headers: { 'Content-type': 'application/x-www-form-urlencoded' },
+    data: qs.stringify(data)
+  })
+}
+
+// 查询用户可用红包
+export function availableRedPacketApi(data) {
+  return request({
+    url: 'redPacketAndCoupon/getAvailableRedPacket',
+    method: 'post',
+    data: qs.stringify(data)
+  })
+}
+
+// 查询用户可用红包
+export function availableCouponApi(data) {
+  return request({
+    url: 'redPacketAndCoupon/getAvailableCoupon',
+    method: 'post',
     data: qs.stringify(data)
   })
 }

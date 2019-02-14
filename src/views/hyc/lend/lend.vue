@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper">
     <div class="top">
-      <img src="./image/date_back.png" />
+      <img src="./image/date_back.png" alt="" />
       <ul>
         <li>
           <dl>

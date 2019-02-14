@@ -358,7 +358,8 @@ export default {
         }
         this.render(this.year, this.month)
         this.$emit('selectMonth', this.month + 1, this.year)
-        this.$emit('prev', this.month + 1, this.year)
+        // this.day 汇有财切换月默认传1号， 点金石默认不传
+        this.$emit('prev', this.month + 1, this.year, this.day)
       }
     },
     //  下月
@@ -374,7 +375,8 @@ export default {
         }
         this.render(this.year, this.month)
         this.$emit('selectMonth', this.month + 1, this.year)
-        this.$emit('next', this.month + 1, this.year)
+        // this.day 汇有财切换月默认传1号， 点金石默认不传
+        this.$emit('next', this.month + 1, this.year, this.day)
       }
     },
     // 选中日期

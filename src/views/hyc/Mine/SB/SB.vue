@@ -40,7 +40,7 @@
         @handleCurrentChange="changePage"
       ></pagination>
     </div>
-    <NoData v-else></NoData>
+    <NoData class="empty-data" v-else></NoData>
   </div>
 </template>
 
@@ -206,6 +206,9 @@ export default {
   }
   .page {
     margin-top: 25px;
+  }
+  .empty-data {
+    height: 460px;
   }
 }
 </style>

@@ -57,12 +57,9 @@ export default {
 
 .__no__data {
   width: 100%;
-  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  border: 1px solid #e5e5e5;
-  background-color: #fff;
   img {
     display: block;
     width: 103px;
