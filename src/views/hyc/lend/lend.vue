@@ -239,7 +239,7 @@ export default {
         if (item.itemId) {
           this.$router.push({ name: 'easyDetail', query: { productId: item.productId, itemId: item.itemId } })
         } else {
-          this.$router.push({ name: 'optionalDetail', query: { projectNo: item.projectNo } })
+          this.$router.push({ name: 'optionalDetail', query: { projectNo: item.projectNo, productId: item.productId } })
         }
       } else {
         this.$router.push({ name: 'login' })

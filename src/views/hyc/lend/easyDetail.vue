@@ -186,7 +186,7 @@
                 :count-page="total"
                 :size-val="size"
                 :page-val="page"
-                @handleCurrentChange="handleCurrentChange"
+                @handleCurrentChange="handleJoinRecordCurrentChange"
               ></pagination>
             </div>
           </div>
@@ -237,7 +237,7 @@
                 :count-page="total"
                 :size-val="size"
                 :page-val="page"
-                @handleCurrentChange="handleCurrentChange"
+                @handleCurrentChange="handleProjectCompositionCurrentChange"
               ></pagination>
             </div>
           </div>
@@ -437,7 +437,7 @@ import Swiper from 'swiper/dist/js/swiper'
 import { mapState } from 'vuex'
 import Pagination from '@/components/pagination/pagination'
 import { timeCountDown } from '@/assets/js/utils'
-import { easyInvestDetail, investRecord, projectCompo, expectedIncome, amountInfo, systemMaintenance, amountSync } from '@/api/hyc/lendDetail'
+import { easyInvestDetail, easyInvestRecord, projectCompo, expectedIncome, amountInfo, systemMaintenance, amountSync } from '@/api/hyc/lendDetail'
 import ProjectDetail from './popup/projectDetail'
 import Dialog from '@/components/Dialog/Dialog'
 
@@ -514,6 +514,7 @@ export default {
   },
   methods: {
     handleItemClick() {
+      this.page = 1
       switch (this.lendDetailActiveName) {
         case 'CJXQ':
           this.getLendDetailList()
@@ -562,12 +563,24 @@ export default {
           break
       }
     },
-    handleCurrentChange(val) {
+    handleJoinRecordCurrentChange(val) {
       this.page = val
-      this.getList()
+      this.getJoinRecordList()
     },
-    handleExpectedIncome() {
-      console.log(this.invAmount)
+    handleProjectCompositionCurrentChange(val) {
+      this.page = val
+      this.getProjectCompoList()
+    },
+    handleExpectedIncome(e) {
+      e.target.value = e.target.value.replace(/[^\d.]/g, '')
+      e.target.value = e.target.value.replace(/\.{2,}/g, '.')
+      e.target.value = e.target.value
+        .replace('.', '$#$')
+        .replace(/\./g, '')
+        .replace('$#$', '.')
+      e.target.value = e.target.value.replace(/^(-)*(\d+)\.(\d\d).*$/, '$1$2.$3')
+      this.invAmount = e.target.value
+      console.log('this.invAmount====', this.invAmount)
       let postData = {
         invAmount: this.invAmount,
         investRate: this.projectInfo.investRate,
@@ -662,7 +675,7 @@ export default {
         curPage: this.page,
         maxLine: this.size
       }
-      investRecord(postData).then(res => {
+      easyInvestRecord(postData).then(res => {
         let data = res.data.data
         this.joinRecordData = data.list
         this.total = parseInt(data.countPage)
@@ -1519,5 +1532,5 @@ export default {
       }
     }
   }
-}
+} 
 </style>
