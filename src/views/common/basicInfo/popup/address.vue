@@ -7,6 +7,7 @@
           <input class="modify_ipt" type="text" placeholder="请输入收件人姓名" v-model="consigneeName">
           <input class="modify_ipt" type="text" placeholder="请输入收件人电话" v-model="consigneePhone">
           <input class="modify_ipt" type="text" placeholder="请输入收件人地址" v-model="address">
+          <p class="txt">{{txt}}</p>
         </div>
       </div>
       <div class="btn">
@@ -14,7 +15,7 @@
         <button class="cancle" @click="close">取消</button>
       </div>
     </div>
-    <errDialog :show.sync="showDialog" :singleButton="singleButton" class="djs-charge-dialog">
+    <errDialog :show.sync="showDialog" :singleButton="singleButton" class="djs-charge-dialog" :onClose="close">
       <div>{{ errMsg.common }}</div>
     </errDialog>
   </div>
@@ -23,6 +24,7 @@
 import { saveMailingAddress } from '@/api/common/basicInfo'
 import { mapGetters } from 'vuex'
 import errDialog from '@/components/Dialog/Dialog'
+import { isMobile } from '@/assets/js/regular'
 export default {
   name: 'Address',
   data() {
@@ -32,6 +34,7 @@ export default {
       address: '',
       showDialog: false,
       singleButton: true,
+      txt: '',
       errMsg: {
         common: ''
       }
@@ -51,20 +54,25 @@ export default {
       obj.consigneePhone = this.consigneePhone
       obj.address = this.address
       obj.userName = this.user.userName
-      saveMailingAddress(obj).then(res => {
-        if (res.data.resultCode === '1') {
-          this.$notify({ title: '成功', message: '收货地址修改成功', type: 'success', duration: 2000 })
-          this.close()
-        } else {
-          this.showDialog = true
-          this.errMsg.common = res.data.resultMsg
-        }
-      })
+      if (isMobile(this.consigneePhone)) {
+        saveMailingAddress(obj).then(res => {
+          if (res.data.resultCode === '1') {
+            this.showDialog = true
+            this.errMsg.common = res.data.resultMsg = '修改收货地址成功'
+          } else {
+            this.showDialog = true
+            this.errMsg.common = res.data.resultMsg
+          }
+        })
+      } else {
+        this.txt = '请输入正确的手机号'
+      }
     },
     close() {
       this.consigneeName = ''
       this.consigneePhone = ''
       this.address = ''
+      this.txt = ''
       this.getMailingAddress()
       this.isShow.isShow4 = !this.isShow.isShow4
     }
@@ -108,6 +116,11 @@ export default {
           color: rgba(155, 155, 155, 1);
           line-height: 16px;
           margin-bottom: 15px;
+        }
+        .txt {
+          color: red;
+          font-size: $font-size-small-s;
+          margin-left: 80px;
         }
       }
     }

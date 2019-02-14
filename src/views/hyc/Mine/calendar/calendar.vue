@@ -102,8 +102,6 @@ export default {
       *  data.settlementFlags === '0': 未结清
       *  data.projectNo: 项目编号
       */
-      item.settlementFlags = '1'
-      item.productType = '0'
       if (item.settlementFlags === '1') {
         this.$router.push({
           name: 'userLend',
@@ -112,19 +110,19 @@ export default {
       } else {
         if (item.productType === '0') {
           this.$router.push({
-            name: 'QSTDetail',
+            name: 'ZXTDetail',
             query: {
-              id: item.recordPackageId,
-              type: item.productType
+              productId: item.projectNo,
+              id: item.invRecordId
             }
           })
         }
         if (item.productType === '2') {
           this.$router.push({
-            name: 'ZXTDetail',
+            name: 'QSTDetail',
             query: {
-              productId: item.projectNo,
-              id: item.invRecordId
+              id: item.recordPackageId,
+              type: item.productType
             }
           })
         }

@@ -4,7 +4,7 @@
       <div class="user">
         <img src="./avatar.png" alt="" />
         <p>
-          <em>{{ greet }}</em> <span>{{ user.nickname }}</span>
+          <em>{{ greet }}</em> <span>{{ userBasicInfo.nickname }}</span>
         </p>
       </div>
       <div class="safe">

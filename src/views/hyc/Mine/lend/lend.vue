@@ -3,11 +3,11 @@
     <header>
       <img src="./icon.png" alt="" />
       <div class="earning">
-        <p>{{personalAccount.totalIncome}}元</p>
+        <p>{{ personalAccount.totalIncome }}元</p>
         <span>累计利息收益</span>
       </div>
       <div class="lend">
-        <p>{{personalAccount.totalInvAmount}}元</p>
+        <p>{{ personalAccount.totalInvAmount }}元</p>
         <span>累计出借</span>
       </div>
     </header>
@@ -27,7 +27,9 @@
             :key="index"
             :class="{ active: index === QSTStatusIndex }"
             @click="changeQSTStatus(index, item.statusCode)"
-          >{{ item.statusName }}</li>
+          >
+            {{ item.statusName }}
+          </li>
         </ul>
       </div>
       <div class="nav bid-date" v-if="dateStatus && dateStatus.length > 0">
@@ -38,7 +40,9 @@
             :key="index"
             :class="{ active: index === dateStatusIndex }"
             @click="changeDateStatus(index, item.value)"
-          >{{ item.key }}</li>
+          >
+            {{ item.key }}
+          </li>
         </ul>
       </div>
       <div class="nav bid-status" v-if="typeStatusIndex === 1">
@@ -49,12 +53,12 @@
             :key="index"
             :class="{ active: index === ZXTStatusIndex }"
             @click="changeZXTStatus(index, item.value)"
-          >{{ item.key }}</li>
+          >
+            {{ item.key }}
+          </li>
         </ul>
       </div>
-      <div class="detail-wrapper">
-        <router-view></router-view>
-      </div>
+      <div class="detail-wrapper"><router-view></router-view></div>
     </section>
   </div>
 </template>

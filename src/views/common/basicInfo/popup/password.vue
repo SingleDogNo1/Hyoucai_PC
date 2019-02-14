@@ -35,7 +35,7 @@
       </div>
       <div class="btn">
         <button class="determine" @click="updateUserPsw">确定</button>
-        <button class="cancle" @click="isShow.isShow2 = !isShow.isShow2">取消</button>
+        <button class="cancle" @click="cancel">取消</button>
       </div>
     </div>
     <errDialog
@@ -89,17 +89,31 @@ export default {
       obj.userName = this.user.userName
       obj.oldPassWord = this.oldPwd
       obj.newPassWord = this.newPwd
-      updateUserPsw(obj).then(res => {
-        let data = res.data
-        // 错误需要提示
-        if (data.resultCode !== '1') {
-          this.flag = true
-          this.errMsg = data.resultMsg
-        } else {
-          this.showDialog = true
-          this.msg = '修改成功'
-        }
-      })
+      if (this.newPwd == this.newPwd2) {
+        this.flag = false
+        updateUserPsw(obj).then(res => {
+          let data = res.data
+          // 错误需要提示
+          if (data.resultCode !== '1') {
+            this.flag = true
+            this.errMsg = data.resultMsg
+          } else {
+            this.showDialog = true
+            this.msg = '修改成功'
+            this.errMsg = ''
+          }
+        })
+      } else {
+        this.flag = true
+        this.errMsg = '新密码两次输入不一致'
+      }
+    },
+    cancel() {
+      this.isShow.isShow2 = !this.isShow.isShow2
+      this.oldPwd = ''
+      this.newPwd = ''
+      this.newPwd2 = ''
+      this.errMsg = ''
     },
     show() {
       this.isShow.isShow2 = !this.isShow.isShow2
