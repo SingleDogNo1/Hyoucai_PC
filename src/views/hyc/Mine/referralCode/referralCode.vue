@@ -51,7 +51,7 @@ import { mapState } from 'vuex'
 import Clipboard from 'clipboard'
 import Pagination from '@/components/pagination/pagination'
 import Dialog from '@/components/Dialog/Dialog'
-import { saveInviteCode, qRCodeShare, userInviteInfo } from '@/api/hyc/Mine/referralCode'
+import { saveInviteCode, qRCodeShare, userInviteInfo, myInviteCode, cpmOrTjm } from '@/api/hyc/Mine/referralCode'
 import { referralCodeReg } from '@/assets/js/utils'
 
 export default {
@@ -80,7 +80,8 @@ export default {
       preventClose: true,
       copyUrl: '',
       inviteNum: '',
-      totalInvestAmount: ''
+      totalInvestAmount: '',
+      isTjm: false // 推荐码还是钞票码
     }
   },
   props: {},
@@ -151,7 +152,7 @@ export default {
   created() {},
   mounted() {
     this.referralCode = this.userBasicInfo.myInviteCode
-    this.refereeName = this.userBasicInfo.inviteCode
+    //this.refereeName = this.userBasicInfo.refereeName
     this.userName = this.user.userName
     let postData = {
       userName: this.userName
@@ -164,6 +165,14 @@ export default {
         text: () => {
           return this.copyUrl
         }
+      })
+    })
+    // 先查询是推荐码还是钞票码,钞票码用refereeName，推荐码用recommendName
+    cpmOrTjm().then(res=> {
+      let data = res.data
+      this.isTjm = data.tjm ? true : false
+      myInviteCode().then(res=> {
+        this.refereeName = this.isTjm ? res.data.data.recommendName : res.data.data.refereeName
       })
     })
     this.getUserInviteInfo()

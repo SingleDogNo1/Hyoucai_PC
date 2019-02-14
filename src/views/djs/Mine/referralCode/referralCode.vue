@@ -51,7 +51,7 @@ import { mapState } from 'vuex'
 import Clipboard from 'clipboard'
 import Pagination from '@/components/pagination/pagination'
 import Dialog from '@/components/Dialog/Dialog'
-import { saveInviteCode, qRCodeShare, userInviteInfo } from '@/api/djs/Mine/referralCode'
+import { saveInviteCode, qRCodeShare, userInviteInfo, myInviteCode } from '@/api/djs/Mine/referralCode'
 import { referralCodeReg } from '@/assets/js/utils'
 
 export default {
@@ -133,7 +133,7 @@ export default {
         let data = res.data
         this.inviteNum = data.inviteNum
         this.referralCode = data.myInviteCode
-        //this.refereeName = data.inviteCode
+        this.refereeName = data.recommendName
         this.totalInvestAmount = data.totalInvestAmount
         this.inviteUserList = data.inviteUser
         this.inviteUserList.forEach(val => {
@@ -153,7 +153,7 @@ export default {
   created() {},
   mounted() {
     //this.referralCode = this.userBasicInfo.myInviteCode
-    this.refereeName = this.userBasicInfo.inviteCode
+    //this.refereeName = this.userBasicInfo.refereeName
     this.userName = this.user.userName
     let postData = {
       userName: this.userName
