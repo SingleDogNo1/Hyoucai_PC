@@ -4,47 +4,22 @@
       <div class="modify">
         <span class="modify_name">修改登录密码</span>
         <div class="modify_ipt_box">
-          <input type="password" style="display:none">
-          <input
-            class="modify_ipt"
-            type="password"
-            placeholder="请输入旧密码"
-            v-model="oldPwd"
-            autocomplete="new-password"
-          >
-          <input
-            class="modify_ipt"
-            type="password"
-            placeholder="请输入新密码"
-            v-model="newPwd"
-            autocomplete="new-password"
-          >
+          <input type="password" style="display:none" />
+          <input class="modify_ipt" type="password" placeholder="请输入旧密码" v-model="oldPwd" autocomplete="new-password" />
+          <input class="modify_ipt" type="password" placeholder="请输入新密码" v-model="newPwd" autocomplete="new-password" />
           <password-strength class="passwordStrength" :pwd="newPwd"></password-strength>
-          <input
-            class="modify_ipt"
-            type="password"
-            placeholder="请输入确认密码"
-            @blur="isIdentical"
-            v-model="newPwd2"
-            autocomplete="new-password"
-          >
+          <input class="modify_ipt" type="password" placeholder="请输入确认密码" @blur="isIdentical" v-model="newPwd2" autocomplete="new-password" />
           <!-- 两次输入密码不同时的提示信息-->
-          <span class="tips" v-show="flag">{{errMsg}}</span>
+          <span class="tips" v-show="flag">{{ errMsg }}</span>
           <!-- <PasswordStrength :pwd="newPwd" class="pwd_strength"/> -->
         </div>
       </div>
       <div class="btn">
-        <button class="determine" @click="updateUserPsw">确定</button>
-        <button class="cancle" @click="isShow.isShow2 = !isShow.isShow2">取消</button>
+        <button class="determine" @click="updateUserPsw">确定</button> <button class="cancle" @click="isShow.isShow2 = !isShow.isShow2">取消</button>
       </div>
     </div>
-    <errDialog
-      :show.sync="showDialog"
-      :singleButton="singleButton"
-      class="djs-charge-dialog"
-      :onClose="show"
-    >
-      <div>{{msg}}</div>
+    <errDialog :show.sync="showDialog" :singleButton="singleButton" class="djs-charge-dialog" :onClose="show">
+      <div>{{ msg }}</div>
     </errDialog>
   </div>
 </template>

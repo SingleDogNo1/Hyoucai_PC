@@ -2,18 +2,18 @@
   <div class="coupons">
     <header>
       <div class="card" :class="{ active: flag1 }" @click="changeFlag1">可用卡券</div>
-      <div class="card" :class="[{ active: flag2 },{ actives : flag2 }]" @click="changeFlag2">历史卡券</div>
+      <div class="card" :class="[{ active: flag2 }, { actives: flag2 }]" @click="changeFlag2">历史卡券</div>
     </header>
     <!-- 可用卡券 -->
-    <div class="coupons_box" :class="{bg:flag}" v-show="flag1">
+    <div class="coupons_box" :class="{ bg: flag }" v-show="flag1">
       <!-- 立即领取 -->
       <div
         v-for="(item, index) in receiveList"
         :class="[
           { receive1: item.voucherType == 'VT01' },
           { receive2: item.secondType == 1 },
-          { receive2_1: item.secondType == 2&&item.intoAccount==0 },
-          { receive2_2: item.secondType == 2&&item.intoAccount==1 },
+          { receive2_1: item.secondType == 2 && item.intoAccount == 0 },
+          { receive2_2: item.secondType == 2 && item.intoAccount == 1 },
           { receive3: item.voucherType == 'VT03' }
         ]"
         :key="index + 'a'"
@@ -21,16 +21,10 @@
         <!-- 加息券待领取 -->
         <div v-show="item.voucherType == 'VT01'">
           <p class="vouche_box">
-            <span class="vouche">
-              {{ item.voucherFaceValue }}
-              <i class="vouche_i">%</i>
-              <i class="font">利息</i>
-            </span>
+            <span class="vouche"> {{ item.voucherFaceValue }} <i class="vouche_i">%</i> <i class="font">利息</i> </span>
             <span class="vouche_aside">可加息{{ item.validDays }}天</span>
           </p>
-          <p
-            class="start"
-          >出借限额：{{ item.amountMin | toThousands }}元至{{ item.amountMax | toThousands }}元</p>
+          <p class="start">出借限额：{{ item.amountMin | toThousands }}元至{{ item.amountMax | toThousands }}元</p>
           <button class="receive_btn" @click="receiveCoupon(item.id)">立即领取</button>
           <!-- 领取确定弹框 -->
           <Dialog :show.sync="isShow1" :onConfirm="receiveCouponSuccess" :title="'领取成功'"></Dialog>
@@ -38,23 +32,11 @@
         <!-- 红包待领取 -->
         <div v-show="item.voucherType == 'VT02'">
           <p class="vouche_box">
-            <span class="vouche">
-              {{ item.voucherFaceValue }}
-              <i class="vouche_i">元</i>
-            </span>
-            <span class="vouche_aside">可与加息券同时使用</span>
+            <span class="vouche"> {{ item.voucherFaceValue }} <i class="vouche_i">元</i> </span> <span class="vouche_aside">可与加息券同时使用</span>
           </p>
           <p class="start">起投金额：{{ item.amountMin | toThousands }}元</p>
-          <button
-            v-show="item.intoAccount==0"
-            class="receive_btn"
-            @click="receiveRedPacket(item.id)"
-          >立即领取</button>
-          <button
-            v-show="item.intoAccount==1"
-            class="receive_btn"
-            @click="receiveRedPacket(item.id)"
-          >计入账户</button>
+          <button v-show="item.intoAccount == 0" class="receive_btn" @click="receiveRedPacket(item.id)">立即领取</button>
+          <button v-show="item.intoAccount == 1" class="receive_btn" @click="receiveRedPacket(item.id)">计入账户</button>
           <!-- 领取确定弹框 -->
           <Dialog :show.sync="isShow2" :onConfirm="receiveRedPacketSuccess" :title="'领取成功'"></Dialog>
         </div>
@@ -66,55 +48,41 @@
         :class="[
           { receive1: item.voucherType == 'VT01' },
           { receive2: item.secondType == 1 },
-          { receive2_1: item.secondType == 2&&item.intoAccount==0 },
-          { receive2_3: item.secondType == 2&&item.intoAccount==1 },
+          { receive2_1: item.secondType == 2 && item.intoAccount == 0 },
+          { receive2_3: item.secondType == 2 && item.intoAccount == 1 },
           { receive3: item.voucherType == 'VT03' }
         ]"
         :key="index + 'b'"
       >
         <div v-show="item.voucherType == 'VT01'">
           <p class="vouche_box">
-            <span class="vouche">
-              {{ item.voucherFaceValue }}
-              <i class="vouche_i">%</i>
-              <i class="font">利息</i>
-            </span>
+            <span class="vouche"> {{ item.voucherFaceValue }} <i class="vouche_i">%</i> <i class="font">利息</i> </span>
             <span class="vouche_aside">可加息{{ item.validDays }}天</span>
           </p>
-          <p
-            class="start"
-          >出借限额：{{ item.amountMin | toThousands }}元至{{ item.amountMax | toThousands }}元</p>
+          <p class="start">出借限额：{{ item.amountMin | toThousands }}元至{{ item.amountMax | toThousands }}元</p>
           <button class="receive1_btn" @click="immdiateUse(item.id)">立即使用</button>
         </div>
         <div v-show="item.voucherType == 'VT02'">
           <p class="vouche_box">
-            <span class="vouche">
-              {{ item.voucherFaceValue }}
-              <i class="vouche_i">元</i>
-            </span>
-            <span class="vouche_aside">可与加息券同时使用</span>
+            <span class="vouche"> {{ item.voucherFaceValue }} <i class="vouche_i">元</i> </span> <span class="vouche_aside">可与加息券同时使用</span>
           </p>
           <p class="start">起投金额：{{ item.amountMin | toThousands }}元</p>
-          <button
-            v-show="item.secondType == 2&&item.intoAccount==0"
-            class="receive1_btn"
-            @click="immdiateUseRed(item.id)"
-          >立即使用</button>
-          <button v-show="item.secondType == 2&&item.intoAccount==1" class="receive_cash_btn">立即使用</button>
+          <button v-show="item.secondType == 2 && item.intoAccount == 0" class="receive1_btn" @click="immdiateUseRed(item.id)">立即使用</button>
+          <button v-show="item.secondType == 2 && item.intoAccount == 1" class="receive_cash_btn">立即使用</button>
         </div>
         <div class="endData">有效期至{{ item.validUseEndTime }}</div>
       </div>
     </div>
     <!-- 历史卡券 -->
-    <div class="message_box" :class="{bg:flags}" v-show="flag2">
+    <div class="message_box" :class="{ bg: flags }" v-show="flag2">
       <!-- 已过期 -->
       <div
         v-for="(item, index) in expiredList"
         :class="[
           { receive1: item.voucherType == 'VT01' },
           { receive2: item.secondType == 1 },
-          { receive2_1: item.secondType == 2&&item.intoAccount==0 },
-          { receive2_2: item.secondType == 2&&item.intoAccount==1 },
+          { receive2_1: item.secondType == 2 && item.intoAccount == 0 },
+          { receive2_2: item.secondType == 2 && item.intoAccount == 1 },
           { receive3: item.voucherType == 'VT03' }
         ]"
         :key="index + 'c'"
@@ -122,25 +90,15 @@
         <!-- 加息券 -->
         <div v-show="item.voucherType == 'VT01'">
           <p class="vouche_box">
-            <span class="vouche">
-              {{ item.voucherFaceValue }}
-              <i class="vouche_i">%</i>
-              <i class="font">利息</i>
-            </span>
+            <span class="vouche"> {{ item.voucherFaceValue }} <i class="vouche_i">%</i> <i class="font">利息</i> </span>
             <span class="vouche_aside">可加息{{ item.validDays }}天</span>
           </p>
-          <p
-            class="start"
-          >出借限额：{{ item.amountMin | toThousands }}元至{{ item.amountMax | toThousands }}元</p>
+          <p class="start">出借限额：{{ item.amountMin | toThousands }}元至{{ item.amountMax | toThousands }}元</p>
         </div>
         <!-- 红包 -->
         <div v-show="item.voucherType == 'VT02'">
           <p class="vouche_box">
-            <span class="vouche">
-              {{ item.voucherFaceValue }}
-              <i class="vouche_i">元</i>
-            </span>
-            <span class="vouche_aside">可与加息券同时使用</span>
+            <span class="vouche"> {{ item.voucherFaceValue }} <i class="vouche_i">元</i> </span> <span class="vouche_aside">可与加息券同时使用</span>
           </p>
           <p class="start">起投金额：{{ item.amountMin | toThousands }}元</p>
         </div>
@@ -153,8 +111,8 @@
         :class="[
           { receive1: item.voucherType == 'VT01' },
           { receive2: item.secondType == 1 },
-          { receive2_1: item.secondType == 2&&item.intoAccount==0 },
-          { receive2_2: item.secondType == 2&&item.intoAccount==1 },
+          { receive2_1: item.secondType == 2 && item.intoAccount == 0 },
+          { receive2_2: item.secondType == 2 && item.intoAccount == 1 },
           { receive3: item.voucherType == 'VT03' }
         ]"
         :key="index + 'd'"
@@ -162,25 +120,15 @@
         <!-- 加息券 -->
         <div v-show="item.voucherType == 'VT01'">
           <p class="vouche_box">
-            <span class="vouche">
-              {{ item.voucherFaceValue }}
-              <i class="vouche_i">%</i>
-              <i class="font">利息</i>
-            </span>
+            <span class="vouche"> {{ item.voucherFaceValue }} <i class="vouche_i">%</i> <i class="font">利息</i> </span>
             <span class="vouche_aside">可加息{{ item.validDays }}天</span>
           </p>
-          <p
-            class="start"
-          >出借限额：{{ item.amountMin | toThousands }}元至{{ item.amountMax | toThousands }}元</p>
+          <p class="start">出借限额：{{ item.amountMin | toThousands }}元至{{ item.amountMax | toThousands }}元</p>
         </div>
         <!-- 红包 -->
         <div v-show="item.voucherType == 'VT02'">
           <p class="vouche_box">
-            <span class="vouche">
-              {{ item.voucherFaceValue }}
-              <i class="vouche_i">元</i>
-            </span>
-            <span class="vouche_aside">可与加息券同时使用</span>
+            <span class="vouche"> {{ item.voucherFaceValue }} <i class="vouche_i">元</i> </span> <span class="vouche_aside">可与加息券同时使用</span>
           </p>
           <p class="start">起投金额：{{ item.amountMin | toThousands }}元</p>
         </div>

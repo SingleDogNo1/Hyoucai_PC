@@ -97,10 +97,10 @@ export default {
     },
     showDetail(data) {
       /*
-      *  data.settlementFlags === '1': 已结清
-      *  data.settlementFlags === '0': 未结清
-      *  data.projectNo: 项目编号
-      * */
+       *  data.settlementFlags === '1': 已结清
+       *  data.settlementFlags === '0': 未结清
+       *  data.projectNo: 项目编号
+       * */
       if (data.settlementFlags === '1') {
         this.$router.push({
           name: 'lendList',

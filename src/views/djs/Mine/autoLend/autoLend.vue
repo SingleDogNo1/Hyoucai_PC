@@ -25,7 +25,7 @@
           <td>{{ item.invAmount }}</td>
           <td>{{ item.intSumStartDate }}</td>
           <td>{{ item.invOverDate }}</td>
-          <td>{{ item.doubleBonuCouponEntity?`+${item.doubleBonuCouponEntity.dbCouponRate}%`:'无' }}</td>
+          <td>{{ item.doubleBonuCouponEntity ? `+${item.doubleBonuCouponEntity.dbCouponRate}%` : '无' }}</td>
           <td>
             <span v-if="item.repeatStatus === 0" @click="handleSetAutoLend(item.id)">设置自动出借</span>
             <span v-if="item.repeatStatus === 1" @click="handleCancelAutoLend(item.id)">取消本金自动出借</span>

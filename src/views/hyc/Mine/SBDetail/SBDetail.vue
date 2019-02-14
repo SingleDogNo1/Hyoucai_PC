@@ -16,15 +16,15 @@
         </div>
         <ul>
           <li>
-            <span>{{BenefitPlan.userCouponRateTemp}}</span>
+            <span>{{ BenefitPlan.userCouponRateTemp }}</span>
             <p>加息利率</p>
           </li>
           <li>
-            <span>{{BenefitPlan.userCouponDays}}</span>
+            <span>{{ BenefitPlan.userCouponDays }}</span>
             <p>加息天数</p>
           </li>
           <li>
-            <span>{{BenefitPlan.userCouponAmount}}</span>
+            <span>{{ BenefitPlan.userCouponAmount }}</span>
             <p>待收加息收益(元)</p>
           </li>
         </ul>
@@ -33,19 +33,19 @@
         <div class="title">收益计划</div>
         <ul>
           <li>
-            <span>{{BenefitPlan.investmentPeriod}}</span>
+            <span>{{ BenefitPlan.investmentPeriod }}</span>
             <p>锁定期</p>
           </li>
           <li>
-            <span>{{BenefitPlan.interestRate}}</span>
+            <span>{{ BenefitPlan.interestRate }}</span>
             <p>计息方式</p>
           </li>
           <li>
-            <span>{{BenefitPlan.investAmount}}</span>
+            <span>{{ BenefitPlan.investAmount }}</span>
             <p>出借本金(元)</p>
           </li>
           <li>
-            <span>{{BenefitPlan.interest}}</span>
+            <span>{{ BenefitPlan.interest }}</span>
             <p>待收利息(元)</p>
           </li>
         </ul>
@@ -61,11 +61,11 @@
         </thead>
         <tbody>
           <template v-for="(item, index) in BenefitPlan.gainPlanPerTermList">
-            <tr :key="index" :class="{'done': item.status === '已结清'}">
-              <td>{{item.gainDate}}</td>
-              <td>{{item.principalPerTerm}}</td>
-              <td>{{item.interest}}</td>
-              <td>{{item.status}}</td>
+            <tr :key="index" :class="{ done: item.status === '已结清' }">
+              <td>{{ item.gainDate }}</td>
+              <td>{{ item.principalPerTerm }}</td>
+              <td>{{ item.interest }}</td>
+              <td>{{ item.status }}</td>
             </tr>
           </template>
         </tbody>
@@ -75,89 +75,66 @@
         <div class="lists">
           <ul>
             <li>
-              <b>借款人姓名：</b>
-              <span>{{personalInfo.borrowerName}}</span>
+              <b>借款人姓名：</b> <span>{{ personalInfo.borrowerName }}</span>
             </li>
             <li>
-              <b>年龄：</b>
-              <span>{{personalInfo.age}}</span>
+              <b>年龄：</b> <span>{{ personalInfo.age }}</span>
             </li>
             <li>
-              <b>婚姻状况：</b>
-              <span>{{personalInfo.maritalStatus}}</span>
+              <b>婚姻状况：</b> <span>{{ personalInfo.maritalStatus }}</span>
             </li>
             <li>
-              <b>借款用途：</b>
-              <span>{{personalInfo.loanAim}}</span>
+              <b>借款用途：</b> <span>{{ personalInfo.loanAim }}</span>
             </li>
             <li>
-              <b>还款来源：</b>
-              <span>{{personalInfo.paymentSource}}</span>
+              <b>还款来源：</b> <span>{{ personalInfo.paymentSource }}</span>
             </li>
           </ul>
           <ul>
             <li>
-              <b>性别：</b>
-              <span>{{personalInfo.sex}}</span>
+              <b>性别：</b> <span>{{ personalInfo.sex }}</span>
             </li>
             <li>
-              <b>行业：</b>
-              <span>{{personalInfo.industry}}</span>
+              <b>行业：</b> <span>{{ personalInfo.industry }}</span>
             </li>
             <li>
-              <b>月收入：</b>
-              <span>{{personalInfo.income}}</span>
+              <b>月收入：</b> <span>{{ personalInfo.income }}</span>
             </li>
             <li>
-              <b>借款主体性质：</b>
-              <span>{{personalInfo.borrowerTheme}}</span>
+              <b>借款主体性质：</b> <span>{{ personalInfo.borrowerTheme }}</span>
             </li>
             <li>
-              <b>逾期金额：</b>
-              <span>{{personalInfo.amountOverride}}</span>
+              <b>逾期金额：</b> <span>{{ personalInfo.amountOverride }}</span>
             </li>
           </ul>
           <ul>
             <li>
-              <b>身份证号：</b>
-              <span>{{personalInfo.idNum}}</span>
+              <b>身份证号：</b> <span>{{ personalInfo.idNum }}</span>
             </li>
             <li>
-              <b>居住地址：</b>
-              <span>{{personalInfo.domicile}}</span>
+              <b>居住地址：</b> <span>{{ personalInfo.domicile }}</span>
             </li>
             <li>
-              <b>借款金额：</b>
-              <span>{{personalInfo.prinAmt}}</span>
+              <b>借款金额：</b> <span>{{ personalInfo.prinAmt }}</span>
             </li>
             <li>
-              <b>借款期限：</b>
-              <span>{{personalInfo.loanDay}}</span>
+              <b>借款期限：</b> <span>{{ personalInfo.loanDay }}</span>
             </li>
           </ul>
         </div>
         <div class="report">
-          <b>征信报告：</b>
-          <span>{{personalInfo.creditReport}}</span>
+          <b>征信报告：</b> <span>{{ personalInfo.creditReport }}</span>
         </div>
         <div class="other">
           <b>在其他网络借贷平台借款情况：</b>
           <div>
-            <span>{{personalInfo.borrowSituation}}</span>
-            <a
-              v-if="personalInfo.guaranteeProtocolUrl"
-              :href="personalInfo.guaranteeProtocolUrl"
-              target="_blank"
-            >点击查看>></a>
+            <span>{{ personalInfo.borrowSituation }}</span>
+            <a v-if="personalInfo.guaranteeProtocolUrl" :href="personalInfo.guaranteeProtocolUrl" target="_blank">点击查看>></a>
           </div>
         </div>
-        <a
-          v-for="(item, index) in agreements"
-          :key="index"
-          :href="item.showUrl"
-          target="_blank"
-          class="agreement"
-        >{{item.name}}{{item.description2}}</a>
+        <a v-for="(item, index) in agreements" :key="index" :href="item.showUrl" target="_blank" class="agreement"
+          >{{ item.name }}{{ item.description2 }}</a
+        >
       </div>
     </div>
   </div>

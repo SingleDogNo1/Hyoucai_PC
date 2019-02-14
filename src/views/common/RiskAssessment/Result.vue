@@ -1,12 +1,9 @@
 <template>
   <section class="content">
-    <div class="image">
-      <img :src="imgSrc">
-    </div>
-    <p class="type">{{resultTitle}}</p>
+    <div class="image"><img :src="imgSrc" /></div>
+    <p class="type">{{ resultTitle }}</p>
     <p class="detail" v-html="resultFont"></p>
-    <button class="invest" @click="goInvest">立即出借</button>
-    <button class="agin" @click="getAgin">重新测评</button>
+    <button class="invest" @click="goInvest">立即出借</button> <button class="agin" @click="getAgin">重新测评</button>
   </section>
 </template>
 <script>
