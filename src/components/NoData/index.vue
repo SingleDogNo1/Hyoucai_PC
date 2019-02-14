@@ -1,15 +1,15 @@
 <template>
   <div class="__no__data">
     <!--<section>-->
-      <!--<div v-if="type === 'data'" class="data"></div>-->
-      <!--<div v-if="type === 'event'" class="data"></div>-->
-      <!--<div v-if="type === 'redpacket'" class="redpacket"></div>-->
-      <!--<div v-if="type === 'coupon'" class="coupon"></div>-->
-      <!--<div v-if="type === 'message'" class="message"></div>-->
-      <!--<div v-if="type === 'notice'" class="notice"></div>-->
-      <!--<div v-if="type === 'network'" class="network"></div>-->
+    <!--<div v-if="type === 'data'" class="data"></div>-->
+    <!--<div v-if="type === 'event'" class="data"></div>-->
+    <!--<div v-if="type === 'redpacket'" class="redpacket"></div>-->
+    <!--<div v-if="type === 'coupon'" class="coupon"></div>-->
+    <!--<div v-if="type === 'message'" class="message"></div>-->
+    <!--<div v-if="type === 'notice'" class="notice"></div>-->
+    <!--<div v-if="type === 'network'" class="network"></div>-->
     <!--</section>-->
-    <img src="./bd_ico@2x.png" alt="">
+    <img src="./bd_ico@2x.png" alt="" />
     <p v-if="type === 'data'">暂无数据</p>
     <p v-if="type === 'production'">暂无产品</p>
     <p v-if="type === 'event'">这里空空如也</p>
@@ -30,15 +30,15 @@ export default {
   props: {
     type: {
       /*
-           * type === 'data'       没有数据(default)
-           * type === 'prodution'   没有产品
-           * type === 'event'       这里空空如也（活动中心没有数据）
-           * type === 'redpacket'  没有红包
-           * type === 'coupon'     没有加息券
-           * type === 'message'    没有新消息
-           * type === 'notice'     没有公告
-           * type === 'network'    没有网络
-           */
+       * type === 'data'       没有数据(default)
+       * type === 'prodution'   没有产品
+       * type === 'event'       这里空空如也（活动中心没有数据）
+       * type === 'redpacket'  没有红包
+       * type === 'coupon'     没有加息券
+       * type === 'message'    没有新消息
+       * type === 'notice'     没有公告
+       * type === 'network'    没有网络
+       */
       type: String,
       default: 'data'
     }
@@ -57,12 +57,9 @@ export default {
 
 .__no__data {
   width: 100%;
-  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  border: 1px solid #e5e5e5;
-  background-color: #fff;
   img {
     display: block;
     width: 103px;

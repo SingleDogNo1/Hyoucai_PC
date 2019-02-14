@@ -1,8 +1,6 @@
 <template>
   <div class="bankcard">
-    <div class="title">
-      <span>我的银行卡</span>
-    </div>
+    <div class="title"><span>我的银行卡</span></div>
     <template v-if="bankcardList.length > 0">
       <div class="card-item" v-for="(item, index) in bankcardList" :key="index">
         <header>
@@ -17,11 +15,11 @@
     </template>
     <div class="no-card" v-else>
       <div class="wrap">
-        <button @click="toBindCard"><img src="./images/icon_nocard.png"/><span>添加银行卡</span></button>
+        <button @click="toBindCard"><img src="./images/icon_nocard.png" /><span>添加银行卡</span></button>
       </div>
     </div>
     <bankcard-dialog :show.sync="showDialog">
-      <div class="dialog-text">{{dialogMsg}}</div>
+      <div class="dialog-text">{{ dialogMsg }}</div>
     </bankcard-dialog>
   </div>
 </template>

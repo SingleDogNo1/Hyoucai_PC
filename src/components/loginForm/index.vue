@@ -9,7 +9,9 @@
         <div class="form-item">
           <i class="iconfont icon-user"></i> <input type="tel" v-model="userName" placeholder="请输入手机号" maxlength="11" />
         </div>
-        <div class="form-item"><i class="iconfont icon-password"></i> <input type="password" v-model="passWord" placeholder="请输入密码" @keydown.enter="doLogin"/></div>
+        <div class="form-item">
+          <i class="iconfont icon-password"></i> <input type="password" v-model="passWord" placeholder="请输入密码" @keydown.enter="doLogin" />
+        </div>
         <div id="captcha_pwd"></div>
         <div class="error-msg" v-if="error_pwd">
           <span>{{ error_pwd }}</span>
@@ -21,7 +23,8 @@
           <span @click="popValidation">{{ countDownText }}</span>
         </div>
         <div class="form-item">
-          <i class="iconfont icon-validation"></i> <input type="tel" v-model="smsCode" placeholder="请输入验证码" maxlength="6" @keydown.enter="doLogin" />
+          <i class="iconfont icon-validation"></i>
+          <input type="tel" v-model="smsCode" placeholder="请输入验证码" maxlength="6" @keydown.enter="doLogin" />
         </div>
         <div id="captcha_sms"></div>
         <div class="error-msg" v-if="error_sms">
@@ -44,7 +47,9 @@
         </div>
       </div>
       <div v-if="user.userIsOpenAccount && user.userIsOpenAccount.isOpenAccount">
-        <div class="account"><span class="label">账户余额(元)</span><span class="value">{{personalAccount.banlance}}</span></div>
+        <div class="account">
+          <span class="label">账户余额(元)</span><span class="value">{{ personalAccount.banlance }}</span>
+        </div>
         <div class="actions">
           <span @click="$router.push({ name: 'charge' })">充值</span> <span @click="$router.push({ name: 'tocash' })">提现</span>
         </div>

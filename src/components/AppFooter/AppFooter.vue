@@ -2,63 +2,29 @@
   <footer class="app-footer-wrapper">
     <ul class="top">
       <li>
-        <h3>
-          <i class="iconfont icon-about"></i>
-          <span>关于我们</span>
-        </h3>
-        <div>
-          <router-link to="/infoDisclosure?paramCode=GSJJ">公司简介</router-link>
-        </div>
-        <div>
-          <router-link to="/infoDisclosure?paramCode=PTXX">平台信息</router-link>
-        </div>
-        <div>
-          <router-link to="/infoDisclosure?paramCode=FZSJ">发展事迹</router-link>
-        </div>
-        <div>
-          <router-link to="/infoDisclosure?paramCode=HZHB">合作伙伴</router-link>
-        </div>
-        <div>
-          <router-link to="/infoDisclosure?paramCode=ZZRY">资质荣誉</router-link>
-        </div>
+        <h3><i class="iconfont icon-about"></i> <span>关于我们</span></h3>
+        <div><router-link to="/infoDisclosure?paramCode=GSJJ">公司简介</router-link></div>
+        <div><router-link to="/infoDisclosure?paramCode=PTXX">平台信息</router-link></div>
+        <div><router-link to="/infoDisclosure?paramCode=FZSJ">发展事迹</router-link></div>
+        <div><router-link to="/infoDisclosure?paramCode=HZHB">合作伙伴</router-link></div>
+        <div><router-link to="/infoDisclosure?paramCode=ZZRY">资质荣誉</router-link></div>
       </li>
       <li>
-        <h3>
-          <i class="iconfont icon-help"></i>
-          <span>帮助中心</span>
-        </h3>
-        <router-link
-          :to="{ name: 'helpCenter', query: { helpCode: item.dicCode } }"
-          v-for="(item, index) in QAList"
-          :key="index"
-        >{{item.dicName}}</router-link>
+        <h3><i class="iconfont icon-help"></i> <span>帮助中心</span></h3>
+        <router-link :to="{ name: 'helpCenter', query: { helpCode: item.dicCode } }" v-for="(item, index) in QAList" :key="index">{{
+          item.dicName
+        }}</router-link>
       </li>
       <li>
-        <h3>
-          <i class="iconfont icon-safe"></i>
-          <span>安全措施</span>
-        </h3>
-        <div>
-          <router-link to="/safety" @click.native="JumpSafety('satefy-url2')">资金银行存管</router-link>
-        </div>
-        <div>
-          <router-link to="/safety" @click.native="JumpSafety('satefy-url3')">多重风控措施</router-link>
-        </div>
-        <div>
-          <router-link to="/safety" @click.native="JumpSafety('satefy-url7')">小而分散的资产</router-link>
-        </div>
-        <div>
-          <router-link to="/safety" @click.native="JumpSafety('satefy-url8')">信息隐私</router-link>
-        </div>
-        <div>
-          <router-link to="/infoDisclosure?paramCode=CJRJY">安全风险教育</router-link>
-        </div>
+        <h3><i class="iconfont icon-safe"></i> <span>安全措施</span></h3>
+        <div><router-link to="/safety" @click.native="JumpSafety('satefy-url2')">资金银行存管</router-link></div>
+        <div><router-link to="/safety" @click.native="JumpSafety('satefy-url3')">多重风控措施</router-link></div>
+        <div><router-link to="/safety" @click.native="JumpSafety('satefy-url7')">小而分散的资产</router-link></div>
+        <div><router-link to="/safety" @click.native="JumpSafety('satefy-url8')">信息隐私</router-link></div>
+        <div><router-link to="/infoDisclosure?paramCode=CJRJY">安全风险教育</router-link></div>
       </li>
       <li>
-        <h3>
-          <i class="iconfont icon-tell_footer"></i>
-          <span>联系我们</span>
-        </h3>
+        <h3><i class="iconfont icon-tell_footer"></i> <span>联系我们</span></h3>
         <div>400-0997-979</div>
         <div>工作日</div>
         <div>上午 09:00 - 12:00</div>
@@ -66,21 +32,12 @@
         <div>cs@idjshi.com</div>
       </li>
       <li>
-        <h3>
-          <i class="iconfont icon-phone"></i>
-          <span>APP下载</span>
-        </h3>
+        <h3><i class="iconfont icon-phone"></i> <span>APP下载</span></h3>
         <div class="qr-code" @mouseenter="showIOSCode" @mouseleave="hideIOSCode">
-          <span>iOS下载</span>
-          <transition name="slide">
-            <div class="ios code" v-show="IOSCodeFlag"></div>
-          </transition>
+          <span>iOS下载</span> <transition name="slide"> <div class="ios code" v-show="IOSCodeFlag"></div> </transition>
         </div>
         <div class="qr-code" @mouseenter="showAndCode" @mouseleave="hideAndCode">
-          <span>安卓下载</span>
-          <transition name="slide">
-            <div class="and code" v-show="AndCodeFlag"></div>
-          </transition>
+          <span>安卓下载</span> <transition name="slide"> <div class="and code" v-show="AndCodeFlag"></div> </transition>
         </div>
       </li>
     </ul>
@@ -90,33 +47,22 @@
           <a :href="item.fsLink">{{ item.fsTitle }}</a>
         </li>
       </ul>
-      <p class="tips"><span>投诉举报电话：江西省政府金融办 0791-889182319</span><span>江西省银监局 0791-86766811</span><span>江西省互联网金融协会 400-915-8227</span></p>
+      <p class="tips">
+        <span>投诉举报电话：江西省政府金融办 0791-889182319</span><span>江西省银监局 0791-86766811</span
+        ><span>江西省互联网金融协会 400-915-8227</span>
+      </p>
       <div class="copyright">
-        <span>&copy;</span>
-        <span>2019 江西汇通金融信息服务有限公司</span>
-        <a href="http://www.miibeian.gov.cn/"> 赣ICP备13002945号-11</a>
+        <span>&copy;</span> <span>2019 江西汇通金融信息服务有限公司</span> <a href="http://www.miibeian.gov.cn/"> 赣ICP备13002945号-11</a>
       </div>
       <div class="copy-img">
         <a target="_blank" href="http://si.trustutn.org/info?sn=396180320000637017253&certType=4"></a>
         <a target="_blank" href="https://credit.szfw.org/CX20180307033115391632.html"></a>
-        <a
-          target="_blank"
-          href="https://v.pinpaibao.com.cn/cert/site/?site=www.hyoucai.com&at=realname"
-        ></a>
-        <a
-          target="_blank"
-          href="https://ss.knet.cn/verifyseal.dll?sn=e17033136010067212faqu000000&ct=df&a=1&pa=0.7946975489546229"
-        ></a>
-        <a
-          target="_blank"
-          href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=36012102000103"
-        ></a>
+        <a target="_blank" href="https://v.pinpaibao.com.cn/cert/site/?site=www.hyoucai.com&at=realname"></a>
+        <a target="_blank" href="https://ss.knet.cn/verifyseal.dll?sn=e17033136010067212faqu000000&ct=df&a=1&pa=0.7946975489546229"></a>
+        <a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=36012102000103"></a>
         <a target="_blank" href="http://www.jxcn.cn/jbzx/jbzn.htm"></a>
         <a target="_blank" href="https://www.hyoucai.com/page/noticeDetail.html?id=2277"></a>
-        <a
-          target="_blank"
-          href="http://shuidi.cn/companyextreme-cba6d53b25e3568746166d73661021a7.html"
-        ></a>
+        <a target="_blank" href="http://shuidi.cn/companyextreme-cba6d53b25e3568746166d73661021a7.html"></a>
       </div>
     </div>
   </footer>

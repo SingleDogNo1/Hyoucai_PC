@@ -5,9 +5,7 @@
         <div class="logo" @click="$router.push('/')"></div>
         <div class="swiper-container slogan">
           <div class="swiper-wrapper">
-            <div class="swiper-slide">
-              <div class="slogan-text"></div>
-            </div>
+            <div class="swiper-slide"><div class="slogan-text"></div></div>
           </div>
         </div>
       </div>
@@ -23,20 +21,13 @@
           <router-link tag="li" to="/contact">联系我们</router-link>
           <li class="wx-qr-code">
             <i class="iconfont icon-weChat_nav" @mouseenter="showWXCode" @mouseleave="hideWXCode"></i>
-            <transition name="fade">
-              <div class="qr-code" v-show="WXCodeFlag"></div>
-            </transition>
+            <transition name="fade"> <div class="qr-code" v-show="WXCodeFlag"></div> </transition>
           </li>
           <li class="app-qr-code">
             <i class="iconfont icon-phone_nav" @mouseenter="showAppCode" @mouseleave="hideAppCode"></i>
-            <transition name="fade">
-              <div class="qr-code" v-show="AppCodeFlag"></div>
-            </transition>
+            <transition name="fade"> <div class="qr-code" v-show="AppCodeFlag"></div> </transition>
           </li>
-          <li class="contact">
-            <i class="iconfont icon-tell_nav"></i>
-            <span class="tel-text"></span>
-          </li>
+          <li class="contact"><i class="iconfont icon-tell_nav"></i> <span class="tel-text"></span></li>
         </ul>
         <ul class="navs">
           <router-link tag="li" to="/">首页</router-link>

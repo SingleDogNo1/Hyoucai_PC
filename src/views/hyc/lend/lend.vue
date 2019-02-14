@@ -83,9 +83,7 @@
         <div class="pagination-wrapper">
           <pagination :count-page="countPage" :page-val="page" @handleCurrentChange="handleCurrentChange"></pagination>
         </div>
-        <div class="no-data-wrapper" v-if="QSList.length === 0">
-          <noData :type="noDataType"></noData>
-        </div>
+        <div class="no-data-wrapper" v-if="QSList.length === 0"><noData :type="noDataType"></noData></div>
       </div>
       <div class="area-wrapper" v-if="tabActive === 1">
         <div class="area" v-for="(item, i) in ZXList" :key="i">
@@ -135,9 +133,7 @@
         <div class="pagination-wrapper">
           <pagination :count-page="countPage1" :page-val="page1" @handleCurrentChange="handleCurrentChange1"></pagination>
         </div>
-        <div class="no-data-wrapper" v-if="ZXList.length === 0">
-          <noData :type="noDataType"></noData>
-        </div>
+        <div class="no-data-wrapper" v-if="ZXList.length === 0"><noData :type="noDataType"></noData></div>
       </div>
       <div class="area-wrapper" v-if="tabActive === 2">
         <div class="area" v-for="(item, i) in GRList" :key="i">
@@ -187,9 +183,7 @@
         <div class="pagination-wrapper">
           <pagination :count-page="countPage2" :page-val="page2" @handleCurrentChange="handleCurrentChange2"></pagination>
         </div>
-        <div class="no-data-wrapper" v-if="GRList.length === 0">
-          <noData :type="noDataType"></noData>
-        </div>
+        <div class="no-data-wrapper" v-if="GRList.length === 0"><noData :type="noDataType"></noData></div>
       </div>
     </div>
   </div>
@@ -474,6 +468,7 @@ export default {
     margin-top: 30px;
     .tabs {
       height: 36px;
+      margin-bottom: 30px;
       font-size: 0;
       overflow: hidden;
       li {
@@ -647,6 +642,11 @@ export default {
       .no-data-wrapper {
         height: 570px;
         margin: 30px auto;
+        .__no__data {
+          height: 100%;
+          background-color: #fff;
+          border: 1px solid #e5e5e5;
+        }
       }
     }
     .pagination-wrapper {

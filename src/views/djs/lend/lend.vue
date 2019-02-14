@@ -77,9 +77,7 @@
       <div class="pagination-wrapper">
         <pagination :count-page="countPage" :page-val="page" @handleCurrentChange="handleCurrentChange"></pagination>
       </div>
-      <div class="no-data-wrapper" v-if="list.length === 0">
-        <noData :type="noDataType"></noData>
-      </div>
+      <div class="no-data-wrapper" v-if="list.length === 0"><noData :type="noDataType"></noData></div>
     </div>
   </div>
 </template>
@@ -418,6 +416,11 @@ export default {
     .no-data-wrapper {
       height: 570px;
       margin: 30px auto;
+      .__no__data {
+        height: 100%;
+        background-color: #fff;
+        border: 1px solid #e5e5e5;
+      }
     }
   }
 }

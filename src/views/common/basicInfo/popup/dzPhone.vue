@@ -4,12 +4,12 @@
       <div class="modify">
         <span class="modify_name">电子账户手机号</span>
         <div class="modify_ipt_box">
-          <input class="modify_ipt" type="number" placeholder="请输入原手机号" v-model="oldMobile">
-          <input class="modify_ipt" type="number" placeholder="请输入新手机号" v-model="mobile">
-          <input class="modify_ipt" type="number" placeholder="请输入验证码" v-model="smsCode">
+          <input class="modify_ipt" type="number" placeholder="请输入原手机号" v-model="oldMobile" />
+          <input class="modify_ipt" type="number" placeholder="请输入新手机号" v-model="mobile" />
+          <input class="modify_ipt" type="number" placeholder="请输入验证码" v-model="smsCode" />
           <span class="code" @click="getMobileSendCode" v-if="!showCountDown">获取验证码</span>
-          <span class="code" v-if="showCountDown">{{countDown}}s</span>
-          <p class="txt">{{txt}}</p>
+          <span class="code" v-if="showCountDown">{{ countDown }}s</span>
+          <p class="txt">{{ txt }}</p>
         </div>
       </div>
       <div class="btn">

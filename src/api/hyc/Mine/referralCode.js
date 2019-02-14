@@ -30,3 +30,21 @@ export function userInviteInfo(data) {
     data: qs.stringify(data)
   })
 }
+
+// 钞票码或推荐码显隐
+export function cpmOrTjm() {
+  return request({
+    url: '/user/cpmOrTjm',
+    method: 'post',
+    headers: { 'Content-type': 'application/x-www-form-urlencoded' }
+  })
+}
+
+// 查询用户推荐码
+export function myInviteCode() {
+  return request({
+    url: '/user/myInviteCode',
+    method: 'post',
+    headers: { 'Content-type': 'application/x-www-form-urlencoded' }
+  })
+}
