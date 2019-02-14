@@ -148,6 +148,7 @@ export default {
     },
     close() {
       this.isShow.isShow3 = !this.isShow.isShow3
+      this.$emit('success')
       this.clearInfo()
     }
   }
