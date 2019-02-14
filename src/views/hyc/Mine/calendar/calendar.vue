@@ -90,7 +90,7 @@ export default {
     getLendDetail(year, month, day) {
       this.getIncome(year, month + 1, day, res => {
         let data = res.data.data
-        if (data.details && data.details.length > 0) {
+        if (data.details) {
           this.dayIncome = data.details
           // this.showDetailTable = true
         }
@@ -131,10 +131,10 @@ export default {
       }
     },
     getPrevMonth(month, year) {
-      this.getIncome(year, month)
+      this.getIncome(year, month, 1)
     },
     getNextMonth(month, year) {
-      this.getIncome(year, month)
+      this.getIncome(year, month, 1)
     },
     getIncome(year, month, day, callback) {
       api
