@@ -15,7 +15,7 @@
         <button class="cancle" @click="close">取消</button>
       </div>
     </div>
-    <errDialog :show.sync="showDialog" :singleButton="singleButton" class="djs-charge-dialog">
+    <errDialog :show.sync="showDialog" :singleButton="singleButton" class="djs-charge-dialog" :onClose="close">
       <div>{{ errMsg.common }}</div>
     </errDialog>
   </div>
@@ -57,8 +57,8 @@ export default {
       if (isMobile(this.consigneePhone)) {
         saveMailingAddress(obj).then(res => {
           if (res.data.resultCode === '1') {
-            this.$notify({ title: '成功', message: '收货地址修改成功', type: 'success', duration: 2000 })
-            this.close()
+            this.showDialog = true
+            this.errMsg.common = res.data.resultMsg = '修改收货地址成功'
           } else {
             this.showDialog = true
             this.errMsg.common = res.data.resultMsg
