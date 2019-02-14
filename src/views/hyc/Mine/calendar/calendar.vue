@@ -98,8 +98,6 @@ export default {
     showDetail(item) {
       // 判断productType是集合标还是散标 (0：散标，1：债转标，2：集合标)
       // 判断settlementFlags是否是已结清，如果是已结清，跳转到已结清的页面，否则跳转到我的出借的项目详情页面 (0-未结清 1-已结清)
-      item.settlementFlags = '1'
-      item.productType = '0'
       if (item.settlementFlags === '1') {
         this.$router.push({
           name: 'userLend',
@@ -108,19 +106,19 @@ export default {
       } else {
         if (item.productType === '0') {
           this.$router.push({
-            name: 'QSTDetail',
+            name: 'ZXTDetail',
             query: {
-              id: item.recordPackageId,
-              type: item.productType
+              productId: item.projectNo,
+              id: item.invRecordId
             }
           })
         }
         if (item.productType === '2') {
           this.$router.push({
-            name: 'ZXTDetail',
+            name: 'QSTDetail',
             query: {
-              productId: item.projectNo,
-              id: item.invRecordId
+              id: item.recordPackageId,
+              type: item.productType
             }
           })
         }
