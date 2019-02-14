@@ -160,39 +160,6 @@
                   <td>运营商认证</td>
                   <td>中国移动运营商认证通过</td>
                 </tr>
-                <!-- </tr>
-                <tr>
-                  <td>身份证认证</td>
-                  <td>
-                    <img @click="openReviewInfoPop" src="./image/bg.png">
-                  </td>
-                  <td>运营商认证</td>
-                  <td>中国移动运营商认证通过</td>
-                </tr>
-                <tr>
-                  <td>学信网认证</td>
-                  <td>白领</td>
-                  <td>人脸识别</td>
-                  <td>
-                    <img @click="openFaceRecognitionPop" src="./image/bg.png">
-                  </td>
-                </tr>
-                <tr>
-                  <td>签约</td>
-                  <td>
-                    <img src="./image/bg.png">
-                  </td>
-                  <td>银行卡认证</td>
-                  <td>6228 **** **** 1234银行卡账户、开户名、开户手机、身份证号认证成功</td>
-                </tr>
-                <tr>
-                  <td>互联网资讯报告</td>
-                  <td>
-                    <img @click="openReportPop" src="./image/bg.png">
-                  </td>
-                  <td></td>
-                  <td></td>
-                </tr>-->
               </table>
               <table class="examine">
                 <tr class="examine-title">
@@ -207,39 +174,6 @@
                   <td>运营商认证</td>
                   <td>中国移动运营商认证通过</td>
                 </tr>
-                <!-- </tr>
-                <tr>
-                  <td>身份证认证</td>
-                  <td>
-                    <img @click="openReviewInfoPop" src="./image/bg.png">
-                  </td>
-                  <td>运营商认证</td>
-                  <td>中国移动运营商认证通过</td>
-                </tr>
-                <tr>
-                  <td>学信网认证</td>
-                  <td>白领</td>
-                  <td>人脸识别</td>
-                  <td>
-                    <img @click="openFaceRecognitionPop" src="./image/bg.png">
-                  </td>
-                </tr>
-                <tr>
-                  <td>签约</td>
-                  <td>
-                    <img src="./image/bg.png">
-                  </td>
-                  <td>银行卡认证</td>
-                  <td>6228 **** **** 1234银行卡账户、开户名、开户手机、身份证号认证成功</td>
-                </tr>
-                <tr>
-                  <td>互联网资讯报告</td>
-                  <td>
-                    <img @click="openReportPop" src="./image/bg.png">
-                  </td>
-                  <td></td>
-                  <td></td>
-                </tr>-->
               </table>
               <p class="title">
                 <span class="title-boder"></span>

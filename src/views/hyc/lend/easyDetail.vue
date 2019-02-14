@@ -737,13 +737,14 @@ export default {
             this.isShowRiskDialog = true
             return
           }
+          console.log('this.invAmount===', this.invAmount)
           // 单人限额是否超过
-          if (this.invAmount > this.projectInfo.maxInvTotalAmount) {
+          if (parseFloat(this.invAmount) > parseFloat(this.projectInfo.maxInvTotalAmount)) {
             this.errMsg = '单人限额' + this.projectInfo.maxInvTotalAmount + '元'
             return
           }
           // 单笔限额是否超过
-          if (this.invAmount > this.projectInfo.maxInvAmount) {
+          if (parseFloat(this.invAmount) > parseFloat(this.projectInfo.maxInvAmount)) {
             this.errMsg = '单笔限额' + this.projectInfo.maxInvAmount + '元'
             return
           }
