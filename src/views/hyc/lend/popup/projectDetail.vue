@@ -14,7 +14,7 @@
           <div class="txt">
             <p>
               <span class="left">项目名称：</span>
-              <span class="right">JY00000000001</span>
+              <span class="right">{{projectName}}</span>
             </p>
             <p>
               <span class="left">还款方式：</span>
@@ -272,13 +272,14 @@ export default {
       rate: ''
     }
   },
-  props: ['projectNo', 'projectType'],
+  props: ['projectNo', 'projectType', 'projectName'],
   methods: {
     change: function() {
       this.$emit('changeProjectDetail')
     }
   },
   created() {
+    console.log(this.projectType + '----------')
     getPeopleInfoApi({ projectNo: 'BD20190125104251004113', nameEncrypt: true }).then(res => {
       let data = res.data.data
       this.borrowerName = data.borrowerName
