@@ -1,10 +1,11 @@
 import request from '@/assets/js/requestHYC'
+import qs from 'qs'
 
 export function getCountMsg(data) {
   return request({
     url: '/InvestCountMsg',
-    method: 'GET',
-    data: data
+    method: 'post',
+    data: qs.stringify(data)
   })
 }
 export function getQSList(data) {
@@ -14,7 +15,7 @@ export function getQSList(data) {
     headers: {
       version: '2.0'
     },
-    data: data
+    data: qs.stringify(data)
   })
 }
 
@@ -25,7 +26,7 @@ export function getZXList(data) {
     headers: {
       version: '2.0'
     },
-    data: data
+    data: qs.stringify(data)
   })
 }
 
@@ -36,7 +37,7 @@ export function getGRList(data) {
     headers: {
       version: '2.0'
     },
-    data: data
+    data: qs.stringify(data)
   })
 }
 
@@ -52,14 +53,14 @@ export function getProjectDetail(data) {
   return request({
     url: '/collection/projectDetail',
     method: 'POST',
-    data: data
+    data: qs.stringify(data)
   })
 }
 
 export function getPeopleLoanInfo(data) {
   return request({
     url: '/collection/peopleLoanInfo',
-    method: 'GET',
-    data: data
+    method: 'post',
+    data: qs.stringify(data)
   })
 }

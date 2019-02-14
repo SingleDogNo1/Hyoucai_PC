@@ -3,7 +3,7 @@
     <section class="production-info">
       <div class="title">
         <h2>
-          <img src="./image/icon_ying.png">
+          <img src="./image/icon_ying.png" alt="">
           <span>{{projectInfo.projectName}}</span>
         </h2>
       </div>
@@ -845,7 +845,6 @@ import { mapState } from 'vuex'
 import Pagination from '@/components/pagination/pagination'
 import { timeCountDown } from '@/assets/js/utils'
 import { optionalInvestDetail, amountInfo, optionalInvestRecord, expectedIncome, systemMaintenance, amountSync } from '@/api/hyc/lendDetail'
-import ProjectDetail from './popup/projectDetail'
 import Dialog from '@/components/Dialog/Dialog'
 export default {
   data() {
@@ -918,7 +917,8 @@ export default {
     }
   },
   components: {
-    Pagination
+    Pagination,
+    Dialog
   },
   computed: {
     ...mapState({
@@ -1995,7 +1995,8 @@ export default {
         }
         .swiper-wrap {
           width: 100%;
-          .swiper-container-red-envelope, .swiper-container-rate-stamp {
+          .swiper-container-red-envelope,
+          .swiper-container-rate-stamp {
             width: 560px;
             margin: 0 auto;
             position: relative;
@@ -2003,7 +2004,8 @@ export default {
             list-style: none;
             padding: 0;
             z-index: 1;
-            /deep/ .red-envelope-box, /deep/ .rate-stamp-box {
+            /deep/ .red-envelope-box,
+            /deep/ .rate-stamp-box {
               position: relative;
               width: 378px;
               height: 105px;
@@ -2145,7 +2147,8 @@ export default {
             outline: 0;
             cursor: pointer;
           }
-          .swiper-button-prev1.swiper-button-disabled, .swiper-button-next1.swiper-button-disabled {
+          .swiper-button-prev1.swiper-button-disabled,
+          .swiper-button-next1.swiper-button-disabled {
             opacity: 0.35;
             cursor: auto;
             pointer-events: none;
