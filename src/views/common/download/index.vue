@@ -17,7 +17,7 @@
   min-width: 1140px;
   width: 100%;
   height: 550px;
-  background: url('./bg.png') center center;
+  background: url('./bg.png') center center no-repeat;
 
   .dl-content {
     width: 1140px;
