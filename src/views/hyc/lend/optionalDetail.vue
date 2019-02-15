@@ -53,7 +53,7 @@
             :class="{ 'unopened-status-title': investStatus === 'unopened' }"
             class="status-title"
           >{{investStatusTitle}}</span>
-          <button v-if="investStatus != 'unopened'" class="status-btn">
+          <button v-if="investStatus !== 'unopened'" class="status-btn">
             <router-link :to="{ name: 'charge' }">{{investStatusBtn}}</router-link>
           </button>
         </h2>
@@ -76,7 +76,7 @@
             </el-checkbox>
           </div>
           <div class="all-lending" v-if="investStatus === 'lending'">
-            <el-checkbox class="all-lending-checkbox" v-model="isAllLending">全部出借</el-checkbox>
+            <el-checkbox class="all-lending-checkbox" v-model="isAllLending" @change="toggleFill">全部出借</el-checkbox>
           </div>
           <div class="action" v-if="investStatus === 'willSale' || investStatus === 'lending'">
             <input class="amount-input" v-model="invAmount" @keyup="handleExpectedIncome">
@@ -160,39 +160,6 @@
                   <td>运营商认证</td>
                   <td>中国移动运营商认证通过</td>
                 </tr>
-                <!-- </tr>
-                <tr>
-                  <td>身份证认证</td>
-                  <td>
-                    <img @click="openReviewInfoPop" src="./image/bg.png">
-                  </td>
-                  <td>运营商认证</td>
-                  <td>中国移动运营商认证通过</td>
-                </tr>
-                <tr>
-                  <td>学信网认证</td>
-                  <td>白领</td>
-                  <td>人脸识别</td>
-                  <td>
-                    <img @click="openFaceRecognitionPop" src="./image/bg.png">
-                  </td>
-                </tr>
-                <tr>
-                  <td>签约</td>
-                  <td>
-                    <img src="./image/bg.png">
-                  </td>
-                  <td>银行卡认证</td>
-                  <td>6228 **** **** 1234银行卡账户、开户名、开户手机、身份证号认证成功</td>
-                </tr>
-                <tr>
-                  <td>互联网资讯报告</td>
-                  <td>
-                    <img @click="openReportPop" src="./image/bg.png">
-                  </td>
-                  <td></td>
-                  <td></td>
-                </tr>-->
               </table>
               <table class="examine">
                 <tr class="examine-title">
@@ -207,39 +174,6 @@
                   <td>运营商认证</td>
                   <td>中国移动运营商认证通过</td>
                 </tr>
-                <!-- </tr>
-                <tr>
-                  <td>身份证认证</td>
-                  <td>
-                    <img @click="openReviewInfoPop" src="./image/bg.png">
-                  </td>
-                  <td>运营商认证</td>
-                  <td>中国移动运营商认证通过</td>
-                </tr>
-                <tr>
-                  <td>学信网认证</td>
-                  <td>白领</td>
-                  <td>人脸识别</td>
-                  <td>
-                    <img @click="openFaceRecognitionPop" src="./image/bg.png">
-                  </td>
-                </tr>
-                <tr>
-                  <td>签约</td>
-                  <td>
-                    <img src="./image/bg.png">
-                  </td>
-                  <td>银行卡认证</td>
-                  <td>6228 **** **** 1234银行卡账户、开户名、开户手机、身份证号认证成功</td>
-                </tr>
-                <tr>
-                  <td>互联网资讯报告</td>
-                  <td>
-                    <img @click="openReportPop" src="./image/bg.png">
-                  </td>
-                  <td></td>
-                  <td></td>
-                </tr>-->
               </table>
               <p class="title">
                 <span class="title-boder"></span>
@@ -264,123 +198,6 @@
                   <td>免费</td>
                 </tr>
               </table>
-              <!-- <p class="title">
-                <span class="title-boder"></span>
-                <span class="title-text">借款人信息</span>
-              </p>
-              <div class="borrower">
-                <div class="borrower-box">
-                  <p class="borrower-box-left">
-                    <span class="left">借款人姓名：</span>
-                    <span class="right"></span>
-                  </p>
-                  <p class="borrower-box-center">
-                    <span class="left">性别：</span>
-                    <span class="right"></span>
-                  </p>
-                  <p>
-                    <span class="left">身份证号：</span>
-                    <span class="right"></span>
-                  </p>
-                </div>
-                <div class="borrower-box">
-                  <p class="borrower-box-left">
-                    <span class="left">年龄：</span>
-                    <span class="right"></span>
-                  </p>
-                  <p class="borrower-box-center">
-                    <span class="left">行业：</span>
-                    <span class="right"></span>
-                  </p>
-                  <p>
-                    <span class="left">居住地址：</span>
-                    <span class="right"></span>
-                  </p>
-                </div>
-                <div class="borrower-box">
-                  <p class="borrower-box-left">
-                    <span class="left">婚姻状况：</span>
-                    <span class="right"></span>
-                  </p>
-                  <p class="borrower-box-center">
-                    <span class="left">月收入：</span>
-                    <span class="right"></span>
-                  </p>
-                  <p>
-                    <span class="left">借款金额：</span>
-                    <span class="right"></span>
-                  </p>
-                </div>
-                <div class="borrower-box">
-                  <p class="borrower-box-left">
-                    <span class="left">借款用途：</span>
-                    <span class="right"></span>
-                  </p>
-                  <p class="borrower-box-center">
-                    <span class="left">借款主体性质：</span>
-                    <span class="right"></span>
-                  </p>
-                  <p>
-                    <span class="left">借款期限：</span>
-                    <span class="right"></span>
-                  </p>
-                </div>
-                <div class="borrower-box">
-                  <p class="borrower-box-left">
-                    <span class="left">还款来源：</span>
-                    <span class="right"></span>
-                  </p>
-                  <p class="borrower-box-center">
-                    <span class="left">逾期金额：</span>
-                    <span class="right"></span>
-                  </p>
-                  <p></p>
-                </div>
-                <p class="borrower-txt">
-                  <span class="left">征信报告：</span>
-                  <span class="right">核查人银行征信报告，该借款人近6个月无逾</span>
-                </p>
-                <p class="borrower-txt">
-                  <span class="left">在其他网络借贷平台借款情况：</span>
-                  <span class="right">借款人保证在不同网络借贷信息中介机构平台借款总余额与本合同借款金额合计总额不超过人民币100万元</span>
-                </p>
-              </div>
-              <p class="title">
-                <span class="title-boder"></span>
-                <span class="title-text">贷后情况</span>
-              </p>
-              <div class="situation">
-                <div class="situation-div situation-left">
-                  <p>
-                    <span class="left">平台历史逾期次数：</span>
-                    <span class="right">0次</span>
-                  </p>
-                  <p>
-                    <span class="left">借款人还款能力变化情况：</span>
-                    <span class="right">未发现异常</span>
-                  </p>
-                </div>
-                <div class="situation-div situation-center">
-                  <p>
-                    <span class="left">平台历史逾期金额：</span>
-                    <span class="right">0.00元</span>
-                  </p>
-                  <p>
-                    <span class="left">借款人涉诉情况：</span>
-                    <span class="right">未发现新增涉诉</span>
-                  </p>
-                </div>
-                <div class="situation-div situation-right">
-                  <p>
-                    <span class="left">借款资金运用情况：</span>
-                    <span class="right">未发现挪用</span>
-                  </p>
-                  <p>
-                    <span class="left">借款人受行政处罚情况：</span>
-                    <span class="right">未发现新增行政处罚</span>
-                  </p>
-                </div>
-              </div>-->
             </section>
           </div>
         </el-tab-pane>
@@ -844,7 +661,16 @@ import Swiper from 'swiper/dist/js/swiper'
 import { mapState } from 'vuex'
 import Pagination from '@/components/pagination/pagination'
 import { timeCountDown } from '@/assets/js/utils'
-import { optionalInvestDetail, amountInfo, optionalInvestRecord, expectedIncome, systemMaintenance, amountSync } from '@/api/hyc/lendDetail'
+import {
+  optionalInvestDetail,
+  amountInfo,
+  optionalInvestRecord,
+  expectedIncome,
+  systemMaintenance,
+  amountSync,
+  availableRedPacketApi,
+  availableCouponApi
+} from '@/api/hyc/lendDetail'
 import Dialog from '@/components/Dialog/Dialog'
 export default {
   data() {
@@ -913,7 +739,13 @@ export default {
       singleButton: true,
       riskConfirmText: '重新评测',
       riskContent: '您当前出借的额度或期限不符合您的风险评测<br />等级分布，若您在上次评测后风险承受能力发<br />生改变，请您重新进行风险评测！',
-      isShowConfirmInvestmentDialog: true
+      isShowConfirmInvestmentDialog: false,
+      redPacketsList: [],
+      redPacketIndex: -1,
+      chooseRedPacketAmt: 0, // 选中红包的金额
+      chooseCouponRate: 0, // 选中加息券的利率
+      couponsList: [],
+      couponIndex: -1
     }
   },
   components: {
@@ -925,6 +757,11 @@ export default {
       user: state => state.user.user,
       userBasicInfo: state => state.user.userBasicInfo
     })
+  },
+  watch: {
+    invAmount(value) {
+      this.handleExpectedIncome(value)
+    }
   },
   methods: {
     handleItemClick() {
@@ -943,20 +780,31 @@ export default {
           break
       }
     },
+    toggleFill(value) {
+      if (value) {
+        if (this.projectInfo.balance - 0 > this.projectInfo.maxInvTotalAmount - 0) {
+          this.invAmount = this.projectInfo.maxInvTotalAmount
+        } else {
+          this.invAmount = this.projectInfo.balance
+        }
+      } else {
+        this.invAmount = '0'
+      }
+    },
     handleCurrentChange(val) {
       this.page = val
       this.getJoinRecordList()
     },
-    handleExpectedIncome(e) {
-      e.target.value = e.target.value.replace(/[^\d.]/g, '')
-      e.target.value = e.target.value.replace(/\.{2,}/g, '.')
-      e.target.value = e.target.value
+    handleExpectedIncome(invAmount) {
+      //TODO invAmount.replace is not a function??
+      this.invAmount = invAmount
+        .replace(/[^\d.]/g, '')
+        .replace(/\.{2,}/g, '.')
         .replace('.', '$#$')
         .replace(/\./g, '')
         .replace('$#$', '.')
-      e.target.value = e.target.value.replace(/^(-)*(\d+)\.(\d\d).*$/, '$1$2.$3')
-      this.invAmount = e.target.value
-      console.log('this.invAmount====', this.invAmount)
+        .replace(/^(-)*(\d+)\.(\d\d).*$/, '$1$2.$3')
+
       let postData = {
         invAmount: this.invAmount,
         investRate: this.projectInfo.investRate,
@@ -968,8 +816,6 @@ export default {
       })
     },
     getUserBasicInfo() {
-      console.log(this.userBasicInfo)
-      //this.userBasicInfo.escrowAccountInfo = ''
       if (!this.userBasicInfo.escrowAccountInfo) {
         this.investStatus = 'unopened' // 状态为为开户
         this.investStatusTitle = '未开户'
@@ -979,7 +825,6 @@ export default {
       }
     },
     getInvestStatus() {
-      console.log('status===', this.projectInfo.status)
       this.projectInfo.status = 1
       switch (
         this.projectInfo.status // 0.预售    1.出借中   2.满标   3.已完结
@@ -1102,7 +947,6 @@ export default {
     getAmountQuery() {
       amountInfo().then(res => {
         let data = res.data
-        console.log('data===', data)
         if (data.resultCode === '1') {
           this.projectInfo.balance = this.investStatus === 'unopened' ? '未开户' : data.data.banlance
           console.log(this.projectInfo.balance)
@@ -1129,54 +973,74 @@ export default {
     },
     handleInvest() {
       this.errMsg = ''
-      systemMaintenance().then(res => {
-        let data = res.data
-        // 此时段为系统维护
-        if (data.resultCode === '60056') {
-          this.isShowSystemMaintenanceDialog = true
-        } else {
-          amountSync().then(res => {
-            let data = res.data
-            console.log('data====', data)
-            if (data.resultCode === '1') {
-              this.projectInfo.balance = data.data.availBal
+      if (this.invAmount === '') {
+        this.errMsg = '请输入金额'
+      } else {
+        systemMaintenance().then(res => {
+          let data = res.data
+          // 此时段为系统维护
+          if (data.resultCode === '60056') {
+            this.isShowSystemMaintenanceDialog = true
+          } else {
+            amountSync().then(res => {
+              let data = res.data
+              console.log('data====', data)
+              if (data.resultCode === '1') {
+                this.projectInfo.balance = data.data.availBal
+              }
+            })
+            // 如果是未开户，点击去开户页面
+            if (this.investStatus === 'unopened') {
+              this.$router.push({ name: 'account' })
             }
-          })
-          // 如果是未开户，点击去开户页面
-          if (this.investStatus === 'unopened') {
-            this.$router.push({ name: 'account' })
+            // 如果没勾选风险告知书，弹出提示
+            if (!this.isAgree) {
+              this.errMsg = '请确认并同意《风险告知书》'
+              return
+            }
+            // 是否已经签约
+            this.userBasicInfo.userIsOpenAccount.registerProtocolSigned = true
+            if (!this.userBasicInfo.userIsOpenAccount.registerProtocolSigned) {
+              this.isShowSignDialog = true
+              return
+            }
+            // 是否进行过风险测评
+            this.userBasicInfo.evaluatingResult = true
+            if (!this.userBasicInfo.evaluatingResult) {
+              this.riskContent = '您当前还未风险评测或评测已过期，请进行风险评测。'
+              this.riskConfirmText = '立即评测'
+              this.isShowRiskDialog = true
+              return
+            }
+            // 单人限额是否超过
+            if (this.invAmount > this.projectInfo.maxInvTotalAmount) {
+              this.errMsg = '单人限额' + this.projectInfo.maxInvTotalAmount + '元'
+              return
+            }
+            // 单笔限额是否超过
+            if (this.invAmount > this.projectInfo.maxInvAmount) {
+              this.errMsg = '单笔限额' + this.projectInfo.maxInvAmount + '元'
+              return
+            }
+
+            this.isShowConfirmInvestmentDialog = true
+            availableRedPacketApi({
+              investAmount: this.invAmount,
+              productId: this.productId
+            }).then(res => {
+              this.redPacketsList = res.data.data.userRedPackets
+              this.redEnvelopeSwiper()
+              availableCouponApi({
+                investAmount: this.invAmount,
+                productId: this.productId
+              }).then(res => {
+                this.couponsList = res.data.data.coupons
+                this.rateStampSwiper()
+              })
+            })
           }
-          // 如果没勾选风险告知书，弹出提示
-          if (!this.isAgree) {
-            this.errMsg = '请确认并同意《风险告知书》'
-            return
-          }
-          // 是否已经签约
-          this.userBasicInfo.userIsOpenAccount.registerProtocolSigned = true
-          if (!this.userBasicInfo.userIsOpenAccount.registerProtocolSigned) {
-            this.isShowSignDialog = true
-            return
-          }
-          // 是否进行过风险测评
-          this.userBasicInfo.evaluatingResult = true
-          if (!this.userBasicInfo.evaluatingResult) {
-            this.riskContent = '您当前还未风险评测或评测已过期，请进行风险评测。'
-            this.riskConfirmText = '立即评测'
-            this.isShowRiskDialog = true
-            return
-          }
-          // 单人限额是否超过
-          if (this.invAmount > this.projectInfo.maxInvTotalAmount) {
-            this.errMsg = '单人限额' + this.projectInfo.maxInvTotalAmount + '元'
-            return
-          }
-          // 单笔限额是否超过
-          if (this.invAmount > this.projectInfo.maxInvAmount) {
-            this.errMsg = '单笔限额' + this.projectInfo.maxInvAmount + '元'
-            return
-          }
-        }
-      })
+        })
+      }
     },
     toSign() {
       this.$router.push({ name: 'sign' })
@@ -1185,54 +1049,50 @@ export default {
       this.$router.push({ name: 'riskAss' })
     },
     redEnvelopeSwiper() {
-      setTimeout(() => {
-        this.redEnvelopeSwiper = new Swiper('.swiper-container-red-envelope', {
-          paginationClickable: true,
-          observer: true,
-          observeParents: true,
-          loopAdditionalSlides: 1,
-          initialSlide: 1,
-          effect: 'coverflow',
-          slidesPerView: 1.3, // 一屏装几个slider
-          centeredSlides: true,
-          coverflowEffect: {
-            rotate: 0,
-            stretch: 35,
-            depth: 20,
-            modifier: 1,
-            slideShadows: false
-          },
-          navigation: {
-            nextEl: '.swiper-button-next',
-            prevEl: '.swiper-button-prev'
-          }
-        })
-      }, 200)
+      new Swiper('.swiper-container-red-envelope', {
+        paginationClickable: true,
+        observer: true,
+        observeParents: true,
+        loopAdditionalSlides: 1,
+        initialSlide: 1,
+        effect: 'coverflow',
+        slidesPerView: 1.3, // 一屏装几个slider
+        centeredSlides: true,
+        coverflowEffect: {
+          rotate: 0,
+          stretch: 35,
+          depth: 20,
+          modifier: 1,
+          slideShadows: false
+        },
+        navigation: {
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev'
+        }
+      })
     },
     rateStampSwiper() {
-      setTimeout(() => {
-        this.rateStampSwiper = new Swiper('.swiper-container-rate-stamp', {
-          paginationClickable: true,
-          observer: true,
-          observeParents: true,
-          loopAdditionalSlides: 1,
-          initialSlide: 1,
-          effect: 'coverflow',
-          slidesPerView: 1.3, // 一屏装几个slider
-          centeredSlides: true,
-          coverflowEffect: {
-            rotate: 0,
-            stretch: 35,
-            depth: 20,
-            modifier: 1,
-            slideShadows: false
-          },
-          navigation: {
-            nextEl: '.swiper-button-next1',
-            prevEl: '.swiper-button-prev1'
-          }
-        })
-      }, 300)
+      new Swiper('.swiper-container-rate-stamp', {
+        paginationClickable: true,
+        observer: true,
+        observeParents: true,
+        loopAdditionalSlides: 1,
+        initialSlide: 1,
+        effect: 'coverflow',
+        slidesPerView: 1.3, // 一屏装几个slider
+        centeredSlides: true,
+        coverflowEffect: {
+          rotate: 0,
+          stretch: 35,
+          depth: 20,
+          modifier: 1,
+          slideShadows: false
+        },
+        navigation: {
+          nextEl: '.swiper-button-next1',
+          prevEl: '.swiper-button-prev1'
+        }
+      })
     }
   },
   mounted() {

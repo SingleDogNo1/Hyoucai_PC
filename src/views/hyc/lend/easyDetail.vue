@@ -503,13 +503,13 @@ export default {
     },
     toggleFill(value) {
       if (value) {
-        if (this.projectInfo.balance > this.projectInfo.maxInvTotalAmount) {
+        if (this.projectInfo.balance - 0 > this.projectInfo.maxInvTotalAmount - 0) {
           this.invAmount = this.projectInfo.maxInvTotalAmount
         } else {
           this.invAmount = this.projectInfo.balance
         }
       } else {
-        this.invAmount = 0
+        this.invAmount = '0'
       }
     },
     getUserBasicInfo() {
@@ -554,6 +554,7 @@ export default {
       this.getProjectCompoList()
     },
     handleExpectedIncome(invAmount) {
+      // TODO invAmount.replace is not a function??
       this.invAmount = invAmount
         .replace(/[^\d.]/g, '')
         .replace(/\.{2,}/g, '.')
@@ -561,6 +562,7 @@ export default {
         .replace(/\./g, '')
         .replace('$#$', '.')
         .replace(/^(-)*(\d+)\.(\d\d).*$/, '$1$2.$3')
+
       let postData = {
         invAmount: this.invAmount,
         investRate: this.projectInfo.investRate,
