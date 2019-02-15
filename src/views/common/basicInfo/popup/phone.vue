@@ -21,6 +21,9 @@
     <errDialog :show.sync="showDialog" :singleButton="singleButton" class="djs-charge-dialog">
       <div>{{ errMsg.common }}</div>
     </errDialog>
+    <errDialog :show.sync="showDialog1" :singleButton="singleButton" class="djs-charge-dialog" :onClose="close">
+      <div>{{ errMsg.common }}</div>
+    </errDialog>
   </div>
 </template>
 <script>
@@ -39,6 +42,7 @@ export default {
       timeInterval: null,
       countDown: 90,
       showDialog: false,
+      showDialog1: false,
       singleButton: true,
       errMsg: {
         common: ''
@@ -98,8 +102,8 @@ export default {
         modifyBindMobile(obj).then(res => {
           let data = res.data
           if (data.resultCode === '1') {
-            this.$notify({ title: '成功', message: '手机号修改成功', type: 'success', duration: 2000 })
-            this.close()
+            this.showDialog1 = true
+            this.errMsg.common = '绑定成功'
           } else {
             this.verifyCodeTxt = data.resultMsg
           }
