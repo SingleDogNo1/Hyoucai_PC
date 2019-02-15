@@ -361,7 +361,7 @@ export default {
         }
         this.render(this.year, this.month)
         this.$emit('selectMonth', this.month + 1, this.year)
-        this.$emit('prev', this.month + 1, this.year)
+        this.$emit('prev', this.month + 1, this.year, this.day)
       }
     },
     //  下月
@@ -377,7 +377,7 @@ export default {
         }
         this.render(this.year, this.month)
         this.$emit('selectMonth', this.month + 1, this.year)
-        this.$emit('next', this.month + 1, this.year)
+        this.$emit('next', this.month + 1, this.year, this.day)
       }
     },
     // 选中日期

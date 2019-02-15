@@ -117,7 +117,7 @@
             </div>
           </el-tab-pane>
           <el-tab-pane label="关于汇有财" name="GYHYC">
-            <div v-if="aboutUsActiveName === 'GYDJS'" class="content" v-html="content"></div>
+            <div v-if="aboutUsActiveName === 'GYHYC'" class="content" v-html="content"></div>
           </el-tab-pane>
         </el-tabs>
       </div>
