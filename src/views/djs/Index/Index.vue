@@ -436,7 +436,6 @@ export default {
     getQualityList(data) {
       getQualityList(data).then(res => {
         let data = res.data
-        console.log('data===', data)
         this.noviceProjectList = data.noviceProjectList
         if(this.noviceProjectList) {
           this.noviceProjectList.forEach(val => {
