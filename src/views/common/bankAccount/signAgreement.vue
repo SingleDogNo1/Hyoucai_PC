@@ -23,7 +23,7 @@
               <li><h2>业务授权</h2></li>
             </ul>
           </div>
-          <div class="confirm_info"><p>签订协议后就可以投资了~</p></div>
+          <div class="confirm_info"><p>签订协议后就可以出借了~</p></div>
           <div class="form-data">
             <dl>
               <dt><i :class="checkAgree ? 'icon-check' : 'icon-choose'" class="iconfont" @click="checkAgree = !checkAgree"></i></dt>
