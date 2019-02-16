@@ -11,7 +11,7 @@ export default {
     showFlag().then(res => {
       if (res.data.resultCode === '1') {
         let temp = res.data.data.platformFlag === '1' ? 'djs' : 'hyc'
-        window.location.href = `/${temp}/#/`
+        window.location.href = `./${temp}/#/`
       }
     })
   }
