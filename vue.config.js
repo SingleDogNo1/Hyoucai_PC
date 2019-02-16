@@ -1,5 +1,11 @@
+let baseUrl = ''
+if (process.env.NODE_ENV === 'production' && process.env.BUILD_ENV === 'uat') {
+  baseUrl = '/uat/pc/'
+} else {
+  baseUrl = '/'
+}
 module.exports = {
-  baseUrl: process.env.NODE_ENV === 'production' ? '/uat/pc/' : '/',
+  baseUrl: baseUrl,
   pages: {
     app: {
       entry: 'src/entries/main.js',
