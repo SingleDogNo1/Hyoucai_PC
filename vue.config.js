@@ -1,5 +1,5 @@
 module.exports = {
-  baseUrl: process.env.NODE_ENV === 'production' ? './' : '/',
+  baseUrl: process.env.NODE_ENV === 'production' ? '/uat/pc/' : '/',
   pages: {
     app: {
       entry: 'src/entries/main.js',
