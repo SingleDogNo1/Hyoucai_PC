@@ -175,10 +175,10 @@ export default {
     doJumpSystem() {
       switch (this.user.platformFlag) {
         case '1':
-          this.$router.push({ name: 'DJSOverview' })
+          window.location.href = '/djs/#/mine/overview'
           break
         case '2':
-          this.$router.push({ name: 'HYCOverview' })
+          window.location.href = '/hyc/#/mine/overview'
           break
       }
     },
