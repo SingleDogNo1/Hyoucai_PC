@@ -175,13 +175,11 @@ export default {
     doJumpSystem() {
       switch (this.user.platformFlag) {
         case '1':
-          window.location.href = '/djs/#/mine/overview'
+          this.$router.push({ name: 'DJSOverview' })
           break
         case '2':
-          window.location.href = '/hyc/#/mine/overview'
+          this.$router.push({ name: 'HYCOverview' })
           break
-        default:
-          this.$router.push({ name: 'overview' })
       }
     },
     doPWDLogin() {

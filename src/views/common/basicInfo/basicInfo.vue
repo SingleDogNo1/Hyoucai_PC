@@ -386,7 +386,6 @@ export default {
         border-bottom: 2px solid rgba(232, 232, 232, 1);
         margin-left: 21px;
         position: relative;
-        font-family: PingFangSC-Regular;
         font-weight: 400;
         .wrap_left {
           font-size: $font-size-small-s;
@@ -402,7 +401,7 @@ export default {
           width: 100px;
           height: 34px;
           position: absolute;
-          top: 18px;
+          top: 13px;
           right: 20px;
           background: rgba(255, 255, 255, 1);
           border-radius: 6px;

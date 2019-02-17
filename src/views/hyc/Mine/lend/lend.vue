@@ -1,7 +1,10 @@
 <template>
   <div class="lend-wrapper">
     <header>
-      <img src="./icon.png" alt="" />
+      <div class="icon">
+        <img src="./icon.png" alt="" />
+        <p>汇有财</p>
+      </div>
       <div class="earning">
         <p>{{ personalAccount.totalIncome }}元</p>
         <span>累计利息收益</span>
@@ -245,6 +248,13 @@ export default {
         font-size: $font-size-small-s;
         color: $color-text-gray;
         text-align: center;
+      }
+    }
+    .icon {
+      p {
+        font-size: $font-size-small-ss;
+        margin-top: 5px;
+        padding-left: 11px;
       }
     }
     .earning {

@@ -68,7 +68,7 @@ export default new Router({
           children: [
             {
               path: 'overview', // 账户总览
-              name: 'overview',
+              name: 'DJSOverview',
               component: () => import('@/views/djs/Mine/overview/overview')
             },
             {

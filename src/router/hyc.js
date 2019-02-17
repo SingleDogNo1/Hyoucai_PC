@@ -100,7 +100,7 @@ export default new Router({
           children: [
             {
               path: 'overview', // 账户总览
-              name: 'overview',
+              name: 'HYCOverview',
               component: () => import('@/views/hyc/Mine/overview/overview')
             },
             {
