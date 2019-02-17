@@ -75,8 +75,15 @@ export default {
     }),
     onBtnClose() {
       let path = this.$route.name
-      if (path !== 'overview') {
-        this.$router.push({ name: 'overview' })
+      if (!path.includes('overview')) {
+        switch (this.user.platformFlag) {
+          case '1':
+            this.$router.push({ name: 'DJSOverview' })
+            break
+          case '2':
+            this.$router.push({ name: 'HYCOverview' })
+            break
+        }
       }
     },
     onConfirm() {

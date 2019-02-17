@@ -40,7 +40,7 @@
     >
       <div><input v-model="fillInReferral" class="fill-in-referral-input" type="text" placeholder="请输入推荐人邀请码" /></div>
     </Dialog>
-    <Dialog :show.sync="showCopyDialog" title="点金石温馨提示" :singleButton="singleButton" class="djs-copy-dialog">
+    <Dialog :show.sync="showCopyDialog" title="汇有财温馨提示" :singleButton="singleButton" class="djs-copy-dialog">
       <div><p class="copy-dialog-text">已成功复制推荐好友链接，您可通过微信、短信、QQ等方式发送给好友！</p></div>
     </Dialog>
   </div>
