@@ -37,9 +37,9 @@
                     </div>
                   </li>
                   <li>
-                    <img src="./images/icon_executive2.png" />
+                    <img src="./images/icon_executive2.jpg" />
                     <p class="name">傅伟菱</p>
-                    <p class="position">首席风控官（CRO）</p>
+                    <p class="position">首席运营官（COO）</p>
                     <div class="desc-wrap">
                       <p class="desc">
                         拥有超过20年的风险管理经验，也是台湾最早一批加入信用卡风控领域的管理者，经历了台湾信用卡的成长及卡债风暴，积累丰富的行业经验，并且长期领导信贷风险团队取得骄人的成绩。曾任台湾汇丰银行个人零售部风险管理副理及资产管理公司法务催收资深协理。
