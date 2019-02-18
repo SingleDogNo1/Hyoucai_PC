@@ -82,3 +82,11 @@ export function sendSms(data) {
     data: qs.stringify(data)
   })
 }
+//实名认证结果查询
+export function getCertificationVerify(data) {
+  return request({
+    url: '/CertificationVerify',
+    method: 'get',
+    params: data
+  })
+}

@@ -180,6 +180,8 @@ export default {
         case '2':
           window.location.href = '/hyc/#/mine/overview'
           break
+        default:
+          this.$router.push({ name: 'overview' })
       }
     },
     doPWDLogin() {

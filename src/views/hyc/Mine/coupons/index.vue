@@ -67,8 +67,8 @@
             <span class="vouche"> {{ item.voucherFaceValue }} <i class="vouche_i">元</i> </span> <span class="vouche_aside">可与加息券同时使用</span>
           </p>
           <p class="start">起投金额：{{ item.amountMin | toThousands }}元</p>
-          <button v-show="item.secondType == 2 && item.intoAccount == 0" class="receive1_btn" @click="immdiateUseRed(item.id)">立即使用</button>
-          <button v-show="item.secondType == 2 && item.intoAccount == 1" class="receive_cash_btn">立即使用</button>
+          <button v-show="!item.intoAccount == 1" class="receive1_btn" @click="immdiateUseRed(item.id)">立即使用</button>
+          <button v-show="item.intoAccount == 1" class="receive_cash_btn">立即使用</button>
         </div>
         <div class="endData">有效期至{{ item.validUseEndTime }}</div>
       </div>
@@ -321,6 +321,7 @@ export default {
 .coupons {
   header {
     width: 844px;
+    height: 57px;
     background: rgba(255, 255, 255, 1);
     border: 1px solid rgba(229, 229, 229, 1);
     display: flex;
@@ -334,6 +335,7 @@ export default {
       font-family: PingFangSC-Regular;
       font-weight: 400;
       color: rgba(155, 155, 155, 1);
+      border-bottom: 1px solid rgba(229, 229, 229, 1);
     }
     .active {
       height: 58px;
@@ -345,6 +347,7 @@ export default {
       font-family: PingFangSC-Regular;
       font-weight: 400;
       color: rgba(251, 137, 31, 1);
+      border-bottom: 1px solid #fff;
     }
     .actives {
       border-left: 1px solid rgba(229, 229, 229, 1);
