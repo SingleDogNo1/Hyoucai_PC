@@ -345,6 +345,7 @@ export default {
     box-shadow: 0px -2px 0px 0px rgba(247, 190, 57, 1);
     padding: 30px 0 0 30px;
     .last_time {
+      width: 235px;
       height: 14px;
       font-size: $font-size-small-s;
       font-family: PingFangSC-Regular;
@@ -431,7 +432,7 @@ export default {
           width: 100px;
           height: 34px;
           position: absolute;
-          top: 14px;
+          top: 13px;
           right: 20px;
           background: rgba(255, 255, 255, 1);
           border-radius: 6px;
