@@ -84,11 +84,11 @@
           <span class="wrap_center">{{ escrowAccountInfo.transPassword }}</span>
           <button class="wrap_btn" @click="tansactionPwd">修改</button>
         </div>
-        <div class="wrap_rows last_rows">
+      <!--  <div class="wrap_rows last_rows">
           <span class="wrap_left">电子账户手机号</span>
           <span class="wrap_center">{{ escrowAccountInfo.mobile }}</span>
           <button class="wrap_btn" @click="changeDzPhone">修改</button>
-        </div>
+        </div>-->
         <DzPhone v-show="isShow.isShow5" :isShow="isShow" @success="success" ref="dzPhoneChild"></DzPhone>
       </div>
       <div class="openAccount" v-show="!flag">
@@ -347,14 +347,12 @@ export default {
       width: 235px;
       height: 14px;
       font-size: $font-size-small-s;
-      font-family: PingFangSC-Regular;
       font-weight: 400;
       color: rgba(90, 90, 90, 1);
       line-height: 14px;
     }
     .data_full {
       font-size: $font-size-small-s;
-      font-family: PingFangSC-Regular;
       font-weight: 400;
       color: rgba(155, 155, 155, 1);
       line-height: 14px;
@@ -397,7 +395,6 @@ export default {
       width: 103px;
       height: 18px;
       font-size: $font-size-small;
-      font-family: PingFangSC-Semibold;
       font-weight: 600;
       color: rgba(90, 90, 90, 1);
       line-height: 18px;
