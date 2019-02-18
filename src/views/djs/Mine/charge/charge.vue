@@ -281,7 +281,7 @@ export default {
       userRechargePreVerify().then(res => {
         let data = res.data
         if (data.resultCode === ERR_OK) {
-          this.isBankcardSupport = data.bankcardSupport
+          this.isBankcardSupport = data.isBankcardSupport
         }
       })
     },
