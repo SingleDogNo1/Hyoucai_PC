@@ -9,10 +9,10 @@
       </div>
       <div class="authentication">
         <div class="identity">
-          <img src="./identity.png">
+          <img :src="imgSrc1">
         </div>
         <div class="phone">
-          <img src="./phone.png">
+          <img :src="imgSrc2">
         </div>
       </div>
     </header>
@@ -104,7 +104,7 @@
 
 <script>
 import { userBasicInfo } from '@/api/common/login'
-import { getMailingAddress, tansactionPwd } from '@/api/common/basicInfo'
+import { getMailingAddress, tansactionPwd, getCertificationVerify } from '@/api/common/basicInfo'
 import { mapGetters, mapMutations } from 'vuex'
 import { getRetBaseURL } from '@/assets/js/utils'
 import Name from './popup/name'
@@ -145,11 +145,27 @@ export default {
       resultType: '',
       resultTitle: '',
       resultFont: '',
-      msg: ''
+      msg: '',
+      idec: false,
+      mocr: false
     }
   },
   computed: {
-    ...mapGetters(['user', 'userBasicInfo'])
+    ...mapGetters(['user', 'userBasicInfo']),
+    imgSrc1() {
+      if (this.idec) {
+        return require('./identityed.png')
+      } else {
+        return require('./identity.png')
+      }
+    },
+    imgSrc2() {
+      if (this.mocr) {
+        return require('./phoned.png')
+      } else {
+        return require('./phone.png')
+      }
+    }
   },
   props: {},
   watch: {},
@@ -294,10 +310,24 @@ export default {
         this.setUserBasicInfo(res.data.data)
       })
       this.getUserBasicInfo()
+    },
+    getState() {
+      getCertificationVerify({ userName: this.user.userName, cerType: 'IDEC' }).then(res => {
+        if (res.data.resultMsg == 'SUCCESS') {
+          this.idec = true
+        }
+      })
+      getCertificationVerify({ userName: this.user.userName, cerType: 'MOCR' }).then(res => {
+        if (res.data.resultMsg == 'SUCCESS') {
+          this.mocr = true
+        }
+        // this.authentication =
+      })
     }
   },
   created() {
     this.getUserBasicInfo()
+    this.getState()
   }
 }
 </script>
@@ -315,7 +345,6 @@ export default {
     box-shadow: 0px -2px 0px 0px rgba(247, 190, 57, 1);
     padding: 30px 0 0 30px;
     .last_time {
-      width: 235px;
       height: 14px;
       font-size: $font-size-small-s;
       font-family: PingFangSC-Regular;
@@ -402,7 +431,7 @@ export default {
           width: 100px;
           height: 34px;
           position: absolute;
-          top: 18px;
+          top: 14px;
           right: 20px;
           background: rgba(255, 255, 255, 1);
           border-radius: 6px;
