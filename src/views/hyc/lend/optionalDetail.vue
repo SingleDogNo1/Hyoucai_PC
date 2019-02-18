@@ -147,7 +147,7 @@
                 <span class="title-boder"></span>
                 <span class="title-text">审核信息</span>
               </p>
-              <div class="table-wrap">
+              <div class="table-wrap" v-if="oddAuditInfoList.length > 0">
                 <table class="examine">
                   <tr class="examine-title">
                     <td>身份信息</td>
@@ -155,17 +155,19 @@
                   </tr>
                   <tr v-for="(item, index) in oddAuditInfoList" :key="index">
                     <td>{{item.key}}</td>
-                    <td v-html="item.result"></td>
+                    <td v-if="!item.isShowSmallPic">{{item.result}}</td>
+                    <td v-if="item.isShowSmallPic"> <img src="./image/bg.png" /></td>
                   </tr>
                 </table>
-                <table class="examine">
+                <table class="examine" v-if="evenAuditInfoList.length > 0">
                   <tr class="examine-title">
                     <td>身份信息</td>
                     <td>认证情况</td>
                   </tr>
                   <tr v-for="(item, index) in evenAuditInfoList" :key="index">
                     <td>{{item.key}}</td>
-                    <td v-html="item.result"></td>
+                    <td v-if="!item.isShowSmallPic">{{item.result}}</td>
+                    <td v-if="item.isShowSmallPic"> <img src="./image/bg.png" /></td>
                   </tr>
                 </table>
               </div>
@@ -830,6 +832,7 @@ export default {
         loanDate: ''
       },
       auditInfoList: [],
+      isShowSmallPic: false, // 审核信息表中认证情况列是否显示小图片
       oddAuditInfoList: [], // 审核信息的第一个表格
       evenAuditInfoList: [],  // 审核信息的第二个表格
       joinRecordData: [],
@@ -977,18 +980,23 @@ export default {
         auditInfoList.forEach(item => {
           switch (item.field) {
             case 'haveIDCard':
-              item.result = '<img src=require("./image/bg.png") />'
+              item.isShowSmallPic = true
               break
             case 'faceRecognition':
-              item.result = '<img src=require("./image/bg.png") />'
+              item.isShowSmallPic = true
               break
             case 'signing':
-              item.result = '<img src=require("./image/bg.png") />'
+              item.isShowSmallPic = true
               break
             case 'internetInformation':
-              item.result = '<img src=require("./image/bg.png") />'
+              item.isShowSmallPic = true
               break
+            default: 
+              item.isShowSmallPic = false
           }
+        })
+        auditInfoList = auditInfoList.filter( (item)=> {
+          return item.val
         })
         console.log('auditInfoList==', auditInfoList)
         this.oddAuditInfoList = auditInfoList.filter( (item, index)=> {
@@ -1615,7 +1623,7 @@ export default {
           display: flex;
           .examine {
             margin: 21px 0 32px;
-            width: 100%;
+            width: 50%;
             tr {
               width: 100%;
               td {
@@ -1644,9 +1652,9 @@ export default {
                 color: rgba(74, 74, 74, 1);
               }
             }
-            &:nth-child(1) {
+            &:nth-child(2n) {
               tr td {
-                border-right: 0;
+                border-left: 0;
               }
             }
           }
