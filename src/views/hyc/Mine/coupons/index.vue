@@ -321,6 +321,7 @@ export default {
 .coupons {
   header {
     width: 844px;
+    height: 57px;
     background: rgba(255, 255, 255, 1);
     border: 1px solid rgba(229, 229, 229, 1);
     display: flex;
@@ -334,6 +335,7 @@ export default {
       font-family: PingFangSC-Regular;
       font-weight: 400;
       color: rgba(155, 155, 155, 1);
+      border-bottom: 1px solid rgba(229, 229, 229, 1);
     }
     .active {
       height: 58px;
@@ -345,6 +347,7 @@ export default {
       font-family: PingFangSC-Regular;
       font-weight: 400;
       color: rgba(251, 137, 31, 1);
+      border-bottom: 1px solid #fff;
     }
     .actives {
       border-left: 1px solid rgba(229, 229, 229, 1);
