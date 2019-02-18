@@ -320,6 +320,7 @@ export default {
 .coupons {
   header {
     width: 844px;
+    height: 57px;
     background: rgba(255, 255, 255, 1);
     border: 1px solid rgba(229, 229, 229, 1);
     display: flex;
@@ -333,12 +334,14 @@ export default {
       font-family: PingFangSC-Regular;
       font-weight: 400;
       color: rgba(155, 155, 155, 1);
+      border-bottom: 1px solid rgba(229, 229, 229, 1);
     }
     .active {
       height: 58px;
       text-align: center;
       border-right: 1px solid rgba(229, 229, 229, 1);
       border-top: 2px solid rgba(251, 137, 31, 1);
+      border-bottom: 1px solid #fff;
       line-height: 58px;
       font-size: $font-size-small-s;
       font-family: PingFangSC-Regular;
@@ -492,7 +495,7 @@ export default {
     .receive1,
     .receive2,
     .receive2_1,
-    .receive2_1 {
+    .receive2_2 {
       .vouche_box {
         .vouche {
           color: rgba(155, 155, 155, 1);
