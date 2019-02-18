@@ -147,34 +147,28 @@
                 <span class="title-boder"></span>
                 <span class="title-text">审核信息</span>
               </p>
-              <table class="examine">
-                <tr class="examine-title">
-                  <td>身份信息</td>
-                  <td>认证情况</td>
-                </tr>
-                <tr v-for="(item, index) in auditInfoList" :key="index">
-                  <td>身份证认证</td>
-                  <td>
-                    <img @click="openReviewInfoPop" src="./image/bg.png">
-                  </td>
-                  <td>运营商认证</td>
-                  <td>中国移动运营商认证通过</td>
-                </tr>
-              </table>
-              <table class="examine">
-                <tr class="examine-title">
-                  <td>身份信息</td>
-                  <td>认证情况</td>
-                </tr>
-                <tr v-for="(item, index) in auditInfoList" :key="index">
-                  <td>身份证认证</td>
-                  <td>
-                    <img @click="openReviewInfoPop" src="./image/bg.png">
-                  </td>
-                  <td>运营商认证</td>
-                  <td>中国移动运营商认证通过</td>
-                </tr>
-              </table>
+              <div class="table-wrap">
+                <table class="examine">
+                  <tr class="examine-title">
+                    <td>身份信息</td>
+                    <td>认证情况</td>
+                  </tr>
+                  <tr v-for="(item, index) in oddAuditInfoList" :key="index">
+                    <td>{{item.key}}</td>
+                    <td v-html="item.result"></td>
+                  </tr>
+                </table>
+                <table class="examine">
+                  <tr class="examine-title">
+                    <td>身份信息</td>
+                    <td>认证情况</td>
+                  </tr>
+                  <tr v-for="(item, index) in evenAuditInfoList" :key="index">
+                    <td>{{item.key}}</td>
+                    <td v-html="item.result"></td>
+                  </tr>
+                </table>
+              </div>
               <p class="title">
                 <span class="title-boder"></span>
                 <span class="title-text">还款来源</span>
@@ -836,6 +830,8 @@ export default {
         loanDate: ''
       },
       auditInfoList: [],
+      oddAuditInfoList: [], // 审核信息的第一个表格
+      evenAuditInfoList: [],  // 审核信息的第二个表格
       joinRecordData: [],
       productId: '',
       isShowAuthenticationPop: false,
@@ -981,20 +977,27 @@ export default {
         auditInfoList.forEach(item => {
           switch (item.field) {
             case 'haveIDCard':
-              item.result = require('./image/bg.png')
+              item.result = '<img src=require("./image/bg.png") />'
               break
             case 'faceRecognition':
-              item.result = require('./image/bg.png')
+              item.result = '<img src=require("./image/bg.png") />'
               break
             case 'signing':
-              item.result = require('./image/bg.png')
+              item.result = '<img src=require("./image/bg.png") />'
               break
             case 'internetInformation':
-              item.result = require('./image/bg.png')
+              item.result = '<img src=require("./image/bg.png") />'
               break
           }
         })
-        this.auditInfoList = auditInfoList
+        console.log('auditInfoList==', auditInfoList)
+        this.oddAuditInfoList = auditInfoList.filter( (item, index)=> {
+          return (index + 1) % 2 === 1
+        })
+        this.evenAuditInfoList = auditInfoList.filter( (item, index)=> {
+          return (index + 1) % 2 === 0
+        })
+        //this.auditInfoList = auditInfoList
 
         this.getUserBasicInfo()
         this.getAmountQuery()
@@ -1608,35 +1611,43 @@ export default {
             }
           }
         }
-        .examine {
-          margin: 21px 0 32px;
-          width: 100%;
-          tr {
+        .table-wrap {
+          display: flex;
+          .examine {
+            margin: 21px 0 32px;
             width: 100%;
-            td {
-              width: 25%;
-              height: 40px;
-              border: 1px solid rgba(227, 227, 227, 1);
-              text-align: center;
-              color: rgba(155, 155, 155, 1);
-              font-size: $font-size-small-ss;
-              line-height: 14px;
-              padding: 0 20px;
-              img {
-                width: 24px;
-                height: 17px;
-                border-radius: 2px;
-                vertical-align: middle;
+            tr {
+              width: 100%;
+              td {
+                width: 25%;
+                height: 40px;
+                border: 1px solid rgba(227, 227, 227, 1);
+                text-align: center;
+                color: rgba(155, 155, 155, 1);
+                font-size: $font-size-small-ss;
+                line-height: 14px;
+                padding: 0 20px;
+                img {
+                  width: 24px;
+                  height: 17px;
+                  border-radius: 2px;
+                  vertical-align: middle;
+                }
+              }
+              .left {
+                width: 30%;
               }
             }
-            .left {
-              width: 30%;
+            .examine-title {
+              background: rgba(240, 247, 255, 1);
+              td {
+                color: rgba(74, 74, 74, 1);
+              }
             }
-          }
-          .examine-title {
-            background: rgba(240, 247, 255, 1);
-            td {
-              color: rgba(74, 74, 74, 1);
+            &:nth-child(1) {
+              tr td {
+                border-right: 0;
+              }
             }
           }
         }
