@@ -67,8 +67,8 @@
             <span class="vouche"> {{ item.voucherFaceValue }} <i class="vouche_i">元</i> </span> <span class="vouche_aside">可与加息券同时使用</span>
           </p>
           <p class="start">起投金额：{{ item.amountMin | toThousands }}元</p>
-          <button v-show="item.secondType == 2 && item.intoAccount == 0" class="receive1_btn" @click="immdiateUseRed(item.id)">立即使用</button>
-          <button v-show="item.secondType == 2 && item.intoAccount == 1" class="receive_cash_btn">立即使用</button>
+          <button v-show="!item.intoAccount == 1" class="receive1_btn" @click="immdiateUseRed(item.id)">立即使用</button>
+          <button v-show="item.intoAccount == 1" class="receive_cash_btn">立即使用</button>
         </div>
         <div class="endData">有效期至{{ item.validUseEndTime }}</div>
       </div>

@@ -321,7 +321,6 @@ export default {
         if (res.data.resultMsg == 'SUCCESS') {
           this.mocr = true
         }
-        // this.authentication =
       })
     }
   },
@@ -432,7 +431,7 @@ export default {
           width: 100px;
           height: 34px;
           position: absolute;
-          top: 13px;
+          top: 14px;
           right: 20px;
           background: rgba(255, 255, 255, 1);
           border-radius: 6px;
