@@ -375,6 +375,7 @@ export default {
           let nos = JSON.parse(JSON.stringify(this.bankCardInfo.cardNo))
           let len = nos.length
           this.bankCardNo = nos.substring(0, 4) + '*******' + nos.substring(len - 4, len)
+          console.log(this.bankCardNo)
           this.getBasicInfo()
         }
       })
