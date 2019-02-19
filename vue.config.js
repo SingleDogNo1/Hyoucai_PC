@@ -23,6 +23,9 @@ module.exports = {
       chunks: ['chunk-vendors', 'chunk-common', 'djs']
     }
   },
+  configureWebpack: {
+    devtool: process.env.NODE_ENV === 'production' ? 'none' : 'source-map'
+  },
   devServer: {
     host: '0.0.0.0',
     disableHostCheck: true,
