@@ -469,8 +469,8 @@
           type="border-card"
           @tab-click="handleItemClick(productAboutActiveName)"
         >
-          <el-tab-pane label="产品信息" name="CPXXTAB">
-            <div v-if="productAboutActiveName === 'CPXXTAB'" class="content">
+          <el-tab-pane label="产品信息" name="CPXX">
+            <div v-if="productAboutActiveName === 'CPXX'" class="content">
               <div v-html="content"></div>
               <img class="bg-legal-person" src="./images/bg_legal_person.png">
             </div>
@@ -574,7 +574,7 @@ export default {
       activeName: 'GYWM',
       aboutUsActiveName: 'GSJJ',
       recordInfoActiveName: 'BADJ',
-      productAboutActiveName: 'CPXXTAB',
+      productAboutActiveName: 'CPXX',
       policiesActiveName: 'FLFG',
       showBigImg: false,
       num: 0,
@@ -749,7 +749,7 @@ export default {
         this.handleItemClick(this.recordInfoActiveName)
       }
       if (this.activeName === 'CPXG') {
-        this.productAboutActiveName = 'CPXXTAB'
+        this.productAboutActiveName = 'CPXX'
         this.handleItemClick(this.productAboutActiveName)
       }
       if (this.activeName === 'ZCFG') {
