@@ -207,15 +207,25 @@ export default {
   }
   button {
     width: 120px;
-    border-radius: 8px;
+    height: 40px;
+    line-height: 40px;
     margin: 0 15px;
+    padding: 0;
+    border-radius: 8px;
     font-size: $font-size-medium;
     color: #fff;
+    cursor: pointer;
     &:last-child {
       margin-right: 0;
     }
-    a {
-      color: #fff;
+    span {
+      display: block;
+      width: 100%;
+      height: 100%;
+      a {
+        display: block;
+        color: #fff;
+      }
     }
   }
 }
