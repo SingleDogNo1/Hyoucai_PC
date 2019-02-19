@@ -3,17 +3,11 @@
     <header>
       <div class="last_time">上次登录时间:&nbsp;&nbsp;{{ lastLoginTime }}</div>
       <div class="data_full">
-        <span class="text">资料完整度</span>
-        <span class="bar"></span>
-        <span class="crade">{{ infoFinishGrade }}</span>
+        <span class="text">资料完整度</span> <span class="bar"></span> <span class="crade">{{ infoFinishGrade }}</span>
       </div>
       <div class="authentication">
-        <div class="identity">
-          <img :src="imgSrc1">
-        </div>
-        <div class="phone">
-          <img :src="imgSrc2">
-        </div>
+        <div class="identity"><img :src="imgSrc1" /></div>
+        <div class="phone"><img :src="imgSrc2" /></div>
       </div>
     </header>
     <!-- 个人信息 -->
@@ -21,46 +15,30 @@
       <h3 class="title">个人信息</h3>
       <div class="wrap">
         <div class="wrap_rows">
-          <span class="wrap_left">昵称修改</span>
-          <span class="wrap_center">{{ userBasicInfo.nickname }}</span>
+          <span class="wrap_left">昵称修改</span> <span class="wrap_center">{{ userBasicInfo.nickname }}</span>
           <button class="wrap_btn" @click="changeName">修改</button>
         </div>
         <Name v-show="isShow.isShow1" :isShow="isShow" @success="success" ref="nameChild"></Name>
         <div class="wrap_rows">
-          <span class="wrap_left">登录密码</span>
-          <span class="wrap_center">{{ passWord }}</span>
+          <span class="wrap_left">登录密码</span> <span class="wrap_center">{{ passWord }}</span>
           <button class="wrap_btn" @click="changePwd">修改</button>
         </div>
         <Password v-show="isShow.isShow2" :isShow="isShow" ref="pwdChild"></Password>
         <div class="wrap_rows">
-          <span class="wrap_left">注册手机号</span>
-          <span class="wrap_center">{{ userBasicInfo.mobileMask }}</span>
+          <span class="wrap_left">注册手机号</span> <span class="wrap_center">{{ userBasicInfo.mobileMask }}</span>
           <button class="wrap_btn" @click="changePhone">修改</button>
         </div>
-        <Phone
-          v-show="isShow.isShow3"
-          :isShow="isShow"
-          :oldMobile="mobile"
-          @success="success"
-          ref="phoneChild"
-        ></Phone>
+        <Phone v-show="isShow.isShow3" :isShow="isShow" :oldMobile="mobile" @success="success" ref="phoneChild"></Phone>
         <div class="wrap_rows">
-          <span class="wrap_left">风险测评</span>
-          <span class="wrap_center">{{ evaluatingResult.evaluatingName || '未评测'}}</span>
+          <span class="wrap_left">风险测评</span> <span class="wrap_center">{{ evaluatingResult.evaluatingName || '未评测' }}</span>
           <button class="wrap_btn" v-show="!isEvaluation" @click="toRiskAssessment">去评测</button>
           <button class="wrap_btn" v-show="isEvaluation" @click="toRiskAssessment">重新测评</button>
         </div>
         <div class="wrap_rows last_rows">
-          <span class="wrap_left">收货地址</span>
-          <span class="wrap_center">{{ address }}</span>
-          <button class="wrap_btn" @click="changeAddress">{{msg}}</button>
+          <span class="wrap_left">收货地址</span> <span class="wrap_center">{{ address }}</span>
+          <button class="wrap_btn" @click="changeAddress">{{ msg }}</button>
         </div>
-        <Address
-          v-show="isShow.isShow4"
-          :isShow="isShow"
-          :getMailingAddress="getMailingAddress"
-          ref="childAddress"
-        ></Address>
+        <Address v-show="isShow.isShow4" :isShow="isShow" :getMailingAddress="getMailingAddress" ref="childAddress"></Address>
       </div>
     </div>
     <!-- 存管信息 -->
@@ -68,23 +46,19 @@
       <h3 class="title">存管信息</h3>
       <div class="wrap" v-show="flag">
         <div class="wrap_rows">
-          <span class="wrap_left">真实姓名</span>
-          <span class="wrap_center">{{ escrowAccountInfo.name }}</span>
+          <span class="wrap_left">真实姓名</span> <span class="wrap_center">{{ escrowAccountInfo.name }}</span>
         </div>
         <div class="wrap_rows">
-          <span class="wrap_left">身份证号</span>
-          <span class="wrap_center">{{ escrowAccountInfo.idNo }}</span>
+          <span class="wrap_left">身份证号</span> <span class="wrap_center">{{ escrowAccountInfo.idNo }}</span>
         </div>
         <div class="wrap_rows">
-          <span class="wrap_left">存管账户</span>
-          <span class="wrap_center">{{ escrowAccountInfo.accountId }}</span>
+          <span class="wrap_left">存管账户</span> <span class="wrap_center">{{ escrowAccountInfo.accountId }}</span>
         </div>
         <div class="wrap_rows">
-          <span class="wrap_left">交易密码</span>
-          <span class="wrap_center">{{ escrowAccountInfo.transPassword }}</span>
+          <span class="wrap_left">交易密码</span> <span class="wrap_center">{{ escrowAccountInfo.transPassword }}</span>
           <button class="wrap_btn" @click="tansactionPwd">修改</button>
         </div>
-      <!--  <div class="wrap_rows last_rows">
+        <!--  <div class="wrap_rows last_rows">
           <span class="wrap_left">电子账户手机号</span>
           <span class="wrap_center">{{ escrowAccountInfo.mobile }}</span>
           <button class="wrap_btn" @click="changeDzPhone">修改</button>
@@ -92,10 +66,7 @@
         <DzPhone v-show="isShow.isShow5" :isShow="isShow" @success="success" ref="dzPhoneChild"></DzPhone>
       </div>
       <div class="openAccount" v-show="!flag">
-        <div class="tips">
-          <img src="./bank.png" class="bank_logo">
-          <span class="tips_content">您还未开通存管账户</span>
-        </div>
+        <div class="tips"><img src="./bank.png" class="bank_logo" /> <span class="tips_content">您还未开通存管账户</span></div>
         <button class="open_btn" @click="toAccount">开通存管账户</button>
       </div>
     </div>

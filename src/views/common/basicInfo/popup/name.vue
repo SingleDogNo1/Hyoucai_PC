@@ -2,23 +2,12 @@
   <div class="content">
     <div class="box">
       <div class="modify">
-        <span class="modify_name">修改昵称</span>
-        <input class="modify_ipt" type="text" placeholder="请输入昵称" v-model="nikename">
-        <p class="txt">{{txt}}</p>
+        <span class="modify_name">修改昵称</span> <input class="modify_ipt" type="text" placeholder="请输入昵称" v-model="nikename" />
+        <p class="txt">{{ txt }}</p>
       </div>
-      <div class="btn">
-        <button class="determine" @click="modifyNikename">确定</button>
-        <button class="cancle" @click="cancle">取消</button>
-      </div>
+      <div class="btn"><button class="determine" @click="modifyNikename">确定</button> <button class="cancle" @click="cancle">取消</button></div>
     </div>
-    <errDialog
-      :show.sync="showDialog"
-      :singleButton="singleButton"
-      class="djs-charge-dialog"
-      :onClose="show"
-    >
-      <div>修改成功</div>
-    </errDialog>
+    <errDialog :show.sync="showDialog" :singleButton="singleButton" class="djs-charge-dialog" :onClose="show"> <div>修改成功</div> </errDialog>
   </div>
 </template>
 <script>
