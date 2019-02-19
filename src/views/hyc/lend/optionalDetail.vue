@@ -75,11 +75,11 @@
               <router-link target="_blank" :to="{ name: 'riskNoticationLetterAgreement'}">《风险告知书》</router-link>
             </el-checkbox>
           </div>
-          <div class="all-lending" v-if="investStatus === 'lending'">
+          <div class="all-lending" v-if="!investDetail.tailProject">
             <el-checkbox class="all-lending-checkbox" v-model="isAllLending">全部出借</el-checkbox>
           </div>
           <div class="action" v-if="investStatus === 'willSale' || investStatus === 'lending'">
-            <input class="amount-input" v-model="invAmount" @keyup="handleExpectedIncome">
+            <input class="amount-input" v-model="invAmount" @keyup="handleExpectedIncome" :disabled="invAmountDisabled">
             <button
               class="action-btn"
               :disabled="isDisableInvestBtn"
@@ -170,7 +170,10 @@
                   <tr v-for="(item, index) in evenAuditInfoList" :key="index">
                     <td>{{item.key}}</td>
                     <td v-if="!item.isShowSmallPic">{{item.result}}</td>
-                    <td v-if="item.isShowSmallPic"> <img src="./image/bg.png" /></td>
+                    <td v-if="item.isShowSmallPic && item.field === 'haveIDCard'"> <img @click="openReviewInfoPop(item)" src="./image/bg.png" /></td>
+                    <td v-if="item.isShowSmallPic && item.field === 'internetInformation'"> <img @click="openReportPop" src="./image/bg.png" /></td>
+                    <td v-if="item.isShowSmallPic && item.field === 'faceRecognition'"> <img @click="openFaceRecognitionPop(item)" src="./image/bg.png" /></td>
+                    <td v-if="item.isShowSmallPic && item.field === 'signing'"> <img @click="toSigning(item)" src="./image/bg.png" /></td>
                   </tr>
                 </table>
               </div>
@@ -649,104 +652,105 @@ import Dialog from '@/components/Dialog/Dialog'
 export default {
   data() {
     return {
-      lendDetailActiveName: 'XMXX',
-      projectNo: '',
-      isAgree: false,
-      isAllLending: false,
+      lendDetailActiveName: 'XMXX', // 选项卡选中状态
+      projectNo: '', // 标的编号
+      isAgree: false, // 是否同意风险告知书
+      isAllLending: false, // 是否自动出借
       page: 1,
       size: 10,
       total: 0,
       investStatus: '', // 投资状态
       investStatusTitle: '出借中...', // 投资状态文字
       investStatusBtn: '充值', // 投资按钮状态文字
-      investBtn: '申请出借',
+      investBtn: '申请出借', // 出借按钮文字
       isDisableInvestBtn: false, // 是否禁用申请出借按钮
-      invAmount: '',
-      expectedIncome: '0.00',
+      invAmount: '', // 申请出借输入框金额
+      invAmountDisabled: false, // 申请出借输入框是否禁用
+      expectedIncome: '0.00', //逾期收益
       projectInfo: {
-        investEndDay: '',
-        investEndTime: '',
-        investRate: '',
-        projectName: '',
-        surplusAmt: '',
-        investPeopleCount: '',
-        investPercent: 0,
-        interestRate: '',
-        minInvAmount: '',
-        maxInvTotalAmount: '',
-        status: 0,
-        balance: '',
-        maxInvAmount: ''
+        investEndDay: '', // 募集倒计时(天) 
+        investEndTime: '', // 募集倒计时(时分秒) 
+        investRate: '', // 利率
+        projectName: '', // 标的名称
+        surplusAmt: '', // 剩余可投金额
+        investPeopleCount: '', // 已购人次
+        investPercent: 0, // 投资百分比
+        interestRate: '', // 结息方式
+        minInvAmount: '', // 起投金额
+        maxInvTotalAmount: '', // 个人累计投资限额
+        status: 0, // 标的状态 0.预售 1.投资中 2.满标 3.已完结
+        balance: '', // 可用余额
+        maxInvAmount: '' // 最大投资金额
       },
       investDetail: {
-        appDesc: '',
-        threeAgreeJumpUrl: '',
-        investTarget: '',
-        dueDate: '',
-        interestStartDate: '',
-        profitShare: '',
-        existSystem: '',
-        costdes: '',
-        riskAppraisal: '',
-        riskManagementTip: ''
+        appDesc: '', // 项目介绍
+        investTarget: '', // 投资目标
+        dueDate: '', // 投资到期日
+        interestStartDate: '', // 最大投资金额
+        profitShare: '', // 产品起息时间描述
+        existSystem: '', // 退出机制
+        costdes: '', // 费用说明
+        riskAppraisal: '', // 项目风险评估及可能产生的风险结果
+        riskManagementTip: '', // 出借人适当性管理提示
+        tailProject: '' // 是否是尾标(true : 尾标 false: 不是尾标)
       },
       productDetail: {
-        projectName: '',
-        contractNum: '',
-        productName: '',
-        loanMent: '',
-        repaymentWay: '',
-        loanAmt: '',
-        investRate: '',
-        loanDate: '',
-        relatedExpenses: ''
+        projectName: '', // 标的名称
+        contractNum: '', // 合同编号
+        productName: '', // 项目类型
+        loanMent: '', // 期限
+        repaymentWay: '', // 还款方式
+        loanAmt: '', // 融资金额，后端返回“元”
+        investRate: '', // 预期年化收益率
+        loanDate: '', // 申请日期
+        relatedExpenses: '' // 相关费用
       },
-      auditInfoList: [],
+      auditInfoList: [], // 审核信息数组
       isShowSmallPic: false, // 审核信息表中认证情况列是否显示小图片
       oddAuditInfoList: [], // 审核信息的第一个表格
       evenAuditInfoList: [],  // 审核信息的第二个表格
-      internetInformationList: [],
+      internetInformationList: [], // 互联网资信报告数组
       picList: [],  // 身份证弹窗图片
       facePic: '',  // 人脸识别弹窗图片
-      joinRecordData: [],
+      joinRecordData: [], // 加入记录数据
       loanPeopleInfo: {
-        borrowerName: '',
-        sex: '',
-        idNum: '',
-        age: '',
-        industry: '',
-        domicile: '',
-        maritalStatus: '',
-        income: '',
-        prinAmt: '',
-        loanAim: '',
-        borrowerTheme: '',
-        loanDay: '',
-        paymentSource: '',
-        amountOverride: '',
-        guaranteeProtocolUrl: '',
-        borrowSituation: ''
+        borrowerName: '', // 借款人姓名
+        sex: '', // 性别
+        idNum: '', // 身份证号
+        age: '', // 年龄
+        industry: '', // 行业
+        domicile: '', // 户籍地点
+        maritalStatus: '', // 婚姻状况
+        income: '', // 月收入，后端返回单位“元”
+        prinAmt: '', // 本金（元），后端返回单位“元”
+        loanAim: '', // 借款目的
+        borrowerTheme: '', // 借款人主题性质
+        loanDay: '', // 期限（天）
+        paymentSource: '', // 还款来源
+        amountOverride: '', // 逾期金额，后端返回单位“元”
+        guaranteeProtocolUrl: '', // 《保证书》pdf url
+        borrowSituation: '' // 在其他网络借贷平台借款情况
       },
       peopleLoanInfo: {
-        platformOverdueCut: '',
-        platformOverdueAmt: '',
-        loanUseInfo: '',
-        repaymentAbilityChg: '',
-        involvedInAppeal: '',
-        administrativePenalty: ''
+        platformOverdueCut: '', // 平台历史逾期次数
+        platformOverdueAmt: '', // 平台历史逾期金额
+        loanUseInfo: '', // 借款资金运用状况
+        repaymentAbilityChg: '', // 借款人还款能力变化情况
+        involvedInAppeal: '', // 借款人涉诉情况
+        administrativePenalty: '' // 借款人行政处罚情况情况
       },
-      productId: '',
-      isShowAuthenticationPop: false,
-      isShowFaceRecognitionPop: false,
-      isShowReportPop: false,
-      errMsg: '',
-      isShowSignDialog: false,
-      isShowRiskDialog: false,
-      isShowSystemMaintenanceDialog: false,
-      singleButton: true,
-      riskConfirmText: '重新评测',
-      riskContent: '您当前出借的额度或期限不符合您的风险评测<br />等级分布，若您在上次评测后风险承受能力发<br />生改变，请您重新进行风险评测！',
-      isShowConfirmInvestmentDialog: true
+      productId: '', // 标的id
+      isShowAuthenticationPop: false, // 是否显示身份证认证弹窗
+      isShowFaceRecognitionPop: false, // 是否显示人脸识别弹窗
+      isShowReportPop: false, // 是否显示运营报告弹窗
+      errMsg: '', // 错误提示
+      isShowSignDialog: false, // 是否显示签约弹窗
+      isShowRiskDialog: false, // 是否显示风险测评弹窗
+      isShowSystemMaintenanceDialog: false, // 是否显示系统维护弹窗
+      singleButton: true, // 是否显示只有确定按钮
+      riskConfirmText: '重新评测', // 风险测评弹窗按钮文字 
+      riskContent: '您当前出借的额度或期限不符合您的风险评测<br />等级分布，若您在上次评测后风险承受能力发<br />生改变，请您重新进行风险评测！', // 风险测评弹窗默认文字
+      isShowConfirmInvestmentDialog: true // 是否显示出借弹窗
     }
   },
   components: {
@@ -928,6 +932,12 @@ export default {
         this.investDetail.costdes = investDetail.costdes
         this.investDetail.riskAppraisal = investDetail.riskAppraisal
         this.investDetail.riskManagementTip = investDetail.riskManagementTip
+
+        // 判断是否是尾标
+        if(this.investDetail.tailProject && parseFloat(this.projectInfo.surplusAmt) < 2 * parseFloat(this.projectInfo.minInvAmount)) {
+          this.invAmount = '尾标：' + this.projectInfo.surplusAmt + '元'
+          this.invAmountDisabled = true
+        }
       })
     },
     getJoinRecordList() {

@@ -4,7 +4,7 @@
       <div class="title">
         <h2>
           <img src="./image/icon_hui.png">
-          <span>{{projectInfo.itemName}}</span>
+          <span>{{projectInfo.projectName}}</span>
         </h2>
       </div>
       <div class="content">
@@ -430,7 +430,7 @@ import Swiper from 'swiper/dist/js/swiper'
 import { mapState } from 'vuex'
 import Pagination from '@/components/pagination/pagination'
 import { timeCountDown } from '@/assets/js/utils'
-import { easyInvestDetail, easyInvestRecord, projectCompo, expectedIncome, amountInfo, systemMaintenance, amountSync } from '@/api/hyc/lendDetail'
+import { investCountProjectMsg } from '@/api/djs/lendDetail'
 import ProjectDetail from './popup/projectDetail'
 import Dialog from '@/components/Dialog/Dialog'
 
@@ -457,7 +457,7 @@ export default {
         investEndDay: '', // 募集倒计时(天)
         investEndTime: '', // 募集倒计时(时分秒)
         investRate: '', // 利率
-        itemName: '', // 集合标项目名称
+        projectName: '', // 产品名称
         surplusAmt: '', // 剩余可投金额
         investPeopleCount: '', // 已购人次
         investPercent: 0, // 投资百分比
@@ -588,52 +588,58 @@ export default {
       this.handleItemClick()
     },
     getInvestDetailList() {
-      this.productId = this.$route.query.productId
-      this.itemId = this.$route.query.itemId
+      this.projectNo = this.$route.query.projectNo
       let postData = {
-        productId: this.productId,
-        itemId: this.itemId
+        projectNo: this.projectNo
       }
-      easyInvestDetail(postData).then(res => {
-        let data = res.data.data
-        let projectInfo = data.projectInfo
-        let investEndTimestamp = projectInfo.investEndTimestamp
-        this.projectInfo.itemName = projectInfo.itemName
-        this.projectInfo.investRate = projectInfo.investRate
-        this.projectInfo.surplusAmt = projectInfo.surplusAmt
-        this.projectInfo.investPeopleCount = projectInfo.investPeopleCount
-        this.projectInfo.investPercent = projectInfo.investPercent
-        this.projectInfo.interestRate = projectInfo.interestRate
-        this.projectInfo.minInvAmount = projectInfo.minInvAmount
-        this.projectInfo.maxInvTotalAmount = projectInfo.maxInvTotalAmount
-        this.projectInfo.status = projectInfo.status
-        this.projectInfo.maxInvAmount = projectInfo.maxInvAmount
-        this.projectInfo.projectType = projectInfo.projectType
-        // console.log(this.projectInfo.projectType+'---------')
+      investCountProjectMsg(postData).then(res => {
+        let data = res.data
+        if(data.resultCode === '1') {
+          console.log('data====', data)
+          let projectInfo = data.projectInfo
+          let investEndTimestamp = projectInfo.investEndTimestamp
+          this.projectInfo.itemName = projectInfo.itemName
+          this.projectInfo.investRate = projectInfo.investRate
+          this.projectInfo.surplusAmt = projectInfo.surplusAmt
+          this.projectInfo.investPeopleCount = projectInfo.investPeopleCount
+          this.projectInfo.investPercent = projectInfo.investPercent
+          this.projectInfo.interestRate = projectInfo.interestRate
+          this.projectInfo.minInvAmount = projectInfo.minInvAmount
+          this.projectInfo.maxInvTotalAmount = projectInfo.maxInvTotalAmount
+          this.projectInfo.status = projectInfo.status
+          this.projectInfo.maxInvAmount = projectInfo.maxInvAmount
+          this.projectInfo.projectType = projectInfo.projectType
+          // console.log(this.projectInfo.projectType+'---------')
 
-        // 预售状态中，募集倒计时不倒计
-        timeCountDown(investEndTimestamp, this.projectInfo.status, data => {
-          if (data.indexOf('天') > -1) {
-            this.projectInfo.investEndDay = data.substr(0, data.indexOf('天') + 1)
-            this.projectInfo.investEndTime = data.substr(data.indexOf('天') + 1, data.length - 1)
-          } else {
-            this.projectInfo.investEndTime = data
-          }
-        })
+          // 预售状态中，募集倒计时不倒计
+          timeCountDown(investEndTimestamp, this.projectInfo.status, data => {
+            if (data.indexOf('天') > -1) {
+              this.projectInfo.investEndDay = data.substr(0, data.indexOf('天') + 1)
+              this.projectInfo.investEndTime = data.substr(data.indexOf('天') + 1, data.length - 1)
+            } else {
+              this.projectInfo.investEndTime = data
+            }
+          })
 
-        let investDetail = data.investDetail
-        this.investDetail.appDesc = investDetail.appDesc
-        this.investDetail.investTarget = investDetail.investTarget
-        this.investDetail.dueDate = investDetail.dueDate
-        this.investDetail.interestStartDate = investDetail.interestStartDate
-        this.investDetail.profitShare = investDetail.profitShare
-        this.investDetail.existSystem = investDetail.existSystem
-        this.investDetail.costdes = investDetail.costdes
-        this.investDetail.riskAppraisal = investDetail.riskAppraisal
-        this.investDetail.riskManagementTip = investDetail.riskManagementTip
+          let investDetail = data.investDetail
+          this.investDetail.appDesc = investDetail.appDesc
+          this.investDetail.investTarget = investDetail.investTarget
+          this.investDetail.dueDate = investDetail.dueDate
+          this.investDetail.interestStartDate = investDetail.interestStartDate
+          this.investDetail.profitShare = investDetail.profitShare
+          this.investDetail.existSystem = investDetail.existSystem
+          this.investDetail.costdes = investDetail.costdes
+          this.investDetail.riskAppraisal = investDetail.riskAppraisal
+          this.investDetail.riskManagementTip = investDetail.riskManagementTip
 
-        this.getUserBasicInfo()
-        this.getAmountQuery()
+          this.getUserBasicInfo()
+          this.getAmountQuery()
+        } else {
+          this.$notify.error({
+            title: '错误',
+            message: data.resultMsg
+          })
+        }
       })
     },
     getLendDetailList() {

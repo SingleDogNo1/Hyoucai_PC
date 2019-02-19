@@ -109,7 +109,7 @@ export default {
   methods: {
     judgeBooking(item) {
       if (this.userName) {
-        this.$router.push({ name: 'easyDetail', query: { productId: item.productId, itemId: item.itemId } })
+        this.$router.push({ name: 'easyDetail', query: { projectNo: item.projectNo } })
       } else {
         this.$router.push({ name: 'login' })
       }
