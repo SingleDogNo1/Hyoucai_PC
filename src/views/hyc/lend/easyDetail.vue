@@ -225,7 +225,6 @@
                 <template slot-scope="scope">
                   <a
                     :projectNo="scope.row.projectNo"
-                    :projectType="projectInfo.projectType"
                     href="javascript:void(0);"
                     class="view-detail"
                     @click="isProjectDetail=!isProjectDetail"
@@ -258,7 +257,12 @@
       </el-tabs>
     </section>
     <!-- 项目组成 => 借款人详情弹窗 -->
-    <ProjectDetail @changeProjectDetail="changeProjectDetail" v-show="isProjectDetail"/>
+    <ProjectDetail
+      @changeProjectDetail="changeProjectDetail"
+      v-show="isProjectDetail"
+      :projectType="projectInfo.projectType"
+      :projectName="projectInfo.projectType"
+    />
     <!-- 未签约弹窗 -->
     <Dialog
       :show.sync="isShowSignDialog"
@@ -438,7 +442,8 @@ export default {
         status: 0,
         balance: '',
         maxInvAmount: '',
-        projectType: ''
+        projectType: '',
+        projectName: ''
       },
       investDetail: {
         appDesc: '',
@@ -599,6 +604,7 @@ export default {
         this.projectInfo.status = projectInfo.status
         this.projectInfo.maxInvAmount = projectInfo.maxInvAmount
         this.projectInfo.projectType = projectInfo.projectType
+        this.projectInfo.projectName = projectInfo.projectName
 
         // 预售状态中，募集倒计时不倒计
         timeCountDown(investEndTimestamp, this.projectInfo.status, data => {
