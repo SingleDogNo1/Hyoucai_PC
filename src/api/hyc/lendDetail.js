@@ -92,3 +92,23 @@ export function optionalInvestRecord(data) {
     data: qs.stringify(data)
   })
 }
+
+// 互联网资信报告
+export function internetInformation(data) {
+  return request({
+    url: 'auditInfo/internetInformation',
+    method: 'post',
+    headers: { 'Content-type': 'application/x-www-form-urlencoded' },
+    data: qs.stringify(data)
+  })
+}
+
+// 贷后情况
+export function peopleLoanInfo(data) {
+  return request({
+    url: 'collection/peopleLoanInfo',
+    method: 'post',
+    headers: { 'Content-type': 'application/x-www-form-urlencoded' },
+    data: qs.stringify(data)
+  })
+}

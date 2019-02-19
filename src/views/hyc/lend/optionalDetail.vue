@@ -156,7 +156,10 @@
                   <tr v-for="(item, index) in oddAuditInfoList" :key="index">
                     <td>{{item.key}}</td>
                     <td v-if="!item.isShowSmallPic">{{item.result}}</td>
-                    <td v-if="item.isShowSmallPic"> <img src="./image/bg.png" /></td>
+                    <td v-if="item.isShowSmallPic && item.field === 'haveIDCard'"> <img @click="openReviewInfoPop(item)" src="./image/bg.png" /></td>
+                    <td v-if="item.isShowSmallPic && item.field === 'internetInformation'"> <img @click="openReportPop" src="./image/bg.png" /></td>
+                    <td v-if="item.isShowSmallPic && item.field === 'faceRecognition'"> <img @click="openFaceRecognitionPop(item)" src="./image/bg.png" /></td>
+                    <td v-if="item.isShowSmallPic && item.field === 'signing'"> <img @click="toSigning(item)" src="./image/bg.png" /></td>
                   </tr>
                 </table>
                 <table class="examine" v-if="evenAuditInfoList.length > 0">
@@ -180,137 +183,22 @@
                 <span class="title-boder"></span>
                 <span class="title-text">相关费用</span>
               </p>
-              <table class="examine cost">
-                <tr class="examine-title">
-                  <td class="left">相关操作</td>
-                  <td class="right">收费标准</td>
-                </tr>
-                <tr>
-                  <td>转让手续费</td>
-                  <td>按每笔转让收取，费用为年化金额0.6%</td>
-                </tr>
-                <tr>
-                  <td>提现／充值／投资</td>
-                  <td>免费</td>
-                </tr>
-              </table>
-              <!-- <p class="title">
-                <span class="title-boder"></span>
-                <span class="title-text">借款人信息</span>
-              </p>
-              <div class="borrower">
-                <div class="borrower-box">
-                  <p class="borrower-box-left">
-                    <span class="left">借款人姓名：</span>
-                    <span class="right"></span>
-                  </p>
-                  <p class="borrower-box-center">
-                    <span class="left">性别：</span>
-                    <span class="right"></span>
-                  </p>
-                  <p>
-                    <span class="left">身份证号：</span>
-                    <span class="right"></span>
-                  </p>
-                </div>
-                <div class="borrower-box">
-                  <p class="borrower-box-left">
-                    <span class="left">年龄：</span>
-                    <span class="right"></span>
-                  </p>
-                  <p class="borrower-box-center">
-                    <span class="left">行业：</span>
-                    <span class="right"></span>
-                  </p>
-                  <p>
-                    <span class="left">居住地址：</span>
-                    <span class="right"></span>
-                  </p>
-                </div>
-                <div class="borrower-box">
-                  <p class="borrower-box-left">
-                    <span class="left">婚姻状况：</span>
-                    <span class="right"></span>
-                  </p>
-                  <p class="borrower-box-center">
-                    <span class="left">月收入：</span>
-                    <span class="right"></span>
-                  </p>
-                  <p>
-                    <span class="left">借款金额：</span>
-                    <span class="right"></span>
-                  </p>
-                </div>
-                <div class="borrower-box">
-                  <p class="borrower-box-left">
-                    <span class="left">借款用途：</span>
-                    <span class="right"></span>
-                  </p>
-                  <p class="borrower-box-center">
-                    <span class="left">借款主体性质：</span>
-                    <span class="right"></span>
-                  </p>
-                  <p>
-                    <span class="left">借款期限：</span>
-                    <span class="right"></span>
-                  </p>
-                </div>
-                <div class="borrower-box">
-                  <p class="borrower-box-left">
-                    <span class="left">还款来源：</span>
-                    <span class="right"></span>
-                  </p>
-                  <p class="borrower-box-center">
-                    <span class="left">逾期金额：</span>
-                    <span class="right"></span>
-                  </p>
-                  <p></p>
-                </div>
-                <p class="borrower-txt">
-                  <span class="left">征信报告：</span>
-                  <span class="right">核查人银行征信报告，该借款人近6个月无逾</span>
-                </p>
-                <p class="borrower-txt">
-                  <span class="left">在其他网络借贷平台借款情况：</span>
-                  <span class="right">借款人保证在不同网络借贷信息中介机构平台借款总余额与本合同借款金额合计总额不超过人民币100万元</span>
-                </p>
+              <div class="table-wrap">
+                <table class="examine cost">
+                  <tr class="examine-title">
+                    <td class="left">相关操作</td>
+                    <td class="right">收费标准</td>
+                  </tr>
+                  <tr>
+                    <td>转让手续费</td>
+                    <td>{{productDetail.relatedExpenses}}</td>
+                  </tr>
+                  <tr>
+                    <td>提现／充值／投资</td>
+                    <td>免费</td>
+                  </tr>
+                </table>
               </div>
-              <p class="title">
-                <span class="title-boder"></span>
-                <span class="title-text">贷后情况</span>
-              </p>
-              <div class="situation">
-                <div class="situation-div situation-left">
-                  <p>
-                    <span class="left">平台历史逾期次数：</span>
-                    <span class="right">0次</span>
-                  </p>
-                  <p>
-                    <span class="left">借款人还款能力变化情况：</span>
-                    <span class="right">未发现异常</span>
-                  </p>
-                </div>
-                <div class="situation-div situation-center">
-                  <p>
-                    <span class="left">平台历史逾期金额：</span>
-                    <span class="right">0.00元</span>
-                  </p>
-                  <p>
-                    <span class="left">借款人涉诉情况：</span>
-                    <span class="right">未发现新增涉诉</span>
-                  </p>
-                </div>
-                <div class="situation-div situation-right">
-                  <p>
-                    <span class="left">借款资金运用情况：</span>
-                    <span class="right">未发现挪用</span>
-                  </p>
-                  <p>
-                    <span class="left">借款人受行政处罚情况：</span>
-                    <span class="right">未发现新增行政处罚</span>
-                  </p>
-                </div>
-              </div>-->
             </section>
           </div>
         </el-tab-pane>
@@ -412,67 +300,67 @@
                 <div class="borrower-box">
                   <p class="borrower-box-left">
                     <span class="left">借款人姓名：</span>
-                    <span class="right"></span>
+                    <span class="right">{{loanPeopleInfo.borrowerName}}</span>
                   </p>
                   <p class="borrower-box-center">
                     <span class="left">性别：</span>
-                    <span class="right"></span>
+                    <span class="right">{{loanPeopleInfo.sex}}</span>
                   </p>
                   <p>
                     <span class="left">身份证号：</span>
-                    <span class="right"></span>
+                    <span class="right">{{loanPeopleInfo.idNum}}</span>
                   </p>
                 </div>
                 <div class="borrower-box">
                   <p class="borrower-box-left">
                     <span class="left">年龄：</span>
-                    <span class="right"></span>
+                    <span class="right">{{loanPeopleInfo.age}}</span>
                   </p>
                   <p class="borrower-box-center">
                     <span class="left">行业：</span>
-                    <span class="right"></span>
+                    <span class="right">{{loanPeopleInfo.industry}}</span>
                   </p>
                   <p>
                     <span class="left">居住地址：</span>
-                    <span class="right"></span>
+                    <span class="right">{{loanPeopleInfo.domicile}}</span>
                   </p>
                 </div>
                 <div class="borrower-box">
                   <p class="borrower-box-left">
                     <span class="left">婚姻状况：</span>
-                    <span class="right"></span>
+                    <span class="right">{{loanPeopleInfo.maritalStatus}}</span>
                   </p>
                   <p class="borrower-box-center">
                     <span class="left">月收入：</span>
-                    <span class="right"></span>
+                    <span class="right">{{loanPeopleInfo.income}}</span>
                   </p>
                   <p>
                     <span class="left">借款金额：</span>
-                    <span class="right"></span>
+                    <span class="right">{{loanPeopleInfo.prinAmt}}</span>
                   </p>
                 </div>
                 <div class="borrower-box">
                   <p class="borrower-box-left">
                     <span class="left">借款用途：</span>
-                    <span class="right"></span>
+                    <span class="right">{{loanPeopleInfo.loanAim}}</span>
                   </p>
                   <p class="borrower-box-center">
                     <span class="left">借款主体性质：</span>
-                    <span class="right"></span>
+                    <span class="right">{{loanPeopleInfo.borrowerTheme}}</span>
                   </p>
                   <p>
                     <span class="left">借款期限：</span>
-                    <span class="right"></span>
+                    <span class="right">{{loanPeopleInfo.loanDay}}</span>
                   </p>
                 </div>
                 <div class="borrower-box">
                   <p class="borrower-box-left">
                     <span class="left">还款来源：</span>
-                    <span class="right"></span>
+                    <span class="right">{{loanPeopleInfo.paymentSource}}</span>
                   </p>
                   <p class="borrower-box-center">
                     <span class="left">逾期金额：</span>
-                    <span class="right"></span>
+                    <span class="right">{{loanPeopleInfo.amountOverride}}</span>
                   </p>
                   <p></p>
                 </div>
@@ -482,8 +370,8 @@
                 </p>
                 <p class="borrower-txt">
                   <span class="left">在其他网络借贷平台借款情况：</span>
-                  <span class="right">借款人保证在不同网络借贷信息中介机构平台借款总余额与本合同借款金额合计总额不超过人民币100万元</span>
-                  <a class="view-detail" href="javascript:void(0);">
+                  <span class="right">{{loanPeopleInfo.borrowSituation}}</span>
+                  <a class="view-detail" :href="loanPeopleInfo.guaranteeProtocolUrl" target="_blank">
                     点击查看
                     <i class="iconfont icon-more"></i>
                   </a>
@@ -497,31 +385,31 @@
                 <div class="situation-div situation-left">
                   <p>
                     <span class="left">平台历史逾期次数：</span>
-                    <span class="right">0次</span>
+                    <span class="right">{{peopleLoanInfo.platformOverdueCut}}</span>
                   </p>
                   <p>
                     <span class="left">借款人还款能力变化情况：</span>
-                    <span class="right">未发现异常</span>
+                    <span class="right">{{peopleLoanInfo.platformOverdueAmt}}</span>
                   </p>
                 </div>
                 <div class="situation-div situation-center">
                   <p>
                     <span class="left">平台历史逾期金额：</span>
-                    <span class="right">0.00元</span>
+                    <span class="right">{{peopleLoanInfo.loanUseInfo}}</span>
                   </p>
                   <p>
                     <span class="left">借款人涉诉情况：</span>
-                    <span class="right">未发现新增涉诉</span>
+                    <span class="right">{{peopleLoanInfo.repaymentAbilityChg}}</span>
                   </p>
                 </div>
                 <div class="situation-div situation-right">
                   <p>
                     <span class="left">借款资金运用情况：</span>
-                    <span class="right">未发现挪用</span>
+                    <span class="right">{{peopleLoanInfo.involvedInAppeal}}</span>
                   </p>
                   <p>
                     <span class="left">借款人受行政处罚情况：</span>
-                    <span class="right">未发现新增行政处罚</span>
+                    <span class="right">{{peopleLoanInfo.administrativePenalty}}</span>
                   </p>
                 </div>
               </div>
@@ -548,11 +436,11 @@
           <i @click="closeReviewInfoPop" class="el-icon-circle-close-outline close"></i>
           <img
             class="front"
-            src="https://www.hyoucai.com:8082/huiyoucaifiles/picture/certification/2018-09-25/idCardM_a_BD20180925023001020650_djs361466uv.png"
+            :src="picList[0]"
           >
           <img
             class="back"
-            src="https://www.hyoucai.com:8082/huiyoucaifiles/picture/certification/2018-09-25/idCardM_b_BD20180925023001020650_djs361466uv.png"
+            :src="picList[1]"
           >
         </div>
       </div>
@@ -563,7 +451,7 @@
           <i @click="closeFaceRecognitionPop" class="el-icon-circle-close-outline close"></i>
           <img
             class="face"
-            src="https://www.hyoucai.com:8082/huiyoucaifiles/picture/certification/2018-09-25/faceM_BD20180925023001020650_djs361466uv.png"
+            :src="facePic"
           >
         </div>
       </div>
@@ -574,29 +462,9 @@
           <i @click="closeReportPop" class="el-icon-circle-close-outline close"></i>
           <h3>互联网资信报告</h3>
           <ul>
-            <li>
-              <span>姓名：</span>
-              <span>张*</span>
-            </li>
-            <li>
-              <span>身份证号：</span>
-              <span>4108**********0103</span>
-            </li>
-            <li>
-              <span>年龄：</span>
-              <span>3*</span>
-            </li>
-            <li>
-              <span>出生地区：</span>
-              <span>河南省焦作市</span>
-            </li>
-            <li>
-              <span>性别：</span>
-              <span>女</span>
-            </li>
-            <li>
-              <span>是否实名认证：</span>
-              <span>是</span>
+            <li v-for="( item, index) in internetInformationList" :key="index">
+              <span>{{item.key}}：</span>
+              <span>{{item.value}}</span>
             </li>
           </ul>
         </div>
@@ -774,7 +642,8 @@ import Swiper from 'swiper/dist/js/swiper'
 import { mapState } from 'vuex'
 import Pagination from '@/components/pagination/pagination'
 import { timeCountDown } from '@/assets/js/utils'
-import { optionalInvestDetail, amountInfo, optionalInvestRecord, expectedIncome, systemMaintenance, amountSync } from '@/api/hyc/lendDetail'
+import { optionalInvestDetail, amountInfo, optionalInvestRecord, expectedIncome, systemMaintenance, amountSync, internetInformation, peopleLoanInfo } from '@/api/hyc/lendDetail'
+import { getPeopleInfoApi } from '@/api/hyc/Mine/lend'
 import ProjectDetail from './popup/projectDetail'
 import Dialog from '@/components/Dialog/Dialog'
 export default {
@@ -829,13 +698,43 @@ export default {
         repaymentWay: '',
         loanAmt: '',
         investRate: '',
-        loanDate: ''
+        loanDate: '',
+        relatedExpenses: ''
       },
       auditInfoList: [],
       isShowSmallPic: false, // 审核信息表中认证情况列是否显示小图片
       oddAuditInfoList: [], // 审核信息的第一个表格
       evenAuditInfoList: [],  // 审核信息的第二个表格
+      internetInformationList: [],
+      picList: [],  // 身份证弹窗图片
+      facePic: '',  // 人脸识别弹窗图片
       joinRecordData: [],
+      loanPeopleInfo: {
+        borrowerName: '',
+        sex: '',
+        idNum: '',
+        age: '',
+        industry: '',
+        domicile: '',
+        maritalStatus: '',
+        income: '',
+        prinAmt: '',
+        loanAim: '',
+        borrowerTheme: '',
+        loanDay: '',
+        paymentSource: '',
+        amountOverride: '',
+        guaranteeProtocolUrl: '',
+        borrowSituation: ''
+      },
+      peopleLoanInfo: {
+        platformOverdueCut: '',
+        platformOverdueAmt: '',
+        loanUseInfo: '',
+        repaymentAbilityChg: '',
+        involvedInAppeal: '',
+        administrativePenalty: ''
+      },
       productId: '',
       isShowAuthenticationPop: false,
       isShowFaceRecognitionPop: false,
@@ -872,7 +771,7 @@ export default {
           this.getJoinRecordList()
           break
         case 'JKRXX':
-          //this.getProjectCompoList()
+          this.getLoanPeopleInfo()
           break
       }
     },
@@ -889,7 +788,9 @@ export default {
         .replace('$#$', '.')
       e.target.value = e.target.value.replace(/^(-)*(\d+)\.(\d\d).*$/, '$1$2.$3')
       this.invAmount = e.target.value
-      console.log('this.invAmount====', this.invAmount)
+      this.calculationExpectedIncome()
+    },
+    calculationExpectedIncome() {
       let postData = {
         invAmount: this.invAmount,
         investRate: this.projectInfo.investRate,
@@ -975,6 +876,7 @@ export default {
         this.productDetail.loanAmt = productDetail.loanAmt
         this.productDetail.loanMent = productDetail.loanMent
         this.productDetail.investRate = productDetail.investRate
+        this.productDetail.relatedExpenses = productDetail.relatedExpenses
 
         let auditInfoList = productDetail.auditInfoList
         auditInfoList.forEach(item => {
@@ -998,14 +900,12 @@ export default {
         auditInfoList = auditInfoList.filter( (item)=> {
           return item.val
         })
-        console.log('auditInfoList==', auditInfoList)
         this.oddAuditInfoList = auditInfoList.filter( (item, index)=> {
           return (index + 1) % 2 === 1
         })
         this.evenAuditInfoList = auditInfoList.filter( (item, index)=> {
           return (index + 1) % 2 === 0
         })
-        //this.auditInfoList = auditInfoList
 
         this.getUserBasicInfo()
         this.getAmountQuery()
@@ -1044,6 +944,44 @@ export default {
         this.page = parseInt(data.curPage)
       })
     },
+    getLoanPeopleInfo() {
+      let postData = {
+        projectNo: this.projectNo,
+        nameEncrypt: true
+      }
+      getPeopleInfoApi(postData).then(res => {
+        let data = res.data.data
+        this.loanPeopleInfo.borrowerName = data.borrowerName
+        this.loanPeopleInfo.sex = data.sex
+        this.loanPeopleInfo.idNum = data.idNum
+        this.loanPeopleInfo.age = data.age
+        this.loanPeopleInfo.industry = data.industry
+        this.loanPeopleInfo.domicile = data.domicile
+        this.loanPeopleInfo.maritalStatus = data.maritalStatus
+        this.loanPeopleInfo.income = data.income
+        this.loanPeopleInfo.prinAmt = data.prinAmt
+        this.loanPeopleInfo.loanAim = data.loanAim
+        this.loanPeopleInfo.borrowerTheme = data.borrowerTheme
+        this.loanPeopleInfo.loanDay = data.loanDay
+        this.loanPeopleInfo.paymentSource = data.paymentSource
+        this.loanPeopleInfo.amountOverride = data.amountOverride
+        this.loanPeopleInfo.borrowSituation = data.borrowSituation
+        this.loanPeopleInfo.guaranteeProtocolUrl = data.guaranteeProtocolUrl
+      })
+      let params = {
+        productId: this.projectNo,
+        productType: 0
+      }
+      peopleLoanInfo(params).then(res => {
+        let data = res.data.data
+        this.peopleLoanInfo.platformOverdueCut = data.platformOverdueCut
+        this.peopleLoanInfo.platformOverdueAmt = data.platformOverdueAmt
+        this.peopleLoanInfo.loanUseInfo = data.loanUseInfo
+        this.peopleLoanInfo.repaymentAbilityChg = data.repaymentAbilityChg
+        this.peopleLoanInfo.involvedInAppeal = data.involvedInAppeal
+        this.peopleLoanInfo.administrativePenalty = data.administrativePenalty
+      })
+    },
     getAmountQuery() {
       amountInfo().then(res => {
         let data = res.data
@@ -1054,14 +992,24 @@ export default {
         }
       })
     },
-    openReviewInfoPop() {
+    openReviewInfoPop(item) {
       this.isShowAuthenticationPop = true
+      this.picList = item.result.split(',')
     },
-    openFaceRecognitionPop() {
+    openFaceRecognitionPop(item) {
       this.isShowFaceRecognitionPop = true
+      this.facePic = item.result
     },
     openReportPop() {
       this.isShowReportPop = true
+      let postData = {
+        projectNo: this.projectNo
+      } 
+      internetInformation(postData).then(res=> {
+        let data = res.data.data
+        this.internetInformationList = data.internetInformationList
+        console.log('data====', data)
+      })
     },
     closeReviewInfoPop() {
       this.isShowAuthenticationPop = false
@@ -1126,6 +1074,11 @@ export default {
     toSign() {
       this.$router.push({ name: 'sign' })
     },
+    toSigning(item) {
+      item.result = 'http://112.124.117.23:8082/huiyoucaifiles/xyqz/trilateral2/2019/01/17/djs758987pd_694a1de0-4a9d-4b8f-b597-59ec64b292ff.pdf'
+      const tempPage = window.open('', '_blank')
+      tempPage.location = item.result
+    },
     toRisk() {
       this.$router.push({ name: 'riskAss' })
     },
@@ -1178,6 +1131,14 @@ export default {
           }
         })
       }, 300)
+    },
+  },
+  watch: {
+    isAllLending: function(val, oldVal) {
+      console.log('val===', val)
+      this.isAllLending = val;
+      this.isAllLending ? this.invAmount = this.projectInfo.surplusAmt : this.invAmount= ''
+      this.calculationExpectedIncome()
     }
   },
   mounted() {
@@ -1640,6 +1601,7 @@ export default {
                   height: 17px;
                   border-radius: 2px;
                   vertical-align: middle;
+                  cursor: pointer;
                 }
               }
               .left {
@@ -1657,6 +1619,9 @@ export default {
                 border-left: 0;
               }
             }
+          }
+          .cost {
+            width: 100%;
           }
         }
         .repayment {
