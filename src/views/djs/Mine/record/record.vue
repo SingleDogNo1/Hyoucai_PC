@@ -99,12 +99,10 @@ export default {
   },
   filters: {
     plusFilter(data) {
-      if (data) {
-        if (data > 0) {
-          data = '+' + data
-        }
-        return data
+      if (data > 0) {
+        data = '+' + data
       }
+      return data
     }
   },
   methods: {
@@ -149,7 +147,6 @@ export default {
       this.getRecordList()
     },
     matchClass(val) {
-      console.log(val)
       if (val < 0) {
         return 'minus'
       } else {
