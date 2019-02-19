@@ -225,7 +225,6 @@
                 <template slot-scope="scope">
                   <a
                     :projectNo="scope.row.projectNo"
-                    :projectType="projectInfo.projectType"
                     href="javascript:void(0);"
                     class="view-detail"
                     @click="isProjectDetail=!isProjectDetail"
@@ -257,7 +256,12 @@
         </el-tab-pane>
       </el-tabs>
     </section>
-    <ProjectDetail @changeProjectDetail="changeProjectDetail" v-show="isProjectDetail"/>
+    <ProjectDetail
+      @changeProjectDetail="changeProjectDetail"
+      v-show="isProjectDetail"
+      :projectType="projectInfo.projectType"
+      :projectName="projectInfo.projectType"
+    />
     <Dialog
       :show.sync="isShowSignDialog"
       title="汇有财温馨提示"
@@ -375,7 +379,8 @@
                 <div class="swiper-slide swiper-no-swiping">
                   <div class="rate-stamp-box">
                     <p class="vouche-box">
-                      <span class="vouche">4
+                      <span class="vouche">
+                        4
                         <i>%</i>
                         <i class="font">利息</i>
                       </span>
@@ -389,7 +394,8 @@
                 <div class="swiper-slide swiper-no-swiping">
                   <div class="rate-stamp-box">
                     <p class="vouche-box">
-                      <span class="vouche">4
+                      <span class="vouche">
+                        4
                         <i>%</i>
                         <i class="font">利息</i>
                       </span>
@@ -403,7 +409,8 @@
                 <div class="swiper-slide swiper-no-swiping">
                   <div class="rate-stamp-box">
                     <p class="vouche-box">
-                      <span class="vouche">4
+                      <span class="vouche">
+                        4
                         <i>%</i>
                         <i class="font">利息</i>
                       </span>
@@ -467,7 +474,8 @@ export default {
         status: 0, // nteger - 项目状态 1.未开启 2.已投X% 3.满标
         balance: '', // 可用余额
         maxInvAmount: '', // 单笔投资上限金额限制
-        projectType: '' // 项目名称
+        projectType: '', // 项目名称
+        projectName: ''
       },
       investDetail: {
         appDesc: '', // 项目介绍
@@ -609,6 +617,7 @@ export default {
         this.projectInfo.status = projectInfo.status
         this.projectInfo.maxInvAmount = projectInfo.maxInvAmount
         this.projectInfo.projectType = projectInfo.projectType
+        this.projectInfo.projectName = projectInfo.projectName
         // console.log(this.projectInfo.projectType+'---------')
 
         // 预售状态中，募集倒计时不倒计
