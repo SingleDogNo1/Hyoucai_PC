@@ -1248,7 +1248,7 @@ export default {
     },
     handleCurrentChange(val) {
       this.page = val
-      this.handlePoliciesClick()
+      this.handleItemClick(this.policiesActiveName)
     },
     init() {
       if (this.$route.query.paramCode === 'PTXX') {
