@@ -104,3 +104,21 @@ export function availableCouponApi(data) {
     data: qs.stringify(data)
   })
 }
+
+// 互联网资信报告
+export function internetInformation(data) {
+  return request({
+    url: 'auditInfo/internetInformation',
+    method: 'post',
+    data: qs.stringify(data)
+  })
+}
+
+// 贷后情况
+export function peopleLoanInfo(data) {
+  return request({
+    url: 'collection/peopleLoanInfo',
+    method: 'post',
+    data: qs.stringify(data)
+  })
+}

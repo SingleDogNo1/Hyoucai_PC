@@ -75,8 +75,8 @@
               <router-link target="_blank" :to="{ name: 'riskNoticationLetterAgreement'}">《风险告知书》</router-link>
             </el-checkbox>
           </div>
-          <div class="all-lending" v-if="investStatus === 'lending'">
-            <el-checkbox class="all-lending-checkbox" v-model="isAllLending" @change="toggleFill">全部出借</el-checkbox>
+          <div class="all-lending" v-if="!investDetail.tailProject">
+            <el-checkbox class="all-lending-checkbox" v-model="isAllLending">全部出借</el-checkbox>
           </div>
           <div class="action" v-if="investStatus === 'willSale' || investStatus === 'lending'">
             <input class="amount-input" v-model="invAmount" @keyup="handleExpectedIncome(invAmount)" />
@@ -272,7 +272,10 @@
       :onConfirm="toSign"
     >
       <div>
-        <p>您当前未签约或签约状态不符合合规要求，<br>请重新签约！</p>
+        <p>您当前未签约或签约状态不符合合规要求，
+          <br>
+          请重新签约！
+        </p>
       </div>
     </Dialog>
     <!-- 风险评测有问题弹窗 -->
@@ -412,61 +415,61 @@ import Dialog from '@/components/Dialog/Dialog'
 export default {
   data() {
     return {
-      lendDetailActiveName: 'CJXQ',
-      productId: '',
-      itemId: '',
-      isAgree: false,
-      isAllLending: false,
-      isProjectDetail: false,
+      lendDetailActiveName: 'CJXQ', // 选项卡选中状态
+      productId: '', // 标的id
+      itemId: '', // 集合标项目ID
+      isAgree: false, // 是否同意风险告知书
+      isAllLending: false, // 是否自动出借
+      isProjectDetail: false, // 是否显示项目详情弹窗
       page: 1,
       size: 10,
       total: 0,
       investStatus: '', // 投资状态
       investStatusTitle: '出借中...', // 投资状态文字
       investStatusBtn: '充值', // 投资按钮状态文字
-      investBtn: '申请出借',
+      investBtn: '申请出借', // 出借按钮文字
       isDisableInvestBtn: false, // 是否禁用申请出借按钮
-      invAmount: '',
-      expectedIncome: '0.00',
+      invAmount: '', // 申请出借输入框金额
+      expectedIncome: '0.00', //逾期收益
       projectInfo: {
-        investEndDay: '',
-        investEndTime: '',
-        investRate: '',
-        itemName: '',
-        surplusAmt: '',
-        investPeopleCount: '',
-        investPercent: 0,
-        interestRate: '',
-        minInvAmount: '',
-        maxInvTotalAmount: '',
-        status: 0,
-        balance: '',
-        maxInvAmount: '',
-        projectType: '',
+        investEndDay: '', // 募集倒计时(天)
+        investEndTime: '', // 募集倒计时(时分秒)
+        investRate: '', // 利率
+        itemName: '', // 集合标项目名称
+        surplusAmt: '', // 剩余可投金额
+        investPeopleCount: '', // 已购人次
+        investPercent: 0, // 投资百分比
+        interestRate: '', // 结息方式
+        minInvAmount: '', // 起投金额
+        maxInvTotalAmount: '', // 个人累计投资限额
+        status: 0, // nteger - 项目状态 1.未开启 2.已投X% 3.满标
+        balance: '', // 可用余额
+        maxInvAmount: '', // 单笔投资上限金额限制
+        projectType: '', // 项目名称
         projectName: ''
       },
       investDetail: {
-        appDesc: '',
-        threeAgreeJumpUrl: '',
-        investTarget: '',
-        dueDate: '',
-        interestStartDate: '',
-        profitShare: '',
-        existSystem: '',
-        costdes: '',
-        riskAppraisal: '',
-        riskManagementTip: ''
+        appDesc: '', // 项目介绍
+        investTarget: '', // 投资目标
+        dueDate: '', // 投资到期日
+        interestStartDate: '', // 最大投资金额
+        profitShare: '', // 产品起息时间描述
+        existSystem: '', // 退出机制
+        costdes: '', // 费用说明
+        riskAppraisal: '', // 项目风险评估及可能产生的风险结果
+        riskManagementTip: '', // 出借人适当性管理提示
+        tailProject: '' // 是否是尾标(true : 尾标 false: 不是尾标)
       },
-      joinRecordData: [],
-      projectCompositionData: [],
-      errMsg: '',
-      isShowSignDialog: false,
-      isShowRiskDialog: false,
+      joinRecordData: [], // 加入记录数据
+      projectCompositionData: [], // 项目组成数据
+      errMsg: '', // 错误提示
+      isShowSignDialog: false, // 是否显示签约弹窗
+      isShowRiskDialog: false, // 是否显示风险测评弹窗
       isShowSystemMaintenanceDialog: false,
-      singleButton: true,
-      riskConfirmText: '重新评测',
+      singleButton: true, // 是否显示系统维护弹窗
+      riskConfirmText: '重新评测', // 风险测评弹窗按钮文字
       riskContent: '您当前出借的额度或期限不符合您的风险评测<br />等级分布，若您在上次评测后风险承受能力发<br />生改变，请您重新进行风险评测！',
-      isShowConfirmInvestmentDialog: false,
+      isShowConfirmInvestmentDialog: false, // 是否显示出借弹窗
       redPacketsList: [],
       redPacketIndex: -1,
       chooseRedPacketAmt: 0, // 选中红包的金额
@@ -650,6 +653,12 @@ export default {
         this.investDetail.costdes = investDetail.costdes
         this.investDetail.riskAppraisal = investDetail.riskAppraisal
         this.investDetail.riskManagementTip = investDetail.riskManagementTip
+
+        // 判断是否是尾标
+        if (this.investDetail.tailProject && parseFloat(this.projectInfo.surplusAmt) < 2 * parseFloat(this.projectInfo.minInvAmount)) {
+          this.invAmount = '尾标：' + this.projectInfo.surplusAmt + '元'
+          this.invAmountDisabled = true
+        }
       })
     },
     getJoinRecordList() {
