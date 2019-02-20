@@ -34,3 +34,12 @@ export function amountInfoApi(data) {
     data: Qs.stringify(data)
   })
 }
+
+export function transferChargeApi(params) {
+  return request({
+    url: '/RedAndFeeRecharge/recharge',
+    method: 'get',
+    headers: { 'Content-type': 'application/x-www-form-urlencoded' },
+    params: params
+  })
+}
