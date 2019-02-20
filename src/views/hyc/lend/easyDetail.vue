@@ -256,31 +256,19 @@
         </el-tab-pane>
       </el-tabs>
     </section>
-    <!-- 未签约弹窗 -->
-    <Dialog
-      :show.sync="isShowSignDialog"
-      title="汇有财温馨提示"
-      confirmText="签约"
-      class="sign-dialog"
-      :onConfirm="toSign"
-    >
-      <div>
-        <p>您当前未签约或签约状态不符合合规要求，
-          <br>
-          请重新签约！
-        </p>
-      </div>
-    </Dialog>
     <!-- 风险评测有问题弹窗 -->
     <Dialog
       :show.sync="isShowRiskDialog"
       title="汇有财温馨提示"
       :confirmText="riskConfirmText"
+      cancelText="我知道了"
+      :singleButton="riskDialogSingleButton"
       class="risk-dialog"
       :onConfirm="toRisk"
     >
       <div>
-        <p v-html="riskContent"></p>
+        <p>{{riskType}}</p>
+        <p>{{riskContent}}</p>
       </div>
     </Dialog>
     <!-- 系统维护弹窗 -->
@@ -332,16 +320,20 @@
                     :class="['red-envelope-box', {active: redPacketIndex === index}]">
                     <p class="vouche-box">
                       <span class="vouche">
-                        {{item.redPacketAmount}}<i>元</i>
+                        {{item.redPacketAmount}}
+                        <i>元</i>
                       </span>
                       <span class="vouche-aside" v-if="item.commonUse === 0">不可与加息券同时使用</span>
                       <span class="vouche-aside" v-if="item.commonUse === 1">可与加息券同时使用</span>
                     </p>
                     <p class="start">起投金额：{{item.investMinAmount}}元</p>
                     <div class="endData">有效期至{{item.usableExpireDate}}</div>
-                    <button class="receive-btn" @click="receiveRedPacket(item, index)"
-                    v-if="redPacketIndex !== index">选取</button>
-                    <button class="receive-btn" v-else>已选取</button>
+                    <button
+                      class="receive-btn"
+                      @click="receiveRedPacket(item, index)"
+                      v-if="redPacketIndex !== index"
+                    >选取</button>
+                    <button class="receive-btn" @click="cleanRedpacket()" v-else>已选取</button>
                   </div>
                 </div>
               </div>
@@ -373,7 +365,12 @@
                     </p>
                     <p class="start">投资限额：{{item.amountMin}}至{{item.amountMax}}元</p>
                     <div class="endData">有效期至{{item.usableExpireDate}}</div>
-                    <button class="receive-btn" @click="receiveCoupon(item, index)">选取</button>
+                    <button
+                      class="receive-btn"
+                      @click="receiveCoupon(item, index)"
+                      v-if="couponIndex !== index"
+                    >选取</button>
+                    <button class="receive-btn" @click="cleanCoupon" v-else>已选取</button>
                   </div>
                 </div>
               </div>
@@ -429,6 +426,7 @@ import {
   investApi
 } from '@/api/hyc/lendDetail'
 import Dialog from '@/components/Dialog/Dialog'
+import { postcall } from '@/assets/js/utils'
 
 export default {
   data() {
@@ -481,15 +479,18 @@ export default {
       joinRecordData: [], // 加入记录数据
       projectCompositionData: [], // 项目组成数据
       errMsg: '', // 错误提示
-      isShowSignDialog: false, // 是否显示签约弹窗
       isShowRiskDialog: false, // 是否显示风险测评弹窗
       isShowSystemMaintenanceDialog: false,
       singleButton: true, // 是否显示系统维护弹窗
       riskConfirmText: '重新评测', // 风险测评弹窗按钮文字
-      riskContent: '您当前出借的额度或期限不符合您的风险评测<br />等级分布，若您在上次评测后风险承受能力发<br />生改变，请您重新进行风险评测！',
+      riskDialogSingleButton: false,
+      riskType: '', // 风险测评的类型
+      riskContent: '',
       isShowConfirmInvestmentDialog: false, // 是否显示出借弹窗
       redPacketsList: [],
       redPacketIndex: -1,
+      chooseRedPacket: {},
+      chooseCoupon: {},
       chooseRedPacketAmt: 0, // 选中红包的金额
       chooseRedPacketId: 0, // 选中红包的ID
       chooseCouponRate: 0, // 选中加息券的利率
@@ -737,6 +738,8 @@ export default {
       this.errMsg = ''
       if (this.invAmount === '') {
         this.errMsg = '请输入金额'
+      } else if (this.invAmount < this.projectInfo.minInvAmount - 0) {
+        this.errMsg = '出借金额不能低于起投金额'
       } else {
         systemMaintenance().then(res => {
           let data = res.data
@@ -744,6 +747,7 @@ export default {
           if (data.resultCode === '60056') {
             this.isShowSystemMaintenanceDialog = true
           } else {
+            // 调用即信的接口，刷新用户账户余额，然后判断账户余额是否充足
             amountSync().then(res => {
               let data = res.data
               if (data.resultCode === '1') {
@@ -757,30 +761,6 @@ export default {
             // 如果没勾选风险告知书，弹出提示
             if (!this.isAgree) {
               this.errMsg = '请确认并同意《风险告知书》'
-              return
-            }
-            // 是否已经签约
-            this.userBasicInfo.userIsOpenAccount.registerProtocolSigned = true
-            if (!this.userBasicInfo.userIsOpenAccount.registerProtocolSigned) {
-              this.isShowSignDialog = true
-              return
-            }
-            // 是否进行过风险测评
-            this.userBasicInfo.evaluatingResult = true
-            if (!this.userBasicInfo.evaluatingResult) {
-              this.riskContent = '您当前还未风险评测或评测已过期，请进行风险评测。'
-              this.riskConfirmText = '立即评测'
-              this.isShowRiskDialog = true
-              return
-            }
-            // 单人限额是否超过
-            if (this.invAmount > this.projectInfo.maxInvTotalAmount - 0) {
-              this.errMsg = '单人限额' + this.projectInfo.maxInvTotalAmount + '元'
-              return
-            }
-            // 单笔限额是否超过
-            if (this.invAmount > this.projectInfo.maxInvAmount - 0) {
-              this.errMsg = '单笔限额' + this.projectInfo.maxInvAmount + '元'
               return
             }
 
@@ -814,14 +794,32 @@ export default {
       this.$router.push({ name: 'riskAss' })
     },
     receiveRedPacket(item, index) {
-      this.redPacketIndex = index
-      this.chooseRedPacketAmt = item.redPacketAmount
-      this.chooseRedPacketId = item.id
+      if (typeof this.chooseCoupon.commonUse === 'undefined' || this.chooseCoupon.commonUse === '1') {
+        this.redPacketIndex = index
+        this.chooseRedPacket = item
+        this.chooseRedPacketAmt = item.redPacketAmount
+        this.chooseRedPacketId = item.id
+      }
+    },
+    cleanRedpacket() {
+      this.redPacketIndex = -1
+      this.chooseRedPacket = {}
+      this.chooseRedPacketAmt = ''
+      this.chooseRedPacketId = ''
     },
     receiveCoupon(item, index) {
-      this.couponIndex = index
-      this.chooseCouponRate = item.couponRate
-      this.chooseCouponId = item.id
+      if (typeof this.chooseRedPacket.commonUse === 'undefined' || this.chooseRedPacket.commonUse === '1') {
+        this.couponIndex = index
+        this.chooseCoupon = item
+        this.chooseCouponRate = item.couponRate
+        this.chooseCouponId = item.id
+      }
+    },
+    cleanCoupon() {
+      this.couponIndex = -1
+      this.chooseCoupon = {}
+      this.chooseCouponRate = ''
+      this.chooseCouponId = ''
     },
     redEnvelopeSwiper() {
       new Swiper('.swiper-container-red-envelope', {
@@ -881,11 +879,45 @@ export default {
         retUrl: platform_user_center,
         projectType: this.projectInfo.projectType
       }).then(res => {
-        if (res.data.resultCode === '1') {
-          console.log(res)
-          this.isShowInvestDialog = true
-          this.investMsg = '出借成功'
+        const data = res.data
+        if (data.resultCode === '1') {
+          // type = 1 跳转到江西银行
+          if (data.data.type === '1') {
+            postcall(data.data.redirectUrl, data.data.paramReq)
+          } else {
+            this.isShowInvestDialog = true
+            this.investMsg = '出借成功'
+          }
+        } else if (data.resultCode === '90021' || data.resultCode === '90022') {
+          // 风险测评出借额度不够 || 出借期限不够
+          switch (data.data.evaluatingResult) {
+            case 'BSX':
+              this.riskType = '【保守型】'
+              break
+            case 'WJX':
+              this.riskType = '【谨慎型】'
+              break
+            case 'JJX':
+              this.riskType = '【积极型】'
+              break
+            case 'JQX':
+              this.riskType = '【积极型】'
+              break
+            case 'JINX':
+              this.riskType = '【激进型】'
+              break
+          }
+
+          if (['JINX'].includes(res.data.data.evaluatingResult)) {
+            this.riskDialogSingleButton = true
+          }
+          this.riskContent = res.data.resultMsg
+          this.isShowRiskDialog = true
         } else {
+          /*
+           * 90034：授权已过期
+           * 90035：授权金额超限
+           */
           this.isShowInvestErrDialog = true
           this.investErrMsg = res.data.errMsg
         }

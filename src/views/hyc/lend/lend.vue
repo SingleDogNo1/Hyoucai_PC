@@ -72,8 +72,8 @@
                 </li>
                 <li class="info">
                   <template v-if="item.status !== 1">
-                    <el-button v-if="item.investPercent < 100" @click.native="judgeBooking(item)"> 授权出借 </el-button>
-                    <el-button disabled v-else>还款中</el-button>
+                    <el-button  @click.native="judgeBooking(item)"> 授权出借 </el-button>
+                    <!--<el-button disabled v-else>还款中</el-button>-->
                   </template>
                   <template v-else>
                     <el-button type="primary" @click.native="judgeBooking(item)"> 预售中 </el-button>
