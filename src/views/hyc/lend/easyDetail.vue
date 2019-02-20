@@ -510,9 +510,9 @@ export default {
       this.$router.push({
         name: 'projectDetail',
         params: {
-          projectNo: val,
-          projectType: this.projectInfo.projectType,
-          projectName: this.projectInfo.projectName
+          projectNo: val
+          // projectType: this.projectInfo.projectType,
+          // projectName: this.projectInfo.projectName
         }
       })
     },
