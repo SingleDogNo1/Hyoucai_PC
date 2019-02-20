@@ -25,9 +25,12 @@
         <tr style="height: 20px;"></tr>
         <tr v-for="(day, k1) in days" :key="k1" :style="{ 'animation-delay': k1 * 30 + 'ms' }">
           <td v-for="(child, k2) in day" :key="k2" :class="{ selected: child.selected, disabled: child.disabled }" @click="select(k1, k2, $event)">
-            <span :class="{ red: k2 === 0 || k2 === 6 || ((child.isLunarFestival || child.isGregorianFestival) && lunar) }"> {{ child.day }} </span>
+            <span
+              :class="{
+                red: k2 === 0 || k2 === 6 || ((child.isLunarFestival || child.isGregorianFestival) && lunar),
+                isSpecial: child.isLunarFestival || child.isGregorianFestival }"
+            > {{ child.day }} </span>
             <div class="text" v-if="child.eventName !== undefined">{{ child.eventName }}</div>
-            <!--<div class="text" :class="{'isLunarFestival':child.isLunarFestival,'isGregorianFestival':child.isGregorianFestival}" v-if="lunar">{{child.lunar}}</div>-->
             <div
               class="text"
               :class="{ isLunarFestival: child.isLunarFestival, isGregorianFestival: child.isGregorianFestival }"
@@ -355,7 +358,8 @@ export default {
         }
         this.render(this.year, this.month)
         this.$emit('selectMonth', this.month + 1, this.year)
-        this.$emit('prev', this.month + 1, this.year)
+        // this.day 汇有财切换月默认传1号， 点金石默认不传
+        this.$emit('prev', this.month + 1, this.year, this.day)
       }
     },
     //  下月
@@ -371,7 +375,8 @@ export default {
         }
         this.render(this.year, this.month)
         this.$emit('selectMonth', this.month + 1, this.year)
-        this.$emit('next', this.month + 1, this.year)
+        // this.day 汇有财切换月默认传1号， 点金石默认不传
+        this.$emit('next', this.month + 1, this.year, this.day)
       }
     },
     // 选中日期
@@ -446,7 +451,7 @@ export default {
             if ($this.month === 0) {
               this.slideTo(1, 0)
             } else {
-              this.slideTo($this.month, 0)
+              this.slideTo($this.month - 0 + 1, 0)
             }
           }
         }
@@ -457,8 +462,8 @@ export default {
     }
   },
   mounted() {
-    this.initMonth()
     this.init()
+    this.initMonth()
   }
 }
 </script>
@@ -481,7 +486,6 @@ export default {
     span {
       cursor: pointer;
     }
-
     .calendar-info {
       height: 100%;
       padding-top: 3px;
@@ -528,7 +532,7 @@ export default {
     width: 100%;
     margin-bottom: 10px;
     border-collapse: collapse;
-    color: #444444;
+    color: #444;
     .table-header {
       height: 30px;
       border-bottom: 1px solid #ebebeb;
@@ -551,7 +555,6 @@ export default {
       position: relative;
       vertical-align: top;
       &.week {
-        font-size: 10px;
         pointer-events: none !important;
         cursor: default !important;
       }
@@ -565,22 +568,18 @@ export default {
       }
       span {
         display: block;
-        width: 40px;
-        height: 40px;
+        width: 50px;
+        height: 50px;
         font-size: 16px;
-        line-height: 40px;
+        line-height: 50px;
         margin: 0 auto;
-        border-radius: 20px;
-      }
-      &:not(.selected) span:not(.red):hover {
-        background: #4235fa;
-        color: #444;
-      }
-      &:not(.selected) span.red:hover {
-        background: #4235fa;
+        border-radius: 50%;
+        &.isSpecial {
+          line-height: 35px;
+        }
       }
       &:not(.disabled) span.red {
-        color: #ea6151;
+        color: #ff543f;
       }
       &.selected span {
         background-color: #5e7a88;
@@ -599,18 +598,18 @@ export default {
       }
       .isGregorianFestival,
       .isLunarFestival {
-        color: #ea6151;
+        color: #ff543f;
       }
       &.selected {
         span {
           &.red {
-            background-color: #ea6151;
+            background-color: #ff543f;
             color: #fff;
-            &:hover {
-              background-color: #72ea54;
-              color: #fff;
-            }
           }
+        }
+        .isGregorianFestival,
+        .isLunarFestival {
+          color: #fff;
         }
       }
     }

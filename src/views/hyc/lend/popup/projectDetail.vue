@@ -2,7 +2,7 @@
   <div class="content-box">
     <div class="content">
       <header>
-        <span>《三方协议》</span>
+        <span class="agreement" @click="agreement()">《三方协议》</span>
         <i class="el-icon-circle-close-outline cancel" @click="change"></i>
       </header>
       <section>
@@ -24,7 +24,7 @@
           <div class="txt">
             <p>
               <span class="left">合同编号：</span>
-              <span class="right">{{loanNo}}</span>
+              <span class="right">{{contractNum}}</span>
             </p>
             <p>
               <span class="left">融资金额：</span>
@@ -48,12 +48,74 @@
         </p>
         <table class="examine">
           <tr class="examine-title">
-            <td>身份信息</td>
-            <td>认证情况</td>
-            <td>身份信息</td>
-            <td>认证情况</td>
+            <td class="examine-td">身份信息</td>
+            <td class="examine-td">认证情况</td>
+            <td class="examine-td">身份信息</td>
+            <td class="examine-td">认证情况</td>
           </tr>
-          <tr>
+          <tr class="examine-tr">
+            <td colspan="2">
+              <table class="td-table">
+                <tr v-for="(item,index) in auditInfoList1" :key="index">
+                  <td style="border-left: 1px solid rgba(227, 227, 227, 1)">{{item.key}}</td>
+                  <td>
+                    <span v-show="!item.result">{{item.val}}</span>
+                    <img
+                      v-show="item.result&&item.field=='haveIDCard'"
+                      @click="flag=!flag"
+                      src="./../image/bg.png"
+                    >
+                    <img
+                      v-show="item.result&&item.field=='faceRecognition'"
+                      @click="flag=!flag"
+                      src="./../image/bg.png"
+                    >
+                    <img
+                      v-show="item.result&&item.field=='signing'"
+                      @click="flag=!flag"
+                      src="./../image/bg.png"
+                    >
+                    <img
+                      v-show="item.result&&item.field=='internetInformation'"
+                      @click="flag=!flag"
+                      src="./../image/bg.png"
+                    >
+                  </td>
+                </tr>
+              </table>
+            </td>
+            <td colspan="2">
+              <table class="td-table">
+                <tr v-for="(item,index) in auditInfoList2" :key="index">
+                  <td style="border-left: 1px solid #fff">{{item.key}}</td>
+                  <td>
+                    <span v-show="!item.result">{{item.val}}</span>
+                    <img
+                      v-show="item.result&&item.field=='haveIDCard'"
+                      @click="flag=!flag"
+                      src="./../image/bg.png"
+                    >
+                    <img
+                      v-show="item.result&&item.field=='faceRecognition'"
+                      @click="flag=!flag"
+                      src="./../image/bg.png"
+                    >
+                    <img
+                      v-show="item.result&&item.field=='signing'"
+                      @click="flag=!flag"
+                      src="./../image/bg.png"
+                    >
+                    <img
+                      v-show="item.result&&item.field=='internetInformation'"
+                      @click="internetInformation()"
+                      src="./../image/bg.png"
+                    >
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <!-- <tr>
             <td>身份证认证</td>
             <td>
               <img @click="flag=!flag" src="./../image/bg.png">
@@ -84,7 +146,7 @@
             </td>
             <td></td>
             <td></td>
-          </tr>
+          </tr>-->
         </table>
         <p class="title">
           <span class="title-boder"></span>
@@ -189,7 +251,7 @@
             <span class="left">在其他网络借贷平台借款情况：</span>
             <span class="right">{{borrowSituation}}</span>
           </p>
-          <p class="look-detail">点击查看>></p>
+          <a class="look-detail" :href="guaranteeProtocolUrl" target="_blank">点击查看>></a>
         </div>
         <p class="title">
           <span class="title-boder"></span>
@@ -240,17 +302,33 @@
         src="https://www.hyoucai.com:8082/huiyoucaifiles/picture/certification/2018-09-25/idCardM_b_BD20180925023001020650_djs361466uv.png"
       >
     </div>
+    <div v-show="isInternetInformation" class="internetInformation">
+      <h3 class="internetInformation-h2">
+        互联网资信报告
+        <i
+          class="el-icon-circle-close-outline internetInformation-i"
+          @click="isInternetInformation=false"
+        ></i>
+      </h3>
+      <div class="internetInformation-div">
+        <p v-for="(item,index) in internetInformationList" :key="index">
+          <span>{{item.key}}：</span>
+          <span>{{item.value}}</span>
+        </p>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import { getPeopleInfoApi } from '@/api/hyc/Mine/lend'
+import { getPeopleInfoApi, getProjectDetail, getInternetInformation } from '@/api/hyc/Mine/lend'
 // import {getPeopleLoanInfo} from '@/api/hyc/lend'
 export default {
   name: 'ProjectDetal',
   data() {
     return {
       flag: false,
+      isInternetInformation: false,
       borrowerName: '',
       sex: '',
       idNum: '',
@@ -267,41 +345,94 @@ export default {
       amountOverride: '',
       creditReport: '',
       borrowSituation: '',
-      loanNo: '',
       repaymentWay: '',
-      rate: ''
+      rate: '',
+      projectName: '',
+      contractNum: '',
+      guaranteeProtocolUrl: '',
+      auditInfoList1: [],
+      auditInfoList2: [],
+      internetInformationList: []
     }
   },
-  props: ['projectNo', 'projectType', 'projectName'],
   methods: {
+    agreement() {
+      this.$router.push({
+        name: 'threePartyAgreement'
+      })
+    },
     change: function() {
-      this.$emit('changeProjectDetail')
+      this.$router.go(-1)
+    },
+    getProjectDetail() {
+      getProjectDetail({ projectNo: this.$route.params.projectNo }).then(res => {
+        // console.log(res)
+        this.contractNum = res.data.data.productDetail.contractNum
+        let auditInfoList = res.data.data.productDetail.auditInfoList
+        auditInfoList.map((item, index) => {
+          switch (item.field) {
+            case 'haveIDCard':
+              item.result = true
+              break
+            case 'faceRecognition':
+              item.result = true
+              break
+            case 'signing':
+              item.result = true
+              break
+            case 'internetInformation':
+              item.result = true
+              break
+            default:
+              item.result = false
+          }
+          if (index % 2 == 0) {
+            this.auditInfoList1.push(auditInfoList[index])
+          } else {
+            this.auditInfoList2.push(auditInfoList[index])
+          }
+        })
+        // this.projectName
+      })
+    },
+    internetInformation() {
+      // 互联网资信报告
+      getInternetInformation({ projectNo: this.$route.params.projectNo }).then(res => {
+        this.internetInformationList = res.data.data.internetInformationList
+        // console.log(res.data.data.internetInformationList)
+      })
+      this.isInternetInformation = !this.isInternetInformation
+    },
+    getPeopleInfoApi() {
+      getPeopleInfoApi({ projectNo: this.$route.params.projectNo, nameEncrypt: true }).then(res => {
+        let data = res.data.data
+        this.borrowerName = data.borrowerName
+        this.sex = data.sex
+        this.idNum = data.idNum
+        this.age = data.age
+        this.domicile = data.domicile
+        this.maritalStatus = data.maritalStatus
+        this.industry = data.industry
+        this.income = data.income
+        this.prinAmt = data.prinAmt
+        this.loanAim = data.loanAim
+        this.borrowerTheme = data.borrowerTheme
+        this.loanDay = data.loanDay
+        this.paymentSource = data.paymentSource
+        this.amountOverride = data.amountOverride
+        this.creditReport = data.creditReport
+        this.borrowSituation = data.borrowSituation
+        this.repaymentWay = data.repaymentWay
+        this.rate = data.rate
+        this.guaranteeProtocolUrl = data.guaranteeProtocolUrl
+      })
     }
   },
   created() {
-    console.log(this.projectType + '----------')
-    getPeopleInfoApi({ projectNo: 'BD20190125104251004113', nameEncrypt: true }).then(res => {
-      let data = res.data.data
-      this.borrowerName = data.borrowerName
-      this.sex = data.sex
-      this.idNum = data.idNum
-      this.age = data.age
-      this.domicile = data.domicile
-      this.maritalStatus = data.maritalStatus
-      this.industry = data.industry
-      this.income = data.income
-      this.prinAmt = data.prinAmt
-      this.loanAim = data.loanAim
-      this.borrowerTheme = data.borrowerTheme
-      this.loanDay = data.loanDay
-      this.paymentSource = data.paymentSource
-      this.amountOverride = data.amountOverride
-      this.creditReport = data.creditReport
-      this.borrowSituation = data.borrowSituation
-      this.loanNo = data.loanNo
-      this.repaymentWay = data.repaymentWay
-      this.rate = data.rate
-    })
+    this.projectName = this.$route.params.projectName
+    // console.log(this.$route.params)
+    this.getPeopleInfoApi()
+    this.getProjectDetail()
   }
 }
 </script>
@@ -311,9 +442,9 @@ export default {
 .content-box {
   padding: 120px 200px 110px;
   background: rgba(227, 227, 227, 1);
-  position: absolute;
-  top: 0;
-  z-index: 2;
+  // position: absolute;
+  // top: 0;
+  // z-index: 2;
   .content {
     background: rgba(255, 255, 255, 1);
     border-radius: 6px;
@@ -330,6 +461,9 @@ export default {
       color: rgba(0, 131, 254, 1);
       padding-left: 30px;
       position: relative;
+      .agreement {
+        cursor: pointer;
+      }
       .cancel {
         position: absolute;
         top: 16px;
@@ -379,6 +513,8 @@ export default {
       }
       .examine {
         margin: 21px 50px 32px 0;
+        // width:1080px;
+        width: 92%;
         tr {
           width: 100%;
           td {
@@ -389,7 +525,7 @@ export default {
             font-size: $font-size-small-ss;
             color: rgba(155, 155, 155, 1);
             line-height: 14px;
-            padding: 0 15px;
+            // padding: 0 15px;
             img {
               width: 24px;
               height: 17px;
@@ -400,6 +536,26 @@ export default {
           }
           .left {
             width: 30%;
+          }
+        }
+        .examine-tr {
+          width: 100%;
+          td {
+            width: 25%;
+            border: none;
+            .td-table {
+              width: 100%;
+              tr {
+                width: 100%;
+                td {
+                  border: none;
+                  height: 40px;
+                  width: 50%;
+                  border-right: 1px solid rgba(227, 227, 227, 1);
+                  border-bottom: 1px solid rgba(227, 227, 227, 1);
+                }
+              }
+            }
           }
         }
         .examine-title {
@@ -432,7 +588,7 @@ export default {
             height: 210px;
           }
           .borrower-box-center {
-            width: 140px;
+            width: 160px;
             height: 150px;
             margin-left: 150px;
             margin-right: 150px;
@@ -453,6 +609,7 @@ export default {
           position: absolute;
           right: 57px;
           bottom: 8px;
+          cursor: pointer;
         }
       }
       .situation {
@@ -507,6 +664,44 @@ export default {
     img.front {
       padding-top: 60px;
       margin-bottom: 20px;
+    }
+  }
+  .internetInformation {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    margin: auto;
+    z-index: 2;
+    background: #fff;
+    width: 550px;
+    height: 260px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    line-height: 28px;
+    color: #666;
+    .internetInformation-h2 {
+      display: block;
+      width: 100%;
+      margin: 20px 0 10px;
+      text-align: center;
+      position: relative;
+      .internetInformation-i {
+        position: absolute;
+        top: 4px;
+        right: 20px;
+        cursor: pointer;
+      }
+    }
+    .internetInformation-div {
+      padding: 0 10px 10px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      p {
+        width: 50%;
+      }
     }
   }
 }

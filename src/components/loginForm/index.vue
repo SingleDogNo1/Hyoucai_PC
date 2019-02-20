@@ -9,7 +9,7 @@
         <div class="form-item">
           <i class="iconfont icon-user"></i> <input type="tel" v-model="userName" placeholder="请输入手机号" maxlength="11" />
         </div>
-        <div class="form-item"><i class="iconfont icon-password"></i> <input type="password" v-model="passWord" placeholder="请输入密码" /></div>
+        <div class="form-item"><i class="iconfont icon-password"></i> <input type="password" v-model="passWord" placeholder="请输入密码" @keydown.enter="doLogin"/></div>
         <div id="captcha_pwd"></div>
         <div class="error-msg" v-if="error_pwd">
           <span>{{ error_pwd }}</span>
@@ -21,7 +21,7 @@
           <span @click="popValidation">{{ countDownText }}</span>
         </div>
         <div class="form-item">
-          <i class="iconfont icon-validation"></i> <input type="tel" v-model="smsCode" placeholder="请输入验证码" maxlength="6" />
+          <i class="iconfont icon-validation"></i> <input type="tel" v-model="smsCode" placeholder="请输入验证码" maxlength="6" @keydown.enter="doLogin" />
         </div>
         <div id="captcha_sms"></div>
         <div class="error-msg" v-if="error_sms">
@@ -197,6 +197,7 @@ export default {
           let user = res.data.data
           this.setUser(user)
           setLoginUsername(this.userName)
+          this.setErrorNum(0)
           this.doJumpSystem()
         } else {
           this.error_pwd = res.data.resultMsg
@@ -214,6 +215,7 @@ export default {
           let user = res.data.data
           this.setUser(user)
           setLoginUsername(this.userName)
+          this.setErrorNum(0)
           this.doJumpSystem()
         } else {
           this.error_sms = res.data.resultMsg

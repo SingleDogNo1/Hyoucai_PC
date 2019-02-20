@@ -20,9 +20,11 @@ export function getOperateData() {
 }
 
 // 首页标的列表
-export function getQualityList() {
+export function getQualityList(data) {
   return request({
     url: '/homePage/projectList',
-    method: 'post'
+    method: 'post',
+    headers: { 'Content-type': 'application/x-www-form-urlencoded', version: '2.0' },
+    data: qs.stringify(data)
   })
 }

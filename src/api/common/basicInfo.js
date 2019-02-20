@@ -51,7 +51,7 @@ export function saveMailingAddress(data) {
   return request({
     url: '/SaveMailingAddress',
     method: 'post',
-    headers: { 'Content-type': 'application/x-www-form-urlencoded' },
+    headers: { 'Content-type': 'application/x-www-form-urlencoded', version: '2.0' },
     data: qs.stringify(data)
   })
 }
@@ -67,7 +67,7 @@ export function tansactionPwd(data) {
 // 修改电子账户手机号
 export function jxMobileModify(data) {
   return request({
-    url: '/jxMobileModify/modify',
+    url: 'smsCodeApply/sendSms',
     method: 'post',
     headers: { 'Content-type': 'application/x-www-form-urlencoded' },
     data: qs.stringify(data)
