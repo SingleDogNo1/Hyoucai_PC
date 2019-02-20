@@ -686,8 +686,8 @@ export default {
         appDesc: '', // 项目介绍
         investTarget: '', // 投资目标
         dueDate: '', // 投资到期日
-        interestStartDate: '', // 最大投资金额
-        profitShare: '', // 产品起息时间描述
+        interestStartDate: '', // 产品起息时间描述
+        profitShare: '', // 利息分配
         existSystem: '', // 退出机制
         costdes: '', // 费用说明
         riskAppraisal: '', // 项目风险评估及可能产生的风险结果
