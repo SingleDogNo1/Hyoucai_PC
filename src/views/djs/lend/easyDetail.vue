@@ -199,25 +199,25 @@
               :data="projectCompositionData"
               border
             >
-              <el-table-column align="center" prop="borrowerName" label="借款人" width="220"></el-table-column>
+              <el-table-column align="center" prop="ownBondName" label="借款人" width="220"></el-table-column>
               <el-table-column
                 align="center"
                 height="40"
-                prop="loanAmt"
+                prop="totalBondAmt"
                 label="借款金额(元)"
                 width="214"
               ></el-table-column>
               <el-table-column
                 align="center"
                 height="40"
-                prop="loanRate"
+                prop="investRate"
                 label="历史平均年化收益率"
                 width="232"
               ></el-table-column>
               <el-table-column
                 align="center"
                 height="40"
-                prop="loanStatus"
+                prop="repaymentStatus"
                 label="还款状态"
                 width="205"
               ></el-table-column>
@@ -430,7 +430,7 @@ import Swiper from 'swiper/dist/js/swiper'
 import { mapState } from 'vuex'
 import Pagination from '@/components/pagination/pagination'
 import { timeCountDown } from '@/assets/js/utils'
-import { investCountProjectMsg, investUserCountMsg } from '@/api/djs/lendDetail'
+import { investCountProjectMsg, investUserCountMsg, bondproject } from '@/api/djs/lendDetail'
 import ProjectDetail from './popup/projectDetail'
 import Dialog from '@/components/Dialog/Dialog'
 
@@ -490,7 +490,7 @@ export default {
       singleButton: true, // 是否显示系统维护弹窗
       riskConfirmText: '重新评测', // 风险测评弹窗按钮文字
       riskContent: '您当前出借的额度或期限不符合您的风险评测<br />等级分布，若您在上次评测后风险承受能力发<br />生改变，请您重新进行风险评测！', // 风险测评弹窗默认文字
-      isShowConfirmInvestmentDialog: true // 是否显示出借弹窗
+      isShowConfirmInvestmentDialog: false // 是否显示出借弹窗
     }
   },
   components: {
@@ -611,7 +611,6 @@ export default {
           this.investDetail.profitShare = data.profitShare
           this.investDetail.existSystem = data.existSystem
           this.investDetail.costDes = data.costDes
-          this.investDetail.appDesc = data.appDesc
 
           this.getUserBasicInfo()
           this.getAmountQuery()
@@ -627,27 +626,31 @@ export default {
       this.productId = this.$route.query.productId
       this.itemId = this.$route.query.itemId
       let postData = {
-        productId: this.productId,
-        itemId: this.itemId
+        projectNo: this.projectNo
       }
-      easyInvestDetail(postData).then(res => {
-        let data = res.data.data
-        let investDetail = data.investDetail
-        this.investDetail.appDesc = investDetail.appDesc
-        this.investDetail.investTarget = investDetail.investTarget
-        this.investDetail.dueDate = investDetail.dueDate
-        this.investDetail.breathDate = investDetail.breathDate
-        this.investDetail.profitShare = investDetail.profitShare
-        this.investDetail.existSystem = investDetail.existSystem
-        this.investDetail.costdes = investDetail.costdes
-        this.investDetail.riskAppraisal = investDetail.riskAppraisal
-        this.investDetail.riskManagementTip = investDetail.riskManagementTip
-
-        // 判断是否是尾标
-        if(this.investDetail.tailProject && parseFloat(this.projectInfo.surplusAmt) < 2 * parseFloat(this.projectInfo.minInvAmount)) {
-          this.invAmount = '尾标：' + this.projectInfo.surplusAmt + '元'
-          this.invAmountDisabled = true
+      investCountProjectMsg(postData).then(res => {
+        let data = res.data
+        if(data.resultCode === '1') {
+          this.investDetail.appDesc = data.appDesc
+          this.investDetail.investTarget = data.investTarget
+          this.investDetail.endData = data.endData
+          this.investDetail.breathDate = data.breathDate
+          this.investDetail.profitShare = data.profitShare
+          this.investDetail.existSystem = data.existSystem
+          this.investDetail.costDes = data.costDes
+        } else {
+          this.$notify.error({
+            title: '错误',
+            message: data.resultMsg
+          })
         }
+        // this.investDetail.tailProject = investDetail.tailProject
+
+        // // 判断是否是尾标
+        // if(this.investDetail.tailProject && parseFloat(this.projectInfo.surplusAmt) < 2 * parseFloat(this.projectInfo.minInvAmount)) {
+        //   this.invAmount = '尾标：' + this.projectInfo.surplusAmt + '元'
+        //   this.invAmountDisabled = true
+        // }
       })
     },
     getJoinRecordList() {
@@ -664,20 +667,17 @@ export default {
       })
     },
     getProjectCompoList() {
-      this.productId = this.$route.query.productId
-      this.itemId = this.$route.query.itemId
-      // let postData = {
-      //   productId: this.productId,
-      //   itemId: this.itemId,
-      //   curPage: this.page,
-      //   maxLine: this.size
-      // }
-      // projectCompo(postData).then(res => {
-      //   let data = res.data.data
-      //   this.projectCompositionData = data.list
-      //   this.total = parseInt(data.countPage)
-      //   this.page = parseInt(data.curPage)
-      // })
+      let postData = {
+        projectNo: this.projectNo,
+        curPage: this.page,
+        maxLine: this.size
+      }
+      bondproject(postData).then(res => {
+        let data = res.data
+        this.projectCompositionData = data.list
+        this.total = parseInt(data.countPage)
+        this.page = parseInt(data.curPage)
+      })
     },
     getAmountQuery() {
       console.log('this.investStatus===', this.investStatus)
@@ -1275,6 +1275,9 @@ export default {
             }
           }
         }
+      }
+      .pagination-wrapper {
+        margin-top: 20px;
       }
       .view-more {
         position: relative;

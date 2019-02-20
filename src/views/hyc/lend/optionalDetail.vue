@@ -965,6 +965,7 @@ export default {
         this.investDetail.costdes = investDetail.costdes
         this.investDetail.riskAppraisal = investDetail.riskAppraisal
         this.investDetail.riskManagementTip = investDetail.riskManagementTip
+        this.investDetail.tailProject = investDetail.tailProject
 
         // 判断是否是尾标
         if (this.investDetail.tailProject && parseFloat(this.projectInfo.surplusAmt) < 2 * parseFloat(this.projectInfo.minInvAmount)) {
@@ -1811,6 +1812,9 @@ export default {
             }
           }
         }
+      }
+      .pagination-wrapper {
+        margin-top: 20px;
       }
       .view-more {
         position: relative;

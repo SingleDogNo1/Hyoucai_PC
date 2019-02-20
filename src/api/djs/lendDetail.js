@@ -18,3 +18,12 @@ export function investUserCountMsg(data) {
     data: qs.stringify(data)
   })
 }
+
+// 根据产品编号查询债权
+export function bondproject(data) {
+  return request({
+    url: 'BondProject',
+    method: 'post',
+    data: qs.stringify(data)
+  })
+}
