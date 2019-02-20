@@ -335,6 +335,7 @@ export default {
       font-weight: 400;
       color: rgba(155, 155, 155, 1);
       border-bottom: 1px solid rgba(229, 229, 229, 1);
+      cursor: pointer;
     }
     .active {
       height: 58px;
