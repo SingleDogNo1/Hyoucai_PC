@@ -1,9 +1,9 @@
 <template>
-  <div class="lend-detail">
+  <div class="lend-detail" v-cloak>
     <section class="production-info">
       <div class="title">
         <h2>
-          <img src="./image/icon_ying.png">
+          <img src="./image/icon_hui.png">
           <span>{{projectInfo.projectName}}</span>
         </h2>
       </div>
@@ -39,7 +39,7 @@
       <div class="tips">
         <div class="method">
           <span class="title">计息方式：</span>
-          <span>等额本息</span>
+          <span>{{projectInfo.interestRate}}</span>
         </div>
         <div class="countdown">
           <span class="title">募集倒计时：</span>
@@ -79,7 +79,7 @@
             <el-checkbox class="all-lending-checkbox" v-model="isAllLending">全部出借</el-checkbox>
           </div>
           <div class="action" v-if="investStatus === 'willSale' || investStatus === 'lending'">
-            <input class="amount-input" v-model="invAmount" @keyup="handleExpectedIncome" :disabled="invAmountDisabled">
+            <input class="amount-input" v-model="invAmount" @keyup="handleExpectedIncome">
             <button
               class="action-btn"
               :disabled="isDisableInvestBtn"
@@ -104,107 +104,6 @@
         type="border-card"
         @tab-click="handleItemClick()"
       >
-        <el-tab-pane label="项目信息 " name="XMXX">
-          <div v-if="lendDetailActiveName === 'XMXX'" class="content">
-            <section>
-              <p class="title">
-                <span class="title-boder"></span>
-                <span class="title-text">基本信息</span>
-              </p>
-              <div class="essential-information">
-                <div class="txt">
-                  <p>
-                    <span class="left">项目名称：</span>
-                    <span class="right">{{productDetail.projectName}}</span>
-                  </p>
-                  <p>
-                    <span class="left">还款方式：</span>
-                    <span class="right">{{productDetail.repaymentWay}}</span>
-                  </p>
-                </div>
-                <div class="txt">
-                  <p>
-                    <span class="left">合同编号：</span>
-                    <span class="right">{{productDetail.contractNum}}</span>
-                  </p>
-                  <p>
-                    <span class="left">融资金额：</span>
-                    <span class="right">{{productDetail.loanAmt}}</span>
-                  </p>
-                </div>
-                <div class="txt">
-                  <p>
-                    <span class="left">借贷期限：</span>
-                    <span class="right">{{productDetail.loanMent}}</span>
-                  </p>
-                  <p>
-                    <span class="left">历史年化收益率：</span>
-                    <span class="right">{{productDetail.investRate}}</span>
-                  </p>
-                </div>
-              </div>
-              <p class="title">
-                <span class="title-boder"></span>
-                <span class="title-text">审核信息</span>
-              </p>
-              <div class="table-wrap" v-if="oddAuditInfoList.length > 0">
-                <table class="examine">
-                  <tr class="examine-title">
-                    <td>身份信息</td>
-                    <td>认证情况</td>
-                  </tr>
-                  <tr v-for="(item, index) in oddAuditInfoList" :key="index">
-                    <td>{{item.key}}</td>
-                    <td v-if="!item.isShowSmallPic">{{item.result}}</td>
-                    <td v-if="item.isShowSmallPic && item.field === 'haveIDCard'"> <img @click="openReviewInfoPop(item)" src="./image/bg.png" /></td>
-                    <td v-if="item.isShowSmallPic && item.field === 'internetInformation'"> <img @click="openReportPop" src="./image/bg.png" /></td>
-                    <td v-if="item.isShowSmallPic && item.field === 'faceRecognition'"> <img @click="openFaceRecognitionPop(item)" src="./image/bg.png" /></td>
-                    <td v-if="item.isShowSmallPic && item.field === 'signing'"> <img @click="toSigning(item)" src="./image/bg.png" /></td>
-                  </tr>
-                </table>
-                <table class="examine" v-if="evenAuditInfoList.length > 0">
-                  <tr class="examine-title">
-                    <td>身份信息</td>
-                    <td>认证情况</td>
-                  </tr>
-                  <tr v-for="(item, index) in evenAuditInfoList" :key="index">
-                    <td>{{item.key}}</td>
-                    <td v-if="!item.isShowSmallPic">{{item.result}}</td>
-                    <td v-if="item.isShowSmallPic && item.field === 'haveIDCard'"> <img @click="openReviewInfoPop(item)" src="./image/bg.png" /></td>
-                    <td v-if="item.isShowSmallPic && item.field === 'internetInformation'"> <img @click="openReportPop" src="./image/bg.png" /></td>
-                    <td v-if="item.isShowSmallPic && item.field === 'faceRecognition'"> <img @click="openFaceRecognitionPop(item)" src="./image/bg.png" /></td>
-                    <td v-if="item.isShowSmallPic && item.field === 'signing'"> <img @click="toSigning(item)" src="./image/bg.png" /></td>
-                  </tr>
-                </table>
-              </div>
-              <p class="title">
-                <span class="title-boder"></span>
-                <span class="title-text">还款来源</span>
-              </p>
-              <div class="repayment">借款人固定工作收入</div>
-              <p class="title">
-                <span class="title-boder"></span>
-                <span class="title-text">相关费用</span>
-              </p>
-              <div class="table-wrap">
-                <table class="examine cost">
-                  <tr class="examine-title">
-                    <td class="left">相关操作</td>
-                    <td class="right">收费标准</td>
-                  </tr>
-                  <tr>
-                    <td>转让手续费</td>
-                    <td>{{productDetail.relatedExpenses}}</td>
-                  </tr>
-                  <tr>
-                    <td>提现／充值／投资</td>
-                    <td>免费</td>
-                  </tr>
-                </table>
-              </div>
-            </section>
-          </div>
-        </el-tab-pane>
         <el-tab-pane label="出借详情" name="CJXQ">
           <div v-if="lendDetailActiveName === 'CJXQ'" class="content">
             <p class="desc">{{investDetail.appDesc}}</p>
@@ -287,139 +186,64 @@
                 :count-page="total"
                 :size-val="size"
                 :page-val="page"
-                @handleCurrentChange="handleCurrentChange"
+                @handleCurrentChange="handleJoinRecordCurrentChange"
               ></pagination>
             </div>
           </div>
         </el-tab-pane>
-        <el-tab-pane label="借款人信息" name="JKRXX">
-          <div v-if="lendDetailActiveName === 'JKRXX'" class="content">
-            <section>
-              <p class="title">
-                <span class="title-boder"></span>
-                <span class="title-text">借款人信息</span>
-              </p>
-              <div class="borrower">
-                <div class="borrower-box">
-                  <p class="borrower-box-left">
-                    <span class="left">借款人姓名：</span>
-                    <span class="right">{{loanPeopleInfo.borrowerName}}</span>
-                  </p>
-                  <p class="borrower-box-center">
-                    <span class="left">性别：</span>
-                    <span class="right">{{loanPeopleInfo.sex}}</span>
-                  </p>
-                  <p>
-                    <span class="left">身份证号：</span>
-                    <span class="right">{{loanPeopleInfo.idNum}}</span>
-                  </p>
-                </div>
-                <div class="borrower-box">
-                  <p class="borrower-box-left">
-                    <span class="left">年龄：</span>
-                    <span class="right">{{loanPeopleInfo.age}}</span>
-                  </p>
-                  <p class="borrower-box-center">
-                    <span class="left">行业：</span>
-                    <span class="right">{{loanPeopleInfo.industry}}</span>
-                  </p>
-                  <p>
-                    <span class="left">居住地址：</span>
-                    <span class="right">{{loanPeopleInfo.domicile}}</span>
-                  </p>
-                </div>
-                <div class="borrower-box">
-                  <p class="borrower-box-left">
-                    <span class="left">婚姻状况：</span>
-                    <span class="right">{{loanPeopleInfo.maritalStatus}}</span>
-                  </p>
-                  <p class="borrower-box-center">
-                    <span class="left">月收入：</span>
-                    <span class="right">{{loanPeopleInfo.income}}</span>
-                  </p>
-                  <p>
-                    <span class="left">借款金额：</span>
-                    <span class="right">{{loanPeopleInfo.prinAmt}}</span>
-                  </p>
-                </div>
-                <div class="borrower-box">
-                  <p class="borrower-box-left">
-                    <span class="left">借款用途：</span>
-                    <span class="right">{{loanPeopleInfo.loanAim}}</span>
-                  </p>
-                  <p class="borrower-box-center">
-                    <span class="left">借款主体性质：</span>
-                    <span class="right">{{loanPeopleInfo.borrowerTheme}}</span>
-                  </p>
-                  <p>
-                    <span class="left">借款期限：</span>
-                    <span class="right">{{loanPeopleInfo.loanDay}}</span>
-                  </p>
-                </div>
-                <div class="borrower-box">
-                  <p class="borrower-box-left">
-                    <span class="left">还款来源：</span>
-                    <span class="right">{{loanPeopleInfo.paymentSource}}</span>
-                  </p>
-                  <p class="borrower-box-center">
-                    <span class="left">逾期金额：</span>
-                    <span class="right">{{loanPeopleInfo.amountOverride}}</span>
-                  </p>
-                  <p></p>
-                </div>
-                <p class="borrower-txt">
-                  <span class="left">征信报告：</span>
-                  <span class="right">核查人银行征信报告，该借款人近6个月无逾</span>
-                </p>
-                <p class="borrower-txt">
-                  <span class="left">在其他网络借贷平台借款情况：</span>
-                  <span class="right">{{loanPeopleInfo.borrowSituation}}</span>
-                  <a class="view-detail" :href="loanPeopleInfo.guaranteeProtocolUrl" target="_blank">
-                    点击查看
-                    <i class="iconfont icon-more"></i>
-                  </a>
-                </p>
-              </div>
-              <p class="title">
-                <span class="title-boder"></span>
-                <span class="title-text">贷后情况</span>
-              </p>
-              <div class="situation">
-                <div class="situation-div situation-left">
-                  <p>
-                    <span class="left">平台历史逾期次数：</span>
-                    <span class="right">{{peopleLoanInfo.platformOverdueCut}}</span>
-                  </p>
-                  <p>
-                    <span class="left">借款人还款能力变化情况：</span>
-                    <span class="right">{{peopleLoanInfo.platformOverdueAmt}}</span>
-                  </p>
-                </div>
-                <div class="situation-div situation-center">
-                  <p>
-                    <span class="left">平台历史逾期金额：</span>
-                    <span class="right">{{peopleLoanInfo.loanUseInfo}}</span>
-                  </p>
-                  <p>
-                    <span class="left">借款人涉诉情况：</span>
-                    <span class="right">{{peopleLoanInfo.repaymentAbilityChg}}</span>
-                  </p>
-                </div>
-                <div class="situation-div situation-right">
-                  <p>
-                    <span class="left">借款资金运用情况：</span>
-                    <span class="right">{{peopleLoanInfo.involvedInAppeal}}</span>
-                  </p>
-                  <p>
-                    <span class="left">借款人受行政处罚情况：</span>
-                    <span class="right">{{peopleLoanInfo.administrativePenalty}}</span>
-                  </p>
-                </div>
-              </div>
-            </section>
+        <el-tab-pane label="项目组成" name="XMZC">
+          <div v-if="lendDetailActiveName === 'XMZC'" class="content">
+            <el-table
+              :header-cell-style="{ background: '#f0f7ff'}"
+              class="project-composition-table"
+              :data="projectCompositionData"
+              border
+            >
+              <el-table-column align="center" prop="borrowerName" label="借款人" width="220"></el-table-column>
+              <el-table-column
+                align="center"
+                height="40"
+                prop="loanAmt"
+                label="借款金额(元)"
+                width="214"
+              ></el-table-column>
+              <el-table-column
+                align="center"
+                height="40"
+                prop="loanRate"
+                label="历史平均年化收益率"
+                width="232"
+              ></el-table-column>
+              <el-table-column
+                align="center"
+                height="40"
+                prop="loanStatus"
+                label="还款状态"
+                width="205"
+              ></el-table-column>
+              <el-table-column align="center" height="40" prop="invTime" label="项目详情" width="204">
+                <template slot-scope="scope">
+                  <a
+                    :projectNo="scope.row.projectNo"
+                    :projectType="projectInfo.projectType"
+                    href="javascript:void(0);"
+                    class="view-detail"
+                    @click="isProjectDetail=!isProjectDetail"
+                  >详情</a>
+                </template>
+              </el-table-column>
+            </el-table>
+            <div class="pagination-wrapper">
+              <pagination
+                :count-page="total"
+                :size-val="size"
+                :page-val="page"
+                @handleCurrentChange="handleProjectCompositionCurrentChange"
+              ></pagination>
+            </div>
           </div>
         </el-tab-pane>
-        <el-tab-pane label="风险告知" name="FXGZS">
+        <el-tab-pane label="风险告知书" name="FXGZS">
           <div v-if="lendDetailActiveName === 'FXGZS'" class="content">
             <p>尊敬的出借人：</p>
             <p>恭喜您成为江西汇通金融信息服务有服公司运营的网络借贷平台—汇有财平台的用户。感谢您参与/出借本服务/出借标的，在您签署本《风险告知书》之前，请您认真、仔细阅读以下内容及本平台制定并发布的规则制度及其更新或修正的内容，本《风险告知书》经您确认，即视为您已详细了解并理解本风险告知书的全部内容，对其中揭示的风险均有足够的认识，您可在了解融资项目信贷风险后，根据您的金融产品出借经历、风险认知能力、风险识别能力和风险承受能力，自主选择将来源合法的自有资金通过汇有财平台进行资金出借。当您点击“出借”、“申请出借”、“立即出借”、“确认出借”、“同意协议”、“接受协议”或类似文字时，即视为您已经充...</p>
@@ -433,46 +257,7 @@
         </el-tab-pane>
       </el-tabs>
     </section>
-    <div class="authentication-pop" v-if="isShowAuthenticationPop">
-      <div class="content">
-        <div class="close-wrap">
-          <i @click="closeReviewInfoPop" class="el-icon-circle-close-outline close"></i>
-          <img
-            class="front"
-            :src="picList[0]"
-          >
-          <img
-            class="back"
-            :src="picList[1]"
-          >
-        </div>
-      </div>
-    </div>
-    <div class="face-recognition-pop" v-if="isShowFaceRecognitionPop">
-      <div class="content face-content">
-        <div class="close-wrap">
-          <i @click="closeFaceRecognitionPop" class="el-icon-circle-close-outline close"></i>
-          <img
-            class="face"
-            :src="facePic"
-          >
-        </div>
-      </div>
-    </div>
-    <div class="report-pop" v-if="isShowReportPop">
-      <div class="content report-content">
-        <div class="close-wrap">
-          <i @click="closeReportPop" class="el-icon-circle-close-outline close"></i>
-          <h3>互联网资信报告</h3>
-          <ul>
-            <li v-for="( item, index) in internetInformationList" :key="index">
-              <span>{{item.key}}：</span>
-              <span>{{item.value}}</span>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
+    <ProjectDetail @changeProjectDetail="changeProjectDetail" v-show="isProjectDetail"/>
     <Dialog
       :show.sync="isShowSignDialog"
       title="汇有财温馨提示"
@@ -645,26 +430,19 @@ import Swiper from 'swiper/dist/js/swiper'
 import { mapState } from 'vuex'
 import Pagination from '@/components/pagination/pagination'
 import { timeCountDown } from '@/assets/js/utils'
-import {
-  optionalInvestDetail,
-  amountInfo,
-  optionalInvestRecord,
-  expectedIncome,
-  systemMaintenance,
-  amountSync,
-  internetInformation,
-  peopleLoanInfo
-} from '@/api/hyc/lendDetail'
-import { getPeopleInfoApi } from '@/api/hyc/Mine/lend'
-// import ProjectDetail from './popup/projectDetail'
-// import Dialog from '@/components/Dialog/Dialog'
+import { investCountProjectMsg } from '@/api/djs/lendDetail'
+import ProjectDetail from './popup/projectDetail'
+import Dialog from '@/components/Dialog/Dialog'
+
 export default {
   data() {
     return {
-      lendDetailActiveName: 'XMXX', // 选项卡选中状态
-      projectNo: '', // 标的编号
+      lendDetailActiveName: 'CJXQ', // 选项卡选中状态
+      productId: '', // 标的id
+      itemId: '', // 集合标项目ID
       isAgree: false, // 是否同意风险告知书
       isAllLending: false, // 是否自动出借
+      isProjectDetail: false, // 是否显示项目详情弹窗
       page: 1,
       size: 10,
       total: 0,
@@ -674,22 +452,22 @@ export default {
       investBtn: '申请出借', // 出借按钮文字
       isDisableInvestBtn: false, // 是否禁用申请出借按钮
       invAmount: '', // 申请出借输入框金额
-      invAmountDisabled: false, // 申请出借输入框是否禁用
       expectedIncome: '0.00', //逾期收益
       projectInfo: {
         investEndDay: '', // 募集倒计时(天)
         investEndTime: '', // 募集倒计时(时分秒)
         investRate: '', // 利率
-        projectName: '', // 标的名称
+        projectName: '', // 产品名称
         surplusAmt: '', // 剩余可投金额
         investPeopleCount: '', // 已购人次
         investPercent: 0, // 投资百分比
         interestRate: '', // 结息方式
         minInvAmount: '', // 起投金额
         maxInvTotalAmount: '', // 个人累计投资限额
-        status: 0, // 标的状态 0.预售 1.投资中 2.满标 3.已完结
+        status: 0, // nteger - 项目状态 1.未开启 2.已投X% 3.满标
         balance: '', // 可用余额
-        maxInvAmount: '' // 最大投资金额
+        maxInvAmount: '', // 单笔投资上限金额限制
+        projectType: '' // 项目名称
       },
       investDetail: {
         appDesc: '', // 项目介绍
@@ -703,67 +481,22 @@ export default {
         riskManagementTip: '', // 出借人适当性管理提示
         tailProject: '' // 是否是尾标(true : 尾标 false: 不是尾标)
       },
-      productDetail: {
-        projectName: '', // 标的名称
-        contractNum: '', // 合同编号
-        productName: '', // 项目类型
-        loanMent: '', // 期限
-        repaymentWay: '', // 还款方式
-        loanAmt: '', // 融资金额，后端返回“元”
-        investRate: '', // 预期年化收益率
-        loanDate: '', // 申请日期
-        relatedExpenses: '' // 相关费用
-      },
-      auditInfoList: [], // 审核信息数组
-      isShowSmallPic: false, // 审核信息表中认证情况列是否显示小图片
-      oddAuditInfoList: [], // 审核信息的第一个表格
-      evenAuditInfoList: [], // 审核信息的第二个表格
-      internetInformationList: [], // 互联网资信报告数组
-      picList: [], // 身份证弹窗图片
-      facePic: '', // 人脸识别弹窗图片
       joinRecordData: [], // 加入记录数据
-      loanPeopleInfo: {
-        borrowerName: '', // 借款人姓名
-        sex: '', // 性别
-        idNum: '', // 身份证号
-        age: '', // 年龄
-        industry: '', // 行业
-        domicile: '', // 户籍地点
-        maritalStatus: '', // 婚姻状况
-        income: '', // 月收入，后端返回单位“元”
-        prinAmt: '', // 本金（元），后端返回单位“元”
-        loanAim: '', // 借款目的
-        borrowerTheme: '', // 借款人主题性质
-        loanDay: '', // 期限（天）
-        paymentSource: '', // 还款来源
-        amountOverride: '', // 逾期金额，后端返回单位“元”
-        guaranteeProtocolUrl: '', // 《保证书》pdf url
-        borrowSituation: '' // 在其他网络借贷平台借款情况
-      },
-      peopleLoanInfo: {
-        platformOverdueCut: '', // 平台历史逾期次数
-        platformOverdueAmt: '', // 平台历史逾期金额
-        loanUseInfo: '', // 借款资金运用状况
-        repaymentAbilityChg: '', // 借款人还款能力变化情况
-        involvedInAppeal: '', // 借款人涉诉情况
-        administrativePenalty: '' // 借款人行政处罚情况情况
-      },
-      productId: '', // 标的id
-      isShowAuthenticationPop: false, // 是否显示身份证认证弹窗
-      isShowFaceRecognitionPop: false, // 是否显示人脸识别弹窗
-      isShowReportPop: false, // 是否显示运营报告弹窗
+      projectCompositionData: [], // 项目组成数据
       errMsg: '', // 错误提示
       isShowSignDialog: false, // 是否显示签约弹窗
       isShowRiskDialog: false, // 是否显示风险测评弹窗
-      isShowSystemMaintenanceDialog: false, // 是否显示系统维护弹窗
-      singleButton: true, // 是否显示只有确定按钮
+      isShowSystemMaintenanceDialog: false,
+      singleButton: true, // 是否显示系统维护弹窗
       riskConfirmText: '重新评测', // 风险测评弹窗按钮文字
       riskContent: '您当前出借的额度或期限不符合您的风险评测<br />等级分布，若您在上次评测后风险承受能力发<br />生改变，请您重新进行风险评测！', // 风险测评弹窗默认文字
       isShowConfirmInvestmentDialog: true // 是否显示出借弹窗
     }
   },
   components: {
-    Pagination
+    Pagination,
+    ProjectDetail,
+    Dialog
   },
   computed: {
     ...mapState({
@@ -773,46 +506,18 @@ export default {
   },
   methods: {
     handleItemClick() {
+      this.page = 1
       switch (this.lendDetailActiveName) {
-        case 'XMXX':
-          this.getLendDetailList()
-          break
         case 'CJXQ':
           this.getLendDetailList()
           break
         case 'JRJL':
           this.getJoinRecordList()
           break
-        case 'JKRXX':
-          this.getLoanPeopleInfo()
+        case 'XMZC':
+          this.getProjectCompoList()
           break
       }
-    },
-    handleCurrentChange(val) {
-      this.page = val
-      this.getJoinRecordList()
-    },
-    handleExpectedIncome(e) {
-      e.target.value = e.target.value.replace(/[^\d.]/g, '')
-      e.target.value = e.target.value.replace(/\.{2,}/g, '.')
-      e.target.value = e.target.value
-        .replace('.', '$#$')
-        .replace(/\./g, '')
-        .replace('$#$', '.')
-      e.target.value = e.target.value.replace(/^(-)*(\d+)\.(\d\d).*$/, '$1$2.$3')
-      this.invAmount = e.target.value
-      this.calculationExpectedIncome()
-    },
-    calculationExpectedIncome() {
-      let postData = {
-        invAmount: this.invAmount,
-        investRate: this.projectInfo.investRate,
-        productId: this.productId
-      }
-      expectedIncome(postData).then(res => {
-        let data = res.data.data
-        this.expectedIncome = data.expectedIncome
-      })
     },
     getUserBasicInfo() {
       console.log(this.userBasicInfo)
@@ -850,86 +555,101 @@ export default {
           break
       }
     },
+    handleJoinRecordCurrentChange(val) {
+      this.page = val
+      this.getJoinRecordList()
+    },
+    handleProjectCompositionCurrentChange(val) {
+      this.page = val
+      this.getProjectCompoList()
+    },
+    handleExpectedIncome(e) {
+      e.target.value = e.target.value.replace(/[^\d.]/g, '')
+      e.target.value = e.target.value.replace(/\.{2,}/g, '.')
+      e.target.value = e.target.value
+        .replace('.', '$#$')
+        .replace(/\./g, '')
+        .replace('$#$', '.')
+      e.target.value = e.target.value.replace(/^(-)*(\d+)\.(\d\d).*$/, '$1$2.$3')
+      this.invAmount = e.target.value
+      console.log('this.invAmount====', this.invAmount)
+      let postData = {
+        invAmount: this.invAmount,
+        investRate: this.projectInfo.investRate,
+        productId: this.productId
+      }
+      expectedIncome(postData).then(res => {
+        let data = res.data.data
+        this.expectedIncome = data.expectedIncome
+      })
+    },
+    changeProjectDetail() {
+      this.isProjectDetail = false
+      this.handleItemClick()
+    },
     getInvestDetailList() {
       this.projectNo = this.$route.query.projectNo
-      this.productId = this.$route.query.productId
       let postData = {
         projectNo: this.projectNo
       }
-      optionalInvestDetail(postData).then(res => {
-        let data = res.data.data
-        console.log('data===', data)
-        let projectInfo = data.projectInfo
-        let investEndTimestamp = projectInfo.investEndTimestamp
-        this.projectInfo.projectName = projectInfo.projectName
-        this.projectInfo.investRate = projectInfo.investRate
-        this.projectInfo.surplusAmt = projectInfo.surplusAmt
-        this.projectInfo.investPeopleCount = projectInfo.investPeopleCount
-        this.projectInfo.investPercent = projectInfo.investPercent
-        this.projectInfo.interestRate = projectInfo.interestRate
-        this.projectInfo.minInvAmount = projectInfo.minInvAmount
-        this.projectInfo.maxInvTotalAmount = projectInfo.maxInvTotalAmount
-        this.projectInfo.status = projectInfo.status
-        this.projectInfo.maxInvAmount = projectInfo.maxInvAmount
+      investCountProjectMsg(postData).then(res => {
+        let data = res.data
+        if (data.resultCode === '1') {
+          console.log('data====', data)
+          let projectInfo = data.projectInfo
+          let investEndTimestamp = projectInfo.investEndTimestamp
+          this.projectInfo.itemName = projectInfo.itemName
+          this.projectInfo.investRate = projectInfo.investRate
+          this.projectInfo.surplusAmt = projectInfo.surplusAmt
+          this.projectInfo.investPeopleCount = projectInfo.investPeopleCount
+          this.projectInfo.investPercent = projectInfo.investPercent
+          this.projectInfo.interestRate = projectInfo.interestRate
+          this.projectInfo.minInvAmount = projectInfo.minInvAmount
+          this.projectInfo.maxInvTotalAmount = projectInfo.maxInvTotalAmount
+          this.projectInfo.status = projectInfo.status
+          this.projectInfo.maxInvAmount = projectInfo.maxInvAmount
+          this.projectInfo.projectType = projectInfo.projectType
+          // console.log(this.projectInfo.projectType+'---------')
 
-        // 预售状态中，募集倒计时不倒计
-        timeCountDown(investEndTimestamp, this.projectInfo.status, data => {
-          if (data.indexOf('天') > -1) {
-            this.projectInfo.investEndDay = data.substr(0, data.indexOf('天') + 1)
-            this.projectInfo.investEndTime = data.substr(data.indexOf('天') + 1, data.length - 1)
-          } else {
-            this.projectInfo.investEndTime = data
-          }
-        })
+          // 预售状态中，募集倒计时不倒计
+          timeCountDown(investEndTimestamp, this.projectInfo.status, data => {
+            if (data.indexOf('天') > -1) {
+              this.projectInfo.investEndDay = data.substr(0, data.indexOf('天') + 1)
+              this.projectInfo.investEndTime = data.substr(data.indexOf('天') + 1, data.length - 1)
+            } else {
+              this.projectInfo.investEndTime = data
+            }
+          })
 
-        let productDetail = data.productDetail
-        this.productDetail.projectName = productDetail.projectName
-        this.productDetail.repaymentWay = productDetail.repaymentWay
-        this.productDetail.contractNum = productDetail.contractNum
-        this.productDetail.loanAmt = productDetail.loanAmt
-        this.productDetail.loanMent = productDetail.loanMent
-        this.productDetail.investRate = productDetail.investRate
-        this.productDetail.relatedExpenses = productDetail.relatedExpenses
+          let investDetail = data.investDetail
+          this.investDetail.appDesc = investDetail.appDesc
+          this.investDetail.investTarget = investDetail.investTarget
+          this.investDetail.dueDate = investDetail.dueDate
+          this.investDetail.interestStartDate = investDetail.interestStartDate
+          this.investDetail.profitShare = investDetail.profitShare
+          this.investDetail.existSystem = investDetail.existSystem
+          this.investDetail.costdes = investDetail.costdes
+          this.investDetail.riskAppraisal = investDetail.riskAppraisal
+          this.investDetail.riskManagementTip = investDetail.riskManagementTip
 
-        let auditInfoList = productDetail.auditInfoList
-        auditInfoList.forEach(item => {
-          switch (item.field) {
-            case 'haveIDCard':
-              item.isShowSmallPic = true
-              break
-            case 'faceRecognition':
-              item.isShowSmallPic = true
-              break
-            case 'signing':
-              item.isShowSmallPic = true
-              break
-            case 'internetInformation':
-              item.isShowSmallPic = true
-              break
-            default:
-              item.isShowSmallPic = false
-          }
-        })
-        auditInfoList = auditInfoList.filter(item => {
-          return item.val
-        })
-        this.oddAuditInfoList = auditInfoList.filter((item, index) => {
-          return (index + 1) % 2 === 1
-        })
-        this.evenAuditInfoList = auditInfoList.filter((item, index) => {
-          return (index + 1) % 2 === 0
-        })
-
-        this.getUserBasicInfo()
-        this.getAmountQuery()
+          this.getUserBasicInfo()
+          this.getAmountQuery()
+        } else {
+          this.$notify.error({
+            title: '错误',
+            message: data.resultMsg
+          })
+        }
       })
     },
     getLendDetailList() {
-      this.projectNo = this.$route.query.projectNo
+      this.productId = this.$route.query.productId
+      this.itemId = this.$route.query.itemId
       let postData = {
-        projectNo: this.projectNo
+        productId: this.productId,
+        itemId: this.itemId
       }
-      optionalInvestDetail(postData).then(res => {
+      easyInvestDetail(postData).then(res => {
         let data = res.data.data
         let investDetail = data.investDetail
         this.investDetail.appDesc = investDetail.appDesc
@@ -950,55 +670,35 @@ export default {
       })
     },
     getJoinRecordList() {
-      this.projectNo = this.$route.query.projectNo
+      this.productId = this.$route.query.productId
+      this.itemId = this.$route.query.itemId
       let postData = {
-        projectNo: this.projectNo,
+        productId: this.productId,
+        itemId: this.itemId,
         curPage: this.page,
         maxLine: this.size
       }
-      optionalInvestRecord(postData).then(res => {
+      easyInvestRecord(postData).then(res => {
         let data = res.data.data
         this.joinRecordData = data.list
         this.total = parseInt(data.countPage)
         this.page = parseInt(data.curPage)
       })
     },
-    getLoanPeopleInfo() {
+    getProjectCompoList() {
+      this.productId = this.$route.query.productId
+      this.itemId = this.$route.query.itemId
       let postData = {
-        projectNo: this.projectNo,
-        nameEncrypt: true
+        productId: this.productId,
+        itemId: this.itemId,
+        curPage: this.page,
+        maxLine: this.size
       }
-      getPeopleInfoApi(postData).then(res => {
+      projectCompo(postData).then(res => {
         let data = res.data.data
-        this.loanPeopleInfo.borrowerName = data.borrowerName
-        this.loanPeopleInfo.sex = data.sex
-        this.loanPeopleInfo.idNum = data.idNum
-        this.loanPeopleInfo.age = data.age
-        this.loanPeopleInfo.industry = data.industry
-        this.loanPeopleInfo.domicile = data.domicile
-        this.loanPeopleInfo.maritalStatus = data.maritalStatus
-        this.loanPeopleInfo.income = data.income
-        this.loanPeopleInfo.prinAmt = data.prinAmt
-        this.loanPeopleInfo.loanAim = data.loanAim
-        this.loanPeopleInfo.borrowerTheme = data.borrowerTheme
-        this.loanPeopleInfo.loanDay = data.loanDay
-        this.loanPeopleInfo.paymentSource = data.paymentSource
-        this.loanPeopleInfo.amountOverride = data.amountOverride
-        this.loanPeopleInfo.borrowSituation = data.borrowSituation
-        this.loanPeopleInfo.guaranteeProtocolUrl = data.guaranteeProtocolUrl
-      })
-      let params = {
-        productId: this.projectNo,
-        productType: 0
-      }
-      peopleLoanInfo(params).then(res => {
-        let data = res.data.data
-        this.peopleLoanInfo.platformOverdueCut = data.platformOverdueCut
-        this.peopleLoanInfo.platformOverdueAmt = data.platformOverdueAmt
-        this.peopleLoanInfo.loanUseInfo = data.loanUseInfo
-        this.peopleLoanInfo.repaymentAbilityChg = data.repaymentAbilityChg
-        this.peopleLoanInfo.involvedInAppeal = data.involvedInAppeal
-        this.peopleLoanInfo.administrativePenalty = data.administrativePenalty
+        this.projectCompositionData = data.list
+        this.total = parseInt(data.countPage)
+        this.page = parseInt(data.curPage)
       })
     },
     getAmountQuery() {
@@ -1010,34 +710,6 @@ export default {
           console.log(this.projectInfo.balance)
         }
       })
-    },
-    openReviewInfoPop(item) {
-      this.isShowAuthenticationPop = true
-      this.picList = item.result.split(',')
-    },
-    openFaceRecognitionPop(item) {
-      this.isShowFaceRecognitionPop = true
-      this.facePic = item.result
-    },
-    openReportPop() {
-      this.isShowReportPop = true
-      let postData = {
-        projectNo: this.projectNo
-      }
-      internetInformation(postData).then(res => {
-        let data = res.data.data
-        this.internetInformationList = data.internetInformationList
-        console.log('data====', data)
-      })
-    },
-    closeReviewInfoPop() {
-      this.isShowAuthenticationPop = false
-    },
-    closeFaceRecognitionPop() {
-      this.isShowFaceRecognitionPop = false
-    },
-    closeReportPop() {
-      this.isShowReportPop = false
     },
     handleInvest() {
       this.errMsg = ''
@@ -1077,13 +749,14 @@ export default {
             this.isShowRiskDialog = true
             return
           }
+          console.log('this.invAmount===', this.invAmount)
           // 单人限额是否超过
-          if (this.invAmount > this.projectInfo.maxInvTotalAmount) {
+          if (parseFloat(this.invAmount) > parseFloat(this.projectInfo.maxInvTotalAmount)) {
             this.errMsg = '单人限额' + this.projectInfo.maxInvTotalAmount + '元'
             return
           }
           // 单笔限额是否超过
-          if (this.invAmount > this.projectInfo.maxInvAmount) {
+          if (parseFloat(this.invAmount) > parseFloat(this.projectInfo.maxInvAmount)) {
             this.errMsg = '单笔限额' + this.projectInfo.maxInvAmount + '元'
             return
           }
@@ -1092,11 +765,6 @@ export default {
     },
     toSign() {
       this.$router.push({ name: 'sign' })
-    },
-    toSigning(item) {
-      item.result = 'http://112.124.117.23:8082/huiyoucaifiles/xyqz/trilateral2/2019/01/17/djs758987pd_694a1de0-4a9d-4b8f-b597-59ec64b292ff.pdf'
-      const tempPage = window.open('', '_blank')
-      tempPage.location = item.result
     },
     toRisk() {
       this.$router.push({ name: 'riskAss' })
@@ -1152,16 +820,10 @@ export default {
       }, 300)
     }
   },
-  watch: {
-    isAllLending: function(val) {
-      console.log('val===', val)
-      this.isAllLending = val
-      this.isAllLending ? (this.invAmount = this.projectInfo.surplusAmt) : (this.invAmount = '')
-      this.calculationExpectedIncome()
-    }
-  },
   mounted() {
     this.getInvestDetailList()
+    this.redEnvelopeSwiper()
+    this.rateStampSwiper()
   }
 }
 </script>
@@ -1170,6 +832,8 @@ export default {
 @import '../../../assets/css/theme';
 .lend-detail {
   padding-top: 30px;
+  position: relative;
+  overflow: auto;
   .production-info {
     position: relative;
     width: 1138px;
@@ -1549,161 +1213,20 @@ export default {
     margin-top: 20px;
     margin-bottom: 38px;
     background: #fff;
-    /deep/ .el-tabs__header {
-      background-color: #fff;
-      /deep/ .el-tabs__item {
-        border-top: 4px solid transparent;
-        height: 49px;
-        line-height: 40px;
-        padding: 0 30px;
-        font-size: $font-size-small-s;
-        color: $color-text-s;
-        &.is-active {
-          border-top: 4px solid #ffb01a;
-          color: #fb891f;
-        }
+    /deep/ .el-tabs__item {
+      border-top: 4px solid transparent;
+      height: 49px;
+      line-height: 40px;
+      padding: 0 30px;
+      font-size: $font-size-small-s;
+      color: $color-text-s;
+      &.is-active {
+        border-top: 4px solid #ffb01a;
+        color: #fb891f;
       }
     }
     .content {
       padding: 15px;
-      section {
-        .title {
-          .title-boder {
-            display: inline-block;
-            width: 6px;
-            height: 16px;
-            background: rgba(251, 157, 31, 1);
-            vertical-align: middle;
-          }
-          .title-text {
-            display: inline-block;
-            font-size: 16px;
-            color: rgba(74, 74, 74, 1);
-            line-height: 22px;
-            margin-left: 5px;
-            vertical-align: middle;
-          }
-        }
-        .essential-information {
-          display: flex;
-          margin: 11px 112px 0 0;
-          justify-content: space-between;
-          margin-bottom: 39px;
-          .txt {
-            height: 80px;
-            font-size: $font-size-small;
-            color: rgba(155, 155, 155, 1);
-            line-height: 40px;
-            .right {
-              color: rgba(74, 74, 74, 1);
-            }
-          }
-        }
-        .table-wrap {
-          display: flex;
-          .examine {
-            margin: 21px 0 32px;
-            width: 50%;
-            tr {
-              width: 100%;
-              td {
-                width: 25%;
-                height: 40px;
-                border: 1px solid rgba(227, 227, 227, 1);
-                text-align: center;
-                color: rgba(155, 155, 155, 1);
-                font-size: $font-size-small-ss;
-                line-height: 14px;
-                padding: 0 20px;
-                img {
-                  width: 24px;
-                  height: 17px;
-                  border-radius: 2px;
-                  vertical-align: middle;
-                  cursor: pointer;
-                }
-              }
-              .left {
-                width: 30%;
-              }
-            }
-            .examine-title {
-              background: rgba(240, 247, 255, 1);
-              td {
-                color: rgba(74, 74, 74, 1);
-              }
-            }
-            &:nth-child(2n) {
-              tr td {
-                border-left: 0;
-              }
-            }
-          }
-          .cost {
-            width: 100%;
-          }
-        }
-        .repayment {
-          font-size: 14px;
-          color: rgba(155, 155, 155, 1);
-          line-height: 14px;
-          margin: 20px 0 58px;
-        }
-        .cost {
-          margin-top: 25px;
-          margin-bottom: 20px;
-        }
-        .borrower {
-          margin: 19px 0 50px;
-          font-size: $font-size-small-s;
-          .borrower-box {
-            height: 30px;
-            line-height: 30px;
-            display: flex;
-            .borrower-box-left {
-              width: 196px;
-              height: 210px;
-            }
-            .borrower-box-center {
-              width: 140px;
-              height: 150px;
-              margin-left: 150px;
-              margin-right: 150px;
-            }
-          }
-          .left {
-            color: rgba(155, 155, 155, 1);
-          }
-          .borrower-txt {
-            height: 30px;
-            line-height: 30px;
-            .view-detail {
-              margin-left: 115px;
-              font-size: $font-size-small-s;
-              color: #fb7b1f;
-            }
-          }
-        }
-        .situation {
-          margin: 10px 0 36px;
-          display: flex;
-          font-size: $font-size-small;
-          .situation-left {
-            width: 272px;
-            height: 80px;
-          }
-          .situation-div {
-            color: rgba(155, 155, 155, 1);
-            line-height: 40px;
-            .right {
-              color: rgba(74, 74, 74, 1);
-            }
-          }
-          .situation-center {
-            margin: 0 98px 0 106px;
-          }
-        }
-      }
       .desc {
         font-size: $font-size-small-s;
         color: $color-text-s;
@@ -1795,91 +1318,6 @@ export default {
           color: #fc5541;
         }
       }
-    }
-  }
-  .authentication-pop,
-  .face-recognition-pop,
-  .report-pop {
-    position: fixed;
-    z-index: 100000;
-    top: 0;
-    right: 0;
-    left: 0;
-    bottom: 0;
-    .content {
-      position: fixed;
-      display: table;
-      z-index: 100001;
-      width: 420px;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      left: 0;
-      margin: auto;
-      text-align: center;
-      background: #fff;
-      box-shadow: 0px 4px 16px 0px rgba(0, 0, 0, 0.32);
-      border-radius: 8px;
-      overflow: hidden;
-      .close-wrap {
-        position: relative;
-        width: 100%;
-        .close {
-          position: absolute;
-          top: 16px;
-          right: 16px;
-          color: #4a4a4a;
-          font-size: 28px;
-          cursor: pointer;
-        }
-      }
-      img {
-        display: block;
-        width: 329px;
-        height: 205px;
-        margin: 0 auto;
-        margin-bottom: 20px;
-      }
-      img.front {
-        padding-top: 60px;
-      }
-      img.face {
-        width: 140px;
-        height: 140px;
-        padding-top: 20px;
-      }
-      h3 {
-        padding-top: 20px;
-        font-size: $font-size-medium-x;
-        font-weight: 500;
-        color: $color-text-s;
-      }
-      ul {
-        width: 450px;
-        margin: 0 auto;
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        margin-top: 10px;
-        padding-bottom: 20px;
-        li {
-          font-size: $font-size-small;
-          color: $color-text-s;
-          text-align: left;
-          &:nth-child(2n) {
-            width: 60%;
-          }
-          &:nth-child(2n + 1) {
-            width: 40%;
-          }
-        }
-      }
-    }
-    .content.face-content {
-      width: 300px;
-    }
-    .report-content {
-      width: 490px;
     }
   }
   .sign-dialog,

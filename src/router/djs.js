@@ -58,6 +58,18 @@ export default new Router({
       ]
     },
     {
+      path: '/', // 出借详情(轻松投)
+      component: Layout,
+      children: [
+        {
+          path: 'easyDetail',
+          name: 'easyDetail',
+          component: () => import(/* webpackChunkName: "lend" */ '@/views/djs/lend/easyDetail.vue'),
+          props: route => ({ projectNo: route.query.projectNo })
+        }
+      ]
+    },
+    {
       path: '/mine',
       component: Layout,
       children: [
