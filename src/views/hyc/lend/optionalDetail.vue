@@ -659,7 +659,7 @@ import {
 } from '@/api/hyc/lendDetail'
 import { getPeopleInfoApi } from '@/api/hyc/Mine/lend'
 // import ProjectDetail from './popup/projectDetail'
-import Dialog from '@/components/Dialog/Dialog'
+// import Dialog from '@/components/Dialog/Dialog'
 export default {
   data() {
     return {
@@ -771,8 +771,8 @@ export default {
     }
   },
   components: {
-    Pagination,
-    Dialog
+    Pagination
+    // Dialog
   },
   computed: {
     ...mapState({
@@ -783,6 +783,8 @@ export default {
   watch: {
     invAmount(value) {
       this.handleExpectedIncome(value)
+      // 值不等于可用余额 && 单人限额，就去掉全投状态
+      this.isAllLending = !(value !== this.projectInfo.balance && value !== this.projectInfo.maxInvTotalAmount)
     }
   },
   methods: {

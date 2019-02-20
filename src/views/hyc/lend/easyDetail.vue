@@ -227,7 +227,7 @@
                     :projectNo="scope.row.projectNo"
                     href="javascript:void(0);"
                     class="view-detail"
-                    @click="isProjectDetail=!isProjectDetail"
+                    @click="projectDetail(scope.row.projectNo)"
                   >详情</a>
                 </template>
               </el-table-column>
@@ -256,13 +256,6 @@
         </el-tab-pane>
       </el-tabs>
     </section>
-    <!-- 项目组成 => 借款人详情弹窗 -->
-    <ProjectDetail
-      @changeProjectDetail="changeProjectDetail"
-      v-show="isProjectDetail"
-      :projectType="projectInfo.projectType"
-      :projectName="projectInfo.projectType"
-    />
     <!-- 未签约弹窗 -->
     <Dialog
       :show.sync="isShowSignDialog"
@@ -435,7 +428,6 @@ import {
   availableCouponApi,
   investApi
 } from '@/api/hyc/lendDetail'
-import ProjectDetail from './popup/projectDetail'
 import Dialog from '@/components/Dialog/Dialog'
 
 export default {
@@ -512,7 +504,6 @@ export default {
   },
   components: {
     Pagination,
-    ProjectDetail,
     Dialog
   },
   computed: {
@@ -529,6 +520,17 @@ export default {
     }
   },
   methods: {
+    projectDetail(val) {
+      //项目详情
+      this.$router.push({
+        name: 'projectDetail',
+        params: {
+          projectNo: val,
+          projectType: this.projectInfo.projectType,
+          projectName: this.projectInfo.projectName
+        }
+      })
+    },
     handleItemClick() {
       this.page = 1
       switch (this.lendDetailActiveName) {
@@ -614,10 +616,6 @@ export default {
         let data = res.data.data
         this.expectedIncome = data.expectedIncome
       })
-    },
-    changeProjectDetail() {
-      this.isProjectDetail = false
-      this.handleItemClick()
     },
     getInvestDetailList() {
       this.productId = this.$route.query.productId

@@ -216,6 +216,11 @@ export default new Router({
           name: 'easyDetail',
           component: () => import(/* webpackChunkName: "lend" */ '@/views/hyc/lend/easyDetail.vue'),
           props: route => ({ productId: route.query.productId, itemId: route.query.itemId })
+        },
+        {
+          path: 'projectDetail',
+          name: 'projectDetail',
+          component: () => import(/* webpackChunkName: "lend" */ '@/views/hyc/lend/popup/projectDetail.vue')
         }
       ]
     },
@@ -228,11 +233,6 @@ export default new Router({
           name: 'optionalDetail',
           component: () => import(/* webpackChunkName: "lend" */ '@/views/hyc/lend/optionalDetail.vue'),
           props: route => ({ productNo: route.query.productNo })
-        },
-        {
-          path: 'popup',
-          name: 'popup',
-          component: () => import(/* webpackChunkName: "lend" */ '@/views/hyc/lend/popup/popup4.vue')
         }
       ]
     },
