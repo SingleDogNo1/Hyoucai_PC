@@ -18,13 +18,13 @@
           </div>
           <div class="item">
             <p class="value">
-              <span>{{projectInfo.surplusAmt}}</span>
+              <span>{{projectInfo.surplusAmount}}</span>
             </p>
             <p class="desc">剩余可投(元)</p>
           </div>
           <div class="item">
             <p class="value">
-              <span>{{projectInfo.investPeopleCount}}</span>
+              <span>{{projectInfo.investPropleCount}}</span>
               <span>人</span>
             </p>
             <p class="desc">已购人数</p>
@@ -39,7 +39,7 @@
       <div class="tips">
         <div class="method">
           <span class="title">计息方式：</span>
-          <span>{{projectInfo.interestRate}}</span>
+          <span>{{projectInfo.repayType}}</span>
         </div>
         <div class="countdown">
           <span class="title">募集倒计时：</span>
@@ -64,11 +64,11 @@
           </p>
           <p class="starting-amount">
             <span class="title">起投金额</span>
-            <span class="value">{{projectInfo.minInvAmount}}元</span>
+            <span class="value">{{projectInfo.minInvAmt}}元</span>
           </p>
           <p class="single-limit">
             <span class="title">单人限额</span>
-            <span class="value">{{projectInfo.maxInvTotalAmount}}元</span>
+            <span class="value">{{projectInfo.surplusAmount}}元</span>
           </p>
           <div class="risk-notice">
             <el-checkbox v-model="isAgree">已阅读并同意
@@ -128,13 +128,13 @@
                 <p class="title">
                   <span>锁定期</span>
                 </p>
-                <span class="value">{{investDetail.dueDate}}</span>
+                <span class="value">{{investDetail.endData}}</span>
               </li>
               <li>
                 <p class="title">
                   <span>起息时间</span>
                 </p>
-                <span class="value">{{investDetail.interestStartDate}}</span>
+                <span class="value">{{investDetail.breathDate}}</span>
               </li>
               <li>
                 <p class="title">
@@ -152,7 +152,7 @@
                 <p class="title">
                   <span>费用说明</span>
                 </p>
-                <span class="value">{{investDetail.costdes}}</span>
+                <span class="value">{{investDetail.costDes}}</span>
               </li>
               <li>
                 <p class="title">
@@ -177,7 +177,7 @@
               :data="joinRecordData"
               border
             >
-              <el-table-column align="center" prop="mobile" label="出借人"></el-table-column>
+              <el-table-column align="center" prop="userName" label="出借人"></el-table-column>
               <el-table-column align="center" height="40" prop="invAmt" label="出借金额"></el-table-column>
               <el-table-column align="center" height="40" prop="invTime" label="出借时间"></el-table-column>
             </el-table>
@@ -199,25 +199,25 @@
               :data="projectCompositionData"
               border
             >
-              <el-table-column align="center" prop="borrowerName" label="借款人" width="220"></el-table-column>
+              <el-table-column align="center" prop="ownBondName" label="借款人" width="220"></el-table-column>
               <el-table-column
                 align="center"
                 height="40"
-                prop="loanAmt"
+                prop="totalBondAmt"
                 label="借款金额(元)"
                 width="214"
               ></el-table-column>
               <el-table-column
                 align="center"
                 height="40"
-                prop="loanRate"
+                prop="investRate"
                 label="历史平均年化收益率"
                 width="232"
               ></el-table-column>
               <el-table-column
                 align="center"
                 height="40"
-                prop="loanStatus"
+                prop="repaymentStatus"
                 label="还款状态"
                 width="205"
               ></el-table-column>
@@ -430,7 +430,7 @@ import Swiper from 'swiper/dist/js/swiper'
 import { mapState } from 'vuex'
 import Pagination from '@/components/pagination/pagination'
 import { timeCountDown } from '@/assets/js/utils'
-import { investCountProjectMsg } from '@/api/djs/lendDetail'
+import { investCountProjectMsg, investUserCountMsg, bondproject } from '@/api/djs/lendDetail'
 import ProjectDetail from './popup/projectDetail'
 import Dialog from '@/components/Dialog/Dialog'
 
@@ -458,12 +458,12 @@ export default {
         investEndTime: '', // 募集倒计时(时分秒)
         investRate: '', // 利率
         projectName: '', // 产品名称
-        surplusAmt: '', // 剩余可投金额
-        investPeopleCount: '', // 已购人次
+        surplusAmount: '', // 剩余可投金额
+        investPropleCount: '', // 已购人次
         investPercent: 0, // 投资百分比
-        interestRate: '', // 结息方式
-        minInvAmount: '', // 起投金额
-        maxInvTotalAmount: '', // 个人累计投资限额
+        repayType: '', // 结息方式
+        minInvAmt: '', // 起投金额
+        surplusAmount: '', // 个人累计投资限额
         status: 0, // nteger - 项目状态 1.未开启 2.已投X% 3.满标
         balance: '', // 可用余额
         maxInvAmount: '', // 单笔投资上限金额限制
@@ -472,11 +472,11 @@ export default {
       investDetail: {
         appDesc: '', // 项目介绍
         investTarget: '', // 投资目标
-        dueDate: '', // 投资到期日
-        interestStartDate: '', // 最大投资金额
-        profitShare: '', // 产品起息时间描述
+        endData: '', // 投资到期日
+        breathDate: '', // 产品起息时间描述
+        profitShare: '', // 最大投资金额
         existSystem: '', // 退出机制
-        costdes: '', // 费用说明
+        costDes: '', // 费用说明
         riskAppraisal: '', // 项目风险评估及可能产生的风险结果
         riskManagementTip: '', // 出借人适当性管理提示
         tailProject: '' // 是否是尾标(true : 尾标 false: 不是尾标)
@@ -490,7 +490,7 @@ export default {
       singleButton: true, // 是否显示系统维护弹窗
       riskConfirmText: '重新评测', // 风险测评弹窗按钮文字
       riskContent: '您当前出借的额度或期限不符合您的风险评测<br />等级分布，若您在上次评测后风险承受能力发<br />生改变，请您重新进行风险评测！', // 风险测评弹窗默认文字
-      isShowConfirmInvestmentDialog: true // 是否显示出借弹窗
+      isShowConfirmInvestmentDialog: false // 是否显示出借弹窗
     }
   },
   components: {
@@ -501,7 +501,8 @@ export default {
   computed: {
     ...mapState({
       user: state => state.user.user,
-      userBasicInfo: state => state.user.userBasicInfo
+      userBasicInfo: state => state.user.userBasicInfo,
+      personalAccount: state => state.user.personalAccount
     })
   },
   methods: {
@@ -594,43 +595,22 @@ export default {
       }
       investCountProjectMsg(postData).then(res => {
         let data = res.data
-        if (data.resultCode === '1') {
-          console.log('data====', data)
-          let projectInfo = data.projectInfo
-          let investEndTimestamp = projectInfo.investEndTimestamp
-          this.projectInfo.itemName = projectInfo.itemName
-          this.projectInfo.investRate = projectInfo.investRate
-          this.projectInfo.surplusAmt = projectInfo.surplusAmt
-          this.projectInfo.investPeopleCount = projectInfo.investPeopleCount
-          this.projectInfo.investPercent = projectInfo.investPercent
-          this.projectInfo.interestRate = projectInfo.interestRate
-          this.projectInfo.minInvAmount = projectInfo.minInvAmount
-          this.projectInfo.maxInvTotalAmount = projectInfo.maxInvTotalAmount
-          this.projectInfo.status = projectInfo.status
-          this.projectInfo.maxInvAmount = projectInfo.maxInvAmount
-          this.projectInfo.projectType = projectInfo.projectType
-          // console.log(this.projectInfo.projectType+'---------')
-
-          // 预售状态中，募集倒计时不倒计
-          timeCountDown(investEndTimestamp, this.projectInfo.status, data => {
-            if (data.indexOf('天') > -1) {
-              this.projectInfo.investEndDay = data.substr(0, data.indexOf('天') + 1)
-              this.projectInfo.investEndTime = data.substr(data.indexOf('天') + 1, data.length - 1)
-            } else {
-              this.projectInfo.investEndTime = data
-            }
-          })
-
-          let investDetail = data.investDetail
-          this.investDetail.appDesc = investDetail.appDesc
-          this.investDetail.investTarget = investDetail.investTarget
-          this.investDetail.dueDate = investDetail.dueDate
-          this.investDetail.interestStartDate = investDetail.interestStartDate
-          this.investDetail.profitShare = investDetail.profitShare
-          this.investDetail.existSystem = investDetail.existSystem
-          this.investDetail.costdes = investDetail.costdes
-          this.investDetail.riskAppraisal = investDetail.riskAppraisal
-          this.investDetail.riskManagementTip = investDetail.riskManagementTip
+        if(data.resultCode === '1') {
+          this.projectInfo.projectName = data.projectName
+          this.projectInfo.investRate = data.investRate
+          this.projectInfo.surplusAmount = data.surplusAmount
+          this.projectInfo.investPropleCount = data.investPropleCount
+          this.projectInfo.repayType = data.repayType === 'XXHB' ? '先息后本': '等额本息'
+          this.projectInfo.minInvAmt = data.minInvAmt
+          this.projectInfo.surplusAmount = data.surplusAmount
+  
+          this.investDetail.appDesc = data.appDesc
+          this.investDetail.investTarget = data.investTarget
+          this.investDetail.endData = data.endData
+          this.investDetail.breathDate = data.breathDate
+          this.investDetail.profitShare = data.profitShare
+          this.investDetail.existSystem = data.existSystem
+          this.investDetail.costDes = data.costDes
 
           this.getUserBasicInfo()
           this.getAmountQuery()
@@ -645,71 +625,63 @@ export default {
     getLendDetailList() {
       this.productId = this.$route.query.productId
       this.itemId = this.$route.query.itemId
-      // let postData = {
-      //   productId: this.productId,
-      //   itemId: this.itemId
-      // }
-      // easyInvestDetail(postData).then(res => {
-      //   let data = res.data.data
-      //   let investDetail = data.investDetail
-      //   this.investDetail.appDesc = investDetail.appDesc
-      //   this.investDetail.investTarget = investDetail.investTarget
-      //   this.investDetail.dueDate = investDetail.dueDate
-      //   this.investDetail.interestStartDate = investDetail.interestStartDate
-      //   this.investDetail.profitShare = investDetail.profitShare
-      //   this.investDetail.existSystem = investDetail.existSystem
-      //   this.investDetail.costdes = investDetail.costdes
-      //   this.investDetail.riskAppraisal = investDetail.riskAppraisal
-      //   this.investDetail.riskManagementTip = investDetail.riskManagementTip
-      //
-      //   // 判断是否是尾标
-      //   if (this.investDetail.tailProject && parseFloat(this.projectInfo.surplusAmt) < 2 * parseFloat(this.projectInfo.minInvAmount)) {
-      //     this.invAmount = '尾标：' + this.projectInfo.surplusAmt + '元'
-      //     this.invAmountDisabled = true
-      //   }
-      // })
+      let postData = {
+        projectNo: this.projectNo
+      }
+      investCountProjectMsg(postData).then(res => {
+        let data = res.data
+        if(data.resultCode === '1') {
+          this.investDetail.appDesc = data.appDesc
+          this.investDetail.investTarget = data.investTarget
+          this.investDetail.endData = data.endData
+          this.investDetail.breathDate = data.breathDate
+          this.investDetail.profitShare = data.profitShare
+          this.investDetail.existSystem = data.existSystem
+          this.investDetail.costDes = data.costDes
+        } else {
+          this.$notify.error({
+            title: '错误',
+            message: data.resultMsg
+          })
+        }
+        // this.investDetail.tailProject = investDetail.tailProject
+
+        // // 判断是否是尾标
+        // if(this.investDetail.tailProject && parseFloat(this.projectInfo.surplusAmt) < 2 * parseFloat(this.projectInfo.minInvAmount)) {
+        //   this.invAmount = '尾标：' + this.projectInfo.surplusAmt + '元'
+        //   this.invAmountDisabled = true
+        // }
+      })
     },
     getJoinRecordList() {
-      this.productId = this.$route.query.productId
-      this.itemId = this.$route.query.itemId
-      // let postData = {
-      //   productId: this.productId,
-      //   itemId: this.itemId,
-      //   curPage: this.page,
-      //   maxLine: this.size
-      // }
-      // easyInvestRecord(postData).then(res => {
-      //   let data = res.data.data
-      //   this.joinRecordData = data.list
-      //   this.total = parseInt(data.countPage)
-      //   this.page = parseInt(data.curPage)
-      // })
+      let postData = {
+        projectNo: this.projectNo,
+        curPage: this.page,
+        maxLine: this.size
+      }
+      investUserCountMsg(postData).then(res => {
+        let data = res.data
+        this.joinRecordData = data.invUserList
+        this.total = parseInt(data.countPage)
+        this.page = parseInt(data.curPage)
+      })
     },
     getProjectCompoList() {
-      this.productId = this.$route.query.productId
-      this.itemId = this.$route.query.itemId
-      // let postData = {
-      //   productId: this.productId,
-      //   itemId: this.itemId,
-      //   curPage: this.page,
-      //   maxLine: this.size
-      // }
-      // projectCompo(postData).then(res => {
-      //   let data = res.data.data
-      //   this.projectCompositionData = data.list
-      //   this.total = parseInt(data.countPage)
-      //   this.page = parseInt(data.curPage)
-      // })
+      let postData = {
+        projectNo: this.projectNo,
+        curPage: this.page,
+        maxLine: this.size
+      }
+      bondproject(postData).then(res => {
+        let data = res.data
+        this.projectCompositionData = data.list
+        this.total = parseInt(data.countPage)
+        this.page = parseInt(data.curPage)
+      })
     },
     getAmountQuery() {
-      // amountInfo().then(res => {
-      //   let data = res.data
-      //   console.log('data===', data)
-      //   if (data.resultCode === '1') {
-      //     this.projectInfo.balance = this.investStatus === 'unopened' ? '未开户' : data.data.banlance
-      //     console.log(this.projectInfo.balance)
-      //   }
-      // })
+      console.log('this.investStatus===', this.investStatus)
+      this.projectInfo.balance = this.investStatus === 'unopened' ? '未开户' : this.personalAccount.banlance
     },
     handleInvest() {
       this.errMsg = ''
@@ -1303,6 +1275,9 @@ export default {
             }
           }
         }
+      }
+      .pagination-wrapper {
+        margin-top: 20px;
       }
       .view-more {
         position: relative;

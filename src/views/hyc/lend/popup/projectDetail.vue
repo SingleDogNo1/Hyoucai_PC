@@ -369,6 +369,8 @@ export default {
         // console.log(res)
         this.contractNum = res.data.data.productDetail.contractNum
         let auditInfoList = res.data.data.productDetail.auditInfoList
+        this.repaymentWay = res.data.data.productDetail.repaymentWay
+        this.projectName = res.data.data.productDetail.projectName
         auditInfoList.map((item, index) => {
           switch (item.field) {
             case 'haveIDCard':
@@ -398,7 +400,8 @@ export default {
     internetInformation() {
       // 互联网资信报告
       getInternetInformation({ projectNo: this.$route.params.projectNo }).then(res => {
-        this.internetInformationList = res.data.data.internetInformationList
+        let data = res.data.data
+        this.internetInformationList = data.internetInformationList
         // console.log(res.data.data.internetInformationList)
       })
       this.isInternetInformation = !this.isInternetInformation
@@ -422,15 +425,12 @@ export default {
         this.amountOverride = data.amountOverride
         this.creditReport = data.creditReport
         this.borrowSituation = data.borrowSituation
-        this.repaymentWay = data.repaymentWay
         this.rate = data.rate
         this.guaranteeProtocolUrl = data.guaranteeProtocolUrl
       })
     }
   },
   created() {
-    this.projectName = this.$route.params.projectName
-    // console.log(this.$route.params)
     this.getPeopleInfoApi()
     this.getProjectDetail()
   }
@@ -440,7 +440,7 @@ export default {
 <style lang="scss" scoped>
 @import '../../../../assets/css/theme';
 .content-box {
-  padding: 120px 200px 110px;
+  padding: 120px 0 110px;
   background: rgba(227, 227, 227, 1);
   // position: absolute;
   // top: 0;
@@ -452,7 +452,8 @@ export default {
     font-family: PingFangSC-Regular;
     font-weight: 400;
     font-size: $font-size-small;
-    min-width: 1100px;
+    width: 1140px;
+    margin: 0 auto;
     header {
       height: 61px;
       line-height: 61px;
@@ -479,6 +480,8 @@ export default {
     section {
       padding-top: 24px;
       padding-left: 50px;
+      height: 739px;
+      overflow: auto;
       .title {
         .title-boder {
           display: inline-block;
