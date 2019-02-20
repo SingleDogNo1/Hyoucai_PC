@@ -224,10 +224,9 @@
               <el-table-column align="center" height="40" prop="invTime" label="项目详情" width="204">
                 <template slot-scope="scope">
                   <a
-                    :projectNo="scope.row.projectNo"
                     href="javascript:void(0);"
                     class="view-detail"
-                    @click="isProjectDetail=!isProjectDetail"
+                    @click="projectDetail(scope.row.projectNo)"
                   >详情</a>
                 </template>
               </el-table-column>
@@ -256,12 +255,6 @@
         </el-tab-pane>
       </el-tabs>
     </section>
-    <ProjectDetail
-      @changeProjectDetail="changeProjectDetail"
-      v-show="isProjectDetail"
-      :projectType="projectInfo.projectType"
-      :projectName="projectInfo.projectType"
-    />
     <Dialog
       :show.sync="isShowSignDialog"
       title="汇有财温馨提示"
@@ -438,7 +431,6 @@ import { mapState } from 'vuex'
 import Pagination from '@/components/pagination/pagination'
 import { timeCountDown } from '@/assets/js/utils'
 import { easyInvestDetail, easyInvestRecord, projectCompo, expectedIncome, amountInfo, systemMaintenance, amountSync } from '@/api/hyc/lendDetail'
-import ProjectDetail from './popup/projectDetail'
 import Dialog from '@/components/Dialog/Dialog'
 
 export default {
@@ -449,7 +441,6 @@ export default {
       itemId: '',
       isAgree: false,
       isAllLending: false,
-      isProjectDetail: false,
       page: 1,
       size: 10,
       total: 0,
@@ -503,7 +494,6 @@ export default {
   },
   components: {
     Pagination,
-    ProjectDetail,
     Dialog
   },
   computed: {
@@ -513,6 +503,17 @@ export default {
     })
   },
   methods: {
+    projectDetail(val) {
+      //项目详情
+      this.$router.push({
+        name: 'projectDetail',
+        params: {
+          projectNo: val,
+          projectType: this.projectInfo.projectType,
+          projectName: this.projectInfo.projectName
+        }
+      })
+    },
     handleItemClick() {
       this.page = 1
       switch (this.lendDetailActiveName) {
@@ -590,10 +591,6 @@ export default {
         let data = res.data.data
         this.expectedIncome = data.expectedIncome
       })
-    },
-    changeProjectDetail() {
-      this.isProjectDetail = false
-      this.handleItemClick()
     },
     getInvestDetailList() {
       this.productId = this.$route.query.productId
@@ -1532,5 +1529,5 @@ export default {
       }
     }
   }
-} 
+}
 </style>
