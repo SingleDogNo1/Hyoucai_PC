@@ -1,7 +1,9 @@
 <template>
   <div class="mine-wrapper" v-if="userBasicInfo">
     <user-menu></user-menu>
-    <div class="wrapper"><router-view /></div>
+    <div class="wrapper">
+      <router-view />
+    </div>
     <Dialog
       ref="alertDialog"
       :showTitle="showTitle"
@@ -10,9 +12,9 @@
       :showCloseBtn="showCloseBtn"
       :singleButton="singleButton"
       :show.sync="showDialog"
-      :title="dialogTitle"
       :confirmText="confirmText"
       :onBtnClose="onBtnClose"
+      :onConfirm="onConfirm"
     >
       <div slot class="discribe">{{ dialogDis }}</div>
       <el-button v-if="openSignText" class="open-sign-btn" @click.native="viewDialog">{{ openSignText }}</el-button>
@@ -40,11 +42,9 @@ export default {
   },
   data() {
     return {
-      msg: 'Mine',
       showDialog: false,
       singleButton: false,
       confirmText: '确定',
-      dialogTitle: '温馨提示',
       dialogDis: '',
       accountStatus: '',
       alertInfo: { haveAlert: false, count: 0, type: '' },
@@ -71,9 +71,18 @@ export default {
     }),
     onBtnClose() {
       let path = this.$route.name
-      if (path != 'overview') {
+      if (path !== 'overview') {
         this.$router.push({ name: 'overview' })
       }
+    },
+    onConfirm() {
+      api
+        .alertInfoAcceptApi({
+          type: 'evaluate'
+        })
+        .then(res => {
+          console.log(res)
+        })
     },
     viewDialog() {
       this.showDialog = false

@@ -23,6 +23,10 @@
         <span>我推荐的人</span>
         <span class="bold">{{ inviteNum }}位</span>
       </p>
+      <p class="my-referral-man">
+        <span>当前合计在投金额</span>
+        <span class="bold">{{ totalInvestAmount }}元</span>
+      </p>
     </div>
     <el-table :data="inviteUserList" border class="referral-table">
       <el-table-column prop="createTime" label="注册日期"></el-table-column>
@@ -31,7 +35,7 @@
     </el-table>
     <div class="pagination-wrapper">
       <pagination
-        :total-count="total"
+        :count-page="total"
         :size-val="size"
         :page-val="page"
         @handleCurrentChange="handleCurrentChange"
@@ -49,8 +53,8 @@
         <input
           v-model="fillInReferral"
           class="fill-in-referral-input"
-          type="number"
           placeholder="请输入推荐人邀请码"
+          type="text"
         >
       </div>
     </Dialog>
@@ -61,7 +65,7 @@
       class="djs-copy-dialog"
     >
       <div>
-        <p class="copy-dialog-text">已成功复制推荐好友链接，您可通过微信、短信、QQ等放肆发送给好友！</p>
+        <p class="copy-dialog-text">已成功复制推荐好友链接，您可通过微信、短信、QQ等方式发送给好友！</p>
       </div>
     </Dialog>
   </div>
@@ -73,6 +77,7 @@ import Clipboard from 'clipboard'
 import Pagination from '@/components/pagination/pagination'
 import Dialog from '@/components/Dialog/Dialog'
 import { saveInviteCode, qRCodeShare, userInviteInfo } from '@/api/hyc/Mine/referralCode'
+import { referralCodeReg } from '@/assets/js/utils'
 
 export default {
   name: 'referralCode',
@@ -99,7 +104,8 @@ export default {
       isErrMsg: false,
       preventClose: true,
       copyUrl: '',
-      inviteNum: ''
+      inviteNum: '',
+      totalInvestAmount: ''
     }
   },
   props: {},
@@ -119,12 +125,16 @@ export default {
         this.$message({ message: '推荐人邀请码不能为空', type: 'error' })
         return
       }
+      if (!referralCodeReg(this.fillInReferral)) {
+        this.$message({ message: '推荐人邀请码格式有误，请重新输入', type: 'error' })
+        return
+      }
       let postData = {
         inviteCode: this.fillInReferral
       }
       saveInviteCode(postData).then(res => {
         let data = res.data
-        if (data.resultCode === 1) {
+        if (data.resultCode === '1') {
           this.$notify({ title: '成功', message: '推荐人邀请码填写成功', type: 'success', duration: 2000 })
         } else {
           this.$notify({ title: '失败', message: data.resultMsg, type: 'error', duration: 2000 })
@@ -147,6 +157,7 @@ export default {
       userInviteInfo(params).then(res => {
         let data = res.data.data
         this.inviteNum = data.inviteNum
+        this.totalInvestAmount = data.totalInvestAmount
         this.inviteUserList = data.list
         this.inviteUserList.forEach(val => {
           val.investStatus = val.investStatus === 0 ? '未投资' : '已投资'
@@ -165,7 +176,7 @@ export default {
   created() {},
   mounted() {
     this.referralCode = this.userBasicInfo.myInviteCode
-    this.refereeName = this.userBasicInfo.refereeName
+    this.refereeName = this.userBasicInfo.inviteCode
     this.userName = this.user.userName
     let postData = {
       userName: this.userName
@@ -184,7 +195,7 @@ export default {
   },
   watch: {
     fillInReferral: function(val) {
-      this.preventClose = !val ? true : false
+      this.preventClose = !val || !referralCodeReg(val) ? true : false
     }
   }
 }
@@ -285,6 +296,10 @@ export default {
     /deep/ .cell {
       text-align: center;
     }
+  }
+  .pagination-wrapper {
+    margin-top: 20px;
+    margin-bottom: 15px;
   }
   .djs-fill-dialog {
     .fill-in-referral-input {

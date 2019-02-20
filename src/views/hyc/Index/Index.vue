@@ -168,13 +168,13 @@
             </div>
             <div class="amount">
               <p class="title">
-                <span class="large">{{ item.maxInvTotalAmt }}</span> 元
+                <span class="large">{{ item.enablAmt }}</span> 元
               </p>
-              <p class="desc">融资金额</p>
+              <p class="desc">剩余额度</p>
             </div>
           </div>
           <div class="btn-invest-now">
-            <router-link :to="{ name: 'lend' }">下载APP</router-link>
+            <router-link :to="{ name: 'download' }">下载APP</router-link>
           </div>
         </div>
       </div>
@@ -184,10 +184,10 @@
       v-if="hycPopularProjectList && hycPopularProjectList.length > 0"
     >
       <div class="text-title"></div>
-      <ul :class="{ two: hycPopularProjectList.length == 2 }">
-        <li v-for="(item, index) in hycPopularProjectList" :key="index" @click="toLend">
+      <ul :class="{ 'two': hycPopularProjectList.length == 2, 'one': hycPopularProjectList.length == 1 }">
+        <li v-for="(item, index) in hycPopularProjectList" :key="index" @click="toDownload">
           <p class="title">
-            <img :src="item.iconUrl">
+            <img :src="item.iconUrl" v-if="item.iconUrl">
             <span class="icon">{{ item.itemName }}</span>
           </p>
           <div class="returns">
@@ -431,8 +431,8 @@ export default {
         this.invTodayAmt = toDecimal2(data.invTodayAmt)
       })
     },
-    getQualityList() {
-      getQualityList().then(res => {
+    getQualityList(data) {
+      getQualityList(data).then(res => {
         let data = res.data.data
         this.noviceProjectList = data.noviceProjectList
         if (this.noviceProjectList) {
@@ -446,15 +446,31 @@ export default {
     closePop() {
       this.isShowActivityPop = false
     },
-    toLend() {
-      this.$router.push({ name: 'lend' })
+    toDownload() {
+      this.$router.push({ name: 'download' })
+    },
+    JumpSafety(id) {
+      localStorage.setItem('jumpId', id)
+      let jumpId = localStorage.getItem('jumpId')
+      let anchorElement = document.getElementById(jumpId)
+      // 如果锚点存在，就跳转
+      if (jumpId && anchorElement) {
+        anchorElement.scrollIntoView()
+      }
     }
   },
   mounted() {
     this.getBanner()
     this.getNotice()
     this.getOperateData()
-    this.getQualityList()
+    if (this.user) {
+      let postData = {
+        userName: this.user.userName
+      }
+      this.getQualityList(postData)
+    } else {
+      this.getQualityList()
+    }
   }
 }
 </script>
@@ -488,6 +504,7 @@ export default {
         background: rgba(255, 255, 255, 0.6);
         opacity: 1;
         margin: 0 5px;
+        outline: 0;
       }
       /deep/ .swiper-pagination-bullet-active {
         width: 20px;
@@ -670,7 +687,7 @@ export default {
           background-size: 205px auto;
         }
       }
-      li:last-child() {
+      li:last-child {
         margin-right: 0;
       }
     }

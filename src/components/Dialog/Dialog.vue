@@ -127,7 +127,6 @@ export default {
   left: 0;
   width: 100%;
   height: 100%;
-  /*background-color: rgba(0, 0, 0, 0.2);*/
   background-color: transparent;
   .inner {
     position: absolute;
@@ -135,7 +134,7 @@ export default {
     left: 50%;
     width: 500px;
     padding: 30px 70px;
-    transform: translate3d(-50%, -50%, 0);
+    transform: translate(-50%, -50%);
     background-color: #fff;
     box-shadow: 2px 2px 10px 0 #cdcdcd;
     border-radius: 6px;
