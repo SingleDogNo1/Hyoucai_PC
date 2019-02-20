@@ -122,3 +122,12 @@ export function peopleLoanInfo(data) {
     data: qs.stringify(data)
   })
 }
+
+// 贷后情况
+export function investApi(data) {
+  return request({
+    url: 'userInvest/invest',
+    method: 'post',
+    data: qs.stringify(data)
+  })
+}

@@ -76,7 +76,7 @@
             </el-checkbox>
           </div>
           <div class="all-lending" v-if="!investDetail.tailProject">
-            <el-checkbox class="all-lending-checkbox" v-model="isAllLending">全部出借</el-checkbox>
+            <el-checkbox class="all-lending-checkbox" v-model="isAllLending" @change="toggleFill">全部出借</el-checkbox>
           </div>
           <div class="action" v-if="investStatus === 'willSale' || investStatus === 'lending'">
             <input class="amount-input" v-model="invAmount" @keyup="handleExpectedIncome(invAmount)" />
@@ -308,6 +308,7 @@
       title="确认出借"
       confirmText="确认出借"
       class="confirm-investment-dialog"
+      :onConfirm="confirm"
     >
       <div>
         <ul class="amount-list">
@@ -390,6 +391,30 @@
         </div>
       </div>
     </Dialog>
+    <!-- 出借流程ERROR弹窗 -->
+    <Dialog
+      :show.sync="isShowInvestErrDialog"
+      title="汇有财温馨提示"
+      confirmText="我知道了"
+      class="system-maintenance-dialog"
+      :singleButton="singleButton"
+    >
+      <div>
+        <p>{{investErrMsg}}</p>
+      </div>
+    </Dialog>
+    <!-- 出借成功弹窗 -->
+    <Dialog
+      :show.sync="isShowInvestDialog"
+      title="汇有财温馨提示"
+      confirmText="我知道了"
+      class="system-maintenance-dialog"
+      :singleButton="singleButton"
+    >
+      <div>
+        <p>{{investMsg}}</p>
+      </div>
+    </Dialog>
   </div>
 </template>
 
@@ -407,7 +432,8 @@ import {
   systemMaintenance,
   amountSync,
   availableRedPacketApi,
-  availableCouponApi
+  availableCouponApi,
+  investApi
 } from '@/api/hyc/lendDetail'
 import ProjectDetail from './popup/projectDetail'
 import Dialog from '@/components/Dialog/Dialog'
@@ -473,9 +499,15 @@ export default {
       redPacketsList: [],
       redPacketIndex: -1,
       chooseRedPacketAmt: 0, // 选中红包的金额
+      chooseRedPacketId: 0, // 选中红包的ID
       chooseCouponRate: 0, // 选中加息券的利率
+      chooseCouponId: 0, // 选中加息券的ID
       couponsList: [],
-      couponIndex: -1
+      couponIndex: -1,
+      isShowInvestErrDialog: false, // 是否显示出借错误弹窗
+      investErrMsg: '', // 出借errMsg
+      isShowInvestDialog: false, // 是否显示出借成功弹窗
+      investMsg: '' // 出借成功 msg
     }
   },
   components: {
@@ -492,6 +524,8 @@ export default {
   watch: {
     invAmount(value) {
       this.handleExpectedIncome(value)
+      // 值不等于可用余额 && 单人限额，就去掉全投状态
+      this.isAllLending = !(value !== this.projectInfo.balance && value !== this.projectInfo.maxInvTotalAmount)
     }
   },
   methods: {
@@ -753,20 +787,24 @@ export default {
             }
 
             this.isShowConfirmInvestmentDialog = true
-            availableRedPacketApi({
-              investAmount: this.invAmount,
-              productId: this.productId
-            }).then(res => {
-              this.redPacketsList = res.data.data.userRedPackets
-              this.redEnvelopeSwiper()
-              availableCouponApi({
-                investAmount: this.invAmount,
-                productId: this.productId
+
+            const $this = this
+            ;(async function initInvestDialog() {
+              await availableRedPacketApi({
+                investAmount: $this.invAmount,
+                productId: $this.productId
               }).then(res => {
-                this.couponsList = res.data.data.coupons
-                this.rateStampSwiper()
+                $this.redPacketsList = res.data.data.userRedPackets
               })
-            })
+              await availableCouponApi({
+                investAmount: $this.invAmount,
+                productId: $this.productId
+              }).then(res => {
+                $this.couponsList = res.data.data.coupons
+              })
+              await $this.redEnvelopeSwiper()
+              await $this.rateStampSwiper()
+            })()
           }
         })
       }
@@ -780,12 +818,12 @@ export default {
     receiveRedPacket(item, index) {
       this.redPacketIndex = index
       this.chooseRedPacketAmt = item.redPacketAmount
-      console.log(item.id)
+      this.chooseRedPacketId = item.id
     },
     receiveCoupon(item, index) {
       this.couponIndex = index
       this.chooseCouponRate = item.couponRate
-      console.log(item.id)
+      this.chooseCouponId = item.id
     },
     redEnvelopeSwiper() {
       new Swiper('.swiper-container-red-envelope', {
@@ -830,6 +868,28 @@ export default {
         navigation: {
           nextEl: '.swiper-button-next1',
           prevEl: '.swiper-button-prev1'
+        }
+      })
+    },
+    confirm() {
+      const platform_user_center = window.location.origin + window.location.pathname + '#/mine/overview'
+      investApi({
+        projectNo: this.itemId,
+        invAmount: this.invAmount,
+        userCouponId: this.chooseCouponId,
+        userRedPacketId: this.chooseRedPacketId,
+        investSource: 'pc',
+        forgotPwdUrl: platform_user_center,
+        retUrl: platform_user_center,
+        projectType: this.projectInfo.projectType
+      }).then(res => {
+        if (res.data.resultCode === '1') {
+          console.log(res)
+          this.isShowInvestDialog = true
+          this.investMsg = '出借成功'
+        } else {
+          this.isShowInvestErrDialog = true
+          this.investErrMsg = res.data.errMsg
         }
       })
     }

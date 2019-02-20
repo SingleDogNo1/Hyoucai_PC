@@ -76,7 +76,7 @@
             </el-checkbox>
           </div>
           <div class="all-lending" v-if="!investDetail.tailProject">
-            <el-checkbox class="all-lending-checkbox" v-model="isAllLending">全部出借</el-checkbox>
+            <el-checkbox class="all-lending-checkbox" v-model="isAllLending" @change="toggleFill">全部出借</el-checkbox>
           </div>
           <div class="action" v-if="investStatus === 'willSale' || investStatus === 'lending'">
             <input class="amount-input" v-model="invAmount" @keyup="handleExpectedIncome" :disabled="invAmountDisabled">
