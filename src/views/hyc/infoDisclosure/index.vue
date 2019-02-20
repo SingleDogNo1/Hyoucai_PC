@@ -18,9 +18,17 @@
     <div class="tab-content-wrap">
       <div class="tab-content" v-if="activeName === 'GYWM'">
         <el-tabs class="about-us-tab" v-model="aboutUsActiveName" type="border-card" @tab-click="handleItemClick(aboutUsActiveName)">
-          <el-tab-pane label="公司简介" name="GSJJ"> <div v-if="aboutUsActiveName === 'GSJJ'" class="content" v-html="content"></div> </el-tab-pane>
+          <el-tab-pane label="公司简介" name="GSJJ">
+            <div v-if="aboutUsActiveName === 'GSJJ'" class="content">
+              <div v-html="content"></div>
+              <img class="bg-legal-person" src="./images/bg_legal_person.png" />
+            </div>
+          </el-tab-pane>
           <el-tab-pane label="公司管理" name="GSGL">
-            <div class="content" v-html="content" v-if="aboutUsActiveName === 'GSGL' || (aboutUsActiveName === 'GSGL' && paramCode === 'PTXX')"></div>
+            <div class="content" v-if="aboutUsActiveName === 'GSGL' && paramCode === 'PTXX'">
+              <div v-html="content"></div>
+              <img class="bg-legal-person" src="./images/bg_legal_person.png" />
+            </div>
             <div class="company-management" v-if="aboutUsActiveName === 'GSGL' && !paramCode">
               <div class="organizational-structure-wrap"><strong>组织架构</strong> <img src="./images/bg_organizational_structure.png" /></div>
               <div class="executive-team-wrap">
@@ -94,11 +102,27 @@
                 <p class="tips">截止至2017年12月31日，公司员工总数达：180人</p>
               </div>
               <div class="shareholder-composition-wrap"><strong>股东组成</strong> <img src="./images/bg_shareholder.jpg" /></div>
+              <img class="bg-legal-person" src="./images/bg_legal_person.png" />
             </div>
           </el-tab-pane>
-          <el-tab-pane label="组织信息" name="ZZXX"> <div v-if="aboutUsActiveName === 'ZZXX'" class="content" v-html="content"></div> </el-tab-pane>
-          <el-tab-pane label="发展事迹" name="FZSJ"> <div v-if="aboutUsActiveName === 'FZSJ'" class="content" v-html="content"></div> </el-tab-pane>
-          <el-tab-pane label="合作伙伴" name="HZHB"> <div v-if="aboutUsActiveName === 'HZHB'" class="content" v-html="content"></div> </el-tab-pane>
+          <el-tab-pane label="组织信息" name="ZZXX">
+            <div v-if="aboutUsActiveName === 'ZZXX'" class="content">
+              <div v-html="content"></div>
+              <img class="bg-legal-person" src="./images/bg_legal_person.png" />
+            </div>
+          </el-tab-pane>
+          <el-tab-pane label="发展事迹" name="FZSJ">
+            <div v-if="aboutUsActiveName === 'FZSJ'" class="content">
+              <div v-html="content"></div>
+              <img class="bg-legal-person" src="./images/bg_legal_person.png" />
+            </div>
+          </el-tab-pane>
+          <el-tab-pane label="合作伙伴" name="HZHB">
+            <div v-if="aboutUsActiveName === 'HZHB'" class="content">
+              <div v-html="content"></div>
+              <img class="bg-legal-person" src="./images/bg_legal_person.png" />
+            </div>
+          </el-tab-pane>
           <el-tab-pane label="荣誉资质" name="ZZRY">
             <div v-if="aboutUsActiveName === 'ZZRY'" class="qualification-honor">
               <strong>荣誉资质</strong>
@@ -114,10 +138,14 @@
                 <div class="show-img"><img class="big-img" :src="imgList[num].picUrl" /></div>
                 <img class="next" @click.stop="next" src="./images/icon_next.png" />
               </div>
+              <img class="bg-legal-person" src="./images/bg_legal_person.png" />
             </div>
           </el-tab-pane>
           <el-tab-pane label="关于汇有财" name="GYHYC">
-            <div v-if="aboutUsActiveName === 'GYHYC'" class="content" v-html="content"></div>
+            <div v-if="aboutUsActiveName === 'GYHYC'" class="content">
+              <div v-html="content"></div>
+              <img class="bg-legal-person" src="./images/bg_legal_person.png" />
+            </div>
           </el-tab-pane>
         </el-tabs>
       </div>
@@ -334,6 +362,7 @@
               </div>
             </div>
           </div>
+          <img class="bg-legal-person" src="./images/bg_legal_person.png" />
         </div>
       </div>
       <div class="tab-content" v-if="activeName === 'YYBG'">
@@ -347,34 +376,56 @@
               </router-link>
             </li>
           </ul>
+          <img class="bg-legal-person" src="./images/bg_legal_person.png" />
         </div>
       </div>
       <div class="tab-content" v-if="activeName === 'BAXX'">
         <el-tabs class="about-us-tab" v-model="recordInfoActiveName" type="border-card" @tab-click="handleItemClick(recordInfoActiveName)">
           <el-tab-pane label="备案登记信息" name="BADJ">
-            <div v-if="recordInfoActiveName === 'BADJ'" class="content" v-html="content"></div>
+            <div v-if="recordInfoActiveName === 'BADJ'" class="content">
+              <div v-html="content"></div>
+              <img class="bg-legal-person" src="./images/bg_legal_person.png" />
+            </div>
           </el-tab-pane>
           <el-tab-pane label="资金存管信息" name="ZJCG">
-            <div v-if="recordInfoActiveName === 'ZJCG'" class="content" v-html="content"></div>
+            <div v-if="recordInfoActiveName === 'ZJCG'" class="content">
+              <div v-html="content"></div>
+              <img class="bg-legal-person" src="./images/bg_legal_person.png" />
+            </div>
           </el-tab-pane>
           <el-tab-pane label="风险管理信息" name="FXGL">
-            <div v-if="recordInfoActiveName === 'FXGL'" class="content" v-html="content"></div>
+            <div v-if="recordInfoActiveName === 'FXGL'" class="content">
+              <div v-html="content"></div>
+              <img class="bg-legal-person" src="./images/bg_legal_person.png" />
+            </div>
           </el-tab-pane>
           <el-tab-pane label="公安网站备案" name="GAWZBA">
-            <div v-if="recordInfoActiveName === 'GAWZBA'" class="content" v-html="content"></div>
+            <div v-if="recordInfoActiveName === 'GAWZBA'" class="content">
+              <div v-html="content"></div>
+              <img class="bg-legal-person" src="./images/bg_legal_person.png" />
+            </div>
           </el-tab-pane>
           <el-tab-pane label="电信业务经营许可证" name="ICP">
-            <div v-if="recordInfoActiveName === 'ICP'" class="content" v-html="content"></div>
+            <div v-if="recordInfoActiveName === 'ICP'" class="content">
+              <div v-html="content"></div>
+              <img class="bg-legal-person" src="./images/bg_legal_person.png" />
+            </div>
           </el-tab-pane>
         </el-tabs>
       </div>
       <div class="tab-content" v-if="activeName === 'CPXG'">
         <el-tabs class="about-us-tab" v-model="productAboutActiveName" type="border-card" @tab-click="handleItemClick(productAboutActiveName)">
           <el-tab-pane label="产品信息" name="CPXXTAB">
-            <div v-if="productAboutActiveName === 'CPXXTAB'" class="content" v-html="content"></div>
+            <div v-if="productAboutActiveName === 'CPXXTAB'" class="content">
+              <div v-html="content"></div>
+              <img class="bg-legal-person" src="./images/bg_legal_person.png" />
+            </div>
           </el-tab-pane>
           <el-tab-pane label="资费标准" name="ZFBZ">
-            <div v-if="productAboutActiveName === 'ZFBZ'" class="content" v-html="content"></div>
+            <div v-if="productAboutActiveName === 'ZFBZ'" class="content">
+              <div v-html="content"></div>
+              <img class="bg-legal-person" src="./images/bg_legal_person.png" />
+            </div>
           </el-tab-pane>
         </el-tabs>
       </div>
@@ -394,6 +445,7 @@
             <li></li>
             <li></li>
           </ul>
+          <img class="bg-legal-person" src="./images/bg_legal_person.png" />
         </div>
       </div>
       <div class="tab-content policies" v-if="activeName === 'ZCFG'">
@@ -403,9 +455,9 @@
               <div class="laws-wrap">
                 <ul>
                   <li v-for="(item, index) in lawsList" :key="index">
-                    <router-link class="title" :to="{ name: 'announcementDetail', params: { id: item.id }, query: { paramCode: activeName } }">{{
-                      item.title
-                    }}</router-link>
+                    <router-link class="title" :to="{ name: 'announcementDetail', params: { id: item.id }, query: { paramCode: activeName } }">
+                      {{ item.title }}
+                    </router-link>
                     <span class="time">{{ item.createTime }}</span>
                   </li>
                 </ul>
@@ -423,7 +475,10 @@
             </div>
           </el-tab-pane>
           <el-tab-pane label="出借人教育" name="CJRJY">
-            <div v-if="policiesActiveName === 'CJRJY'" class="content" v-html="content"></div>
+            <div v-if="policiesActiveName === 'CJRJY'" class="content">
+              <div v-html="content"></div>
+              <img class="bg-legal-person" src="./images/bg_legal_person.png" />
+            </div>
           </el-tab-pane>
         </el-tabs>
       </div>
@@ -1126,7 +1181,7 @@ export default {
     },
     handleCurrentChange(val) {
       this.page = val
-      this.handlePoliciesClick()
+      this.handleItemClick(this.policiesActiveName)
     },
     init() {
       if (this.$route.query.paramCode === 'PTXX') {
@@ -1787,6 +1842,9 @@ export default {
           }
         }
       }
+      .bg-legal-person {
+        margin-top: 0;
+      }
     }
     .operation-report {
       width: 1140px;
@@ -1907,7 +1965,7 @@ export default {
     .policies {
       /deep/ .el-tabs__content {
         padding: 0;
-        background: #f3f3f3;
+        background: #fff;
         .laws-wrap {
           ul {
             background: #fff;
@@ -1949,9 +2007,15 @@ export default {
         margin-bottom: 10px;
       }
     }
+    .bg-legal-person {
+      margin-top: 20px;
+    }
     .content {
       margin: 20px;
       min-height: 265px;
+      .bg-legal-person {
+        margin-top: 20px;
+      }
     }
   }
 }

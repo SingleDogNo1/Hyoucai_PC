@@ -12,20 +12,12 @@
           <p class="txt">{{ txt }}</p>
         </div>
       </div>
-      <div class="btn">
-        <button class="determine" @click="jxMobileModify">立即绑定</button>
-        <button class="cancle" @click="close">取消</button>
-      </div>
+      <div class="btn"><button class="determine" @click="jxMobileModify">立即绑定</button> <button class="cancle" @click="close">取消</button></div>
     </div>
     <errDialog :show.sync="showDialog" :singleButton="singleButton" class="djs-charge-dialog">
       <div>{{ errMsg.common }}</div>
     </errDialog>
-    <errDialog
-      :show.sync="showDialog1"
-      :singleButton="singleButton"
-      class="djs-charge-dialog"
-      :onClose="close"
-    >
+    <errDialog :show.sync="showDialog1" :singleButton="singleButton" class="djs-charge-dialog" :onClose="close">
       <div>{{ errMsg.common }}</div>
     </errDialog>
   </div>

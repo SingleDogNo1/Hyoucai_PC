@@ -11,9 +11,7 @@
     <li @click="toDownload" @mouseenter="showCode" @mouseleave="hideCode">
       <p>扫码</p>
       <p>下载</p>
-      <transition name="slide">
-        <div class="code" v-show="codeFlag"></div>
-      </transition>
+      <transition name="slide"> <div class="code" v-show="codeFlag"></div> </transition>
     </li>
     <li @click="toTop(speed)">
       <p>返回</p>
