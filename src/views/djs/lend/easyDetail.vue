@@ -76,7 +76,7 @@
             </el-checkbox>
           </div>
           <div class="all-lending" v-if="!investDetail.tailProject">
-            <el-checkbox class="all-lending-checkbox" v-model="isAllLending">全部出借</el-checkbox>
+            <el-checkbox class="all-lending-checkbox" v-model="isAllLending" @change="toggleFill">全部出借</el-checkbox>
           </div>
           <div class="action" v-if="investStatus === 'willSale' || investStatus === 'lending'">
             <input class="amount-input" v-model="invAmount" @keyup="handleExpectedIncome">
@@ -504,6 +504,13 @@ export default {
       personalAccount: state => state.user.personalAccount
     })
   },
+  watch: {
+    invAmount(value) {
+      this.handleExpectedIncome(value)
+      // 值不等于可用余额 && 单人限额，就去掉全投状态
+      this.isAllLending = !(value !== this.projectInfo.balance && value !== this.projectInfo.maxInvTotalAmount)
+    }
+  },
   methods: {
     handleItemClick() {
       this.page = 1
@@ -521,7 +528,6 @@ export default {
     },
     getUserBasicInfo() {
       console.log(this.userBasicInfo)
-      //this.userBasicInfo.escrowAccountInfo = ''
       if (!this.userBasicInfo.escrowAccountInfo) {
         this.investStatus = 'unopened' // 状态为为开户
         this.investStatusTitle = '未开户'
@@ -563,16 +569,14 @@ export default {
       this.page = val
       this.getProjectCompoList()
     },
-    handleExpectedIncome(e) {
-      e.target.value = e.target.value.replace(/[^\d.]/g, '')
-      e.target.value = e.target.value.replace(/\.{2,}/g, '.')
-      e.target.value = e.target.value
+    handleExpectedIncome(invAmount) {
+      this.invAmount = invAmount
+        .replace(/[^\d.]/g, '')
+        .replace(/\.{2,}/g, '.')
         .replace('.', '$#$')
         .replace(/\./g, '')
         .replace('$#$', '.')
-      e.target.value = e.target.value.replace(/^(-)*(\d+)\.(\d\d).*$/, '$1$2.$3')
-      this.invAmount = e.target.value
-      console.log('this.invAmount====', this.invAmount)
+        .replace(/^(-)*(\d+)\.(\d\d).*$/, '$1$2.$3')
       // let postData = {
       //   invAmount: this.invAmount,
       //   investRate: this.projectInfo.investRate,
@@ -789,6 +793,17 @@ export default {
           }
         })
       }, 300)
+    },
+    toggleFill(value) {
+      if (value) {
+        if (this.projectInfo.balance - 0 > this.projectInfo.maxInvTotalAmount - 0) {
+          this.invAmount = this.projectInfo.maxInvTotalAmount
+        } else {
+          this.invAmount = this.projectInfo.balance
+        }
+      } else {
+        this.invAmount = ''
+      }
     }
   },
   mounted() {
