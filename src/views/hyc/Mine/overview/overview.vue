@@ -9,8 +9,8 @@
       </section>
       <div>
         <el-button type="info" v-if="user.platformFlag === '3'" @click="switchSystem">系统切换</el-button>
-        <el-button type="warning"><router-link :to="{ name: 'charge' }">充值</router-link></el-button>
-        <el-button type="warning"><router-link :to="{ name: 'tocash' }">提现</router-link></el-button>
+        <el-button type="warning" @click.native="linkToCharge">充值</el-button>
+        <el-button type="warning" @click.native="linkToTocash">提现</el-button>
       </div>
     </div>
     <div class="amount" id="amount"></div>
@@ -39,7 +39,8 @@ export default {
       msg: 'overview',
       amountInfo: {},
       totalIncomeBig: 0,
-      totalIncomeSmall: 0
+      totalIncomeSmall: 0,
+      isSpecialUser: false
     }
   },
   computed: {
@@ -48,6 +49,29 @@ export default {
   methods: {
     switchSystem() {
       location.href = '/djs/#/mine/overview'
+    },
+    fetchIsSpecialUser() {
+      let params = {loginUsername: this.user.userName}
+      api.isSpecialUser(params).then(res => {
+        console.log(res)
+        if (res.data.resultCode === '1') {
+          this.isSpecialUser = res.data.data.isSpecialUser
+        }
+      })
+    },
+    linkToCharge() {
+      if (this.isSpecialUser) {
+        this.$router.push({ name: 'charge', query: {isSpecialUser: '1'} })
+      } else {
+        this.$router.push({ name: 'charge' })
+      }
+    },
+    linkToTocash() {
+      if (this.isSpecialUser) {
+        this.$router.push({ name: 'tocash', query: {isSpecialUser: '1'} })
+      } else {
+        this.$router.push({ name: 'tocash' })
+      }
     },
     ...mapMutations({
       setPersonalAccount: 'SET_PERSONALACCOUNT'
@@ -168,6 +192,7 @@ export default {
         ]
       })
     })()
+    this.fetchIsSpecialUser()
   }
 }
 </script>

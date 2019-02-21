@@ -72,6 +72,15 @@ export function amountInfoApi(data) {
     data: qs.stringify(data)
   })
 }
+
+export function transferWithdrawApi(params) {
+  return request({
+    url: '/RedAndFeewithdraw/withdraw',
+    method: 'get',
+    headers: { 'Content-type': 'application/x-www-form-urlencoded' },
+    params: params
+  })
+}
 //
 // export default {
 //   bankCardQueryApi, // 获取银行卡信息
