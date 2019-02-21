@@ -118,53 +118,12 @@
                   :to="{ name: 'threePartyAgreement', query: {productId: productId}}"
                 >《三方协议》</router-link>
               </li>
-              <li>
-                <p class="title">
-                  <span>出借目标</span>
-                </p>
-                <span class="value">{{investDetail.investTarget}}</span>
-              </li>
-              <li>
-                <p class="title">
-                  <span>锁定期</span>
-                </p>
-                <span class="value">{{projectInfo.loanMent}}</span>
-              </li>
-              <li>
-                <p class="title">
-                  <span>起息时间</span>
-                </p>
-                <span class="value">{{investDetail.interestStartDate}}</span>
-              </li>
-              <li>
-                <p class="title">
-                  <span>利息分配</span>
-                </p>
-                <span class="value">{{investDetail.profitShare}}</span>
-              </li>
-              <li>
-                <p class="title">
-                  <span>退出机制</span>
-                </p>
-                <span class="value">{{investDetail.existSystem}}</span>
-              </li>
-              <li>
-                <p class="title">
-                  <span>费用说明</span>
-                </p>
-                <span class="value">{{investDetail.costdes}}</span>
-              </li>
-              <li>
-                <p class="title">
-                  <span>项目风险评估及可能产生的风险结果</span>
-                </p>
-                <span class="value">{{investDetail.riskAppraisal}}</span>
-              </li>
-              <li>
-                <p class="title">
-                  <span>出借人适当性管理提示</span>
-                </p>
-                <span class="value">{{investDetail.riskManagementTip}}</span>
+              <li v-for="(item, index) in projectServiceEntity" :key="index">
+                <!-- <p class="value">
+                  <span>{{item.serviceName}}</span>
+                </p> -->
+                <span class="title">{{item.serviceName}}</span>
+                <span class="value">{{item.serviceMessage}}</span>
               </li>
             </ul>
           </div>
@@ -477,6 +436,7 @@ export default {
         riskManagementTip: '', // 出借人适当性管理提示
         tailProject: '' // 是否是尾标(true : 尾标 false: 不是尾标)
       },
+      projectServiceEntity: [],
       joinRecordData: [], // 加入记录数据
       projectCompositionData: [], // 项目组成数据
       errMsg: '', // 错误提示
@@ -626,6 +586,7 @@ export default {
         itemId: this.itemId
       }
       easyInvestDetail(postData).then(res => {
+        this.projectServiceEntity = res.data.projectServiceEntity
         let data = res.data.data
         let projectInfo = data.projectInfo
         let investEndTimestamp = projectInfo.investEndTimestamp
@@ -675,6 +636,7 @@ export default {
         itemId: this.itemId
       }
       easyInvestDetail(postData).then(res => {
+        this.projectServiceEntity = res.data.projectServiceEntity
         let data = res.data.data
         let investDetail = data.investDetail
         this.investDetail.appDesc = investDetail.appDesc
@@ -1348,8 +1310,8 @@ export default {
           font-size: $font-size-small-s;
           border-bottom: 1px solid #e3e3e3;
           align-items: center;
+          background: #f0f7ff;
           .title {
-            background: #f0f7ff;
             padding: 10px;
             color: $color-text;
             display: inline-block;
@@ -1359,30 +1321,18 @@ export default {
           }
           .value {
             display: inline-block;
-            width: 629px;
-            padding: 10px 10px 10px 30px;
+            width: 640px;
+            padding: 10px;
+            padding-left: 30px;
             text-align: left;
             color: $color-text-s;
+            background: #fff;
           }
           a.value {
             color: #0083fe;
           }
-          &:nth-child(8) {
-            .title {
-              line-height: 60px;
-            }
-            .value {
-              line-height: 20px;
-            }
-          }
-          &:nth-child(9) {
+          &:last-child {
             border-bottom: 0;
-            .title {
-              line-height: 100px;
-            }
-            .value {
-              line-height: 26px;
-            }
           }
         }
       }

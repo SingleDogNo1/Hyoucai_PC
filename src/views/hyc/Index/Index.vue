@@ -173,8 +173,8 @@
               <p class="desc">剩余额度</p>
             </div>
           </div>
-          <div class="btn-invest-now">
-            <router-link :to="{ name: 'download' }">下载APP</router-link>
+          <div class="btn-invest-now" @click="viewInvestDetail(item)">
+            <a href="javascript:void(0);">查看详情</a>
           </div>
         </div>
       </div>
@@ -184,8 +184,14 @@
       v-if="hycPopularProjectList && hycPopularProjectList.length > 0"
     >
       <div class="text-title"></div>
-      <ul :class="{ 'two': hycPopularProjectList.length == 2, 'one': hycPopularProjectList.length == 1 }">
-        <li v-for="(item, index) in hycPopularProjectList" :key="index" @click="toDownload">
+      <ul
+        :class="{ 'two': hycPopularProjectList.length == 2, 'one': hycPopularProjectList.length == 1 }"
+      >
+        <li
+          v-for="(item, index) in hycPopularProjectList"
+          :key="index"
+          @click="viewInvestDetail(item)"
+        >
           <p class="title">
             <img :src="item.iconUrl" v-if="item.iconUrl">
             <span class="icon">{{ item.itemName }}</span>
@@ -200,7 +206,7 @@
           <p class="lend-desc">锁定期：{{ item.loanMent }}</p>
           <p class="lend-desc">已投：{{ item.showInvestPercent }}</p>
           <div class="actions">
-            <a class="btn-invest-now" href="javascript:void(0);">下载APP</a>
+            <a class="btn-invest-now" href="javascript:void(0);">立即出借</a>
             <a class="btn-view-detail" href="javascript:void(0);">查看详情</a>
           </div>
         </li>
@@ -238,6 +244,18 @@
         </div>
       </div>
     </div>
+    <!-- 系统不匹配的错误弹窗 -->
+    <Dialog
+      class="system-maintenance-dialog"
+      title="汇有财温馨提示"
+      confirmText="我知道了"
+      :show.sync="systemDialogOptions.show"
+      :singleButton="systemDialogOptions.singleButton"
+    >
+      <div>
+        <p>{{systemDialogOptions.msg}}</p>
+      </div>
+    </Dialog>
   </div>
 </template>
 
@@ -245,7 +263,9 @@
 import Swiper from 'swiper/dist/js/swiper'
 import CountUp from '@/components/countUp/index'
 import LoginForm from '@/components/loginForm'
+import Dialog from '@/components/Dialog/Dialog'
 import { getBanner, getOperateData, getQualityList } from '@/api/hyc/index'
+import { easyInvestDetail, optionalInvestDetail } from '@/api/hyc/lend'
 import { getList } from '@/api/hyc/announcement'
 import { mapGetters } from 'vuex'
 
@@ -266,12 +286,18 @@ export default {
       industryList: [],
       mediaList: [],
       noviceProjectList: [],
-      hycPopularProjectList: []
+      hycPopularProjectList: [],
+      systemDialogOptions: {
+        show: false,
+        singleButton: true,
+        msg: ''
+      }
     }
   },
   components: {
     CountUp,
-    LoginForm
+    LoginForm,
+    Dialog
   },
   computed: {
     ...mapGetters(['user'])
@@ -456,6 +482,31 @@ export default {
       // 如果锚点存在，就跳转
       if (jumpId && anchorElement) {
         anchorElement.scrollIntoView()
+      }
+    },
+    viewInvestDetail(item) {
+      if (this.user) {
+        if (item.itemId) {
+          easyInvestDetail({ productId: item.productId, itemId: item.itemId }).then(res => {
+            if (res.data.resultCode === '1') {
+              this.$router.push({ name: 'easyDetail', query: { productId: item.productId, itemId: item.itemId } })
+            } else {
+              this.systemDialogOptions.show = true
+              this.systemDialogOptions.msg = res.data.resultMsg
+            }
+          })
+        } else {
+          optionalInvestDetail({ projectNo: item.projectNo }).then(res => {
+            if (res.data.resultCode === '1') {
+              this.$router.push({ name: 'optionalDetail', query: { projectNo: item.projectNo, productId: item.productId } })
+            } else {
+              this.systemDialogOptions.show = true
+              this.systemDialogOptions.msg = res.data.resultMsg
+            }
+          })
+        }
+      } else {
+        this.$router.push({ name: 'login' })
       }
     }
   },
