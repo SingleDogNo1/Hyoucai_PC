@@ -229,7 +229,7 @@
                 <p class="title">
                   <span>锁定期</span>
                 </p>
-                <span class="value">{{investDetail.dueDate}}</span>
+                <span class="value">{{investDetail.loanMentUnit}}</span>
               </li>
               <li>
                 <p class="title">
@@ -682,7 +682,7 @@ export default {
       investDetail: {
         appDesc: '', // 项目介绍
         investTarget: '', // 投资目标
-        dueDate: '', // 投资到期日
+        loanMentUnit: '', // 锁定期（单位） 例如： 30天 则本字段是'天'；3个月 则本字段是'个月'
         interestStartDate: '', // 产品起息时间描述
         profitShare: '', // 利息分配
         existSystem: '', // 退出机制
@@ -953,7 +953,7 @@ export default {
         let investDetail = data.investDetail
         this.investDetail.appDesc = investDetail.appDesc
         this.investDetail.investTarget = investDetail.investTarget
-        this.investDetail.dueDate = investDetail.dueDate
+        this.investDetail.loanMentUnit = investDetail.loanMentUnit
         this.investDetail.interestStartDate = investDetail.interestStartDate
         this.investDetail.profitShare = investDetail.profitShare
         this.investDetail.existSystem = investDetail.existSystem

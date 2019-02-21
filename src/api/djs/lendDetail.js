@@ -27,3 +27,11 @@ export function bondproject(data) {
     data: qs.stringify(data)
   })
 }
+
+// 系统维护
+export function systemMaintenance() {
+  return request({
+    url: 'collection/systemMaintenance',
+    method: 'get'
+  })
+}

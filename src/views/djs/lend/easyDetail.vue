@@ -128,7 +128,7 @@
                 <p class="title">
                   <span>锁定期</span>
                 </p>
-                <span class="value">{{investDetail.endData}}</span>
+                <span class="value">{{investDetail.investMent}}</span>
               </li>
               <li>
                 <p class="title">
@@ -430,7 +430,7 @@ import Swiper from 'swiper/dist/js/swiper'
 import { mapState } from 'vuex'
 import Pagination from '@/components/pagination/pagination'
 // import { timeCountDown } from '@/assets/js/utils'
-import { investCountProjectMsg, investUserCountMsg, bondproject } from '@/api/djs/lendDetail'
+import { investCountProjectMsg, investUserCountMsg, bondproject, systemMaintenance } from '@/api/djs/lendDetail'
 import ProjectDetail from './popup/projectDetail'
 import Dialog from '@/components/Dialog/Dialog'
 
@@ -463,7 +463,6 @@ export default {
         investPercent: 0, // 投资百分比
         repayType: '', // 结息方式
         minInvAmt: '', // 起投金额
-        // surplusAmount: '', // 个人累计投资限额
         status: 0, // nteger - 项目状态 1.未开启 2.已投X% 3.满标
         balance: '', // 可用余额
         maxInvAmount: '', // 单笔投资上限金额限制
@@ -472,9 +471,9 @@ export default {
       investDetail: {
         appDesc: '', // 项目介绍
         investTarget: '', // 投资目标
-        endData: '', // 投资到期日
-        breathDate: '', // 产品起息时间描述
-        profitShare: '', // 最大投资金额
+        investMent: '', // 锁定期
+        breathDate: '', // 产品起息时间
+        profitShare: '', // 利息分配
         existSystem: '', // 退出机制
         costDes: '', // 费用说明
         riskAppraisal: '', // 项目风险评估及可能产生的风险结果
@@ -606,7 +605,7 @@ export default {
 
           this.investDetail.appDesc = data.appDesc
           this.investDetail.investTarget = data.investTarget
-          this.investDetail.endData = data.endData
+          this.investDetail.investMent = data.investMent
           this.investDetail.breathDate = data.breathDate
           this.investDetail.profitShare = data.profitShare
           this.investDetail.existSystem = data.existSystem
@@ -685,55 +684,55 @@ export default {
     },
     handleInvest() {
       this.errMsg = ''
-      // systemMaintenance().then(res => {
-      //   let data = res.data
-      //   // 此时段为系统维护
-      //   if (data.resultCode === '60056') {
-      //     this.isShowSystemMaintenanceDialog = true
-      //   } else {
-      //     amountSync().then(res => {
-      //       let data = res.data
-      //       console.log('data====', data)
-      //       if (data.resultCode === '1') {
-      //         this.projectInfo.balance = data.data.availBal
-      //       }
-      //     })
-      //     // 如果是未开户，点击去开户页面
-      //     if (this.investStatus === 'unopened') {
-      //       this.$router.push({ name: 'account' })
-      //     }
-      //     // 如果没勾选风险告知书，弹出提示
-      //     if (!this.isAgree) {
-      //       this.errMsg = '请确认并同意《风险告知书》'
-      //       return
-      //     }
-      //     // 是否已经签约
-      //     this.userBasicInfo.userIsOpenAccount.registerProtocolSigned = true
-      //     if (!this.userBasicInfo.userIsOpenAccount.registerProtocolSigned) {
-      //       this.isShowSignDialog = true
-      //       return
-      //     }
-      //     // 是否进行过风险测评
-      //     this.userBasicInfo.evaluatingResult = true
-      //     if (!this.userBasicInfo.evaluatingResult) {
-      //       this.riskContent = '您当前还未风险评测或评测已过期，请进行风险评测。'
-      //       this.riskConfirmText = '立即评测'
-      //       this.isShowRiskDialog = true
-      //       return
-      //     }
-      //     console.log('this.invAmount===', this.invAmount)
-      //     // 单人限额是否超过
-      //     if (parseFloat(this.invAmount) > parseFloat(this.projectInfo.maxInvTotalAmount)) {
-      //       this.errMsg = '单人限额' + this.projectInfo.maxInvTotalAmount + '元'
-      //       return
-      //     }
-      //     // 单笔限额是否超过
-      //     if (parseFloat(this.invAmount) > parseFloat(this.projectInfo.maxInvAmount)) {
-      //       this.errMsg = '单笔限额' + this.projectInfo.maxInvAmount + '元'
-      //       return
-      //     }
-      //   }
-      // })
+      systemMaintenance().then(res => {
+        let data = res.data
+        // 此时段为系统维护
+        if (data.resultCode === '60056') {
+          this.isShowSystemMaintenanceDialog = true
+        } else {
+          // amountSync().then(res => {
+          //   let data = res.data
+          //   console.log('data====', data)
+          //   if (data.resultCode === '1') {
+          //     this.projectInfo.balance = data.data.availBal
+          //   }
+          // })
+          // 如果是未开户，点击去开户页面
+          if (this.investStatus === 'unopened') {
+            this.$router.push({ name: 'account' })
+          }
+          // 如果没勾选风险告知书，弹出提示
+          if (!this.isAgree) {
+            this.errMsg = '请确认并同意《风险告知书》'
+            return
+          }
+          // 是否已经签约
+          this.userBasicInfo.userIsOpenAccount.registerProtocolSigned = true
+          if (!this.userBasicInfo.userIsOpenAccount.registerProtocolSigned) {
+            this.isShowSignDialog = true
+            return
+          }
+          // 是否进行过风险测评
+          this.userBasicInfo.evaluatingResult = true
+          if (!this.userBasicInfo.evaluatingResult) {
+            this.riskContent = '您当前还未风险评测或评测已过期，请进行风险评测。'
+            this.riskConfirmText = '立即评测'
+            this.isShowRiskDialog = true
+            return
+          }
+          console.log('this.invAmount===', this.invAmount)
+          // 单人限额是否超过
+          if (parseFloat(this.invAmount) > parseFloat(this.projectInfo.maxInvTotalAmount)) {
+            this.errMsg = '单人限额' + this.projectInfo.maxInvTotalAmount + '元'
+            return
+          }
+          // 单笔限额是否超过
+          if (parseFloat(this.invAmount) > parseFloat(this.projectInfo.maxInvAmount)) {
+            this.errMsg = '单笔限额' + this.projectInfo.maxInvAmount + '元'
+            return
+          }
+        }
+      })
     },
     toSign() {
       this.$router.push({ name: 'sign' })
