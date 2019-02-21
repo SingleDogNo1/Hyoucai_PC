@@ -72,8 +72,8 @@
                 </li>
                 <li class="info">
                   <template v-if="item.status !== 1">
-                    <el-button  @click.native="judgeBooking(item)"> 授权出借 </el-button>
-                    <!--<el-button disabled v-else>还款中</el-button>-->
+                    <el-button v-if="item.investPercent < 100" @click.native="judgeBooking(item)"> 授权出借 </el-button>
+                    <el-button disabled v-else>还款中</el-button>
                   </template>
                   <template v-else>
                     <el-button type="primary" @click.native="judgeBooking(item)"> 预售中 </el-button>
@@ -198,6 +198,18 @@
         </div>
       </div>
     </div>
+    <!-- 系统不匹配的错误弹窗 -->
+    <Dialog
+      class="system-maintenance-dialog"
+      title="汇有财温馨提示"
+      confirmText="我知道了"
+      :show.sync="systemDialogOptions.show"
+      :singleButton="systemDialogOptions.singleButton"
+    >
+      <div>
+        <p>{{systemDialogOptions.msg}}</p>
+      </div>
+    </Dialog>
   </div>
 </template>
 
@@ -205,7 +217,8 @@
 import pagination from '@/components/pagination/pagination'
 import countUp from '@/components/countUp/index'
 import noData from '@/components/NoData/index'
-import { getPageConfig, getCountMsg, getQSList, getZXList, getGRList } from '@/api/hyc/lend'
+import Dialog from '@/components/Dialog/Dialog'
+import { getPageConfig, getCountMsg, getQSList, getZXList, getGRList, easyInvestDetail, optionalInvestDetail } from '@/api/hyc/lend'
 import { getUser } from '@/assets/js/cache'
 import { mapGetters } from 'vuex'
 
@@ -235,7 +248,12 @@ export default {
       },
       showTabs: false,
       tabActive: 0,
-      noDataType: 'production'
+      noDataType: 'production',
+      systemDialogOptions: {
+        show: false,
+        singleButton: true,
+        msg: ''
+      }
     }
   },
   props: ['redPacketId', 'couponId'],
@@ -243,9 +261,23 @@ export default {
     judgeBooking(item) {
       if (this.userName) {
         if (item.itemId) {
-          this.$router.push({ name: 'easyDetail', query: { productId: item.productId, itemId: item.itemId } })
+          easyInvestDetail({ productId: item.productId, itemId: item.itemId }).then(res => {
+            if (res.data.resultCode === '1') {
+              this.$router.push({ name: 'easyDetail', query: { productId: item.productId, itemId: item.itemId } })
+            } else {
+              this.systemDialogOptions.show = true
+              this.systemDialogOptions.msg = res.data.resultMsg
+            }
+          })
         } else {
-          this.$router.push({ name: 'optionalDetail', query: { projectNo: item.projectNo, productId: item.productId } })
+          optionalInvestDetail({ projectNo: item.projectNo }).then(res => {
+            if (res.data.resultCode === '1') {
+              this.$router.push({ name: 'optionalDetail', query: { projectNo: item.projectNo, productId: item.productId } })
+            } else {
+              this.systemDialogOptions.show = true
+              this.systemDialogOptions.msg = res.data.resultMsg
+            }
+          })
         }
       } else {
         this.$router.push({ name: 'login' })
@@ -366,7 +398,8 @@ export default {
   components: {
     pagination,
     countUp,
-    noData
+    noData,
+    Dialog
   },
   computed: {
     ...mapGetters(['user'])

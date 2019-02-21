@@ -1,5 +1,5 @@
 <template>
-  <div class="lend-detail" v-cloak>
+  <div class="lend-detail">
     <section class="production-info">
       <div class="title">
         <h2>
@@ -333,7 +333,7 @@
                       @click="receiveRedPacket(item, index)"
                       v-if="redPacketIndex !== index"
                     >选取</button>
-                    <button class="receive-btn" @click="cleanRedpacket()" v-else>已选取</button>
+                    <button class="receive-btn" @click="cleanRedpacket" v-else>已选取</button>
                   </div>
                 </div>
               </div>
@@ -399,7 +399,8 @@
       title="汇有财温馨提示"
       confirmText="我知道了"
       class="system-maintenance-dialog"
-      :singleButton="singleButton"
+      :singleButton="!singleButton"
+      :onConfirm="toInvestRecord"
     >
       <div>
         <p>{{investMsg}}</p>
@@ -480,8 +481,8 @@ export default {
       projectCompositionData: [], // 项目组成数据
       errMsg: '', // 错误提示
       isShowRiskDialog: false, // 是否显示风险测评弹窗
-      isShowSystemMaintenanceDialog: false,
-      singleButton: true, // 是否显示系统维护弹窗
+      isShowSystemMaintenanceDialog: false, // 是否显示系统维护弹窗
+      singleButton: true, // 是否显示只有确定按钮
       riskConfirmText: '重新评测', // 风险测评弹窗按钮文字
       riskDialogSingleButton: false,
       riskType: '', // 风险测评的类型
@@ -554,7 +555,7 @@ export default {
           this.invAmount = this.projectInfo.balance
         }
       } else {
-        this.invAmount = '0'
+        this.invAmount = ''
       }
     },
     getUserBasicInfo() {
@@ -922,6 +923,11 @@ export default {
           this.isShowInvestErrDialog = true
           this.investErrMsg = res.data.errMsg
         }
+      })
+    },
+    toInvestRecord() {
+      this.$router.push({
+        name: 'userLend'
       })
     }
   },

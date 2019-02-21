@@ -429,7 +429,7 @@
 import Swiper from 'swiper/dist/js/swiper'
 import { mapState } from 'vuex'
 import Pagination from '@/components/pagination/pagination'
-import { timeCountDown } from '@/assets/js/utils'
+// import { timeCountDown } from '@/assets/js/utils'
 import { investCountProjectMsg, investUserCountMsg, bondproject } from '@/api/djs/lendDetail'
 import ProjectDetail from './popup/projectDetail'
 import Dialog from '@/components/Dialog/Dialog'
@@ -463,7 +463,7 @@ export default {
         investPercent: 0, // 投资百分比
         repayType: '', // 结息方式
         minInvAmt: '', // 起投金额
-        surplusAmount: '', // 个人累计投资限额
+        // surplusAmount: '', // 个人累计投资限额
         status: 0, // nteger - 项目状态 1.未开启 2.已投X% 3.满标
         balance: '', // 可用余额
         maxInvAmount: '', // 单笔投资上限金额限制
@@ -595,15 +595,15 @@ export default {
       }
       investCountProjectMsg(postData).then(res => {
         let data = res.data
-        if(data.resultCode === '1') {
+        if (data.resultCode === '1') {
           this.projectInfo.projectName = data.projectName
           this.projectInfo.investRate = data.investRate
           this.projectInfo.surplusAmount = data.surplusAmount
           this.projectInfo.investPropleCount = data.investPropleCount
-          this.projectInfo.repayType = data.repayType === 'XXHB' ? '先息后本': '等额本息'
+          this.projectInfo.repayType = data.repayType === 'XXHB' ? '先息后本' : '等额本息'
           this.projectInfo.minInvAmt = data.minInvAmt
           this.projectInfo.surplusAmount = data.surplusAmount
-  
+
           this.investDetail.appDesc = data.appDesc
           this.investDetail.investTarget = data.investTarget
           this.investDetail.endData = data.endData
@@ -630,7 +630,7 @@ export default {
       }
       investCountProjectMsg(postData).then(res => {
         let data = res.data
-        if(data.resultCode === '1') {
+        if (data.resultCode === '1') {
           this.investDetail.appDesc = data.appDesc
           this.investDetail.investTarget = data.investTarget
           this.investDetail.endData = data.endData
