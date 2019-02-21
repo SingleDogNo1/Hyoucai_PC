@@ -1,9 +1,9 @@
 <template>
-  <div class="lend-detail" v-cloak>
+  <div class="lend-detail">
     <section class="production-info">
       <div class="title">
         <h2>
-          <img src="./image/icon_hui.png">
+          <img src="./image/icon_hui.png" alt="">
           <span>{{projectInfo.projectName}}</span>
         </h2>
       </div>
@@ -53,7 +53,7 @@
             :class="{ 'unopened-status-title': investStatus === 'unopened' }"
             class="status-title"
           >{{investStatusTitle}}</span>
-          <button v-if="investStatus != 'unopened'" class="status-btn">
+          <button v-if="investStatus !== 'unopened'" class="status-btn">
             <router-link :to="{ name: 'charge' }">{{investStatusBtn}}</router-link>
           </button>
         </h2>
@@ -255,46 +255,28 @@
       </el-tabs>
     </section>
     <ProjectDetail @changeProjectDetail="changeProjectDetail" v-show="isProjectDetail"/>
-    <Dialog
-      :show.sync="isShowSignDialog"
-      title="汇有财温馨提示"
-      confirmText="签约"
-      class="sign-dialog"
-      :onConfirm="toSign"
-    >
-      <div>
-        <p>您当前未签约或签约状态不符合合规要求，
-          <br>请重新签约！
-        </p>
-      </div>
-    </Dialog>
+    <!-- 风险评测有问题弹窗 -->
     <Dialog
       :show.sync="isShowRiskDialog"
       title="汇有财温馨提示"
       :confirmText="riskConfirmText"
+      cancelText="我知道了"
+      :singleButton="riskDialogSingleButton"
       class="risk-dialog"
       :onConfirm="toRisk"
     >
       <div>
-        <p v-html="riskContent"></p>
+        <p>{{riskType}}</p>
+        <p>{{riskContent}}</p>
       </div>
     </Dialog>
-    <Dialog
-      :show.sync="isShowSystemMaintenanceDialog"
-      title="汇有财温馨提示"
-      confirmText="我知道了"
-      class="system-maintenance-dialog"
-      :singleButton="singleButton"
-    >
-      <div>
-        <p>当前系统正在维护中，当日23:45-次日0:15分钟暂不可进行出借！</p>
-      </div>
-    </Dialog>
+    <!-- 正常流程弹窗 -->
     <Dialog
       :show.sync="isShowConfirmInvestmentDialog"
       title="确认出借"
       confirmText="确认出借"
       class="confirm-investment-dialog"
+      :onConfirm="confirm"
     >
       <div>
         <ul class="amount-list">
@@ -419,6 +401,57 @@
         </div>
       </div>
     </Dialog>
+    <!-- 出借流程ERROR弹窗 -->
+    <Dialog
+      :show.sync="isShowInvestErrDialog"
+      title="汇有财温馨提示"
+      confirmText="我知道了"
+      class="system-maintenance-dialog"
+      :singleButton="singleButton"
+    >
+      <div>
+        <p>{{investErrMsg}}</p>
+      </div>
+    </Dialog>
+    <!-- 出借普通产品成功弹窗 -->
+    <Dialog
+      :show.sync="isShowInvestDialog"
+      :title="isShowInvestDialogTitle"
+      confirmText="我知道了"
+      class="system-maintenance-dialog"
+      :singleButton="!singleButton"
+      :onConfirm="toInvestRecord"
+    >
+      <div>
+        <p>{{investMsg}}</p>
+      </div>
+    </Dialog>
+    <!-- 出借手机乐产品成功弹窗 -->
+    <Dialog
+      :show.sync="isShowInvestDialog"
+      :title="isShowInvestDialogTitle"
+      confirmText="我知道了"
+      class="sjl-dialog"
+      :singleButton="!singleButton"
+      :onConfirm="toInvestRecord"
+    >
+      <div>
+        <p>{{investMsg}}</p>
+      </div>
+    </Dialog>
+    <!-- 自动出借类产品成功弹窗 -->
+    <Dialog
+      :show.sync="isShowInvestDialog"
+      :title="isShowInvestDialogTitle"
+      confirmText="我知道了"
+      class="auto-invest-dialog"
+      :singleButton="!singleButton"
+      :onConfirm="toInvestRecord"
+    >
+      <div>
+        <p>{{investMsg}}</p>
+      </div>
+    </Dialog>
   </div>
 </template>
 
@@ -427,7 +460,7 @@ import Swiper from 'swiper/dist/js/swiper'
 import { mapState } from 'vuex'
 import Pagination from '@/components/pagination/pagination'
 //import { timeCountDown } from '@/assets/js/utils'
-import { investCountProjectMsg, investUserCountMsg, bondproject, systemMaintenance } from '@/api/djs/lendDetail'
+import { investCountProjectMsg, investUserCountMsg, bondproject, availableRedPacketApi, availableCouponApi, investApi } from '@/api/djs/lendDetail'
 import ProjectDetail from './popup/projectDetail'
 import Dialog from '@/components/Dialog/Dialog'
 
@@ -437,6 +470,7 @@ export default {
       lendDetailActiveName: 'CJXQ', // 选项卡选中状态
       productId: '', // 标的id
       itemId: '', // 集合标项目ID
+      projectNo: '',
       isAgree: false, // 是否同意风险告知书
       isAllLending: false, // 是否自动出借
       isProjectDetail: false, // 是否显示项目详情弹窗
@@ -482,13 +516,29 @@ export default {
       joinRecordData: [], // 加入记录数据
       projectCompositionData: [], // 项目组成数据
       errMsg: '', // 错误提示
-      isShowSignDialog: false, // 是否显示签约弹窗
       isShowRiskDialog: false, // 是否显示风险测评弹窗
       isShowSystemMaintenanceDialog: false,
       singleButton: true, // 是否显示系统维护弹窗
       riskConfirmText: '重新评测', // 风险测评弹窗按钮文字
-      riskContent: '您当前出借的额度或期限不符合您的风险评测<br />等级分布，若您在上次评测后风险承受能力发<br />生改变，请您重新进行风险评测！', // 风险测评弹窗默认文字
-      isShowConfirmInvestmentDialog: false // 是否显示出借弹窗
+      riskContent: '', // 风险测评弹窗默认文字
+      isShowConfirmInvestmentDialog: false, // 是否显示出借弹窗
+      redPacketsList: [],
+      redPacketIndex: -1,
+      chooseRedPacket: {},
+      chooseCoupon: {},
+      chooseRedPacketAmt: '', // 选中红包的金额
+      chooseRedPacketId: '', // 选中红包的ID
+      chooseCouponRate: '', // 选中加息券的利率
+      chooseCouponId: '', // 选中加息券的ID
+      couponsList: [],
+      couponIndex: -1,
+      isShowInvestErrDialog: false, // 是否显示出借错误弹窗
+      investErrMsg: '', // 出借errMsg
+
+      // TOTO 出借成功的情况太多，各个弹框要单独重写
+      isShowInvestDialog: false, // 是否显示出借成功弹窗
+      isShowInvestDialogTitle: '', // 出借成功title
+      investMsg: '' // 出借成功 msg
     }
   },
   components: {
@@ -682,19 +732,15 @@ export default {
     },
     handleInvest() {
       this.errMsg = ''
-      systemMaintenance().then(res => {
-        let data = res.data
-        // 此时段为系统维护
-        if (data.resultCode === '60056') {
-          this.isShowSystemMaintenanceDialog = true
+      if (this.invAmount === '') {
+        this.errMsg = '请输入金额'
+      } else if (this.invAmount < this.projectInfo.minInvAmt - 0) {
+        this.errMsg = '出借金额不能低于起投金额'
+      } else {
+        if (this.projectInfo.status === '0') {
+          this.isShowInvestErrDialog = true
+          this.investErrMsg = '该项目暂时无法投资'
         } else {
-          // amountSync().then(res => {
-          //   let data = res.data
-          //   console.log('data====', data)
-          //   if (data.resultCode === '1') {
-          //     this.projectInfo.balance = data.data.availBal
-          //   }
-          // })
           // 如果是未开户，点击去开户页面
           if (this.investStatus === 'unopened') {
             this.$router.push({ name: 'account' })
@@ -704,33 +750,28 @@ export default {
             this.errMsg = '请确认并同意《风险告知书》'
             return
           }
-          // 是否已经签约
-          this.userBasicInfo.userIsOpenAccount.registerProtocolSigned = true
-          if (!this.userBasicInfo.userIsOpenAccount.registerProtocolSigned) {
-            this.isShowSignDialog = true
-            return
-          }
-          // 是否进行过风险测评
-          this.userBasicInfo.evaluatingResult = true
-          if (!this.userBasicInfo.evaluatingResult) {
-            this.riskContent = '您当前还未风险评测或评测已过期，请进行风险评测。'
-            this.riskConfirmText = '立即评测'
-            this.isShowRiskDialog = true
-            return
-          }
-          console.log('this.invAmount===', this.invAmount)
-          // 单人限额是否超过
-          if (parseFloat(this.invAmount) > parseFloat(this.projectInfo.maxInvTotalAmount)) {
-            this.errMsg = '单人限额' + this.projectInfo.maxInvTotalAmount + '元'
-            return
-          }
-          // 单笔限额是否超过
-          if (parseFloat(this.invAmount) > parseFloat(this.projectInfo.maxInvAmount)) {
-            this.errMsg = '单笔限额' + this.projectInfo.maxInvAmount + '元'
-            return
-          }
+
+          this.isShowConfirmInvestmentDialog = true
+
+          const $this = this
+          ;(async function initInvestDialog() {
+            await availableRedPacketApi({
+              projectNo: $this.projectNo,
+              amount: $this.invAmount
+            }).then(res => {
+              $this.redPacketsList = res.data.userRedPackets
+            })
+            await availableCouponApi({
+              projectNo: $this.projectNo,
+              amount: $this.invAmount
+            }).then(res => {
+              $this.couponsList = res.data.coupons
+            })
+            await $this.redEnvelopeSwiper()
+            await $this.rateStampSwiper()
+          })()
         }
-      })
+      }
     },
     toSign() {
       this.$router.push({ name: 'sign' })
@@ -739,54 +780,50 @@ export default {
       this.$router.push({ name: 'riskAss' })
     },
     redEnvelopeSwiper() {
-      setTimeout(() => {
-        this.redEnvelopeSwiper = new Swiper('.swiper-container-red-envelope', {
-          paginationClickable: true,
-          observer: true,
-          observeParents: true,
-          loopAdditionalSlides: 1,
-          initialSlide: 1,
-          effect: 'coverflow',
-          slidesPerView: 1.3, // 一屏装几个slider
-          centeredSlides: true,
-          coverflowEffect: {
-            rotate: 0,
-            stretch: 35,
-            depth: 20,
-            modifier: 1,
-            slideShadows: false
-          },
-          navigation: {
-            nextEl: '.swiper-button-next',
-            prevEl: '.swiper-button-prev'
-          }
-        })
-      }, 200)
+      this.redEnvelopeSwiper = new Swiper('.swiper-container-red-envelope', {
+        paginationClickable: true,
+        observer: true,
+        observeParents: true,
+        loopAdditionalSlides: 1,
+        initialSlide: 1,
+        effect: 'coverflow',
+        slidesPerView: 1.3, // 一屏装几个slider
+        centeredSlides: true,
+        coverflowEffect: {
+          rotate: 0,
+          stretch: 35,
+          depth: 20,
+          modifier: 1,
+          slideShadows: false
+        },
+        navigation: {
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev'
+        }
+      })
     },
     rateStampSwiper() {
-      setTimeout(() => {
-        this.rateStampSwiper = new Swiper('.swiper-container-rate-stamp', {
-          paginationClickable: true,
-          observer: true,
-          observeParents: true,
-          loopAdditionalSlides: 1,
-          initialSlide: 1,
-          effect: 'coverflow',
-          slidesPerView: 1.3, // 一屏装几个slider
-          centeredSlides: true,
-          coverflowEffect: {
-            rotate: 0,
-            stretch: 35,
-            depth: 20,
-            modifier: 1,
-            slideShadows: false
-          },
-          navigation: {
-            nextEl: '.swiper-button-next1',
-            prevEl: '.swiper-button-prev1'
-          }
-        })
-      }, 300)
+      this.rateStampSwiper = new Swiper('.swiper-container-rate-stamp', {
+        paginationClickable: true,
+        observer: true,
+        observeParents: true,
+        loopAdditionalSlides: 1,
+        initialSlide: 1,
+        effect: 'coverflow',
+        slidesPerView: 1.3, // 一屏装几个slider
+        centeredSlides: true,
+        coverflowEffect: {
+          rotate: 0,
+          stretch: 35,
+          depth: 20,
+          modifier: 1,
+          slideShadows: false
+        },
+        navigation: {
+          nextEl: '.swiper-button-next1',
+          prevEl: '.swiper-button-prev1'
+        }
+      })
     },
     toggleFill(value) {
       if (value) {
@@ -798,12 +835,29 @@ export default {
       } else {
         this.invAmount = ''
       }
+    },
+    confirm() {
+      investApi({
+        projectNo: this.projectNo,
+        invAmount: this.invAmount,
+        userCouponId: this.chooseCouponId,
+        userRedPacketId: this.chooseRedPacketId,
+        investSource: 'PC'
+      }).then(res => {
+        if (res.data.resultCode === '1') {
+          console.log(res.data)
+          this.isShowInvestDialog = true
+          this.isShowInvestDialogTitle = res.data.successTitle
+          this.investMsg = res.data.successInfo
+        }
+      })
+    },
+    toInvestRecord() {
+      alert(1)
     }
   },
   mounted() {
     this.getInvestDetailList()
-    this.redEnvelopeSwiper()
-    this.rateStampSwiper()
   }
 }
 </script>

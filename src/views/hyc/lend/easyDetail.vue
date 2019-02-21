@@ -492,10 +492,10 @@ export default {
       redPacketIndex: -1,
       chooseRedPacket: {},
       chooseCoupon: {},
-      chooseRedPacketAmt: 0, // 选中红包的金额
-      chooseRedPacketId: 0, // 选中红包的ID
-      chooseCouponRate: 0, // 选中加息券的利率
-      chooseCouponId: 0, // 选中加息券的ID
+      chooseRedPacketAmt: '', // 选中红包的金额
+      chooseRedPacketId: '', // 选中红包的ID
+      chooseCouponRate: '', // 选中加息券的利率
+      chooseCouponId: '', // 选中加息券的ID
       couponsList: [],
       couponIndex: -1,
       isShowInvestErrDialog: false, // 是否显示出借错误弹窗
@@ -874,7 +874,7 @@ export default {
         invAmount: this.invAmount,
         userCouponId: this.chooseCouponId,
         userRedPacketId: this.chooseRedPacketId,
-        investSource: 'pc',
+        investSource: 'PC',
         forgotPwdUrl: platform_user_center,
         retUrl: platform_user_center,
         projectType: this.projectInfo.projectType
