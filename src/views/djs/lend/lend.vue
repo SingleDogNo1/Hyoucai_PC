@@ -95,6 +95,7 @@ import noData from '@/components/NoData/index'
 import { getList } from '@/api/djs/lend'
 import { getUser } from '@/assets/js/cache'
 import { mapGetters } from 'vuex'
+import { investCountProjectMsg } from '@/api/djs/lendDetail'
 
 export default {
   name: 'lend',
@@ -116,7 +117,17 @@ export default {
   methods: {
     judgeBooking(item) {
       if (this.userName) {
-        this.$router.push({ name: 'easyDetail', query: { projectNo: item.projectNo } })
+        let postData = {
+          projectNo: item.projectNo
+        }
+        investCountProjectMsg(postData).then(res => {
+          let data = res.data
+          if(data.resultCode !== '1') {
+            alert(data.resultMsg)
+            return
+          }
+          this.$router.push({ name: 'easyDetail', query: { projectNo: item.projectNo } })
+        })
       } else {
         this.$router.push({ name: 'login' })
       }
