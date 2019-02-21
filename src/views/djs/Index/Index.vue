@@ -202,7 +202,7 @@
           <p class="lend-desc">锁定期：{{ item.investMent }}</p>
           <p class="lend-desc">已投：{{ item.showInvestPercent }}</p>
           <div class="actions">
-            <a class="btn-invest-now" href="javascript:void(0);">查看详情</a>
+            <a class="btn-invest-now" href="javascript:void(0);">立即出借</a>
             <a class="btn-view-detail" href="javascript:void(0);">查看详情</a>
           </div>
         </li>
