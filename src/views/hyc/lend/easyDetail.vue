@@ -86,9 +86,9 @@
               @click="handleInvest"
             >{{investBtn}}</button>
           </div>
-          <div class="action" v-if="investStatus === 'fullyMarked' || investStatus === 'finished'">
+          <!-- <div class="action" v-if="investStatus === 'fullyMarked' || investStatus === 'finished'">
             <button class="action-btn-disabled" @click="handleInvest">{{investStatusTitle}}</button>
-          </div>
+          </div> -->
           <p class="expected-profits">
             <span class="title">预期收益：</span>
             <span class="value">{{expectedIncome}}元</span>
@@ -128,7 +128,7 @@
                 <p class="title">
                   <span>锁定期</span>
                 </p>
-                <span class="value">{{investDetail.loanMentUnit}}</span>
+                <span class="value">{{projectInfo.loanMent}}</span>
               </li>
               <li>
                 <p class="title">
@@ -462,12 +462,12 @@ export default {
         balance: '', // 可用余额
         maxInvAmount: '', // 单笔投资上限金额限制
         projectType: '', // 项目名称
-        projectName: ''
+        projectName: '',
+        loanMent: '' // 锁定期（单位） 例如： 30天 则本字段是'天'；3个月 则本字段是'个月'
       },
       investDetail: {
         appDesc: '', // 项目介绍
         investTarget: '', // 投资目标
-        loanMentUnit: '', // 锁定期（单位） 例如： 30天 则本字段是'天'；3个月 则本字段是'个月'
         interestStartDate: '', // 产品起息时间描述
         profitShare: '', // 利息分配
         existSystem: '', // 退出机制
@@ -567,7 +567,6 @@ export default {
       }
     },
     getInvestStatus() {
-      this.projectInfo.status = 1
       switch (
         this.projectInfo.status // 0.预售    1.出借中   2.满标   3.已完结
       ) {
@@ -641,6 +640,7 @@ export default {
         this.projectInfo.maxInvAmount = projectInfo.maxInvAmount
         this.projectInfo.projectType = projectInfo.projectType
         this.projectInfo.projectName = projectInfo.projectName
+        this.projectInfo.loanMent = projectInfo.loanMent
 
         // 预售状态中，募集倒计时不倒计
         timeCountDown(investEndTimestamp, this.projectInfo.status, data => {
@@ -655,7 +655,6 @@ export default {
         let investDetail = data.investDetail
         this.investDetail.appDesc = investDetail.appDesc
         this.investDetail.investTarget = investDetail.investTarget
-        this.investDetail.loanMentUnit = investDetail.loanMentUnit
         this.investDetail.interestStartDate = investDetail.interestStartDate
         this.investDetail.profitShare = investDetail.profitShare
         this.investDetail.existSystem = investDetail.existSystem
@@ -679,7 +678,6 @@ export default {
         let investDetail = data.investDetail
         this.investDetail.appDesc = investDetail.appDesc
         this.investDetail.investTarget = investDetail.investTarget
-        this.investDetail.loanMentUnit = investDetail.loanMentUnit
         this.investDetail.interestStartDate = investDetail.interestStartDate
         this.investDetail.profitShare = investDetail.profitShare
         this.investDetail.existSystem = investDetail.existSystem
@@ -1169,6 +1167,9 @@ export default {
             a {
               color: #4a90e2;
             }
+          }
+          /deep/ .el-checkbox__inner:hover {
+            border-color: #4a90e2;
           }
           .el-checkbox__input.is-focus .el-checkbox__inner /deep/ .el-checkbox__input.is-checked + .el-checkbox__label {
             color: $color-text-s;

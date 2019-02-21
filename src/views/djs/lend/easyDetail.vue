@@ -78,16 +78,13 @@
           <div class="all-lending" v-if="!investDetail.tailProject">
             <el-checkbox class="all-lending-checkbox" v-model="isAllLending">全部出借</el-checkbox>
           </div>
-          <div class="action" v-if="investStatus === 'willSale' || investStatus === 'lending'">
+          <div class="action">
             <input class="amount-input" v-model="invAmount" @keyup="handleExpectedIncome">
             <button
               class="action-btn"
               :disabled="isDisableInvestBtn"
               @click="handleInvest"
             >{{investBtn}}</button>
-          </div>
-          <div class="action" v-if="investStatus === 'fullyMarked' || investStatus === 'finished'">
-            <button class="action-btn-disabled" @click="handleInvest">{{investStatusTitle}}</button>
           </div>
           <p class="expected-profits">
             <span class="title">预期收益：</span>
@@ -112,11 +109,11 @@
                 <p class="title">
                   <span>协议</span>
                 </p>
-                <router-link
+                <a
                   target="_blank"
                   class="value"
-                  :to="{ name: 'threePartyAgreement', query: {productId: productId}}"
-                >《三方协议》</router-link>
+                  :href="investDetail.agreementUrl"
+                >{{investDetail.agreementName}}</a>
               </li>
               <li>
                 <p class="title">
@@ -429,7 +426,7 @@
 import Swiper from 'swiper/dist/js/swiper'
 import { mapState } from 'vuex'
 import Pagination from '@/components/pagination/pagination'
-import { timeCountDown } from '@/assets/js/utils'
+//import { timeCountDown } from '@/assets/js/utils'
 import { investCountProjectMsg, investUserCountMsg, bondproject, systemMaintenance } from '@/api/djs/lendDetail'
 import ProjectDetail from './popup/projectDetail'
 import Dialog from '@/components/Dialog/Dialog'
@@ -463,7 +460,6 @@ export default {
         investPercent: 0, // 投资百分比
         repayType: '', // 结息方式
         minInvAmt: '', // 起投金额
-        surplusAmount: '', // 个人累计投资限额
         status: 0, // nteger - 项目状态 1.未开启 2.已投X% 3.满标
         balance: '', // 可用余额
         maxInvAmount: '', // 单笔投资上限金额限制
@@ -471,6 +467,8 @@ export default {
       },
       investDetail: {
         appDesc: '', // 项目介绍
+        agreementName: '', // 协议名称
+        agreementUrl: '', // 协议url
         investTarget: '', // 投资目标
         investMent: '', // 锁定期
         breathDate: '', // 产品起息时间
@@ -532,27 +530,17 @@ export default {
       }
     },
     getInvestStatus() {
-      console.log('status===', this.projectInfo.status)
-      this.projectInfo.status = 1
       switch (
-        this.projectInfo.status // 0.预售    1.出借中   2.满标   3.已完结
+        this.projectInfo.status // 0.禁用    1.启用 
       ) {
-        case 0:
+        case '0':
           this.investStatusTitle = '预售中....'
-          this.investStatus = 'willSale'
+          this.investStatus = 'disable'
           this.isDisableInvestBtn = true
           break
-        case 1:
+        case '1':
           this.investStatusTitle = '出借中....'
-          this.investStatus = 'lending'
-          break
-        case 2:
-          this.investStatusTitle = '已满标'
-          this.investStatus = 'fullyMarked'
-          break
-        default:
-          this.investStatusTitle = '已完结'
-          this.investStatus = 'finished'
+          this.investStatus = 'enable'
           break
       }
     },
@@ -603,8 +591,11 @@ export default {
           this.projectInfo.repayType = data.repayType === 'XXHB' ? '先息后本': '等额本息'
           this.projectInfo.minInvAmt = data.minInvAmt
           this.projectInfo.surplusAmount = data.surplusAmount
+          this.projectInfo.status = data.status
   
           this.investDetail.appDesc = data.appDesc
+          this.investDetail.agreementName = data.agreementName
+          this.investDetail.agreementUrl = data.agreementUrl
           this.investDetail.investTarget = data.investTarget
           this.investDetail.investMent = data.investMent
           this.investDetail.breathDate = data.breathDate
@@ -632,6 +623,8 @@ export default {
         let data = res.data
         if(data.resultCode === '1') {
           this.investDetail.appDesc = data.appDesc
+          this.investDetail.agreementName = data.agreementName
+          this.investDetail.agreementUrl = data.agreementUrl
           this.investDetail.investTarget = data.investTarget
           this.investDetail.endData = data.endData
           this.investDetail.breathDate = data.breathDate
@@ -1039,6 +1032,9 @@ export default {
             a {
               color: #4a90e2;
             }
+          }
+          /deep/ .el-checkbox__inner:hover {
+            border-color: #4a90e2;
           }
           .el-checkbox__input.is-focus .el-checkbox__inner /deep/ .el-checkbox__input.is-checked + .el-checkbox__label {
             color: $color-text-s;
