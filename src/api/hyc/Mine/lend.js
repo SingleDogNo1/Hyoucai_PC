@@ -113,6 +113,14 @@ function getInternetInformation(data) {
   })
 }
 
+function getTrilateralPdfPath(data) {
+  return request({
+    url: '/protocol/getTrilateralPdfPath',
+    method: 'post',
+    data: qs.stringify(data)
+  })
+}
+
 export {
   getInvestStatusApi, // 获取投资状态 projectType => 0: 散标 2:集合标
   getSanBiaoStatusApi, // 获取散标状态
@@ -127,5 +135,6 @@ export {
   getZXTGainPlan, // 散标收益计划
   getAgreementApi, // 协议目录获取
   getProjectDetail, // 标的详情获取
-  getInternetInformation // 互联网自信报告
+  getInternetInformation, // 互联网自信报告
+  getTrilateralPdfPath // 获取三方协议PDF地址
 }
