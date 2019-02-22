@@ -32,7 +32,7 @@
         </div>
         <div class="progress-wrap">
           <span class="title">项目进度</span>
-          <el-progress :percentage="projectInfo.investPercent"></el-progress>
+          <el-progress :percentage="parseFloat(projectInfo.investPercent)"></el-progress>
           <span class="score">{{projectInfo.investPercent}}%</span>
         </div>
       </div>
@@ -79,7 +79,7 @@
             <el-checkbox class="all-lending-checkbox" v-model="isAllLending" @change="toggleFill">全部出借</el-checkbox>
           </div>
           <div class="action" v-if="investStatus === 'willSale' || investStatus === 'lending'">
-            <input class="amount-input" v-model="invAmount" @keyup="handleExpectedIncome" :disabled="invAmountDisabled">
+            <input class="amount-input" v-model="invAmount" @keyup="handleExpectedIncome(invAmount)" :disabled="invAmountDisabled">
             <button
               class="action-btn"
               :disabled="isDisableInvestBtn"
@@ -775,7 +775,6 @@ export default {
       this.getJoinRecordList()
     },
     handleExpectedIncome(invAmount) {
-      //TODO invAmount.replace is not a function??
       this.invAmount = invAmount
         .replace(/[^\d.]/g, '')
         .replace(/\.{2,}/g, '.')
