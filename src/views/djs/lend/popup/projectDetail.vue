@@ -244,7 +244,7 @@
 </template>
 
 <script>
-import { getPeopleInfoApi } from '@/api/hyc/Mine/lend'
+import { getPeopleInfoApi } from '@/api/djs/Mine/lend'
 // import {getPeopleLoanInfo} from '@/api/hyc/lend'
 export default {
   name: 'ProjectDetal',
