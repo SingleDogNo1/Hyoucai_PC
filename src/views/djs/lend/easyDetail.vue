@@ -365,7 +365,7 @@
       :onConfirm="confirmAutoInvest"
     >
       <div class="msg-wrap">
-        <span>您已成功出借XXXXYYY.YY元</span><a class="view-my-invest" href="javascript:void(0);">查看我的出借<i class="iconfont icon-more"></i></a>
+        <span>您已成功出借{{invAmount}}元</span><router-link tag="div" :style="{'fontSize': '14px', 'color': '#FB8B1F', 'lineHeight': '26px'}" :to="{ name: 'userLend' }">查看我的出借<i class="iconfont icon-more"></i></router-link>
       </div>
       <div class="auto-invest-way-wrap">
         <div class="auto-invest-way1">
@@ -376,7 +376,8 @@
         </div>
       </div>
       <router-link class="auto-invest-agreement" :to="{ name: 'autoLendAgreement' }">《自动出借协议》</router-link>
-      <p class="tips">在本金自动出借模式下，每月产品到期时，系统自动将利息转入用户汇有财账户，本金继续出借。用户可在【我的账户】-【自动出借】界面取消，如有任何疑问，请联系客服：400-099-7979。</p>
+      <p class="tips" v-if="investAutoInvestSuccessDialog.autoInvestWay === '1'">在本金自动出借模式下，每月产品到期时，系统自动将利息转入用户汇有财账户，本金继续出借。用户可在【我的账户】-【自动出借】界面取消，如有任何疑问，请联系客服：400-099-7979。</p>
+      <p class="tips" v-if="investAutoInvestSuccessDialog.autoInvestWay === '2'">在本息自动出借模式下，每月产品到期时系统默认将本金与利息合并后继续出借。用户可在【我的账户】-【自动出借】界面中取消。如有任何疑问，如有任何疑问，请联系客服：400-099-7979。</p>
     </Dialog>
   </div>
 </template>
@@ -385,7 +386,7 @@
 import Swiper from 'swiper/dist/js/swiper'
 import { mapState } from 'vuex'
 import Pagination from '@/components/pagination/pagination'
-import { investCountProjectMsg, investUserCountMsg, bondproject, availableRedPacketApi, availableCouponApi, investApi } from '@/api/djs/lendDetail'
+import { investCountProjectMsg, investUserCountMsg, bondproject, availableRedPacketApi, availableCouponApi, investApi, expectedIncome } from '@/api/djs/lendDetail'
 import Dialog from '@/components/Dialog/Dialog'
 
 export default {
@@ -472,13 +473,13 @@ export default {
       },
       investSJLSuccessDialog: {
         // 出借手机乐产品成功弹窗
-        show: true,
+        show: false,
         title: '汇有财温馨提示',
         msg: '恭喜您，出借成功，请您至在基本信息填写/确认收货地址，我们将以最快的速度将宝贝送至您手中。'
       },
       investAutoInvestSuccessDialog: {
         // 自动出借产品成功弹窗
-        show: false,
+        show: true,
         title: '设置自动出借，省心赚钱',
         msg: '',
         autoInvestWay: '1'
@@ -574,15 +575,15 @@ export default {
         .replace(/\./g, '')
         .replace('$#$', '.')
         .replace(/^(-)*(\d+)\.(\d\d).*$/, '$1$2.$3')
-      // let postData = {
-      //   invAmount: this.invAmount,
-      //   investRate: this.projectInfo.investRate,
-      //   productId: this.productId
-      // }
-      // expectedIncome(postData).then(res => {
-      //   let data = res.data.data
-      //   this.expectedIncome = data.expectedIncome
-      // })
+      let postData = {
+        invAmount: this.invAmount,
+        investRate: this.projectInfo.investRate,
+        productNo: this.productNo
+      }
+      expectedIncome(postData).then(res => {
+        let data = res.data.data
+        this.expectedIncome = data.expectedIncome
+      })
     },
     getInvestDetailList() {
       this.projectNo = this.$route.query.projectNo

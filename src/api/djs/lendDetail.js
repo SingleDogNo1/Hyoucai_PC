@@ -55,11 +55,11 @@ export function investApi(data) {
   })
 }
 
-// // 项目详情
-// export function getProjectDetail(data) {
-//   return request({
-//     url: 'collection/projectDetail',
-//     method: 'post',
-//     data: qs.stringify(data)
-//   })
-// }
+// 预期收益计算
+export function expectedIncome(data) {
+  return request({
+    url: 'ExpectedIncome',
+    method: 'post',
+    data: qs.stringify(data)
+  })
+}
