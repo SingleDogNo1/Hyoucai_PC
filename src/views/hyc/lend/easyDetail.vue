@@ -1,5 +1,5 @@
 <template>
-  <div class="lend-detail" v-cloak>
+  <div class="lend-detail">
     <section class="production-info">
       <div class="title">
         <h2>
@@ -86,9 +86,9 @@
               @click="handleInvest"
             >{{investBtn}}</button>
           </div>
-          <div class="action" v-if="investStatus === 'fullyMarked' || investStatus === 'finished'">
+          <!-- <div class="action" v-if="investStatus === 'fullyMarked' || investStatus === 'finished'">
             <button class="action-btn-disabled" @click="handleInvest">{{investStatusTitle}}</button>
-          </div>
+          </div> -->
           <p class="expected-profits">
             <span class="title">预期收益：</span>
             <span class="value">{{expectedIncome}}元</span>
@@ -118,53 +118,12 @@
                   :to="{ name: 'threePartyAgreement', query: {productId: productId}}"
                 >《三方协议》</router-link>
               </li>
-              <li>
-                <p class="title">
-                  <span>出借目标</span>
-                </p>
-                <span class="value">{{investDetail.investTarget}}</span>
-              </li>
-              <li>
-                <p class="title">
-                  <span>锁定期</span>
-                </p>
-                <span class="value">{{investDetail.dueDate}}</span>
-              </li>
-              <li>
-                <p class="title">
-                  <span>起息时间</span>
-                </p>
-                <span class="value">{{investDetail.interestStartDate}}</span>
-              </li>
-              <li>
-                <p class="title">
-                  <span>利息分配</span>
-                </p>
-                <span class="value">{{investDetail.profitShare}}</span>
-              </li>
-              <li>
-                <p class="title">
-                  <span>退出机制</span>
-                </p>
-                <span class="value">{{investDetail.existSystem}}</span>
-              </li>
-              <li>
-                <p class="title">
-                  <span>费用说明</span>
-                </p>
-                <span class="value">{{investDetail.costdes}}</span>
-              </li>
-              <li>
-                <p class="title">
-                  <span>项目风险评估及可能产生的风险结果</span>
-                </p>
-                <span class="value">{{investDetail.riskAppraisal}}</span>
-              </li>
-              <li>
-                <p class="title">
-                  <span>出借人适当性管理提示</span>
-                </p>
-                <span class="value">{{investDetail.riskManagementTip}}</span>
+              <li v-for="(item, index) in projectServiceEntity" :key="index">
+                <!-- <p class="value">
+                  <span>{{item.serviceName}}</span>
+                </p> -->
+                <span class="title">{{item.serviceName}}</span>
+                <span class="value">{{item.serviceMessage}}</span>
               </li>
             </ul>
           </div>
@@ -333,7 +292,7 @@
                       @click="receiveRedPacket(item, index)"
                       v-if="redPacketIndex !== index"
                     >选取</button>
-                    <button class="receive-btn" @click="cleanRedpacket()" v-else>已选取</button>
+                    <button class="receive-btn" @click="cleanRedpacket" v-else>已选取</button>
                   </div>
                 </div>
               </div>
@@ -399,7 +358,8 @@
       title="汇有财温馨提示"
       confirmText="我知道了"
       class="system-maintenance-dialog"
-      :singleButton="singleButton"
+      :singleButton="!singleButton"
+      :onConfirm="toInvestRecord"
     >
       <div>
         <p>{{investMsg}}</p>
@@ -462,12 +422,12 @@ export default {
         balance: '', // 可用余额
         maxInvAmount: '', // 单笔投资上限金额限制
         projectType: '', // 项目名称
-        projectName: ''
+        projectName: '',
+        loanMent: '' // 锁定期（单位） 例如： 30天 则本字段是'天'；3个月 则本字段是'个月'
       },
       investDetail: {
         appDesc: '', // 项目介绍
         investTarget: '', // 投资目标
-        dueDate: '', // 投资到期日
         interestStartDate: '', // 产品起息时间描述
         profitShare: '', // 利息分配
         existSystem: '', // 退出机制
@@ -476,12 +436,13 @@ export default {
         riskManagementTip: '', // 出借人适当性管理提示
         tailProject: '' // 是否是尾标(true : 尾标 false: 不是尾标)
       },
+      projectServiceEntity: [],
       joinRecordData: [], // 加入记录数据
       projectCompositionData: [], // 项目组成数据
       errMsg: '', // 错误提示
       isShowRiskDialog: false, // 是否显示风险测评弹窗
-      isShowSystemMaintenanceDialog: false,
-      singleButton: true, // 是否显示系统维护弹窗
+      isShowSystemMaintenanceDialog: false, // 是否显示系统维护弹窗
+      singleButton: true, // 是否显示只有确定按钮
       riskConfirmText: '重新评测', // 风险测评弹窗按钮文字
       riskDialogSingleButton: false,
       riskType: '', // 风险测评的类型
@@ -491,10 +452,10 @@ export default {
       redPacketIndex: -1,
       chooseRedPacket: {},
       chooseCoupon: {},
-      chooseRedPacketAmt: 0, // 选中红包的金额
-      chooseRedPacketId: 0, // 选中红包的ID
-      chooseCouponRate: 0, // 选中加息券的利率
-      chooseCouponId: 0, // 选中加息券的ID
+      chooseRedPacketAmt: '', // 选中红包的金额
+      chooseRedPacketId: '', // 选中红包的ID
+      chooseCouponRate: '', // 选中加息券的利率
+      chooseCouponId: '', // 选中加息券的ID
       couponsList: [],
       couponIndex: -1,
       isShowInvestErrDialog: false, // 是否显示出借错误弹窗
@@ -555,7 +516,7 @@ export default {
           this.invAmount = this.projectInfo.balance
         }
       } else {
-        this.invAmount = '0'
+        this.invAmount = ''
       }
     },
     getUserBasicInfo() {
@@ -568,7 +529,6 @@ export default {
       }
     },
     getInvestStatus() {
-      this.projectInfo.status = 1
       switch (
         this.projectInfo.status // 0.预售    1.出借中   2.满标   3.已完结
       ) {
@@ -627,6 +587,7 @@ export default {
         itemId: this.itemId
       }
       easyInvestDetail(postData).then(res => {
+        this.projectServiceEntity = res.data.projectServiceEntity
         let data = res.data.data
         let projectInfo = data.projectInfo
         let investEndTimestamp = projectInfo.investEndTimestamp
@@ -642,6 +603,7 @@ export default {
         this.projectInfo.maxInvAmount = projectInfo.maxInvAmount
         this.projectInfo.projectType = projectInfo.projectType
         this.projectInfo.projectName = projectInfo.projectName
+        this.projectInfo.loanMent = projectInfo.loanMent
 
         // 预售状态中，募集倒计时不倒计
         timeCountDown(investEndTimestamp, this.projectInfo.status, data => {
@@ -656,7 +618,6 @@ export default {
         let investDetail = data.investDetail
         this.investDetail.appDesc = investDetail.appDesc
         this.investDetail.investTarget = investDetail.investTarget
-        this.investDetail.dueDate = investDetail.dueDate
         this.investDetail.interestStartDate = investDetail.interestStartDate
         this.investDetail.profitShare = investDetail.profitShare
         this.investDetail.existSystem = investDetail.existSystem
@@ -676,11 +637,11 @@ export default {
         itemId: this.itemId
       }
       easyInvestDetail(postData).then(res => {
+        this.projectServiceEntity = res.data.projectServiceEntity
         let data = res.data.data
         let investDetail = data.investDetail
         this.investDetail.appDesc = investDetail.appDesc
         this.investDetail.investTarget = investDetail.investTarget
-        this.investDetail.dueDate = investDetail.dueDate
         this.investDetail.interestStartDate = investDetail.interestStartDate
         this.investDetail.profitShare = investDetail.profitShare
         this.investDetail.existSystem = investDetail.existSystem
@@ -876,7 +837,7 @@ export default {
         invAmount: this.invAmount,
         userCouponId: this.chooseCouponId,
         userRedPacketId: this.chooseRedPacketId,
-        investSource: 'pc',
+        investSource: 'PC',
         forgotPwdUrl: platform_user_center,
         retUrl: platform_user_center,
         projectType: this.projectInfo.projectType
@@ -923,6 +884,11 @@ export default {
           this.isShowInvestErrDialog = true
           this.investErrMsg = res.data.errMsg
         }
+      })
+    },
+    toInvestRecord() {
+      this.$router.push({
+        name: 'userLend'
       })
     }
   },
@@ -1171,6 +1137,9 @@ export default {
               color: #4a90e2;
             }
           }
+          /deep/ .el-checkbox__inner:hover {
+            border-color: #4a90e2;
+          }
           .el-checkbox__input.is-focus .el-checkbox__inner /deep/ .el-checkbox__input.is-checked + .el-checkbox__label {
             color: $color-text-s;
           }
@@ -1342,8 +1311,8 @@ export default {
           font-size: $font-size-small-s;
           border-bottom: 1px solid #e3e3e3;
           align-items: center;
+          background: #f0f7ff;
           .title {
-            background: #f0f7ff;
             padding: 10px;
             color: $color-text;
             display: inline-block;
@@ -1353,30 +1322,18 @@ export default {
           }
           .value {
             display: inline-block;
-            width: 629px;
-            padding: 10px 10px 10px 30px;
+            width: 640px;
+            padding: 10px;
+            padding-left: 30px;
             text-align: left;
             color: $color-text-s;
+            background: #fff;
           }
           a.value {
             color: #0083fe;
           }
-          &:nth-child(8) {
-            .title {
-              line-height: 60px;
-            }
-            .value {
-              line-height: 20px;
-            }
-          }
-          &:nth-child(9) {
+          &:last-child {
             border-bottom: 0;
-            .title {
-              line-height: 100px;
-            }
-            .value {
-              line-height: 26px;
-            }
           }
         }
       }

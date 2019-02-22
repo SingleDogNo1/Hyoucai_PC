@@ -27,3 +27,30 @@ export function bondproject(data) {
     data: qs.stringify(data)
   })
 }
+
+// 查询用户可用红包
+export function availableRedPacketApi(data) {
+  return request({
+    url: 'AvailableRedPacket',
+    method: 'post',
+    data: qs.stringify(data)
+  })
+}
+
+// 查询用户可用加息券
+export function availableCouponApi(data) {
+  return request({
+    url: 'AvailableCoupon',
+    method: 'post',
+    data: qs.stringify(data)
+  })
+}
+
+// 查询用户可用加息券
+export function investApi(data) {
+  return request({
+    url: 'InvestProject',
+    method: 'post',
+    data: qs.stringify(data)
+  })
+}

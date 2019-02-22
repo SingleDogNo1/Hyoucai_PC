@@ -85,6 +85,18 @@
         <noData :type="noDataType"></noData>
       </div>
     </div>
+    <!-- 系统不匹配的错误弹窗 -->
+    <Dialog
+      class="system-maintenance-dialog"
+      title="汇有财温馨提示"
+      confirmText="我知道了"
+      :show.sync="systemDialogOptions.show"
+      :singleButton="systemDialogOptions.singleButton"
+    >
+      <div>
+        <p>{{systemDialogOptions.msg}}</p>
+      </div>
+    </Dialog>
   </div>
 </template>
 
@@ -92,9 +104,11 @@
 import pagination from '@/components/pagination/pagination'
 import countUp from '@/components/countUp/index'
 import noData from '@/components/NoData/index'
+import Dialog from '@/components/Dialog/Dialog'
 import { getList } from '@/api/djs/lend'
 import { getUser } from '@/assets/js/cache'
 import { mapGetters } from 'vuex'
+import { investCountProjectMsg } from '@/api/djs/lendDetail'
 
 export default {
   name: 'lend',
@@ -109,14 +123,30 @@ export default {
       countPage: 0,
       userName: null,
       list: [],
-      noDataType: 'production'
+      noDataType: 'production',
+      systemDialogOptions: {
+        show: false,
+        singleButton: true,
+        msg: ''
+      }
     }
   },
   props: ['redPacketId', 'couponId'],
   methods: {
     judgeBooking(item) {
       if (this.userName) {
-        this.$router.push({ name: 'easyDetail', query: { projectNo: item.projectNo } })
+        let postData = {
+          projectNo: item.projectNo
+        }
+        investCountProjectMsg(postData).then(res => {
+          let data = res.data
+          if (data.resultCode === '1') {
+            this.$router.push({ name: 'easyDetail', query: { projectNo: item.projectNo } })
+          } else {
+            this.systemDialogOptions.show = true
+            this.systemDialogOptions.msg = data.resultMsg
+          }
+        })
       } else {
         this.$router.push({ name: 'login' })
       }
@@ -151,7 +181,8 @@ export default {
   components: {
     pagination,
     countUp,
-    noData
+    noData,
+    Dialog
   },
   computed: {
     ...mapGetters(['user'])

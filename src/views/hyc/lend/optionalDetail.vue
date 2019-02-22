@@ -86,9 +86,9 @@
               @click="handleInvest"
             >{{investBtn}}</button>
           </div>
-          <div class="action" v-if="investStatus === 'fullyMarked' || investStatus === 'finished'">
+          <!-- <div class="action" v-if="investStatus === 'fullyMarked' || investStatus === 'finished'">
             <button class="action-btn-disabled" @click="handleInvest">{{investStatusTitle}}</button>
-          </div>
+          </div> -->
           <p class="expected-profits">
             <span class="title">预期收益：</span>
             <span class="value">{{expectedIncome}}元</span>
@@ -219,53 +219,12 @@
                   :to="{ name: 'threePartyAgreement', query: {productId: productId}}"
                 >《三方协议》</router-link>
               </li>
-              <li>
-                <p class="title">
-                  <span>出借目标</span>
-                </p>
-                <span class="value">{{investDetail.investTarget}}</span>
-              </li>
-              <li>
-                <p class="title">
-                  <span>锁定期</span>
-                </p>
-                <span class="value">{{investDetail.dueDate}}</span>
-              </li>
-              <li>
-                <p class="title">
-                  <span>起息时间</span>
-                </p>
-                <span class="value">{{investDetail.interestStartDate}}</span>
-              </li>
-              <li>
-                <p class="title">
-                  <span>利息分配</span>
-                </p>
-                <span class="value">{{investDetail.profitShare}}</span>
-              </li>
-              <li>
-                <p class="title">
-                  <span>退出机制</span>
-                </p>
-                <span class="value">{{investDetail.existSystem}}</span>
-              </li>
-              <li>
-                <p class="title">
-                  <span>费用说明</span>
-                </p>
-                <span class="value">{{investDetail.costdes}}</span>
-              </li>
-              <li>
-                <p class="title">
-                  <span>项目风险评估及可能产生的风险结果</span>
-                </p>
-                <span class="value">{{investDetail.riskAppraisal}}</span>
-              </li>
-              <li>
-                <p class="title">
-                  <span>出借人适当性管理提示</span>
-                </p>
-                <span class="value">{{investDetail.riskManagementTip}}</span>
+              <li v-for="(item, index) in projectServiceEntity" :key="index">
+                <!-- <p class="value">
+                  <span>{{item.serviceName}}</span>
+                </p> -->
+                <span class="title">{{item.serviceName}}</span>
+                <span class="value">{{item.serviceMessage}}</span>
               </li>
             </ul>
           </div>
@@ -478,11 +437,14 @@
       :show.sync="isShowRiskDialog"
       title="汇有财温馨提示"
       :confirmText="riskConfirmText"
+      cancelText="我知道了"
+      :singleButton="riskDialogSingleButton"
       class="risk-dialog"
       :onConfirm="toRisk"
     >
       <div>
-        <p v-html="riskContent"></p>
+        <p>{{riskType}}</p>
+        <p>{{riskContent}}</p>
       </div>
     </Dialog>
     <!-- 系统维护弹窗 -->
@@ -547,7 +509,7 @@
                       @click="receiveRedPacket(item, index)"
                       v-if="redPacketIndex !== index"
                     >选取</button>
-                    <button class="receive-btn" v-elese>已选取</button>
+                    <button class="receive-btn" @click="cleanRedpacket" v-elese>已选取</button>
                   </div>
                 </div>
               </div>
@@ -578,7 +540,12 @@
                     </p>
                     <p class="start">投资限额：{{item.amountMin}}至{{item.amountMax}}元</p>
                     <div class="endData">有效期至{{item.usableExpireDate}}</div>
-                    <button class="receive-btn" @click="receiveCoupon(item, index)">选取</button>
+                    <button
+                      class="receive-btn"
+                      @click="receiveCoupon(item, index)"
+                      v-if="couponIndex !== index"
+                    >选取</button>
+                    <button class="receive-btn" @click="cleanCoupon" v-else>已选取</button>
                   </div>
                 </div>
               </div>
@@ -589,6 +556,31 @@
         </div>
       </div>
     </Dialog>
+    <!-- 出借流程ERROR弹窗 -->
+    <Dialog
+      :show.sync="isShowInvestErrDialog"
+      title="汇有财温馨提示"
+      confirmText="我知道了"
+      class="system-maintenance-dialog"
+      :singleButton="singleButton"
+    >
+      <div>
+        <p>{{investErrMsg}}</p>
+      </div>
+    </Dialog>
+    <!-- 出借成功弹窗 -->
+    <Dialog
+      :show.sync="isShowInvestDialog"
+      title="汇有财温馨提示"
+      confirmText="我知道了"
+      class="system-maintenance-dialog"
+      :singleButton="!singleButton"
+      :onConfirm="toInvestRecord"
+    >
+      <div>
+        <p>{{investMsg}}</p>
+      </div>
+    </Dialog>
   </div>
 </template>
 
@@ -596,7 +588,7 @@
 import Swiper from 'swiper/dist/js/swiper'
 import { mapState } from 'vuex'
 import Pagination from '@/components/pagination/pagination'
-import { timeCountDown } from '@/assets/js/utils'
+import { timeCountDown, postcall } from '@/assets/js/utils'
 import {
   optionalInvestDetail,
   amountInfo,
@@ -607,7 +599,8 @@ import {
   availableRedPacketApi,
   availableCouponApi,
   internetInformation,
-  peopleLoanInfo
+  peopleLoanInfo,
+  investApi
 } from '@/api/hyc/lendDetail'
 import { getPeopleInfoApi } from '@/api/hyc/Mine/lend'
 // import ProjectDetail from './popup/projectDetail'
@@ -643,12 +636,12 @@ export default {
         maxInvTotalAmount: '', // 个人累计投资限额
         status: 0, // 标的状态 0.预售 1.投资中 2.满标 3.已完结
         balance: '', // 可用余额
-        maxInvAmount: '' // 最大投资金额
+        maxInvAmount: '', // 最大投资金额
+        loanMent: '' // 锁定期（单位） 例如： 30天 则本字段是'天'；3个月 则本字段是'个月'
       },
       investDetail: {
         appDesc: '', // 项目介绍
         investTarget: '', // 投资目标
-        dueDate: '', // 投资到期日
         interestStartDate: '', // 产品起息时间描述
         profitShare: '', // 利息分配
         existSystem: '', // 退出机制
@@ -668,6 +661,7 @@ export default {
         loanDate: '', // 申请日期
         relatedExpenses: '' // 相关费用
       },
+      projectServiceEntity: [],
       auditInfoList: [], // 审核信息数组
       isShowSmallPic: false, // 审核信息表中认证情况列是否显示小图片
       oddAuditInfoList: [], // 审核信息的第一个表格
@@ -707,15 +701,18 @@ export default {
       isShowFaceRecognitionPop: false, // 是否显示人脸识别弹窗
       isShowReportPop: false, // 是否显示运营报告弹窗
       errMsg: '', // 错误提示
-      isShowSignDialog: false, // 是否显示签约弹窗
       isShowRiskDialog: false, // 是否显示风险测评弹窗
       isShowSystemMaintenanceDialog: false, // 是否显示系统维护弹窗
       singleButton: true, // 是否显示只有确定按钮
       riskConfirmText: '重新评测', // 风险测评弹窗按钮文字
-      riskContent: '您当前出借的额度或期限不符合您的风险评测<br />等级分布，若您在上次评测后风险承受能力发<br />生改变，请您重新进行风险评测！', // 风险测评弹窗默认文字
+      riskDialogSingleButton: false,
+      riskType: '', // 风险测评的类型
+      riskContent: '', // 风险测评弹窗默认文字
       isShowConfirmInvestmentDialog: false, // 是否显示出借弹窗
       redPacketsList: [],
       redPacketIndex: -1,
+      chooseRedPacket: {},
+      chooseCoupon: {},
       chooseRedPacketAmt: 0, // 选中红包的金额
       chooseRedPacketId: 0, // 选中红包的ID
       chooseCouponRate: 0, // 选中加息券的利率
@@ -770,7 +767,7 @@ export default {
           this.invAmount = this.projectInfo.balance
         }
       } else {
-        this.invAmount = '0'
+        this.invAmount = ''
       }
     },
     handleCurrentChange(val) {
@@ -809,7 +806,6 @@ export default {
       }
     },
     getInvestStatus() {
-      this.projectInfo.status = 1
       switch (
         this.projectInfo.status // 0.预售    1.出借中   2.满标   3.已完结
       ) {
@@ -853,6 +849,7 @@ export default {
         this.projectInfo.maxInvTotalAmount = projectInfo.maxInvTotalAmount
         this.projectInfo.status = projectInfo.status
         this.projectInfo.maxInvAmount = projectInfo.maxInvAmount
+        this.projectInfo.loanMent = projectInfo.loanMent
 
         // 预售状态中，募集倒计时不倒计
         timeCountDown(investEndTimestamp, this.projectInfo.status, data => {
@@ -912,11 +909,11 @@ export default {
         projectNo: this.projectNo
       }
       optionalInvestDetail(postData).then(res => {
+        this.projectServiceEntity = res.data.projectServiceEntity
         let data = res.data.data
         let investDetail = data.investDetail
         this.investDetail.appDesc = investDetail.appDesc
         this.investDetail.investTarget = investDetail.investTarget
-        this.investDetail.dueDate = investDetail.dueDate
         this.investDetail.interestStartDate = investDetail.interestStartDate
         this.investDetail.profitShare = investDetail.profitShare
         this.investDetail.existSystem = investDetail.existSystem
@@ -1090,10 +1087,22 @@ export default {
       this.chooseRedPacketAmt = item.redPacketAmount
       this.chooseRedPacketId = item.id
     },
+    cleanRedpacket() {
+      this.redPacketIndex = -1
+      this.chooseRedPacket = {}
+      this.chooseRedPacketAmt = ''
+      this.chooseRedPacketId = ''
+    },
     receiveCoupon(item, index) {
       this.couponIndex = index
       this.chooseCouponRate = item.couponRate
       this.chooseCouponId = item.id
+    },
+    cleanCoupon() {
+      this.couponIndex = -1
+      this.chooseCoupon = {}
+      this.chooseCouponRate = ''
+      this.chooseCouponId = ''
     },
     redEnvelopeSwiper() {
       new Swiper('.swiper-container-red-envelope', {
@@ -1139,6 +1148,68 @@ export default {
           nextEl: '.swiper-button-next1',
           prevEl: '.swiper-button-prev1'
         }
+      })
+    },
+    confirm() {
+      const platform_user_center = window.location.origin + window.location.pathname + '#/mine/overview'
+      investApi({
+        projectNo: this.projectNo,
+        invAmount: this.invAmount,
+        userCouponId: this.chooseCouponId,
+        userRedPacketId: this.chooseRedPacketId,
+        investSource: 'pc',
+        forgotPwdUrl: platform_user_center,
+        retUrl: platform_user_center,
+        projectType: this.projectInfo.projectType
+      }).then(res => {
+        const data = res.data
+        if (data.resultCode === '1') {
+          // type = 1 跳转到江西银行
+          if (data.data.type === '1') {
+            postcall(data.data.redirectUrl, data.data.paramReq)
+          } else {
+            this.isShowInvestDialog = true
+            this.investMsg = '出借成功'
+          }
+        } else if (data.resultCode === '90021' || data.resultCode === '90022') {
+          // 风险测评出借额度不够 || 出借期限不够
+          switch (data.data.evaluatingResult) {
+            case 'BSX':
+              this.riskType = '【保守型】'
+              break
+            case 'WJX':
+              this.riskType = '【谨慎型】'
+              break
+            case 'JJX':
+              this.riskType = '【积极型】'
+              break
+            case 'JQX':
+              this.riskType = '【积极型】'
+              break
+            case 'JINX':
+              this.riskType = '【激进型】'
+              break
+          }
+
+          if (['JINX'].includes(res.data.data.evaluatingResult)) {
+            this.riskDialogSingleButton = true
+          }
+
+          this.isShowRiskDialog = true
+          this.riskContent = res.data.resultMsg
+        } else {
+          /*
+        * 90034：授权已过期
+        * 90035：授权金额超限
+        */
+          this.isShowInvestErrDialog = true
+          this.investErrMsg = res.data.resultMsg
+        }
+      })
+    },
+    toInvestRecord() {
+      this.$router.push({
+        name: 'userLend'
       })
     }
   },
@@ -1385,6 +1456,9 @@ export default {
             a {
               color: #4a90e2;
             }
+          }
+          /deep/ .el-checkbox__inner:hover {
+            border-color: #4a90e2;
           }
           .el-checkbox__input.is-focus .el-checkbox__inner /deep/ .el-checkbox__input.is-checked + .el-checkbox__label {
             color: $color-text-s;
@@ -1700,8 +1774,8 @@ export default {
           font-size: $font-size-small-s;
           border-bottom: 1px solid #e3e3e3;
           align-items: center;
+          background: #f0f7ff;
           .title {
-            background: #f0f7ff;
             padding: 10px;
             color: $color-text;
             display: inline-block;
@@ -1711,31 +1785,18 @@ export default {
           }
           .value {
             display: inline-block;
-            width: 629px;
+            width: 640px;
             padding: 10px;
             padding-left: 30px;
             text-align: left;
             color: $color-text-s;
+            background: #fff;
           }
           a.value {
             color: #0083fe;
           }
-          &:nth-child(8) {
-            .title {
-              line-height: 60px;
-            }
-            .value {
-              line-height: 20px;
-            }
-          }
-          &:nth-child(9) {
+          &:last-child {
             border-bottom: 0;
-            .title {
-              line-height: 100px;
-            }
-            .value {
-              line-height: 26px;
-            }
           }
         }
       }
@@ -1874,6 +1935,7 @@ export default {
     p {
       font-size: $font-size-small;
       line-height: 26px;
+      text-align: center;
     }
   }
   .confirm-investment-dialog {
