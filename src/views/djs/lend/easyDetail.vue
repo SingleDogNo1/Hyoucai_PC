@@ -233,63 +233,46 @@
       <div>
         <ul class="amount-list">
           <li>
-            <p class="title">1000.00</p>
+            <p class="title">{{invAmount}}</p>
             <p class="desc">出借金额(元)</p>
           </li>
           <li>
-            <p class="title">1000.00</p>
+            <p class="title">{{invAmount - chooseRedPacketAmt}}</p>
             <p class="desc">支付金额(元)</p>
           </li>
           <li>
-            <p class="title">20.00</p>
+            <p class="title">{{expectedIncome}}</p>
             <p class="desc">预期收益(元)</p>
           </li>
         </ul>
-        <div class="red-envelope-wrap">
+        <div class="red-envelope-wrap" v-if="redPacketsList.length > 0">
           <p class="title">红包</p>
           <div class="swiper-wrap">
             <div class="swiper-container-red-envelope">
               <div class="swiper-wrapper">
-                <div class="swiper-slide swiper-no-swiping">
-                  <div class="red-envelope-box">
+                <div
+                  class="swiper-slide swiper-no-swiping"
+                  v-for="(item, index) in redPacketsList"
+                  :key="index"
+                >
+                  <div
+                    :class="['red-envelope-box', {active: redPacketIndex === index}]">
                     <p class="vouche-box">
                       <span class="vouche">
-                        20
+                        {{item.redPacketAmount}}
                         <i>元</i>
                       </span>
-                      <span class="vouche-aside">可与加息券同时使用</span>
+                      <span class="vouche-aside" v-if="item.commonUse === 0">不可与加息券同时使用</span>
+                      <span class="vouche-aside" v-if="item.commonUse === 1">可与加息券同时使用</span>
                     </p>
-                    <p class="start">起投金额：121.00元</p>
-                    <div class="endData">有效期至2019-02-28</div>
-                    <button class="receive-btn" @click="receiveRedPacket(item.id)">选取</button>
-                  </div>
-                </div>
-                <div class="swiper-slide swiper-no-swiping">
-                  <div class="red-envelope-box">
-                    <p class="vouche-box">
-                      <span class="vouche">
-                        20
-                        <i>元</i>
-                      </span>
-                      <span class="vouche-aside">可与加息券同时使用</span>
-                    </p>
-                    <p class="start">起投金额：121.00元</p>
-                    <div class="endData">有效期至2019-02-28</div>
-                    <button class="receive-btn" @click="receiveRedPacket(item.id)">选取</button>
-                  </div>
-                </div>
-                <div class="swiper-slide swiper-no-swiping">
-                  <div class="red-envelope-box">
-                    <p class="vouche-box">
-                      <span class="vouche">
-                        20
-                        <i>元</i>
-                      </span>
-                      <span class="vouche-aside">可与加息券同时使用</span>
-                    </p>
-                    <p class="start">起投金额：121.00元</p>
-                    <div class="endData">有效期至2019-02-28</div>
-                    <button class="receive-btn" @click="receiveRedPacket(item.id)">选取</button>
+                    <p class="start">起投金额：{{item.investMinAmount}}元</p>
+                    <div class="endData">有效期至{{item.usableExpireDate}}</div>
+                    <button
+                      class="receive-btn"
+                      @click="receiveRedPacket(item, index)"
+                      v-if="redPacketIndex !== index"
+                    >选取</button>
+                    <button class="receive-btn" @click="cleanRedpacket" v-else>已选取</button>
                   </div>
                 </div>
               </div>
@@ -298,51 +281,35 @@
             <div class="swiper-button-next"></div>
           </div>
         </div>
-        <div class="rate-stamp-wrap">
+        <div class="rate-stamp-wrap" v-if="couponsList.length > 0">
           <p class="title">加息券</p>
           <div class="swiper-wrap">
             <div class="swiper-container-rate-stamp">
               <div class="swiper-wrapper">
-                <div class="swiper-slide swiper-no-swiping">
-                  <div class="rate-stamp-box">
+                <div
+                  class="swiper-slide swiper-no-swiping"
+                  v-for="(item, index) in couponsList"
+                  :key="index"
+                >
+                  <div
+                    :class="['rate-stamp-box', {active: couponIndex === index}]"
+                  >
                     <p class="vouche-box">
-                      <span class="vouche">4
+                      <span class="vouche">
+                       {{item.couponRate}}
                         <i>%</i>
                         <i class="font">利息</i>
                       </span>
-                      <span class="vouche-aside">可加息30天</span>
+                      <span class="vouche-aside">可加息{{item.validDays}}天</span>
                     </p>
-                    <p class="start">投资限额：111至1111元</p>
-                    <div class="endData">有效期至2019-02-28</div>
-                    <button class="receive-btn" @click="receiveRedPacket(item.id)">选取</button>
-                  </div>
-                </div>
-                <div class="swiper-slide swiper-no-swiping">
-                  <div class="rate-stamp-box">
-                    <p class="vouche-box">
-                      <span class="vouche">4
-                        <i>%</i>
-                        <i class="font">利息</i>
-                      </span>
-                      <span class="vouche-aside">可加息30天</span>
-                    </p>
-                    <p class="start">投资限额：111至1111元</p>
-                    <div class="endData">有效期至2019-02-28</div>
-                    <button class="receive-btn" @click="receiveRedPacket(item.id)">选取</button>
-                  </div>
-                </div>
-                <div class="swiper-slide swiper-no-swiping">
-                  <div class="rate-stamp-box">
-                    <p class="vouche-box">
-                      <span class="vouche">4
-                        <i>%</i>
-                        <i class="font">利息</i>
-                      </span>
-                      <span class="vouche-aside">可加息30天</span>
-                    </p>
-                    <p class="start">投资限额：111至1111元</p>
-                    <div class="endData">有效期至2019-02-28</div>
-                    <button class="receive-btn" @click="receiveRedPacket(item.id)">选取</button>
+                    <p class="start">投资限额：{{item.amountMin}}至{{item.amountMax}}元</p>
+                    <div class="endData">有效期至{{item.usableExpireDate}}</div>
+                    <button
+                      class="receive-btn"
+                      @click="receiveCoupon(item, index)"
+                      v-if="couponIndex !== index"
+                    >选取</button>
+                    <button class="receive-btn" @click="cleanCoupon" v-else>已选取</button>
                   </div>
                 </div>
               </div>
@@ -355,53 +322,53 @@
     </Dialog>
     <!-- 出借流程ERROR弹窗 -->
     <Dialog
-      :show.sync="isShowInvestErrDialog"
+      :show.sync="investErrDialog.show"
       title="汇有财温馨提示"
       confirmText="我知道了"
       class="system-maintenance-dialog"
-      :singleButton="singleButton"
+      :singleButton="investErrDialog.singleButton"
     >
       <div>
-        <p>{{investErrMsg}}</p>
+        <p>{{investErrDialog.msg}}</p>
       </div>
     </Dialog>
     <!-- 出借普通产品成功弹窗 -->
     <Dialog
-      :show.sync="isShowInvestDialog"
-      :title="isShowInvestDialogTitle"
+      :show.sync="investCommonSuccessDialog.show"
+      :title="investCommonSuccessDialog.title"
       confirmText="我知道了"
-      class="system-maintenance-dialog"
-      :singleButton="!singleButton"
-      :onConfirm="toInvestRecord"
+      class="common-dialog"
+      :singleButton="investCommonSuccessDialog.singleButton"
+      :onConfirm="confirmCommon"
     >
       <div>
-        <p>{{investMsg}}</p>
+        <p>{{investCommonSuccessDialog.msg}}</p>
       </div>
     </Dialog>
     <!-- 出借手机乐产品成功弹窗 -->
     <Dialog
-      :show.sync="isShowInvestDialog"
-      :title="isShowInvestDialogTitle"
+      :show.sync="investSJLSuccessDialog.show"
+      :title="investSJLSuccessDialog.title"
       confirmText="我知道了"
       class="sjl-dialog"
-      :singleButton="!singleButton"
-      :onConfirm="toInvestRecord"
+      :singleButton="investSJLSuccessDialog.singleButton"
+      :onConfirm="confirmSJL"
     >
       <div>
-        <p>{{investMsg}}</p>
+        <p>{{investSJLSuccessDialog.msg}}</p>
       </div>
     </Dialog>
     <!-- 自动出借类产品成功弹窗 -->
     <Dialog
-      :show.sync="isShowInvestDialog"
-      :title="isShowInvestDialogTitle"
+      :show.sync="investAutoInvestSuccessDialog.show"
+      :title="investAutoInvestSuccessDialog.title"
       confirmText="我知道了"
       class="auto-invest-dialog"
-      :singleButton="!singleButton"
-      :onConfirm="toInvestRecord"
+      :singleButton="investAutoInvestSuccessDialog.singleButton"
+      :onConfirm="confirmAutoInvest"
     >
       <div>
-        <p>{{investMsg}}</p>
+        <p>{{investAutoInvestSuccessDialog.msg}}</p>
       </div>
     </Dialog>
   </div>
@@ -469,6 +436,8 @@ export default {
       isShowSystemMaintenanceDialog: false,
       singleButton: true, // 是否显示系统维护弹窗
       riskConfirmText: '重新评测', // 风险测评弹窗按钮文字
+      riskDialogSingleButton: false,
+      riskType: '', // 风险测评的类型
       riskContent: '', // 风险测评弹窗默认文字
       isShowConfirmInvestmentDialog: false, // 是否显示出借弹窗
       redPacketsList: [],
@@ -481,14 +450,33 @@ export default {
       chooseCouponId: '', // 选中加息券的ID
       couponsList: [],
       couponIndex: -1,
-      isShowInvestErrDialog: false, // 是否显示出借错误弹窗
-      investErrMsg: '', // 出借errMsg
-      riskDialogSingleButton: false,
-      riskType: '', // 风险测评的类型
-      // TODO 出借成功的情况太多，各个弹框要单独重写
-      isShowInvestDialog: false, // 是否显示出借成功弹窗
-      isShowInvestDialogTitle: '', // 出借成功title
-      investMsg: '' // 出借成功 msg
+      investErrDialog: {
+        // 出借错误弹窗（resultCode !== '1'）
+        show: false,
+        msg: '',
+        singleButton: true
+      },
+      investCommonSuccessDialog: {
+        // 出借普通产品成功弹窗
+        show: false,
+        title: '',
+        singleButton: true,
+        msg: ''
+      },
+      investSJLSuccessDialog: {
+        // 出借手机乐产品成功弹窗
+        show: false,
+        title: '',
+        singleButton: true,
+        msg: ''
+      },
+      investAutoInvestSuccessDialog: {
+        // 自动出借产品成功弹窗
+        show: false,
+        title: '',
+        singleButton: true,
+        msg: ''
+      }
     }
   },
   components: {
@@ -685,19 +673,16 @@ export default {
       })
     },
     getAmountQuery() {
-      console.log('this.investStatus===', this.investStatus)
       this.projectInfo.balance = this.investStatus === 'unopened' ? '未开户' : this.personalAccount.banlance
     },
     handleInvest() {
       this.errMsg = ''
       if (this.invAmount === '') {
         this.errMsg = '请输入金额'
-      } else if (this.invAmount < this.projectInfo.minInvAmt - 0) {
-        this.errMsg = '出借金额不能低于起投金额'
       } else {
         if (this.projectInfo.status === '0') {
-          this.isShowInvestErrDialog = true
-          this.investErrMsg = '该项目暂时无法投资'
+          this.investErrDialog.show = true
+          this.investErrDialog.msg = '该项目暂时无法投资'
         } else {
           // 如果是未开户，点击去开户页面
           if (this.investStatus === 'unopened') {
@@ -706,6 +691,11 @@ export default {
           // 如果没勾选风险告知书，弹出提示
           if (!this.isAgree) {
             this.errMsg = '请确认并同意《风险告知书》'
+            return
+          }
+
+          if (this.invAmount < this.projectInfo.minInvAmt - 0) {
+            this.errMsg = '出借金额不能低于起投金额'
             return
           }
 
@@ -737,8 +727,52 @@ export default {
     toRisk() {
       this.$router.push({ name: 'riskAss' })
     },
+    receiveRedPacket(item, index) {
+      if (item.commonUse === 0) {
+        this.cleanCoupon()
+        this.redPacketIndex = index
+        this.chooseRedPacket = item
+        this.chooseRedPacketAmt = item.redPacketAmount
+        this.chooseRedPacketId = item.id
+      } else {
+        if (typeof this.chooseCoupon.commonUse === 'undefined' || this.chooseCoupon.commonUse === 1) {
+          this.redPacketIndex = index
+          this.chooseRedPacket = item
+          this.chooseRedPacketAmt = item.redPacketAmount
+          this.chooseRedPacketId = item.id
+        }
+      }
+    },
+    cleanRedpacket() {
+      this.redPacketIndex = -1
+      this.chooseRedPacket = {}
+      this.chooseRedPacketAmt = ''
+      this.chooseRedPacketId = ''
+    },
+    receiveCoupon(item, index) {
+      if (item.commonUse === 0) {
+        this.cleanRedpacket()
+        this.couponIndex = index
+        this.chooseCoupon = item
+        this.chooseCouponRate = item.couponRate
+        this.chooseCouponId = item.id
+      } else {
+        if (typeof this.chooseRedPacket.commonUse === 'undefined' || this.chooseRedPacket.commonUse === 1) {
+          this.couponIndex = index
+          this.chooseCoupon = item
+          this.chooseCouponRate = item.couponRate
+          this.chooseCouponId = item.id
+        }
+      }
+    },
+    cleanCoupon() {
+      this.couponIndex = -1
+      this.chooseCoupon = {}
+      this.chooseCouponRate = ''
+      this.chooseCouponId = ''
+    },
     redEnvelopeSwiper() {
-      this.redEnvelopeSwiper = new Swiper('.swiper-container-red-envelope', {
+      new Swiper('.swiper-container-red-envelope', {
         paginationClickable: true,
         observer: true,
         observeParents: true,
@@ -761,7 +795,7 @@ export default {
       })
     },
     rateStampSwiper() {
-      this.rateStampSwiper = new Swiper('.swiper-container-rate-stamp', {
+      new Swiper('.swiper-container-rate-stamp', {
         paginationClickable: true,
         observer: true,
         observeParents: true,
@@ -804,14 +838,19 @@ export default {
       }).then(res => {
         if (res.data.resultCode === '1') {
           console.log(res.data)
-          this.isShowInvestDialog = true
-          this.isShowInvestDialogTitle = res.data.successTitle
-          this.investMsg = res.data.successInfo
+        } else {
+          // ...
         }
       })
     },
-    toInvestRecord() {
-      alert(1)
+    confirmCommon() {
+      console.log`common`
+    },
+    confirmSJL() {
+      console.log`sjl`
+    },
+    confirmAutoInvest() {
+      console.log`auto-invest`
     }
   },
   mounted() {
@@ -1369,22 +1408,14 @@ export default {
               position: relative;
               width: 378px;
               height: 105px;
+              border-radius: 4px;
               background: url('./image/bg_red_envelope_nochoose.png') center center no-repeat;
               cursor: pointer;
-              &:hover {
-                .receive-btn {
-                  background: rgba(255, 227, 17, 1);
-                  color: rgba(255, 58, 41, 1);
-                  border: 1px solid rgba(255, 227, 17, 1);
-                  border-left: 0;
-                }
-              }
               .vouche-box {
                 padding-top: 19px;
                 margin-bottom: 4px;
                 .vouche {
                   font-size: $font-size-large-xxx;
-                  font-family: PingFangSC-Semibold;
                   font-weight: 600;
                   color: $color-text;
                   margin-left: 33px;
@@ -1404,7 +1435,6 @@ export default {
                   border-radius: 100px;
                   border: 1px solid $color-text-s;
                   font-size: $font-size-small-ss;
-                  font-family: PingFang-SC-Regular;
                   font-weight: 400;
                   color: $color-text-s;
                   line-height: 18px;
@@ -1416,7 +1446,6 @@ export default {
               .start {
                 margin-left: 33px;
                 font-size: $font-size-small-ss;
-                font-family: PingFang-SC-Regular;
                 font-weight: 400;
                 color: $color-text-s;
                 line-height: 20px;
@@ -1424,7 +1453,6 @@ export default {
               .endData {
                 margin-left: 33px;
                 font-size: $font-size-small-ss;
-                font-family: PingFang-SC-Regular;
                 font-weight: 400;
                 color: $color-text-s;
                 line-height: 18px;
@@ -1437,7 +1465,6 @@ export default {
                 border-radius: 4px;
                 padding: 13px 17px;
                 font-size: 18px;
-                font-family: PingFangSC-Semibold;
                 font-weight: 600;
                 color: $color-text-s;
                 border: 1px solid #dadada;
@@ -1450,6 +1477,34 @@ export default {
                 span {
                   display: inline-block;
                   white-space: normal;
+                }
+                &:hover {
+                  background: rgba(255, 227, 17, 1);
+                  color: rgba(255, 58, 41, 1);
+                  border: 1px solid rgba(255, 227, 17, 1);
+                  border-left: 0;
+                }
+              }
+              &.active {
+                background-image: url('./image/bg_red_envelope_choosed.png');
+                .vouche {
+                  color: #fff;
+                }
+                .vouche-aside {
+                  border: 1px solid #fff;
+                  color: #fff;
+                }
+                .start {
+                  color: #fff;
+                }
+                .endData {
+                  color: #fff;
+                }
+                .receive-btn {
+                  background: rgba(255, 227, 17, 1);
+                  color: rgba(255, 58, 41, 1);
+                  border: 1px solid rgba(255, 227, 17, 1);
+                  border-left: 0;
                 }
               }
             }

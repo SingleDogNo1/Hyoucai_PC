@@ -757,11 +757,19 @@ export default {
       this.$router.push({ name: 'riskAss' })
     },
     receiveRedPacket(item, index) {
-      if (typeof this.chooseCoupon.commonUse === 'undefined' || this.chooseCoupon.commonUse === '1') {
+      if (item.commonUse === '0') {
+        this.cleanCoupon()
         this.redPacketIndex = index
         this.chooseRedPacket = item
         this.chooseRedPacketAmt = item.redPacketAmount
         this.chooseRedPacketId = item.id
+      } else {
+        if (typeof this.chooseCoupon.commonUse === 'undefined' || this.chooseCoupon.commonUse === '1') {
+          this.redPacketIndex = index
+          this.chooseRedPacket = item
+          this.chooseRedPacketAmt = item.redPacketAmount
+          this.chooseRedPacketId = item.id
+        }
       }
     },
     cleanRedpacket() {
