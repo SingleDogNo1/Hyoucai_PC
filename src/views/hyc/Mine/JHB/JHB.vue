@@ -1,8 +1,6 @@
 <template>
   <div class="planDetail">
-    <div class="detail-table"
-         v-if="invList.length > 0"
-    >
+    <div class="detail-table" v-if="invList.length > 0">
       <!-- 申请中 -->
       <table cellspacing="0" v-if="invList.length > 0 && invStatus === 'JHB_SQZ'">
         <thead>
@@ -42,8 +40,7 @@
               <p v-else>0</p>
             </td>
             <td style="text-align: left;">
-              <span>{{ item.interestStartDate }}</span> <span>-</span>
-              <span>{{ item.interestEndDate }}</span>
+              <span>{{ item.interestStartDate }}</span> <span>-</span> <span>{{ item.interestEndDate }}</span>
             </td>
             <td style="cursor:pointer;" @click="showLendDetail(item.id, item.projectType)"><span style="color: #FB891F;">查看</span></td>
           </tr>
@@ -70,8 +67,7 @@
               <p v-else>0</p>
             </td>
             <td style="text-align: left;">
-              <span>{{ item.interestStartDate }}</span> <span>-</span>
-              <span>{{ item.interestEndDate }}</span>
+              <span>{{ item.interestStartDate }}</span> <span>-</span> <span>{{ item.interestEndDate }}</span>
             </td>
           </tr>
         </tbody>

@@ -2,18 +2,18 @@
   <div class="coupons">
     <header>
       <div class="card" :class="{ active: flag1 }" @click="changeFlag1">可用卡券</div>
-      <div class="card" :class="[{ active: flag2 },{ actives : flag2 }]" @click="changeFlag2">历史卡券</div>
+      <div class="card" :class="[{ active: flag2 }, { actives: flag2 }]" @click="changeFlag2">历史卡券</div>
     </header>
     <!-- 可用卡券 -->
-    <div class="coupons_box" :class="{bg:flag}" v-show="flag1">
+    <div class="coupons_box" :class="{ bg: flag }" v-show="flag1">
       <!-- 立即领取 -->
       <div
         v-for="(item, index) in receiveList"
         :class="[
-          { receive1: item.voucherType == 'VT01' },
+          { receive1: item.voucherType == 'VT01' },//加息券
           { receive2: item.secondType == 1 },
-          { receive2_1: item.secondType == 2&&item.intoAccount==0 },
-          { receive2_2: item.secondType == 2&&item.intoAccount==1 },
+          { receive2_1: item.secondType == 2 && item.intoAccount == 0 },
+          { receive2_2: item.secondType == 2 && item.intoAccount == 1 },
           { receive3: item.voucherType == 'VT03' }
         ]"
         :key="index + 'a'"
@@ -46,12 +46,12 @@
           </p>
           <p class="start">起投金额：{{ item.amountMin | toThousands }}元</p>
           <button
-            v-show="item.intoAccount==0"
+            v-show="item.intoAccount == 0"
             class="receive_btn"
             @click="receiveRedPacket(item.id)"
           >立即领取</button>
           <button
-            v-show="item.intoAccount==1"
+            v-show="item.intoAccount == 1"
             class="receive_btn"
             @click="receiveRedPacket(item.id)"
           >计入账户</button>
@@ -64,11 +64,11 @@
       <div
         v-for="(item, index) in receivedList"
         :class="[
-          { receive1: item.voucherType == 'VT01' },
-          { receive2: item.secondType == 1 },
-          { receive2_1: item.secondType == 2&&item.intoAccount==0 },
-          { receive2_3: item.secondType == 2&&item.intoAccount==1 },
-          { receive3: item.voucherType == 'VT03' }
+          { receive1: item.voucherType == 'VT01' },//加息券
+          { receive2: item.secondType == 1 },//抵扣红包
+          { receive2_1: item.secondType == 2 && item.intoAccount == 0 },//投资红包
+          { receive2_3: item.secondType == 2 && item.intoAccount == 1 },
+          { receive3: item.voucherType == 'VT03' }//体验金
         ]"
         :key="index + 'b'"
       >
@@ -96,25 +96,25 @@
           </p>
           <p class="start">起投金额：{{ item.amountMin | toThousands }}元</p>
           <button
-            v-show="item.secondType == 2&&item.intoAccount==0"
+            v-show="!item.intoAccount == 1"
             class="receive1_btn"
             @click="immdiateUseRed(item.id)"
           >立即使用</button>
-          <button v-show="item.secondType == 2&&item.intoAccount==1" class="receive_cash_btn">立即使用</button>
+          <button v-show="item.intoAccount == 1" class="receive_cash_btn">立即使用</button>
         </div>
         <div class="endData">有效期至{{ item.validUseEndTime }}</div>
       </div>
     </div>
     <!-- 历史卡券 -->
-    <div class="message_box" :class="{bg:flags}" v-show="flag2">
+    <div class="message_box" :class="{ bg: flags }" v-show="flag2">
       <!-- 已过期 -->
       <div
         v-for="(item, index) in expiredList"
         :class="[
           { receive1: item.voucherType == 'VT01' },
           { receive2: item.secondType == 1 },
-          { receive2_1: item.secondType == 2&&item.intoAccount==0 },
-          { receive2_2: item.secondType == 2&&item.intoAccount==1 },
+          { receive2_1: item.secondType == 2 && item.intoAccount == 0 },
+          { receive2_2: item.secondType == 2 && item.intoAccount == 1 },
           { receive3: item.voucherType == 'VT03' }
         ]"
         :key="index + 'c'"
@@ -153,8 +153,8 @@
         :class="[
           { receive1: item.voucherType == 'VT01' },
           { receive2: item.secondType == 1 },
-          { receive2_1: item.secondType == 2&&item.intoAccount==0 },
-          { receive2_2: item.secondType == 2&&item.intoAccount==1 },
+          { receive2_1: item.secondType == 2 && item.intoAccount == 0 },
+          { receive2_2: item.secondType == 2 && item.intoAccount == 1 },
           { receive3: item.voucherType == 'VT03' }
         ]"
         :key="index + 'd'"
@@ -372,6 +372,7 @@ export default {
 .coupons {
   header {
     width: 844px;
+    height: 57px;
     background: rgba(255, 255, 255, 1);
     border: 1px solid rgba(229, 229, 229, 1);
     display: flex;
@@ -385,12 +386,14 @@ export default {
       font-family: PingFangSC-Regular;
       font-weight: 400;
       color: rgba(155, 155, 155, 1);
+      border-bottom: 1px solid rgba(229, 229, 229, 1);
     }
     .active {
       height: 58px;
       text-align: center;
       border-right: 1px solid rgba(229, 229, 229, 1);
       border-top: 2px solid rgba(251, 137, 31, 1);
+      border-bottom: 1px solid #fff;
       line-height: 58px;
       font-size: $font-size-small-s;
       font-family: PingFangSC-Regular;
@@ -544,7 +547,7 @@ export default {
     .receive1,
     .receive2,
     .receive2_1,
-    .receive2_1 {
+    .receive2_2 {
       .vouche_box {
         .vouche {
           color: rgba(155, 155, 155, 1);

@@ -4,24 +4,24 @@
       <div class="modify">
         <span class="modify_name">注册手机号</span>
         <div class="modify_ipt_box">
-          <input class="modify_ipt" type="text" maxLength="11" placeholder="请输入原手机号" v-model="mobile">
-          <p class="txt">{{mobileTxt}}</p>
-          <input class="modify_ipt" type="text" maxLength="11" placeholder="请输入新手机号" v-model="newMobile">
-          <p class="txt">{{newMobileTxt}}</p>
+          <input class="modify_ipt" type="text" maxLength="11" placeholder="请输入原手机号" v-model="mobile" />
+          <p class="txt">{{ mobileTxt }}</p>
+          <input class="modify_ipt" type="text" maxLength="11" placeholder="请输入新手机号" v-model="newMobile" />
+          <p class="txt">{{ newMobileTxt }}</p>
           <div class="verifyCode-wrap">
-            <input class="modify_ipt" type="number" placeholder="请输入验证码" v-model="verifyCode">
-            <span class="code" @click="getMobileSendCode" v-if="!showCountDown">{{countDownText}}</span>
-            <span class="code" v-if="showCountDown">{{countDown}}s</span>
+            <input class="modify_ipt" type="number" placeholder="请输入验证码" v-model="verifyCode" />
+            <span class="code" @click="getMobileSendCode" v-if="!showCountDown">{{ countDownText }}</span>
+            <span class="code" v-if="showCountDown">{{ countDown }}s</span>
           </div>
-          <p class="txt">{{verifyCodeTxt}}</p>
+          <p class="txt">{{ verifyCodeTxt }}</p>
         </div>
       </div>
-      <div class="btn">
-        <button class="determine" @click="modifyBindMobile">立即绑定</button>
-        <button class="cancle" @click="close">取消</button>
-      </div>
+      <div class="btn"><button class="determine" @click="modifyBindMobile">立即绑定</button> <button class="cancle" @click="close">取消</button></div>
     </div>
     <errDialog :show.sync="showDialog" :singleButton="singleButton" class="djs-charge-dialog">
+      <div>{{ errMsg.common }}</div>
+    </errDialog>
+    <errDialog :show.sync="showDialog1" :singleButton="singleButton" class="djs-charge-dialog" :onClose="close">
       <div>{{ errMsg.common }}</div>
     </errDialog>
   </div>
@@ -42,6 +42,7 @@ export default {
       timeInterval: null,
       countDown: 90,
       showDialog: false,
+      showDialog1: false,
       singleButton: true,
       errMsg: {
         common: ''
@@ -101,8 +102,8 @@ export default {
         modifyBindMobile(obj).then(res => {
           let data = res.data
           if (data.resultCode === '1') {
-            this.$notify({ title: '成功', message: '手机号修改成功', type: 'success', duration: 2000 })
-            this.close()
+            this.showDialog1 = true
+            this.errMsg.common = '绑定成功'
           } else {
             this.verifyCodeTxt = data.resultMsg
           }
@@ -148,6 +149,7 @@ export default {
     },
     close() {
       this.isShow.isShow3 = !this.isShow.isShow3
+      this.$emit('success')
       this.clearInfo()
     }
   }

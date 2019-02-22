@@ -4,34 +4,28 @@
     <div class="item">
       <span class="title">&emsp;姓名</span>
       <div class="info-wrapper">
-        <i class="iconfont icon-user"></i>
-        <input type="text" placeholder="请输入姓名" readonly v-model="user.realName">
+        <i class="iconfont icon-user"></i> <input type="text" placeholder="请输入姓名" readonly v-model="user.realName" />
       </div>
     </div>
     <div class="item">
       <span class="title">身份证</span>
       <div class="info-wrapper">
-        <i class="iconfont icon-certificate"></i>
-        <input type="text" placeholder="请输入身份证号码" readonly v-model="userBasicInfo.identityNo">
+        <i class="iconfont icon-certificate"></i> <input type="text" placeholder="请输入身份证号码" readonly v-model="userBasicInfo.identityNo" />
       </div>
     </div>
     <div class="item add-card">
       <span class="title">银行卡</span>
       <div class="info-wrapper">
-        <i class="iconfont icon-Bankcard"></i>
-        <input type="text" placeholder="请输入银行卡号" @input="bankCardInput($event)">
+        <i class="iconfont icon-Bankcard"></i> <input type="text" placeholder="请输入银行卡号" @input="bankCardInput($event)" />
         <div class="bank-support">
           <el-popover placement="right" width="440" trigger="hover">
             <ul class="bank-list">
               <li>绑卡支持以下银行：</li>
               <li v-for="(list, i) in bankList" :key="i">
-                <img :src="list.iconUrl">
-                <span>{{ list.bankName }} 单笔{{ list.onceLimit }}，单日{{ list.dayLimit }}</span>
+                <img :src="list.iconUrl" /> <span>{{ list.bankName }} 单笔{{ list.onceLimit }}，单日{{ list.dayLimit }}</span>
               </li>
             </ul>
-            <el-button slot="reference">
-              <i class="iconfont icon-changjianwenti"></i>
-            </el-button>
+            <el-button slot="reference"> <i class="iconfont icon-changjianwenti"></i> </el-button>
           </el-popover>
         </div>
       </div>
@@ -39,20 +33,14 @@
     <div class="err-msg" v-if="errMsg.bankCardNo">{{ errMsg.bankCardNo }}</div>
     <div class="item">
       <span class="title">手机号</span>
-      <div class="info-wrapper">
-        <i class="iconfont icon-phone1"></i>
-        <input type="text" placeholder="请输入手机号" v-model="mobile">
-      </div>
+      <div class="info-wrapper"><i class="iconfont icon-phone1"></i> <input type="text" placeholder="请输入手机号" v-model="mobile" /></div>
     </div>
     <div class="err-msg" v-if="errMsg.mobile">{{ errMsg.mobile }}</div>
     <div class="item validation">
       <span class="title">验证码</span>
       <div class="info-wrapper">
-        <i class="iconfont icon-validation"></i>
-        <input type="text" placeholder="请输入验证码" v-model="smsCode">
-        <div class="get-code-wrapper" v-if="!showCountDown">
-          <button @click="getSmsCode">获取验证码</button>
-        </div>
+        <i class="iconfont icon-validation"></i> <input type="text" placeholder="请输入验证码" v-model="smsCode" />
+        <div class="get-code-wrapper" v-if="!showCountDown"><button @click="getSmsCode">获取验证码</button></div>
         <div class="count-down-wrapper" v-else>
           <button>{{ countDown }}S</button>
         </div>
@@ -61,16 +49,9 @@
     <div class="err-msg" v-if="errMsg.smsCode">{{ errMsg.smsCode }}</div>
     <div class="item">
       <span class="title">&emsp;&emsp;&emsp;</span>
-      <div class="info-wrapper">
-        <input type="button" value="确认绑卡" @click="submitChangeBankCard">
-      </div>
+      <div class="info-wrapper"><input type="button" value="确认绑卡" @click="submitChangeBankCard" /></div>
     </div>
-    <Dialog
-      :show.sync="showDialog"
-      :onClose="jumpBankCard"
-      :singleButton="singleButton"
-      class="djs-add-bankcard-dialog"
-    >
+    <Dialog :show.sync="showDialog" :onClose="jumpBankCard" :singleButton="singleButton" class="djs-add-bankcard-dialog">
       <div>{{ errMsg.common }}</div>
     </Dialog>
   </div>

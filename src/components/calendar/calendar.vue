@@ -28,8 +28,11 @@
             <span
               :class="{
                 red: k2 === 0 || k2 === 6 || ((child.isLunarFestival || child.isGregorianFestival) && lunar),
-                isSpecial: child.isLunarFestival || child.isGregorianFestival }"
-            > {{ child.day }} </span>
+                isSpecial: child.isLunarFestival || child.isGregorianFestival
+              }"
+            >
+              {{ child.day }}
+            </span>
             <div class="text" v-if="child.eventName !== undefined">{{ child.eventName }}</div>
             <div
               class="text"
@@ -358,7 +361,6 @@ export default {
         }
         this.render(this.year, this.month)
         this.$emit('selectMonth', this.month + 1, this.year)
-        // this.day 汇有财切换月默认传1号， 点金石默认不传
         this.$emit('prev', this.month + 1, this.year, this.day)
       }
     },
@@ -375,7 +377,6 @@ export default {
         }
         this.render(this.year, this.month)
         this.$emit('selectMonth', this.month + 1, this.year)
-        // this.day 汇有财切换月默认传1号， 点金石默认不传
         this.$emit('next', this.month + 1, this.year, this.day)
       }
     },

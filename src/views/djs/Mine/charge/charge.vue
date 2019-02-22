@@ -98,7 +98,7 @@
       <div>{{ errMsg.common }}</div>
     </Dialog>
     <Dialog :show.sync="showDialogSuccess" :showTitle="false" :onConfirm="confirmCharged" :onClose="confirmCharged" class="djs-charge-dialog">
-      <img style="width:70px;height:70px;margin-bottom: 10px;" src="./image/success.png" alt="">
+      <img style="width:70px;height:70px;margin-bottom: 10px;" src="./image/success.png" alt="" />
       <div>充值成功</div>
     </Dialog>
   </div>
@@ -281,7 +281,7 @@ export default {
       userRechargePreVerify().then(res => {
         let data = res.data
         if (data.resultCode === ERR_OK) {
-          this.isBankcardSupport = data.bankcardSupport
+          this.isBankcardSupport = data.isBankcardSupport
         }
       })
     },
@@ -372,9 +372,10 @@ export default {
         let data = res.data
         if (data.resultCode === ERR_OK) {
           this.bankCardInfo = data.list[0]
-          let no = JSON.parse(JSON.stringify(this.bankCardInfo.cardNo))
-          let len = no.length
-          this.bankCardNo = no.substring(0, 4) + '*******' + no.substring(len - 4, len)
+          let nos = JSON.parse(JSON.stringify(this.bankCardInfo.cardNo))
+          let len = nos.length
+          this.bankCardNo = nos.substring(0, 4) + '*******' + nos.substring(len - 4, len)
+          console.log(this.bankCardNo)
           this.getBasicInfo()
         }
       })

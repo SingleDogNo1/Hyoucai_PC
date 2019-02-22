@@ -8,7 +8,7 @@
       </div>
       <div class="btn">
         <button class="determine" @click="modifyNikename">确定</button>
-        <button class="cancle" @click="isShow.isShow1 = !isShow.isShow1">取消</button>
+        <button class="cancle" @click="cancle">取消</button>
       </div>
     </div>
     <errDialog
@@ -43,6 +43,9 @@ export default {
   },
   props: ['isShow'],
   methods: {
+    cancle() {
+      this.isShow.isShow1 = !this.isShow.isShow1
+    },
     modifyNikename: function() {
       if (this.nikename) {
         let obj = {}
@@ -61,6 +64,7 @@ export default {
       this.isShow.isShow1 = !this.isShow.isShow1
       this.$emit('success')
       this.nikename = ''
+      this.txt = ''
     }
   },
   created() {}

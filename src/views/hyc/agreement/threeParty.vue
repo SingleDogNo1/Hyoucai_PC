@@ -1,8 +1,7 @@
 <template>
   <div>
-    <threePartySS v-if="protocolTemplateId==1"></threePartySS>
-    <threePartyZH v-if="protocolTemplateId==3"></threePartyZH>
-    <threePartyHZ v-if="protocolTemplateId==2"></threePartyHZ>
+    <threePartySS v-if="protocolTemplateId == 1"></threePartySS> <threePartyZH v-if="protocolTemplateId == 3"></threePartyZH>
+    <threePartyHZ v-if="protocolTemplateId == 2"></threePartyHZ>
   </div>
 </template>
 <script>

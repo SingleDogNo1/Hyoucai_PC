@@ -2,34 +2,22 @@
   <div class="contact">
     <h1>联系我们</h1>
     <ul>
-      <li>
-        <i></i>
-        <span class="value">地址：江西省南昌市红谷滩新区红谷中大道1669号华尔登商业中心办公写字楼31层</span>
-      </li>
-      <li>
-        <i></i>
-        <span class="value">咨询、投诉、举报联系电话：400-099-7979</span>
-      </li>
-      <li>
-        <i></i>
-        <span class="value">联系时间：工作日 09:00 - 12:00 13:00 - 18:00</span>
-      </li>
-      <li>
-        <i></i>
-        <span class="value">咨询、投诉、举报电子邮箱：cs@idjshi.com</span>
-      </li>
+      <li><i></i> <span class="value">地址：江西省南昌市红谷滩新区红谷中大道1669号华尔登商业中心办公写字楼31层</span></li>
+      <li><i></i> <span class="value">咨询、投诉、举报联系电话：400-099-7979</span></li>
+      <li><i></i> <span class="value">联系时间：工作日 09:00 - 12:00 13:00 - 18:00</span></li>
+      <li><i></i> <span class="value">咨询、投诉、举报电子邮箱：cs@idjshi.com</span></li>
     </ul>
     <p class="tips">如果您在使用汇有财的过程中有任何疑问，请您与汇有财客服人员联系。</p>
-    <img class="bg-contact" src="./images/bg_contact.png">
+    <img class="bg-contact" src="./images/bg_contact.png" />
     <div class="download-wrap">
       <p>如果您还希望了解更多关于汇有财动态信息，请下载或关注我们的APP或微信。</p>
       <div class="qrcode-wrap">
         <div class="qrcode1">
-          <img src="./images/bg_qrocde1.png">
+          <img src="./images/bg_qrocde1.png" />
           <p>微信公众号</p>
         </div>
         <div class="qrcode2">
-          <img src="./images/bg_qrocde2.png">
+          <img src="./images/bg_qrocde2.png" />
           <p>APP下载</p>
         </div>
       </div>

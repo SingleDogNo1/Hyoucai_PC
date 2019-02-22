@@ -9,10 +9,10 @@
       </div>
       <div class="authentication">
         <div class="identity">
-          <img src="./identity.png">
+          <img :src="imgSrc1">
         </div>
         <div class="phone">
-          <img src="./phone.png">
+          <img :src="imgSrc2">
         </div>
       </div>
     </header>
@@ -23,21 +23,27 @@
         <div class="wrap_rows">
           <span class="wrap_left">昵称修改</span>
           <span class="wrap_center">{{ userBasicInfo.nickname }}</span>
-          <button class="wrap_btn" @click="isShow.isShow1 = !isShow.isShow1">修改</button>
+          <button class="wrap_btn" @click="changeName">修改</button>
         </div>
-        <Name v-show="isShow.isShow1" :isShow="isShow" @success="success"></Name>
+        <Name v-show="isShow.isShow1" :isShow="isShow" @success="success" ref="nameChild"></Name>
         <div class="wrap_rows">
           <span class="wrap_left">登录密码</span>
           <span class="wrap_center">{{ passWord }}</span>
-          <button class="wrap_btn" @click="isShow.isShow2 = !isShow.isShow2">修改</button>
+          <button class="wrap_btn" @click="changePwd">修改</button>
         </div>
-        <Password v-show="isShow.isShow2" :isShow="isShow"></Password>
+        <Password v-show="isShow.isShow2" :isShow="isShow" ref="pwdChild"></Password>
         <div class="wrap_rows">
           <span class="wrap_left">注册手机号</span>
-          <span class="wrap_center">{{ mobile }}</span>
-          <button class="wrap_btn" @click="isShow.isShow3 = !isShow.isShow3">修改</button>
+          <span class="wrap_center">{{ userBasicInfo.mobileMask }}</span>
+          <button class="wrap_btn" @click="changePhone">修改</button>
         </div>
-        <Phone v-show="isShow.isShow3" :isShow="isShow" :oldMobile="mobile"></Phone>
+        <Phone
+          v-show="isShow.isShow3"
+          :isShow="isShow"
+          :oldMobile="mobile"
+          @success="success"
+          ref="phoneChild"
+        ></Phone>
         <div class="wrap_rows">
           <span class="wrap_left">风险测评</span>
           <span class="wrap_center">{{ evaluatingResult.evaluatingName || '未评测'}}</span>
@@ -47,9 +53,14 @@
         <div class="wrap_rows last_rows">
           <span class="wrap_left">收货地址</span>
           <span class="wrap_center">{{ address }}</span>
-          <button class="wrap_btn" @click="isShow.isShow4 = !isShow.isShow4">{{msg}}</button>
+          <button class="wrap_btn" @click="changeAddress">{{msg}}</button>
         </div>
-        <Address v-show="isShow.isShow4" :isShow="isShow" :getMailingAddress="getMailingAddress"></Address>
+        <Address
+          v-show="isShow.isShow4"
+          :isShow="isShow"
+          :getMailingAddress="getMailingAddress"
+          ref="childAddress"
+        ></Address>
       </div>
     </div>
     <!-- 存管信息 -->
@@ -73,12 +84,12 @@
           <span class="wrap_center">{{ escrowAccountInfo.transPassword }}</span>
           <button class="wrap_btn" @click="tansactionPwd">修改</button>
         </div>
-        <div class="wrap_rows last_rows">
+      <!--  <div class="wrap_rows last_rows">
           <span class="wrap_left">电子账户手机号</span>
           <span class="wrap_center">{{ escrowAccountInfo.mobile }}</span>
-          <button class="wrap_btn" @click="isShow.isShow5 = !isShow.isShow5">修改</button>
-        </div>
-        <DzPhone v-show="isShow.isShow5" :isShow="isShow"></DzPhone>
+          <button class="wrap_btn" @click="changeDzPhone">修改</button>
+        </div>-->
+        <DzPhone v-show="isShow.isShow5" :isShow="isShow" @success="success" ref="dzPhoneChild"></DzPhone>
       </div>
       <div class="openAccount" v-show="!flag">
         <div class="tips">
@@ -93,7 +104,7 @@
 
 <script>
 import { userBasicInfo } from '@/api/common/login'
-import { getMailingAddress, tansactionPwd } from '@/api/common/basicInfo'
+import { getMailingAddress, tansactionPwd, getCertificationVerify } from '@/api/common/basicInfo'
 import { mapGetters, mapMutations } from 'vuex'
 import { getRetBaseURL } from '@/assets/js/utils'
 import Name from './popup/name'
@@ -134,15 +145,66 @@ export default {
       resultType: '',
       resultTitle: '',
       resultFont: '',
-      msg: ''
+      msg: '',
+      idec: false,
+      mocr: false
     }
   },
   computed: {
-    ...mapGetters(['user', 'userBasicInfo'])
+    ...mapGetters(['user', 'userBasicInfo']),
+    imgSrc1() {
+      if (this.idec) {
+        return require('./identityed.png')
+      } else {
+        return require('./identity.png')
+      }
+    },
+    imgSrc2() {
+      if (this.mocr) {
+        return require('./phoned.png')
+      } else {
+        return require('./phone.png')
+      }
+    }
   },
   props: {},
   watch: {},
   methods: {
+    changeName() {
+      this.isShow.isShow1 = !this.isShow.isShow1
+      this.$refs.nameChild.nikename = ''
+      this.$refs.nameChild.txt = ''
+    },
+    changePwd() {
+      this.isShow.isShow2 = !this.isShow.isShow2
+      this.$refs.pwdChild.oldPwd = ''
+      this.$refs.pwdChild.newPwd = ''
+      this.$refs.pwdChild.newPwd2 = ''
+      this.$refs.pwdChild.errMsg = ''
+    },
+    changePhone() {
+      this.isShow.isShow3 = !this.isShow.isShow3
+      this.$refs.phoneChild.mobile = ''
+      this.$refs.phoneChild.newMobile = ''
+      this.$refs.phoneChild.verifyCode = ''
+      this.$refs.phoneChild.mobileTxt = ''
+      this.$refs.phoneChild.newMobileTxt = ''
+      this.$refs.phoneChild.verifyCodeTxt = ''
+    },
+    changeDzPhone() {
+      this.isShow.isShow5 = !this.isShow.isShow5
+      this.$refs.dzPhoneChild.mobile = ''
+      this.$refs.dzPhoneChild.smsCode = ''
+      this.$refs.dzPhoneChild.oldMobile = ''
+      this.$refs.dzPhoneChild.errMsg.common = ''
+    },
+    changeAddress() {
+      this.isShow.isShow4 = !this.isShow.isShow4
+      this.$refs.childAddress.consigneeName = ''
+      this.$refs.childAddress.consigneePhone = ''
+      this.$refs.childAddress.address = ''
+      this.$refs.childAddress.txt = ''
+    },
     ...mapMutations({
       setUserBasicInfo: 'SET_USERBASICINFO'
     }),
@@ -203,7 +265,6 @@ export default {
     getUserBasicInfo: function() {
       this.lastLoginTime = this.userBasicInfo.lastLoginTime
       this.passWord = this.userBasicInfo.passWord
-      this.mobile = this.userBasicInfo.mobileMask
       // 判断是否风险测评
       if (this.userBasicInfo.evaluatingResult) {
         this.isEvaluation = true
@@ -229,7 +290,7 @@ export default {
       if (this.hasMailingAddress == 1) {
         getMailingAddress({ userName: this.user.userName }).then(res => {
           this.address = res.data.data.address
-          this.msg = '修改'
+          this.msg = '编辑'
         })
       } else {
         this.address = '未设置收货地址'
@@ -239,7 +300,7 @@ export default {
     getMailingAddress: function() {
       getMailingAddress({ userName: this.user.userName }).then(res => {
         this.address = res.data.data.address
-        this.msg = '修改'
+        this.msg = '编辑'
       })
     },
     success() {
@@ -248,10 +309,24 @@ export default {
       }).then(res => {
         this.setUserBasicInfo(res.data.data)
       })
+      this.getUserBasicInfo()
+    },
+    getState() {
+      getCertificationVerify({ userName: this.user.userName, cerType: 'IDEC' }).then(res => {
+        if (res.data.resultMsg == 'SUCCESS') {
+          this.idec = true
+        }
+      })
+      getCertificationVerify({ userName: this.user.userName, cerType: 'MOCR' }).then(res => {
+        if (res.data.resultMsg == 'SUCCESS') {
+          this.mocr = true
+        }
+      })
     }
   },
   created() {
     this.getUserBasicInfo()
+    this.getState()
   }
 }
 </script>
@@ -272,14 +347,12 @@ export default {
       width: 235px;
       height: 14px;
       font-size: $font-size-small-s;
-      font-family: PingFangSC-Regular;
       font-weight: 400;
       color: rgba(90, 90, 90, 1);
       line-height: 14px;
     }
     .data_full {
       font-size: $font-size-small-s;
-      font-family: PingFangSC-Regular;
       font-weight: 400;
       color: rgba(155, 155, 155, 1);
       line-height: 14px;
@@ -322,7 +395,6 @@ export default {
       width: 103px;
       height: 18px;
       font-size: $font-size-small;
-      font-family: PingFangSC-Semibold;
       font-weight: 600;
       color: rgba(90, 90, 90, 1);
       line-height: 18px;
@@ -356,7 +428,7 @@ export default {
           width: 100px;
           height: 34px;
           position: absolute;
-          top: 18px;
+          top: 14px;
           right: 20px;
           background: rgba(255, 255, 255, 1);
           border-radius: 6px;
