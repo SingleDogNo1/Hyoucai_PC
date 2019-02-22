@@ -4,9 +4,12 @@ import qs from 'qs'
 // 投资详情接口3.0
 export function investCountProjectMsg(data) {
   return request({
-    url: 'InvestCountProjectMsg/3.0',
+    url: 'InvestCountProjectMsg',
     method: 'post',
-    data: qs.stringify(data)
+    data: qs.stringify(data),
+    headers: {
+      version: '3.0'
+    }
   })
 }
 

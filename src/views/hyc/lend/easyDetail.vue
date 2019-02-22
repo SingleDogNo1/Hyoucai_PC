@@ -559,7 +559,6 @@ export default {
       this.getProjectCompoList()
     },
     handleExpectedIncome(invAmount) {
-      // TODO invAmount.replace is not a function??
       this.invAmount = invAmount
         .replace(/[^\d.]/g, '')
         .replace(/\.{2,}/g, '.')
@@ -778,11 +777,19 @@ export default {
       this.chooseRedPacketId = ''
     },
     receiveCoupon(item, index) {
-      if (typeof this.chooseRedPacket.commonUse === 'undefined' || this.chooseRedPacket.commonUse === '1') {
+      if (item.commonUse === '0') {
+        this.cleanRedpacket()
         this.couponIndex = index
         this.chooseCoupon = item
         this.chooseCouponRate = item.couponRate
         this.chooseCouponId = item.id
+      } else {
+        if (typeof this.chooseRedPacket.commonUse === 'undefined' || this.chooseRedPacket.commonUse === '1') {
+          this.couponIndex = index
+          this.chooseCoupon = item
+          this.chooseCouponRate = item.couponRate
+          this.chooseCouponId = item.id
+        }
       }
     },
     cleanCoupon() {

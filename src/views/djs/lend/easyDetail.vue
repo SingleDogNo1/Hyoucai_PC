@@ -70,11 +70,11 @@
               <router-link target="_blank" :to="{ name: 'riskNoticationLetterAgreement'}">《风险告知书》</router-link>
             </el-checkbox>
           </div>
-          <div class="all-lending" v-if="!investDetail.tailProject">
+          <div class="all-lending">
             <el-checkbox class="all-lending-checkbox" v-model="isAllLending" @change="toggleFill">全部出借</el-checkbox>
           </div>
           <div class="action">
-            <input class="amount-input" v-model="invAmount" @keyup="handleExpectedIncome">
+            <input class="amount-input" v-model="invAmount" @keyup="handleExpectedIncome(invAmount)">
             <button
               class="action-btn"
               :disabled="isDisableInvestBtn"
@@ -98,7 +98,7 @@
       >
         <el-tab-pane label="出借详情" name="CJXQ">
           <div v-if="lendDetailActiveName === 'CJXQ'" class="content">
-            <p class="desc">{{investDetail.appDesc}}</p>
+            <p class="desc">{{projectInfo.appDesc}}</p>
             <ul class="detail-list">
               <li>
                 <p class="title">
@@ -107,10 +107,10 @@
                 <a
                   target="_blank"
                   class="value"
-                  :href="investDetail.agreementUrl"
-                >{{investDetail.agreementName}}</a>
+                  :href="projectInfo.agreementUrl"
+                >{{projectInfo.agreementName}}</a>
               </li>
-              <li v-for="(item, index) in investDetail.projectServiceEntity" :key="index">
+              <li v-for="(item, index) in projectInfo.projectServiceEntity" :key="index">
                 <!-- <p class="value">
                   <span>{{item.serviceName}}</span>
                 </p> -->
@@ -405,19 +405,6 @@ export default {
       invAmount: '', // 申请出借输入框金额
       expectedIncome: '0.00', //逾期收益
       projectInfo: {
-        investRate: '', // 利率
-        projectName: '', // 产品名称
-        surplusAmount: '', // 剩余可投金额
-        investPropleCount: '', // 已购人次
-        investPercent: 0, // 投资百分比
-        repayType: '', // 结息方式
-        minInvAmt: '', // 起投金额
-        status: 0, // nteger - 项目状态 1.未开启 2.已投X% 3.满标
-        balance: '', // 可用余额
-        maxInvAmount: '', // 单笔投资上限金额限制
-        projectType: '' // 项目名称
-      },
-      investDetail: {
         appDesc: '', // 项目介绍
         agreementName: '', // 协议名称
         agreementUrl: '', // 协议url
@@ -429,8 +416,18 @@ export default {
         costDes: '', // 费用说明
         riskAppraisal: '', // 项目风险评估及可能产生的风险结果
         riskManagementTip: '', // 出借人适当性管理提示
-        tailProject: '', // 是否是尾标(true : 尾标 false: 不是尾标),
-        projectServiceEntity: []
+        projectServiceEntity: [],
+        investRate: '', // 利率
+        projectName: '', // 产品名称
+        surplusAmount: '', // 剩余可投金额
+        investPropleCount: '', // 已购人次
+        investPercent: 0, // 投资百分比
+        repayType: '', // 结息方式
+        minInvAmt: '', // 起投金额
+        status: 0, // nteger - 项目状态 1.未开启 2.已投X% 3.满标
+        balance: '', // 可用余额
+        maxInvAmount: '', // 单笔投资上限金额限制
+        projectType: '' // 项目名称
       },
       joinRecordData: [], // 加入记录数据
       projectCompositionData: [], // 项目组成数据
@@ -462,21 +459,21 @@ export default {
       investCommonSuccessDialog: {
         // 出借普通产品成功弹窗
         show: false,
-        title: '',
+        title: '汇有财温馨提示',
         singleButton: true,
         msg: ''
       },
       investSJLSuccessDialog: {
         // 出借手机乐产品成功弹窗
         show: false,
-        title: '',
+        title: '汇有财温馨提示',
         singleButton: true,
         msg: ''
       },
       investAutoInvestSuccessDialog: {
         // 自动出借产品成功弹窗
         show: false,
-        title: '',
+        title: '汇有财温馨提示',
         singleButton: true,
         msg: ''
       }
@@ -506,7 +503,7 @@ export default {
       this.page = 1
       switch (this.lendDetailActiveName) {
         case 'CJXQ':
-          this.getLendDetailList()
+          this.getInvestDetailList()
           break
         case 'JRJL':
           this.getJoinRecordList()
@@ -579,60 +576,12 @@ export default {
       investCountProjectMsg(postData).then(res => {
         let data = res.data
         if (data.resultCode === '1') {
-          this.projectInfo.projectName = data.projectName
-          this.projectInfo.investRate = data.investRate
-          this.projectInfo.surplusAmount = data.surplusAmount
-          this.projectInfo.investPropleCount = data.investPropleCount
-          this.projectInfo.repayType = data.repayType === 'XXHB' ? '先息后本' : '等额本息'
-          this.projectInfo.minInvAmt = data.minInvAmt
-          this.projectInfo.surplusAmount = data.surplusAmount
-          this.projectInfo.status = data.status
-
-          this.investDetail.appDesc = data.appDesc
-          this.investDetail.agreementName = data.agreementName
-          this.investDetail.agreementUrl = data.agreementUrl
-          this.investDetail.investTarget = data.investTarget
-          this.investDetail.investMent = data.investMent
-          this.investDetail.breathDate = data.breathDate
-          this.investDetail.profitShare = data.profitShare
-          this.investDetail.existSystem = data.existSystem
-          this.investDetail.costDes = data.costDes
-          this.investDetail.projectServiceEntity = data.projectServiceEntity
-
+          this.projectInfo = data
           this.getUserBasicInfo()
           this.getAmountQuery()
         } else {
-          this.$notify.error({
-            title: '错误',
-            message: data.resultMsg
-          })
-        }
-      })
-    },
-    getLendDetailList() {
-      this.productId = this.$route.query.productId
-      this.itemId = this.$route.query.itemId
-      let postData = {
-        projectNo: this.projectNo
-      }
-      investCountProjectMsg(postData).then(res => {
-        let data = res.data
-        if (data.resultCode === '1') {
-          this.investDetail.appDesc = data.appDesc
-          this.investDetail.agreementName = data.agreementName
-          this.investDetail.agreementUrl = data.agreementUrl
-          this.investDetail.investTarget = data.investTarget
-          this.investDetail.endData = data.endData
-          this.investDetail.breathDate = data.breathDate
-          this.investDetail.profitShare = data.profitShare
-          this.investDetail.existSystem = data.existSystem
-          this.investDetail.costDes = data.costDes
-          this.investDetail.projectServiceEntity = data.projectServiceEntity
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: data.resultMsg
-          })
+          this.investErrDialog.show = true
+          this.investErrDialog.msg = data.resultMsg
         }
       })
     },
@@ -827,9 +776,19 @@ export default {
         investSource: 'PC'
       }).then(res => {
         if (res.data.resultCode === '1') {
-          console.log(res.data)
+          const data = res.data
+          if (this.projectInfo.doubleBonuCouponEntity.dbCouponRate || this.projectInfo.doubleBonuCouponEntity.dbValidDays !== null) {
+            // 可以加息复投
+            this.investAutoInvestSuccessDialog.show = true
+          } else {
+            // 普通产品
+            this.investCommonSuccessDialog.show = true
+            this.investCommonSuccessDialog.title = data.successTitle
+            this.investCommonSuccessDialog.msg = data.successInfo
+          }
         } else {
-          // ...
+          this.investErrDialog.show = true
+          this.investErrDialog.msg = res.data.resultMsg
         }
       })
     },
