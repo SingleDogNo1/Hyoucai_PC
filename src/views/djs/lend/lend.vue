@@ -140,7 +140,6 @@ export default {
         }
         investCountProjectMsg(postData).then(res => {
           let data = res.data
-          data.resultCode = '1212'
           if (data.resultCode === '1') {
             this.$router.push({ name: 'easyDetail', query: { projectNo: item.projectNo } })
           } else {

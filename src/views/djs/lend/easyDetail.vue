@@ -32,8 +32,8 @@
         </div>
         <div class="progress-wrap">
           <span class="title">项目进度</span>
-          <el-progress :percentage="projectInfo.investPercent"></el-progress>
-          <span class="score">{{projectInfo.investPercent}}%</span>
+          <el-progress :percentage="projectInfo.projectProgress"></el-progress>
+          <span class="score">{{projectInfo.projectProgress}}%</span>
         </div>
       </div>
       <div class="tips">
@@ -176,10 +176,9 @@
                 <template slot-scope="scope">
                   <a
                     :projectNo="scope.row.projectNo"
-                    :projectType="projectInfo.projectType"
                     href="javascript:void(0);"
                     class="view-detail"
-                    @click="isProjectDetail=!isProjectDetail"
+                    @click="projectDetail(scope.row.projectNo)"
                   >详情</a>
                 </template>
               </el-table-column>
@@ -208,7 +207,6 @@
         </el-tab-pane>
       </el-tabs>
     </section>
-    <ProjectDetail @changeProjectDetail="changeProjectDetail" v-show="isProjectDetail"/>
     <!-- 风险评测有问题弹窗 -->
     <Dialog
       :show.sync="isShowRiskDialog"
@@ -414,7 +412,6 @@ import Swiper from 'swiper/dist/js/swiper'
 import { mapState } from 'vuex'
 import Pagination from '@/components/pagination/pagination'
 import { investCountProjectMsg, investUserCountMsg, bondproject, availableRedPacketApi, availableCouponApi, investApi } from '@/api/djs/lendDetail'
-import ProjectDetail from './popup/projectDetail'
 import Dialog from '@/components/Dialog/Dialog'
 
 export default {
@@ -442,7 +439,7 @@ export default {
         projectName: '', // 产品名称
         surplusAmount: '', // 剩余可投金额
         investPropleCount: '', // 已购人次
-        investPercent: 0, // 投资百分比
+        projectProgress: 0, // 投资百分比
         repayType: '', // 结息方式
         minInvAmt: '', // 起投金额
         status: 0, // nteger - 项目状态 1.未开启 2.已投X% 3.满标
@@ -486,7 +483,8 @@ export default {
       couponIndex: -1,
       isShowInvestErrDialog: false, // 是否显示出借错误弹窗
       investErrMsg: '', // 出借errMsg
-
+      riskDialogSingleButton: false,
+      riskType: '', // 风险测评的类型
       // TODO 出借成功的情况太多，各个弹框要单独重写
       isShowInvestDialog: false, // 是否显示出借成功弹窗
       isShowInvestDialogTitle: '', // 出借成功title
@@ -495,7 +493,6 @@ export default {
   },
   components: {
     Pagination,
-    ProjectDetail,
     Dialog
   },
   computed: {
@@ -513,6 +510,18 @@ export default {
     }
   },
   methods: {
+    projectDetail(val) {
+      console.log('val===', val)
+      //项目详情
+      this.$router.push({
+        name: 'projectDetail',
+        params: {
+          projectNo: val
+          // projectType: this.projectInfo.projectType,
+          // projectName: this.projectInfo.projectName
+        }
+      })
+    },
     handleItemClick() {
       this.page = 1
       switch (this.lendDetailActiveName) {
@@ -578,10 +587,6 @@ export default {
       //   this.expectedIncome = data.expectedIncome
       // })
     },
-    changeProjectDetail() {
-      this.isProjectDetail = false
-      this.handleItemClick()
-    },
     getInvestDetailList() {
       this.projectNo = this.$route.query.projectNo
       let postData = {
@@ -594,6 +599,7 @@ export default {
           this.projectInfo.investRate = data.investRate
           this.projectInfo.surplusAmount = data.surplusAmount
           this.projectInfo.investPropleCount = data.investPropleCount
+          this.projectInfo.projectProgress = parseFloat(data.projectProgress)
           this.projectInfo.repayType = data.repayType === 'XXHB' ? '先息后本' : '等额本息'
           this.projectInfo.minInvAmt = data.minInvAmt
           this.projectInfo.surplusAmount = data.surplusAmount
@@ -669,6 +675,9 @@ export default {
       bondproject(postData).then(res => {
         let data = res.data
         this.projectCompositionData = data.list
+        this.projectCompositionData.forEach(item => {
+          item.investRate = item.investRate + '%'
+        })
         this.total = parseInt(data.countPage)
         this.page = parseInt(data.curPage)
       })
