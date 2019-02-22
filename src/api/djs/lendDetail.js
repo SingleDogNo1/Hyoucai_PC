@@ -54,3 +54,12 @@ export function investApi(data) {
     data: qs.stringify(data)
   })
 }
+
+// // 项目详情
+// export function getProjectDetail(data) {
+//   return request({
+//     url: 'collection/projectDetail',
+//     method: 'post',
+//     data: qs.stringify(data)
+//   })
+// }

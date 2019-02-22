@@ -70,7 +70,7 @@ export default new Router({
         {
           path: 'projectDetail',
           name: 'projectDetail',
-          component: () => import(/* webpackChunkName: "lend" */ '@/views/djs/lend/popup/projectDetail.vue')
+          component: () => import(/* webpackChunkName: "lend" */ '@/views/djs/lend/popup/loanDetail.vue')
         }
       ]
     },
