@@ -66,6 +66,11 @@ export default new Router({
           name: 'easyDetail',
           component: () => import(/* webpackChunkName: "lend" */ '@/views/djs/lend/easyDetail.vue'),
           props: route => ({ projectNo: route.query.projectNo })
+        },
+        {
+          path: 'projectDetail',
+          name: 'projectDetail',
+          component: () => import(/* webpackChunkName: "lend" */ '@/views/djs/lend/popup/loanDetail.vue')
         }
       ]
     },

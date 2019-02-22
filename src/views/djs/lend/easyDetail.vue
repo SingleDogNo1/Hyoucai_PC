@@ -32,8 +32,8 @@
         </div>
         <div class="progress-wrap">
           <span class="title">项目进度</span>
-          <el-progress :percentage="projectInfo.investPercent"></el-progress>
-          <span class="score">{{projectInfo.investPercent}}%</span>
+          <el-progress :percentage="projectInfo.projectProgress * 100"></el-progress>
+          <span class="score">{{projectInfo.projectProgress * 100}}%</span>
         </div>
       </div>
       <div class="tips">
@@ -176,10 +176,9 @@
                 <template slot-scope="scope">
                   <a
                     :projectNo="scope.row.projectNo"
-                    :projectType="projectInfo.projectType"
                     href="javascript:void(0);"
                     class="view-detail"
-                    @click="isProjectDetail=!isProjectDetail"
+                    @click="projectDetail(scope.row.projectNo)"
                   >详情</a>
                 </template>
               </el-table-column>
@@ -208,7 +207,6 @@
         </el-tab-pane>
       </el-tabs>
     </section>
-    <ProjectDetail @changeProjectDetail="changeProjectDetail" v-show="isProjectDetail"/>
     <!-- 风险评测有问题弹窗 -->
     <Dialog
       :show.sync="isShowRiskDialog"
@@ -338,10 +336,10 @@
     <Dialog
       :show.sync="investCommonSuccessDialog.show"
       :title="investCommonSuccessDialog.title"
-      confirmText="我知道了"
+      confirmText="进入我的出借"
       class="common-dialog"
       :singleButton="investCommonSuccessDialog.singleButton"
-      :onConfirm="confirmCommon"
+      :onClose="confirmCommon"
     >
       <div>
         <p>{{investCommonSuccessDialog.msg}}</p>
@@ -351,9 +349,8 @@
     <Dialog
       :show.sync="investSJLSuccessDialog.show"
       :title="investSJLSuccessDialog.title"
-      confirmText="我知道了"
+      confirmText="填写地址"
       class="sjl-dialog"
-      :singleButton="investSJLSuccessDialog.singleButton"
       :onConfirm="confirmSJL"
     >
       <div>
@@ -364,14 +361,23 @@
     <Dialog
       :show.sync="investAutoInvestSuccessDialog.show"
       :title="investAutoInvestSuccessDialog.title"
-      confirmText="我知道了"
       class="auto-invest-dialog"
-      :singleButton="investAutoInvestSuccessDialog.singleButton"
       :onConfirm="confirmAutoInvest"
     >
-      <div>
-        <p>{{investAutoInvestSuccessDialog.msg}}</p>
+      <div class="msg-wrap">
+        <span>您已成功出借{{invAmount}}元</span><router-link tag="div" :style="{'fontSize': '14px', 'color': '#FB8B1F', 'lineHeight': '26px'}" :to="{ name: 'userLend' }">查看我的出借<i class="iconfont icon-more"></i></router-link>
       </div>
+      <div class="auto-invest-way-wrap">
+        <div class="auto-invest-way1">
+          <el-radio v-model="investAutoInvestSuccessDialog.autoInvestWay" label="1">本金到期后自动出借 </el-radio >
+        </div>
+        <div class="auto-invest-way2">
+          <el-radio v-model="investAutoInvestSuccessDialog.autoInvestWay" label="2">本息到期后自动出借</el-radio >
+        </div>
+      </div>
+      <router-link class="auto-invest-agreement" :to="{ name: 'autoLendAgreement' }">《自动出借协议》</router-link>
+      <p class="tips" v-if="investAutoInvestSuccessDialog.autoInvestWay === '1'">在本金自动出借模式下，每月产品到期时，系统自动将利息转入用户汇有财账户，本金继续出借。用户可在【我的账户】-【自动出借】界面取消，如有任何疑问，请联系客服：400-099-7979。</p>
+      <p class="tips" v-if="investAutoInvestSuccessDialog.autoInvestWay === '2'">在本息自动出借模式下，每月产品到期时系统默认将本金与利息合并后继续出借。用户可在【我的账户】-【自动出借】界面中取消。如有任何疑问，如有任何疑问，请联系客服：400-099-7979。</p>
     </Dialog>
   </div>
 </template>
@@ -380,8 +386,15 @@
 import Swiper from 'swiper/dist/js/swiper'
 import { mapState } from 'vuex'
 import Pagination from '@/components/pagination/pagination'
-import { investCountProjectMsg, investUserCountMsg, bondproject, availableRedPacketApi, availableCouponApi, investApi } from '@/api/djs/lendDetail'
-import ProjectDetail from './popup/projectDetail'
+import {
+  investCountProjectMsg,
+  investUserCountMsg,
+  bondproject,
+  availableRedPacketApi,
+  availableCouponApi,
+  investApi,
+  expectedIncome
+} from '@/api/djs/lendDetail'
 import Dialog from '@/components/Dialog/Dialog'
 
 export default {
@@ -421,7 +434,7 @@ export default {
         projectName: '', // 产品名称
         surplusAmount: '', // 剩余可投金额
         investPropleCount: '', // 已购人次
-        investPercent: 0, // 投资百分比
+        projectProgress: 0, // 投资百分比
         repayType: '', // 结息方式
         minInvAmt: '', // 起投金额
         status: 0, // nteger - 项目状态 1.未开启 2.已投X% 3.满标
@@ -461,27 +474,25 @@ export default {
         show: false,
         title: '汇有财温馨提示',
         singleButton: true,
-        msg: ''
+        msg: '出借成功，您可在“我的出借”中查看详情。'
       },
       investSJLSuccessDialog: {
         // 出借手机乐产品成功弹窗
         show: false,
         title: '汇有财温馨提示',
-        singleButton: true,
-        msg: ''
+        msg: '恭喜您，出借成功，请您至在基本信息填写/确认收货地址，我们将以最快的速度将宝贝送至您手中。'
       },
       investAutoInvestSuccessDialog: {
         // 自动出借产品成功弹窗
-        show: false,
-        title: '汇有财温馨提示',
-        singleButton: true,
-        msg: ''
+        show: true,
+        title: '设置自动出借，省心赚钱',
+        msg: '',
+        autoInvestWay: '1'
       }
     }
   },
   components: {
     Pagination,
-    ProjectDetail,
     Dialog
   },
   computed: {
@@ -499,6 +510,20 @@ export default {
     }
   },
   methods: {
+    projectDetail(val) {
+      console.log('val===', val)
+      //项目详情
+      this.$router.push({
+        name: 'projectDetail',
+        params: {
+          projectNo: val,
+          page: this.page,
+          size: this.size
+          // projectType: this.projectInfo.projectType,
+          // projectName: this.projectInfo.projectName
+        }
+      })
+    },
     handleItemClick() {
       this.page = 1
       switch (this.lendDetailActiveName) {
@@ -547,6 +572,7 @@ export default {
       this.getProjectCompoList()
     },
     handleExpectedIncome(invAmount) {
+      console.log('invAmount==', invAmount)
       this.invAmount = invAmount
         .replace(/[^\d.]/g, '')
         .replace(/\.{2,}/g, '.')
@@ -554,19 +580,15 @@ export default {
         .replace(/\./g, '')
         .replace('$#$', '.')
         .replace(/^(-)*(\d+)\.(\d\d).*$/, '$1$2.$3')
-      // let postData = {
-      //   invAmount: this.invAmount,
-      //   investRate: this.projectInfo.investRate,
-      //   productId: this.productId
-      // }
-      // expectedIncome(postData).then(res => {
-      //   let data = res.data.data
-      //   this.expectedIncome = data.expectedIncome
-      // })
-    },
-    changeProjectDetail() {
-      this.isProjectDetail = false
-      this.handleItemClick()
+      let postData = {
+        invAmount: this.invAmount,
+        investRate: this.projectInfo.investRate,
+        productNo: this.productNo
+      }
+      expectedIncome(postData).then(res => {
+        let data = res.data.data
+        this.expectedIncome = data.expectedIncome
+      })
     },
     getInvestDetailList() {
       this.projectNo = this.$route.query.projectNo
@@ -607,6 +629,9 @@ export default {
       bondproject(postData).then(res => {
         let data = res.data
         this.projectCompositionData = data.list
+        this.projectCompositionData.forEach(item => {
+          item.investRate = item.investRate + '%'
+        })
         this.total = parseInt(data.countPage)
         this.page = parseInt(data.curPage)
       })
@@ -793,10 +818,20 @@ export default {
       })
     },
     confirmCommon() {
-      console.log`common`
+      this.$router.push({
+        name: 'lendDetail',
+        query: {
+          projectNo: this.projectNo
+        }
+      })
     },
     confirmSJL() {
-      console.log`sjl`
+      this.$router.push({
+        name: 'basicInfo',
+        query: {
+          projectNo: this.projectNo
+        }
+      })
     },
     confirmAutoInvest() {
       console.log`auto-invest`
@@ -1522,6 +1557,95 @@ export default {
       footer {
         width: 382px;
         margin: 0 auto;
+      }
+    }
+  }
+  .auto-invest-dialog {
+    /deep/ .inner {
+      padding: 32px 30px 40px 30px;
+      .msg-wrap {
+        display: flex;
+        width: 100%;
+        height: 70px;
+        // /line-height: 70px;
+        padding: 22px 15px;
+        background: #f3f2f2;
+        justify-content: space-between;
+        font-size: $font-size-medium;
+        color: $color-text-s;
+        span {
+          line-height: 26px;
+        }
+        .view-my-invest {
+          line-height: 24px;
+          font-size: $font-size-small-s;
+          color: #fb8b1f;
+        }
+      }
+      .auto-invest-way-wrap {
+        margin-top: 30px;
+        .auto-invest-way1 {
+          width: 200px;
+          margin: 0 auto;
+          margin-bottom: 12px;
+        }
+        .auto-invest-way2 {
+          width: 200px;
+          margin: 0 auto;
+        }
+        /deep/ .el-radio {
+          color: $color-text-s;
+          font-size: $font-size-medium;
+          .el-radio__inner {
+            width: 20px;
+            height: 20px;
+            &:after {
+              width: 6px;
+              height: 6px;
+              border: 1px solid #cdcdcd;
+              transform: translate(-50%, -50%) scale(1);
+            }
+          }
+          .el-radio__label {
+            font-size: $font-size-medium;
+          }
+        }
+        /deep/ .el-radio.is-checked {
+          .el-radio__inner {
+            width: 20px;
+            height: 20px;
+            border-color: #fb7b1f;
+            background: #fff;
+            &:after {
+              width: 6px;
+              height: 6px;
+              border: 1px solid #fb7b1f;
+              background-color: #fb7b1f;
+            }
+          }
+          .el-radio__label {
+            color: $color-text;
+            font-size: $font-size-medium;
+          }
+        }
+      }
+      .auto-invest-agreement {
+        display: block;
+        width: 200px;
+        margin: 0 auto;
+        margin-top: 10px;
+        text-align: center;
+        font-size: $font-size-small-s;
+        color: #2d85ed;
+        text-decoration: underline;
+      }
+      .tips {
+        margin-top: 20px;
+        color: $color-text-s;
+        font-size: $font-size-small-ss;
+      }
+      footer {
+        padding: 0 36px;
       }
     }
   }

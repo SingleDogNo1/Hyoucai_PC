@@ -57,3 +57,12 @@ export function investApi(data) {
     data: qs.stringify(data)
   })
 }
+
+// 预期收益计算
+export function expectedIncome(data) {
+  return request({
+    url: 'ExpectedIncome',
+    method: 'post',
+    data: qs.stringify(data)
+  })
+}
