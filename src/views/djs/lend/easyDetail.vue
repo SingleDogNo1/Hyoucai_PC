@@ -32,14 +32,15 @@
         </div>
         <div class="progress-wrap">
           <span class="title">项目进度</span>
-          <el-progress :percentage="projectInfo.projectProgress * 100"></el-progress>
-          <span class="score">{{projectInfo.projectProgress * 100}}%</span>
+          <el-progress :percentage="parseFloat(projectInfo.projectProgress)"></el-progress>
+          <span class="score">{{projectInfo.projectProgress}}%</span>
         </div>
       </div>
       <div class="tips">
         <div class="method">
           <span class="title">计息方式：</span>
-          <span>{{projectInfo.repayType}}</span>
+          <span v-if="projectInfo.repayType === 'XXHB'">先息后本</span>
+          <span v-if="projectInfo.repayType === 'DEBX'">等额本息</span>
         </div>
       </div>
       <div class="invest-module">
@@ -365,7 +366,18 @@
       :onConfirm="confirmAutoInvest"
     >
       <div class="msg-wrap">
-        <span>您已成功出借{{invAmount}}元</span><router-link tag="div" :style="{'fontSize': '14px', 'color': '#FB8B1F', 'lineHeight': '26px'}" :to="{ name: 'userLend' }">查看我的出借<i class="iconfont icon-more"></i></router-link>
+        <span>您已成功出借{{projectInfo.projectName}}{{invAmount}}元</span>
+        <router-link
+          tag="div"
+          :style="{
+            fontSize: '14px',
+            color: '#FB8B1F',
+            lineHeight: '26px'
+          }"
+          :to="{ name: 'userLend' }"
+        >
+          查看我的出借<i class="iconfont icon-more"></i>
+        </router-link>
       </div>
       <div class="auto-invest-way-wrap">
         <div class="auto-invest-way1">
@@ -376,8 +388,23 @@
         </div>
       </div>
       <router-link class="auto-invest-agreement" :to="{ name: 'autoLendAgreement' }">《自动出借协议》</router-link>
-      <p class="tips" v-if="investAutoInvestSuccessDialog.autoInvestWay === '1'">在本金自动出借模式下，每月产品到期时，系统自动将利息转入用户汇有财账户，本金继续出借。用户可在【我的账户】-【自动出借】界面取消，如有任何疑问，请联系客服：400-099-7979。</p>
-      <p class="tips" v-if="investAutoInvestSuccessDialog.autoInvestWay === '2'">在本息自动出借模式下，每月产品到期时系统默认将本金与利息合并后继续出借。用户可在【我的账户】-【自动出借】界面中取消。如有任何疑问，如有任何疑问，请联系客服：400-099-7979。</p>
+      <p class="tips" v-if="investAutoInvestSuccessDialog.autoInvestWay === '1'">
+        在本金自动出借模式下，每月产品到期时，系统自动将利息转入用户汇有财账户，本金继续出借。用户可在【我的账户】-【自动出借】界面取消，如有任何疑问，请联系客服：400-099-7979。
+      </p>
+      <p class="tips" v-if="investAutoInvestSuccessDialog.autoInvestWay === '2'">
+        在本息自动出借模式下，每月产品到期时系统默认将本金与利息合并后继续出借。用户可在【我的账户】-【自动出借】界面中取消。如有任何疑问，如有任何疑问，请联系客服：400-099-7979。
+      </p>
+    </Dialog>
+    <!-- 设置成功弹窗 -->
+    <Dialog
+      :show.sync="setSuccessDialog.show"
+      :showTitle="setSuccessDialog.showTitle"
+      :singleButton="setSuccessDialog.singleButton"
+    >
+      <div style="text-align: center">
+          <i class="iconfont icon-success" style="font-size: 60px; color: #fb7b1f;"></i>
+        <p style="margin: 20px 0 50px;">设置成功</p>
+      </div>
     </Dialog>
   </div>
 </template>
@@ -393,7 +420,8 @@ import {
   availableRedPacketApi,
   availableCouponApi,
   investApi,
-  expectedIncome
+  expectedIncome,
+  expireRepeatApi
 } from '@/api/djs/lendDetail'
 import Dialog from '@/components/Dialog/Dialog'
 
@@ -480,15 +508,22 @@ export default {
         // 出借手机乐产品成功弹窗
         show: false,
         title: '汇有财温馨提示',
-        msg: '恭喜您，出借成功，请您至在基本信息填写/确认收货地址，我们将以最快的速度将宝贝送至您手中。'
+        msg: ''
       },
       investAutoInvestSuccessDialog: {
         // 自动出借产品成功弹窗
-        show: true,
+        show: false,
         title: '设置自动出借，省心赚钱',
         msg: '',
         autoInvestWay: '1'
-      }
+      },
+      setSuccessDialog: {
+        show: false,
+        showTitle: false,
+        singleButton: true
+      },
+      invId: 0,
+      investType: ''
     }
   },
   components: {
@@ -519,8 +554,6 @@ export default {
           projectNo: val,
           page: this.page,
           size: this.size
-          // projectType: this.projectInfo.projectType,
-          // projectName: this.projectInfo.projectName
         }
       })
     },
@@ -571,8 +604,7 @@ export default {
       this.page = val
       this.getProjectCompoList()
     },
-    handleExpectedIncome(invAmount) {
-      console.log('invAmount==', invAmount)
+    handleExpectedIncome(invAmount, rate = this.projectInfo.investRate) {
       this.invAmount = invAmount
         .replace(/[^\d.]/g, '')
         .replace(/\.{2,}/g, '.')
@@ -580,15 +612,14 @@ export default {
         .replace(/\./g, '')
         .replace('$#$', '.')
         .replace(/^(-)*(\d+)\.(\d\d).*$/, '$1$2.$3')
+
       let postData = {
         invAmount: this.invAmount,
-        investRate: this.projectInfo.investRate,
-        productNo: this.productNo
+        investRate: rate,
+        productNo: this.productNo,
+        invDays: this.projectInfo.investMent
       }
-      expectedIncome(postData).then(res => {
-        let data = res.data.data
-        this.expectedIncome = data.expectedIncome
-      })
+      expectedIncome(postData).then(res => (this.expectedIncome = res.data.expectedIncome))
     },
     getInvestDetailList() {
       this.projectNo = this.$route.query.projectNo
@@ -720,12 +751,17 @@ export default {
         this.chooseCoupon = item
         this.chooseCouponRate = item.couponRate
         this.chooseCouponId = item.id
+
+        const withCouponRate = parseFloat(this.projectInfo.investRate) + parseFloat(item.couponRate)
+        this.handleExpectedIncome(this.invAmount, withCouponRate)
       } else {
         if (typeof this.chooseRedPacket.commonUse === 'undefined' || this.chooseRedPacket.commonUse === 1) {
           this.couponIndex = index
           this.chooseCoupon = item
           this.chooseCouponRate = item.couponRate
           this.chooseCouponId = item.id
+          const withCouponRate = parseFloat(this.projectInfo.investRate) + parseFloat(item.couponRate)
+          this.handleExpectedIncome(this.invAmount, withCouponRate)
         }
       }
     },
@@ -734,6 +770,8 @@ export default {
       this.chooseCoupon = {}
       this.chooseCouponRate = ''
       this.chooseCouponId = ''
+
+      this.handleExpectedIncome(this.invAmount)
     },
     redEnvelopeSwiper() {
       new Swiper('.swiper-container-red-envelope', {
@@ -805,6 +843,9 @@ export default {
           if (this.projectInfo.doubleBonuCouponEntity.dbCouponRate || this.projectInfo.doubleBonuCouponEntity.dbValidDays !== null) {
             // 可以加息复投
             this.investAutoInvestSuccessDialog.show = true
+            this.invId = data.id
+            this.investType = data.investType
+            this.investSJLSuccessDialog.msg = data.successInfo
           } else {
             // 普通产品
             this.investCommonSuccessDialog.show = true
@@ -834,7 +875,28 @@ export default {
       })
     },
     confirmAutoInvest() {
-      console.log`auto-invest`
+      expireRepeatApi({
+        invId: this.invId,
+        projectNo: this.projectNo,
+        repeatStatus: this.investAutoInvestSuccessDialog.autoInvestWay
+      }).then(res => {
+        const data = res.data
+        if (data.resultCode === '1') {
+          switch (this.investType) {
+            case 'GENERAL':
+              // 普通标
+              this.setSuccessDialog.show = true
+              break
+            case 'SJLHD':
+              // 手机乐活动
+              this.investSJLSuccessDialog.show = true
+              break
+          }
+        } else {
+          this.investErrDialog.show = true
+          this.investErrDialog.msg = data.resultMsg
+        }
+      })
     }
   },
   mounted() {
@@ -1649,5 +1711,8 @@ export default {
       }
     }
   }
+}
+.sjl-dialog p {
+  text-align: center;
 }
 </style>

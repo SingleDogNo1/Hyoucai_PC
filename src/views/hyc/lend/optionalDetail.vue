@@ -32,7 +32,7 @@
         </div>
         <div class="progress-wrap">
           <span class="title">项目进度</span>
-          <el-progress :percentage="projectInfo.investPercent"></el-progress>
+          <el-progress :percentage="parseFloat(projectInfo.investPercent)"></el-progress>
           <span class="score">{{projectInfo.investPercent}}%</span>
         </div>
       </div>

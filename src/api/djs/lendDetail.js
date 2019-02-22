@@ -66,3 +66,12 @@ export function expectedIncome(data) {
     data: qs.stringify(data)
   })
 }
+
+// 到期自动复投
+export function expireRepeatApi(data) {
+  return request({
+    url: 'ExpireRepeat',
+    method: 'post',
+    data: qs.stringify(data)
+  })
+}
