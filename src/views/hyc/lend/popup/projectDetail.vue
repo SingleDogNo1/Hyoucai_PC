@@ -2,7 +2,11 @@
   <div class="content-box">
     <div class="content">
       <header>
-        <span class="agreement" @click="agreement()">《三方协议》</span>
+        <router-link
+          target="_blank"
+          class="agreement"
+          :to="{ name: 'threePartyAgreement', query: {productId: productId}}"
+        >《三方协议》</router-link>
         <i class="el-icon-circle-close-outline cancel" @click="change"></i>
       </header>
       <section>
@@ -89,24 +93,25 @@
                 <tr v-for="(item,index) in auditInfoList2" :key="index">
                   <td style="border-left: 1px solid #fff">{{item.key}}</td>
                   <td>
-                    <span v-show="!item.result">{{item.val}}</span>
+                    <span v-show="!item.img">{{item.val}}</span>
                     <img
-                      v-show="item.result&&item.field=='haveIDCard'"
+                      v-show="item.img&&item.field=='haveIDCard'"
                       @click="flag=!flag"
                       src="./../image/bg.png"
                     >
-                    <img
-                      v-show="item.result&&item.field=='faceRecognition'"
-                      @click="flag=!flag"
-                      src="./../image/bg.png"
+                    <!-- 人脸识别 -->
+                    <img v-show="item.img&&item.field=='faceRecognition'" src="./../image/bg.png">
+                    <!-- 签约 -->
+                    <a
+                      :href="trilateralPdfPath"
+                      target="_blank"
+                      v-show="item.img&&item.field=='signing'"
                     >
+                      <img @click="signing()" src="./../image/bg.png">
+                    </a>
+                    
                     <img
-                      v-show="item.result&&item.field=='signing'"
-                      @click="flag=!flag"
-                      src="./../image/bg.png"
-                    >
-                    <img
-                      v-show="item.result&&item.field=='internetInformation'"
+                      v-show="item.img&&item.field=='internetInformation'"
                       @click="internetInformation()"
                       src="./../image/bg.png"
                     >
@@ -317,16 +322,28 @@
         </p>
       </div>
     </div>
+    <Dialog
+      :show.sync="isShowDialog"
+      class="dialog"
+      :singleButton="singleButton"
+    >
+      <div class="dialog-div">{{resultMsg}}</div>
+    </Dialog>
   </div>
 </template>
 
 <script>
-import { getPeopleInfoApi, getProjectDetail, getInternetInformation } from '@/api/hyc/Mine/lend'
+import { getPeopleInfoApi, getProjectDetail, getInternetInformation, getTrilateralPdfPath } from '@/api/hyc/Mine/lend'
 // import {getPeopleLoanInfo} from '@/api/hyc/lend'
+import Dialog from '@/components/Dialog/Dialog'
 export default {
   name: 'ProjectDetal',
   data() {
     return {
+      singleButton: true,
+      isShowDialog: false,
+      resultMsg: '',
+      trilateralPdfPath: '',
       flag: false,
       isInternetInformation: false,
       borrowerName: '',
@@ -339,6 +356,7 @@ export default {
       income: '',
       prinAmt: '',
       loanAim: '',
+      productId: '',
       borrowerTheme: '',
       loanDay: '',
       paymentSource: '',
@@ -355,10 +373,20 @@ export default {
       internetInformationList: []
     }
   },
+  components: {
+    Dialog
+  },
   methods: {
-    agreement() {
-      this.$router.push({
-        name: 'threePartyAgreement'
+    signing() {
+      //签约
+      getTrilateralPdfPath({ invRecordId: this.$route.params.invRecordId }).then(res => {
+        if (res.data.resultMsg == '用户暂未签署该协议') {
+          this.resultMsg = res.data.resultMsg
+          this.isShowDialog = true
+          // console.log(2)
+        } else {
+          this.trilateralPdfPath = res.data.protocolPdfPath
+        }
       })
     },
     change: function() {
@@ -371,22 +399,23 @@ export default {
         let auditInfoList = res.data.data.productDetail.auditInfoList
         this.repaymentWay = res.data.data.productDetail.repaymentWay
         this.projectName = res.data.data.productDetail.projectName
+        this.productId = res.data.data.projectInfo.productId
         auditInfoList.map((item, index) => {
           switch (item.field) {
             case 'haveIDCard':
-              item.result = true
+              item.img = true
               break
             case 'faceRecognition':
-              item.result = true
+              item.img = true
               break
             case 'signing':
-              item.result = true
+              item.img = true
               break
             case 'internetInformation':
-              item.result = true
+              item.img = true
               break
             default:
-              item.result = false
+              item.img = false
           }
           if (index % 2 == 0) {
             this.auditInfoList1.push(auditInfoList[index])
@@ -464,6 +493,9 @@ export default {
       position: relative;
       .agreement {
         cursor: pointer;
+        font-size: $font-size-small;
+        color: rgba(0, 131, 254, 1);
+        line-height: 22px;
       }
       .cancel {
         position: absolute;
@@ -705,6 +737,11 @@ export default {
       p {
         width: 50%;
       }
+    }
+  }
+  .dialog {
+    .dialog-div {
+      text-align: center;
     }
   }
 }

@@ -186,7 +186,7 @@
                     :projectNo="scope.row.projectNo"
                     href="javascript:void(0);"
                     class="view-detail"
-                    @click="projectDetail(scope.row.projectNo)"
+                    @click="projectDetail(scope.row.projectNo,scope.row.itemId)"
                   >详情</a>
                 </template>
               </el-table-column>
@@ -482,12 +482,13 @@ export default {
     }
   },
   methods: {
-    projectDetail(val) {
+    projectDetail(val1, val2) {
       //项目详情
       this.$router.push({
         name: 'projectDetail',
         params: {
-          projectNo: val
+          projectNo: val1,
+          invRecordId: val2
           // projectType: this.projectInfo.projectType,
           // projectName: this.projectInfo.projectName
         }
