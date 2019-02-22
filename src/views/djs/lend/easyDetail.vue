@@ -365,7 +365,7 @@
       :onConfirm="confirmAutoInvest"
     >
       <div class="msg-wrap">
-        <span>您已成功出借{{invAmount}}元</span><router-link tag="div" :style="{'fontSize': '14px', 'color': '#FB8B1F', 'lineHeight': '26px'}" :to="{ name: 'userLend' }">查看我的出借<i class="iconfont icon-more"></i></router-link>
+        <span>您已成功出借{{invAmount}}元</span><router-link tag="div" :style="{'fontSize': '14px', 'color': '#FB8B1F', 'lineHeight': '26px', 'cursor': 'pointer'}" :to="{ name: 'userLend' }">查看我的出借<i class="iconfont icon-more"></i></router-link>
       </div>
       <div class="auto-invest-way-wrap">
         <div class="auto-invest-way1">
@@ -578,7 +578,7 @@ export default {
       let postData = {
         invAmount: this.invAmount,
         investRate: this.projectInfo.investRate,
-        productNo: this.productNo
+        projectNo: this.projectNo
       }
       expectedIncome(postData).then(res => {
         let data = res.data.data
