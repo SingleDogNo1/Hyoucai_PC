@@ -907,6 +907,7 @@ export default {
 
 <style lang="scss" scoped>
 @import '../../../assets/css/theme';
+
 .lend-detail {
   padding-top: 30px;
   position: relative;
