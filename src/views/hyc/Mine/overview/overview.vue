@@ -7,9 +7,11 @@
           <span class="big">{{ totalIncomeBig }}</span> <span class="small">.{{ totalIncomeSmall }}元</span>
         </p>
       </section>
-      <el-button type="info" v-if="user.platformFlag === '3'" @click="switchSystem">系统切换</el-button>
-      <el-button type="warning"><router-link :to="{ name: 'charge' }">充值</router-link></el-button>
-      <el-button type="warning"><router-link :to="{ name: 'tocash' }">提现</router-link></el-button>
+      <div>
+        <el-button type="info" v-if="user.platformFlag === '3'" @click="switchSystem">系统切换</el-button>
+        <el-button type="warning" @click.native="linkToCharge">充值</el-button>
+        <el-button type="warning" @click.native="linkToTocash">提现</el-button>
+      </div>
     </div>
     <div class="amount" id="amount"></div>
   </div>
@@ -37,7 +39,8 @@ export default {
       msg: 'overview',
       amountInfo: {},
       totalIncomeBig: 0,
-      totalIncomeSmall: 0
+      totalIncomeSmall: 0,
+      isSpecialUser: false
     }
   },
   computed: {
@@ -46,6 +49,29 @@ export default {
   methods: {
     switchSystem() {
       location.href = '/djs/#/mine/overview'
+    },
+    fetchIsSpecialUser() {
+      let params = {loginUsername: this.user.userName}
+      api.isSpecialUser(params).then(res => {
+        console.log(res)
+        if (res.data.resultCode === '1') {
+          this.isSpecialUser = res.data.data.isSpecialUser
+        }
+      })
+    },
+    linkToCharge() {
+      if (this.isSpecialUser) {
+        this.$router.push({ name: 'charge', query: {isSpecialUser: '1'} })
+      } else {
+        this.$router.push({ name: 'charge' })
+      }
+    },
+    linkToTocash() {
+      if (this.isSpecialUser) {
+        this.$router.push({ name: 'tocash', query: {isSpecialUser: '1'} })
+      } else {
+        this.$router.push({ name: 'tocash' })
+      }
     },
     ...mapMutations({
       setPersonalAccount: 'SET_PERSONALACCOUNT'
@@ -166,6 +192,7 @@ export default {
         ]
       })
     })()
+    this.fetchIsSpecialUser()
   }
 }
 </script>
@@ -187,11 +214,11 @@ export default {
   display: flex;
   align-items: center;
   padding: 0 40px;
+  justify-content: space-between;
   section {
     font-size: $font-size-small-s;
     color: $color-text;
     line-height: 1;
-    margin-right: 200px;
     h6 {
       text-align: center;
       margin-bottom: 20px;
@@ -204,21 +231,29 @@ export default {
     }
   }
   button {
-    cursor: pointer;
     width: 120px;
     height: 40px;
-    border-radius: 8px;
+    line-height: 40px;
     margin: 0 15px;
+    padding: 0;
+    border-radius: 8px;
     font-size: $font-size-medium;
     color: #fff;
+    cursor: pointer;
     &.switcher {
       background: #099ef5;
     }
     &:last-child {
       margin-right: 0;
     }
-    a {
-      color: #fff;
+    span {
+      display: block;
+      width: 100%;
+      height: 100%;
+      a {
+        display: block;
+        color: #fff;
+      }
     }
   }
 }
