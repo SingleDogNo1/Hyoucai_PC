@@ -507,7 +507,7 @@ export default {
       activeName: 'GYWM',
       aboutUsActiveName: 'GSJJ',
       recordInfoActiveName: 'BADJ',
-      productAboutActiveName: 'CPXX',
+      productAboutActiveName: 'CPXXTAB',
       policiesActiveName: 'FLFG',
       showBigImg: false,
       num: 0,
@@ -682,7 +682,7 @@ export default {
         this.handleItemClick(this.recordInfoActiveName)
       }
       if (this.activeName === 'CPXG') {
-        this.productAboutActiveName = 'CPXX'
+        this.productAboutActiveName = 'CPXXTAB'
         this.handleItemClick(this.productAboutActiveName)
       }
       if (this.activeName === 'ZCFG') {
