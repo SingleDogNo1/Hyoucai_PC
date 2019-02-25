@@ -49,7 +49,7 @@ export default {
       alertInfo: { haveAlert: false, count: 0, type: '' },
       routerLink: '', // 要跳转的路由
       routerParam: '',
-      dialogTitle: '汇有才温馨提示',
+      dialogTitle: '汇有财温馨提示',
       showCloseBtn: false,
       showTitle: true,
       showLogo: false,
@@ -80,13 +80,11 @@ export default {
       }
     },
     onConfirm() {
-      api
-        .alertInfoAcceptApi({
-          type: 'evaluate'
-        })
-        .then(res => {
-          console.log(res)
-        })
+      api.alertInfoAcceptApi({ type: 'evaluate' }).then(res => {
+        if (res.data.resultCode !== '1') {
+          console.log(res.data.resultMsg)
+        }
+      })
       this.viewDialog()
     },
     viewDialog() {
@@ -101,8 +99,8 @@ export default {
         })
       }
     },
-    getAlertInfo() {
-      api.getAlertInfo().then(res => {
+    async getAlertInfo() {
+      await api.getAlertInfo().then(res => {
         let data = res.data
         if (data.resultCode === CODE_OK) {
           this.alertInfo = data.data
@@ -110,8 +108,6 @@ export default {
           this.showCloseBtn = false
           this.showLogo = false
           this.showFooter = true
-          // this.alertInfo.haveAlert = true
-          // this.alertInfo.type = 'refund'
           if (this.alertInfo.haveAlert) {
             this.showDialog = true
             if (this.alertInfo.type) {
@@ -170,6 +166,9 @@ export default {
           this.dialogDis = data.resultMsg
         }
       })
+      await function() {
+        console.log(`getAlertInfo two`)
+      }
     },
     getUserCompleteInfo() {
       api.getUserCompleteInfo().then(res => {
@@ -182,8 +181,6 @@ export default {
           this.showFooter = false
           this.showDialog = true
           this.accountStatus = list.status
-          // this.accountStatus = 'OPEN_ACCOUNT'
-          // this.accountStatus = 'COMPLATE'
           switch (this.accountStatus) {
             case 'OPEN_ACCOUNT':
               this.openSignText = '开通存管账户'
