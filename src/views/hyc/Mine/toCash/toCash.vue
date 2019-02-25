@@ -85,7 +85,8 @@
           </div>
         </li>
         <div class="err-msg" v-if="errMsg.cardBankCnaps">{{ errMsg.cardBankCnaps }}</div>
-        <li><span class="title"></span> <input style="margin-left: 110px;" type="button" value="确认提现" @click="withDraw" /></li>
+        <li v-if="isSpecialUser == 1 && type == 2"><span class="title"></span> <input style="margin-left: 110px;" type="button" value="确认提现" @click="transferWithdraw" /></li>
+        <li v-else><span class="title"></span> <input style="margin-left: 110px;" type="button" value="确认提现" @click="withDraw" /></li>
       </ul>
     </div>
     <div class="tips">
@@ -112,7 +113,8 @@ import {
   sysBankAreaListApi,
   sysBranceBankListApi,
   withdrawApi,
-  amountInfoApi
+  amountInfoApi,
+  transferWithdrawApi
 } from '@/api/hyc/Mine/tocash'
 import { getUser } from '@/assets/js/cache'
 import { getAuth, getRetBaseURL } from '@/assets/js/utils'
@@ -163,7 +165,8 @@ export default {
         common: ''
       },
       showDialog: false,
-      singleButton: true
+      singleButton: true,
+      isSpecialUser: this.$route.query.isSpecialUser
     }
   },
   watch: {
@@ -280,6 +283,49 @@ export default {
         data.mobile = this.bankCardInfo.mobile
       }
       withdrawApi(data).then(res => {
+        let data = res.data
+        let resultCode = data.resultCode
+        let resultMsg = data.resultMsg
+        if (resultCode === '1') {
+          let option = data.data.paramReq
+          this.postcall(data.data.redirectUrl, option)
+        } else {
+          // Toast(resultMsg);
+          this.errMsg.common = resultMsg
+          this.showDialog = true
+        }
+      })
+    },
+    transferWithdraw() {
+      if (!this.amount) {
+        this.errMsg.amount = '输入提现金额！'
+        return
+      } else {
+        this.errMsg.amount = ''
+      }
+      if (parseFloat(this.balance) <= 0 || this.amount > parseFloat(this.balance)) {
+        // Toast('输入金额不能大于可提现余额，请重新输入!');
+        this.errMsg.amount = '输入金额不能大于可提现余额，请重新输入！'
+        return
+      } else {
+        this.errMsg.amount = ''
+      }
+      if (this.type === 2 && !this.cardBankCnaps) {
+        // AppToast.empty('unionBankNo');
+        this.errMsg.cardBankCnaps = '输入联行号！'
+        return
+      } else {
+        this.errMsg.cardBankCnaps = ''
+      }
+
+      let url = getRetBaseURL() + '/mine/basicInfo'
+      let forgetUrl = getRetBaseURL() + '/mine/basicInfo'
+      let params = {
+        txAmount: this.amount,
+        retUrl: url,
+        forgotPwdUrl: forgetUrl
+      }
+      transferWithdrawApi(params).then(res => {
         let data = res.data
         let resultCode = data.resultCode
         let resultMsg = data.resultMsg
@@ -458,6 +504,9 @@ export default {
     Dialog
   },
   created() {
+    if (this.isSpecialUser === '1') {
+      this.type = 2
+    }
     this.getBankCardQuery()
     this.getBankUnionNumberUrl()
     amountInfoApi().then(res => {
