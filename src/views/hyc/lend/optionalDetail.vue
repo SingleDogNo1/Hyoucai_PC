@@ -3,7 +3,7 @@
     <section class="production-info">
       <div class="title">
         <h2>
-          <img src="./image/icon_ying.png" alt="">
+          <img :src="projectInfo.iconUrl" alt="">
           <span>{{projectInfo.projectName}}</span>
         </h2>
       </div>
@@ -32,7 +32,7 @@
         </div>
         <div class="progress-wrap">
           <span class="title">项目进度</span>
-          <el-progress :percentage="projectInfo.investPercent"></el-progress>
+          <el-progress :percentage="parseFloat(projectInfo.investPercent)"></el-progress>
           <span class="score">{{projectInfo.investPercent}}%</span>
         </div>
       </div>
@@ -79,7 +79,7 @@
             <el-checkbox class="all-lending-checkbox" v-model="isAllLending" @change="toggleFill">全部出借</el-checkbox>
           </div>
           <div class="action" v-if="investStatus === 'willSale' || investStatus === 'lending'">
-            <input class="amount-input" v-model="invAmount" @keyup="handleExpectedIncome" :disabled="invAmountDisabled">
+            <input class="amount-input" v-model="invAmount" @keyup="handleExpectedIncome(invAmount)" :disabled="invAmountDisabled">
             <button
               class="action-btn"
               :disabled="isDisableInvestBtn"
@@ -624,6 +624,7 @@ export default {
       invAmountDisabled: false, // 申请出借输入框是否禁用
       expectedIncome: '0.00', //逾期收益
       projectInfo: {
+        iconUrl: '', // icon图片链接
         investEndDay: '', // 募集倒计时(天)
         investEndTime: '', // 募集倒计时(时分秒)
         investRate: '', // 利率
@@ -775,7 +776,6 @@ export default {
       this.getJoinRecordList()
     },
     handleExpectedIncome(invAmount) {
-      //TODO invAmount.replace is not a function??
       this.invAmount = invAmount
         .replace(/[^\d.]/g, '')
         .replace(/\.{2,}/g, '.')
@@ -839,6 +839,7 @@ export default {
         console.log('data===', data)
         let projectInfo = data.projectInfo
         let investEndTimestamp = projectInfo.investEndTimestamp
+        this.projectInfo.iconUrl = projectInfo.iconUrl
         this.projectInfo.projectName = projectInfo.projectName
         this.projectInfo.investRate = projectInfo.investRate
         this.projectInfo.surplusAmt = projectInfo.surplusAmt
@@ -909,9 +910,9 @@ export default {
         projectNo: this.projectNo
       }
       optionalInvestDetail(postData).then(res => {
-        this.projectServiceEntity = res.data.projectServiceEntity
         let data = res.data.data
         let investDetail = data.investDetail
+        this.projectServiceEntity = data.projectServiceEntity
         this.investDetail.appDesc = investDetail.appDesc
         this.investDetail.investTarget = investDetail.investTarget
         this.investDetail.interestStartDate = investDetail.interestStartDate
@@ -1311,16 +1312,16 @@ export default {
         /deep/ .el-progress {
           width: 298px;
           line-height: 20px;
-          /deep/ .el-progress-bar__outer {
+          .el-progress-bar__outer {
             height: 6px !important;
             border-radius: 100px;
             background-color: #fdc48d;
           }
-          /deep/ .el-progress-bar__inner {
+          .el-progress-bar__inner {
             border-radius: 100px;
             background-color: #fb891f;
           }
-          /deep/ .el-progress__text {
+          .el-progress__text {
             display: none;
           }
         }

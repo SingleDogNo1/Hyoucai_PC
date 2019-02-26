@@ -1,13 +1,16 @@
 <template>
   <div class="lend-wrapper">
     <header>
-      <img src="./icon.png" alt="" />
+      <div class="icon">
+        <img src="./icon.png" alt="" />
+        <p>汇有财</p>
+      </div>
       <div class="earning">
-        <p>{{personalAccount.totalIncome}}元</p>
+        <p>{{ personalAccount.totalIncome }}元</p>
         <span>累计利息收益</span>
       </div>
       <div class="lend">
-        <p>{{personalAccount.totalInvAmount}}元</p>
+        <p>{{ personalAccount.totalInvAmount }}元</p>
         <span>累计出借</span>
       </div>
     </header>
@@ -27,7 +30,9 @@
             :key="index"
             :class="{ active: index === QSTStatusIndex }"
             @click="changeQSTStatus(index, item.statusCode)"
-          >{{ item.statusName }}</li>
+          >
+            {{ item.statusName }}
+          </li>
         </ul>
       </div>
       <div class="nav bid-date" v-if="dateStatus && dateStatus.length > 0">
@@ -38,7 +43,9 @@
             :key="index"
             :class="{ active: index === dateStatusIndex }"
             @click="changeDateStatus(index, item.value)"
-          >{{ item.key }}</li>
+          >
+            {{ item.key }}
+          </li>
         </ul>
       </div>
       <div class="nav bid-status" v-if="typeStatusIndex === 1">
@@ -49,12 +56,12 @@
             :key="index"
             :class="{ active: index === ZXTStatusIndex }"
             @click="changeZXTStatus(index, item.value)"
-          >{{ item.key }}</li>
+          >
+            {{ item.key }}
+          </li>
         </ul>
       </div>
-      <div class="detail-wrapper">
-        <router-view></router-view>
-      </div>
+      <div class="detail-wrapper"><router-view></router-view></div>
     </section>
   </div>
 </template>
@@ -241,6 +248,13 @@ export default {
         font-size: $font-size-small-s;
         color: $color-text-gray;
         text-align: center;
+      }
+    }
+    .icon {
+      p {
+        font-size: $font-size-small-ss;
+        margin-top: 5px;
+        padding-left: 11px;
       }
     }
     .earning {

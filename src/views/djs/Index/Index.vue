@@ -2,21 +2,15 @@
   <div class="index">
     <div class="swiper-container-banner" id="swiper-container-banner">
       <div class="swiper-wrapper">
-        <div
-          class="swiper-slide swiper-no-swiping stop-swiping"
-          v-for="(item, index) in bannerList"
-          :key="index"
-        >
+        <div class="swiper-slide swiper-no-swiping stop-swiping" v-for="(item, index) in bannerList" :key="index">
           <a :href="item.linkUrl">
-            <img :src="item.picUrl" class="swiper-lazy">
+            <img :src="item.picUrl" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
       </div>
       <div class="swiper-pagination-banner"></div>
-      <div class="form-container">
-        <login-form style="margin-top: 35px"></login-form>
-      </div>
+      <div class="form-container"><login-form style="margin-top: 35px"></login-form></div>
     </div>
     <div class="notice-wrap">
       <div class="notice-box">
@@ -27,12 +21,8 @@
             <div class="swiper-container-notice" id="swiper-container-notice1">
               <div class="swiper-wrapper">
                 <div class="swiper-slide" v-for="(item, index) in noticeList" :key="index">
-                  <router-link
-                    :to="{ name: 'announcementDetail', params: { id: item.id }, query: { paramCode: 'WZGG' } }"
-                  >
-                    {{
-                    item.title
-                    }}
+                  <router-link :to="{ name: 'announcementDetail', params: { id: item.id }, query: { paramCode: 'WZGG' } }">
+                    {{ item.title }}
                   </router-link>
                 </div>
               </div>
@@ -43,12 +33,8 @@
             <div class="swiper-container-notice" id="swiper-container-notice2">
               <div class="swiper-wrapper">
                 <div class="swiper-slide" v-for="(item, index) in industryList" :key="index">
-                  <router-link
-                    :to="{ name: 'announcementDetail', params: { id: item.id }, query: { paramCode: 'HYZX' } }"
-                  >
-                    {{
-                    item.title
-                    }}
+                  <router-link :to="{ name: 'announcementDetail', params: { id: item.id }, query: { paramCode: 'HYZX' } }">
+                    {{ item.title }}
                   </router-link>
                 </div>
               </div>
@@ -59,22 +45,15 @@
             <div class="swiper-container-notice" id="swiper-container-notice3">
               <div class="swiper-wrapper">
                 <div class="swiper-slide" v-for="(item, index) in mediaList" :key="index">
-                  <router-link
-                    :to="{ name: 'announcementDetail', params: { id: item.id }, query: { paramCode: 'MTBD' } }"
-                  >
-                    {{
-                    item.title
-                    }}
+                  <router-link :to="{ name: 'announcementDetail', params: { id: item.id }, query: { paramCode: 'MTBD' } }">
+                    {{ item.title }}
                   </router-link>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <router-link :to="{ name: 'announcement', query: { paramCode: 'WZGG' } }" class="more">
-          更多
-          <i class="iconfont icon-more"></i>
-        </router-link>
+        <router-link :to="{ name: 'announcement', query: { paramCode: 'WZGG' } }" class="more"> 更多 <i class="iconfont icon-more"></i> </router-link>
       </div>
     </div>
     <div class="introduction-wrap">
@@ -147,13 +126,8 @@
         <div class="production-wrap" v-for="(item, index) in noviceProjectList" :key="index">
           <div class="production-info">
             <div class="label-wrap">
-              <img :src="item.iconUrl" v-if="item.iconUrl">
-              <span class="title">{{ item.projectName }} {{ item.projectNo }}</span>
-              <span
-                class="label"
-                v-for="(tagItem, index) in item.tags"
-                :key="index"
-              >{{ tagItem.tagName }}</span>
+              <img :src="item.iconUrl" v-if="item.iconUrl" /> <span class="title">{{ item.projectName }} {{ item.projectNo }}</span>
+              <span class="label" v-for="(tagItem, index) in item.tags" :key="index">{{ tagItem.tagName }}</span>
             </div>
             <div class="returns">
               <p class="title">
@@ -189,12 +163,12 @@
           @click="viewInvestDetail(item)"
         >
           <p class="title">
-            <img :src="item.iconUrl" v-if="item.iconUrl">
-            <span class="icon">{{ item.projectName }}</span>
+            <img :src="item.iconUrl" v-if="item.iconUrl" /> <span class="icon">{{ item.projectName }}</span>
           </p>
           <div class="returns">
             <p class="title">
-              <span class="large">{{ item.investRate }}</span>%
+              <span class="large">{{ item.investRate }}</span
+              >%
             </p>
             <p class="desc">预期年化收益率</p>
           </div>
@@ -221,13 +195,8 @@
         <li></li>
         <li></li>
         <li>
-          <router-link
-            class="btn-more"
-            href="javascript:void(0);"
-            to="/infoDisclosure?paramCode=HZHB"
-          >
-            查看更多
-            <i class="iconfont icon-more"></i>
+          <router-link class="btn-more" href="javascript:void(0);" to="/infoDisclosure?paramCode=HZHB">
+            查看更多 <i class="iconfont icon-more"></i>
           </router-link>
         </li>
       </ul>
@@ -235,9 +204,7 @@
     <div class="activity-pop" v-if="isShowActivityPop">
       <div class="content">
         <i @click="closePop" class="el-icon-circle-close-outline"></i>
-        <div class="activity-img">
-          <button class="btn-to-investment">去投资</button>
-        </div>
+        <div class="activity-img"><button class="btn-to-investment">去投资</button></div>
       </div>
     </div>
     <!-- 系统不匹配的错误弹窗 -->
@@ -457,7 +424,6 @@ export default {
     getQualityList(data) {
       getQualityList(data).then(res => {
         let data = res.data
-        console.log('data===', data)
         this.noviceProjectList = data.noviceProjectList
         if (this.noviceProjectList) {
           this.noviceProjectList.forEach(val => {

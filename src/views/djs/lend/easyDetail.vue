@@ -3,7 +3,7 @@
     <section class="production-info">
       <div class="title">
         <h2>
-          <img src="./image/icon_hui.png" alt="">
+          <img :src="projectInfo.iconUrl" alt="">
           <span>{{projectInfo.projectName}}</span>
         </h2>
       </div>
@@ -32,14 +32,15 @@
         </div>
         <div class="progress-wrap">
           <span class="title">项目进度</span>
-          <el-progress :percentage="projectInfo.projectProgress"></el-progress>
+          <el-progress :percentage="parseFloat(projectInfo.projectProgress)"></el-progress>
           <span class="score">{{projectInfo.projectProgress}}%</span>
         </div>
       </div>
       <div class="tips">
         <div class="method">
           <span class="title">计息方式：</span>
-          <span>{{projectInfo.repayType}}</span>
+          <span v-if="projectInfo.repayType === 'XXHB'">先息后本</span>
+          <span v-if="projectInfo.repayType === 'DEBX'">等额本息</span>
         </div>
       </div>
       <div class="invest-module">
@@ -63,18 +64,18 @@
           </p>
           <p class="single-limit">
             <span class="title">单人限额</span>
-            <span class="value">{{projectInfo.surplusAmount}}元</span>
+            <span class="value">{{projectInfo.singleLimit}}元</span>
           </p>
           <div class="risk-notice">
             <el-checkbox v-model="isAgree">已阅读并同意
               <router-link target="_blank" :to="{ name: 'riskNoticationLetterAgreement'}">《风险告知书》</router-link>
             </el-checkbox>
           </div>
-          <div class="all-lending" v-if="!investDetail.tailProject">
+          <div class="all-lending">
             <el-checkbox class="all-lending-checkbox" v-model="isAllLending" @change="toggleFill">全部出借</el-checkbox>
           </div>
           <div class="action">
-            <input class="amount-input" v-model="invAmount" @keyup="handleExpectedIncome">
+            <input class="amount-input" v-model="invAmount" @keyup="handleExpectedIncome(invAmount)">
             <button
               class="action-btn"
               :disabled="isDisableInvestBtn"
@@ -98,7 +99,7 @@
       >
         <el-tab-pane label="出借详情" name="CJXQ">
           <div v-if="lendDetailActiveName === 'CJXQ'" class="content">
-            <p class="desc">{{investDetail.appDesc}}</p>
+            <p class="desc">{{projectInfo.appDesc}}</p>
             <ul class="detail-list">
               <li>
                 <p class="title">
@@ -107,10 +108,10 @@
                 <a
                   target="_blank"
                   class="value"
-                  :href="investDetail.agreementUrl"
-                >{{investDetail.agreementName}}</a>
+                  :href="projectInfo.agreementUrl"
+                >{{projectInfo.agreementName}}</a>
               </li>
-              <li v-for="(item, index) in investDetail.projectServiceEntity" :key="index">
+              <li v-for="(item, index) in projectInfo.projectServiceEntity" :key="index">
                 <!-- <p class="value">
                   <span>{{item.serviceName}}</span>
                 </p> -->
@@ -336,10 +337,10 @@
     <Dialog
       :show.sync="investCommonSuccessDialog.show"
       :title="investCommonSuccessDialog.title"
-      confirmText="我知道了"
+      confirmText="进入我的出借"
       class="common-dialog"
       :singleButton="investCommonSuccessDialog.singleButton"
-      :onConfirm="confirmCommon"
+      :onClose="confirmCommon"
     >
       <div>
         <p>{{investCommonSuccessDialog.msg}}</p>
@@ -349,9 +350,8 @@
     <Dialog
       :show.sync="investSJLSuccessDialog.show"
       :title="investSJLSuccessDialog.title"
-      confirmText="我知道了"
+      confirmText="填写地址"
       class="sjl-dialog"
-      :singleButton="investSJLSuccessDialog.singleButton"
       :onConfirm="confirmSJL"
     >
       <div>
@@ -362,13 +362,48 @@
     <Dialog
       :show.sync="investAutoInvestSuccessDialog.show"
       :title="investAutoInvestSuccessDialog.title"
-      confirmText="我知道了"
       class="auto-invest-dialog"
-      :singleButton="investAutoInvestSuccessDialog.singleButton"
       :onConfirm="confirmAutoInvest"
     >
-      <div>
-        <p>{{investAutoInvestSuccessDialog.msg}}</p>
+      <div class="msg-wrap">
+        <span>您已成功出借{{projectInfo.projectName}}{{invAmount}}元</span>
+        <router-link
+          tag="div"
+          :style="{
+            fontSize: '14px',
+            color: '#FB8B1F',
+            lineHeight: '26px'
+          }"
+          :to="{ name: 'userLend' }"
+        >
+          查看我的出借<i class="iconfont icon-more"></i>
+        </router-link>
+      </div>
+      <div class="auto-invest-way-wrap">
+        <div class="auto-invest-way1">
+          <el-radio v-model="investAutoInvestSuccessDialog.autoInvestWay" label="1">本金到期后自动出借 </el-radio >
+        </div>
+        <div class="auto-invest-way2">
+          <el-radio v-model="investAutoInvestSuccessDialog.autoInvestWay" label="2">本息到期后自动出借</el-radio >
+        </div>
+      </div>
+      <router-link class="auto-invest-agreement" :to="{ name: 'autoLendAgreement' }">《自动出借协议》</router-link>
+      <p class="tips" v-if="investAutoInvestSuccessDialog.autoInvestWay === '1'">
+        在本金自动出借模式下，每月产品到期时，系统自动将利息转入用户汇有财账户，本金继续出借。用户可在【我的账户】-【自动出借】界面取消，如有任何疑问，请联系客服：400-099-7979。
+      </p>
+      <p class="tips" v-if="investAutoInvestSuccessDialog.autoInvestWay === '2'">
+        在本息自动出借模式下，每月产品到期时系统默认将本金与利息合并后继续出借。用户可在【我的账户】-【自动出借】界面中取消。如有任何疑问，如有任何疑问，请联系客服：400-099-7979。
+      </p>
+    </Dialog>
+    <!-- 设置成功弹窗 -->
+    <Dialog
+      :show.sync="setSuccessDialog.show"
+      :showTitle="setSuccessDialog.showTitle"
+      :singleButton="setSuccessDialog.singleButton"
+    >
+      <div style="text-align: center">
+          <i class="iconfont icon-success" style="font-size: 60px; color: #fb7b1f;"></i>
+        <p style="margin: 20px 0 50px;">设置成功</p>
       </div>
     </Dialog>
   </div>
@@ -378,7 +413,16 @@
 import Swiper from 'swiper/dist/js/swiper'
 import { mapState } from 'vuex'
 import Pagination from '@/components/pagination/pagination'
-import { investCountProjectMsg, investUserCountMsg, bondproject, availableRedPacketApi, availableCouponApi, investApi } from '@/api/djs/lendDetail'
+import {
+  investCountProjectMsg,
+  investUserCountMsg,
+  bondproject,
+  availableRedPacketApi,
+  availableCouponApi,
+  investApi,
+  expectedIncome,
+  expireRepeatApi
+} from '@/api/djs/lendDetail'
 import Dialog from '@/components/Dialog/Dialog'
 
 export default {
@@ -402,19 +446,7 @@ export default {
       invAmount: '', // 申请出借输入框金额
       expectedIncome: '0.00', //逾期收益
       projectInfo: {
-        investRate: '', // 利率
-        projectName: '', // 产品名称
-        surplusAmount: '', // 剩余可投金额
-        investPropleCount: '', // 已购人次
-        projectProgress: 0, // 投资百分比
-        repayType: '', // 结息方式
-        minInvAmt: '', // 起投金额
-        status: 0, // nteger - 项目状态 1.未开启 2.已投X% 3.满标
-        balance: '', // 可用余额
-        maxInvAmount: '', // 单笔投资上限金额限制
-        projectType: '' // 项目名称
-      },
-      investDetail: {
+        iconUrl: '', // icon图片链接
         appDesc: '', // 项目介绍
         agreementName: '', // 协议名称
         agreementUrl: '', // 协议url
@@ -426,8 +458,19 @@ export default {
         costDes: '', // 费用说明
         riskAppraisal: '', // 项目风险评估及可能产生的风险结果
         riskManagementTip: '', // 出借人适当性管理提示
-        tailProject: '', // 是否是尾标(true : 尾标 false: 不是尾标),
-        projectServiceEntity: []
+        projectServiceEntity: [],
+        investRate: '', // 利率
+        projectName: '', // 产品名称
+        surplusAmount: '', // 剩余可投金额
+        investPropleCount: '', // 已购人次
+        projectProgress: 0, // 投资百分比
+        repayType: '', // 结息方式
+        minInvAmt: '', // 起投金额
+        singleLimit: '', // 单人限额
+        status: 0, // nteger - 项目状态 1.未开启 2.已投X% 3.满标
+        balance: '', // 可用余额
+        maxInvAmount: '', // 单笔投资上限金额限制
+        projectType: '' // 项目名称
       },
       joinRecordData: [], // 加入记录数据
       projectCompositionData: [], // 项目组成数据
@@ -459,24 +502,30 @@ export default {
       investCommonSuccessDialog: {
         // 出借普通产品成功弹窗
         show: false,
-        title: '',
+        title: '汇有财温馨提示',
         singleButton: true,
-        msg: ''
+        msg: '出借成功，您可在“我的出借”中查看详情。'
       },
       investSJLSuccessDialog: {
         // 出借手机乐产品成功弹窗
         show: false,
-        title: '',
-        singleButton: true,
+        title: '汇有财温馨提示',
         msg: ''
       },
       investAutoInvestSuccessDialog: {
         // 自动出借产品成功弹窗
         show: false,
-        title: '',
-        singleButton: true,
-        msg: ''
-      }
+        title: '设置自动出借，省心赚钱',
+        msg: '',
+        autoInvestWay: '1'
+      },
+      setSuccessDialog: {
+        show: false,
+        showTitle: false,
+        singleButton: true
+      },
+      invId: 0,
+      investType: ''
     }
   },
   components: {
@@ -507,8 +556,6 @@ export default {
           projectNo: val,
           page: this.page,
           size: this.size
-          // projectType: this.projectInfo.projectType,
-          // projectName: this.projectInfo.projectName
         }
       })
     },
@@ -516,7 +563,7 @@ export default {
       this.page = 1
       switch (this.lendDetailActiveName) {
         case 'CJXQ':
-          this.getLendDetailList()
+          this.getInvestDetailList()
           break
         case 'JRJL':
           this.getJoinRecordList()
@@ -559,7 +606,7 @@ export default {
       this.page = val
       this.getProjectCompoList()
     },
-    handleExpectedIncome(invAmount) {
+    handleExpectedIncome(invAmount, rate = this.projectInfo.investRate) {
       this.invAmount = invAmount
         .replace(/[^\d.]/g, '')
         .replace(/\.{2,}/g, '.')
@@ -567,15 +614,14 @@ export default {
         .replace(/\./g, '')
         .replace('$#$', '.')
         .replace(/^(-)*(\d+)\.(\d\d).*$/, '$1$2.$3')
-      // let postData = {
-      //   invAmount: this.invAmount,
-      //   investRate: this.projectInfo.investRate,
-      //   productId: this.productId
-      // }
-      // expectedIncome(postData).then(res => {
-      //   let data = res.data.data
-      //   this.expectedIncome = data.expectedIncome
-      // })
+
+      let postData = {
+        invAmount: this.invAmount,
+        investRate: rate,
+        productNo: this.productNo,
+        invDays: this.projectInfo.investMent
+      }
+      expectedIncome(postData).then(res => (this.expectedIncome = res.data.expectedIncome))
     },
     getInvestDetailList() {
       this.projectNo = this.$route.query.projectNo
@@ -585,61 +631,12 @@ export default {
       investCountProjectMsg(postData).then(res => {
         let data = res.data
         if (data.resultCode === '1') {
-          this.projectInfo.projectName = data.projectName
-          this.projectInfo.investRate = data.investRate
-          this.projectInfo.surplusAmount = data.surplusAmount
-          this.projectInfo.investPropleCount = data.investPropleCount
-          this.projectInfo.projectProgress = parseFloat(data.projectProgress)
-          this.projectInfo.repayType = data.repayType === 'XXHB' ? '先息后本' : '等额本息'
-          this.projectInfo.minInvAmt = data.minInvAmt
-          this.projectInfo.surplusAmount = data.surplusAmount
-          this.projectInfo.status = data.status
-
-          this.investDetail.appDesc = data.appDesc
-          this.investDetail.agreementName = data.agreementName
-          this.investDetail.agreementUrl = data.agreementUrl
-          this.investDetail.investTarget = data.investTarget
-          this.investDetail.investMent = data.investMent
-          this.investDetail.breathDate = data.breathDate
-          this.investDetail.profitShare = data.profitShare
-          this.investDetail.existSystem = data.existSystem
-          this.investDetail.costDes = data.costDes
-          this.investDetail.projectServiceEntity = data.projectServiceEntity
-
+          this.projectInfo = data
           this.getUserBasicInfo()
           this.getAmountQuery()
         } else {
-          this.$notify.error({
-            title: '错误',
-            message: data.resultMsg
-          })
-        }
-      })
-    },
-    getLendDetailList() {
-      this.productId = this.$route.query.productId
-      this.itemId = this.$route.query.itemId
-      let postData = {
-        projectNo: this.projectNo
-      }
-      investCountProjectMsg(postData).then(res => {
-        let data = res.data
-        if (data.resultCode === '1') {
-          this.investDetail.appDesc = data.appDesc
-          this.investDetail.agreementName = data.agreementName
-          this.investDetail.agreementUrl = data.agreementUrl
-          this.investDetail.investTarget = data.investTarget
-          this.investDetail.endData = data.endData
-          this.investDetail.breathDate = data.breathDate
-          this.investDetail.profitShare = data.profitShare
-          this.investDetail.existSystem = data.existSystem
-          this.investDetail.costDes = data.costDes
-          this.investDetail.projectServiceEntity = data.projectServiceEntity
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: data.resultMsg
-          })
+          this.investErrDialog.show = true
+          this.investErrDialog.msg = data.resultMsg
         }
       })
     },
@@ -756,12 +753,17 @@ export default {
         this.chooseCoupon = item
         this.chooseCouponRate = item.couponRate
         this.chooseCouponId = item.id
+
+        const withCouponRate = parseFloat(this.projectInfo.investRate) + parseFloat(item.couponRate)
+        this.handleExpectedIncome(this.invAmount, withCouponRate)
       } else {
         if (typeof this.chooseRedPacket.commonUse === 'undefined' || this.chooseRedPacket.commonUse === 1) {
           this.couponIndex = index
           this.chooseCoupon = item
           this.chooseCouponRate = item.couponRate
           this.chooseCouponId = item.id
+          const withCouponRate = parseFloat(this.projectInfo.investRate) + parseFloat(item.couponRate)
+          this.handleExpectedIncome(this.invAmount, withCouponRate)
         }
       }
     },
@@ -770,6 +772,8 @@ export default {
       this.chooseCoupon = {}
       this.chooseCouponRate = ''
       this.chooseCouponId = ''
+
+      this.handleExpectedIncome(this.invAmount)
     },
     redEnvelopeSwiper() {
       new Swiper('.swiper-container-red-envelope', {
@@ -837,20 +841,64 @@ export default {
         investSource: 'PC'
       }).then(res => {
         if (res.data.resultCode === '1') {
-          console.log(res.data)
+          const data = res.data
+          if (this.projectInfo.doubleBonuCouponEntity.dbCouponRate || this.projectInfo.doubleBonuCouponEntity.dbValidDays !== null) {
+            // 可以加息复投
+            this.investAutoInvestSuccessDialog.show = true
+            this.invId = data.id
+            this.investType = data.investType
+            this.investSJLSuccessDialog.msg = data.successInfo
+          } else {
+            // 普通产品
+            this.investCommonSuccessDialog.show = true
+            this.investCommonSuccessDialog.title = data.successTitle
+            this.investCommonSuccessDialog.msg = data.successInfo
+          }
         } else {
-          // ...
+          this.investErrDialog.show = true
+          this.investErrDialog.msg = res.data.resultMsg
         }
       })
     },
     confirmCommon() {
-      console.log`common`
+      this.$router.push({
+        name: 'lendDetail',
+        query: {
+          projectNo: this.projectNo
+        }
+      })
     },
     confirmSJL() {
-      console.log`sjl`
+      this.$router.push({
+        name: 'basicInfo',
+        query: {
+          projectNo: this.projectNo
+        }
+      })
     },
     confirmAutoInvest() {
-      console.log`auto-invest`
+      expireRepeatApi({
+        invId: this.invId,
+        projectNo: this.projectNo,
+        repeatStatus: this.investAutoInvestSuccessDialog.autoInvestWay
+      }).then(res => {
+        const data = res.data
+        if (data.resultCode === '1') {
+          switch (this.investType) {
+            case 'GENERAL':
+              // 普通标
+              this.setSuccessDialog.show = true
+              break
+            case 'SJLHD':
+              // 手机乐活动
+              this.investSJLSuccessDialog.show = true
+              break
+          }
+        } else {
+          this.investErrDialog.show = true
+          this.investErrDialog.msg = data.resultMsg
+        }
+      })
     }
   },
   mounted() {
@@ -861,6 +909,7 @@ export default {
 
 <style lang="scss" scoped>
 @import '../../../assets/css/theme';
+
 .lend-detail {
   padding-top: 30px;
   position: relative;
@@ -953,16 +1002,16 @@ export default {
         /deep/ .el-progress {
           width: 298px;
           line-height: 20px;
-          /deep/ .el-progress-bar__outer {
+          .el-progress-bar__outer {
             height: 6px !important;
             border-radius: 100px;
             background-color: #fdc48d;
           }
-          /deep/ .el-progress-bar__inner {
+          .el-progress-bar__inner {
             border-radius: 100px;
             background-color: #fb891f;
           }
-          /deep/ .el-progress__text {
+          .el-progress__text {
             display: none;
           }
         }
@@ -1576,5 +1625,97 @@ export default {
       }
     }
   }
+  .auto-invest-dialog {
+    /deep/ .inner {
+      padding: 32px 30px 40px 30px;
+      .msg-wrap {
+        display: flex;
+        width: 100%;
+        height: 70px;
+        // /line-height: 70px;
+        padding: 22px 15px;
+        background: #f3f2f2;
+        justify-content: space-between;
+        font-size: $font-size-medium;
+        color: $color-text-s;
+        span {
+          line-height: 26px;
+        }
+        .view-my-invest {
+          line-height: 24px;
+          font-size: $font-size-small-s;
+          color: #fb8b1f;
+        }
+      }
+      .auto-invest-way-wrap {
+        margin-top: 30px;
+        .auto-invest-way1 {
+          width: 200px;
+          margin: 0 auto;
+          margin-bottom: 12px;
+        }
+        .auto-invest-way2 {
+          width: 200px;
+          margin: 0 auto;
+        }
+        /deep/ .el-radio {
+          color: $color-text-s;
+          font-size: $font-size-medium;
+          .el-radio__inner {
+            width: 20px;
+            height: 20px;
+            &:after {
+              width: 6px;
+              height: 6px;
+              border: 1px solid #cdcdcd;
+              transform: translate(-50%, -50%) scale(1);
+            }
+          }
+          .el-radio__label {
+            font-size: $font-size-medium;
+          }
+        }
+        /deep/ .el-radio.is-checked {
+          .el-radio__inner {
+            width: 20px;
+            height: 20px;
+            border-color: #fb7b1f;
+            background: #fff;
+            &:after {
+              width: 6px;
+              height: 6px;
+              border: 1px solid #fb7b1f;
+              background-color: #fb7b1f;
+            }
+          }
+          .el-radio__label {
+            color: $color-text;
+            font-size: $font-size-medium;
+          }
+        }
+      }
+      .auto-invest-agreement {
+        display: block;
+        width: 200px;
+        margin: 0 auto;
+        margin-top: 10px;
+        text-align: center;
+        font-size: $font-size-small-s;
+        color: #2d85ed;
+        text-decoration: underline;
+      }
+      .tips {
+        margin-top: 20px;
+        color: $color-text-s;
+        font-size: $font-size-small-ss;
+      }
+      footer {
+        padding: 0 36px;
+      }
+    }
+  }
+}
+.sjl-dialog p {
+  text-align: center;
 }
 </style>

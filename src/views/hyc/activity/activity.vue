@@ -1,15 +1,16 @@
 <template>
   <div class="activity">
-    <ul v-lazy-container="{ selector: 'img'}" v-if="list.length>0">
+    <ul v-lazy-container="{ selector: 'img' }" v-if="list.length > 0">
       <li v-for="(item, i) in list" :key="i">
         <a :href="item.url">
-          <img class="activityPic" :data-src="item.picUrl" data-loading="/images/default_im.png" data-error="/images/default_im.png" alt="" /> <span class="activityDate">活动期限：{{ item.startTime }}-{{ item.endTime }}</span>
+          <img class="activityPic" :data-src="item.picUrl" data-loading="/images/default_im.png" data-error="/images/default_im.png" alt="" />
+          <span class="activityDate">活动期限：{{ item.startTime }}-{{ item.endTime }}</span>
         </a>
       </li>
     </ul>
     <div class="no-activity" v-else>
       <div>
-        <img src="./noActivity.png" alt="">
+        <img src="./noActivity.png" alt="" />
         <p>暂无活动信息</p>
       </div>
     </div>

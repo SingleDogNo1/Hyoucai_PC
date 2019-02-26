@@ -3,7 +3,7 @@
     <section class="production-info">
       <div class="title">
         <h2>
-          <img src="./image/icon_hui.png" alt="">
+          <img :src="projectInfo.iconUrl" alt="">
           <span>{{projectInfo.itemName}}</span>
         </h2>
       </div>
@@ -32,7 +32,7 @@
         </div>
         <div class="progress-wrap">
           <span class="title">项目进度</span>
-          <el-progress :percentage="projectInfo.investPercent"></el-progress>
+          <el-progress :percentage="parseFloat(projectInfo.investPercent)"></el-progress>
           <span class="score">{{projectInfo.investPercent}}%</span>
         </div>
       </div>
@@ -408,6 +408,7 @@ export default {
       invAmount: '', // 申请出借输入框金额
       expectedIncome: '0.00', //逾期收益
       projectInfo: {
+        iconUrl: '', // icon图片链接
         investEndDay: '', // 募集倒计时(天)
         investEndTime: '', // 募集倒计时(时分秒)
         investRate: '', // 利率
@@ -559,8 +560,7 @@ export default {
       this.page = val
       this.getProjectCompoList()
     },
-    handleExpectedIncome(invAmount) {
-      // TODO invAmount.replace is not a function??
+    handleExpectedIncome(invAmount, rate = this.projectInfo.investRate) {
       this.invAmount = invAmount
         .replace(/[^\d.]/g, '')
         .replace(/\.{2,}/g, '.')
@@ -571,7 +571,7 @@ export default {
 
       let postData = {
         invAmount: this.invAmount,
-        investRate: this.projectInfo.investRate,
+        investRate: rate,
         productId: this.productId
       }
       expectedIncome(postData).then(res => {
@@ -587,10 +587,11 @@ export default {
         itemId: this.itemId
       }
       easyInvestDetail(postData).then(res => {
-        this.projectServiceEntity = res.data.projectServiceEntity
         let data = res.data.data
         let projectInfo = data.projectInfo
         let investEndTimestamp = projectInfo.investEndTimestamp
+        this.projectServiceEntity = data.projectServiceEntity
+        this.projectInfo.iconUrl = projectInfo.iconUrl
         this.projectInfo.itemName = projectInfo.itemName
         this.projectInfo.investRate = projectInfo.investRate
         this.projectInfo.surplusAmt = projectInfo.surplusAmt
@@ -779,11 +780,25 @@ export default {
       this.chooseRedPacketId = ''
     },
     receiveCoupon(item, index) {
-      if (typeof this.chooseRedPacket.commonUse === 'undefined' || this.chooseRedPacket.commonUse === '1') {
+      if (item.commonUse === '0') {
+        this.cleanRedpacket()
         this.couponIndex = index
         this.chooseCoupon = item
         this.chooseCouponRate = item.couponRate
         this.chooseCouponId = item.id
+
+        const withCouponRate = parseFloat(this.projectInfo.investRate) + parseFloat(item.couponRate)
+        this.handleExpectedIncome(this.invAmount, withCouponRate)
+      } else {
+        if (typeof this.chooseRedPacket.commonUse === 'undefined' || this.chooseRedPacket.commonUse === '1') {
+          this.couponIndex = index
+          this.chooseCoupon = item
+          this.chooseCouponRate = item.couponRate
+          this.chooseCouponId = item.id
+
+          const withCouponRate = parseFloat(this.projectInfo.investRate) + parseFloat(item.couponRate)
+          this.handleExpectedIncome(this.invAmount, withCouponRate)
+        }
       }
     },
     cleanCoupon() {
@@ -791,6 +806,8 @@ export default {
       this.chooseCoupon = {}
       this.chooseCouponRate = ''
       this.chooseCouponId = ''
+
+      this.handleExpectedIncome(this.invAmount)
     },
     redEnvelopeSwiper() {
       new Swiper('.swiper-container-red-envelope', {
@@ -1000,16 +1017,16 @@ export default {
         /deep/ .el-progress {
           width: 298px;
           line-height: 20px;
-          /deep/ .el-progress-bar__outer {
+          .el-progress-bar__outer {
             height: 6px !important;
             border-radius: 100px;
             background-color: #fdc48d;
           }
-          /deep/ .el-progress-bar__inner {
+          .el-progress-bar__inner {
             border-radius: 100px;
             background-color: #fb891f;
           }
-          /deep/ .el-progress__text {
+          .el-progress__text {
             display: none;
           }
         }

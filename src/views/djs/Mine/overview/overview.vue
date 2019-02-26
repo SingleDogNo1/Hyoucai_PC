@@ -7,9 +7,11 @@
           <span class="big">{{ totalIncomeBig }}</span> <span class="small">.{{ totalIncomeSmall }}元</span>
         </p>
       </section>
-      <el-button type="info" v-if="user.platformFlag === '3'" @click="switchSystem">系统切换</el-button>
-      <el-button type="warning"><router-link :to="{ name: 'charge' }">充值</router-link></el-button>
-      <el-button type="warning"><router-link :to="{ name: 'tocash' }">提现</router-link></el-button>
+      <div>
+        <el-button type="info" v-if="user.platformFlag === '3'" @click="switchSystem">系统切换</el-button>
+        <el-button type="warning"><router-link :to="{ name: 'charge' }">充值</router-link></el-button>
+        <el-button type="warning"><router-link :to="{ name: 'tocash' }">提现</router-link></el-button>
+      </div>
     </div>
     <div class="amount" id="amount"></div>
   </div>
@@ -187,11 +189,11 @@ export default {
   display: flex;
   align-items: center;
   padding: 0 40px;
+  justify-content: space-between;
   section {
     font-size: $font-size-small-s;
     color: $color-text;
     line-height: 1;
-    margin-right: 200px;
     h6 {
       text-align: center;
       margin-bottom: 20px;

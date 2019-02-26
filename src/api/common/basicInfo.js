@@ -67,9 +67,26 @@ export function tansactionPwd(data) {
 // 修改电子账户手机号
 export function jxMobileModify(data) {
   return request({
+    url: 'jxMobileModify/modify',
+    method: 'post',
+    headers: { 'Content-type': 'application/x-www-form-urlencoded' },
+    data: qs.stringify(data)
+  })
+}
+//发送短信验证码-存管
+export function sendSms(data) {
+  return request({
     url: 'smsCodeApply/sendSms',
     method: 'post',
     headers: { 'Content-type': 'application/x-www-form-urlencoded' },
     data: qs.stringify(data)
+  })
+}
+//实名认证结果查询
+export function getCertificationVerify(data) {
+  return request({
+    url: '/CertificationVerify',
+    method: 'get',
+    params: data
   })
 }
