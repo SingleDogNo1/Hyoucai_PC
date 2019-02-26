@@ -50,77 +50,80 @@
           <span class="title-boder"></span>
           <span class="title-text">审核信息</span>
         </p>
-        <table class="examine">
-          <tr class="examine-title">
-            <td class="examine-td">身份信息</td>
-            <td class="examine-td">认证情况</td>
-            <td class="examine-td">身份信息</td>
-            <td class="examine-td">认证情况</td>
-          </tr>
-          <tr class="examine-tr">
-            <td colspan="2">
-              <table class="td-table">
-                <tr v-for="(item,index) in auditInfoList1" :key="index">
-                  <td style="border-left: 1px solid rgba(227, 227, 227, 1)">{{item.key}}</td>
-                  <td>
-                    <span v-show="!item.result">{{item.val}}</span>
-                    <img
-                      v-show="item.result&&item.field=='haveIDCard'"
-                      @click="flag=!flag"
-                      src="./../image/bg.png"
-                    >
-                    <img
-                      v-show="item.result&&item.field=='faceRecognition'"
-                      @click="flag=!flag"
-                      src="./../image/bg.png"
-                    >
-                    <img
-                      v-show="item.result&&item.field=='signing'"
-                      @click="flag=!flag"
-                      src="./../image/bg.png"
-                    >
-                    <img
-                      v-show="item.result&&item.field=='internetInformation'"
-                      @click="flag=!flag"
-                      src="./../image/bg.png"
-                    >
-                  </td>
-                </tr>
-              </table>
-            </td>
-            <td colspan="2">
-              <table class="td-table">
-                <tr v-for="(item,index) in auditInfoList2" :key="index">
-                  <td style="border-left: 1px solid #fff">{{item.key}}</td>
-                  <td>
-                    <span v-show="!item.img">{{item.val}}</span>
-                    <img
-                      v-show="item.img&&item.field=='haveIDCard'"
-                      @click="flag=!flag"
-                      src="./../image/bg.png"
-                    >
-                    <!-- 人脸识别 -->
-                    <img v-show="item.img&&item.field=='faceRecognition'" src="./../image/bg.png">
-                    <!-- 签约 -->
-                    <a
-                      :href="trilateralPdfPath"
-                      target="_blank"
-                      v-show="item.img&&item.field=='signing'"
-                    >
-                      <img @click="signing()" src="./../image/bg.png">
-                    </a>
-                    
-                    <img
-                      v-show="item.img&&item.field=='internetInformation'"
-                      @click="internetInformation()"
-                      src="./../image/bg.png"
-                    >
-                  </td>
-                </tr>
-              </table>
-            </td>
-          </tr>
-          <!-- <tr>
+        <div class="table-wrap" v-if="auditInfoList1.length > 0">
+          <table class="examine">
+            <tr class="examine-title">
+              <td class="examine-td">身份信息</td>
+              <td class="examine-td">认证情况</td>
+            </tr>
+            <tr class="examine-tr" v-for="(item,index) in auditInfoList1" :key="index">
+              <td>{{item.key}}</td>
+              <td>
+                <span v-show="!item.result">{{item.val}}</span>
+                <img
+                  v-show="item.result&&item.field=='haveIDCard'"
+                  @click="openReviewInfoPop(item)"
+                  src="./../image/bg.png"
+                >
+                <!-- 人脸识别 -->
+                <img
+                  v-show="item.result&&item.field=='faceRecognition'"
+                  @click="openFaceRecognitionPop(item)"
+                  src="./../image/bg.png"
+                >
+                <a
+                  :href="trilateralPdfPath"
+                  target="_blank"
+                  v-show="item.img&&item.field=='signing'"
+                >
+                  <img @click="signing()" src="./../image/bg.png">
+                </a>
+                <img
+                  v-show="item.result&&item.field=='internetInformation'"
+                  @click="internetInformation()"
+                  src="./../image/bg.png"
+                >
+              </td>
+            </tr>
+          </table>
+          <table class="examine" v-if="auditInfoList2.length > 0">
+            <tr class="examine-title">
+              <td>身份信息</td>
+              <td>认证情况</td>
+            </tr>
+            <tr v-for="(item,index) in auditInfoList2" :key="index">
+              <td style="border-left: 1px solid #fff">{{item.key}}</td>
+              <td>
+                <span v-show="!item.img">{{item.val}}</span>
+                <img
+                  v-show="item.img&&item.field=='haveIDCard'"
+                  @click="openReviewInfoPop(item)"
+                  src="./../image/bg.png"
+                >
+                <!-- 人脸识别 -->
+                <img
+                  v-show="item.img&&item.field=='faceRecognition'"
+                  @click="openFaceRecognitionPop(item)"
+                  src="./../image/bg.png"
+                >
+                <!-- 签约 -->
+                <a
+                  :href="trilateralPdfPath"
+                  target="_blank"
+                  v-show="item.img&&item.field=='signing'"
+                >
+                  <img @click="signing()" src="./../image/bg.png">
+                </a>
+                <img
+                  v-show="item.img&&item.field=='internetInformation'"
+                  @click="internetInformation()"
+                  src="./../image/bg.png"
+                >
+              </td>
+            </tr>
+          </table>
+        </div>
+        <!-- <tr>
             <td>身份证认证</td>
             <td>
               <img @click="flag=!flag" src="./../image/bg.png">
@@ -151,8 +154,7 @@
             </td>
             <td></td>
             <td></td>
-          </tr>-->
-        </table>
+        </tr>-->
         <p class="title">
           <span class="title-boder"></span>
           <span class="title-text">还款来源</span>
@@ -296,17 +298,6 @@
         </div>
       </section>
     </div>
-    <div class="id-image" v-show="flag">
-      <i @click="flag=!flag" class="el-icon-circle-close-outline close"></i>
-      <img
-        class="front"
-        src="https://www.hyoucai.com:8082/huiyoucaifiles/picture/certification/2018-09-25/idCardM_a_BD20180925023001020650_djs361466uv.png"
-      >
-      <img
-        class="back"
-        src="https://www.hyoucai.com:8082/huiyoucaifiles/picture/certification/2018-09-25/idCardM_b_BD20180925023001020650_djs361466uv.png"
-      >
-    </div>
     <div v-show="isInternetInformation" class="internetInformation">
       <h3 class="internetInformation-h2">
         互联网资信报告
@@ -322,13 +313,34 @@
         </p>
       </div>
     </div>
-    <Dialog
-      :show.sync="isShowDialog"
-      class="dialog"
-      :singleButton="singleButton"
-    >
+    <div class="face-recognition-pop" v-if="isShowFaceRecognitionPop">
+      <div class="content face-content">
+        <div class="close-wrap">
+          <i @click="closeFaceRecognitionPop" class="el-icon-circle-close-outline close"></i>
+          <img class="face" :src="facePic">
+        </div>
+      </div>
+    </div>
+    <Dialog :show.sync="isShowDialog" class="dialog" :singleButton="singleButton">
       <div class="dialog-div">{{resultMsg}}</div>
     </Dialog>
+    <div class="authentication-pop" v-if="isShowAuthenticationPop">
+      <div class="content">
+        <div class="close-wrap">
+          <i @click="closeReviewInfoPop" class="el-icon-circle-close-outline close"></i>
+          <img class="front" :src="picList[0]">
+          <img class="back" :src="picList[1]">
+        </div>
+      </div>
+    </div>
+    <div class="face-recognition-pop" v-if="isShowFaceRecognitionPop">
+      <div class="content face-content">
+        <div class="close-wrap">
+          <i @click="closeFaceRecognitionPop" class="el-icon-circle-close-outline close"></i>
+          <img class="face" :src="facePic">
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -344,7 +356,6 @@ export default {
       isShowDialog: false,
       resultMsg: '',
       trilateralPdfPath: '',
-      flag: false,
       isInternetInformation: false,
       borrowerName: '',
       sex: '',
@@ -367,6 +378,10 @@ export default {
       rate: '',
       projectName: '',
       contractNum: '',
+      isShowAuthenticationPop: false,
+      isShowFaceRecognitionPop: false,
+      picList: [], // 身份证弹窗图片
+      facePic: '', // 人脸识别弹窗图片
       guaranteeProtocolUrl: '',
       auditInfoList1: [],
       auditInfoList2: [],
@@ -377,6 +392,21 @@ export default {
     Dialog
   },
   methods: {
+    closeReviewInfoPop() {
+      this.isShowAuthenticationPop = false
+    },
+    closeFaceRecognitionPop() {
+      this.isShowFaceRecognitionPop = false
+    },
+    openReviewInfoPop(item) {
+      this.isShowAuthenticationPop = true
+      this.picList = item.result.split(',')
+    },
+    openFaceRecognitionPop(item) {
+      //人脸识别
+      this.isShowFaceRecognitionPop = true
+      this.facePic = item.result
+    },
     signing() {
       //签约
       getTrilateralPdfPath({ invRecordId: this.$route.params.invRecordId }).then(res => {
@@ -578,19 +608,6 @@ export default {
           td {
             width: 25%;
             border: none;
-            .td-table {
-              width: 100%;
-              tr {
-                width: 100%;
-                td {
-                  border: none;
-                  height: 40px;
-                  width: 50%;
-                  border-right: 1px solid rgba(227, 227, 227, 1);
-                  border-bottom: 1px solid rgba(227, 227, 227, 1);
-                }
-              }
-            }
           }
         }
         .examine-title {
@@ -598,6 +615,50 @@ export default {
           td {
             color: rgba(74, 74, 74, 1);
           }
+        }
+      }
+      .table-wrap {
+        display: flex;
+        .examine {
+          margin: 21px 0 32px;
+          width: 50%;
+          tr {
+            width: 100%;
+            td {
+              width: 25%;
+              height: 40px;
+              border: 1px solid rgba(227, 227, 227, 1);
+              text-align: center;
+              color: rgba(155, 155, 155, 1);
+              font-size: $font-size-small-ss;
+              line-height: 14px;
+              padding: 0 20px;
+              img {
+                width: 24px;
+                height: 17px;
+                border-radius: 2px;
+                vertical-align: middle;
+                cursor: pointer;
+              }
+            }
+            .left {
+              width: 30%;
+            }
+          }
+          .examine-title {
+            background: rgba(240, 247, 255, 1);
+            td {
+              color: rgba(74, 74, 74, 1);
+            }
+          }
+          &:nth-child(2n) {
+            tr td {
+              border-left: 0;
+            }
+          }
+        }
+        .cost {
+          width: 100%;
         }
       }
       .repayment {
@@ -737,6 +798,90 @@ export default {
       p {
         width: 50%;
       }
+    }
+  }
+  .authentication-pop,
+  .face-recognition-pop {
+    position: fixed;
+    z-index: 100000;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    .content {
+      position: fixed;
+      display: table;
+      z-index: 100001;
+      width: 420px;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      margin: auto;
+      text-align: center;
+      background: #fff;
+      box-shadow: 0px 4px 16px 0px rgba(0, 0, 0, 0.32);
+      border-radius: 8px;
+      overflow: hidden;
+      .close-wrap {
+        position: relative;
+        width: 100%;
+        .close {
+          position: absolute;
+          top: 16px;
+          right: 16px;
+          color: #4a4a4a;
+          font-size: 28px;
+          cursor: pointer;
+        }
+      }
+      img {
+        display: block;
+        width: 329px;
+        height: 205px;
+        margin: 0 auto;
+        margin-bottom: 20px;
+      }
+      img.front {
+        padding-top: 60px;
+      }
+      img.face {
+        width: 140px;
+        height: 140px;
+        padding-top: 20px;
+      }
+      h3 {
+        padding-top: 20px;
+        font-size: $font-size-medium-x;
+        font-weight: 500;
+        color: $color-text-s;
+      }
+      ul {
+        width: 450px;
+        margin: 0 auto;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-top: 10px;
+        padding-bottom: 20px;
+        li {
+          font-size: $font-size-small;
+          color: $color-text-s;
+          text-align: left;
+          &:nth-child(2n) {
+            width: 60%;
+          }
+          &:nth-child(2n + 1) {
+            width: 40%;
+          }
+        }
+      }
+    }
+    .content.face-content {
+      width: 300px;
+    }
+    .report-content {
+      width: 490px;
     }
   }
   .dialog {
