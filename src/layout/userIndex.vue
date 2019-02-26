@@ -18,6 +18,12 @@
       <div slot class="discribe">{{ dialogDis }}</div>
       <el-button v-if="openSignText" class="open-sign-btn" @click.native="viewDialog">{{ openSignText }}</el-button>
     </Dialog>
+    <Dialog
+      class="repeat-unread-dialog"
+      :show.sync="repeatUnreadDialogOptions.show"
+    >
+      <slot>1231321</slot>
+    </Dialog>
     <Certification v-if="accountStatus !== 'COMPLETE'" reg-flow-to="risk"> <span></span> </Certification>
   </div>
 </template>
@@ -28,7 +34,8 @@ import { mapGetters, mapMutations } from 'vuex'
 import { userBasicInfo } from '@/api/common/login'
 import Dialog from '@/components/Dialog/Dialog'
 import Certification from '@/components/CertificationFlow/CertificationFlow'
-import api from '@/api/common/userIndex'
+import { alertInfoAcceptApi, getAlertInfo, getUserCompleteInfo, repeatInvestApi } from '@/api/common/userIndex'
+import { currentPlatform } from '../assets/js/utils'
 
 const CODE_OK = '1'
 export default {
@@ -54,7 +61,12 @@ export default {
       showTitle: true,
       showLogo: false,
       showFooter: true,
-      openSignText: ''
+      openSignText: '',
+      repeatInvestUnreadMsgList: [], // 点金石未读复投消息列表
+      repeatUnreadDialogOptions: {
+        // 点金石未读复投消息弹窗参数
+        show: true
+      }
     }
   },
   props: {},
@@ -80,7 +92,7 @@ export default {
       }
     },
     onConfirm() {
-      api.alertInfoAcceptApi({ type: 'evaluate' }).then(res => {
+      alertInfoAcceptApi({ type: 'evaluate' }).then(res => {
         if (res.data.resultCode !== '1') {
           console.log(res.data.resultMsg)
         }
@@ -99,8 +111,8 @@ export default {
         })
       }
     },
-    async getAlertInfo() {
-      await api.getAlertInfo().then(res => {
+    getAlertInfo() {
+      getAlertInfo().then(res => {
         let data = res.data
         if (data.resultCode === CODE_OK) {
           this.alertInfo = data.data
@@ -166,12 +178,9 @@ export default {
           this.dialogDis = data.resultMsg
         }
       })
-      await function() {
-        console.log(`getAlertInfo two`)
-      }
     },
     getUserCompleteInfo() {
-      api.getUserCompleteInfo().then(res => {
+      getUserCompleteInfo().then(res => {
         let data = res.data
         let list = data.data
         if (data.resultCode === CODE_OK) {
@@ -202,7 +211,16 @@ export default {
               this.openSignText = ''
               this.routerLink = ''
               this.showDialog = false
-              this.getAlertInfo()
+
+              if (currentPlatform) {
+                repeatInvestApi({
+                  userName: this.user.userName
+                }).then(res => {
+                  this.repeatInvestUnreadMsgList = res.data.message.repeatUnRead
+                })
+              } else {
+                this.getAlertInfo()
+              }
           }
           this.dialogDis = list.message
         }
