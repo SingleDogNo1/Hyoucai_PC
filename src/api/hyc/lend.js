@@ -4,8 +4,8 @@ import qs from 'qs'
 export function getCountMsg(data) {
   return request({
     url: '/InvestCountMsg',
-    method: 'GET',
-    data: data
+    method: 'post',
+    data: qs.stringify(data)
   })
 }
 export function getQSList(data) {
@@ -45,5 +45,40 @@ export function getPageConfig() {
   return request({
     url: '/pageConfig/getPageConfig',
     method: 'POST'
+  })
+}
+
+export function getProjectDetail(data) {
+  // 项目详情
+  return request({
+    url: '/collection/projectDetail',
+    method: 'POST',
+    data: qs.stringify(data)
+  })
+}
+
+export function getPeopleLoanInfo(data) {
+  return request({
+    url: '/collection/peopleLoanInfo',
+    method: 'post',
+    data: qs.stringify(data)
+  })
+}
+
+// 优质计划-投资详情2.0
+export function easyInvestDetail(data) {
+  return request({
+    url: 'collection/investDetail/2.0',
+    method: 'post',
+    data: qs.stringify(data)
+  })
+}
+
+// 散标标的详情接口
+export function optionalInvestDetail(data) {
+  return request({
+    url: 'project/projectDetail',
+    method: 'post',
+    data: qs.stringify(data)
   })
 }

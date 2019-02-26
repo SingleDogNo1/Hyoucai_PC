@@ -81,6 +81,33 @@ export function postcall(url, params, target) {
   document.body.removeChild(tempform)
 }
 
+//格式化时间倒计时(将XXX秒格式化为X天 HH:MM:DD，status为0，倒计时停止)
+export function timeCountDown(t, status, callback) {
+  let d = (t - (t % 86400)) / 86400
+  let h = ((t - (t % 3600)) / 3600) % 24
+  let i = ((t - (t % 60)) / 60) % 60
+  let s = t % 60
+  let stime = ''
+  if (d > 0) {
+    stime += d + '天'
+  }
+  stime += h < 10 ? '0' + h + ':' : h + ':'
+  stime += i < 10 ? '0' + i + ':' : i + ':'
+  stime += s < 10 ? '0' + s : s
+  callback(stime)
+  if (status === 0) return
+  t--
+  if (t >= 0) {
+    setTimeout(function() {
+      timeCountDown(t, status, callback)
+    }, 1000)
+  } else {
+    setTimeout(function() {
+      timeCountDown(0, status, callback)
+    }, 1000)
+  }
+}
+
 // 推荐码正则校验
 export function referralCodeReg(referralCode) {
   let reg = /^(h|d)(.*[0-9])$/
