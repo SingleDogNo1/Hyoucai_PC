@@ -45,7 +45,7 @@
                     </div>
                   </li>
                   <li>
-                    <img src="./images/icon_executive2.png" />
+                    <img src="./images/icon_executive2.jpg" />
                     <p class="name">傅伟菱</p>
                     <p class="position">首席运营官（COO）</p>
                     <div class="desc-wrap">
