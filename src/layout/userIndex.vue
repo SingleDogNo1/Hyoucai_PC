@@ -21,10 +21,12 @@
     <Dialog
       class="repeat-unread-dialog"
       :show.sync="repeatUnreadDialogOptions.show"
+      title="设置自动出借，省心赚钱"
+      :onConfirm="confirmRepeatUnread"
     >
       <slot>1231321</slot>
     </Dialog>
-    <Certification v-if="accountStatus !== 'COMPLETE'" reg-flow-to="risk"> <span></span> </Certification>
+    <Certification v-if="accountStatus !== 'COMPLETE'" reg-flow-to="risk"> <span></span></Certification>
   </div>
 </template>
 
@@ -65,7 +67,8 @@ export default {
       repeatInvestUnreadMsgList: [], // 点金石未读复投消息列表
       repeatUnreadDialogOptions: {
         // 点金石未读复投消息弹窗参数
-        show: true
+        show: false,
+        title: '设置自动出借，省心赚钱'
       }
     }
   },
@@ -225,7 +228,8 @@ export default {
           this.dialogDis = list.message
         }
       })
-    }
+    },
+    confirmRepeatUnread() {}
   },
   computed: {
     ...mapGetters(['user', 'userBasicInfo'])

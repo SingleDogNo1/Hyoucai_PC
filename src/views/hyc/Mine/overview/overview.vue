@@ -135,7 +135,7 @@ export default {
             const data = [
               { value: $this.amountInfo.banlance, name: '可用余额' },
               { value: $this.amountInfo.waitBackPrincipal, name: '在投本金' },
-              { value: $this.amountInfo.tocashFreeAmount, name: '冻结金额' },
+              { value: $this.amountInfo.freezeAmount, name: '冻结金额' },
               { value: $this.amountInfo.waitBackInterest, name: '待收利息' }
             ]
             let target
@@ -185,7 +185,7 @@ export default {
             data: [
               { value: $this.amountInfo.banlance, name: '可用余额' },
               { value: $this.amountInfo.waitBackPrincipal, name: '在投本金' },
-              { value: $this.amountInfo.tocashFreeAmount, name: '冻结金额' },
+              { value: $this.amountInfo.freezeAmount, name: '冻结金额' },
               { value: $this.amountInfo.waitBackInterest, name: '待收利息' }
             ]
           }
