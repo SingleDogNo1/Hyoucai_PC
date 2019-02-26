@@ -3,7 +3,7 @@
     <section class="production-info">
       <div class="title">
         <h2>
-          <img src="./image/icon_ying.png" alt="">
+          <img :src="projectInfo.iconUrl" alt="">
           <span>{{projectInfo.projectName}}</span>
         </h2>
       </div>
@@ -624,6 +624,7 @@ export default {
       invAmountDisabled: false, // 申请出借输入框是否禁用
       expectedIncome: '0.00', //逾期收益
       projectInfo: {
+        iconUrl: '', // icon图片链接
         investEndDay: '', // 募集倒计时(天)
         investEndTime: '', // 募集倒计时(时分秒)
         investRate: '', // 利率

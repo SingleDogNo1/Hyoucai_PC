@@ -3,7 +3,7 @@
     <section class="production-info">
       <div class="title">
         <h2>
-          <img src="./image/icon_hui.png" alt="">
+          <img :src="projectInfo.iconUrl" alt="">
           <span>{{projectInfo.projectName}}</span>
         </h2>
       </div>
@@ -446,6 +446,7 @@ export default {
       invAmount: '', // 申请出借输入框金额
       expectedIncome: '0.00', //逾期收益
       projectInfo: {
+        iconUrl: '', // icon图片链接
         appDesc: '', // 项目介绍
         agreementName: '', // 协议名称
         agreementUrl: '', // 协议url
