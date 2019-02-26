@@ -111,6 +111,7 @@ export default {
         let data = res.data
         if (data.resultCode === '1') {
           this.$notify({ title: '成功', message: '推荐人邀请码填写成功', type: 'success', duration: 2000 })
+          this.getUserInviteInfo()
         } else {
           this.$notify({ title: '失败', message: data.resultMsg, type: 'error', duration: 2000 })
         }
