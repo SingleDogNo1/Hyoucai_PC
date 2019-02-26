@@ -23,8 +23,11 @@ module.exports = {
       chunks: ['chunk-vendors', 'chunk-common', 'djs']
     }
   },
-  configureWebpack: {
-    devtool: process.env.NODE_ENV === 'production' ? 'none' : 'source-map'
+  configureWebpack: (config) => {
+    if (process.env.NODE_ENV === 'production') {
+      config.optimization.minimizer[0].options.terserOptions.compress.drop_console = true
+      config.devtool = 'none'
+    }
   },
   devServer: {
     host: '0.0.0.0',
