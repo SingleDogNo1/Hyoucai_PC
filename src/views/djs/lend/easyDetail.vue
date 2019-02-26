@@ -64,7 +64,7 @@
           </p>
           <p class="single-limit">
             <span class="title">单人限额</span>
-            <span class="value">{{projectInfo.surplusAmount}}元</span>
+            <span class="value">{{projectInfo.singleLimit}}元</span>
           </p>
           <div class="risk-notice">
             <el-checkbox v-model="isAgree">已阅读并同意
@@ -466,6 +466,7 @@ export default {
         projectProgress: 0, // 投资百分比
         repayType: '', // 结息方式
         minInvAmt: '', // 起投金额
+        singleLimit: '', // 单人限额
         status: 0, // nteger - 项目状态 1.未开启 2.已投X% 3.满标
         balance: '', // 可用余额
         maxInvAmount: '', // 单笔投资上限金额限制
