@@ -2,46 +2,40 @@ import axios from '@/assets/js/requestHYC'
 import qs from 'qs'
 
 function getAlertInfo(data) {
-  return new Promise((resolve, reject) => {
-    axios.post('/alert/alertInfo', qs.stringify(data)).then(
-      res => {
-        resolve(res)
-      },
-      err => {
-        reject(err)
-      }
-    )
+  return axios({
+    url: 'alert/alertInfo',
+    method: 'post',
+    data: qs.stringify(data)
   })
 }
 
 function getUserCompleteInfo(data) {
-  return new Promise((resolve, reject) => {
-    axios.post('/user/userInfoCompleteNotice', qs.stringify(data)).then(
-      res => {
-        resolve(res)
-      },
-      err => {
-        reject(err)
-      }
-    )
+  return axios({
+    url: 'user/userInfoCompleteNotice',
+    method: 'post',
+    data: qs.stringify(data)
   })
 }
 
 function alertInfoAcceptApi(data) {
-  return new Promise((resolve, reject) => {
-    axios.post('/alert/alertInfoAccept', qs.stringify(data)).then(
-      res => {
-        resolve(res)
-      },
-      err => {
-        reject(err)
-      }
-    )
+  return axios({
+    url: 'alert/alertInfoAccept',
+    method: 'post',
+    data: qs.stringify(data)
   })
 }
 
-export default {
+function repeatInvestApi(data) {
+  return axios({
+    url: 'RepeatMessage',
+    method: 'post',
+    data: qs.stringify(data)
+  })
+}
+
+export {
   getAlertInfo, // 弹窗信息
   getUserCompleteInfo, // 签约、开户等状态
-  alertInfoAcceptApi // 确认看到了弹窗（目前只有风险评测）
+  alertInfoAcceptApi, // 确认看到了弹窗（目前只有风险评测）
+  repeatInvestApi // 复投消息中心接口
 }
