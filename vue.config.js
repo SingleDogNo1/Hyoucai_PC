@@ -1,8 +1,3 @@
-//去console插件
-// const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
-// //gzip压缩插件
-// const CompressionWebpackPlugin = require('compression-webpack-plugin')
-
 module.exports = {
   baseUrl: process.env.NODE_ENV === 'production' ? '../' : '/',
   pages: {
@@ -28,6 +23,12 @@ module.exports = {
       chunks: ['chunk-vendors', 'chunk-common', 'djs']
     }
   },
+  configureWebpack: (config) => {
+    if (process.env.NODE_ENV === 'production') {
+      config.optimization.minimizer[0].options.terserOptions.compress.drop_console = true
+      config.devtool = 'none'
+    }
+  },
   devServer: {
     host: '0.0.0.0',
     disableHostCheck: true,
@@ -48,9 +49,5 @@ module.exports = {
         wx: true
       }
     }
-  },
-  configureWebpack: {
-    devtool: process.env.NODE_ENV === 'production' ? 'none' : 'source-map'
-  },
-  transpileDependencies: ['dom7']
+  }
 }
