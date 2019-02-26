@@ -24,7 +24,18 @@
       title="设置自动出借，省心赚钱"
       :onConfirm="confirmRepeatUnread"
     >
-      <slot>1231321</slot>
+      <div>
+        <p class="board">您有{{repeatInvestUnreadMsgList.length}}笔出借即将到期，设置自动出借加息1%， 到期出借生效</p>
+        <div class="auto-invest-way-wrap">
+          <div class="auto-invest-way1">
+            <el-radio v-model="repeatUnreadDialogOptions.autoInvestWay" label="1">本金到期后自动出借 </el-radio >
+          </div>
+          <div class="auto-invest-way2">
+            <el-radio v-model="repeatUnreadDialogOptions.autoInvestWay" label="2">本息到期后自动出借</el-radio >
+          </div>
+        </div>
+        <router-link class="auto-invest-agreement" :to="{ name: 'autoLendAgreement' }">《自动出借协议》</router-link>
+      </div>
     </Dialog>
     <Certification v-if="accountStatus !== 'COMPLETE'" reg-flow-to="risk"> <span></span></Certification>
   </div>
@@ -36,7 +47,7 @@ import { mapGetters, mapMutations } from 'vuex'
 import { userBasicInfo } from '@/api/common/login'
 import Dialog from '@/components/Dialog/Dialog'
 import Certification from '@/components/CertificationFlow/CertificationFlow'
-import { alertInfoAcceptApi, getAlertInfo, getUserCompleteInfo, repeatInvestApi } from '@/api/common/userIndex'
+import { alertInfoAcceptApi, getAlertInfo, getUserCompleteInfo, repeatInvestApi, UpdateMessageApi } from '@/api/common/userIndex'
 import { currentPlatform } from '../assets/js/utils'
 
 const CODE_OK = '1'
@@ -67,8 +78,8 @@ export default {
       repeatInvestUnreadMsgList: [], // 点金石未读复投消息列表
       repeatUnreadDialogOptions: {
         // 点金石未读复投消息弹窗参数
-        show: false,
-        title: '设置自动出借，省心赚钱'
+        show: true,
+        autoInvestWay: '1'
       }
     }
   },
@@ -219,7 +230,11 @@ export default {
                 repeatInvestApi({
                   userName: this.user.userName
                 }).then(res => {
-                  this.repeatInvestUnreadMsgList = res.data.message.repeatUnRead
+                  if (res.data.message.repeatUnRead.lenght > 0) {
+                    this.repeatInvestUnreadMsgList = res.data.message.repeatUnRead
+                  } else {
+                    this.getAlertInfo()
+                  }
                 })
               } else {
                 this.getAlertInfo()
@@ -229,7 +244,17 @@ export default {
         }
       })
     },
-    confirmRepeatUnread() {}
+    confirmRepeatUnread() {
+      UpdateMessageApi({
+        id: this.repeatInvestUnreadMsgList.id,
+        userName: this.user.userName,
+        messageType: 'FTXI'
+      }).then(res => {
+        if (res.data.resultCode !== '1') {
+          console.log(res.data.resultMsg)
+        }
+      })
+    }
   },
   computed: {
     ...mapGetters(['user', 'userBasicInfo'])
@@ -248,6 +273,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '../assets/css/mixins';
+@import '../assets/css/theme';
+
 .mine-wrapper {
   width: 1140px;
   height: 100%;
@@ -270,5 +298,75 @@ export default {
     color: #fff;
     font-size: 16px;
   }
+}
+
+.repeat-unread-dialog {
+  /deep/ .inner {
+    padding: 40px 30px;
+  }
+  .board {
+    background: #f3f2f2;
+    padding: 16px 20px;
+    font-size: 18px;
+    color: #5b5b5b;
+    line-height: 26px;
+    text-align: center;
+  }
+}
+
+.auto-invest-way-wrap {
+  margin-top: 30px;
+  .auto-invest-way1 {
+    width: 200px;
+    margin: 0 auto 12px;
+  }
+  .auto-invest-way2 {
+    width: 200px;
+    margin: 0 auto;
+  }
+  /deep/ .el-radio {
+    color: $color-text-s;
+    font-size: $font-size-medium;
+    .el-radio__inner {
+      width: 20px;
+      height: 20px;
+      &:after {
+        width: 6px;
+        height: 6px;
+        border: 1px solid #cdcdcd;
+        transform: translate(-50%, -50%) scale(1);
+      }
+    }
+    .el-radio__label {
+      font-size: $font-size-medium;
+    }
+  }
+  /deep/ .el-radio.is-checked {
+    .el-radio__inner {
+      width: 20px;
+      height: 20px;
+      border-color: #fb7b1f;
+      background: #fff;
+      &:after {
+        width: 6px;
+        height: 6px;
+        border: 1px solid #fb7b1f;
+        background-color: #fb7b1f;
+      }
+    }
+    .el-radio__label {
+      color: $color-text;
+      font-size: $font-size-medium;
+    }
+  }
+}
+.auto-invest-agreement {
+  display: block;
+  width: 200px;
+  margin: 20px auto 0;
+  text-align: center;
+  font-size: $font-size-small-s;
+  color: #2d85ed;
+  text-decoration: underline;
 }
 </style>
