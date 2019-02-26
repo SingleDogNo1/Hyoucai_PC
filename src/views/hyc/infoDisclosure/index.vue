@@ -99,7 +99,7 @@
                     </div>
                   </div>
                 </div>
-                <p class="tips">截止至2019年1月31日，公司员工总数达：139人</p>
+                <p class="tips">截止至2019年1月31日，公司员工总数达：129人</p>
               </div>
               <div class="shareholder-composition-wrap"><strong>股东组成</strong> <img src="./images/bg_shareholder.jpg" /></div>
               <img class="bg-legal-person" src="./images/bg_legal_person.png" />
