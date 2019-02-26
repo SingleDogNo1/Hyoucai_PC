@@ -848,10 +848,14 @@ export default {
             this.investType = data.investType
             this.investSJLSuccessDialog.msg = data.successInfo
           } else {
-            // 普通产品
-            this.investCommonSuccessDialog.show = true
-            this.investCommonSuccessDialog.title = data.successTitle
-            this.investCommonSuccessDialog.msg = data.successInfo
+            if (res.data.investType === 'SJLHD') {
+              // 手机乐活动
+            } else {
+              // 普通产品
+              this.investCommonSuccessDialog.show = true
+              this.investCommonSuccessDialog.title = data.successTitle
+              this.investCommonSuccessDialog.msg = data.successInfo
+            }
           }
         } else {
           this.investErrDialog.show = true
