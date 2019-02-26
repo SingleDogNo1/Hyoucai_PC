@@ -18,7 +18,15 @@
       <div slot class="discribe">{{ dialogDis }}</div>
       <el-button v-if="openSignText" class="open-sign-btn" @click.native="viewDialog">{{ openSignText }}</el-button>
     </Dialog>
-    <Certification v-if="accountStatus !== 'COMPLETE'" reg-flow-to="risk"> <span></span> </Certification>
+    <Dialog
+      class="repeat-unread-dialog"
+      :show.sync="repeatUnreadDialogOptions.show"
+      title="设置自动出借，省心赚钱"
+      :onConfirm="confirmRepeatUnread"
+    >
+      <slot>1231321</slot>
+    </Dialog>
+    <Certification v-if="accountStatus !== 'COMPLETE'" reg-flow-to="risk"> <span></span></Certification>
   </div>
 </template>
 
@@ -28,7 +36,8 @@ import { mapGetters, mapMutations } from 'vuex'
 import { userBasicInfo } from '@/api/common/login'
 import Dialog from '@/components/Dialog/Dialog'
 import Certification from '@/components/CertificationFlow/CertificationFlow'
-import api from '@/api/common/userIndex'
+import { alertInfoAcceptApi, getAlertInfo, getUserCompleteInfo, repeatInvestApi } from '@/api/common/userIndex'
+import { currentPlatform } from '../assets/js/utils'
 
 const CODE_OK = '1'
 export default {
@@ -49,12 +58,18 @@ export default {
       alertInfo: { haveAlert: false, count: 0, type: '' },
       routerLink: '', // 要跳转的路由
       routerParam: '',
-      dialogTitle: '汇有才温馨提示',
+      dialogTitle: '汇有财温馨提示',
       showCloseBtn: false,
       showTitle: true,
       showLogo: false,
       showFooter: true,
-      openSignText: ''
+      openSignText: '',
+      repeatInvestUnreadMsgList: [], // 点金石未读复投消息列表
+      repeatUnreadDialogOptions: {
+        // 点金石未读复投消息弹窗参数
+        show: false,
+        title: '设置自动出借，省心赚钱'
+      }
     }
   },
   props: {},
@@ -80,13 +95,11 @@ export default {
       }
     },
     onConfirm() {
-      api
-        .alertInfoAcceptApi({
-          type: 'evaluate'
-        })
-        .then(res => {
-          console.log(res)
-        })
+      alertInfoAcceptApi({ type: 'evaluate' }).then(res => {
+        if (res.data.resultCode !== '1') {
+          console.log(res.data.resultMsg)
+        }
+      })
       this.viewDialog()
     },
     viewDialog() {
@@ -102,7 +115,7 @@ export default {
       }
     },
     getAlertInfo() {
-      api.getAlertInfo().then(res => {
+      getAlertInfo().then(res => {
         let data = res.data
         if (data.resultCode === CODE_OK) {
           this.alertInfo = data.data
@@ -110,8 +123,6 @@ export default {
           this.showCloseBtn = false
           this.showLogo = false
           this.showFooter = true
-          // this.alertInfo.haveAlert = true
-          // this.alertInfo.type = 'refund'
           if (this.alertInfo.haveAlert) {
             this.showDialog = true
             if (this.alertInfo.type) {
@@ -172,7 +183,7 @@ export default {
       })
     },
     getUserCompleteInfo() {
-      api.getUserCompleteInfo().then(res => {
+      getUserCompleteInfo().then(res => {
         let data = res.data
         let list = data.data
         if (data.resultCode === CODE_OK) {
@@ -182,8 +193,6 @@ export default {
           this.showFooter = false
           this.showDialog = true
           this.accountStatus = list.status
-          // this.accountStatus = 'OPEN_ACCOUNT'
-          // this.accountStatus = 'COMPLATE'
           switch (this.accountStatus) {
             case 'OPEN_ACCOUNT':
               this.openSignText = '开通存管账户'
@@ -205,12 +214,22 @@ export default {
               this.openSignText = ''
               this.routerLink = ''
               this.showDialog = false
-              this.getAlertInfo()
+
+              if (currentPlatform) {
+                repeatInvestApi({
+                  userName: this.user.userName
+                }).then(res => {
+                  this.repeatInvestUnreadMsgList = res.data.message.repeatUnRead
+                })
+              } else {
+                this.getAlertInfo()
+              }
           }
           this.dialogDis = list.message
         }
       })
-    }
+    },
+    confirmRepeatUnread() {}
   },
   computed: {
     ...mapGetters(['user', 'userBasicInfo'])
