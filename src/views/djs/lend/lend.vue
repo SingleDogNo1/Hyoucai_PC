@@ -43,7 +43,9 @@
             <ul class="info-wrapper">
               <li class="info">
                 <dl>
-                  <dt>{{ item.investRate }} <span>%</span></dt>
+                  <dt>
+                    <em>{{ item.investRate }}</em>
+                    <span>%</span></dt>
                   <dd>历史平均年化收益率</dd>
                 </dl>
               </li>
@@ -386,8 +388,10 @@ export default {
                 dl {
                   text-align: left;
                   dt {
-                    font-size: 30px;
                     color: #fc5541;
+                    em {
+                      font-size: 30px;
+                    }
                     span {
                       font-size: 16px;
                     }
