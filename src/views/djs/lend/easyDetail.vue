@@ -56,7 +56,7 @@
         <div class="content">
           <p class="available-balance">
             <span class="title">可用余额</span>
-            <span class="value">{{projectInfo.balance}}</span>
+            <span class="value">{{projectInfo.balance}}元</span>
           </p>
           <p class="starting-amount">
             <span class="title">起投金额</span>
@@ -851,6 +851,7 @@ export default {
           } else {
             if (res.data.investType === 'SJLHD') {
               // 手机乐活动
+              this.investSJLSuccessDialog.show = true
             } else {
               // 普通产品
               this.investCommonSuccessDialog.show = true

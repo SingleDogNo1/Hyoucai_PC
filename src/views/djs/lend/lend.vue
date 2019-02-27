@@ -68,12 +68,11 @@
               </li>
               <li class="info">
                 <template v-if="item.status === '1'">
-                  <el-button v-if="item.enablAmt > 0" @click.native="judgeBooking(item)"> 授权出借 </el-button>
-                  <el-button disabled v-else-if="item.enablAmt === '0'">还款中</el-button>
+                  <el-button @click.native="judgeBooking(item)"> 授权出借 </el-button>
                 </template>
                 <template v-else>
-                  <!--<el-button type="primary"> <router-link :to="{ name: 'download' }">下载APP</router-link> </el-button>-->
-                  <el-button type="primary" @click.native="judgeBooking(item)"> 预售中 </el-button>
+                  <el-button v-if="item.enablAmt > 0" @click.native="judgeBooking(item)">预售中</el-button>
+                  <el-button disabled v-else>还款中</el-button>
                 </template>
               </li>
             </ul>

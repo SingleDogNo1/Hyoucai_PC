@@ -78,7 +78,7 @@ export default {
       repeatInvestUnreadMsgList: [], // 点金石未读复投消息列表
       repeatUnreadDialogOptions: {
         // 点金石未读复投消息弹窗参数
-        show: true,
+        show: false,
         autoInvestWay: '1'
       }
     }
