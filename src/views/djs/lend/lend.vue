@@ -43,7 +43,9 @@
             <ul class="info-wrapper">
               <li class="info">
                 <dl>
-                  <dt>{{ item.investRate }} <span>%</span></dt>
+                  <dt>
+                    <em>{{ item.investRate }}</em>
+                    <span>%</span></dt>
                   <dd>历史平均年化收益率</dd>
                 </dl>
               </li>
@@ -61,14 +63,17 @@
               </li>
               <li class="info">
                 <dl>
-                  <dt>
-                    已投<span class="hight-light">{{ (((item.accumulativeInvAmt / item.maxInvTotalAmt) * 10000) / 100).toFixed(1) }}%</span>
-                  </dt>
                   <dd><el-progress :percentage="Math.round((item.accumulativeInvAmt / item.maxInvTotalAmt) * 10000) / 100"></el-progress></dd>
                 </dl>
               </li>
               <li class="info">
-                <el-button type="primary"> <router-link :to="{ name: 'download' }">下载APP</router-link> </el-button>
+                <template v-if="item.status === '1'">
+                  <el-button @click.native="judgeBooking(item)"> 授权出借 </el-button>
+                </template>
+                <template v-else>
+                  <el-button v-if="item.enablAmt > 0" @click.native="judgeBooking(item)">预售中</el-button>
+                  <el-button disabled v-else>还款中</el-button>
+                </template>
               </li>
             </ul>
           </li>
@@ -79,6 +84,18 @@
       </div>
       <div class="no-data-wrapper" v-if="list.length === 0"><noData :type="noDataType"></noData></div>
     </div>
+    <!-- 系统不匹配的错误弹窗 -->
+    <Dialog
+      class="system-maintenance-dialog"
+      title="汇有财温馨提示"
+      confirmText="我知道了"
+      :show.sync="systemDialogOptions.show"
+      :singleButton="systemDialogOptions.singleButton"
+    >
+      <div>
+        <p>{{systemDialogOptions.msg}}</p>
+      </div>
+    </Dialog>
   </div>
 </template>
 
@@ -86,9 +103,11 @@
 import pagination from '@/components/pagination/pagination'
 import countUp from '@/components/countUp/index'
 import noData from '@/components/NoData/index'
+import Dialog from '@/components/Dialog/Dialog'
 import { getList } from '@/api/djs/lend'
 import { getUser } from '@/assets/js/cache'
 import { mapGetters } from 'vuex'
+import { investCountProjectMsg } from '@/api/djs/lendDetail'
 
 export default {
   name: 'lend',
@@ -103,11 +122,34 @@ export default {
       countPage: 0,
       userName: null,
       list: [],
-      noDataType: 'production'
+      noDataType: 'production',
+      systemDialogOptions: {
+        show: false,
+        singleButton: true,
+        msg: ''
+      }
     }
   },
   props: ['redPacketId', 'couponId'],
   methods: {
+    judgeBooking(item) {
+      if (this.userName) {
+        let postData = {
+          projectNo: item.projectNo
+        }
+        investCountProjectMsg(postData).then(res => {
+          let data = res.data
+          if (data.resultCode === '1') {
+            this.$router.push({ name: 'easyDetail', query: { projectNo: item.projectNo } })
+          } else {
+            this.systemDialogOptions.show = true
+            this.systemDialogOptions.msg = data.resultMsg
+          }
+        })
+      } else {
+        this.$router.push({ name: 'login' })
+      }
+    },
     handleCurrentChange(val) {
       this.page = val
       this.getData()
@@ -138,7 +180,8 @@ export default {
   components: {
     pagination,
     countUp,
-    noData
+    noData,
+    Dialog
   },
   computed: {
     ...mapGetters(['user'])
@@ -344,8 +387,10 @@ export default {
                 dl {
                   text-align: left;
                   dt {
-                    font-size: 30px;
                     color: #fc5541;
+                    em {
+                      font-size: 30px;
+                    }
                     span {
                       font-size: 16px;
                     }
@@ -359,6 +404,9 @@ export default {
                     color: #9b9b9b;
                     font-size: $font-size-medium;
                   }
+                }
+                dd {
+                  margin-top: 20px;
                 }
                 span {
                   margin-left: 5px;
@@ -388,6 +436,11 @@ export default {
                   margin-top: 8px;
                   background-color: #fb7b1f;
                   font-size: $font-size-medium;
+                  color: #fff;
+                  &.is-disabled {
+                    background-color: #ccc;
+                    border-color: #ccc;
+                  }
                   a {
                     display: block;
                     width: 100%;

@@ -9,6 +9,14 @@ function getInvestStatusApi(data) {
   })
 }
 
+function getProjectDetail(data) {
+  return request({
+    url: 'project/projectDetail',
+    method: 'get',
+    params: data
+  })
+}
+
 function getSanBiaoStatusApi(data) {
   return request({
     url: 'userInvest/invQueryConditions',
@@ -97,6 +105,22 @@ function getAgreementApi(data) {
   })
 }
 
+function getInternetInformation(data) {
+  return request({
+    url: '/auditInfo/internetInformation',
+    method: 'post',
+    data: qs.stringify(data)
+  })
+}
+
+function getTrilateralPdfPath(data) {
+  return request({
+    url: '/protocol/getTrilateralPdfPath',
+    method: 'post',
+    data: qs.stringify(data)
+  })
+}
+
 export {
   getInvestStatusApi, // 获取投资状态 projectType => 0: 散标 2:集合标
   getSanBiaoStatusApi, // 获取散标状态
@@ -109,5 +133,8 @@ export {
   getPeopleInfoApi, // 获取借款人详细信息
   getZXTDetail, // 获取自选投详情
   getZXTGainPlan, // 散标收益计划
-  getAgreementApi // 协议目录获取
+  getAgreementApi, // 协议目录获取
+  getProjectDetail, // 标的详情获取
+  getInternetInformation, // 互联网自信报告
+  getTrilateralPdfPath // 获取三方协议PDF地址
 }

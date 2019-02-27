@@ -268,7 +268,7 @@ export default {
           this.countDown = 60
           clearInterval(this.timeInterval)
         }
-      }, 2000)
+      }, 1000)
       getSmsCode(data).then(res => {
         let data = res.data
         if (data.resultCode === ERR_OK) {

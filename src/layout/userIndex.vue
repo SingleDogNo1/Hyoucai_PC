@@ -18,7 +18,26 @@
       <div slot class="discribe">{{ dialogDis }}</div>
       <el-button v-if="openSignText" class="open-sign-btn" @click.native="viewDialog">{{ openSignText }}</el-button>
     </Dialog>
-    <Certification v-if="accountStatus !== 'COMPLETE'" reg-flow-to="risk"> <span></span> </Certification>
+    <Dialog
+      class="repeat-unread-dialog"
+      :show.sync="repeatUnreadDialogOptions.show"
+      title="设置自动出借，省心赚钱"
+      :onConfirm="confirmRepeatUnread"
+    >
+      <div>
+        <p class="board">您有{{repeatInvestUnreadMsgList.length}}笔出借即将到期，设置自动出借加息1%， 到期出借生效</p>
+        <div class="auto-invest-way-wrap">
+          <div class="auto-invest-way1">
+            <el-radio v-model="repeatUnreadDialogOptions.autoInvestWay" label="1">本金到期后自动出借 </el-radio >
+          </div>
+          <div class="auto-invest-way2">
+            <el-radio v-model="repeatUnreadDialogOptions.autoInvestWay" label="2">本息到期后自动出借</el-radio >
+          </div>
+        </div>
+        <router-link class="auto-invest-agreement" :to="{ name: 'autoLendAgreement' }">《自动出借协议》</router-link>
+      </div>
+    </Dialog>
+    <Certification v-if="accountStatus !== 'COMPLETE'" reg-flow-to="risk"> <span></span></Certification>
   </div>
 </template>
 
@@ -28,7 +47,8 @@ import { mapGetters, mapMutations } from 'vuex'
 import { userBasicInfo } from '@/api/common/login'
 import Dialog from '@/components/Dialog/Dialog'
 import Certification from '@/components/CertificationFlow/CertificationFlow'
-import api from '@/api/common/userIndex'
+import { alertInfoAcceptApi, getAlertInfo, getUserCompleteInfo, repeatInvestApi, UpdateMessageApi } from '@/api/common/userIndex'
+import { currentPlatform } from '../assets/js/utils'
 
 const CODE_OK = '1'
 export default {
@@ -49,12 +69,18 @@ export default {
       alertInfo: { haveAlert: false, count: 0, type: '' },
       routerLink: '', // 要跳转的路由
       routerParam: '',
-      dialogTitle: '汇有才温馨提示',
+      dialogTitle: '汇有财温馨提示',
       showCloseBtn: false,
       showTitle: true,
       showLogo: false,
       showFooter: true,
-      openSignText: ''
+      openSignText: '',
+      repeatInvestUnreadMsgList: [], // 点金石未读复投消息列表
+      repeatUnreadDialogOptions: {
+        // 点金石未读复投消息弹窗参数
+        show: false,
+        autoInvestWay: '1'
+      }
     }
   },
   props: {},
@@ -80,13 +106,11 @@ export default {
       }
     },
     onConfirm() {
-      api
-        .alertInfoAcceptApi({
-          type: 'evaluate'
-        })
-        .then(res => {
-          console.log(res)
-        })
+      alertInfoAcceptApi({ type: 'evaluate' }).then(res => {
+        if (res.data.resultCode !== '1') {
+          console.log(res.data.resultMsg)
+        }
+      })
       this.viewDialog()
     },
     viewDialog() {
@@ -102,7 +126,7 @@ export default {
       }
     },
     getAlertInfo() {
-      api.getAlertInfo().then(res => {
+      getAlertInfo().then(res => {
         let data = res.data
         if (data.resultCode === CODE_OK) {
           this.alertInfo = data.data
@@ -110,8 +134,6 @@ export default {
           this.showCloseBtn = false
           this.showLogo = false
           this.showFooter = true
-          // this.alertInfo.haveAlert = true
-          // this.alertInfo.type = 'refund'
           if (this.alertInfo.haveAlert) {
             this.showDialog = true
             if (this.alertInfo.type) {
@@ -172,7 +194,7 @@ export default {
       })
     },
     getUserCompleteInfo() {
-      api.getUserCompleteInfo().then(res => {
+      getUserCompleteInfo().then(res => {
         let data = res.data
         let list = data.data
         if (data.resultCode === CODE_OK) {
@@ -182,8 +204,6 @@ export default {
           this.showFooter = false
           this.showDialog = true
           this.accountStatus = list.status
-          // this.accountStatus = 'OPEN_ACCOUNT'
-          // this.accountStatus = 'COMPLATE'
           switch (this.accountStatus) {
             case 'OPEN_ACCOUNT':
               this.openSignText = '开通存管账户'
@@ -205,9 +225,34 @@ export default {
               this.openSignText = ''
               this.routerLink = ''
               this.showDialog = false
-              this.getAlertInfo()
+
+              if (currentPlatform) {
+                repeatInvestApi({
+                  userName: this.user.userName
+                }).then(res => {
+                  if (res.data.message.repeatUnRead.lenght > 0) {
+                    this.repeatUnreadDialogOptions.show = true
+                    this.repeatInvestUnreadMsgList = res.data.message.repeatUnRead
+                  } else {
+                    this.getAlertInfo()
+                  }
+                })
+              } else {
+                this.getAlertInfo()
+              }
           }
           this.dialogDis = list.message
+        }
+      })
+    },
+    confirmRepeatUnread() {
+      UpdateMessageApi({
+        id: this.repeatInvestUnreadMsgList.id,
+        userName: this.user.userName,
+        messageType: 'FTXI'
+      }).then(res => {
+        if (res.data.resultCode !== '1') {
+          console.log(res.data.resultMsg)
         }
       })
     }
@@ -229,6 +274,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '../assets/css/mixins';
+@import '../assets/css/theme';
+
 .mine-wrapper {
   width: 1140px;
   height: 100%;
@@ -251,5 +299,75 @@ export default {
     color: #fff;
     font-size: 16px;
   }
+}
+
+.repeat-unread-dialog {
+  /deep/ .inner {
+    padding: 40px 30px;
+  }
+  .board {
+    background: #f3f2f2;
+    padding: 16px 20px;
+    font-size: 18px;
+    color: #5b5b5b;
+    line-height: 26px;
+    text-align: center;
+  }
+}
+
+.auto-invest-way-wrap {
+  margin-top: 30px;
+  .auto-invest-way1 {
+    width: 200px;
+    margin: 0 auto 12px;
+  }
+  .auto-invest-way2 {
+    width: 200px;
+    margin: 0 auto;
+  }
+  /deep/ .el-radio {
+    color: $color-text-s;
+    font-size: $font-size-medium;
+    .el-radio__inner {
+      width: 20px;
+      height: 20px;
+      &:after {
+        width: 6px;
+        height: 6px;
+        border: 1px solid #cdcdcd;
+        transform: translate(-50%, -50%) scale(1);
+      }
+    }
+    .el-radio__label {
+      font-size: $font-size-medium;
+    }
+  }
+  /deep/ .el-radio.is-checked {
+    .el-radio__inner {
+      width: 20px;
+      height: 20px;
+      border-color: #fb7b1f;
+      background: #fff;
+      &:after {
+        width: 6px;
+        height: 6px;
+        border: 1px solid #fb7b1f;
+        background-color: #fb7b1f;
+      }
+    }
+    .el-radio__label {
+      color: $color-text;
+      font-size: $font-size-medium;
+    }
+  }
+}
+.auto-invest-agreement {
+  display: block;
+  width: 200px;
+  margin: 20px auto 0;
+  text-align: center;
+  font-size: $font-size-small-s;
+  color: #2d85ed;
+  text-decoration: underline;
 }
 </style>

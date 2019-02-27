@@ -23,22 +23,29 @@ module.exports = {
       chunks: ['chunk-vendors', 'chunk-common', 'djs']
     }
   },
+  configureWebpack: (config) => {
+    if (process.env.NODE_ENV === 'production') {
+      config.optimization.minimizer[0].options.terserOptions.compress.drop_console = true
+      config.devtool = 'none'
+    }
+  },
   devServer: {
     host: '0.0.0.0',
     disableHostCheck: true,
     proxy: {
       '/TouchStone': {
-        target: 'http://opsstatic.dpandora.cn:30174',
+        target: 'http://opsstatic.dpandora.cn:30174', // SIT
+        // target: 'http://opsstatic.dpandora.cn:30162', // UAT
         changeOrigin: true,
         wx: true
       },
       '/TouchStoneService': {
-        target: 'http://47.100.38.237:8088/d',
+        target: 'http://opsstatic.dpandora.cn:30174/d',
         changeOrigin: true,
         wx: true
       },
       '/TouchStoneServiceNew': {
-        target: 'http://47.100.38.237:8088/h',
+        target: 'http://opsstatic.dpandora.cn:30174/h',
         changeOrigin: true,
         wx: true
       }
