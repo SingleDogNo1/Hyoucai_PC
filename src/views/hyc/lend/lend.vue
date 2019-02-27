@@ -49,7 +49,7 @@
               <ul class="info-wrapper">
                 <li class="info">
                   <dl>
-                    <dt>{{ item.investRate }} <span>%</span></dt>
+                    <dt>{{ item.investRate }}<span>%</span></dt>
                     <dd>历史平均年化收益率</dd>
                   </dl>
                 </li>

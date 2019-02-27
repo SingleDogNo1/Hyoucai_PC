@@ -587,10 +587,11 @@ export default {
         itemId: this.itemId
       }
       easyInvestDetail(postData).then(res => {
-        this.projectServiceEntity = res.data.projectServiceEntity
         let data = res.data.data
         let projectInfo = data.projectInfo
         let investEndTimestamp = projectInfo.investEndTimestamp
+        this.projectServiceEntity = data.projectServiceEntity
+        this.projectInfo.iconUrl = projectInfo.iconUrl
         this.projectInfo.itemName = projectInfo.itemName
         this.projectInfo.investRate = projectInfo.investRate
         this.projectInfo.surplusAmt = projectInfo.surplusAmt
@@ -1016,16 +1017,16 @@ export default {
         /deep/ .el-progress {
           width: 298px;
           line-height: 20px;
-          /deep/ .el-progress-bar__outer {
+          .el-progress-bar__outer {
             height: 6px !important;
             border-radius: 100px;
             background-color: #fdc48d;
           }
-          /deep/ .el-progress-bar__inner {
+          .el-progress-bar__inner {
             border-radius: 100px;
             background-color: #fb891f;
           }
-          /deep/ .el-progress__text {
+          .el-progress__text {
             display: none;
           }
         }
