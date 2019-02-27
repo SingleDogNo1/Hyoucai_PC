@@ -92,7 +92,7 @@
               <td>认证情况</td>
             </tr>
             <tr v-for="(item,index) in auditInfoList2" :key="index">
-              <td style="border-left: 1px solid #fff">{{item.key}}</td>
+              <td>{{item.key}}</td>
               <td>
                 <span v-show="!item.img">{{item.val}}</span>
                 <img
@@ -120,6 +120,10 @@
                   src="./../image/bg.png"
                 >
               </td>
+            </tr>
+            <tr v-show="isTr">
+              <td></td>
+              <td></td>
             </tr>
           </table>
         </div>
@@ -378,6 +382,7 @@ export default {
       rate: '',
       projectName: '',
       contractNum: '',
+      isTr: false, //是否补齐表格
       isShowAuthenticationPop: false,
       isShowFaceRecognitionPop: false,
       picList: [], // 身份证弹窗图片
@@ -453,6 +458,9 @@ export default {
             this.auditInfoList2.push(auditInfoList[index])
           }
         })
+        if (auditInfoList.length % 2 != 0) {
+          this.isTr = true
+        }
         // this.projectName
       })
     },
