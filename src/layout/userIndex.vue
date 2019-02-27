@@ -231,6 +231,7 @@ export default {
                   userName: this.user.userName
                 }).then(res => {
                   if (res.data.message.repeatUnRead.lenght > 0) {
+                    this.repeatUnreadDialogOptions.show = true
                     this.repeatInvestUnreadMsgList = res.data.message.repeatUnRead
                   } else {
                     this.getAlertInfo()
