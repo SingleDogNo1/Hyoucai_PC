@@ -38,10 +38,10 @@
           <div class="txt">
             <p>
               <span class="left">借贷期限：</span>
-              <span class="right">{{loanDay}}</span>
+              <span class="right">{{loanMent}}</span>
             </p>
             <p>
-              <span class="left">历史年化收益率：</span>
+              <span class="left">历史平均年化收益率：</span>
               <span class="right">{{rate}}.0%</span>
             </p>
           </div>
@@ -71,13 +71,11 @@
                   @click="openFaceRecognitionPop(item)"
                   src="./../image/bg.png"
                 >
-                <a
-                  :href="trilateralPdfPath"
-                  target="_blank"
+                <img
                   v-show="item.img&&item.field=='signing'"
+                  @click="signing()"
+                  src="./../image/bg.png"
                 >
-                  <img @click="signing()" src="./../image/bg.png">
-                </a>
                 <img
                   v-show="item.result&&item.field=='internetInformation'"
                   @click="internetInformation()"
@@ -107,13 +105,11 @@
                   src="./../image/bg.png"
                 >
                 <!-- 签约 -->
-                <a
-                  :href="trilateralPdfPath"
-                  target="_blank"
+                <img
                   v-show="item.img&&item.field=='signing'"
+                  @click="signing()"
+                  src="./../image/bg.png"
                 >
-                  <img @click="signing()" src="./../image/bg.png">
-                </a>
                 <img
                   v-show="item.img&&item.field=='internetInformation'"
                   @click="internetInformation()"
@@ -175,11 +171,11 @@
           </tr>
           <tr>
             <td>转让手续费</td>
-            <td>按每笔转让收取，费用为年化金额0.6%</td>
+            <td>暂无任何手续费</td>
           </tr>
           <tr>
             <td>提现／充值／投资</td>
-            <td>免费</td>
+            <td>平台垫付</td>
           </tr>
         </table>
         <p class="title">
@@ -359,7 +355,6 @@ export default {
       singleButton: true,
       isShowDialog: false,
       resultMsg: '',
-      trilateralPdfPath: '',
       isInternetInformation: false,
       borrowerName: '',
       sex: '',
@@ -373,7 +368,7 @@ export default {
       loanAim: '',
       productId: '',
       borrowerTheme: '',
-      loanDay: '',
+      loanMent: '',
       paymentSource: '',
       amountOverride: '',
       creditReport: '',
@@ -388,9 +383,9 @@ export default {
       picList: [], // 身份证弹窗图片
       facePic: '', // 人脸识别弹窗图片
       guaranteeProtocolUrl: '',
-      auditInfoList1: [],
-      auditInfoList2: [],
-      internetInformationList: []
+      auditInfoList1: [], //审核信息表格1数据
+      auditInfoList2: [], //审核信息表格2数据
+      internetInformationList: [] //互联网资信报告数据
     }
   },
   components: {
@@ -418,9 +413,9 @@ export default {
         if (res.data.resultMsg == '用户暂未签署该协议') {
           this.resultMsg = res.data.resultMsg
           this.isShowDialog = true
-          // console.log(2)
         } else {
-          this.trilateralPdfPath = res.data.protocolPdfPath
+          const tempPage = window.open('', '_blank')
+          tempPage.location = res.data.protocolPdfPath
         }
       })
     },
@@ -435,6 +430,7 @@ export default {
         this.repaymentWay = res.data.data.productDetail.repaymentWay
         this.projectName = res.data.data.productDetail.projectName
         this.productId = res.data.data.projectInfo.productId
+        this.loanMent = res.data.data.productDetail.loanMent
         auditInfoList.map((item, index) => {
           switch (item.field) {
             case 'haveIDCard':
@@ -487,7 +483,6 @@ export default {
         this.prinAmt = data.prinAmt
         this.loanAim = data.loanAim
         this.borrowerTheme = data.borrowerTheme
-        this.loanDay = data.loanDay
         this.paymentSource = data.paymentSource
         this.amountOverride = data.amountOverride
         this.creditReport = data.creditReport

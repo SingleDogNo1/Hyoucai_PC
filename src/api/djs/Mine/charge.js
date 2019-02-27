@@ -53,3 +53,12 @@ export function unionPay(data) {
     data: Qs.stringify(data)
   })
 }
+
+export function userAndBankInfo(data) {
+  return request({
+    url: '/userAndBankInfo',
+    method: 'get',
+    headers: { 'Content-type': 'application/x-www-form-urlencoded' },
+    data: Qs.stringify(data)
+  })
+}

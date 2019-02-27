@@ -154,7 +154,7 @@
         </div>
       </div>
     </div>
-    <div class="lend-boutique-wrap" v-if="popularProjectList && popularProjectList.length > 0">
+    <div class="lend-boutique-wrap" v-if="user && popularProjectList && popularProjectList.length > 0">
       <div class="text-title"></div>
       <ul :class="{ two: popularProjectList.length == 2, 'one': popularProjectList.length == 1 }">
         <li

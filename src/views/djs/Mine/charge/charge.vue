@@ -105,7 +105,8 @@
 </template>
 
 <script>
-import { queryCardInfo, userBankCardList, personalAccount, userRechargePreVerify, rechargeApiDirectPayServer, unionPay } from '@/api/djs/Mine/charge'
+import { queryCardInfo, userBankCardList, personalAccount, userRechargePreVerify, rechargeApiDirectPayServer, unionPay,
+  userAndBankInfo } from '@/api/djs/Mine/charge'
 import { getUser } from '@/assets/js/cache'
 import { getAuth, getRetBaseURL } from '@/assets/js/utils'
 import Dialog from '@/components/Dialog/Dialog'
@@ -184,6 +185,13 @@ export default {
       } else {
         return ''
       }
+    },
+    userAndBankInfo() {
+      userAndBankInfo().then(res => {
+        if (res.data.userInfo.cardNo) {
+          this.userRechargePreVerify()
+        }
+      })
     },
     amountInput(e) {
       e.target.value = e.target.value.replace(/[^\d.]/g, '')
@@ -387,7 +395,8 @@ export default {
   created() {
     this.getBankCardNo()
     this.personalAccount()
-    this.userRechargePreVerify()
+    // this.userRechargePreVerify()
+    this.userAndBankInfo()
   },
   mounted() {}
 }

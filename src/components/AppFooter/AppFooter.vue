@@ -48,8 +48,12 @@
         </li>
       </ul>
       <p class="tips">
-        <span>投诉举报电话：江西省政府金融办 0791-889182319</span><span>江西省银监局 0791-86766811</span
-        ><span>江西省互联网金融协会 400-915-8227</span>
+        <!--<span>投诉举报电话：江西省政府金融办 0791-889182319</span><span>江西省银监局 0791-86766811</span-->
+        <!--&gt;<span>江西省互联网金融协会 400-915-8227</span>-->
+        <i v-if="telphoneList && telphoneList.length > 0">投诉举报电话：</i>
+        <span v-for="(phone, index) in telphoneList" :key="index">
+          <em v-if="phone.status === '1'"></em>{{phone.companyName}} {{phone.telephone}}
+        </span>
       </p>
       <div class="copyright">
         <span>&copy;</span> <span>2019 江西汇通金融信息服务有限公司</span> <a href="http://www.miibeian.gov.cn/"> 赣ICP备13002945号-11</a>
@@ -71,7 +75,7 @@
 <script>
 import { djsQueryQAType } from '@/api/djs/helpCenter'
 import { hycQueryQAType } from '@/api/hyc/helpCenter'
-import { getFriendLink } from '@/api/common/footer'
+import { getFriendLink, reportTelephone } from '@/api/common/footer'
 
 export default {
   name: 'AppFooter',
@@ -82,7 +86,8 @@ export default {
       IOSCodeFlag: false,
       AndCodeFlag: false,
       QAList: [],
-      friendLinks: []
+      friendLinks: [],
+      telphoneList: []
     }
   },
   methods: {
@@ -97,6 +102,14 @@ export default {
     },
     hideAndCode() {
       this.AndCodeFlag = false
+    },
+    getShowTel() {
+      reportTelephone().then(res => {
+        let data = res.data
+        if (data.resultCode === '1') {
+          this.telphoneList = data.data
+        }
+      })
     },
     getDJSQueryQAType() {
       djsQueryQAType().then(res => {
@@ -128,6 +141,7 @@ export default {
     getFriendLink().then(res => {
       this.friendLinks = res.data.friendLinks
     })
+    this.getShowTel()
   }
 }
 </script>
@@ -240,6 +254,10 @@ export default {
         border-right: 1px solid #9b9b9b;
         &:last-child {
           border: none;
+          padding-right: 0;
+        }
+        &:nth-of-type(1) {
+          padding-left: 0;
         }
       }
     }
