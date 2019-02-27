@@ -36,9 +36,13 @@
                   {{ bankCardInfo.bankName }}<i class="high-light"> {{ bankCardInfo.quota }}</i>
                 </span>
               </li>
-              <li v-if="isSpecialUser !== '1'"><span class="title">&emsp;手机号</span> <input type="text" placeholder="请输入银行绑定手机号" @input="mobileInput" /></li>
+              <li v-if="isSpecialUser !== '1'">
+                <span class="title">&emsp;手机号</span> <input type="text" placeholder="请输入银行绑定手机号" @input="mobileInput" />
+              </li>
               <div class="err-msg" v-if="errMsg.mobile">{{ errMsg.mobile }}</div>
-              <li v-if="isSpecialUser === '1'"><span class="title">&emsp;&emsp;&emsp;&emsp;</span> <input type="button" value="确认充值" @click="transferCharge" /></li>
+              <li v-if="isSpecialUser === '1'">
+                <span class="title">&emsp;&emsp;&emsp;&emsp;</span> <input type="button" value="确认充值" @click="transferCharge" />
+              </li>
               <li v-else><span class="title">&emsp;&emsp;&emsp;&emsp;</span> <input type="button" value="确认充值" @click="checkAmount" /></li>
             </ul>
           </div>

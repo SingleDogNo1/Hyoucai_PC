@@ -152,7 +152,7 @@
         </div>
       </div>
     </div>
-    <div class="lend-boutique-wrap" v-if="hycPopularProjectList && hycPopularProjectList.length > 0">
+    <div class="lend-boutique-wrap" v-if="user && hycPopularProjectList && hycPopularProjectList.length > 0">
       <div class="text-title"></div>
       <ul :class="{ two: hycPopularProjectList.length == 2, one: hycPopularProjectList.length == 1 }">
         <li v-for="(item, index) in hycPopularProjectList" :key="index" @click="toDownload">

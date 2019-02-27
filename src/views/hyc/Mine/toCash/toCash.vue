@@ -85,7 +85,9 @@
           </div>
         </li>
         <div class="err-msg" v-if="errMsg.cardBankCnaps">{{ errMsg.cardBankCnaps }}</div>
-        <li v-if="isSpecialUser == 1 && type == 2"><span class="title"></span> <input style="margin-left: 110px;" type="button" value="确认提现" @click="transferWithdraw" /></li>
+        <li v-if="isSpecialUser == 1 && type == 2">
+          <span class="title"></span> <input style="margin-left: 110px;" type="button" value="确认提现" @click="transferWithdraw" />
+        </li>
         <li v-else><span class="title"></span> <input style="margin-left: 110px;" type="button" value="确认提现" @click="withDraw" /></li>
       </ul>
     </div>

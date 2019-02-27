@@ -51,7 +51,7 @@ export default {
       location.href = '/djs/#/mine/overview'
     },
     fetchIsSpecialUser() {
-      let params = {loginUsername: this.user.userName}
+      let params = { loginUsername: this.user.userName }
       api.isSpecialUser(params).then(res => {
         console.log(res)
         if (res.data.resultCode === '1') {
@@ -61,14 +61,14 @@ export default {
     },
     linkToCharge() {
       if (this.isSpecialUser) {
-        this.$router.push({ name: 'charge', query: {isSpecialUser: '1'} })
+        this.$router.push({ name: 'charge', query: { isSpecialUser: '1' } })
       } else {
         this.$router.push({ name: 'charge' })
       }
     },
     linkToTocash() {
       if (this.isSpecialUser) {
-        this.$router.push({ name: 'tocash', query: {isSpecialUser: '1'} })
+        this.$router.push({ name: 'tocash', query: { isSpecialUser: '1' } })
       } else {
         this.$router.push({ name: 'tocash' })
       }
