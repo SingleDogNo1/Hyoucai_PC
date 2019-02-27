@@ -16,7 +16,16 @@ export function getPersonalAccount() {
   })
 }
 
+export function isSpecialUser(params) {
+  return request({
+    url: '/user/isSpecialUser',
+    method: 'get',
+    params: params
+  })
+}
+
 export default {
   getUserBasicInfo, // 获取用户信息
-  getPersonalAccount // 获取个人账户信息
+  getPersonalAccount, // 获取个人账户信息
+  isSpecialUser // 圈存圈提账户身份查询
 }

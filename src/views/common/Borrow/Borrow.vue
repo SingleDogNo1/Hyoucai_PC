@@ -61,7 +61,7 @@
         </div>
       </div>
     </div>
-    <img src="./borrow-hq.png" alt="">
+    <img src="./borrow-hq.png" alt="" />
   </div>
 </template>
 

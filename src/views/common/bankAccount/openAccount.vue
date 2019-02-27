@@ -863,6 +863,7 @@ input:disabled {
 
 <script type="text/javascript">
 import accountApi from '@/api/common/openAccount'
+import { tansactionPwd } from '@/api/common/basicInfo'
 import { isChName, isIdcard } from '@/assets/js/regular'
 import { mapGetters } from 'vuex'
 import { postcall } from '@/assets/js/utils'
@@ -892,7 +893,8 @@ export default {
       agreeSelectTab: true,
       checkAgree: true,
       errorStatus: false,
-      errorMsg: ''
+      errorMsg: '',
+      status: 'OpenAccount'
     }
   },
   computed: {
@@ -931,6 +933,13 @@ export default {
             if (!isMobileReadonly) {
               this.formData.mobile.disabled = false
             }
+          } else if (!data.data.isSetPassword) {
+            this.status = 'SetPassword'
+            this.formData.name.val = data.data.name
+            this.formData.name.disabled = true
+            this.formData.idCard.val = data.data.identityNo
+            this.formData.idCard.disabled = true
+            this.formData.mobile.val = data.data.mobile
           }
         }
       })
@@ -942,6 +951,13 @@ export default {
       })
     },
     clickNext: function() {
+      if (this.status === 'OpenAccount') {
+        this.openAccount()
+      } else if (this.status === 'SetPassword') {
+        this.setPwd()
+      }
+    },
+    openAccount() {
       if (!isChName(this.formData.name.val)) {
         this.errorMsg = '请输入正确的姓名!!'
         this.$refs.userNameRef.focus()
@@ -988,6 +1004,18 @@ export default {
           })
         } else {
           this.errorMsg = data.data.message
+        }
+      })
+    },
+    setPwd() {
+      let obj = {}
+      obj.retUrl = location.href
+      tansactionPwd(obj).then(res => {
+        let data = res.data
+        let resultCode = data.resultCode
+        if (resultCode === '1') {
+          let option = data.data.paramReq
+          postcall(data.data.redirectUrl, option)
         }
       })
     }

@@ -47,7 +47,7 @@ export default {
   components: {},
   data() {
     return {
-      checkAgree: false,
+      checkAgree: true,
       status: this.$route.query.status, // 债转标为1 散标集合标为0 默认为空
       entrance: this.$route.query.entrance // 入口标识
     }
