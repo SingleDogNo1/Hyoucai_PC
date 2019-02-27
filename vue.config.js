@@ -33,7 +33,7 @@ module.exports = {
     disableHostCheck: true,
     proxy: {
       '/TouchStone': {
-        target: 'http://opsstatic.dpandora.cn:30174',
+        target: 'http://opsstatic.dpandora.cn:30174',//30174  30162
         changeOrigin: true,
         wx: true
       },
