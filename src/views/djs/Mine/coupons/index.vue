@@ -67,7 +67,7 @@
           { receive1: item.voucherType == 'VT01' },//加息券
           { receive2: item.secondType == 1 },//抵扣红包
           { receive2_1: item.secondType == 2 && item.intoAccount == 0 },//投资红包
-          { receive2_3: item.secondType == 2 && item.intoAccount == 1 },
+          { receive2_3: item.secondType == 2 && item.intoAccount == 1 }, //现金红包
           { receive3: item.voucherType == 'VT03' }//体验金
         ]"
         :key="index + 'b'"
