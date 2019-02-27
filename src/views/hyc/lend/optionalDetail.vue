@@ -14,7 +14,7 @@
               <strong>{{projectInfo.investRate}}</strong>
               <span class="red">%</span>
             </p>
-            <p class="desc">预期年化收益率</p>
+            <p class="desc">历史平均年化收益率</p>
           </div>
           <div class="item">
             <p class="value">
@@ -27,7 +27,7 @@
               <span>{{projectInfo.investPeopleCount}}</span>
               <span>人</span>
             </p>
-            <p class="desc">已购人数</p>
+            <p class="desc">已出借人数</p>
           </div>
         </div>
         <div class="progress-wrap">
@@ -61,7 +61,7 @@
         <div class="content">
           <p class="available-balance">
             <span class="title">可用余额</span>
-            <span class="value">{{projectInfo.balance}}</span>
+            <span class="value">{{projectInfo.balance}}元</span>
           </p>
           <p class="starting-amount">
             <span class="title">起投金额</span>
@@ -833,24 +833,20 @@ export default {
     },
     getInvestStatus() {
       switch (
-        this.projectInfo.status // 0.预售    1.出借中   2.满标   3.已完结
+        this.projectInfo.status // 1.预售   2.出借中   3.满标
       ) {
-        case 0:
+        case 1:
           this.investStatusTitle = '预售中...'
           this.investStatus = 'willSale'
           this.isDisableInvestBtn = true
           break
-        case 1:
+        case 2:
           this.investStatusTitle = '出借中...'
           this.investStatus = 'lending'
           break
-        case 2:
+        case 3:
           this.investStatusTitle = '已满标'
           this.investStatus = 'fullyMarked'
-          break
-        default:
-          this.investStatusTitle = '已完结'
-          this.investStatus = 'finished'
           break
       }
     },
