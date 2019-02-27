@@ -1,5 +1,5 @@
 import request from '@/assets/js/requestHYC'
-// import qs from 'qs'
+import qs from 'qs'
 
 function getFriendLink(data) {
   return request({
@@ -9,4 +9,15 @@ function getFriendLink(data) {
   })
 }
 
-export { getFriendLink }
+function reportTelephone(data) {
+  return request({
+    url: '/reportTelephone/query',
+    method: 'post',
+    headers: { 'Content-type': 'application/x-www-form-urlencoded' },
+    data: qs.stringify(data)
+  })
+}
+
+
+
+export { getFriendLink, reportTelephone }
