@@ -14,7 +14,7 @@
               <strong>{{projectInfo.investRate}}</strong>
               <span class="red">%</span>
             </p>
-            <p class="desc">预期年化收益率</p>
+            <p class="desc">历史平均年化收益率</p>
           </div>
           <div class="item">
             <p class="value">
@@ -27,7 +27,7 @@
               <span>{{projectInfo.investPropleCount}}</span>
               <span>人</span>
             </p>
-            <p class="desc">已购人数</p>
+            <p class="desc">已出借人数</p>
           </div>
         </div>
         <div class="progress-wrap">
