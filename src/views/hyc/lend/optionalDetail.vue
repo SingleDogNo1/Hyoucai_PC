@@ -3,7 +3,7 @@
     <section class="production-info">
       <div class="title">
         <h2>
-          <img :src="projectInfo.iconUrl" alt="">
+          <img :src="projectInfo.iconUrl" alt>
           <span>{{projectInfo.projectName}}</span>
         </h2>
       </div>
@@ -53,8 +53,9 @@
             :class="{ 'unopened-status-title': investStatus === 'unopened' }"
             class="status-title"
           >{{investStatusTitle}}</span>
-          <button v-if="investStatus !== 'unopened'" class="status-btn">
-            <router-link :to="{ name: 'charge' }">{{investStatusBtn}}</router-link>
+          <button class="status-btn">
+            <router-link v-if="investStatus !== 'unopened'" :to="{ name: 'charge' }">{{investStatusBtn}}</router-link>
+            <router-link v-if="investStatus === 'unopened'" :to="{ name: 'account' }">{{investStatusBtn}}</router-link>
           </button>
         </h2>
         <div class="content">
@@ -75,11 +76,20 @@
               <router-link target="_blank" :to="{ name: 'riskNoticationLetterAgreement'}">《风险告知书》</router-link>
             </el-checkbox>
           </div>
-          <div class="all-lending" v-if="!investDetail.tailProject">
-            <el-checkbox class="all-lending-checkbox" v-model="isAllLending" @change="toggleFill">全部出借</el-checkbox>
+          <div class="all-lending" v-if="investStatus === 'lending'">
+            <el-checkbox
+              class="all-lending-checkbox"
+              v-model="isAllLending"
+              @change="toggleFill"
+            >全部出借</el-checkbox>
           </div>
-          <div class="action" v-if="investStatus === 'willSale' || investStatus === 'lending'">
-            <input class="amount-input" v-model="invAmount" @keyup="handleExpectedIncome(invAmount)" :disabled="invAmountDisabled">
+          <div class="action" v-if="investStatus === 'willSale' || investStatus === 'lending' || investStatus === 'unopened'">
+            <input
+              class="amount-input"
+              v-model="invAmount"
+              @keyup="handleExpectedIncome(invAmount)"
+              :disabled="invAmountDisabled"
+            >
             <button
               class="action-btn"
               :disabled="isDisableInvestBtn"
@@ -88,7 +98,7 @@
           </div>
           <!-- <div class="action" v-if="investStatus === 'fullyMarked' || investStatus === 'finished'">
             <button class="action-btn-disabled" @click="handleInvest">{{investStatusTitle}}</button>
-          </div> -->
+          </div>-->
           <p class="expected-profits">
             <span class="title">预期收益：</span>
             <span class="value">{{expectedIncome}}元</span>
@@ -156,10 +166,18 @@
                   <tr v-for="(item, index) in oddAuditInfoList" :key="index">
                     <td>{{item.key}}</td>
                     <td v-if="!item.isShowSmallPic">{{item.result}}</td>
-                    <td v-if="item.isShowSmallPic && item.field === 'haveIDCard'"> <img @click="openReviewInfoPop(item)" src="./image/bg.png" /></td>
-                    <td v-if="item.isShowSmallPic && item.field === 'internetInformation'"> <img @click="openReportPop" src="./image/bg.png" /></td>
-                    <td v-if="item.isShowSmallPic && item.field === 'faceRecognition'"> <img @click="openFaceRecognitionPop(item)" src="./image/bg.png" /></td>
-                    <td v-if="item.isShowSmallPic && item.field === 'signing'"> <img @click="toSigning(item)" src="./image/bg.png" /></td>
+                    <td v-if="item.isShowSmallPic && item.field === 'haveIDCard'">
+                      <img @click="openReviewInfoPop(item)" src="./image/bg.png">
+                    </td>
+                    <td v-if="item.isShowSmallPic && item.field === 'internetInformation'">
+                      <img @click="openReportPop" src="./image/bg.png">
+                    </td>
+                    <td v-if="item.isShowSmallPic && item.field === 'faceRecognition'">
+                      <img @click="openFaceRecognitionPop(item)" src="./image/bg.png">
+                    </td>
+                    <td v-if="item.isShowSmallPic && item.field === 'signing'">
+                      <img @click="toSigning(item)" src="./image/bg.png">
+                    </td>
                   </tr>
                 </table>
                 <table class="examine" v-if="evenAuditInfoList.length > 0">
@@ -170,10 +188,22 @@
                   <tr v-for="(item, index) in evenAuditInfoList" :key="index">
                     <td>{{item.key}}</td>
                     <td v-if="!item.isShowSmallPic">{{item.result}}</td>
-                    <td v-if="item.isShowSmallPic && item.field === 'haveIDCard'"> <img @click="openReviewInfoPop(item)" src="./image/bg.png" /></td>
-                    <td v-if="item.isShowSmallPic && item.field === 'internetInformation'"> <img @click="openReportPop" src="./image/bg.png" /></td>
-                    <td v-if="item.isShowSmallPic && item.field === 'faceRecognition'"> <img @click="openFaceRecognitionPop(item)" src="./image/bg.png" /></td>
-                    <td v-if="item.isShowSmallPic && item.field === 'signing'"> <img @click="toSigning(item)" src="./image/bg.png" /></td>
+                    <td v-if="item.isShowSmallPic && item.field === 'haveIDCard'">
+                      <img @click="openReviewInfoPop(item)" src="./image/bg.png">
+                    </td>
+                    <td v-if="item.isShowSmallPic && item.field === 'internetInformation'">
+                      <img @click="openReportPop" src="./image/bg.png">
+                    </td>
+                    <td v-if="item.isShowSmallPic && item.field === 'faceRecognition'">
+                      <img @click="openFaceRecognitionPop(item)" src="./image/bg.png">
+                    </td>
+                    <td v-if="item.isShowSmallPic && item.field === 'signing'">
+                      <img @click="toSigning(item)" src="./image/bg.png">
+                    </td>
+                  </tr>
+                  <tr v-show="isTr">
+                    <td></td>
+                    <td></td>
                   </tr>
                 </table>
               </div>
@@ -222,7 +252,7 @@
               <li v-for="(item, index) in projectServiceEntity" :key="index">
                 <!-- <p class="value">
                   <span>{{item.serviceName}}</span>
-                </p> -->
+                </p>-->
                 <span class="title">{{item.serviceName}}</span>
                 <span class="value">{{item.serviceMessage}}</span>
               </li>
@@ -333,7 +363,11 @@
                 <p class="borrower-txt">
                   <span class="left">在其他网络借贷平台借款情况：</span>
                   <span class="right">{{loanPeopleInfo.borrowSituation}}</span>
-                  <a class="view-detail" :href="loanPeopleInfo.guaranteeProtocolUrl" target="_blank">
+                  <a
+                    class="view-detail"
+                    :href="loanPeopleInfo.guaranteeProtocolUrl"
+                    target="_blank"
+                  >
                     点击查看
                     <i class="iconfont icon-more"></i>
                   </a>
@@ -396,14 +430,8 @@
       <div class="content">
         <div class="close-wrap">
           <i @click="closeReviewInfoPop" class="el-icon-circle-close-outline close"></i>
-          <img
-            class="front"
-            :src="picList[0]"
-          >
-          <img
-            class="back"
-            :src="picList[1]"
-          >
+          <img class="front" :src="picList[0]">
+          <img class="back" :src="picList[1]">
         </div>
       </div>
     </div>
@@ -411,10 +439,7 @@
       <div class="content face-content">
         <div class="close-wrap">
           <i @click="closeFaceRecognitionPop" class="el-icon-circle-close-outline close"></i>
-          <img
-            class="face"
-            :src="facePic"
-          >
+          <img class="face" :src="facePic">
         </div>
       </div>
     </div>
@@ -492,8 +517,7 @@
                   v-for="(item, index) in redPacketsList"
                   :key="index"
                 >
-                  <div
-                    :class="['red-envelope-box', {active: redPacketIndex === index}]">
+                  <div :class="['red-envelope-box', {active: redPacketIndex === index}]">
                     <p class="vouche-box">
                       <span class="vouche">
                         {{item.redPacketAmount}}
@@ -528,11 +552,10 @@
                   v-for="(item, index) in couponsList"
                   :key="index"
                 >
-                  <div
-                    :class="['rate-stamp-box', {active: couponIndex === index}]">
+                  <div :class="['rate-stamp-box', {active: couponIndex === index}]">
                     <p class="vouche-box">
                       <span class="vouche">
-                       {{item.couponRate}}
+                        {{item.couponRate}}
                         <i>%</i>
                         <i class="font">利息</i>
                       </span>
@@ -615,9 +638,10 @@ export default {
       page: 1,
       size: 10,
       total: 0,
+      isTr: false, //是否补齐表格
       investStatus: '', // 投资状态
       investStatusTitle: '出借中...', // 投资状态文字
-      investStatusBtn: '充值', // 投资按钮状态文字
+      investStatusBtn: '', // 投资按钮状态文字
       investBtn: '申请出借', // 出借按钮文字
       isDisableInvestBtn: false, // 是否禁用申请出借按钮
       invAmount: '', // 申请出借输入框金额
@@ -799,10 +823,12 @@ export default {
     getUserBasicInfo() {
       if (!this.userBasicInfo.escrowAccountInfo) {
         this.investStatus = 'unopened' // 状态为为开户
-        this.investStatusTitle = '未开户'
+        this.investStatusTitle = '出借中...'
         this.investBtn = '立即开户'
+        this.investStatusBtn = '开户'
       } else {
         this.getInvestStatus()
+        this.investStatusBtn = '充值'
       }
     },
     getInvestStatus() {
@@ -810,12 +836,12 @@ export default {
         this.projectInfo.status // 0.预售    1.出借中   2.满标   3.已完结
       ) {
         case 0:
-          this.investStatusTitle = '预售中....'
+          this.investStatusTitle = '预售中...'
           this.investStatus = 'willSale'
           this.isDisableInvestBtn = true
           break
         case 1:
-          this.investStatusTitle = '出借中....'
+          this.investStatusTitle = '出借中...'
           this.investStatus = 'lending'
           break
         case 2:
@@ -899,7 +925,9 @@ export default {
         this.evenAuditInfoList = auditInfoList.filter((item, index) => {
           return (index + 1) % 2 === 0
         })
-
+        if (auditInfoList.length % 2 != 0) {
+          this.isTr = true
+        }
         this.getUserBasicInfo()
         this.getAmountQuery()
       })
@@ -1200,9 +1228,9 @@ export default {
           this.riskContent = res.data.resultMsg
         } else {
           /*
-        * 90034：授权已过期
-        * 90035：授权金额超限
-        */
+           * 90034：授权已过期
+           * 90035：授权金额超限
+           */
           this.isShowInvestErrDialog = true
           this.investErrMsg = res.data.resultMsg
         }
@@ -1385,9 +1413,6 @@ export default {
           color: $color-text;
           margin-right: 120px;
         }
-        .unopened-status-title {
-          width: 140px;
-        }
         .status-btn {
           width: 70px;
           height: 30px;
@@ -1441,6 +1466,7 @@ export default {
           padding: 0 32px;
           font-size: $font-size-small-ss;
           padding-top: 10px;
+          margin-bottom: 20px;
           /deep/ .el-checkbox__input.is-checked {
             .el-checkbox__inner {
               background-color: #4a90e2;
@@ -1469,7 +1495,6 @@ export default {
           width: 100%;
           height: 16px;
           position: relative;
-          margin-top: 20px;
           .all-lending-checkbox {
             position: absolute;
             top: 0;
