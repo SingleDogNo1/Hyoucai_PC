@@ -38,12 +38,12 @@ module.exports = {
         wx: true
       },
       '/TouchStoneService': {
-        target: 'http://47.100.38.237:8088/d',
+        target: 'http://opsstatic.dpandora.cn:30174/d',
         changeOrigin: true,
         wx: true
       },
       '/TouchStoneServiceNew': {
-        target: 'http://47.100.38.237:8088/h',
+        target: 'http://opsstatic.dpandora.cn:30174/h',
         changeOrigin: true,
         wx: true
       }
