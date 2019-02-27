@@ -211,7 +211,7 @@
                 <span class="title-boder"></span>
                 <span class="title-text">还款来源</span>
               </p>
-              <div class="repayment">借款人固定工作收入</div>
+              <div class="repayment">{{productDetail.repaymentSafeguard}}</div>
               <p class="title">
                 <span class="title-boder"></span>
                 <span class="title-text">相关费用</span>
@@ -889,6 +889,7 @@ export default {
         })
 
         let productDetail = data.productDetail
+        this.productDetail = data.productDetail
         this.productDetail.projectName = productDetail.projectName
         this.productDetail.repaymentWay = productDetail.repaymentWay
         this.productDetail.contractNum = productDetail.contractNum
