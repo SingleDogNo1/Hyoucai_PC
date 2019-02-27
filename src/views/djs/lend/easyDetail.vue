@@ -14,7 +14,7 @@
               <strong>{{projectInfo.investRate}}</strong>
               <span class="red">%</span>
             </p>
-            <p class="desc">预期年化收益率</p>
+            <p class="desc">历史平均年化收益率</p>
           </div>
           <div class="item">
             <p class="value">
@@ -27,7 +27,7 @@
               <span>{{projectInfo.investPropleCount}}</span>
               <span>人</span>
             </p>
-            <p class="desc">已购人数</p>
+            <p class="desc">已出借人数</p>
           </div>
         </div>
         <div class="progress-wrap">
@@ -49,14 +49,15 @@
             :class="{ 'unopened-status-title': investStatus === 'unopened' }"
             class="status-title"
           >{{investStatusTitle}}</span>
-          <button v-if="investStatus !== 'unopened'" class="status-btn">
-            <router-link :to="{ name: 'charge' }">{{investStatusBtn}}</router-link>
+          <button class="status-btn">
+            <router-link v-if="investStatus !== 'unopened'" :to="{ name: 'charge' }">{{investStatusBtn}}</router-link>
+            <router-link v-if="investStatus === 'unopened'" :to="{ name: 'account' }">{{investStatusBtn}}</router-link>
           </button>
         </h2>
         <div class="content">
           <p class="available-balance">
             <span class="title">可用余额</span>
-            <span class="value">{{projectInfo.balance}}</span>
+            <span class="value">{{projectInfo.balance}}元</span>
           </p>
           <p class="starting-amount">
             <span class="title">起投金额</span>
@@ -71,7 +72,7 @@
               <router-link target="_blank" :to="{ name: 'riskNoticationLetterAgreement'}">《风险告知书》</router-link>
             </el-checkbox>
           </div>
-          <div class="all-lending">
+          <div class="all-lending" v-if="investStatus === 'enable'">
             <el-checkbox class="all-lending-checkbox" v-model="isAllLending" @change="toggleFill">全部出借</el-checkbox>
           </div>
           <div class="action">
@@ -440,7 +441,7 @@ export default {
       total: 0,
       investStatus: '', // 投资状态
       investStatusTitle: '出借中...', // 投资状态文字
-      investStatusBtn: '充值', // 投资按钮状态文字
+      investStatusBtn: '', // 投资按钮状态文字
       investBtn: '申请出借', // 出借按钮文字
       isDisableInvestBtn: false, // 是否禁用申请出借按钮
       invAmount: '', // 申请出借输入框金额
@@ -574,13 +575,14 @@ export default {
       }
     },
     getUserBasicInfo() {
-      console.log(this.userBasicInfo)
       if (!this.userBasicInfo.escrowAccountInfo) {
         this.investStatus = 'unopened' // 状态为为开户
-        this.investStatusTitle = '未开户'
+        this.investStatusTitle = '出借中...'
         this.investBtn = '立即开户'
+        this.investStatusBtn = '开户'
       } else {
         this.getInvestStatus()
+        this.investStatusBtn = '充值'
       }
     },
     getInvestStatus() {
@@ -588,12 +590,12 @@ export default {
         this.projectInfo.status // 0.禁用    1.启用
       ) {
         case '0':
-          this.investStatusTitle = '预售中....'
+          this.investStatusTitle = '预售中...'
           this.investStatus = 'disable'
           this.isDisableInvestBtn = true
           break
         case '1':
-          this.investStatusTitle = '出借中....'
+          this.investStatusTitle = '出借中...'
           this.investStatus = 'enable'
           break
       }
@@ -1075,9 +1077,6 @@ export default {
           color: $color-text;
           margin-right: 120px;
         }
-        .unopened-status-title {
-          width: 140px;
-        }
         .status-btn {
           width: 70px;
           height: 30px;
@@ -1131,6 +1130,7 @@ export default {
           padding: 0 32px;
           font-size: $font-size-small-ss;
           padding-top: 10px;
+          margin-bottom: 20px;
           /deep/ .el-checkbox__input.is-checked {
             .el-checkbox__inner {
               background-color: #4a90e2;
@@ -1159,7 +1159,6 @@ export default {
           width: 100%;
           height: 16px;
           position: relative;
-          margin-top: 20px;
           .all-lending-checkbox {
             position: absolute;
             top: 0;

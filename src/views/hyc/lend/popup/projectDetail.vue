@@ -41,7 +41,7 @@
               <span class="right">{{loanMent}}</span>
             </p>
             <p>
-              <span class="left">历史年化收益率：</span>
+              <span class="left">历史平均年化收益率：</span>
               <span class="right">{{rate}}.0%</span>
             </p>
           </div>
