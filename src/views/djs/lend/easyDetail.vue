@@ -51,13 +51,14 @@
           >{{investStatusTitle}}</span>
           <button class="status-btn">
             <router-link v-if="investStatus !== 'unopened'" :to="{ name: 'charge' }">{{investStatusBtn}}</router-link>
-            <router-link v-if="investStatus === 'unopened'" :to="{ name: 'account' }">{{investStatusBtn}}</router-link>
+            <router-link v-else :to="{ name: 'account' }">{{investStatusBtn}}</router-link>
           </button>
         </h2>
         <div class="content">
           <p class="available-balance">
             <span class="title">可用余额</span>
-            <span class="value">{{projectInfo.balance}}元</span>
+            <span class="value" v-if="projectInfo.balance === '未开户'">{{projectInfo.balance}}</span>
+            <span class="value" v-else >{{projectInfo.balance}}元</span>
           </p>
           <p class="starting-amount">
             <span class="title">起投金额</span>
@@ -392,7 +393,7 @@
           <el-radio v-model="investAutoInvestSuccessDialog.autoInvestWay" label="2">本息到期后自动出借</el-radio >
         </div>
       </div>
-      <router-link class="auto-invest-agreement" :to="{ name: 'autoLendAgreement' }">《自动出借协议》</router-link>
+      <router-link target="_blank" class="auto-invest-agreement" :to="{ name: 'autoLendAgreement' }">《自动出借协议》</router-link>
       <p class="tips" v-if="investAutoInvestSuccessDialog.autoInvestWay === '1'">
         在本金自动出借模式下，每月产品到期时，系统自动将利息转入用户汇有财账户，本金继续出借。用户可在【我的账户】-【自动出借】界面取消，如有任何疑问，请联系客服：400-099-7979。
       </p>
@@ -702,9 +703,6 @@ export default {
             this.errMsg = '出借金额不能低于起投金额'
             return
           }
-
-          this.isShowConfirmInvestmentDialog = true
-
           const $this = this
           ;(async function initInvestDialog() {
             await availableRedPacketApi({
@@ -718,6 +716,7 @@ export default {
               amount: $this.invAmount
             }).then(res => {
               $this.couponsList = res.data.coupons
+              $this.isShowConfirmInvestmentDialog = true
             })
             await $this.redEnvelopeSwiper()
             await $this.rateStampSwiper()
@@ -859,6 +858,7 @@ export default {
             if (res.data.investType === 'SJLHD') {
               // 手机乐活动
               this.investSJLSuccessDialog.show = true
+              this.investSJLSuccessDialog.msg = data.successTitle + data.successInfo
             } else {
               // 普通产品
               this.investCommonSuccessDialog.show = true
@@ -1474,6 +1474,14 @@ export default {
               background-position: center;
               background-repeat: no-repeat;
               cursor: pointer;
+              &:hover {
+                .receive-btn {
+                  background: rgba(255, 227, 17, 1);
+                  color: rgba(255, 58, 41, 1);
+                  border: 1px solid rgba(255, 227, 17, 1);
+                  border-left: 0;
+                }
+              }
               .vouche-box {
                 padding-top: 19px;
                 margin-bottom: 4px;

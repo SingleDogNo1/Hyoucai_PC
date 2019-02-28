@@ -330,7 +330,7 @@ export default {
         this.resultFont =
           '出借人对风险非常敏感，风险承受度较低，对比收益更关心的是本金安全，出借时建议选择风险水平偏低的产品，适当回避风险的同时保证收益，跑赢通胀，故出借人在平台的最高出借金额不得超过10万元人民币，出借期限建议为3个月内（包括3个月）。<p style="text-align: center">本次测评有效期6个月</p>'
       } else if (totalScore > 10 && totalScore < 30) {
-        this.resultType = 'JSX'
+        this.resultType = 'WJX'
         this.resultTitle = '谨慎型'
         this.resultFont =
           '出借人能够承担较低的出借风险和波动，在出借时倾向以短期、持续、渐进的出借方式获取收益。故出借人在平台的最高出借金额不得超过20万元人民币，出借期限建议为3个月内（包括3个月）。<p style="text-align: center">本次测评有效期6个月</p>'
@@ -352,7 +352,7 @@ export default {
       }
       document.querySelector('.layout') && document.querySelector('.layout').scrollIntoView()
       let data = {
-        authorization: this.authorization,
+        // authorization: this.authorization,
         evaluatingResult: this.resultType
       }
       if (this.isColor) {
@@ -380,8 +380,8 @@ export default {
             this.resultFont =
               '出借人对风险非常敏感，风险承受度较低，对比收益更关心的是本金安全，出借时建议选择风险水平偏低的产品，适当回避风险的同时保证收益，跑赢通胀，故出借人在平台的最高出借金额不得超过10万元人民币，出借期限建议为3个月内（包括3个月）。<p style="text-align: center">本次测评有效期6个月</p>'
             break
-          case 'JSX':
-            this.resultType = 'JSX'
+          case 'WJX':
+            this.resultType = 'WJX'
             this.resultTitle = '谨慎型'
             this.resultFont =
               '出借人能够承担较低的出借风险和波动，在出借时倾向以短期、持续、渐进的出借方式获取收益。故出借人在平台的最高出借金额不得超过20万元人民币，出借期限建议为3个月内（包括3个月）。<p style="text-align: center">本次测评有效期6个月</p>'
