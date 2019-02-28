@@ -155,6 +155,11 @@
               </div>
               <p class="title">
                 <span class="title-boder"></span>
+                <span class="title-text">还款方式明细</span>
+              </p>
+              <p class="repayment">如借款人借款金额10000元，历史平均年化收益率9%，借款期限1年，则该借款人每月还款额为874.51元，还款利息总和为:494.12元，还款总额为:10,494.12元</p>
+              <p class="title">
+                <span class="title-boder"></span>
                 <span class="title-text">审核信息</span>
               </p>
               <div class="table-wrap" v-if="oddAuditInfoList.length > 0">
@@ -224,11 +229,11 @@
                   </tr>
                   <tr>
                     <td>转让手续费</td>
-                    <td>{{productDetail.relatedExpenses}}</td>
+                    <td>暂无任何手续费</td>
                   </tr>
                   <tr>
-                    <td>提现／充值／投资</td>
-                    <td>免费</td>
+                    <td>提现／充值／出借</td>
+                    <td>平台垫付</td>
                   </tr>
                 </table>
               </div>
