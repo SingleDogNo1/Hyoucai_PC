@@ -809,7 +809,7 @@ export default {
       this.getJoinRecordList()
     },
     handleExpectedIncome(invAmount) {
-      if(!this.invAmountDisabled) {
+      if (!this.invAmountDisabled) {
         this.invAmount = invAmount
           .replace(/[^\d.]/g, '')
           .replace(/\.{2,}/g, '.')
@@ -818,12 +818,12 @@ export default {
           .replace('$#$', '.')
           .replace(/^(-)*(\d+)\.(\d\d).*$/, '$1$2.$3')
       }
-    },
-    calculationExpectedIncome() {
+
       let postData = {
         invAmount: this.invAmount,
         investRate: this.projectInfo.investRate,
-        productId: this.productId
+        productId: this.productId,
+        validDays: this.chooseCoupon.validDays
       }
       expectedIncome(postData).then(res => {
         let data = res.data.data
@@ -1069,49 +1069,49 @@ export default {
         this.$router.push({ name: 'account' })
       } else {
         if (this.invAmount === '') {
-        this.errMsg = '请输入金额'
-      } else if (this.invAmount < this.projectInfo.minInvAmount - 0) {
-        this.errMsg = '出借金额不能低于起投金额'
-      } else {
-        systemMaintenance().then(res => {
-          let data = res.data
-          // 此时段为系统维护
-          if (data.resultCode === '60056') {
-            this.isShowSystemMaintenanceDialog = true
-          } else {
-            // 调用即信的接口，刷新用户账户余额，然后判断账户余额是否充足
-            amountSync().then(res => {
-              let data = res.data
-              if (data.resultCode === '1') {
-                this.projectInfo.balance = data.data.availBal
+          this.errMsg = '请输入金额'
+        } else if (this.invAmount < this.projectInfo.minInvAmount - 0) {
+          this.errMsg = '出借金额不能低于起投金额'
+        } else {
+          systemMaintenance().then(res => {
+            let data = res.data
+            // 此时段为系统维护
+            if (data.resultCode === '60056') {
+              this.isShowSystemMaintenanceDialog = true
+            } else {
+              // 调用即信的接口，刷新用户账户余额，然后判断账户余额是否充足
+              amountSync().then(res => {
+                let data = res.data
+                if (data.resultCode === '1') {
+                  this.projectInfo.balance = data.data.availBal
+                }
+              })
+              // 如果没勾选风险告知书，弹出提示
+              if (!this.isAgree) {
+                this.errMsg = '请确认并同意《风险告知书》'
+                return
               }
-            })
-            // 如果没勾选风险告知书，弹出提示
-            if (!this.isAgree) {
-              this.errMsg = '请确认并同意《风险告知书》'
-              return
+              const $this = this
+              ;(async function initInvestDialog() {
+                await availableRedPacketApi({
+                  investAmount: $this.invAmount,
+                  productId: $this.productId
+                }).then(res => {
+                  $this.redPacketsList = res.data.data.userRedPackets
+                })
+                await availableCouponApi({
+                  investAmount: $this.invAmount,
+                  productId: $this.productId
+                }).then(res => {
+                  $this.couponsList = res.data.data.coupons
+                  $this.isShowConfirmInvestmentDialog = true
+                })
+                await $this.redEnvelopeSwiper()
+                await $this.rateStampSwiper()
+              })()
             }
-            const $this = this
-            ;(async function initInvestDialog() {
-              await availableRedPacketApi({
-                investAmount: $this.invAmount,
-                productId: $this.productId
-              }).then(res => {
-                $this.redPacketsList = res.data.data.userRedPackets
-              })
-              await availableCouponApi({
-                investAmount: $this.invAmount,
-                productId: $this.productId
-              }).then(res => {
-                $this.couponsList = res.data.data.coupons
-                $this.isShowConfirmInvestmentDialog = true
-              })
-              await $this.redEnvelopeSwiper()
-              await $this.rateStampSwiper()
-            })()
-          }
-        })
-      }
+          })
+        }
       }
     },
     toSign() {

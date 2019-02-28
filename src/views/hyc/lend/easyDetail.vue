@@ -579,7 +579,8 @@ export default {
       let postData = {
         invAmount: this.invAmount,
         investRate: rate,
-        productId: this.productId
+        productId: this.productId,
+        validDays: this.chooseCoupon.validDays
       }
       expectedIncome(postData).then(res => {
         let data = res.data.data
@@ -716,8 +717,6 @@ export default {
       this.errMsg = ''
       if (this.invAmount === '') {
         this.errMsg = '请输入金额'
-      } else if (this.invAmount < this.projectInfo.minInvAmount - 0) {
-        this.errMsg = '出借金额不能低于起投金额'
       } else {
         systemMaintenance().then(res => {
           let data = res.data
@@ -741,6 +740,17 @@ export default {
               this.errMsg = '请确认并同意《风险告知书》'
               return
             }
+
+            if (this.invAmount < this.projectInfo.minInvAmt - 0) {
+              this.errMsg = '出借金额不能低于起投金额'
+              return
+            }
+
+            if (this.invAmount > this.projectInfo.singleLimit - 0) {
+              this.errMsg = '单人限额为' + this.projectInfo.singleLimit + '元'
+              return
+            }
+
             const $this = this
             ;(async function initInvestDialog() {
               await availableRedPacketApi({

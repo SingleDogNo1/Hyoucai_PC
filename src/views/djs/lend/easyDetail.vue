@@ -627,7 +627,8 @@ export default {
         invAmount: this.invAmount,
         investRate: rate,
         productNo: this.productNo,
-        invDays: this.projectInfo.investMent
+        invDays: this.projectInfo.investMent,
+        validDays: this.chooseCoupon.validDays
       }
       expectedIncome(postData).then(res => (this.expectedIncome = res.data.expectedIncome))
     },
@@ -703,6 +704,12 @@ export default {
             this.errMsg = '出借金额不能低于起投金额'
             return
           }
+
+          if (this.invAmount > this.projectInfo.singleLimit - 0) {
+            this.errMsg = '单人限额为' + this.projectInfo.singleLimit + '元'
+            return
+          }
+
           const $this = this
           ;(async function initInvestDialog() {
             await availableRedPacketApi({
@@ -874,7 +881,7 @@ export default {
     },
     confirmCommon() {
       this.$router.push({
-        name: 'lendDetail',
+        name: 'lendList',
         query: {
           projectNo: this.projectNo
         }
