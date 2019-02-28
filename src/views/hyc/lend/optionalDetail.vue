@@ -77,7 +77,7 @@
               <router-link target="_blank" :to="{ name: 'riskNoticationLetterAgreement'}">《风险告知书》</router-link>
             </el-checkbox>
           </div>
-          <div class="all-lending" v-if="investStatus === 'lending' && !investDetail.tailProject">
+          <div class="all-lending" v-if="investStatus === 'lending' && !invAmountDisabled">
             <el-checkbox
               class="all-lending-checkbox"
               v-model="isAllLending"
