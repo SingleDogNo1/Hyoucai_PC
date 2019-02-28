@@ -304,7 +304,7 @@
                       </span>
                       <span class="vouche-aside">可加息{{item.validDays}}天</span>
                     </p>
-                    <p class="start">投资限额：{{item.amountMin}}至{{item.amountMax}}元</p>
+                    <p class="start">出借限额：{{item.amountMin}}至{{item.amountMax}}元</p>
                     <div class="endData">有效期至{{item.usableExpireDate}}</div>
                     <button
                       class="receive-btn"
@@ -401,9 +401,10 @@
       :show.sync="setSuccessDialog.show"
       :showTitle="setSuccessDialog.showTitle"
       :singleButton="setSuccessDialog.singleButton"
+      :onClose="refreshPage"
     >
       <div style="text-align: center">
-          <i class="iconfont icon-success" style="font-size: 60px; color: #fb7b1f;"></i>
+        <i class="iconfont icon-success" style="font-size: 60px; color: #fb7b1f;"></i>
         <p style="margin: 20px 0 50px;">设置成功</p>
       </div>
     </Dialog>
@@ -906,6 +907,9 @@ export default {
           this.investErrDialog.msg = data.resultMsg
         }
       })
+    },
+    refreshPage() {
+      window.location.reload()
     }
   },
   mounted() {

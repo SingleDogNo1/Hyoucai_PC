@@ -171,26 +171,26 @@
         <table class="t_f">
           <tr>
             <td>甲方：</td>
-            <td class="r_se"></td>
+            <td class="r_se">{{ relation.partyA }}</td>
             <td>乙方：</td>
-            <td></td>
+            <td>{{ relation.partyB }}</td>
           </tr>
           <tr class="se_t">
             <td>日期：</td>
             <td class="r_se">
-              <em class="name1">{{ relation.partyA }}</em>
+              <em class="name1"></em>
             </td>
             <td>日期：</td>
             <td>
-              <em class="name2">{{ relation.partyB }}</em>
+              <em class="name2"></em>
             </td>
           </tr>
           <tr>
             <td colspan="4">丙方：江西汇通金融信息服务有限公司</td>
           </tr>
           <tr>
-            <td>日期：</td>
-            <td class="cachel"><img v-if="relation.userNameA" src="./cachel.png" style="width:120px" alt="" /></td>
+            <td>日期：{{ relation.signYear }}年{{ relation.signMonth }}月{{ relation.signDay }}日</td>
+            <td class="cachel"><img  src="./cachel.png" style="width:120px" alt="" /></td>
             <td></td>
             <td></td>
           </tr>

@@ -37,4 +37,4 @@ RepeatMessage
 UpdateMessage
 
 
-https://mobile.hyoucai.com/#/d/agreement?agreementType=zqzr&mobile=1&relationId=2921171&t=DSCJ ZGpzMjE0NzM5amE6NGZkN2U5ZDktNmZlNy00ZWIwLWEyNDgtMWZhZWEyOTJhMGU3
+https://mobile.hyoucai.com/#/d/agreement?agreementType=zqzr&mobile=1&relationId=2921171&t=DSCJ ZGpzMjE0NzM5amE6MTU4Zjg2ZjYtYjNkOC00OWI2LWJlMmItMDgwZDkzY2RjZDRl

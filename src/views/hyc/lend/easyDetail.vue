@@ -277,7 +277,11 @@
                   :key="index"
                 >
                   <div
-                    :class="['red-envelope-box', {active: redPacketIndex === index}]">
+                    :class="[{
+                      'dk-red-packet': item.secondType === '1',
+                      'xj-red-packet': item.secondType === '2',
+                      active: redPacketIndex === index
+                    }]">
                     <p class="vouche-box">
                       <span class="vouche">
                         {{item.redPacketAmount}}
@@ -323,7 +327,7 @@
                       </span>
                       <span class="vouche-aside">可加息{{item.validDays}}天</span>
                     </p>
-                    <p class="start">投资限额：{{item.amountMin}}至{{item.amountMax}}元</p>
+                    <p class="start">出借限额：{{item.amountMin}}至{{item.amountMax}}元</p>
                     <div class="endData">有效期至{{item.usableExpireDate}}</div>
                     <button
                       class="receive-btn"
@@ -1457,7 +1461,8 @@ export default {
             list-style: none;
             padding: 0;
             z-index: 1;
-            /deep/ .red-envelope-box,
+            /deep/ .dk-red-packet,
+            /deep/ .xj-red-packet,
             /deep/ .rate-stamp-box {
               position: relative;
               width: 378px;
@@ -1563,6 +1568,9 @@ export default {
                   border-left: 0;
                 }
               }
+            }
+            /deep/ .xj-red-packet {
+              background: url('image/xj-redpacket-nochoose.png') center no-repeat;
             }
             /deep/ .rate-stamp-box {
               background: url('./image/bg_rate_stamp.png') center center no-repeat;

@@ -561,7 +561,7 @@
                       </span>
                       <span class="vouche-aside">可加息{{item.validDays}}天</span>
                     </p>
-                    <p class="start">投资限额：{{item.amountMin}}至{{item.amountMax}}元</p>
+                    <p class="start">出借限额：{{item.amountMin}}至{{item.amountMax}}元</p>
                     <div class="endData">有效期至{{item.usableExpireDate}}</div>
                     <button
                       class="receive-btn"
