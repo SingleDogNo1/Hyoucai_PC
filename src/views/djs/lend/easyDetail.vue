@@ -1474,14 +1474,6 @@ export default {
               background-position: center;
               background-repeat: no-repeat;
               cursor: pointer;
-              &:hover {
-                .receive-btn {
-                  background: rgba(255, 227, 17, 1);
-                  color: rgba(255, 58, 41, 1);
-                  border: 1px solid rgba(255, 227, 17, 1);
-                  border-left: 0;
-                }
-              }
               .vouche-box {
                 padding-top: 19px;
                 margin-bottom: 4px;
