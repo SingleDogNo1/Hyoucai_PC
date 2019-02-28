@@ -258,7 +258,11 @@
                   :key="index"
                 >
                   <div
-                    :class="['red-envelope-box', {active: redPacketIndex === index}]">
+                    :class="[{
+                      'dk-red-packet': item.secondType === 1,
+                      'xj-red-packet': item.secondType === 2,
+                      active: redPacketIndex === index
+                    }]">
                     <p class="vouche-box">
                       <span class="vouche">
                         {{item.redPacketAmount}}
@@ -1460,13 +1464,15 @@ export default {
             list-style: none;
             padding: 0;
             z-index: 1;
-            /deep/ .red-envelope-box,
+            /deep/ .dk-red-packet,
+            /deep/ .xj-red-packet,
             /deep/ .rate-stamp-box {
               position: relative;
               width: 378px;
               height: 105px;
               border-radius: 4px;
-              background: url('./image/bg_red_envelope_nochoose.png') center center no-repeat;
+              background-position: center;
+              background-repeat: no-repeat;
               cursor: pointer;
               .vouche-box {
                 padding-top: 19px;
@@ -1535,15 +1541,9 @@ export default {
                   display: inline-block;
                   white-space: normal;
                 }
-                &:hover {
-                  background: rgba(255, 227, 17, 1);
-                  color: rgba(255, 58, 41, 1);
-                  border: 1px solid rgba(255, 227, 17, 1);
-                  border-left: 0;
-                }
               }
-              &.active {
-                background-image: url('./image/bg_red_envelope_choosed.png');
+              &.active,
+              &:hover {
                 .vouche {
                   color: #fff;
                 }
@@ -1565,8 +1565,56 @@ export default {
                 }
               }
             }
+            /deep/ .dk-red-packet {
+              $unselectedBgImage: './image/bg_red_envelope_nochoose.png';
+              $selectedBgImage: './image/bg_red_envelope_choosed.png';
+              background-image: url($unselectedBgImage);
+              &:hover {
+                background-image: url($selectedBgImage);
+                .receive-btn {
+                  background: rgba(255, 227, 17, 1);
+                  color: rgba(255, 58, 41, 1);
+                  border: 1px solid rgba(255, 227, 17, 1);
+                  border-left: 0;
+                }
+              }
+              &.active {
+                background-image: url($selectedBgImage);
+              }
+            }
+            /deep/ .xj-red-packet {
+              $unselectedBgImage: './image/xj-redpacket-nochoose.png';
+              $selectedBgImage: './image/xj-redpacket-choose.png';
+              background-image: url($unselectedBgImage);
+              &:hover {
+                background-image: url($selectedBgImage);
+                .receive-btn {
+                  background: rgba(255, 227, 17, 1);
+                  color: rgba(255, 58, 41, 1);
+                  border: 1px solid rgba(255, 227, 17, 1);
+                  border-left: 0;
+                }
+              }
+              &.active {
+                background-image: url($selectedBgImage);
+              }
+            }
             /deep/ .rate-stamp-box {
-              background: url('./image/bg_rate_stamp.png') center center no-repeat;
+              $unselectedBgImage: './image/bg_rate_stamp.png';
+              $selectedBgImage: './image/bg_rate_choose.png';
+              background-image: url($unselectedBgImage);
+              &:hover {
+                background-image: url($selectedBgImage);
+                .receive-btn {
+                  background: rgba(255, 227, 17, 1);
+                  color: rgba(255, 58, 41, 1);
+                  border: 1px solid rgba(255, 227, 17, 1);
+                  border-left: 0;
+                }
+              }
+              &.active {
+                background-image: url($selectedBgImage);
+              }
             }
           }
           .swiper-button-prev {

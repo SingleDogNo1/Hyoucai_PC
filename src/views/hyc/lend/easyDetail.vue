@@ -1470,7 +1470,6 @@ export default {
               border-radius: 4px;
               background-position: center;
               background-repeat: no-repeat;
-              background-image: url('./image/bg_red_envelope_nochoose.png');
               cursor: pointer;
               .vouche-box {
                 padding-top: 19px;
@@ -1539,15 +1538,9 @@ export default {
                   display: inline-block;
                   white-space: normal;
                 }
-                &:hover {
-                  background: rgba(255, 227, 17, 1);
-                  color: rgba(255, 58, 41, 1);
-                  border: 1px solid rgba(255, 227, 17, 1);
-                  border-left: 0;
-                }
               }
-              &.active {
-                background-image: url('./image/bg_red_envelope_choosed.png');
+              &.active,
+              &:hover {
                 .vouche {
                   color: #fff;
                 }
@@ -1569,11 +1562,56 @@ export default {
                 }
               }
             }
+            /deep/ .dk-red-packet {
+              $unselectedBgImage: './image/bg_red_envelope_nochoose.png';
+              $selectedBgImage: './image/bg_red_envelope_choosed.png';
+              background-image: url($unselectedBgImage);
+              &:hover {
+                background-image: url($selectedBgImage);
+                .receive-btn {
+                  background: rgba(255, 227, 17, 1);
+                  color: rgba(255, 58, 41, 1);
+                  border: 1px solid rgba(255, 227, 17, 1);
+                  border-left: 0;
+                }
+              }
+              &.active {
+                background-image: url($selectedBgImage);
+              }
+            }
             /deep/ .xj-red-packet {
-              background: url('image/xj-redpacket-nochoose.png') center no-repeat;
+              $unselectedBgImage: './image/xj-redpacket-nochoose.png';
+              $selectedBgImage: './image/xj-redpacket-choose.png';
+              background-image: url($unselectedBgImage);
+              &:hover {
+                background-image: url($selectedBgImage);
+                .receive-btn {
+                  background: rgba(255, 227, 17, 1);
+                  color: rgba(255, 58, 41, 1);
+                  border: 1px solid rgba(255, 227, 17, 1);
+                  border-left: 0;
+                }
+              }
+              &.active {
+                background-image: url($selectedBgImage);
+              }
             }
             /deep/ .rate-stamp-box {
-              background: url('./image/bg_rate_stamp.png') center center no-repeat;
+              $unselectedBgImage: './image/bg_rate_stamp.png';
+              $selectedBgImage: './image/bg_rate_choose.png';
+              background-image: url($unselectedBgImage);
+              &:hover {
+                background-image: url($selectedBgImage);
+                .receive-btn {
+                  background: rgba(255, 227, 17, 1);
+                  color: rgba(255, 58, 41, 1);
+                  border: 1px solid rgba(255, 227, 17, 1);
+                  border-left: 0;
+                }
+              }
+              &.active {
+                background-image: url($selectedBgImage);
+              }
             }
           }
           .swiper-button-prev {
