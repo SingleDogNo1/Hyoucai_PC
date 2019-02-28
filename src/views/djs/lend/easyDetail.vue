@@ -1647,6 +1647,9 @@ export default {
         span {
           line-height: 26px;
         }
+        div:hover {
+          cursor: pointer;
+        }
         .view-my-invest {
           line-height: 24px;
           font-size: $font-size-small-s;
