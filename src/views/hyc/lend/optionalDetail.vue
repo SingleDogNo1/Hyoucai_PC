@@ -55,13 +55,14 @@
           >{{investStatusTitle}}</span>
           <button class="status-btn">
             <router-link v-if="investStatus !== 'unopened'" :to="{ name: 'charge' }">{{investStatusBtn}}</router-link>
-            <router-link v-if="investStatus === 'unopened'" :to="{ name: 'account' }">{{investStatusBtn}}</router-link>
+            <router-link v-else :to="{ name: 'account' }">{{investStatusBtn}}</router-link>
           </button>
         </h2>
         <div class="content">
           <p class="available-balance">
             <span class="title">可用余额</span>
-            <span class="value">{{projectInfo.balance}}元</span>
+            <span class="value" v-if="projectInfo.balance === '未开户'">{{projectInfo.balance}}</span>
+            <span class="value" v-else >{{projectInfo.balance}}元</span>
           </p>
           <p class="starting-amount">
             <span class="title">起投金额</span>
@@ -76,7 +77,7 @@
               <router-link target="_blank" :to="{ name: 'riskNoticationLetterAgreement'}">《风险告知书》</router-link>
             </el-checkbox>
           </div>
-          <div class="all-lending" v-if="investStatus === 'lending'">
+          <div class="all-lending" v-if="investStatus === 'lending' && !investDetail.tailProject">
             <el-checkbox
               class="all-lending-checkbox"
               v-model="isAllLending"
@@ -805,14 +806,15 @@ export default {
       this.getJoinRecordList()
     },
     handleExpectedIncome(invAmount) {
-      this.invAmount = invAmount
-        .replace(/[^\d.]/g, '')
-        .replace(/\.{2,}/g, '.')
-        .replace('.', '$#$')
-        .replace(/\./g, '')
-        .replace('$#$', '.')
-        .replace(/^(-)*(\d+)\.(\d\d).*$/, '$1$2.$3')
-      this.calculationExpectedIncome()
+      if(!this.invAmountDisabled) {
+        this.invAmount = invAmount
+          .replace(/[^\d.]/g, '')
+          .replace(/\.{2,}/g, '.')
+          .replace('.', '$#$')
+          .replace(/\./g, '')
+          .replace('$#$', '.')
+          .replace(/^(-)*(\d+)\.(\d\d).*$/, '$1$2.$3')
+      }
     },
     calculationExpectedIncome() {
       let postData = {
@@ -929,6 +931,14 @@ export default {
         })
         if (auditInfoList.length % 2 != 0) {
           this.isTr = true
+        }
+
+        let investDetail = data.investDetail
+        this.investDetail.tailProject = investDetail.tailProject
+        // 判断是否是尾标
+        if (this.investDetail.tailProject && parseFloat(this.projectInfo.surplusAmt) < 2 * parseFloat(this.projectInfo.minInvAmount)) {
+          this.invAmount = '尾标：' + this.projectInfo.surplusAmt + '元'
+          this.invAmountDisabled = true
         }
         this.getUserBasicInfo()
         this.getAmountQuery()
@@ -1051,7 +1061,11 @@ export default {
     },
     handleInvest() {
       this.errMsg = ''
-      if (this.invAmount === '') {
+      // 如果是未开户，点击去开户页面
+      if (this.investStatus === 'unopened') {
+        this.$router.push({ name: 'account' })
+      } else {
+        if (this.invAmount === '') {
         this.errMsg = '请输入金额'
       } else if (this.invAmount < this.projectInfo.minInvAmount - 0) {
         this.errMsg = '出借金额不能低于起投金额'
@@ -1069,18 +1083,11 @@ export default {
                 this.projectInfo.balance = data.data.availBal
               }
             })
-            // 如果是未开户，点击去开户页面
-            if (this.investStatus === 'unopened') {
-              this.$router.push({ name: 'account' })
-            }
             // 如果没勾选风险告知书，弹出提示
             if (!this.isAgree) {
               this.errMsg = '请确认并同意《风险告知书》'
               return
             }
-
-            this.isShowConfirmInvestmentDialog = true
-
             const $this = this
             ;(async function initInvestDialog() {
               await availableRedPacketApi({
@@ -1094,12 +1101,14 @@ export default {
                 productId: $this.productId
               }).then(res => {
                 $this.couponsList = res.data.data.coupons
+                $this.isShowConfirmInvestmentDialog = true
               })
               await $this.redEnvelopeSwiper()
               await $this.rateStampSwiper()
             })()
           }
         })
+      }
       }
     },
     toSign() {
