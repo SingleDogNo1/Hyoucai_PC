@@ -1,3 +1,4 @@
+import 'babel-polyfill'
 import Vue from 'vue'
 import App from './App_djs.vue'
 import router from '@/router/djs'

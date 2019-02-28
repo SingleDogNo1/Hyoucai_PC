@@ -1,10 +1,6 @@
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
-const CompressionWebpackPlugin = require('compression-webpack-plugin')
-const productionGzipExtensions = ['js', 'css']
-const env = process.env.NODE_ENV
-
 module.exports = {
-  baseUrl: env === 'production' ? './' : '/',
+  baseUrl: process.env.NODE_ENV === 'production' ? '../' : '/',
+  productionSourceMap: false,
   pages: {
     app: {
       entry: 'src/entries/main.js',
@@ -28,51 +24,22 @@ module.exports = {
       chunks: ['chunk-vendors', 'chunk-common', 'djs']
     }
   },
+  configureWebpack: config => {
+    if (process.env.NODE_ENV === 'production') {
+      config.optimization.minimizer[0].options.terserOptions.compress.drop_console = true
+      // config.devtool = 'none'
+    }
+  },
   devServer: {
     host: '0.0.0.0',
     disableHostCheck: true,
     proxy: {
       '/TouchStone': {
-        target: 'http://opsstatic.dpandora.cn:30174',//30174  30162
-        changeOrigin: true,
-        wx: true
-      },
-      '/TouchStoneService': {
-        target: 'http://opsstatic.dpandora.cn:30174/d',
-        changeOrigin: true,
-        wx: true
-      },
-      '/TouchStoneServiceNew': {
-        target: 'http://opsstatic.dpandora.cn:30174/h',
+        // target: 'http://opsstatic.dpandora.cn:30174', // SIT
+        target: 'http://opsstatic.dpandora.cn:30162', // UAT
         changeOrigin: true,
         wx: true
       }
-    }
-  },
-  configureWebpack: config => {
-    if (env === 'production') {
-      config.plugins.push(
-        new CompressionWebpackPlugin({
-          algorithm: 'gzip',
-          test: new RegExp(`\\.(${productionGzipExtensions.join('|')})$`),
-          threshold: 10240,
-          minRatio: 0.8
-        })
-      )
-      config.plugins.push(
-        new UglifyJsPlugin({
-          uglifyOptions: {
-            compress: {
-              warnings: false,
-              drop_debugger: true, // console
-              drop_console: true,
-              // pure_funcs: ['console.log'] // 移除console
-            }
-          },
-          sourceMap: false,
-          parallel: true
-        })
-      )
     }
   }
 }

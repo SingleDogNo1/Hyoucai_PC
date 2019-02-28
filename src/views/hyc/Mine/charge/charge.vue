@@ -36,9 +36,14 @@
                   {{ bankCardInfo.bankName }}<i class="high-light"> {{ bankCardInfo.quota }}</i>
                 </span>
               </li>
-              <li><span class="title">&emsp;手机号</span> <input type="text" placeholder="请输入银行绑定手机号" @input="mobileInput" /></li>
+              <li v-if="isSpecialUser !== '1'">
+                <span class="title">&emsp;手机号</span> <input type="text" placeholder="请输入银行绑定手机号" @input="mobileInput" />
+              </li>
               <div class="err-msg" v-if="errMsg.mobile">{{ errMsg.mobile }}</div>
-              <li><span class="title">&emsp;&emsp;&emsp;&emsp;</span> <input type="button" value="确认充值" @click="checkAmount" /></li>
+              <li v-if="isSpecialUser === '1'">
+                <span class="title">&emsp;&emsp;&emsp;&emsp;</span> <input type="button" value="确认充值" @click="transferCharge" />
+              </li>
+              <li v-else><span class="title">&emsp;&emsp;&emsp;&emsp;</span> <input type="button" value="确认充值" @click="checkAmount" /></li>
             </ul>
           </div>
         </el-tab-pane>
@@ -99,7 +104,7 @@
 
 <script>
 import Clipboard from 'clipboard'
-import { bankCardQueryApi, checkAmountApi, rechargeApi, amountInfoApi } from '@/api/hyc/Mine/charge'
+import { bankCardQueryApi, checkAmountApi, rechargeApi, amountInfoApi, transferChargeApi } from '@/api/hyc/Mine/charge'
 import { getUser } from '@/assets/js/cache'
 import { getAuth, getRetBaseURL, Base64Utils } from '@/assets/js/utils'
 import Dialog from '@/components/Dialog/Dialog'
@@ -143,7 +148,8 @@ export default {
         common: ''
       },
       showDialog: false,
-      singleButton: true
+      singleButton: true,
+      isSpecialUser: this.$route.query.isSpecialUser
     }
   },
   props: ['entrance'],
@@ -271,6 +277,31 @@ export default {
         }
       })
     },
+    transferCharge() {
+      let path
+      if (this.entrance) {
+        path = Base64Utils.base64ToObject(this.entrance).fullPath
+      } else {
+        path = '/mine/basicInfo'
+      }
+      let params = {
+        userName: this.userName,
+        txAmount: this.amount,
+        retUrl: getRetBaseURL() + path
+      }
+      transferChargeApi(params).then(res => {
+        let data = res.data
+        let resultCode = data.resultCode
+        let resultMsg = data.resultMsg
+        if (resultCode === '1') {
+          let option = data.data.paramReq
+          this.postcall(data.data.redirectUrl, option)
+        } else {
+          this.showDialog = true
+          this.errMsg.common = resultMsg
+        }
+      })
+    },
     postcall(url, params, target) {
       let tempform = document.createElement('form')
       tempform.setAttribute('name', 'form')
@@ -318,6 +349,7 @@ export default {
     }
   },
   created() {
+    console.log(this.isSpecialUser, this.$route.query.isSpecialUser)
     this.getBankCardQuery()
     amountInfoApi().then(res => {
       if (res.data.resultCode === ERR_OK) {

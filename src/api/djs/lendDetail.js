@@ -40,7 +40,7 @@ export function availableRedPacketApi(data) {
   })
 }
 
-// 查询用户可用加息券
+// 用户投资
 export function availableCouponApi(data) {
   return request({
     url: 'AvailableCoupon',
