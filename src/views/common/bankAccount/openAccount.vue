@@ -42,8 +42,8 @@
               <dt><i :class="checkAgree ? 'icon-check' : 'icon-choose'" class="iconfont" @click="checkAgree = !checkAgree"></i></dt>
               <dd>
                 我已阅读并同意<a href="javascript:;" @click="agreeDialogVisible = true" class="agre_find"
-              >《江西银行网络交易资金账户服务第三方协议》</a
-              >和<a href="javascript:;" @click="agreeDialogVisible = true" class="agre_find">《用户授权协议》</a>
+                  >《江西银行网络交易资金账户服务第三方协议》</a
+                >和<a href="javascript:;" @click="agreeDialogVisible = true" class="agre_find">《用户授权协议》</a>
               </dd>
             </dl>
             <h3 v-if="errorMsg != ''">{{ errorMsg }}</h3>
@@ -118,8 +118,8 @@
               </p>
               <p>
                 为了保障甲方的合法权益，请甲方在注册或使用丙方账户服务前，详细阅读本协议。<b
-              >甲方注册或使用账户时，即表示甲方已充分知晓并理解本协议之含义，并在此基础上接受本协议之全部内容，否则您应立即停止使用本服务和使用账户，并不进行下一步的操作。</b
-              >
+                  >甲方注册或使用账户时，即表示甲方已充分知晓并理解本协议之含义，并在此基础上接受本协议之全部内容，否则您应立即停止使用本服务和使用账户，并不进行下一步的操作。</b
+                >
               </p>
 
               <h3>一、定义及解释</h3>

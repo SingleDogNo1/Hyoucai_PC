@@ -16,7 +16,7 @@
             <span class="bottom">投资金额(元)</span>
           </p>
           <p class="schedule">
-            <span class="top">{{projectCompositionData[0].numberPeriod}}</span>
+            <span class="top">{{projectCompositionData[0].numberPeriod}}/{{projectCompositionData[0].repaymentPeriod}}</span>
             <span class="bottom">还款进度</span>
           </p>
           <p class="way">
@@ -43,7 +43,7 @@
               <span class="right">{{projectCompositionData[0].applicationNo}}</span>
             </p>
             <p>
-              <span class="left">募表起始日期：</span>
+              <span class="left">募标起始日期：</span>
               <span class="right">{{projectCompositionData[0].loanSignDate}}</span>
             </p>
           </div>
