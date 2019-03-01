@@ -77,7 +77,7 @@
             <el-checkbox class="all-lending-checkbox" v-model="isAllLending" @change="toggleFill">全部出借</el-checkbox>
           </div>
           <div class="action">
-            <input class="amount-input" v-model="invAmount" @keyup="handleExpectedIncome(invAmount)">
+            <input maxlength="13" class="amount-input" v-model="invAmount" @keyup="handleExpectedIncome(invAmount)">
             <button
               class="action-btn"
               :disabled="isDisableInvestBtn"

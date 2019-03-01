@@ -72,8 +72,9 @@
                 </li>
                 <li class="info">
                   <template v-if="item.status !== 1">
-                    <el-button v-if="item.investPercent < 100" @click.native="judgeBooking(item)"> 授权出借 </el-button>
-                    <el-button disabled v-else>还款中</el-button>
+                    <!--1.未开启 2.已投X% 3.满标(包括item.investPercent >= 100 || item.investEndTimestamp <= 0 || item.status === 3)-->
+                    <el-button disabled v-if="item.investPercent >= 100 || item.investEndTimestamp <= 0 || item.status === 3"> 还款中 </el-button>
+                    <el-button v-else @click.native="judgeBooking(item)"> 授权出借 </el-button>
                   </template>
                   <template v-else>
                     <el-button type="primary" @click.native="judgeBooking(item)"> 预售中 </el-button>
@@ -124,6 +125,7 @@
                   </dl>
                 </li>
                 <li class="info">
+                  <!-- 0.预售 1.投资中 2.满标 3.已完结-->
                   <template v-if="item.status !== 0">
                     <el-button v-if="item.status === 1" @click.native="judgeBooking(item)"> 授权出借 </el-button>
                     <el-button disabled v-else>还款中</el-button>
