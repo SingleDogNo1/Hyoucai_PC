@@ -32,7 +32,9 @@
         <!-- 红包待领取 -->
         <div v-if="item.voucherType == 'VT02'">
           <p class="vouche_box">
-            <span class="vouche"> {{ item.voucherFaceValue }} <i class="vouche_i">元</i> </span> <span class="vouche_aside">可与加息券同时使用</span>
+            <span class="vouche"> {{ item.voucherFaceValue }} <i class="vouche_i">元</i> </span> 
+            <span class="vouche_aside" v-if="item.commonUse === 0">不可与加息券同时使用</span>
+            <span class="vouche_aside" v-if="item.commonUse === 1">可与加息券同时使用</span>
           </p>
           <p class="start">起投金额：{{ item.amountMin | toThousands }}元</p>
           <button v-show="item.intoAccount == 0" class="receive_btn" @click="receiveRedPacket(item.id)">立即领取</button>
@@ -64,7 +66,9 @@
         </div>
         <div v-if="item.voucherType == 'VT02'">
           <p class="vouche_box">
-            <span class="vouche"> {{ item.voucherFaceValue }} <i class="vouche_i">元</i> </span> <span class="vouche_aside">可与加息券同时使用</span>
+            <span class="vouche"> {{ item.voucherFaceValue }} <i class="vouche_i">元</i> </span> 
+            <span class="vouche_aside" v-if="item.commonUse === 0">不可与加息券同时使用</span>
+            <span class="vouche_aside" v-if="item.commonUse === 1">可与加息券同时使用</span>
           </p>
           <p class="start">起投金额：{{ item.amountMin | toThousands }}元</p>
           <button v-show="!item.intoAccount == 1" class="receive1_btn" @click="immdiateUseRed(item.id)">立即使用</button>
@@ -98,7 +102,9 @@
         <!-- 红包 -->
         <div v-if="item.voucherType == 'VT02'">
           <p class="vouche_box">
-            <span class="vouche"> {{ item.voucherFaceValue }} <i class="vouche_i">元</i> </span> <span class="vouche_aside">可与加息券同时使用</span>
+            <span class="vouche"> {{ item.voucherFaceValue }} <i class="vouche_i">元</i> </span> 
+            <span class="vouche_aside" v-if="item.commonUse === 0">不可与加息券同时使用</span>
+            <span class="vouche_aside" v-if="item.commonUse === 1">可与加息券同时使用</span>
           </p>
           <p class="start">起投金额：{{ item.amountMin | toThousands }}元</p>
         </div>
@@ -128,7 +134,9 @@
         <!-- 红包 -->
         <div v-if="item.voucherType == 'VT02'">
           <p class="vouche_box">
-            <span class="vouche"> {{ item.voucherFaceValue }} <i class="vouche_i">元</i> </span> <span class="vouche_aside">可与加息券同时使用</span>
+            <span class="vouche"> {{ item.voucherFaceValue }} <i class="vouche_i">元</i> </span> 
+            <span class="vouche_aside" v-if="item.commonUse === 0">不可与加息券同时使用</span>
+            <span class="vouche_aside" v-if="item.commonUse === 1">可与加息券同时使用</span>
           </p>
           <p class="start">起投金额：{{ item.amountMin | toThousands }}元</p>
         </div>
