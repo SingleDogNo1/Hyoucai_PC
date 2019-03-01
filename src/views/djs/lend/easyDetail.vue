@@ -77,18 +77,18 @@
             <el-checkbox class="all-lending-checkbox" v-model="isAllLending" @change="toggleFill">全部出借</el-checkbox>
           </div>
           <div class="action">
-            <input class="amount-input" v-model="invAmount" @keyup="handleExpectedIncome(invAmount)">
+            <input maxlength="13" class="amount-input" v-model="invAmount" @keyup="handleExpectedIncome(invAmount)">
             <button
               class="action-btn"
               :disabled="isDisableInvestBtn"
               @click="handleInvest"
             >{{investBtn}}</button>
           </div>
+          <p class="err-msg" v-if="errMsg">{{errMsg}}</p>
           <p class="expected-profits">
             <span class="title">预期收益：</span>
             <span class="value">{{expectedIncome}}元</span>
           </p>
-          <p class="err-msg" v-if="errMsg">{{errMsg}}</p>
         </div>
       </div>
     </section>
@@ -1330,6 +1330,7 @@ export default {
           }
         }
         .err-msg {
+          margin-top: 13px;
           width: 100%;
           font-size: $font-size-small-ss;
           color: #e9122c;
@@ -1732,6 +1733,9 @@ export default {
         color: $color-text-s;
         span {
           line-height: 26px;
+        }
+        div:hover {
+          cursor: pointer;
         }
         .view-my-invest {
           line-height: 24px;
