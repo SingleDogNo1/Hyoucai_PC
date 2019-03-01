@@ -55,13 +55,14 @@
           >{{investStatusTitle}}</span>
           <button class="status-btn">
             <router-link v-if="investStatus !== 'unopened'" :to="{ name: 'charge' }">{{investStatusBtn}}</router-link>
-            <router-link v-if="investStatus === 'unopened'" :to="{ name: 'account' }">{{investStatusBtn}}</router-link>
+            <router-link v-else :to="{ name: 'account' }">{{investStatusBtn}}</router-link>
           </button>
         </h2>
         <div class="content">
           <p class="available-balance">
             <span class="title">可用余额</span>
-            <span class="value">{{projectInfo.balance}}元</span>
+            <span class="value" v-if="projectInfo.balance === '未开户'">{{projectInfo.balance}}</span>
+            <span class="value" v-else >{{projectInfo.balance}}元</span>
           </p>
           <p class="starting-amount">
             <span class="title">起投金额</span>
@@ -76,11 +77,11 @@
               <router-link target="_blank" :to="{ name: 'riskNoticationLetterAgreement'}">《风险告知书》</router-link>
             </el-checkbox>
           </div>
-          <div class="all-lending" v-if="investStatus === 'lending'">
+          <div class="all-lending" v-if="investStatus === 'lending' && !invAmountDisabled">
             <el-checkbox class="all-lending-checkbox" v-model="isAllLending" @change="toggleFill">全部出借</el-checkbox>
           </div>
           <div class="action" v-if="investStatus === 'willSale' || investStatus === 'lending' || investStatus === 'unopened'">
-            <input class="amount-input" v-model="invAmount" @keyup="handleExpectedIncome(invAmount)" />
+            <input class="amount-input" :disabled="invAmountDisabled" v-model="invAmount" @keyup="handleExpectedIncome(invAmount)" />
             <button
               class="action-btn"
               :disabled="isDisableInvestBtn"
@@ -277,7 +278,11 @@
                   :key="index"
                 >
                   <div
-                    :class="['red-envelope-box', {active: redPacketIndex === index}]">
+                    :class="[{
+                      'dk-red-packet': item.secondType === '1',
+                      'xj-red-packet': item.secondType === '2',
+                      active: redPacketIndex === index
+                    }]">
                     <p class="vouche-box">
                       <span class="vouche">
                         {{item.redPacketAmount}}
@@ -323,7 +328,7 @@
                       </span>
                       <span class="vouche-aside">可加息{{item.validDays}}天</span>
                     </p>
-                    <p class="start">投资限额：{{item.amountMin}}至{{item.amountMax}}元</p>
+                    <p class="start">出借限额：{{item.amountMin}}至{{item.amountMax}}元</p>
                     <div class="endData">有效期至{{item.usableExpireDate}}</div>
                     <button
                       class="receive-btn"
@@ -407,6 +412,7 @@ export default {
       investBtn: '申请出借', // 出借按钮文字
       isDisableInvestBtn: false, // 是否禁用申请出借按钮
       invAmount: '', // 申请出借输入框金额
+      invAmountDisabled: false, // 申请出借输入框是否禁用
       expectedIncome: '0.00', //逾期收益
       projectInfo: {
         iconUrl: '', // icon图片链接
@@ -560,13 +566,15 @@ export default {
       this.getProjectCompoList()
     },
     handleExpectedIncome(invAmount, rate = this.projectInfo.investRate) {
-      this.invAmount = invAmount
-        .replace(/[^\d.]/g, '')
-        .replace(/\.{2,}/g, '.')
-        .replace('.', '$#$')
-        .replace(/\./g, '')
-        .replace('$#$', '.')
-        .replace(/^(-)*(\d+)\.(\d\d).*$/, '$1$2.$3')
+      if (!this.invAmountDisabled) {
+        this.invAmount = invAmount
+          .replace(/[^\d.]/g, '')
+          .replace(/\.{2,}/g, '.')
+          .replace('.', '$#$')
+          .replace(/\./g, '')
+          .replace('$#$', '.')
+          .replace(/^(-)*(\d+)\.(\d\d).*$/, '$1$2.$3')
+      }
 
       let postData = {
         invAmount: this.invAmount,
@@ -624,6 +632,13 @@ export default {
         this.investDetail.costdes = investDetail.costdes
         this.investDetail.riskAppraisal = investDetail.riskAppraisal
         this.investDetail.riskManagementTip = investDetail.riskManagementTip
+        this.investDetail.tailProject = investDetail.tailProject
+
+        // 判断是否是尾标
+        if (this.investDetail.tailProject && parseFloat(this.projectInfo.surplusAmt) < 2 * parseFloat(this.projectInfo.minInvAmount)) {
+          this.invAmount = '尾标：' + this.projectInfo.surplusAmt + '元'
+          this.invAmountDisabled = true
+        }
 
         this.getUserBasicInfo()
         this.getAmountQuery()
@@ -726,9 +741,6 @@ export default {
               this.errMsg = '请确认并同意《风险告知书》'
               return
             }
-
-            this.isShowConfirmInvestmentDialog = true
-
             const $this = this
             ;(async function initInvestDialog() {
               await availableRedPacketApi({
@@ -742,6 +754,7 @@ export default {
                 productId: $this.productId
               }).then(res => {
                 $this.couponsList = res.data.data.coupons
+                $this.isShowConfirmInvestmentDialog = true
               })
               await $this.redEnvelopeSwiper()
               await $this.rateStampSwiper()
@@ -1458,7 +1471,8 @@ export default {
             list-style: none;
             padding: 0;
             z-index: 1;
-            /deep/ .red-envelope-box,
+            /deep/ .dk-red-packet,
+            /deep/ .xj-red-packet,
             /deep/ .rate-stamp-box {
               position: relative;
               width: 378px;
@@ -1466,7 +1480,6 @@ export default {
               border-radius: 4px;
               background-position: center;
               background-repeat: no-repeat;
-              background-image: url('./image/bg_red_envelope_nochoose.png');
               cursor: pointer;
               .vouche-box {
                 padding-top: 19px;
@@ -1535,15 +1548,9 @@ export default {
                   display: inline-block;
                   white-space: normal;
                 }
-                &:hover {
-                  background: rgba(255, 227, 17, 1);
-                  color: rgba(255, 58, 41, 1);
-                  border: 1px solid rgba(255, 227, 17, 1);
-                  border-left: 0;
-                }
               }
-              &.active {
-                background-image: url('./image/bg_red_envelope_choosed.png');
+              &.active,
+              &:hover {
                 .vouche {
                   color: #fff;
                 }
@@ -1565,8 +1572,56 @@ export default {
                 }
               }
             }
+            /deep/ .dk-red-packet {
+              $unselectedBgImage: './image/bg_red_envelope_nochoose.png';
+              $selectedBgImage: './image/bg_red_envelope_choosed.png';
+              background-image: url($unselectedBgImage);
+              &:hover {
+                background-image: url($selectedBgImage);
+                .receive-btn {
+                  background: rgba(255, 227, 17, 1);
+                  color: rgba(255, 58, 41, 1);
+                  border: 1px solid rgba(255, 227, 17, 1);
+                  border-left: 0;
+                }
+              }
+              &.active {
+                background-image: url($selectedBgImage);
+              }
+            }
+            /deep/ .xj-red-packet {
+              $unselectedBgImage: './image/xj-redpacket-nochoose.png';
+              $selectedBgImage: './image/xj-redpacket-choose.png';
+              background-image: url($unselectedBgImage);
+              &:hover {
+                background-image: url($selectedBgImage);
+                .receive-btn {
+                  background: rgba(255, 227, 17, 1);
+                  color: rgba(255, 58, 41, 1);
+                  border: 1px solid rgba(255, 227, 17, 1);
+                  border-left: 0;
+                }
+              }
+              &.active {
+                background-image: url($selectedBgImage);
+              }
+            }
             /deep/ .rate-stamp-box {
-              background: url('./image/bg_rate_stamp.png') center center no-repeat;
+              $unselectedBgImage: './image/bg_rate_stamp.png';
+              $selectedBgImage: './image/bg_rate_choose.png';
+              background-image: url($unselectedBgImage);
+              &:hover {
+                background-image: url($selectedBgImage);
+                .receive-btn {
+                  background: rgba(255, 227, 17, 1);
+                  color: rgba(255, 58, 41, 1);
+                  border: 1px solid rgba(255, 227, 17, 1);
+                  border-left: 0;
+                }
+              }
+              &.active {
+                background-image: url($selectedBgImage);
+              }
             }
           }
           .swiper-button-prev {
