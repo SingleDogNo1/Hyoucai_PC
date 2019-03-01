@@ -12,6 +12,9 @@ import '@/assets/fonts/iconfont/iconfont.css'
 
 Vue.config.productionTip = false
 Vue.use(VueLazyload)
+// Vue.config.errorHandler = function (err, vm, info) {
+//   console.log(err + ',' + vm + ',' + info)
+// }
 
 router.afterEach(() => {
   document.querySelector('.layout') && document.querySelector('.layout').scrollIntoView()
