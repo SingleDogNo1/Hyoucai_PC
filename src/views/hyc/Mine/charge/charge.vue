@@ -149,7 +149,8 @@ export default {
       },
       showDialog: false,
       singleButton: true,
-      isSpecialUser: this.$route.query.isSpecialUser
+      isSpecialUser: this.$route.query.isSpecialUser,
+      retUrl: ''  // 银行跳转回来的页面，这里主要是为了从出借详情过来的，因为还要在跳转回去
     }
   },
   props: ['entrance'],
@@ -259,7 +260,7 @@ export default {
         userName: this.userName,
         authorization: this.authorization,
         txAmount: this.amount,
-        retUrl: getRetBaseURL() + path,
+        retUrl: this.retUrl ? getRetBaseURL() + this.retUrl : getRetBaseURL() + path,
         forgotPwdUrl: forgetUrl,
         mobile: this.mobile,
         platform: 'PC'
@@ -287,7 +288,7 @@ export default {
       let params = {
         userName: this.userName,
         txAmount: this.amount,
-        retUrl: getRetBaseURL() + path
+        retUrl: this.retUrl ? getRetBaseURL() + this.retUrl : getRetBaseURL() + path
       }
       transferChargeApi(params).then(res => {
         let data = res.data
@@ -349,7 +350,6 @@ export default {
     }
   },
   created() {
-    console.log(this.isSpecialUser, this.$route.query.isSpecialUser)
     this.getBankCardQuery()
     amountInfoApi().then(res => {
       if (res.data.resultCode === ERR_OK) {
@@ -361,6 +361,13 @@ export default {
     clipboard.on('success', () => {
       this.errMsg.common = '复制成功！'
       this.showDialog = true
+    })
+  },
+  beforeRouteEnter (to, from, next) {
+    next(vm=>{
+      if(from.name === 'easyDetail' || from.name === 'optionalDetail') {
+        vm.retUrl = from.fullPath
+      }
     })
   }
 }

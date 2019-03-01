@@ -86,6 +86,7 @@
           </div>
           <div class="action" v-if="investStatus === 'willSale' || investStatus === 'lending' || investStatus === 'unopened'">
             <input
+              maxlength="13"
               class="amount-input"
               v-model="invAmount"
               @keyup="handleExpectedIncome(invAmount)"
@@ -651,6 +652,7 @@ export default {
       investBtn: '申请出借', // 出借按钮文字
       isDisableInvestBtn: false, // 是否禁用申请出借按钮
       invAmount: '', // 申请出借输入框金额
+      invAmountVal: '', // 申请出借输入框金额（给尾标请求数据用的）
       invAmountDisabled: false, // 申请出借输入框是否禁用
       expectedIncome: '0.00', //逾期收益
       projectInfo: {
@@ -818,7 +820,7 @@ export default {
     },
     calculationExpectedIncome() {
       let postData = {
-        invAmount: this.invAmount,
+        invAmount: !this.invAmountDisabled ? this.invAmount : this.invAmountVal,
         investRate: this.projectInfo.investRate,
         productId: this.productId
       }
@@ -865,7 +867,6 @@ export default {
       }
       optionalInvestDetail(postData).then(res => {
         let data = res.data.data
-        console.log('data===', data)
         let projectInfo = data.projectInfo
         let investEndTimestamp = projectInfo.investEndTimestamp
         this.projectInfo.iconUrl = projectInfo.iconUrl
@@ -938,6 +939,7 @@ export default {
         // 判断是否是尾标
         if (this.investDetail.tailProject && parseFloat(this.projectInfo.surplusAmt) < 2 * parseFloat(this.projectInfo.minInvAmount)) {
           this.invAmount = '尾标：' + this.projectInfo.surplusAmt + '元'
+          this.invAmountVal = this.projectInfo.surplusAmt
           this.invAmountDisabled = true
         }
         this.getUserBasicInfo()
@@ -966,6 +968,7 @@ export default {
         // 判断是否是尾标
         if (this.investDetail.tailProject && parseFloat(this.projectInfo.surplusAmt) < 2 * parseFloat(this.projectInfo.minInvAmount)) {
           this.invAmount = '尾标：' + this.projectInfo.surplusAmt + '元'
+          this.invAmountVal = this.projectInfo.surplusAmt
           this.invAmountDisabled = true
         }
       })
@@ -1027,7 +1030,6 @@ export default {
         let data = res.data
         if (data.resultCode === '1') {
           this.projectInfo.balance = this.investStatus === 'unopened' ? '未开户' : data.data.banlance
-          console.log(this.projectInfo.balance)
         }
       })
     },
@@ -1047,7 +1049,6 @@ export default {
       internetInformation(postData).then(res => {
         let data = res.data.data
         this.internetInformationList = data.internetInformationList
-        console.log('data====', data)
       })
     },
     closeReviewInfoPop() {
