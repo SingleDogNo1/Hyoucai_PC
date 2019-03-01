@@ -83,11 +83,11 @@
               @click="handleInvest"
             >{{investBtn}}</button>
           </div>
+          <p class="err-msg" v-if="errMsg">{{errMsg}}</p>
           <p class="expected-profits">
             <span class="title">预期收益：</span>
             <span class="value">{{expectedIncome}}元</span>
           </p>
-          <p class="err-msg" v-if="errMsg">{{errMsg}}</p>
         </div>
       </div>
     </section>
@@ -1286,6 +1286,7 @@ export default {
           }
         }
         .err-msg {
+          margin-top: 13px;
           width: 100%;
           font-size: $font-size-small-ss;
           color: #e9122c;
