@@ -80,7 +80,8 @@ export default {
         // 点金石未读复投消息弹窗参数
         show: false,
         autoInvestWay: '1'
-      }
+      },
+      beforeRouterPath: ''
     }
   },
   props: {},
@@ -198,11 +199,12 @@ export default {
         let data = res.data
         let list = data.data
         if (data.resultCode === CODE_OK) {
+          console.log('beforeRouterPath==', this.beforeRouterPath)
           this.showTitle = false
           this.showCloseBtn = true
           this.showLogo = true
           this.showFooter = false
-          this.showDialog = true
+          this.beforeRouterPath && !this.userBasicInfo.userIsOpenAccount.registerProtocolSigned ? this.showDialog = false : this.showDialog = true
           this.accountStatus = list.status
           switch (this.accountStatus) {
             case 'OPEN_ACCOUNT':
@@ -269,7 +271,14 @@ export default {
     })
   },
   mounted() {},
-  destroyed() {}
+  destroyed() {},
+  beforeRouteEnter (to, from, next) {
+    next(vm=>{
+      if(from.name === 'easyDetail' || from.name === 'optionalDetail') {
+        vm.beforeRouterPath = from.fullPath;
+      }
+    })
+  }
 }
 </script>
 

@@ -158,7 +158,8 @@ export default {
       singleButton: true,
       showDialog: false,
       showDialogSuccess: false,
-      isBankcardSupport: false // 快钱是否支持用户当前银行卡
+      isBankcardSupport: false, // 快钱是否支持用户当前银行卡
+      retUrl: ''  // 银行跳转回来的页面，这里主要是为了从出借详情过来的，因为还要在跳转回去
     }
   },
   watch: {
@@ -305,7 +306,7 @@ export default {
       let data = {
         amount: this.amount,
         rechargeType: 'KQ',
-        returnUrl: getRetBaseURL() + '/mine/charge',
+        returnUrl: this.retUrl ? getRetBaseURL() + this.retUrl : getRetBaseURL() + '/mine/charge',
         username: this.userName
       }
       unionPay(data).then(res => {
@@ -383,13 +384,12 @@ export default {
           let nos = JSON.parse(JSON.stringify(this.bankCardInfo.cardNo))
           let len = nos.length
           this.bankCardNo = nos.substring(0, 4) + '*******' + nos.substring(len - 4, len)
-          console.log(this.bankCardNo)
           this.getBasicInfo()
         }
       })
     },
     confirmCharged() {
-      this.$router.push({ name: 'overview' })
+      this.retUrl ? getRetBaseURL() + this.retUrl : this.$router.push({ name: 'overview' })
     }
   },
   created() {
@@ -398,7 +398,14 @@ export default {
     // this.userRechargePreVerify()
     this.userAndBankInfo()
   },
-  mounted() {}
+  mounted() {},
+  beforeRouteEnter (to, from, next) {
+    next(vm=>{
+      if(from.name === 'easyDetail') {
+        vm.retUrl = from.fullPath
+      }
+    })
+  }
 }
 </script>
 
