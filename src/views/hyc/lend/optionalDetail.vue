@@ -465,12 +465,25 @@
     </div>
     <!-- 风险评测有问题弹窗 -->
     <Dialog
+      :show.sync="signDialogOptions.show"
+      title="汇有财温馨提示"
+      class="align"
+      :confirmText="signDialogOptions.confirmText"
+      :singleButton="signDialogOptions.singleButton"
+      :onClose="toSign"
+    >
+      <div>
+        您当前未签约或签约状态不符合合规要求，请重新签约！
+      </div>
+    </Dialog>
+    <!-- 风险评测有问题弹窗 -->
+    <Dialog
       :show.sync="isShowRiskDialog"
       title="汇有财温馨提示"
       :confirmText="riskConfirmText"
       cancelText="我知道了"
       :singleButton="riskDialogSingleButton"
-      class="risk-dialog"
+      class="risk-dialog align"
       :onConfirm="toRisk"
     >
       <div>
@@ -483,7 +496,7 @@
       :show.sync="isShowSystemMaintenanceDialog"
       title="汇有财温馨提示"
       confirmText="我知道了"
-      class="system-maintenance-dialog"
+      class="system-maintenance-dialog align"
       :singleButton="singleButton"
     >
       <div>
@@ -530,7 +543,7 @@
                   }]">
                     <p class="vouche-box">
                       <span class="vouche">
-                        {{item.redPacketAmount}}
+                        <em>{{item.redPacketAmount}}</em>
                         <i>元</i>
                       </span>
                       <span class="vouche-aside" v-if="item.commonUse === 0">不可与加息券同时使用</span>
@@ -565,7 +578,8 @@
                   <div :class="['rate-stamp-box', {active: couponIndex === index}]">
                     <p class="vouche-box">
                       <span class="vouche">
-                        {{item.couponRate}}
+                        <strong>+</strong>
+                        <em>{{item.couponRate}}</em>
                         <i>%</i>
                         <i class="font">利息</i>
                       </span>
@@ -594,7 +608,7 @@
       :show.sync="isShowInvestErrDialog"
       title="汇有财温馨提示"
       confirmText="我知道了"
-      class="system-maintenance-dialog"
+      class="system-maintenance-dialog align"
       :singleButton="singleButton"
     >
       <div>
@@ -606,7 +620,7 @@
       :show.sync="isShowInvestDialog"
       title="汇有财温馨提示"
       confirmText="我知道了"
-      class="system-maintenance-dialog"
+      class="system-maintenance-dialog align"
       :singleButton="!singleButton"
       :onConfirm="toInvestRecord"
     >
@@ -1070,8 +1084,6 @@ export default {
       } else {
         if (this.invAmount === '') {
           this.errMsg = '请输入金额'
-        } else if (this.invAmount < this.projectInfo.minInvAmount - 0) {
-          this.errMsg = '出借金额不能低于起投金额'
         } else {
           systemMaintenance().then(res => {
             let data = res.data
@@ -1091,19 +1103,56 @@ export default {
                 this.errMsg = '请确认并同意《风险告知书》'
                 return
               }
+
+              // 如果是未开户，点击去开户页面
+              if (this.investStatus === 'unopened') {
+                this.$router.push({ name: 'account' })
+              }
+
+              if (this.invAmount > this.projectInfo.balance - 0) {
+                this.errMsg = '余额不足'
+                return
+              }
+
+              if (this.invAmount < this.projectInfo.minInvAmt - 0) {
+                this.errMsg = '出借金额不能低于起投金额'
+                return
+              }
+
+              if (this.invAmount > this.projectInfo.singleLimit - 0) {
+                this.errMsg = '单人限额为' + this.projectInfo.singleLimit + '元'
+                return
+              }
+
               const $this = this
               ;(async function initInvestDialog() {
                 await availableRedPacketApi({
                   investAmount: $this.invAmount,
                   productId: $this.productId
                 }).then(res => {
-                  $this.redPacketsList = res.data.data.userRedPackets
+                  let resultList = [],
+                    originList = res.data.data.userRedPackets
+                  // 从列表中筛选出可用的 (item.isVailable === 1)
+                  originList.forEach(v => {
+                    if (v.isVailable === 1) {
+                      resultList.push(v)
+                    }
+                  })
+                  $this.redPacketsList = resultList
                 })
                 await availableCouponApi({
                   investAmount: $this.invAmount,
                   productId: $this.productId
                 }).then(res => {
-                  $this.couponsList = res.data.data.coupons
+                  let resultList = [],
+                    originList = res.data.data.coupons
+                  // 从列表中筛选出可用的 (item.isVailable === 1)
+                  originList.forEach(v => {
+                    if (v.isVailable === 1) {
+                      resultList.push(v)
+                    }
+                  })
+                  $this.couponsList = resultList
                   $this.isShowConfirmInvestmentDialog = true
                 })
                 await $this.redEnvelopeSwiper()
@@ -1264,6 +1313,10 @@ export default {
 
 <style lang="scss" scoped>
 @import '../../../assets/css/theme';
+
+.Dialog.align {
+  text-align: center;
+}
 .lend-detail {
   padding-top: 30px;
   .production-info {
@@ -1968,7 +2021,6 @@ export default {
     p {
       font-size: $font-size-small;
       line-height: 26px;
-      text-align: center;
     }
   }
   .confirm-investment-dialog {

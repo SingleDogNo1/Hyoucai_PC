@@ -224,7 +224,7 @@
       :confirmText="riskConfirmText"
       cancelText="我知道了"
       :singleButton="riskDialogSingleButton"
-      class="risk-dialog"
+      class="risk-dialog align"
       :onConfirm="toRisk"
     >
       <div>
@@ -237,7 +237,7 @@
       :show.sync="isShowSystemMaintenanceDialog"
       title="汇有财温馨提示"
       confirmText="我知道了"
-      class="system-maintenance-dialog"
+      class="system-maintenance-dialog align"
       :singleButton="singleButton"
     >
       <div>
@@ -285,7 +285,7 @@
                     }]">
                     <p class="vouche-box">
                       <span class="vouche">
-                        {{item.redPacketAmount}}
+                        <em>{{item.redPacketAmount}}</em>
                         <i>元</i>
                       </span>
                       <span class="vouche-aside" v-if="item.commonUse === 0">不可与加息券同时使用</span>
@@ -322,7 +322,8 @@
                   >
                     <p class="vouche-box">
                       <span class="vouche">
-                        {{item.couponRate}}
+                        <strong>+</strong>
+                        <em>{{item.couponRate}}</em>
                         <i>%</i>
                         <i class="font">利息</i>
                       </span>
@@ -351,7 +352,7 @@
       :show.sync="isShowInvestErrDialog"
       title="汇有财温馨提示"
       confirmText="我知道了"
-      class="system-maintenance-dialog"
+      class="system-maintenance-dialog align"
       :singleButton="singleButton"
     >
       <div>
@@ -363,7 +364,7 @@
       :show.sync="isShowInvestDialog"
       title="汇有财温馨提示"
       confirmText="我知道了"
-      class="system-maintenance-dialog"
+      class="system-maintenance-dialog align"
       :singleButton="!singleButton"
       :onConfirm="toInvestRecord"
     >
@@ -731,13 +732,20 @@ export default {
                 this.projectInfo.balance = data.data.availBal
               }
             })
+
+            // 如果没勾选风险告知书，弹出提示
+            if (!this.isAgree) {
+              this.errMsg = '请确认并同意《风险告知书》'
+              return
+            }
+
             // 如果是未开户，点击去开户页面
             if (this.investStatus === 'unopened') {
               this.$router.push({ name: 'account' })
             }
-            // 如果没勾选风险告知书，弹出提示
-            if (!this.isAgree) {
-              this.errMsg = '请确认并同意《风险告知书》'
+
+            if (this.invAmount > this.projectInfo.balance - 0) {
+              this.errMsg = '余额不足'
               return
             }
 
@@ -757,12 +765,29 @@ export default {
                 investAmount: $this.invAmount,
                 productId: $this.productId
               }).then(res => {
-                $this.redPacketsList = res.data.data.userRedPackets
+                let resultList = [],
+                  originList = res.data.data.userRedPackets
+                // 从列表中筛选出可用的 (item.isVailable === 1)
+                originList.forEach(v => {
+                  if (v.isVailable === 1) {
+                    resultList.push(v)
+                  }
+                })
+                $this.redPacketsList = resultList
               })
               await availableCouponApi({
                 investAmount: $this.invAmount,
                 productId: $this.productId
               }).then(res => {
+                let resultList = [],
+                  originList = res.data.coupons
+                // 从列表中筛选出可用的 (item.isVailable === 1)
+                originList.forEach(v => {
+                  if (v.isVailable === 1) {
+                    resultList.push(v)
+                  }
+                })
+                $this.couponsList = resultList
                 $this.couponsList = res.data.data.coupons
                 $this.isShowConfirmInvestmentDialog = true
               })
@@ -947,6 +972,10 @@ export default {
 
 <style lang="scss" scoped>
 @import '../../../assets/css/theme';
+
+.Dialog.align {
+  text-align: center;
+}
 .lend-detail {
   padding-top: 30px;
   position: relative;

@@ -217,7 +217,7 @@
       :confirmText="riskConfirmText"
       cancelText="我知道了"
       :singleButton="riskDialogSingleButton"
-      class="risk-dialog"
+      class="risk-dialog align"
       :onConfirm="toRisk"
     >
       <div>
@@ -266,7 +266,7 @@
                     }]">
                     <p class="vouche-box">
                       <span class="vouche">
-                        {{item.redPacketAmount}}
+                        <em>{{item.redPacketAmount}}</em>
                         <i>元</i>
                       </span>
                       <span class="vouche-aside" v-if="item.commonUse === 0">不可与加息券同时使用</span>
@@ -303,7 +303,8 @@
                   >
                     <p class="vouche-box">
                       <span class="vouche">
-                       {{item.couponRate}}
+                        <strong>+</strong>
+                        <em>{{item.couponRate}}</em>
                         <i>%</i>
                         <i class="font">利息</i>
                       </span>
@@ -332,7 +333,7 @@
       :show.sync="investErrDialog.show"
       title="汇有财温馨提示"
       confirmText="我知道了"
-      class="system-maintenance-dialog"
+      class="system-maintenance-dialog align"
       :singleButton="investErrDialog.singleButton"
     >
       <div>
@@ -344,7 +345,8 @@
       :show.sync="investCommonSuccessDialog.show"
       :title="investCommonSuccessDialog.title"
       confirmText="进入我的出借"
-      class="common-dialog"
+      :showCloseBtn="investCommonSuccessDialog.showCloseBtn"
+      class="common-dialog align"
       :singleButton="investCommonSuccessDialog.singleButton"
       :onClose="confirmCommon"
     >
@@ -357,7 +359,7 @@
       :show.sync="investSJLSuccessDialog.show"
       :title="investSJLSuccessDialog.title"
       confirmText="填写地址"
-      class="sjl-dialog"
+      class="sjl-dialog align"
       :onConfirm="confirmSJL"
     >
       <div>
@@ -511,7 +513,8 @@ export default {
         show: false,
         title: '汇有财温馨提示',
         singleButton: true,
-        msg: '出借成功，您可在“我的出借”中查看详情。'
+        msg: '出借成功，您可在“我的出借”中查看详情。',
+        showCloseBtn: true
       },
       investSJLSuccessDialog: {
         // 出借手机乐产品成功弹窗
@@ -690,13 +693,19 @@ export default {
           this.investErrDialog.show = true
           this.investErrDialog.msg = '该项目暂时无法投资'
         } else {
+          // 如果没勾选风险告知书，弹出提示
+          if (!this.isAgree) {
+            this.errMsg = '请确认并同意《风险告知书》'
+            return
+          }
+
           // 如果是未开户，点击去开户页面
           if (this.investStatus === 'unopened') {
             this.$router.push({ name: 'account' })
           }
-          // 如果没勾选风险告知书，弹出提示
-          if (!this.isAgree) {
-            this.errMsg = '请确认并同意《风险告知书》'
+
+          if (this.invAmount > this.projectInfo.balance - 0) {
+            this.errMsg = '余额不足'
             return
           }
 
@@ -716,13 +725,29 @@ export default {
               projectNo: $this.projectNo,
               amount: $this.invAmount
             }).then(res => {
-              $this.redPacketsList = res.data.userRedPackets
+              let resultList = [],
+                originList = res.data.userRedPackets
+              // 从列表中筛选出可用的 (item.isVailable === 1)
+              originList.forEach(v => {
+                if (v.isVailable === 1) {
+                  resultList.push(v)
+                }
+              })
+              $this.redPacketsList = resultList
             })
             await availableCouponApi({
               projectNo: $this.projectNo,
               amount: $this.invAmount
             }).then(res => {
-              $this.couponsList = res.data.coupons
+              let resultList = [],
+                originList = res.data.coupons
+              // 从列表中筛选出可用的 (item.isVailable === 1)
+              originList.forEach(v => {
+                if (v.isVailable === 1) {
+                  resultList.push(v)
+                }
+              })
+              $this.couponsList = resultList
               $this.isShowConfirmInvestmentDialog = true
             })
             await $this.redEnvelopeSwiper()
@@ -869,8 +894,8 @@ export default {
             } else {
               // 普通产品
               this.investCommonSuccessDialog.show = true
-              this.investCommonSuccessDialog.title = data.successTitle
-              this.investCommonSuccessDialog.msg = data.successInfo
+              // this.investCommonSuccessDialog.title = data.successTitle
+              // this.investCommonSuccessDialog.msg = data.successInfo
             }
           }
         } else {
@@ -931,6 +956,10 @@ export default {
 
 <style lang="scss" scoped>
 @import '../../../assets/css/theme';
+
+.Dialog.align {
+  text-align: center;
+}
 
 .lend-detail {
   padding-top: 30px;
