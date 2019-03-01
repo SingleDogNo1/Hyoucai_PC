@@ -101,11 +101,11 @@
           <!-- <div class="action" v-if="investStatus === 'fullyMarked' || investStatus === 'finished'">
             <button class="action-btn-disabled" @click="handleInvest">{{investStatusTitle}}</button>
           </div>-->
+          <p class="err-msg" v-if="errMsg">{{errMsg}}</p>
           <p class="expected-profits">
             <span class="title">预期收益：</span>
             <span class="value">{{expectedIncome}}元</span>
           </p>
-          <p class="err-msg" v-if="errMsg">{{errMsg}}</p>
         </div>
       </div>
     </section>
@@ -174,16 +174,16 @@
                     <td>{{item.key}}</td>
                     <td v-if="!item.isShowSmallPic">{{item.result}}</td>
                     <td v-if="item.isShowSmallPic && item.field === 'haveIDCard'">
-                      <img @click="openReviewInfoPop(item)" src="./image/bg.png">
+                      <img @click="openReviewInfoPop(item)" src="./image/bg.png" alt="">
                     </td>
                     <td v-if="item.isShowSmallPic && item.field === 'internetInformation'">
-                      <img @click="openReportPop" src="./image/bg.png">
+                      <img @click="openReportPop" src="./image/bg.png" alt="">
                     </td>
                     <td v-if="item.isShowSmallPic && item.field === 'faceRecognition'">
-                      <img @click="openFaceRecognitionPop(item)" src="./image/bg.png">
+                      <img @click="openFaceRecognitionPop(item)" src="./image/bg.png" alt="">
                     </td>
                     <td v-if="item.isShowSmallPic && item.field === 'signing'">
-                      <img @click="toSigning(item)" src="./image/bg.png">
+                      <img @click="toSigning(item)" src="./image/bg.png" alt="">
                     </td>
                   </tr>
                 </table>
@@ -196,16 +196,16 @@
                     <td>{{item.key}}</td>
                     <td v-if="!item.isShowSmallPic">{{item.result}}</td>
                     <td v-if="item.isShowSmallPic && item.field === 'haveIDCard'">
-                      <img @click="openReviewInfoPop(item)" src="./image/bg.png">
+                      <img @click="openReviewInfoPop(item)" src="./image/bg.png" alt="">
                     </td>
                     <td v-if="item.isShowSmallPic && item.field === 'internetInformation'">
-                      <img @click="openReportPop" src="./image/bg.png">
+                      <img @click="openReportPop" src="./image/bg.png" alt="">
                     </td>
                     <td v-if="item.isShowSmallPic && item.field === 'faceRecognition'">
-                      <img @click="openFaceRecognitionPop(item)" src="./image/bg.png">
+                      <img @click="openFaceRecognitionPop(item)" src="./image/bg.png" alt="">
                     </td>
                     <td v-if="item.isShowSmallPic && item.field === 'signing'">
-                      <img @click="toSigning(item)" src="./image/bg.png">
+                      <img @click="toSigning(item)" src="./image/bg.png" alt="">
                     </td>
                   </tr>
                   <tr v-show="isTr">
@@ -437,8 +437,8 @@
       <div class="content">
         <div class="close-wrap">
           <i @click="closeReviewInfoPop" class="el-icon-circle-close-outline close"></i>
-          <img class="front" :src="picList[0]">
-          <img class="back" :src="picList[1]">
+          <img class="front" :src="picList[0]" alt="">
+          <img class="back" :src="picList[1]" alt="">
         </div>
       </div>
     </div>
@@ -446,7 +446,7 @@
       <div class="content face-content">
         <div class="close-wrap">
           <i @click="closeFaceRecognitionPop" class="el-icon-circle-close-outline close"></i>
-          <img class="face" :src="facePic">
+          <img class="face" :src="facePic" alt="">
         </div>
       </div>
     </div>
@@ -524,7 +524,11 @@
                   v-for="(item, index) in redPacketsList"
                   :key="index"
                 >
-                  <div :class="['red-envelope-box', {active: redPacketIndex === index}]">
+                  <div :class="[{
+                    'dk-red-packet': item.secondType === '1',
+                    'xj-red-packet': item.secondType === '2',
+                    active: redPacketIndex === index
+                  }]">
                     <p class="vouche-box">
                       <span class="vouche">
                         {{item.redPacketAmount}}
@@ -568,7 +572,7 @@
                       </span>
                       <span class="vouche-aside">可加息{{item.validDays}}天</span>
                     </p>
-                    <p class="start">投资限额：{{item.amountMin}}至{{item.amountMax}}元</p>
+                    <p class="start">出借限额：{{item.amountMin}}至{{item.amountMax}}元</p>
                     <div class="endData">有效期至{{item.usableExpireDate}}</div>
                     <button
                       class="receive-btn"
@@ -633,7 +637,6 @@ import {
   investApi
 } from '@/api/hyc/lendDetail'
 import { getPeopleInfoApi } from '@/api/hyc/Mine/lend'
-// import ProjectDetail from './popup/projectDetail'
 import Dialog from '@/components/Dialog/Dialog'
 export default {
   data() {
@@ -930,7 +933,7 @@ export default {
         this.evenAuditInfoList = auditInfoList.filter((item, index) => {
           return (index + 1) % 2 === 0
         })
-        if (auditInfoList.length % 2 != 0) {
+        if (auditInfoList.length % 2 !== 0) {
           this.isTr = true
         }
 
@@ -1475,9 +1478,8 @@ export default {
           }
         }
         .risk-notice {
-          padding: 0 32px;
+          padding: 10px 32px 0;
           font-size: $font-size-small-ss;
-          padding-top: 10px;
           margin-bottom: 20px;
           /deep/ .el-checkbox__input.is-checked {
             .el-checkbox__inner {
@@ -1629,6 +1631,7 @@ export default {
           }
         }
         .err-msg {
+          margin-top: 13px;
           width: 100%;
           font-size: $font-size-small-ss;
           color: #e9122c;
@@ -1639,9 +1642,7 @@ export default {
   }
   .tab-wrap {
     width: 1138px;
-    margin: 0 auto;
-    margin-top: 20px;
-    margin-bottom: 38px;
+    margin: 20px auto 38px;
     background: #fff;
     /deep/ .el-tabs__header {
       background-color: #fff;
@@ -1680,9 +1681,8 @@ export default {
         }
         .essential-information {
           display: flex;
-          margin: 11px 112px 0 0;
+          margin: 11px 112px 39px 0;
           justify-content: space-between;
-          margin-bottom: 39px;
           .txt {
             height: 80px;
             font-size: $font-size-small;
@@ -1824,8 +1824,7 @@ export default {
           .value {
             display: inline-block;
             width: 640px;
-            padding: 10px;
-            padding-left: 30px;
+            padding: 10px 10px 10px 30px;
             text-align: left;
             color: $color-text-s;
             background: #fff;
@@ -1902,7 +1901,7 @@ export default {
       margin: auto;
       text-align: center;
       background: #fff;
-      box-shadow: 0px 4px 16px 0px rgba(0, 0, 0, 0.32);
+      box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.32);
       border-radius: 8px;
       overflow: hidden;
       .close-wrap {
@@ -1921,8 +1920,7 @@ export default {
         display: block;
         width: 329px;
         height: 205px;
-        margin: 0 auto;
-        margin-bottom: 20px;
+        margin: 0 auto 20px;
       }
       img.front {
         padding-top: 60px;
@@ -1940,11 +1938,10 @@ export default {
       }
       ul {
         width: 450px;
-        margin: 0 auto;
+        margin: 10px auto 0;
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
-        margin-top: 10px;
         padding-bottom: 20px;
         li {
           font-size: $font-size-small;
@@ -1983,9 +1980,7 @@ export default {
       .amount-list {
         display: flex;
         width: 443px;
-        margin: 0 auto;
-        margin-top: 42px;
-        margin-bottom: 40px;
+        margin: 42px auto 40px;
         justify-content: space-between;
         li {
           text-align: center;
@@ -2007,8 +2002,7 @@ export default {
       .rate-stamp-wrap {
         position: relative;
         width: 664px;
-        margin: 0 auto;
-        margin-bottom: 53px;
+        margin: 0 auto 53px;
         .title {
           margin-left: 52px;
           margin-bottom: 14px;
@@ -2026,27 +2020,21 @@ export default {
             list-style: none;
             padding: 0;
             z-index: 1;
-            /deep/ .red-envelope-box,
+            /deep/ .dk-red-packet,
+            /deep/ .xj-red-packet,
             /deep/ .rate-stamp-box {
               position: relative;
               width: 378px;
               height: 105px;
-              background: url('./image/bg_red_envelope_nochoose.png') center center no-repeat;
+              border-radius: 4px;
+              background-position: center;
+              background-repeat: no-repeat;
               cursor: pointer;
-              &:hover {
-                .receive-btn {
-                  background: rgba(255, 227, 17, 1);
-                  color: rgba(255, 58, 41, 1);
-                  border: 1px solid rgba(255, 227, 17, 1);
-                  border-left: 0;
-                }
-              }
               .vouche-box {
                 padding-top: 19px;
                 margin-bottom: 4px;
                 .vouche {
                   font-size: $font-size-large-xxx;
-                  font-family: PingFangSC-Semibold;
                   font-weight: 600;
                   color: $color-text;
                   margin-left: 33px;
@@ -2066,7 +2054,6 @@ export default {
                   border-radius: 100px;
                   border: 1px solid $color-text-s;
                   font-size: $font-size-small-ss;
-                  font-family: PingFang-SC-Regular;
                   font-weight: 400;
                   color: $color-text-s;
                   line-height: 18px;
@@ -2078,7 +2065,6 @@ export default {
               .start {
                 margin-left: 33px;
                 font-size: $font-size-small-ss;
-                font-family: PingFang-SC-Regular;
                 font-weight: 400;
                 color: $color-text-s;
                 line-height: 20px;
@@ -2086,7 +2072,6 @@ export default {
               .endData {
                 margin-left: 33px;
                 font-size: $font-size-small-ss;
-                font-family: PingFang-SC-Regular;
                 font-weight: 400;
                 color: $color-text-s;
                 line-height: 18px;
@@ -2099,7 +2084,6 @@ export default {
                 border-radius: 4px;
                 padding: 13px 17px;
                 font-size: 18px;
-                font-family: PingFangSC-Semibold;
                 font-weight: 600;
                 color: $color-text-s;
                 border: 1px solid #dadada;
@@ -2114,9 +2098,79 @@ export default {
                   white-space: normal;
                 }
               }
+              &.active,
+              &:hover {
+                .vouche {
+                  color: #fff;
+                }
+                .vouche-aside {
+                  border: 1px solid #fff;
+                  color: #fff;
+                }
+                .start {
+                  color: #fff;
+                }
+                .endData {
+                  color: #fff;
+                }
+                .receive-btn {
+                  background: rgba(255, 227, 17, 1);
+                  color: rgba(255, 58, 41, 1);
+                  border: 1px solid rgba(255, 227, 17, 1);
+                  border-left: 0;
+                }
+              }
+            }
+            /deep/ .dk-red-packet {
+              $unselectedBgImage: './image/bg_red_envelope_nochoose.png';
+              $selectedBgImage: './image/bg_red_envelope_choosed.png';
+              background-image: url($unselectedBgImage);
+              &:hover {
+                background-image: url($selectedBgImage);
+                .receive-btn {
+                  background: rgba(255, 227, 17, 1);
+                  color: rgba(255, 58, 41, 1);
+                  border: 1px solid rgba(255, 227, 17, 1);
+                  border-left: 0;
+                }
+              }
+              &.active {
+                background-image: url($selectedBgImage);
+              }
+            }
+            /deep/ .xj-red-packet {
+              $unselectedBgImage: './image/xj-redpacket-nochoose.png';
+              $selectedBgImage: './image/xj-redpacket-choose.png';
+              background-image: url($unselectedBgImage);
+              &:hover {
+                background-image: url($selectedBgImage);
+                .receive-btn {
+                  background: rgba(255, 227, 17, 1);
+                  color: rgba(255, 58, 41, 1);
+                  border: 1px solid rgba(255, 227, 17, 1);
+                  border-left: 0;
+                }
+              }
+              &.active {
+                background-image: url($selectedBgImage);
+              }
             }
             /deep/ .rate-stamp-box {
-              background: url('./image/bg_rate_stamp.png') center center no-repeat;
+              $unselectedBgImage: './image/bg_rate_stamp.png';
+              $selectedBgImage: './image/bg_rate_choose.png';
+              background-image: url($unselectedBgImage);
+              &:hover {
+                background-image: url($selectedBgImage);
+                .receive-btn {
+                  background: rgba(255, 227, 17, 1);
+                  color: rgba(255, 58, 41, 1);
+                  border: 1px solid rgba(255, 227, 17, 1);
+                  border-left: 0;
+                }
+              }
+              &.active {
+                background-image: url($selectedBgImage);
+              }
             }
           }
           .swiper-button-prev {
