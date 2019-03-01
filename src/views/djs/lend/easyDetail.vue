@@ -51,13 +51,14 @@
           >{{investStatusTitle}}</span>
           <button class="status-btn">
             <router-link v-if="investStatus !== 'unopened'" :to="{ name: 'charge' }">{{investStatusBtn}}</router-link>
-            <router-link v-if="investStatus === 'unopened'" :to="{ name: 'account' }">{{investStatusBtn}}</router-link>
+            <router-link v-else :to="{ name: 'account' }">{{investStatusBtn}}</router-link>
           </button>
         </h2>
         <div class="content">
           <p class="available-balance">
             <span class="title">可用余额</span>
-            <span class="value">{{projectInfo.balance}}元</span>
+            <span class="value" v-if="projectInfo.balance === '未开户'">{{projectInfo.balance}}</span>
+            <span class="value" v-else >{{projectInfo.balance}}元</span>
           </p>
           <p class="starting-amount">
             <span class="title">起投金额</span>
@@ -83,11 +84,11 @@
               @click="handleInvest"
             >{{investBtn}}</button>
           </div>
+          <p class="err-msg" v-if="errMsg">{{errMsg}}</p>
           <p class="expected-profits">
             <span class="title">预期收益：</span>
             <span class="value">{{expectedIncome}}元</span>
           </p>
-          <p class="err-msg" v-if="errMsg">{{errMsg}}</p>
         </div>
       </div>
     </section>
@@ -258,7 +259,11 @@
                   :key="index"
                 >
                   <div
-                    :class="['red-envelope-box', {active: redPacketIndex === index}]">
+                    :class="[{
+                      'dk-red-packet': item.secondType === 1,
+                      'xj-red-packet': item.secondType === 2,
+                      active: redPacketIndex === index
+                    }]">
                     <p class="vouche-box">
                       <span class="vouche">
                         {{item.redPacketAmount}}
@@ -304,7 +309,7 @@
                       </span>
                       <span class="vouche-aside">可加息{{item.validDays}}天</span>
                     </p>
-                    <p class="start">投资限额：{{item.amountMin}}至{{item.amountMax}}元</p>
+                    <p class="start">出借限额：{{item.amountMin}}至{{item.amountMax}}元</p>
                     <div class="endData">有效期至{{item.usableExpireDate}}</div>
                     <button
                       class="receive-btn"
@@ -388,7 +393,7 @@
           <el-radio v-model="investAutoInvestSuccessDialog.autoInvestWay" label="2">本息到期后自动出借</el-radio >
         </div>
       </div>
-      <router-link class="auto-invest-agreement" :to="{ name: 'autoLendAgreement' }">《自动出借协议》</router-link>
+      <router-link target="_blank" class="auto-invest-agreement" :to="{ name: 'autoLendAgreement' }">《自动出借协议》</router-link>
       <p class="tips" v-if="investAutoInvestSuccessDialog.autoInvestWay === '1'">
         在本金自动出借模式下，每月产品到期时，系统自动将利息转入用户汇有财账户，本金继续出借。用户可在【我的账户】-【自动出借】界面取消，如有任何疑问，请联系客服：400-099-7979。
       </p>
@@ -401,9 +406,10 @@
       :show.sync="setSuccessDialog.show"
       :showTitle="setSuccessDialog.showTitle"
       :singleButton="setSuccessDialog.singleButton"
+      :onClose="refreshPage"
     >
       <div style="text-align: center">
-          <i class="iconfont icon-success" style="font-size: 60px; color: #fb7b1f;"></i>
+        <i class="iconfont icon-success" style="font-size: 60px; color: #fb7b1f;"></i>
         <p style="margin: 20px 0 50px;">设置成功</p>
       </div>
     </Dialog>
@@ -697,9 +703,6 @@ export default {
             this.errMsg = '出借金额不能低于起投金额'
             return
           }
-
-          this.isShowConfirmInvestmentDialog = true
-
           const $this = this
           ;(async function initInvestDialog() {
             await availableRedPacketApi({
@@ -713,6 +716,7 @@ export default {
               amount: $this.invAmount
             }).then(res => {
               $this.couponsList = res.data.coupons
+              $this.isShowConfirmInvestmentDialog = true
             })
             await $this.redEnvelopeSwiper()
             await $this.rateStampSwiper()
@@ -854,6 +858,7 @@ export default {
             if (res.data.investType === 'SJLHD') {
               // 手机乐活动
               this.investSJLSuccessDialog.show = true
+              this.investSJLSuccessDialog.msg = data.successTitle + data.successInfo
             } else {
               // 普通产品
               this.investCommonSuccessDialog.show = true
@@ -906,6 +911,9 @@ export default {
           this.investErrDialog.msg = data.resultMsg
         }
       })
+    },
+    refreshPage() {
+      window.location.reload()
     }
   },
   mounted() {
@@ -1286,6 +1294,7 @@ export default {
           }
         }
         .err-msg {
+          margin-top: 13px;
           width: 100%;
           font-size: $font-size-small-ss;
           color: #e9122c;
@@ -1456,13 +1465,15 @@ export default {
             list-style: none;
             padding: 0;
             z-index: 1;
-            /deep/ .red-envelope-box,
+            /deep/ .dk-red-packet,
+            /deep/ .xj-red-packet,
             /deep/ .rate-stamp-box {
               position: relative;
               width: 378px;
               height: 105px;
               border-radius: 4px;
-              background: url('./image/bg_red_envelope_nochoose.png') center center no-repeat;
+              background-position: center;
+              background-repeat: no-repeat;
               cursor: pointer;
               .vouche-box {
                 padding-top: 19px;
@@ -1531,15 +1542,9 @@ export default {
                   display: inline-block;
                   white-space: normal;
                 }
-                &:hover {
-                  background: rgba(255, 227, 17, 1);
-                  color: rgba(255, 58, 41, 1);
-                  border: 1px solid rgba(255, 227, 17, 1);
-                  border-left: 0;
-                }
               }
-              &.active {
-                background-image: url('./image/bg_red_envelope_choosed.png');
+              &.active,
+              &:hover {
                 .vouche {
                   color: #fff;
                 }
@@ -1561,8 +1566,56 @@ export default {
                 }
               }
             }
+            /deep/ .dk-red-packet {
+              $unselectedBgImage: './image/bg_red_envelope_nochoose.png';
+              $selectedBgImage: './image/bg_red_envelope_choosed.png';
+              background-image: url($unselectedBgImage);
+              &:hover {
+                background-image: url($selectedBgImage);
+                .receive-btn {
+                  background: rgba(255, 227, 17, 1);
+                  color: rgba(255, 58, 41, 1);
+                  border: 1px solid rgba(255, 227, 17, 1);
+                  border-left: 0;
+                }
+              }
+              &.active {
+                background-image: url($selectedBgImage);
+              }
+            }
+            /deep/ .xj-red-packet {
+              $unselectedBgImage: './image/xj-redpacket-nochoose.png';
+              $selectedBgImage: './image/xj-redpacket-choose.png';
+              background-image: url($unselectedBgImage);
+              &:hover {
+                background-image: url($selectedBgImage);
+                .receive-btn {
+                  background: rgba(255, 227, 17, 1);
+                  color: rgba(255, 58, 41, 1);
+                  border: 1px solid rgba(255, 227, 17, 1);
+                  border-left: 0;
+                }
+              }
+              &.active {
+                background-image: url($selectedBgImage);
+              }
+            }
             /deep/ .rate-stamp-box {
-              background: url('./image/bg_rate_stamp.png') center center no-repeat;
+              $unselectedBgImage: './image/bg_rate_stamp.png';
+              $selectedBgImage: './image/bg_rate_choose.png';
+              background-image: url($unselectedBgImage);
+              &:hover {
+                background-image: url($selectedBgImage);
+                .receive-btn {
+                  background: rgba(255, 227, 17, 1);
+                  color: rgba(255, 58, 41, 1);
+                  border: 1px solid rgba(255, 227, 17, 1);
+                  border-left: 0;
+                }
+              }
+              &.active {
+                background-image: url($selectedBgImage);
+              }
             }
           }
           .swiper-button-prev {
@@ -1644,6 +1697,9 @@ export default {
         color: $color-text-s;
         span {
           line-height: 26px;
+        }
+        div:hover {
+          cursor: pointer;
         }
         .view-my-invest {
           line-height: 24px;
