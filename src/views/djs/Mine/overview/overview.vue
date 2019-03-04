@@ -72,7 +72,8 @@ export default {
         graphic: [
           {
             type: 'text',
-            left: '20%',
+            left: '0',
+            right: '0',
             top: '45%',
             z: 2,
             zlevel: 100,
@@ -87,12 +88,13 @@ export default {
           },
           {
             type: 'text',
-            left: '18%',
+            left: '20%',
             top: '50%',
             z: 2,
             zlevel: 100,
             style: {
               text: $this.amountInfo.totalAmount,
+              textAlign: 'center',
               fill: '#4a4a4a',
               font: '20px sans-serif'
             }
@@ -146,11 +148,23 @@ export default {
             type: 'pie',
             radius: ['35%', '50%'],
             center: ['25%', '50%'],
-            avoidLabelOverlap: true,
+
+            avoidLabelOverlap: false,
+            hoveranination: false,
+            silent: true,
             label: {
               normal: {
-                show: false,
-                position: 'center'
+                show: true,
+                position: 'center',
+                formatter() {
+                  let html
+                  html = '本季业绩\r\n\r\n' + '25单'
+                  return html
+                },
+                textStyle: {
+                  fontSize: 15,
+                  color: '#00a65a'
+                }
               }
             },
             labelLine: {
