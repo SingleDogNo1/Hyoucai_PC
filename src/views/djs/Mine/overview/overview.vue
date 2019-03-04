@@ -72,7 +72,7 @@ export default {
         graphic: [
           {
             type: 'text',
-            left: '0',
+            left: '20%',
             right: '0',
             top: '45%',
             z: 2,
@@ -149,12 +149,12 @@ export default {
             radius: ['35%', '50%'],
             center: ['25%', '50%'],
 
-            avoidLabelOverlap: false,
+            avoidLabelOverlap: true,
             hoveranination: false,
             silent: true,
             label: {
               normal: {
-                show: true,
+                show: false,
                 position: 'center',
                 formatter() {
                   let html

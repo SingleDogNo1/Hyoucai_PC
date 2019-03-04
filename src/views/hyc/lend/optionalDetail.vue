@@ -466,19 +466,6 @@
     </div>
     <!-- 风险评测有问题弹窗 -->
     <Dialog
-      :show.sync="signDialogOptions.show"
-      title="汇有财温馨提示"
-      class="align"
-      :confirmText="signDialogOptions.confirmText"
-      :singleButton="signDialogOptions.singleButton"
-      :onClose="toSign"
-    >
-      <div>
-        您当前未签约或签约状态不符合合规要求，请重新签约！
-      </div>
-    </Dialog>
-    <!-- 风险评测有问题弹窗 -->
-    <Dialog
       :show.sync="isShowRiskDialog"
       title="汇有财温馨提示"
       :confirmText="riskConfirmText"
