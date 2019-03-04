@@ -577,7 +577,7 @@ export default {
           .replace('$#$', '.')
           .replace(/^(-)*(\d+)\.(\d\d).*$/, '$1$2.$3')
       }
-    
+
       let postData = {
         invAmount: !this.invAmountDisabled ? this.invAmount : this.invAmountVal,
         investRate: rate,
@@ -771,11 +771,13 @@ export default {
                 let resultList = [],
                   originList = res.data.data.userRedPackets
                 // 从列表中筛选出可用的 (item.isVailable === 1)
-                originList.forEach(v => {
-                  if (v.isVailable === 1) {
-                    resultList.push(v)
-                  }
-                })
+                if (originList.length > 0) {
+                  originList.forEach(v => {
+                    if (v.isVailable === 1) {
+                      resultList.push(v)
+                    }
+                  })
+                }
                 $this.redPacketsList = resultList
               })
               await availableCouponApi({
@@ -783,15 +785,16 @@ export default {
                 productId: $this.productId
               }).then(res => {
                 let resultList = [],
-                  originList = res.data.coupons
+                  originList = res.data.data.coupons
                 // 从列表中筛选出可用的 (item.isVailable === 1)
-                originList.forEach(v => {
-                  if (v.isVailable === 1) {
-                    resultList.push(v)
-                  }
-                })
+                if (originList.length > 0) {
+                  originList.forEach(v => {
+                    if (v.isVailable === 1) {
+                      resultList.push(v)
+                    }
+                  })
+                }
                 $this.couponsList = resultList
-                $this.couponsList = res.data.data.coupons
                 $this.isShowConfirmInvestmentDialog = true
               })
               await $this.redEnvelopeSwiper()

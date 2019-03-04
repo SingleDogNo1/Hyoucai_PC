@@ -3,7 +3,7 @@
     <section class="production-info">
       <div class="title">
         <h2>
-          <img :src="projectInfo.iconUrl" alt="">
+          <img :src="projectInfo.iconUrl" alt>
           <span>{{projectInfo.projectName}}</span>
         </h2>
       </div>
@@ -50,7 +50,10 @@
             class="status-title"
           >{{investStatusTitle}}</span>
           <button class="status-btn">
-            <router-link v-if="investStatus !== 'unopened'" :to="{ name: 'charge' }">{{investStatusBtn}}</router-link>
+            <router-link
+              v-if="investStatus !== 'unopened'"
+              :to="{ name: 'charge' }"
+            >{{investStatusBtn}}</router-link>
             <router-link v-else :to="{ name: 'account' }">{{investStatusBtn}}</router-link>
           </button>
         </h2>
@@ -58,7 +61,7 @@
           <p class="available-balance">
             <span class="title">可用余额</span>
             <span class="value" v-if="projectInfo.balance === '未开户'">{{projectInfo.balance}}</span>
-            <span class="value" v-else >{{projectInfo.balance}}元</span>
+            <span class="value" v-else>{{projectInfo.balance}}元</span>
           </p>
           <p class="starting-amount">
             <span class="title">起投金额</span>
@@ -74,10 +77,19 @@
             </el-checkbox>
           </div>
           <div class="all-lending" v-if="investStatus === 'enable'">
-            <el-checkbox class="all-lending-checkbox" v-model="isAllLending" @change="toggleFill">全部出借</el-checkbox>
+            <el-checkbox
+              class="all-lending-checkbox"
+              v-model="isAllLending"
+              @change="toggleFill"
+            >全部出借</el-checkbox>
           </div>
           <div class="action">
-            <input maxlength="13" class="amount-input" v-model="invAmount" @keyup="handleExpectedIncome(invAmount)">
+            <input
+              maxlength="13"
+              class="amount-input"
+              v-model="invAmount"
+              @keyup="handleExpectedIncome(invAmount)"
+            >
             <button
               class="action-btn"
               :disabled="isDisableInvestBtn"
@@ -116,7 +128,7 @@
               <li v-for="(item, index) in projectInfo.projectServiceEntity" :key="index">
                 <!-- <p class="value">
                   <span>{{item.serviceName}}</span>
-                </p> -->
+                </p>-->
                 <span class="title">{{item.serviceName}}</span>
                 <span class="value">{{item.serviceMessage}}</span>
               </li>
@@ -181,7 +193,7 @@
                     :projectNo="scope.row.projectNo"
                     href="javascript:void(0);"
                     class="view-detail"
-                    @click="projectDetail(scope.row.projectNo)"
+                    @click="projectDetail(scope.row)"
                   >详情</a>
                 </template>
               </el-table-column>
@@ -263,7 +275,8 @@
                       'dk-red-packet': item.secondType === 1,
                       'xj-red-packet': item.secondType === 2,
                       active: redPacketIndex === index
-                    }]">
+                    }]"
+                  >
                     <p class="vouche-box">
                       <span class="vouche">
                         <em>{{item.redPacketAmount}}</em>
@@ -298,9 +311,7 @@
                   v-for="(item, index) in couponsList"
                   :key="index"
                 >
-                  <div
-                    :class="['rate-stamp-box', {active: couponIndex === index}]"
-                  >
+                  <div :class="['rate-stamp-box', {active: couponIndex === index}]">
                     <p class="vouche-box">
                       <span class="vouche">
                         <strong>+</strong>
@@ -383,25 +394,31 @@
             lineHeight: '26px'
           }"
           :to="{ name: 'userLend' }"
-        >
-          查看我的出借<i class="iconfont icon-more"></i>
+        >查看我的出借
+          <i class="iconfont icon-more"></i>
         </router-link>
       </div>
       <div class="auto-invest-way-wrap">
         <div class="auto-invest-way1">
-          <el-radio v-model="investAutoInvestSuccessDialog.autoInvestWay" label="1">本金到期后自动出借 </el-radio >
+          <el-radio v-model="investAutoInvestSuccessDialog.autoInvestWay" label="1">本金到期后自动出借</el-radio>
         </div>
         <div class="auto-invest-way2">
-          <el-radio v-model="investAutoInvestSuccessDialog.autoInvestWay" label="2">本息到期后自动出借</el-radio >
+          <el-radio v-model="investAutoInvestSuccessDialog.autoInvestWay" label="2">本息到期后自动出借</el-radio>
         </div>
       </div>
-      <router-link target="_blank" class="auto-invest-agreement" :to="{ name: 'autoLendAgreement' }">《自动出借协议》</router-link>
-      <p class="tips" v-if="investAutoInvestSuccessDialog.autoInvestWay === '1'">
-        在本金自动出借模式下，每月产品到期时，系统自动将利息转入用户汇有财账户，本金继续出借。用户可在【我的账户】-【自动出借】界面取消，如有任何疑问，请联系客服：400-099-7979。
-      </p>
-      <p class="tips" v-if="investAutoInvestSuccessDialog.autoInvestWay === '2'">
-        在本息自动出借模式下，每月产品到期时系统默认将本金与利息合并后继续出借。用户可在【我的账户】-【自动出借】界面中取消。如有任何疑问，如有任何疑问，请联系客服：400-099-7979。
-      </p>
+      <router-link
+        target="_blank"
+        class="auto-invest-agreement"
+        :to="{ name: 'autoLendAgreement' }"
+      >《自动出借协议》</router-link>
+      <p
+        class="tips"
+        v-if="investAutoInvestSuccessDialog.autoInvestWay === '1'"
+      >在本金自动出借模式下，每月产品到期时，系统自动将利息转入用户汇有财账户，本金继续出借。用户可在【我的账户】-【自动出借】界面取消，如有任何疑问，请联系客服：400-099-7979。</p>
+      <p
+        class="tips"
+        v-if="investAutoInvestSuccessDialog.autoInvestWay === '2'"
+      >在本息自动出借模式下，每月产品到期时系统默认将本金与利息合并后继续出借。用户可在【我的账户】-【自动出借】界面中取消。如有任何疑问，如有任何疑问，请联系客服：400-099-7979。</p>
     </Dialog>
     <!-- 设置成功弹窗 -->
     <Dialog
@@ -558,14 +575,12 @@ export default {
   },
   methods: {
     projectDetail(val) {
-      console.log('val===', val)
+      // console.log('val===', val)
       //项目详情
       this.$router.push({
         name: 'projectDetail',
         params: {
-          projectNo: val,
-          page: this.page,
-          size: this.size
+          data: val
         }
       })
     },
@@ -667,7 +682,7 @@ export default {
     },
     getProjectCompoList() {
       let postData = {
-        projectNo: this.projectNo,
+        projectNo: this.projectNo, //1902151101,
         curPage: this.page,
         maxLine: this.size
       }
@@ -728,11 +743,14 @@ export default {
               let resultList = [],
                 originList = res.data.userRedPackets
               // 从列表中筛选出可用的 (item.isVailable === 1)
-              originList.forEach(v => {
-                if (v.isVailable === 1) {
-                  resultList.push(v)
-                }
-              })
+              debugger
+              if (originList.length > 0) {
+                originList.forEach(v => {
+                  if (v.isVailable === 1) {
+                    resultList.push(v)
+                  }
+                })
+              }
               $this.redPacketsList = resultList
             })
             await availableCouponApi({
@@ -742,11 +760,13 @@ export default {
               let resultList = [],
                 originList = res.data.coupons
               // 从列表中筛选出可用的 (item.isVailable === 1)
-              originList.forEach(v => {
-                if (v.isVailable === 1) {
-                  resultList.push(v)
-                }
-              })
+              if (originList.length > 0) {
+                originList.forEach(v => {
+                  if (v.isVailable === 1) {
+                    resultList.push(v)
+                  }
+                })
+              }
               $this.couponsList = resultList
               $this.isShowConfirmInvestmentDialog = true
             })
