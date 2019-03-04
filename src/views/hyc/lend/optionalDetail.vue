@@ -859,18 +859,18 @@ export default {
     },
     getInvestStatus() {
       switch (
-        this.projectInfo.status // 1.预售   2.出借中   3.满标
+        this.projectInfo.status // 0.预售   1.出借中   2.满标
       ) {
-        case 1:
+        case 0:
           this.investStatusTitle = '预售中...'
           this.investStatus = 'willSale'
           this.isDisableInvestBtn = true
           break
-        case 2:
+        case 1:
           this.investStatusTitle = '出借中...'
           this.investStatus = 'lending'
           break
-        case 3:
+        case 2:
           this.investStatusTitle = '已满标'
           this.investStatus = 'fullyMarked'
           break
