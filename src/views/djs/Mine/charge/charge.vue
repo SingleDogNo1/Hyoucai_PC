@@ -238,23 +238,23 @@ export default {
         whichSetp: 'send',
         authorization: this.authorization
       }
-      this.showCountDown = true
-      if (this.timeInterval) {
-        clearInterval(this.timeInterval)
-      }
-      this.timeInterval = setInterval(() => {
-        this.countDown--
-        if (this.countDown <= 0) {
-          this.showCountDown = false
-          this.countDown = 60
-          clearInterval(this.timeInterval)
-        }
-      }, 1000)
       rechargeApiDirectPayServer(data).then(res => {
         let data = res.data
         this.showDialog = true
         if (data.resultCode === ERR_OK) {
           this.errMsg.common = '验证码发送成功！'
+          this.showCountDown = true
+          if (this.timeInterval) {
+            clearInterval(this.timeInterval)
+          }
+          this.timeInterval = setInterval(() => {
+            this.countDown--
+            if (this.countDown <= 0) {
+              this.showCountDown = false
+              this.countDown = 60
+              clearInterval(this.timeInterval)
+            }
+          }, 1000)
         } else {
           this.errMsg.common = data.resultMsg
         }
