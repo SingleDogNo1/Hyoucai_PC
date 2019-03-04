@@ -743,11 +743,14 @@ export default {
               let resultList = [],
                 originList = res.data.userRedPackets
               // 从列表中筛选出可用的 (item.isVailable === 1)
-              originList.forEach(v => {
-                if (v.isVailable === 1) {
-                  resultList.push(v)
-                }
-              })
+              debugger
+              if (originList.length > 0) {
+                originList.forEach(v => {
+                  if (v.isVailable === 1) {
+                    resultList.push(v)
+                  }
+                })
+              }
               $this.redPacketsList = resultList
             })
             await availableCouponApi({
@@ -757,11 +760,13 @@ export default {
               let resultList = [],
                 originList = res.data.coupons
               // 从列表中筛选出可用的 (item.isVailable === 1)
-              originList.forEach(v => {
-                if (v.isVailable === 1) {
-                  resultList.push(v)
-                }
-              })
+              if (originList.length > 0) {
+                originList.forEach(v => {
+                  if (v.isVailable === 1) {
+                    resultList.push(v)
+                  }
+                })
+              }
               $this.couponsList = resultList
               $this.isShowConfirmInvestmentDialog = true
             })
