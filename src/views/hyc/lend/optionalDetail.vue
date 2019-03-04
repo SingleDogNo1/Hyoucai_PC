@@ -885,6 +885,7 @@ export default {
         this.projectInfo.status = projectInfo.status
         this.projectInfo.maxInvAmount = projectInfo.maxInvAmount
         this.projectInfo.loanMent = projectInfo.loanMent
+        this.projectInfo.projectType = projectInfo.projectType
 
         // 预售状态中，募集倒计时不倒计
         timeCountDown(investEndTimestamp, this.projectInfo.status, data => {
