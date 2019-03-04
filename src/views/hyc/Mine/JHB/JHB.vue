@@ -84,7 +84,7 @@
         <tbody>
           <tr v-for="(item, index) in invList" :key="index">
             <td>{{ item.itemName && item.productName ? item.itemName : item.productName }}</td>
-            <td>{{ item.returnAmount }}</td>
+            <td>{{ item.refundAmount }}</td>
             <td>{{ item.yearRate }}</td>
             <td>{{ item.applyAmount }}</td>
             <td>{{ item.refundDate }}</td>

@@ -18,9 +18,6 @@
 - 账号：12111000040
 - 密码：a123123123 
 
-UAT
-
-12111000014 a123123123 
 
 
 ### UAT红包账户
@@ -28,4 +25,9 @@ UAT
 - 账号：18555555555
 - 密码：a123123123 
 
-https://mobile.hyoucai.com/#/d/agreement?agreementType=zqzr&mobile=1&relationId=2921171&t=DSCJ ZGpzMjE0NzM5amE6MTU4Zjg2ZjYtYjNkOC00OWI2LWJlMmItMDgwZDkzY2RjZDRl
+
+---
+## UAT 账号
+19000000889 aaaa1111 汇有财
+
+12111000014 a123123123  点金石

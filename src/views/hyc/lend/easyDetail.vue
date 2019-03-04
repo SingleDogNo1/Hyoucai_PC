@@ -359,17 +359,30 @@
         <p>{{investErrMsg}}</p>
       </div>
     </Dialog>
-    <!-- 出借成功弹窗 -->
+    <!-- 出借普通产品成功弹窗 -->
     <Dialog
-      :show.sync="isShowInvestDialog"
+      :show.sync="investDialogOptions.show"
       title="汇有财温馨提示"
-      confirmText="我知道了"
+      :confirmText="investDialogOptions.confirmText"
       class="system-maintenance-dialog align"
-      :singleButton="!singleButton"
+      :singleButton="investDialogOptions.singleButton"
       :onConfirm="toInvestRecord"
     >
       <div>
-        <p>{{investMsg}}</p>
+        <p>{{investDialogOptions.msg}}</p>
+      </div>
+    </Dialog>
+    <!-- 出借手机乐产品成功弹窗 -->
+    <Dialog
+      :show.sync="investSJLSuccessDialog.show"
+      :title="investSJLSuccessDialog.title"
+      :confirmText="investSJLSuccessDialog.confirmText"
+      class="align"
+      :singleButton="investSJLSuccessDialog.singleButton"
+      :onConfirm="toSettingAddress"
+    >
+      <div>
+        <p>{{investSJLSuccessDialog.msg}}</p>
       </div>
     </Dialog>
   </div>
@@ -470,8 +483,21 @@ export default {
       couponIndex: -1,
       isShowInvestErrDialog: false, // 是否显示出借错误弹窗
       investErrMsg: '', // 出借errMsg
-      isShowInvestDialog: false, // 是否显示出借成功弹窗
-      investMsg: '' // 出借成功 msg
+      investDialogOptions: {
+        // 普通产品出借成功弹窗参数
+        show: false,
+        msg: '',
+        confirmText: '去查看',
+        singleButton: false
+      },
+      investSJLSuccessDialog: {
+        // 手机乐产品成功弹窗参数
+        show: false,
+        msg: '',
+        title: '',
+        confirmText: '填写地址',
+        singleButton: false
+      }
     }
   },
   components: {
@@ -815,13 +841,19 @@ export default {
         this.cleanCoupon()
         this.redPacketIndex = index
         this.chooseRedPacket = item
-        this.chooseRedPacketAmt = item.redPacketAmount
+        if (item.secondType !== '2') {
+          // secondType === 2是现金红包，不可以抵扣金额
+          this.chooseRedPacketAmt = item.redPacketAmount
+        }
         this.chooseRedPacketId = item.id
       } else {
         if (typeof this.chooseCoupon.commonUse === 'undefined' || this.chooseCoupon.commonUse === '1') {
           this.redPacketIndex = index
           this.chooseRedPacket = item
-          this.chooseRedPacketAmt = item.redPacketAmount
+          if (item.secondType !== '2') {
+            // secondType === 2是现金红包，不可以抵扣金额
+            this.chooseRedPacketAmt = item.redPacketAmount
+          }
           this.chooseRedPacketId = item.id
         }
       }
@@ -926,8 +958,17 @@ export default {
           if (data.data.type === '1') {
             postcall(data.data.redirectUrl, data.data.paramReq)
           } else {
-            this.isShowInvestDialog = true
-            this.investMsg = '出借成功'
+            switch (data.data.investType) {
+              case 'SJLHD':
+                this.investSJLSuccessDialog.show = true
+                this.investSJLSuccessDialog.msg = data.data.successInfo
+                this.investSJLSuccessDialog.title = data.data.successTitle
+                this.investSJLSuccessDialog.msg = data.data.successInfo
+                break
+              case 'GENERAL':
+                this.investDialogOptions.show = true
+                break
+            }
           }
         } else if (data.resultCode === '90021' || data.resultCode === '90022') {
           // 风险测评出借额度不够 || 出借期限不够
@@ -960,13 +1001,18 @@ export default {
            * 90035：授权金额超限
            */
           this.isShowInvestErrDialog = true
-          this.investErrMsg = res.data.errMsg
+          this.investErrMsg = res.data.resultMsg
         }
       })
     },
     toInvestRecord() {
       this.$router.push({
         name: 'userLend'
+      })
+    },
+    toSettingAddress() {
+      this.$router.push({
+        name: 'basicInfo'
       })
     }
   },

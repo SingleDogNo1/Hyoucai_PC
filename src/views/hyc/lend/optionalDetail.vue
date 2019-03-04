@@ -1168,9 +1168,26 @@ export default {
       this.$router.push({ name: 'riskAss' })
     },
     receiveRedPacket(item, index) {
-      this.redPacketIndex = index
-      this.chooseRedPacketAmt = item.redPacketAmount
-      this.chooseRedPacketId = item.id
+      if (item.commonUse === '0') {
+        this.cleanCoupon()
+        this.redPacketIndex = index
+        this.chooseRedPacket = item
+        if (item.secondType !== '2') {
+          // secondType === 2是现金红包，不可以抵扣金额
+          this.chooseRedPacketAmt = item.redPacketAmount
+        }
+        this.chooseRedPacketId = item.id
+      } else {
+        if (typeof this.chooseCoupon.commonUse === 'undefined' || this.chooseCoupon.commonUse === '1') {
+          this.redPacketIndex = index
+          this.chooseRedPacket = item
+          if (item.secondType !== '2') {
+            // secondType === 2是现金红包，不可以抵扣金额
+            this.chooseRedPacketAmt = item.redPacketAmount
+          }
+          this.chooseRedPacketId = item.id
+        }
+      }
     },
     cleanRedpacket() {
       this.redPacketIndex = -1
@@ -1179,9 +1196,26 @@ export default {
       this.chooseRedPacketId = ''
     },
     receiveCoupon(item, index) {
-      this.couponIndex = index
-      this.chooseCouponRate = item.couponRate
-      this.chooseCouponId = item.id
+      if (item.commonUse === '0') {
+        this.cleanRedpacket()
+        this.couponIndex = index
+        this.chooseCoupon = item
+        this.chooseCouponRate = item.couponRate
+        this.chooseCouponId = item.id
+
+        const withCouponRate = parseFloat(this.projectInfo.investRate) + parseFloat(item.couponRate)
+        this.handleExpectedIncome(this.invAmount, withCouponRate)
+      } else {
+        if (typeof this.chooseRedPacket.commonUse === 'undefined' || this.chooseRedPacket.commonUse === '1') {
+          this.couponIndex = index
+          this.chooseCoupon = item
+          this.chooseCouponRate = item.couponRate
+          this.chooseCouponId = item.id
+
+          const withCouponRate = parseFloat(this.projectInfo.investRate) + parseFloat(item.couponRate)
+          this.handleExpectedIncome(this.invAmount, withCouponRate)
+        }
+      }
     },
     cleanCoupon() {
       this.couponIndex = -1

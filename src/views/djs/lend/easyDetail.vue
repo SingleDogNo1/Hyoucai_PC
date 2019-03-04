@@ -743,7 +743,6 @@ export default {
               let resultList = [],
                 originList = res.data.userRedPackets
               // 从列表中筛选出可用的 (item.isVailable === 1)
-              debugger
               if (originList.length > 0) {
                 originList.forEach(v => {
                   if (v.isVailable === 1) {
@@ -787,13 +786,19 @@ export default {
         this.cleanCoupon()
         this.redPacketIndex = index
         this.chooseRedPacket = item
-        this.chooseRedPacketAmt = item.redPacketAmount
+        if (item.secondType !== 2) {
+          // secondType === 2是现金红包，不可以抵扣金额
+          this.chooseRedPacketAmt = item.redPacketAmount
+        }
         this.chooseRedPacketId = item.id
       } else {
         if (typeof this.chooseCoupon.commonUse === 'undefined' || this.chooseCoupon.commonUse === 1) {
           this.redPacketIndex = index
           this.chooseRedPacket = item
-          this.chooseRedPacketAmt = item.redPacketAmount
+          if (item.secondType !== 2) {
+            // secondType === 2是现金红包，不可以抵扣金额
+            this.chooseRedPacketAmt = item.redPacketAmount
+          }
           this.chooseRedPacketId = item.id
         }
       }
@@ -914,8 +919,6 @@ export default {
             } else {
               // 普通产品
               this.investCommonSuccessDialog.show = true
-              // this.investCommonSuccessDialog.title = data.successTitle
-              // this.investCommonSuccessDialog.msg = data.successInfo
             }
           }
         } else {
