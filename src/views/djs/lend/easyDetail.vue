@@ -3,28 +3,28 @@
     <section class="production-info">
       <div class="title">
         <h2>
-          <img :src="projectInfo.iconUrl" alt>
-          <span>{{projectInfo.projectName}}</span>
+          <img :src="projectInfo.iconUrl" alt />
+          <span>{{ projectInfo.projectName }}</span>
         </h2>
       </div>
       <div class="content">
         <div class="decs-wrap">
           <div class="item">
             <p class="value">
-              <strong>{{projectInfo.investRate}}</strong>
+              <strong>{{ projectInfo.investRate }}</strong>
               <span class="red">%</span>
             </p>
             <p class="desc">历史平均年化收益率</p>
           </div>
           <div class="item">
             <p class="value">
-              <span>{{projectInfo.surplusAmount}}</span>
+              <span>{{ projectInfo.surplusAmount }}</span>
             </p>
             <p class="desc">剩余可投(元)</p>
           </div>
           <div class="item">
             <p class="value">
-              <span>{{projectInfo.investPropleCount}}</span>
+              <span>{{ projectInfo.investPropleCount }}</span>
               <span>人</span>
             </p>
             <p class="desc">已出借人数</p>
@@ -33,7 +33,7 @@
         <div class="progress-wrap">
           <span class="title">项目进度</span>
           <el-progress :percentage="parseFloat(projectInfo.projectProgress)"></el-progress>
-          <span class="score">{{projectInfo.projectProgress}}%</span>
+          <span class="score">{{ projectInfo.projectProgress }}%</span>
         </div>
       </div>
       <div class="tips">
@@ -45,156 +45,91 @@
       </div>
       <div class="invest-module">
         <h2>
-          <span
-            :class="{ 'unopened-status-title': investStatus === 'unopened' }"
-            class="status-title"
-          >{{investStatusTitle}}</span>
+          <span :class="{ 'unopened-status-title': investStatus === 'unopened' }" class="status-title">{{ investStatusTitle }}</span>
           <button class="status-btn">
-            <router-link
-              v-if="investStatus !== 'unopened'"
-              :to="{ name: 'charge' }"
-            >{{investStatusBtn}}</router-link>
-            <router-link v-else :to="{ name: 'account' }">{{investStatusBtn}}</router-link>
+            <router-link v-if="investStatus !== 'unopened'" :to="{ name: 'charge' }">{{ investStatusBtn }}</router-link>
+            <router-link v-else :to="{ name: 'account' }">{{ investStatusBtn }}</router-link>
           </button>
         </h2>
         <div class="content">
           <p class="available-balance">
             <span class="title">可用余额</span>
-            <span class="value" v-if="projectInfo.balance === '未开户'">{{projectInfo.balance}}</span>
-            <span class="value" v-else>{{projectInfo.balance}}元</span>
+            <span class="value" v-if="projectInfo.balance === '未开户'">{{ projectInfo.balance }}</span>
+            <span class="value" v-else>{{ projectInfo.balance }}元</span>
           </p>
           <p class="starting-amount">
             <span class="title">起投金额</span>
-            <span class="value">{{projectInfo.minInvAmt}}元</span>
+            <span class="value">{{ projectInfo.minInvAmt }}元</span>
           </p>
           <p class="single-limit">
             <span class="title">单人限额</span>
-            <span class="value">{{projectInfo.singleLimit}}元</span>
+            <span class="value">{{ projectInfo.singleLimit }}元</span>
           </p>
           <div class="risk-notice">
-            <el-checkbox v-model="isAgree">已阅读并同意
-              <router-link target="_blank" :to="{ name: 'riskNoticationLetterAgreement'}">《风险告知书》</router-link>
+            <el-checkbox v-model="isAgree"
+              >已阅读并同意
+              <router-link target="_blank" :to="{ name: 'riskNoticationLetterAgreement' }">《风险告知书》</router-link>
             </el-checkbox>
           </div>
           <div class="all-lending" v-if="investStatus === 'enable'">
-            <el-checkbox
-              class="all-lending-checkbox"
-              v-model="isAllLending"
-              @change="toggleFill"
-            >全部出借</el-checkbox>
+            <el-checkbox class="all-lending-checkbox" v-model="isAllLending" @change="toggleFill">全部出借</el-checkbox>
           </div>
           <div class="action">
-            <input
-              maxlength="13"
-              class="amount-input"
-              v-model="invAmount"
-              @keyup="handleExpectedIncome(invAmount)"
-            >
-            <button
-              class="action-btn"
-              :disabled="isDisableInvestBtn"
-              @click="handleInvest"
-            >{{investBtn}}</button>
+            <input maxlength="13" class="amount-input" v-model="invAmount" @keyup="handleExpectedIncome(invAmount)" />
+            <button class="action-btn" :disabled="isDisableInvestBtn" @click="handleInvest">{{ investBtn }}</button>
           </div>
-          <p class="err-msg" v-if="errMsg">{{errMsg}}</p>
+          <p class="err-msg" v-if="errMsg">{{ errMsg }}</p>
           <p class="expected-profits">
             <span class="title">预期收益：</span>
-            <span class="value">{{expectedIncome}}元</span>
+            <span class="value">{{ expectedIncome }}元</span>
           </p>
         </div>
       </div>
     </section>
     <section class="tab-wrap">
-      <el-tabs
-        class="lend-detail-tab"
-        v-model="lendDetailActiveName"
-        type="border-card"
-        @tab-click="handleItemClick()"
-      >
+      <el-tabs class="lend-detail-tab" v-model="lendDetailActiveName" type="border-card" @tab-click="handleItemClick()">
         <el-tab-pane label="出借详情" name="CJXQ">
           <div v-if="lendDetailActiveName === 'CJXQ'" class="content">
-            <p class="desc">{{projectInfo.appDesc}}</p>
+            <p class="desc">{{ projectInfo.appDesc }}</p>
             <ul class="detail-list">
               <li>
                 <p class="title">
                   <span>协议</span>
                 </p>
-                <a
-                  target="_blank"
-                  class="value"
-                  :href="projectInfo.agreementUrl"
-                >{{projectInfo.agreementName}}</a>
+                <a target="_blank" class="value" :href="projectInfo.agreementUrl">{{ projectInfo.agreementName }}</a>
               </li>
               <li v-for="(item, index) in projectInfo.projectServiceEntity" :key="index">
                 <!-- <p class="value">
                   <span>{{item.serviceName}}</span>
                 </p>-->
-                <span class="title">{{item.serviceName}}</span>
-                <span class="value">{{item.serviceMessage}}</span>
+                <span class="title">{{ item.serviceName }}</span>
+                <span class="value">{{ item.serviceMessage }}</span>
               </li>
             </ul>
           </div>
         </el-tab-pane>
         <el-tab-pane label="加入记录" name="JRJL">
           <div v-if="lendDetailActiveName === 'JRJL'" class="content">
-            <el-table
-              :header-cell-style="{ background: '#f0f7ff'}"
-              class="join-record-table"
-              :data="joinRecordData"
-              border
-            >
+            <el-table :header-cell-style="{ background: '#f0f7ff' }" class="join-record-table" :data="joinRecordData" border>
               <el-table-column align="center" prop="userName" label="出借人"></el-table-column>
               <el-table-column align="center" height="40" prop="invAmt" label="出借金额"></el-table-column>
               <el-table-column align="center" height="40" prop="invTime" label="出借时间"></el-table-column>
             </el-table>
             <div class="pagination-wrapper">
-              <pagination
-                :count-page="total"
-                :size-val="size"
-                :page-val="page"
-                @handleCurrentChange="handleJoinRecordCurrentChange"
-              ></pagination>
+              <pagination :count-page="total" :size-val="size" :page-val="page" @handleCurrentChange="handleJoinRecordCurrentChange"></pagination>
             </div>
           </div>
         </el-tab-pane>
         <el-tab-pane label="项目组成" name="XMZC">
           <div v-if="lendDetailActiveName === 'XMZC'" class="content">
-            <el-table
-              :header-cell-style="{ background: '#f0f7ff'}"
-              class="project-composition-table"
-              :data="projectCompositionData"
-              border
-            >
+            <el-table :header-cell-style="{ background: '#f0f7ff' }" class="project-composition-table" :data="projectCompositionData" border>
               <el-table-column align="center" prop="ownBondName" label="借款人" width="220"></el-table-column>
-              <el-table-column
-                align="center"
-                height="40"
-                prop="totalBondAmt"
-                label="借款金额(元)"
-                width="214"
-              ></el-table-column>
-              <el-table-column
-                align="center"
-                height="40"
-                prop="investRate"
-                label="历史平均年化收益率"
-                width="232"
-              ></el-table-column>
-              <el-table-column
-                align="center"
-                height="40"
-                prop="repaymentStatus"
-                label="还款状态"
-                width="205"
-              ></el-table-column>
+              <el-table-column align="center" height="40" prop="totalBondAmt" label="借款金额(元)" width="214"></el-table-column>
+              <el-table-column align="center" height="40" prop="investRate" label="历史平均年化收益率" width="232"></el-table-column>
+              <el-table-column align="center" height="40" prop="repaymentStatus" label="还款状态" width="205"></el-table-column>
               <el-table-column align="center" height="40" prop="invTime" label="项目详情" width="204">
                 <template slot-scope="scope">
-                  <a
-                    :projectNo="scope.row.projectNo"
-                    href="javascript:void(0);"
-                    class="view-detail"
-                    @click="projectDetail(scope.row)"
-                  >详情</a>
+                  <a :projectNo="scope.row.projectNo" href="javascript:void(0);" class="view-detail" @click="projectDetail(scope.row)">详情</a>
                 </template>
               </el-table-column>
             </el-table>
@@ -211,9 +146,11 @@
         <el-tab-pane label="风险告知书" name="FXGZS">
           <div v-if="lendDetailActiveName === 'FXGZS'" class="content">
             <p>尊敬的出借人：</p>
-            <p>恭喜您成为江西汇通金融信息服务有服公司运营的网络借贷平台—汇有财平台的用户。感谢您参与/出借本服务/出借标的，在您签署本《风险告知书》之前，请您认真、仔细阅读以下内容及本平台制定并发布的规则制度及其更新或修正的内容，本《风险告知书》经您确认，即视为您已详细了解并理解本风险告知书的全部内容，对其中揭示的风险均有足够的认识，您可在了解融资项目信贷风险后，根据您的金融产品出借经历、风险认知能力、风险识别能力和风险承受能力，自主选择将来源合法的自有资金通过汇有财平台进行资金出借。当您点击“出借”、“申请出借”、“立即出借”、“确认出借”、“同意协议”、“接受协议”或类似文字时，即视为您已经充...</p>
+            <p>
+              恭喜您成为江西汇通金融信息服务有服公司运营的网络借贷平台—汇有财平台的用户。感谢您参与/出借本服务/出借标的，在您签署本《风险告知书》之前，请您认真、仔细阅读以下内容及本平台制定并发布的规则制度及其更新或修正的内容，本《风险告知书》经您确认，即视为您已详细了解并理解本风险告知书的全部内容，对其中揭示的风险均有足够的认识，您可在了解融资项目信贷风险后，根据您的金融产品出借经历、风险认知能力、风险识别能力和风险承受能力，自主选择将来源合法的自有资金通过汇有财平台进行资金出借。当您点击“出借”、“申请出借”、“立即出借”、“确认出借”、“同意协议”、“接受协议”或类似文字时，即视为您已经充...
+            </p>
             <p class="view-more">
-              <router-link target="_blank" :to="{ name: 'riskNoticationLetterAgreement'}">
+              <router-link target="_blank" :to="{ name: 'riskNoticationLetterAgreement' }">
                 点击查看更多
                 <i class="iconfont icon-more"></i>
               </router-link>
@@ -233,30 +170,24 @@
       :onConfirm="toRisk"
     >
       <div>
-        <p>{{riskType}}</p>
-        <p>{{riskContent}}</p>
+        <p>{{ riskType }}</p>
+        <p>{{ riskContent }}</p>
       </div>
     </Dialog>
     <!-- 正常流程弹窗 -->
-    <Dialog
-      :show.sync="isShowConfirmInvestmentDialog"
-      title="确认出借"
-      confirmText="确认出借"
-      class="confirm-investment-dialog"
-      :onConfirm="confirm"
-    >
+    <Dialog :show.sync="isShowConfirmInvestmentDialog" title="确认出借" confirmText="确认出借" class="confirm-investment-dialog" :onConfirm="confirm">
       <div>
         <ul class="amount-list">
           <li>
-            <p class="title">{{invAmount}}</p>
+            <p class="title">{{ invAmount }}</p>
             <p class="desc">出借金额(元)</p>
           </li>
           <li>
-            <p class="title">{{invAmount - chooseRedPacketAmt}}</p>
+            <p class="title">{{ invAmount - chooseRedPacketAmt }}</p>
             <p class="desc">支付金额(元)</p>
           </li>
           <li>
-            <p class="title">{{expectedIncome}}</p>
+            <p class="title">{{ expectedIncome }}</p>
             <p class="desc">预期收益(元)</p>
           </li>
         </ul>
@@ -265,33 +196,27 @@
           <div class="swiper-wrap">
             <div class="swiper-container-red-envelope">
               <div class="swiper-wrapper">
-                <div
-                  class="swiper-slide swiper-no-swiping"
-                  v-for="(item, index) in redPacketsList"
-                  :key="index"
-                >
+                <div class="swiper-slide swiper-no-swiping" v-for="(item, index) in redPacketsList" :key="index">
                   <div
-                    :class="[{
-                      'dk-red-packet': item.secondType === 1,
-                      'xj-red-packet': item.secondType === 2,
-                      active: redPacketIndex === index
-                    }]"
+                    :class="[
+                      {
+                        'dk-red-packet': item.secondType === 1,
+                        'xj-red-packet': item.secondType === 2,
+                        active: redPacketIndex === index
+                      }
+                    ]"
                   >
                     <p class="vouche-box">
                       <span class="vouche">
-                        <em>{{item.redPacketAmount}}</em>
+                        <em>{{ item.redPacketAmount }}</em>
                         <i>元</i>
                       </span>
                       <span class="vouche-aside" v-if="item.commonUse === 0">不可与加息券同时使用</span>
                       <span class="vouche-aside" v-if="item.commonUse === 1">可与加息券同时使用</span>
                     </p>
-                    <p class="start">起投金额：{{item.investMinAmount}}元</p>
-                    <div class="endData">有效期至{{item.usableExpireDate}}</div>
-                    <button
-                      class="receive-btn"
-                      @click="receiveRedPacket(item, index)"
-                      v-if="redPacketIndex !== index"
-                    >选取</button>
+                    <p class="start">起投金额：{{ item.investMinAmount }}元</p>
+                    <div class="endData">有效期至{{ item.usableExpireDate }}</div>
+                    <button class="receive-btn" @click="receiveRedPacket(item, index)" v-if="redPacketIndex !== index">选取</button>
                     <button class="receive-btn" @click="cleanRedpacket" v-else>已选取</button>
                   </div>
                 </div>
@@ -306,28 +231,20 @@
           <div class="swiper-wrap">
             <div class="swiper-container-rate-stamp">
               <div class="swiper-wrapper">
-                <div
-                  class="swiper-slide swiper-no-swiping"
-                  v-for="(item, index) in couponsList"
-                  :key="index"
-                >
-                  <div :class="['rate-stamp-box', {active: couponIndex === index}]">
+                <div class="swiper-slide swiper-no-swiping" v-for="(item, index) in couponsList" :key="index">
+                  <div :class="['rate-stamp-box', { active: couponIndex === index }]">
                     <p class="vouche-box">
                       <span class="vouche">
                         <strong>+</strong>
-                        <em>{{item.couponRate}}</em>
+                        <em>{{ item.couponRate }}</em>
                         <i>%</i>
                         <i class="font">利息</i>
                       </span>
-                      <span class="vouche-aside">可加息{{item.validDays}}天</span>
+                      <span class="vouche-aside">可加息{{ item.validDays }}天</span>
                     </p>
-                    <p class="start">出借限额：{{item.amountMin}}至{{item.amountMax}}元</p>
-                    <div class="endData">有效期至{{item.usableExpireDate}}</div>
-                    <button
-                      class="receive-btn"
-                      @click="receiveCoupon(item, index)"
-                      v-if="couponIndex !== index"
-                    >选取</button>
+                    <p class="start">出借限额：{{ item.amountMin }}至{{ item.amountMax }}元</p>
+                    <div class="endData">有效期至{{ item.usableExpireDate }}</div>
+                    <button class="receive-btn" @click="receiveCoupon(item, index)" v-if="couponIndex !== index">选取</button>
                     <button class="receive-btn" @click="cleanCoupon" v-else>已选取</button>
                   </div>
                 </div>
@@ -348,7 +265,7 @@
       :singleButton="investErrDialog.singleButton"
     >
       <div>
-        <p>{{investErrDialog.msg}}</p>
+        <p>{{ investErrDialog.msg }}</p>
       </div>
     </Dialog>
     <!-- 出借普通产品成功弹窗 -->
@@ -362,7 +279,7 @@
       :onClose="confirmCommon"
     >
       <div>
-        <p>{{investCommonSuccessDialog.msg}}</p>
+        <p>{{ investCommonSuccessDialog.msg }}</p>
       </div>
     </Dialog>
     <!-- 出借手机乐产品成功弹窗 -->
@@ -374,7 +291,7 @@
       :onConfirm="confirmSJL"
     >
       <div>
-        <p>{{investSJLSuccessDialog.msg}}</p>
+        <p>{{ investSJLSuccessDialog.msg }}</p>
       </div>
     </Dialog>
     <!-- 自动出借类产品成功弹窗 -->
@@ -385,7 +302,7 @@
       :onConfirm="confirmAutoInvest"
     >
       <div class="msg-wrap">
-        <span>您已成功出借{{projectInfo.projectName}}{{invAmount}}元</span>
+        <span>您已成功出借{{ projectInfo.projectName }}{{ invAmount }}元</span>
         <router-link
           tag="div"
           :style="{
@@ -394,7 +311,7 @@
             lineHeight: '26px'
           }"
           :to="{ name: 'userLend' }"
-        >查看我的出借
+          >查看我的出借
           <i class="iconfont icon-more"></i>
         </router-link>
       </div>
@@ -406,19 +323,13 @@
           <el-radio v-model="investAutoInvestSuccessDialog.autoInvestWay" label="2">本息到期后自动出借</el-radio>
         </div>
       </div>
-      <router-link
-        target="_blank"
-        class="auto-invest-agreement"
-        :to="{ name: 'autoLendAgreement' }"
-      >《自动出借协议》</router-link>
-      <p
-        class="tips"
-        v-if="investAutoInvestSuccessDialog.autoInvestWay === '1'"
-      >在本金自动出借模式下，每月产品到期时，系统自动将利息转入用户汇有财账户，本金继续出借。用户可在【我的账户】-【自动出借】界面取消，如有任何疑问，请联系客服：400-099-7979。</p>
-      <p
-        class="tips"
-        v-if="investAutoInvestSuccessDialog.autoInvestWay === '2'"
-      >在本息自动出借模式下，每月产品到期时系统默认将本金与利息合并后继续出借。用户可在【我的账户】-【自动出借】界面中取消。如有任何疑问，如有任何疑问，请联系客服：400-099-7979。</p>
+      <router-link target="_blank" class="auto-invest-agreement" :to="{ name: 'autoLendAgreement' }">《自动出借协议》</router-link>
+      <p class="tips" v-if="investAutoInvestSuccessDialog.autoInvestWay === '1'">
+        在本金自动出借模式下，每月产品到期时，系统自动将利息转入用户汇有财账户，本金继续出借。用户可在【我的账户】-【自动出借】界面取消，如有任何疑问，请联系客服：400-099-7979。
+      </p>
+      <p class="tips" v-if="investAutoInvestSuccessDialog.autoInvestWay === '2'">
+        在本息自动出借模式下，每月产品到期时系统默认将本金与利息合并后继续出借。用户可在【我的账户】-【自动出借】界面中取消。如有任何疑问，如有任何疑问，请联系客服：400-099-7979。
+      </p>
     </Dialog>
     <!-- 设置成功弹窗 -->
     <Dialog
@@ -701,78 +612,78 @@ export default {
     },
     handleInvest() {
       this.errMsg = ''
-      if (this.invAmount === '') {
-        this.errMsg = '请输入金额'
+      // 如果是未开户，点击去开户页面
+      if (this.investStatus === 'unopened') {
+        this.$router.push({ name: 'account' })
       } else {
-        if (this.projectInfo.status === '0') {
-          this.investErrDialog.show = true
-          this.investErrDialog.msg = '该项目暂时无法投资'
+        if (this.invAmount === '') {
+          this.errMsg = '请输入金额'
         } else {
-          // 如果没勾选风险告知书，弹出提示
-          if (!this.isAgree) {
-            this.errMsg = '请确认并同意《风险告知书》'
-            return
-          }
+          if (this.projectInfo.status === '0') {
+            this.investErrDialog.show = true
+            this.investErrDialog.msg = '该项目暂时无法投资'
+          } else {
+            // 如果没勾选风险告知书，弹出提示
+            if (!this.isAgree) {
+              this.errMsg = '请确认并同意《风险告知书》'
+              return
+            }
 
-          // 如果是未开户，点击去开户页面
-          if (this.investStatus === 'unopened') {
-            this.$router.push({ name: 'account' })
-          }
+            if (this.invAmount > this.projectInfo.balance - 0) {
+              this.errMsg = '余额不足'
+              return
+            }
 
-          if (this.invAmount > this.projectInfo.balance - 0) {
-            this.errMsg = '余额不足'
-            return
-          }
+            if (this.invAmount < this.projectInfo.minInvAmt - 0) {
+              this.errMsg = '出借金额不能低于起投金额'
+              return
+            }
 
-          if (this.invAmount < this.projectInfo.minInvAmt - 0) {
-            this.errMsg = '出借金额不能低于起投金额'
-            return
-          }
+            if (this.invAmount > this.projectInfo.singleLimit - 0) {
+              this.errMsg = '单人限额为' + this.projectInfo.singleLimit + '元'
+              return
+            }
 
-          if (this.invAmount > this.projectInfo.singleLimit - 0) {
-            this.errMsg = '单人限额为' + this.projectInfo.singleLimit + '元'
-            return
+            const $this = this
+            ;(async function initInvestDialog() {
+              await availableRedPacketApi({
+                projectNo: $this.projectNo,
+                amount: $this.invAmount
+              }).then(res => {
+                let resultList = [],
+                  originList = res.data.userRedPackets
+                // 从列表中筛选出可用的 (item.isVailable === 1)
+                debugger
+                if (originList.length > 0) {
+                  originList.forEach(v => {
+                    if (v.isVailable === 1) {
+                      resultList.push(v)
+                    }
+                  })
+                }
+                $this.redPacketsList = resultList
+              })
+              await availableCouponApi({
+                projectNo: $this.projectNo,
+                amount: $this.invAmount
+              }).then(res => {
+                let resultList = [],
+                  originList = res.data.coupons
+                // 从列表中筛选出可用的 (item.isVailable === 1)
+                if (originList.length > 0) {
+                  originList.forEach(v => {
+                    if (v.isVailable === 1) {
+                      resultList.push(v)
+                    }
+                  })
+                }
+                $this.couponsList = resultList
+                $this.isShowConfirmInvestmentDialog = true
+              })
+              await $this.redEnvelopeSwiper()
+              await $this.rateStampSwiper()
+            })()
           }
-
-          const $this = this
-          ;(async function initInvestDialog() {
-            await availableRedPacketApi({
-              projectNo: $this.projectNo,
-              amount: $this.invAmount
-            }).then(res => {
-              let resultList = [],
-                originList = res.data.userRedPackets
-              // 从列表中筛选出可用的 (item.isVailable === 1)
-              debugger
-              if (originList.length > 0) {
-                originList.forEach(v => {
-                  if (v.isVailable === 1) {
-                    resultList.push(v)
-                  }
-                })
-              }
-              $this.redPacketsList = resultList
-            })
-            await availableCouponApi({
-              projectNo: $this.projectNo,
-              amount: $this.invAmount
-            }).then(res => {
-              let resultList = [],
-                originList = res.data.coupons
-              // 从列表中筛选出可用的 (item.isVailable === 1)
-              if (originList.length > 0) {
-                originList.forEach(v => {
-                  if (v.isVailable === 1) {
-                    resultList.push(v)
-                  }
-                })
-              }
-              $this.couponsList = resultList
-              $this.isShowConfirmInvestmentDialog = true
-            })
-            await $this.redEnvelopeSwiper()
-            await $this.rateStampSwiper()
-          })()
         }
       }
     },
