@@ -1092,12 +1092,7 @@ export default {
                 this.errMsg = '请确认并同意《风险告知书》'
                 return
               }
-
-              // 如果是未开户，点击去开户页面
-              if (this.investStatus === 'unopened') {
-                this.$router.push({ name: 'account' })
-              }
-
+              
               if (this.invAmount > this.projectInfo.balance - 0) {
                 this.errMsg = '余额不足'
                 return

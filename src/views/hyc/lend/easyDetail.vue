@@ -719,89 +719,89 @@ export default {
     },
     handleInvest() {
       this.errMsg = ''
-      if (this.invAmount === '') {
-        this.errMsg = '请输入金额'
+      // 如果是未开户，点击去开户页面
+      if (this.investStatus === 'unopened') {
+        this.$router.push({ name: 'account' })
       } else {
-        systemMaintenance().then(res => {
-          let data = res.data
-          // 此时段为系统维护
-          if (data.resultCode === '60056') {
-            this.isShowSystemMaintenanceDialog = true
-          } else {
-            // 调用即信的接口，刷新用户账户余额，然后判断账户余额是否充足
-            amountSync().then(res => {
-              let data = res.data
-              if (data.resultCode === '1') {
-                this.projectInfo.balance = data.data.availBal
+        if (this.invAmount === '') {
+          this.errMsg = '请输入金额'
+        } else {
+          systemMaintenance().then(res => {
+            let data = res.data
+            // 此时段为系统维护
+            if (data.resultCode === '60056') {
+              this.isShowSystemMaintenanceDialog = true
+            } else {
+              // 调用即信的接口，刷新用户账户余额，然后判断账户余额是否充足
+              amountSync().then(res => {
+                let data = res.data
+                if (data.resultCode === '1') {
+                  this.projectInfo.balance = data.data.availBal
+                }
+              })
+
+              // 如果没勾选风险告知书，弹出提示
+              if (!this.isAgree) {
+                this.errMsg = '请确认并同意《风险告知书》'
+                return
               }
-            })
 
-            // 如果没勾选风险告知书，弹出提示
-            if (!this.isAgree) {
-              this.errMsg = '请确认并同意《风险告知书》'
-              return
+              if (this.invAmount > this.projectInfo.balance - 0) {
+                this.errMsg = '余额不足'
+                return
+              }
+
+              if (this.invAmount < this.projectInfo.minInvAmt - 0) {
+                this.errMsg = '出借金额不能低于起投金额'
+                return
+              }
+
+              if (this.invAmount > this.projectInfo.singleLimit - 0) {
+                this.errMsg = '单人限额为' + this.projectInfo.singleLimit + '元'
+                return
+              }
+
+              const $this = this
+              ;(async function initInvestDialog() {
+                await availableRedPacketApi({
+                  investAmount: $this.invAmount,
+                  productId: $this.productId
+                }).then(res => {
+                  let resultList = [],
+                    originList = res.data.data.userRedPackets
+                  // 从列表中筛选出可用的 (item.isVailable === 1)
+                  if (originList.length > 0) {
+                    originList.forEach(v => {
+                      if (v.isVailable === 1) {
+                        resultList.push(v)
+                      }
+                    })
+                  }
+                  $this.redPacketsList = resultList
+                })
+                await availableCouponApi({
+                  investAmount: $this.invAmount,
+                  productId: $this.productId
+                }).then(res => {
+                  let resultList = [],
+                    originList = res.data.data.coupons
+                  // 从列表中筛选出可用的 (item.isVailable === 1)
+                  if (originList.length > 0) {
+                    originList.forEach(v => {
+                      if (v.isVailable === 1) {
+                        resultList.push(v)
+                      }
+                    })
+                  }
+                  $this.couponsList = resultList
+                  $this.isShowConfirmInvestmentDialog = true
+                })
+                await $this.redEnvelopeSwiper()
+                await $this.rateStampSwiper()
+              })()
             }
-
-            // 如果是未开户，点击去开户页面
-            if (this.investStatus === 'unopened') {
-              this.$router.push({ name: 'account' })
-            }
-
-            if (this.invAmount > this.projectInfo.balance - 0) {
-              this.errMsg = '余额不足'
-              return
-            }
-
-            if (this.invAmount < this.projectInfo.minInvAmt - 0) {
-              this.errMsg = '出借金额不能低于起投金额'
-              return
-            }
-
-            if (this.invAmount > this.projectInfo.singleLimit - 0) {
-              this.errMsg = '单人限额为' + this.projectInfo.singleLimit + '元'
-              return
-            }
-
-            const $this = this
-            ;(async function initInvestDialog() {
-              await availableRedPacketApi({
-                investAmount: $this.invAmount,
-                productId: $this.productId
-              }).then(res => {
-                let resultList = [],
-                  originList = res.data.data.userRedPackets
-                // 从列表中筛选出可用的 (item.isVailable === 1)
-                if (originList.length > 0) {
-                  originList.forEach(v => {
-                    if (v.isVailable === 1) {
-                      resultList.push(v)
-                    }
-                  })
-                }
-                $this.redPacketsList = resultList
-              })
-              await availableCouponApi({
-                investAmount: $this.invAmount,
-                productId: $this.productId
-              }).then(res => {
-                let resultList = [],
-                  originList = res.data.data.coupons
-                // 从列表中筛选出可用的 (item.isVailable === 1)
-                if (originList.length > 0) {
-                  originList.forEach(v => {
-                    if (v.isVailable === 1) {
-                      resultList.push(v)
-                    }
-                  })
-                }
-                $this.couponsList = resultList
-                $this.isShowConfirmInvestmentDialog = true
-              })
-              await $this.redEnvelopeSwiper()
-              await $this.rateStampSwiper()
-            })()
-          }
-        })
+          })
+        }
       }
     },
     toSign() {

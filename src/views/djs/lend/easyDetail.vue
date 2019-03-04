@@ -701,78 +701,78 @@ export default {
     },
     handleInvest() {
       this.errMsg = ''
-      if (this.invAmount === '') {
-        this.errMsg = '请输入金额'
+      // 如果是未开户，点击去开户页面
+      if (this.investStatus === 'unopened') {
+        this.$router.push({ name: 'account' })
       } else {
-        if (this.projectInfo.status === '0') {
-          this.investErrDialog.show = true
-          this.investErrDialog.msg = '该项目暂时无法投资'
+        if (this.invAmount === '') {
+          this.errMsg = '请输入金额'
         } else {
-          // 如果没勾选风险告知书，弹出提示
-          if (!this.isAgree) {
-            this.errMsg = '请确认并同意《风险告知书》'
-            return
-          }
+          if (this.projectInfo.status === '0') {
+            this.investErrDialog.show = true
+            this.investErrDialog.msg = '该项目暂时无法投资'
+          } else {
+            // 如果没勾选风险告知书，弹出提示
+            if (!this.isAgree) {
+              this.errMsg = '请确认并同意《风险告知书》'
+              return
+            }
 
-          // 如果是未开户，点击去开户页面
-          if (this.investStatus === 'unopened') {
-            this.$router.push({ name: 'account' })
-          }
+            if (this.invAmount > this.projectInfo.balance - 0) {
+              this.errMsg = '余额不足'
+              return
+            }
 
-          if (this.invAmount > this.projectInfo.balance - 0) {
-            this.errMsg = '余额不足'
-            return
-          }
+            if (this.invAmount < this.projectInfo.minInvAmt - 0) {
+              this.errMsg = '出借金额不能低于起投金额'
+              return
+            }
 
-          if (this.invAmount < this.projectInfo.minInvAmt - 0) {
-            this.errMsg = '出借金额不能低于起投金额'
-            return
-          }
+            if (this.invAmount > this.projectInfo.singleLimit - 0) {
+              this.errMsg = '单人限额为' + this.projectInfo.singleLimit + '元'
+              return
+            }
 
-          if (this.invAmount > this.projectInfo.singleLimit - 0) {
-            this.errMsg = '单人限额为' + this.projectInfo.singleLimit + '元'
-            return
+            const $this = this
+            ;(async function initInvestDialog() {
+              await availableRedPacketApi({
+                projectNo: $this.projectNo,
+                amount: $this.invAmount
+              }).then(res => {
+                let resultList = [],
+                  originList = res.data.userRedPackets
+                // 从列表中筛选出可用的 (item.isVailable === 1)
+                debugger
+                if (originList.length > 0) {
+                  originList.forEach(v => {
+                    if (v.isVailable === 1) {
+                      resultList.push(v)
+                    }
+                  })
+                }
+                $this.redPacketsList = resultList
+              })
+              await availableCouponApi({
+                projectNo: $this.projectNo,
+                amount: $this.invAmount
+              }).then(res => {
+                let resultList = [],
+                  originList = res.data.coupons
+                // 从列表中筛选出可用的 (item.isVailable === 1)
+                if (originList.length > 0) {
+                  originList.forEach(v => {
+                    if (v.isVailable === 1) {
+                      resultList.push(v)
+                    }
+                  })
+                }
+                $this.couponsList = resultList
+                $this.isShowConfirmInvestmentDialog = true
+              })
+              await $this.redEnvelopeSwiper()
+              await $this.rateStampSwiper()
+            })()
           }
-
-          const $this = this
-          ;(async function initInvestDialog() {
-            await availableRedPacketApi({
-              projectNo: $this.projectNo,
-              amount: $this.invAmount
-            }).then(res => {
-              let resultList = [],
-                originList = res.data.userRedPackets
-              // 从列表中筛选出可用的 (item.isVailable === 1)
-              debugger
-              if (originList.length > 0) {
-                originList.forEach(v => {
-                  if (v.isVailable === 1) {
-                    resultList.push(v)
-                  }
-                })
-              }
-              $this.redPacketsList = resultList
-            })
-            await availableCouponApi({
-              projectNo: $this.projectNo,
-              amount: $this.invAmount
-            }).then(res => {
-              let resultList = [],
-                originList = res.data.coupons
-              // 从列表中筛选出可用的 (item.isVailable === 1)
-              if (originList.length > 0) {
-                originList.forEach(v => {
-                  if (v.isVailable === 1) {
-                    resultList.push(v)
-                  }
-                })
-              }
-              $this.couponsList = resultList
-              $this.isShowConfirmInvestmentDialog = true
-            })
-            await $this.redEnvelopeSwiper()
-            await $this.rateStampSwiper()
-          })()
         }
       }
     },
