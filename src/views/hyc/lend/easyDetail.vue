@@ -50,10 +50,8 @@
       <div class="invest-module">
         <h2>
           <span :class="{ 'unopened-status-title': investStatus === 'unopened' }" class="status-title">{{ investStatusTitle }}</span>
-          <button class="status-btn">
-            <router-link v-if="investStatus !== 'unopened'" :to="{ name: 'charge' }">{{ investStatusBtn }}</router-link>
-            <router-link v-else :to="{ name: 'account' }">{{ investStatusBtn }}</router-link>
-          </button>
+          <router-link class="status-btn" v-if="investStatus !== 'unopened'" :to="{ name: 'charge' }">{{ investStatusBtn }}</router-link>
+          <router-link class="status-btn" v-else :to="{ name: 'account' }">{{ investStatusBtn }}</router-link>
         </h2>
         <div class="content">
           <p class="available-balance">
@@ -1193,12 +1191,6 @@ export default {
           margin-top: 12px;
           border-radius: 4px;
           padding: 0;
-          a {
-            display: block;
-            width: 100%;
-            height: 100%;
-            color: #fff;
-          }
           &:hover {
             background: lighten(#0083fe, 5%);
             cursor: pointer;
