@@ -206,11 +206,11 @@
       <div>
         <ul class="amount-list">
           <li>
-            <p class="title">{{ invAmount }}</p>
+            <p class="title">{{ invAmountDisabled ? invAmountVal : invAmount }}</p>
             <p class="desc">出借金额(元)</p>
           </li>
           <li>
-            <p class="title">{{ invAmount - chooseRedPacketAmt }}</p>
+            <p class="title">{{ invAmountDisabled ? invAmountVal - chooseRedPacketAmt : invAmount - chooseRedPacketAmt }}</p>
             <p class="desc">支付金额(元)</p>
           </li>
           <li>
@@ -766,7 +766,7 @@ export default {
                     const $this = this
                     ;(async function initInvestDialog() {
                       await availableRedPacketApi({
-                        investAmount: $this.invAmount,
+                        investAmount: !$this.invAmountDisabled ? $this.invAmount : $this.invAmountVal,
                         productId: $this.productId
                       }).then(res => {
                         let resultList = [],
@@ -782,7 +782,7 @@ export default {
                         $this.redPacketsList = resultList
                       })
                       await availableCouponApi({
-                        investAmount: $this.invAmount,
+                        investAmount: !$this.invAmountDisabled ? $this.invAmount : $this.invAmountVal,
                         productId: $this.productId
                       }).then(res => {
                         let resultList = [],
