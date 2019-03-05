@@ -441,6 +441,7 @@
       :singleButton="riskDialogSingleButton"
       class="risk-dialog align"
       :onConfirm="toRisk"
+      :onClose="refreshPage"
     >
       <div>
         <p>{{ riskType }}</p>
@@ -466,6 +467,7 @@
       confirmText="确认出借"
       class="confirm-investment-dialog"
       :onConfirm="confirm"
+      :onClose="refreshPage"
     >
       <div>
         <ul class="amount-list">
@@ -581,6 +583,7 @@
       class="align"
       :singleButton="investSJLSuccessDialog.singleButton"
       :onConfirm="toSettingAddress"
+      :onClose="refreshPage"
     >
       <div>
         <p>{{investSJLSuccessDialog.msg}}</p>
@@ -592,6 +595,7 @@
       :show.sync="withoutSignDialogOptions.show"
       :singleButton="withoutSignDialogOptions.singleButton"
       :onConfirm="toSign"
+      :onClose="refreshPage"
       :confirmText="withoutSignDialogOptions.confirmText"
     >
       <div>
@@ -1361,6 +1365,9 @@ export default {
       this.$router.push({
         name: 'userLend'
       })
+    },
+    refreshPage() {
+      window.location.reload()
     }
   },
   mounted() {

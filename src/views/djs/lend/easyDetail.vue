@@ -168,6 +168,7 @@
       :singleButton="riskDialogSingleButton"
       class="risk-dialog align"
       :onConfirm="toRisk"
+      :onClose="refreshPage"
     >
       <div>
         <p>{{ riskType }}</p>
@@ -175,7 +176,7 @@
       </div>
     </Dialog>
     <!-- 正常流程弹窗 -->
-    <Dialog :show.sync="isShowConfirmInvestmentDialog" title="确认出借" confirmText="确认出借" class="confirm-investment-dialog" :onConfirm="confirm">
+    <Dialog :show.sync="isShowConfirmInvestmentDialog" title="确认出借" confirmText="确认出借" class="confirm-investment-dialog" :onConfirm="confirm" :onClose="refreshPage">
       <div>
         <ul class="amount-list">
           <li>
@@ -276,7 +277,7 @@
       :showCloseBtn="investCommonSuccessDialog.showCloseBtn"
       class="common-dialog align"
       :singleButton="investCommonSuccessDialog.singleButton"
-      :onClose="confirmCommon"
+      :onClose="refreshPage"
     >
       <div>
         <p>{{ investCommonSuccessDialog.msg }}</p>
@@ -289,6 +290,7 @@
       confirmText="填写地址"
       class="sjl-dialog align"
       :onConfirm="confirmSJL"
+      :onClose="refreshPage"
     >
       <div>
         <p>{{ investSJLSuccessDialog.msg }}</p>
@@ -300,6 +302,7 @@
       :title="investAutoInvestSuccessDialog.title"
       class="auto-invest-dialog"
       :onConfirm="confirmAutoInvest"
+      :onClose="refreshPage"
     >
       <div class="msg-wrap">
         <span>您已成功出借{{ projectInfo.projectName }}{{ invAmount }}元</span>
