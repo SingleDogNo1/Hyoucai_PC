@@ -585,20 +585,21 @@ export default {
         let projectInfo = data.projectInfo
         let investEndTimestamp = projectInfo.investEndTimestamp
         this.projectServiceEntity = data.projectServiceEntity
-        this.projectInfo.iconUrl = projectInfo.iconUrl
-        this.projectInfo.itemName = projectInfo.itemName
-        this.projectInfo.investRate = projectInfo.investRate
-        this.projectInfo.surplusAmt = projectInfo.surplusAmt
-        this.projectInfo.investPeopleCount = projectInfo.investPeopleCount
-        this.projectInfo.investPercent = projectInfo.investPercent
-        this.projectInfo.interestRate = projectInfo.interestRate
-        this.projectInfo.minInvAmount = projectInfo.minInvAmount
-        this.projectInfo.maxInvTotalAmount = projectInfo.maxInvTotalAmount
-        this.projectInfo.status = projectInfo.status
-        this.projectInfo.maxInvAmount = projectInfo.maxInvAmount
-        this.projectInfo.projectType = projectInfo.projectType
-        this.projectInfo.projectName = projectInfo.projectName
-        this.projectInfo.loanMent = projectInfo.loanMent
+        this.projectInfo = projectInfo
+        // this.projectInfo.iconUrl = projectInfo.iconUrl
+        // this.projectInfo.itemName = projectInfo.itemName
+        // this.projectInfo.investRate = projectInfo.investRate
+        // this.projectInfo.surplusAmt = projectInfo.surplusAmt
+        // this.projectInfo.investPeopleCount = projectInfo.investPeopleCount
+        // this.projectInfo.investPercent = projectInfo.investPercent
+        // this.projectInfo.interestRate = projectInfo.interestRate
+        // this.projectInfo.minInvAmount = projectInfo.minInvAmount
+        // this.projectInfo.maxInvTotalAmount = projectInfo.maxInvTotalAmount
+        // this.projectInfo.status = projectInfo.status
+        // this.projectInfo.maxInvAmount = projectInfo.maxInvAmount
+        // this.projectInfo.projectType = projectInfo.projectType
+        // this.projectInfo.projectName = projectInfo.projectName
+        // this.projectInfo.loanMent = projectInfo.loanMent
 
         // 预售状态中，募集倒计时不倒计
         timeCountDown(investEndTimestamp, this.projectInfo.status, data => {
@@ -825,7 +826,7 @@ export default {
       this.$router.push({ name: 'riskAss' })
     },
     receiveRedPacket(item, index) {
-      if (item.commonUse === '0') {
+      if (item.commonUse === 0) {
         this.cleanCoupon()
         this.redPacketIndex = index
         this.chooseRedPacket = item
@@ -835,7 +836,7 @@ export default {
         }
         this.chooseRedPacketId = item.id
       } else {
-        if (typeof this.chooseCoupon.commonUse === 'undefined' || this.chooseCoupon.commonUse === '1') {
+        if (typeof this.chooseCoupon.commonUse === 'undefined' || this.chooseCoupon.commonUse === 1) {
           this.redPacketIndex = index
           this.chooseRedPacket = item
           if (item.secondType !== '2') {
@@ -853,7 +854,7 @@ export default {
       this.chooseRedPacketId = ''
     },
     receiveCoupon(item, index) {
-      if (item.commonUse === '0') {
+      if (item.commonUse === 0) {
         this.cleanRedpacket()
         this.couponIndex = index
         this.chooseCoupon = item
@@ -863,7 +864,7 @@ export default {
         const withCouponRate = parseFloat(this.projectInfo.investRate) + parseFloat(item.couponRate)
         this.handleExpectedIncome(this.invAmount, withCouponRate)
       } else {
-        if (typeof this.chooseRedPacket.commonUse === 'undefined' || this.chooseRedPacket.commonUse === '1') {
+        if (typeof this.chooseRedPacket.commonUse === 'undefined' || this.chooseRedPacket.commonUse === 1) {
           this.couponIndex = index
           this.chooseCoupon = item
           this.chooseCouponRate = item.couponRate
