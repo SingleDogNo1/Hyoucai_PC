@@ -592,6 +592,7 @@
       :show.sync="withoutSignDialogOptions.show"
       :singleButton="withoutSignDialogOptions.singleButton"
       :onConfirm="toSign"
+      :confirmText="withoutSignDialogOptions.confirmText"
     >
       <div>
         {{withoutSignDialogOptions.msg}}
@@ -760,7 +761,8 @@ export default {
         // 签约状态不符弹窗
         show: false,
         msg: '您当前未签约或签约状态不符合合规要求，请重新签约！',
-        singleButton: false
+        singleButton: false,
+        confirmText: '签约'
       }
     }
   },
@@ -1100,6 +1102,11 @@ export default {
                   if (res.data.data.status === 'SIGN_PROTOCOL') {
                     // 未签约
                     this.withoutSignDialogOptions.show = true
+                  } else if (res.data.data.status === 'EVALUATE') {
+                    // 未做过风险测评
+                    this.isShowRiskDialog = true
+                    this.riskType = '汇有财温馨提示'
+                    this.riskContent = res.data.data.message
                   } else if (res.data.data.status === 'COMPLETE') {
                     if (this.invAmount > this.projectInfo.balance - 0) {
                       this.errMsg = '余额不足'
