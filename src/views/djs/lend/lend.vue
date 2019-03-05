@@ -67,8 +67,11 @@
                 </dl>
               </li>
               <li class="info">
-                <template v-if="item.status === '1'">
+                <template v-if="item.status === '1' && parseFloat(item.surplusAmt) !== 0">
                   <el-button @click.native="judgeBooking(item)"> 授权出借 </el-button>
+                </template>
+                <template v-else-if="item.status === '1' && parseFloat(item.surplusAmt) === 0">
+                  <el-button disabled>还款中</el-button>
                 </template>
                 <template v-else>
                   <el-button v-if="item.enablAmt > 0" @click.native="judgeBooking(item)">预售中</el-button>
