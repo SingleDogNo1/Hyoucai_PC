@@ -728,6 +728,7 @@ export default {
       singleButton: true, // 是否显示只有确定按钮
       riskConfirmText: '重新评测', // 风险测评弹窗按钮文字
       riskDialogSingleButton: false,
+      cancelText: '取消',
       riskType: '', // 风险测评的类型
       riskContent: '', // 风险测评弹窗默认文字
       isShowConfirmInvestmentDialog: false, // 是否显示出借弹窗
@@ -1108,6 +1109,7 @@ export default {
                   } else if (res.data.data.status === 'EVALUATE') {
                     // 未做过风险测评
                     this.isShowRiskDialog = true
+                    this.riskConfirmText = '去评测'
                     this.riskContent = res.data.data.message
                   } else if (res.data.data.status === 'COMPLETE') {
                     if (this.invAmount > this.projectInfo.balance - 0) {
@@ -1348,6 +1350,7 @@ export default {
 
           if (['JINX'].includes(res.data.data.evaluatingResult)) {
             this.riskDialogSingleButton = true
+            this.cancelText = '我知道了'
           }
 
           this.isShowRiskDialog = true

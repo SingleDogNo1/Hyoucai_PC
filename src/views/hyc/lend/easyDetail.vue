@@ -421,6 +421,7 @@ export default {
       riskDialogSingleButton: false,
       riskType: '', // 风险测评的类型
       riskContent: '',
+      cancelText: '取消',
       isShowConfirmInvestmentDialog: false, // 是否显示出借弹窗
       redPacketsList: [],
       redPacketIndex: -1,
@@ -973,6 +974,7 @@ export default {
 
           if (['JINX'].includes(res.data.data.evaluatingResult)) {
             this.riskDialogSingleButton = true
+            this.cancelText = '我知道了'
           }
           this.riskContent = res.data.resultMsg
           this.isShowRiskDialog = true
