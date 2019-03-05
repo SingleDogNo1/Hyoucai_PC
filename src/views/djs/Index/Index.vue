@@ -117,7 +117,7 @@
         </li>
       </ul>
     </div>
-    <div class="novice-area-wrap" v-if="noviceProjectList && noviceProjectList.length > 0">
+    <div class="novice-area-wrap" v-if="user && noviceProjectList && noviceProjectList.length > 0">
       <div class="novice-area-box">
         <div class="desc-warp">
           <div class="text-title"></div>
