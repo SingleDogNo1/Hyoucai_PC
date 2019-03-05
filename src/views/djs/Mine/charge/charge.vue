@@ -105,8 +105,15 @@
 </template>
 
 <script>
-import { queryCardInfo, userBankCardList, personalAccount, userRechargePreVerify, rechargeApiDirectPayServer, unionPay,
-  userAndBankInfo } from '@/api/djs/Mine/charge'
+import {
+  queryCardInfo,
+  userBankCardList,
+  personalAccount,
+  userRechargePreVerify,
+  rechargeApiDirectPayServer,
+  unionPay,
+  userAndBankInfo
+} from '@/api/djs/Mine/charge'
 import { getUser } from '@/assets/js/cache'
 import { getAuth, getRetBaseURL } from '@/assets/js/utils'
 import Dialog from '@/components/Dialog/Dialog'
@@ -159,7 +166,7 @@ export default {
       showDialog: false,
       showDialogSuccess: false,
       isBankcardSupport: false, // 快钱是否支持用户当前银行卡
-      retUrl: ''  // 银行跳转回来的页面，这里主要是为了从出借详情过来的，因为还要在跳转回去
+      retUrl: '' // 银行跳转回来的页面，这里主要是为了从出借详情过来的，因为还要在跳转回去
     }
   },
   watch: {
@@ -238,23 +245,23 @@ export default {
         whichSetp: 'send',
         authorization: this.authorization
       }
-      this.showCountDown = true
-      if (this.timeInterval) {
-        clearInterval(this.timeInterval)
-      }
-      this.timeInterval = setInterval(() => {
-        this.countDown--
-        if (this.countDown <= 0) {
-          this.showCountDown = false
-          this.countDown = 60
-          clearInterval(this.timeInterval)
-        }
-      }, 1000)
       rechargeApiDirectPayServer(data).then(res => {
         let data = res.data
         this.showDialog = true
         if (data.resultCode === ERR_OK) {
           this.errMsg.common = '验证码发送成功！'
+          this.showCountDown = true
+          if (this.timeInterval) {
+            clearInterval(this.timeInterval)
+          }
+          this.timeInterval = setInterval(() => {
+            this.countDown--
+            if (this.countDown <= 0) {
+              this.showCountDown = false
+              this.countDown = 60
+              clearInterval(this.timeInterval)
+            }
+          }, 1000)
         } else {
           this.errMsg.common = data.resultMsg
         }
@@ -399,9 +406,9 @@ export default {
     this.userAndBankInfo()
   },
   mounted() {},
-  beforeRouteEnter (to, from, next) {
-    next(vm=>{
-      if(from.name === 'easyDetail') {
+  beforeRouteEnter(to, from, next) {
+    next(vm => {
+      if (from.name === 'easyDetail') {
         vm.retUrl = from.fullPath
       }
     })
