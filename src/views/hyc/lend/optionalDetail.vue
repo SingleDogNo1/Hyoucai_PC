@@ -883,6 +883,7 @@ export default {
         let data = res.data.data
         let projectInfo = data.projectInfo
         let investEndTimestamp = projectInfo.investEndTimestamp
+        projectInfo.balance = ''
         this.projectInfo = projectInfo
         // this.projectInfo.iconUrl = projectInfo.iconUrl
         // this.projectInfo.projectName = projectInfo.projectName
@@ -1109,7 +1110,6 @@ export default {
                   } else if (res.data.data.status === 'EVALUATE') {
                     // 未做过风险测评
                     this.isShowRiskDialog = true
-                    this.riskType = '汇有财温馨提示'
                     this.riskContent = res.data.data.message
                   } else if (res.data.data.status === 'COMPLETE') {
                     if (this.invAmount > this.projectInfo.balance - 0) {
@@ -1313,17 +1313,20 @@ export default {
           if (data.data.type === '1') {
             postcall(data.data.redirectUrl, data.data.paramReq)
           } else {
-            switch (data.data.investType) {
-              case 'SJLHD':
-                this.investSJLSuccessDialog.show = true
-                this.investSJLSuccessDialog.msg = data.data.successInfo
-                this.investSJLSuccessDialog.title = data.data.successTitle
-                this.investSJLSuccessDialog.msg = data.data.successInfo
-                break
-              case 'GENERAL':
-                this.investDialogOptions.show = true
-                break
-            }
+            // type = 2 显示出借成功
+            this.investDialogOptions.show = true
+
+            // switch (data.data.investType) {
+            //   case 'SJLHD':
+            //     this.investSJLSuccessDialog.show = true
+            //     this.investSJLSuccessDialog.msg = data.data.successInfo
+            //     this.investSJLSuccessDialog.title = data.data.successTitle
+            //     this.investSJLSuccessDialog.msg = data.data.successInfo
+            //     break
+            //   case 'GENERAL':
+            //     this.investDialogOptions.show = true
+            //     break
+            // }
           }
         } else if (data.resultCode === '90021' || data.resultCode === '90022') {
           // 风险测评出借额度不够 || 出借期限不够
@@ -1351,6 +1354,9 @@ export default {
 
           this.isShowRiskDialog = true
           this.riskContent = res.data.resultMsg
+        } else if (data.resultCode === '0') {
+          this.riskContent = res.data.resultMsg
+          this.isShowRiskDialog = true
         } else {
           /*
            * 90034：授权已过期

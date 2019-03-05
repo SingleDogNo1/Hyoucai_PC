@@ -62,7 +62,7 @@ export default {
       page: 1,
       size: 10,
       total: null,
-      showDialogSet: true,
+      showDialogSet: false,
       showDialogCancel: false,
       invId: '',
       status: '1'

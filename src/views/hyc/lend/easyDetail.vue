@@ -591,6 +591,7 @@ export default {
         let projectInfo = data.projectInfo
         let investEndTimestamp = projectInfo.investEndTimestamp
         this.projectServiceEntity = data.projectServiceEntity
+        projectInfo.balance = ''
         this.projectInfo = projectInfo
         // this.projectInfo.iconUrl = projectInfo.iconUrl
         // this.projectInfo.itemName = projectInfo.itemName
@@ -743,7 +744,7 @@ export default {
                   } else if (res.data.data.status === 'EVALUATE') {
                     // 未做过风险测评
                     this.isShowRiskDialog = true
-                    this.riskType = '汇有财温馨提示'
+                    this.riskConfirmText = '去评测'
                     this.riskContent = res.data.data.message
                   } else if (res.data.data.status === 'COMPLETE') {
                     if (this.invAmount > this.projectInfo.balance - 0) {
@@ -975,6 +976,9 @@ export default {
           if (['JINX'].includes(res.data.data.evaluatingResult)) {
             this.riskDialogSingleButton = true
           }
+          this.riskContent = res.data.resultMsg
+          this.isShowRiskDialog = true
+        } else if (data.resultCode === '0') {
           this.riskContent = res.data.resultMsg
           this.isShowRiskDialog = true
         } else {
