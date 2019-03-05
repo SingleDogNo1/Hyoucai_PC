@@ -1,4 +1,5 @@
 import request from '@/assets/js/requestDJS'
+import request2 from '@/assets/js/requestHYC'
 import qs from 'qs'
 
 // 投资详情接口3.0
@@ -76,9 +77,9 @@ export function expireRepeatApi(data) {
   })
 }
 
-// 到期自动复投
+// 用户信息完善提醒（用的是汇有才的接口）
 export function userInfoCompleteNoticeApi(data) {
-  return request({
+  return request2({
     url: 'user/userInfoCompleteNotice',
     method: 'post',
     data: qs.stringify(data)

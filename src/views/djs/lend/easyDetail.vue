@@ -651,93 +651,69 @@ export default {
             } else {
               userInfoCompleteNoticeApi().then(res => {
                 console.log(res.data)
-              })
-            }
+                if (res.data.data.status === 'SIGN_PROTOCOL') {
+                  // 未签约
+                  this.withoutSignDialogOptions.show = true
+                } else if (res.data.data.status === 'COMPLETE') {
+                  if (this.invAmount > this.projectInfo.balance - 0) {
+                    this.errMsg = '余额不足'
+                    return
+                  }
+                  if (this.invAmount < this.projectInfo.minInvAmt - 0) {
+                    this.errMsg = '出借金额不能低于起投金额'
+                    return
+                  }
+                  if (this.invAmount > this.projectInfo.surplusAmt - 0) {
+                    this.errMsg = '剩余可投金额为' + this.projectInfo.surplusAmt + '元'
+                    return
+                  }
 
-            if (
-              !this.userBasicInfo.userIsOpenAccount ||
-              (!this.userBasicInfo.userIsOpenAccount.isAutoTender ||
-                !this.userBasicInfo.userIsOpenAccount.isBondTransfer ||
-                !this.userBasicInfo.userIsOpenAccount.isEntrust)
-            ) {
-              // 签约状态不符
-              /*
-              * isAutoTender 是否签约自动投标
-              * isBondTransfer 是否签约自动债券转让
-              * isEntrust  是否签约委托服务协议
-              */
-              this.withoutSignDialogOptions.show = true
-              return
-            }
+                  if (this.invAmount > this.projectInfo.singleLimit - 0) {
+                    this.errMsg = '单人限额为' + this.projectInfo.singleLimit + '元'
+                    return
+                  }
 
-            if (this.invAmount > this.projectInfo.balance - 0) {
-              this.errMsg = '余额不足'
-              return
-            }
-
-            if (this.invAmount < this.projectInfo.minInvAmt - 0) {
-              this.errMsg = '出借金额不能低于起投金额'
-              return
-            }
-
-            if (!this.userBasicInfo.userIsOpenAccount.isEvaluating) {
-              // 未进行风险测评
-              this.riskType = '汇有财温馨提示'
-              this.riskDialogSingleButton = true
-              this.riskConfirmText = '立即评测'
-              this.riskContent = '您还未进行风险评测'
-              this.isShowRiskDialog = true
-              return
-            }
-
-            if (this.invAmount > this.projectInfo.surplusAmt - 0) {
-              this.errMsg = '剩余可投金额为' + this.projectInfo.surplusAmt + '元'
-              return
-            }
-
-            if (this.invAmount > this.projectInfo.singleLimit - 0) {
-              this.errMsg = '单人限额为' + this.projectInfo.singleLimit + '元'
-              return
-            }
-
-            const $this = this
-            ;(async function initInvestDialog() {
-              await availableRedPacketApi({
-                projectNo: $this.projectNo,
-                amount: $this.invAmount
-              }).then(res => {
-                let resultList = [],
-                  originList = res.data.userRedPackets
-                // 从列表中筛选出可用的 (item.isVailable === 1)
-                if (originList.length > 0) {
-                  originList.forEach(v => {
-                    if (v.isVailable === 1) {
-                      resultList.push(v)
-                    }
-                  })
+                  const $this = this
+                  ;(async function initInvestDialog() {
+                    await availableRedPacketApi({
+                      projectNo: $this.projectNo,
+                      amount: $this.invAmount
+                    }).then(res => {
+                      let resultList = [],
+                        originList = res.data.userRedPackets
+                      // 从列表中筛选出可用的 (item.isVailable === 1)
+                      if (originList.length > 0) {
+                        originList.forEach(v => {
+                          if (v.isVailable === 1) {
+                            resultList.push(v)
+                          }
+                        })
+                      }
+                      $this.redPacketsList = resultList
+                    })
+                    await availableCouponApi({
+                      projectNo: $this.projectNo,
+                      amount: $this.invAmount
+                    }).then(res => {
+                      let resultList = [],
+                        originList = res.data.coupons
+                      // 从列表中筛选出可用的 (item.isVailable === 1)
+                      if (originList.length > 0) {
+                        originList.forEach(v => {
+                          if (v.isVailable === 1) {
+                            resultList.push(v)
+                          }
+                        })
+                      }
+                      $this.couponsList = resultList
+                      $this.isShowConfirmInvestmentDialog = true
+                    })
+                    await $this.redEnvelopeSwiper()
+                    await $this.rateStampSwiper()
+                  })()
                 }
-                $this.redPacketsList = resultList
               })
-              await availableCouponApi({
-                projectNo: $this.projectNo,
-                amount: $this.invAmount
-              }).then(res => {
-                let resultList = [],
-                  originList = res.data.coupons
-                // 从列表中筛选出可用的 (item.isVailable === 1)
-                if (originList.length > 0) {
-                  originList.forEach(v => {
-                    if (v.isVailable === 1) {
-                      resultList.push(v)
-                    }
-                  })
-                }
-                $this.couponsList = resultList
-                $this.isShowConfirmInvestmentDialog = true
-              })
-              await $this.redEnvelopeSwiper()
-              await $this.rateStampSwiper()
-            })()
+            }
           }
         }
       }

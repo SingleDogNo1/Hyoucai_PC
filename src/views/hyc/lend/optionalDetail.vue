@@ -1100,7 +1100,7 @@ export default {
                   if (res.data.data.status === 'SIGN_PROTOCOL') {
                     // 未签约
                     this.withoutSignDialogOptions.show = true
-                  } else {
+                  } else if (res.data.data.status === 'COMPLETE') {
                     if (this.invAmount > this.projectInfo.balance - 0) {
                       this.errMsg = '余额不足'
                       return
