@@ -369,7 +369,8 @@ import {
   availableCouponApi,
   investApi,
   expectedIncome,
-  expireRepeatApi
+  expireRepeatApi,
+  userInfoCompleteNoticeApi
 } from '@/api/djs/lendDetail'
 import Dialog from '@/components/Dialog/Dialog'
 
@@ -647,6 +648,10 @@ export default {
             if (!this.isAgree) {
               this.errMsg = '请确认并同意《风险告知书》'
               return
+            } else {
+              userInfoCompleteNoticeApi().then(res => {
+                console.log(res.data)
+              })
             }
 
             if (
