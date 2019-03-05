@@ -561,7 +561,7 @@ export default {
       this.page = val
       this.getProjectCompoList()
     },
-    handleExpectedIncome(invAmount, rate = this.projectInfo.investRate) {
+    handleExpectedIncome(invAmount) {
       this.invAmount = invAmount
         .replace(/[^\d.]/g, '')
         .replace(/\.{2,}/g, '.')
@@ -572,9 +572,11 @@ export default {
 
       let postData = {
         invAmount: this.invAmount,
-        investRate: rate,
+        investRate: this.projectInfo.investRate,
         productNo: this.productNo,
         invDays: this.projectInfo.investMent,
+        couponRate: this.chooseCouponRate,
+        redpacketID: this.chooseRedPacketId,
         validDays: this.chooseCoupon.validDays
       }
       expectedIncome(postData).then(res => (this.expectedIncome = res.data.expectedIncome))
@@ -777,16 +779,14 @@ export default {
         this.chooseCouponRate = item.couponRate
         this.chooseCouponId = item.id
 
-        const withCouponRate = parseFloat(this.projectInfo.investRate) + parseFloat(item.couponRate)
-        this.handleExpectedIncome(this.invAmount, withCouponRate)
+        this.handleExpectedIncome(this.invAmount)
       } else {
         if (typeof this.chooseRedPacket.commonUse === 'undefined' || this.chooseRedPacket.commonUse === 1) {
           this.couponIndex = index
           this.chooseCoupon = item
           this.chooseCouponRate = item.couponRate
           this.chooseCouponId = item.id
-          const withCouponRate = parseFloat(this.projectInfo.investRate) + parseFloat(item.couponRate)
-          this.handleExpectedIncome(this.invAmount, withCouponRate)
+          this.handleExpectedIncome(this.invAmount)
         }
       }
     },

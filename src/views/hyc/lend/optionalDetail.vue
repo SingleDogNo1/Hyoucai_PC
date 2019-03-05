@@ -508,7 +508,7 @@
                     <p class="start">起投金额：{{ item.investMinAmount }}元</p>
                     <div class="endData">有效期至{{ item.usableExpireDate }}</div>
                     <button class="receive-btn" @click="receiveRedPacket(item, index)" v-if="redPacketIndex !== index">选取</button>
-                    <button class="receive-btn" @click="cleanRedpacket" v-elese>已选取</button>
+                    <button class="receive-btn" @click="cleanRedpacket" v-else>已选取</button>
                   </div>
                 </div>
               </div>
@@ -1093,22 +1093,22 @@ export default {
                 this.errMsg = '请确认并同意《风险告知书》'
                 return
               }
-
-              if (
-                !this.userBasicInfo.userIsOpenAccount ||
-                (!this.userBasicInfo.userIsOpenAccount.isAutoTender ||
-                  !this.userBasicInfo.userIsOpenAccount.isBondTransfer ||
-                  !this.userBasicInfo.userIsOpenAccount.isEntrust)
-              ) {
-                // 签约状态不符
-                /*
-                * isAutoTender 是否签约自动投标
-                * isBondTransfer 是否签约自动债券转让
-                * isEntrust  是否签约委托服务协议
-                */
-                this.withoutSignDialogOptions.show = true
-                return
-              }
+              //
+              // if (
+              //   !this.userBasicInfo.userIsOpenAccount ||
+              //   (!this.userBasicInfo.userIsOpenAccount.isAutoTender ||
+              //     !this.userBasicInfo.userIsOpenAccount.isBondTransfer ||
+              //     !this.userBasicInfo.userIsOpenAccount.isEntrust)
+              // ) {
+              //   // 签约状态不符
+              //   /*
+              //   * isAutoTender 是否签约自动投标
+              //   * isBondTransfer 是否签约自动债券转让
+              //   * isEntrust  是否签约委托服务协议
+              //   */
+              //   this.withoutSignDialogOptions.show = true
+              //   return
+              // }
 
               if (this.invAmount > this.projectInfo.balance - 0) {
                 this.errMsg = '余额不足'

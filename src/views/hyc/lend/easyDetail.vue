@@ -548,7 +548,7 @@ export default {
       this.page = val
       this.getProjectCompoList()
     },
-    handleExpectedIncome(invAmount, rate = this.projectInfo.investRate) {
+    handleExpectedIncome(invAmount) {
       if (!this.invAmountDisabled) {
         this.invAmount = invAmount
           .replace(/[^\d.]/g, '')
@@ -561,8 +561,11 @@ export default {
 
       let postData = {
         invAmount: !this.invAmountDisabled ? this.invAmount : this.invAmountVal,
-        investRate: rate,
+        investRate: this.projectInfo.investRate,
         productId: this.productId,
+        invDays: this.projectInfo.loanMentNumber,
+        couponRate: this.chooseCouponRate,
+        redpacketID: this.chooseRedPacketId,
         validDays: this.chooseCoupon.validDays
       }
       expectedIncome(postData).then(res => {
@@ -726,22 +729,21 @@ export default {
                 this.errMsg = '请确认并同意《风险告知书》'
                 return
               }
-
-              if (
-                !this.userBasicInfo.userIsOpenAccount ||
-                (!this.userBasicInfo.userIsOpenAccount.isAutoTender ||
-                  !this.userBasicInfo.userIsOpenAccount.isBondTransfer ||
-                  !this.userBasicInfo.userIsOpenAccount.isEntrust)
-              ) {
-                // 签约状态不符
-                /*
-                * isAutoTender 是否签约自动投标
-                * isBondTransfer 是否签约自动债券转让
-                * isEntrust  是否签约委托服务协议
-                */
-                this.withoutSignDialogOptions.show = true
-                return
-              }
+              // if (
+              //   !this.userBasicInfo.userIsOpenAccount ||
+              //   (!this.userBasicInfo.userIsOpenAccount.isAutoTender ||
+              //     !this.userBasicInfo.userIsOpenAccount.isBondTransfer ||
+              //     !this.userBasicInfo.userIsOpenAccount.isEntrust)
+              // ) {
+              //   // 签约状态不符
+              //   /*
+              //   * isAutoTender 是否签约自动投标
+              //   * isBondTransfer 是否签约自动债券转让
+              //   * isEntrust  是否签约委托服务协议
+              //   */
+              //   this.withoutSignDialogOptions.show = true
+              //   return
+              // }
 
               if (this.invAmount > this.projectInfo.balance - 0) {
                 this.errMsg = '余额不足'
