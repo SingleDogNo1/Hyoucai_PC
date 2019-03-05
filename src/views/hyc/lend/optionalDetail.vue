@@ -435,7 +435,7 @@
       :show.sync="isShowRiskDialog"
       title="汇有财温馨提示"
       :confirmText="riskConfirmText"
-      cancelText="我知道了"
+      :cancelText="cancelText"
       :singleButton="riskDialogSingleButton"
       class="risk-dialog align"
       :onConfirm="toRisk"
