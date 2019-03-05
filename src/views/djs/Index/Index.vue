@@ -455,11 +455,12 @@ export default {
         }
         investCountProjectMsg(postData).then(res => {
           let data = res.data
-          if (data.resultCode !== '1') {
-            alert(data.resultMsg)
-            return
+          if (res.data.resultCode === '1') {
+            this.$router.push({ name: 'easyDetail', query: { projectNo: item.projectNo } })
+          } else {
+            this.systemDialogOptions.show = true
+            this.systemDialogOptions.msg = res.data.resultMsg
           }
-          this.$router.push({ name: 'easyDetail', query: { projectNo: item.projectNo } })
         })
       } else {
         this.$router.push({ name: 'login' })
