@@ -460,7 +460,13 @@
       </div>
     </Dialog>
     <!-- 正常流程出借弹窗 -->
-    <Dialog :show.sync="isShowConfirmInvestmentDialog" title="确认出借" confirmText="确认出借" class="confirm-investment-dialog" :onConfirm="confirm">
+    <Dialog
+      :show.sync="isShowConfirmInvestmentDialog"
+      title="确认出借"
+      confirmText="确认出借"
+      class="confirm-investment-dialog"
+      :onConfirm="confirm"
+    >
       <div>
         <ul class="amount-list">
           <li>
@@ -553,17 +559,42 @@
         <p>{{ investErrMsg }}</p>
       </div>
     </Dialog>
-    <!-- 出借成功弹窗 -->
+    <!-- 出借普通产品成功弹窗 -->
     <Dialog
-      :show.sync="isShowInvestDialog"
+      :show.sync="investDialogOptions.show"
       title="汇有财温馨提示"
-      confirmText="我知道了"
+      :confirmText="investDialogOptions.confirmText"
       class="system-maintenance-dialog align"
-      :singleButton="!singleButton"
-      :onConfirm="toInvestRecord"
+      :showCloseBtn="investDialogOptions.showCloseBtn"
+      :singleButton="investDialogOptions.singleButton"
+      :onClose="toInvestRecord"
     >
       <div>
-        <p>{{ investMsg }}</p>
+        <p>{{investDialogOptions.msg}}</p>
+      </div>
+    </Dialog>
+    <!-- 出借手机乐产品成功弹窗 -->
+    <Dialog
+      :show.sync="investSJLSuccessDialog.show"
+      :title="investSJLSuccessDialog.title"
+      :confirmText="investSJLSuccessDialog.confirmText"
+      class="align"
+      :singleButton="investSJLSuccessDialog.singleButton"
+      :onConfirm="toSettingAddress"
+    >
+      <div>
+        <p>{{investSJLSuccessDialog.msg}}</p>
+      </div>
+    </Dialog>
+    <!-- 未签约弹窗 -->
+    <Dialog
+      class="align"
+      :show.sync="withoutSignDialogOptions.show"
+      :singleButton="withoutSignDialogOptions.singleButton"
+      :onConfirm="toSign"
+    >
+      <div>
+        {{withoutSignDialogOptions.msg}}
       </div>
     </Dialog>
   </div>
@@ -708,8 +739,28 @@ export default {
       couponIndex: -1,
       isShowInvestErrDialog: false, // 是否显示出借错误弹窗
       investErrMsg: '', // 出借errMsg
-      isShowInvestDialog: false, // 是否显示出借成功弹窗
-      investMsg: '' // 出借成功 msg
+      investDialogOptions: {
+        // 普通产品出借成功弹窗参数
+        show: false,
+        msg: '出借成功，您可在“我的出借”中查看详情。',
+        confirmText: '进入我的出借',
+        singleButton: true,
+        showCloseBtn: true
+      },
+      investSJLSuccessDialog: {
+        // 手机乐产品成功弹窗参数
+        show: false,
+        msg: '',
+        title: '',
+        confirmText: '填写地址',
+        singleButton: false
+      },
+      withoutSignDialogOptions: {
+        // 签约状态不符弹窗
+        show: false,
+        msg: '您当前未签约或签约状态不符合合规要求，请重新签约！',
+        singleButton: false
+      }
     }
   },
   components: {
@@ -1017,8 +1068,8 @@ export default {
     },
     handleInvest() {
       this.errMsg = ''
-      // 如果是未开户，点击去开户页面
-      if (this.investStatus === 'unopened') {
+      // 如果是未开户（未设置密码），点击去开户页面
+      if (this.investStatus === 'unopened' || !this.userBasicInfo.userIsOpenAccount.isSetTranPSD) {
         this.$router.push({ name: 'account' })
       } else {
         if (this.invAmount === '') {
@@ -1043,6 +1094,22 @@ export default {
                 return
               }
 
+              if (
+                !this.userBasicInfo.userIsOpenAccount ||
+                (!this.userBasicInfo.userIsOpenAccount.isAutoTender ||
+                  !this.userBasicInfo.userIsOpenAccount.isBondTransfer ||
+                  !this.userBasicInfo.userIsOpenAccount.isEntrust)
+              ) {
+                // 签约状态不符
+                /*
+                * isAutoTender 是否签约自动投标
+                * isBondTransfer 是否签约自动债券转让
+                * isEntrust  是否签约委托服务协议
+                */
+                this.withoutSignDialogOptions.show = true
+                return
+              }
+
               if (this.invAmount > this.projectInfo.balance - 0) {
                 this.errMsg = '余额不足'
                 return
@@ -1050,6 +1117,21 @@ export default {
 
               if (this.invAmount < this.projectInfo.minInvAmt - 0) {
                 this.errMsg = '出借金额不能低于起投金额'
+                return
+              }
+
+              if (!this.userBasicInfo.userIsOpenAccount.isEvaluating) {
+                // 未进行风险测评
+                this.riskType = '汇有财温馨提示'
+                this.riskDialogSingleButton = true
+                this.riskConfirmText = '立即评测'
+                this.riskContent = '您还未进行风险评测'
+                this.isShowRiskDialog = true
+                return
+              }
+
+              if (this.invAmount > this.projectInfo.surplusAmt - 0) {
+                this.errMsg = '剩余可投金额为' + this.projectInfo.surplusAmt + '元'
                 return
               }
 
@@ -1105,12 +1187,16 @@ export default {
       this.$router.push({ name: 'sign' })
     },
     toSigning(item) {
-      item.result = 'http://112.124.117.23:8082/huiyoucaifiles/xyqz/trilateral2/2019/01/17/djs758987pd_694a1de0-4a9d-4b8f-b597-59ec64b292ff.pdf'
       const tempPage = window.open('', '_blank')
       tempPage.location = item.result
     },
     toRisk() {
       this.$router.push({ name: 'riskAss' })
+    },
+    toSettingAddress() {
+      this.$router.push({
+        name: 'basicInfo'
+      })
     },
     receiveRedPacket(item, index) {
       if (item.commonUse === '0') {
@@ -1232,8 +1318,17 @@ export default {
           if (data.data.type === '1') {
             postcall(data.data.redirectUrl, data.data.paramReq)
           } else {
-            this.isShowInvestDialog = true
-            this.investMsg = '出借成功'
+            switch (data.data.investType) {
+              case 'SJLHD':
+                this.investSJLSuccessDialog.show = true
+                this.investSJLSuccessDialog.msg = data.data.successInfo
+                this.investSJLSuccessDialog.title = data.data.successTitle
+                this.investSJLSuccessDialog.msg = data.data.successInfo
+                break
+              case 'GENERAL':
+                this.investDialogOptions.show = true
+                break
+            }
           }
         } else if (data.resultCode === '90021' || data.resultCode === '90022') {
           // 风险测评出借额度不够 || 出借期限不够

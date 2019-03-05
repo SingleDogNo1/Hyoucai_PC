@@ -214,7 +214,15 @@ import pagination from '@/components/pagination/pagination'
 import countUp from '@/components/countUp/index'
 import noData from '@/components/NoData/index'
 import Dialog from '@/components/Dialog/Dialog'
-import { getPageConfig, getCountMsg, getQSList, getZXList, getGRList, easyInvestDetail, optionalInvestDetail } from '@/api/hyc/lend'
+import {
+  getPageConfig,
+  getCountMsg,
+  getQSList,
+  getZXList,
+  getGRList, // TODO 个人债转接口（未开发）
+  easyInvestDetail,
+  optionalInvestDetail
+} from '@/api/hyc/lend'
 import { getUser } from '@/assets/js/cache'
 import { mapGetters } from 'vuex'
 
@@ -338,6 +346,7 @@ export default {
       })
     },
     getGRList() {
+      // TODO 个人债转列表（未开发）
       this.tabActive = 2
       let params = {
         userName: this.userName,

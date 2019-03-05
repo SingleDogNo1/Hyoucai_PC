@@ -301,8 +301,9 @@
       title="汇有财温馨提示"
       :confirmText="investDialogOptions.confirmText"
       class="system-maintenance-dialog align"
+      :showCloseBtn="investDialogOptions.showCloseBtn"
       :singleButton="investDialogOptions.singleButton"
-      :onConfirm="toInvestRecord"
+      :onClose="toInvestRecord"
     >
       <div>
         <p>{{investDialogOptions.msg}}</p>
@@ -319,6 +320,17 @@
     >
       <div>
         <p>{{investSJLSuccessDialog.msg}}</p>
+      </div>
+    </Dialog>
+    <!-- 未签约弹窗 -->
+    <Dialog
+      class="align"
+      :show.sync="withoutSignDialogOptions.show"
+      :singleButton="withoutSignDialogOptions.singleButton"
+      :onConfirm="toSign"
+    >
+      <div>
+        {{withoutSignDialogOptions.msg}}
       </div>
     </Dialog>
   </div>
@@ -422,9 +434,10 @@ export default {
       investDialogOptions: {
         // 普通产品出借成功弹窗参数
         show: false,
-        msg: '',
-        confirmText: '去查看',
-        singleButton: false
+        msg: '出借成功，您可在“我的出借”中查看详情。',
+        confirmText: '进入我的出借',
+        singleButton: true,
+        showCloseBtn: true
       },
       investSJLSuccessDialog: {
         // 手机乐产品成功弹窗参数
@@ -432,6 +445,12 @@ export default {
         msg: '',
         title: '',
         confirmText: '填写地址',
+        singleButton: false
+      },
+      withoutSignDialogOptions: {
+        // 签约状态不符弹窗
+        show: false,
+        msg: '您当前未签约或签约状态不符合合规要求，请重新签约！',
         singleButton: false
       }
     }
@@ -681,8 +700,8 @@ export default {
     },
     handleInvest() {
       this.errMsg = ''
-      // 如果是未开户，点击去开户页面
-      if (this.investStatus === 'unopened') {
+      // 如果是未开户（未设置密码），点击去开户页面
+      if (this.investStatus === 'unopened' || !this.userBasicInfo.userIsOpenAccount.isSetTranPSD) {
         this.$router.push({ name: 'account' })
       } else {
         if (this.invAmount === '') {
@@ -708,6 +727,22 @@ export default {
                 return
               }
 
+              if (
+                !this.userBasicInfo.userIsOpenAccount ||
+                (!this.userBasicInfo.userIsOpenAccount.isAutoTender ||
+                  !this.userBasicInfo.userIsOpenAccount.isBondTransfer ||
+                  !this.userBasicInfo.userIsOpenAccount.isEntrust)
+              ) {
+                // 签约状态不符
+                /*
+                * isAutoTender 是否签约自动投标
+                * isBondTransfer 是否签约自动债券转让
+                * isEntrust  是否签约委托服务协议
+                */
+                this.withoutSignDialogOptions.show = true
+                return
+              }
+
               if (this.invAmount > this.projectInfo.balance - 0) {
                 this.errMsg = '余额不足'
                 return
@@ -715,6 +750,21 @@ export default {
 
               if (this.invAmount < this.projectInfo.minInvAmt - 0) {
                 this.errMsg = '出借金额不能低于起投金额'
+                return
+              }
+
+              if (!this.userBasicInfo.userIsOpenAccount.isEvaluating) {
+                // 未进行风险测评
+                this.riskType = '汇有财温馨提示'
+                this.riskDialogSingleButton = true
+                this.riskConfirmText = '立即评测'
+                this.riskContent = '您还未进行风险评测'
+                this.isShowRiskDialog = true
+                return
+              }
+
+              if (this.invAmount > this.projectInfo.surplusAmt - 0) {
+                this.errMsg = '剩余可投金额为' + this.projectInfo.surplusAmt + '元'
                 return
               }
 
