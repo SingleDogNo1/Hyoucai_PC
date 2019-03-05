@@ -441,6 +441,7 @@
       :singleButton="riskDialogSingleButton"
       class="risk-dialog align"
       :onConfirm="toRisk"
+      :onClose="refreshPage"
     >
       <div>
         <p>{{ riskType }}</p>
@@ -460,7 +461,7 @@
       </div>
     </Dialog>
     <!-- 正常流程出借弹窗 -->
-    <Dialog :show.sync="isShowConfirmInvestmentDialog" title="确认出借" confirmText="确认出借" class="confirm-investment-dialog" :onConfirm="confirm">
+    <Dialog :show.sync="isShowConfirmInvestmentDialog" title="确认出借" confirmText="确认出借" class="confirm-investment-dialog" :onConfirm="confirm" :onClose="refreshPage">
       <div>
         <ul class="amount-list">
           <li>
@@ -561,6 +562,7 @@
       class="system-maintenance-dialog align"
       :singleButton="!singleButton"
       :onConfirm="toInvestRecord"
+      :onClose="refreshPage"
     >
       <div>
         <p>{{ investMsg }}</p>
@@ -1241,6 +1243,9 @@ export default {
       this.$router.push({
         name: 'userLend'
       })
+    },
+    refreshPage() {
+      window.location.reload()
     }
   },
   mounted() {
