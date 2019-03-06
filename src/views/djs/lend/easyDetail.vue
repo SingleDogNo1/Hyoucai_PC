@@ -275,7 +275,7 @@
       :showCloseBtn="investCommonSuccessDialog.showCloseBtn"
       class="common-dialog align"
       :singleButton="investCommonSuccessDialog.singleButton"
-      :onClose="refreshPage"
+      :onClose="toInvestRecord"
     >
       <div>
         <p>{{ investCommonSuccessDialog.msg }}</p>
@@ -361,7 +361,7 @@
 
 <script>
 import Swiper from 'swiper/dist/js/swiper'
-import { mapState } from 'vuex'
+import { mapState, mapMutations } from 'vuex'
 import Pagination from '@/components/pagination/pagination'
 import {
   investCountProjectMsg,
@@ -374,6 +374,7 @@ import {
   expireRepeatApi,
   userInfoCompleteNoticeApi
 } from '@/api/djs/lendDetail'
+import { getPersonalAccount } from '@/api/djs/Mine/overview'
 import Dialog from '@/components/Dialog/Dialog'
 
 export default {
@@ -653,7 +654,6 @@ export default {
               this.errMsg = '请确认并同意《风险告知书》'
             } else {
               userInfoCompleteNoticeApi().then(res => {
-                console.log(res.data)
                 if (res.data.data.status === 'SIGN_PROTOCOL') {
                   // 未签约
                   this.withoutSignDialogOptions.show = true
@@ -946,9 +946,21 @@ export default {
         }
       })
     },
+    toInvestRecord() {
+      this.$router.push({
+        name: 'userLend'
+      })
+    },
     refreshPage() {
-      window.location.reload()
-    }
+      getPersonalAccount().then(res => {
+        console.log(res.data)
+        this.setPersonalAccount(res.data)
+        window.location.reload()
+      })
+    },
+    ...mapMutations({
+      setPersonalAccount: 'SET_PERSONALACCOUNT'
+    })
   },
   mounted() {
     this.getInvestDetailList()
