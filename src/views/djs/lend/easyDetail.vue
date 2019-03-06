@@ -534,15 +534,17 @@ export default {
       }
     },
     getUserBasicInfo() {
-      if (!this.userBasicInfo.escrowAccountInfo) {
-        this.investStatus = 'unopened' // 状态为为开户
-        this.investStatusTitle = '出借中...'
-        this.investBtn = '立即开户'
-        this.investStatusBtn = '开户'
-      } else {
-        this.getInvestStatus()
-        this.investStatusBtn = '充值'
-      }
+      userInfoCompleteNoticeApi().then(res => {
+        if (res.data.data.status === 'OPEN_ACCOUNT' || res.data.data.status === 'SET_PASSWORD') {
+          this.investStatus = 'unopened'
+          this.investStatusTitle = '出借中...'
+          this.investBtn = '立即开户'
+          this.investStatusBtn = '开户'
+        } else {
+          this.getInvestStatus()
+          this.investStatusBtn = '充值'
+        }
+      })
     },
     getInvestStatus() {
       switch (
@@ -654,7 +656,10 @@ export default {
               this.errMsg = '请确认并同意《风险告知书》'
             } else {
               userInfoCompleteNoticeApi().then(res => {
-                if (res.data.data.status === 'SIGN_PROTOCOL') {
+                if (res.data.data.status === 'SET_PASSWORD') {
+                  // 未设置交易密码
+                  this.investStatus = 'unopened'
+                } else if (res.data.data.status === 'SIGN_PROTOCOL') {
                   // 未签约
                   this.withoutSignDialogOptions.show = true
                 } else if (res.data.data.status === 'EVALUATE') {

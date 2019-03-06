@@ -843,15 +843,17 @@ export default {
       })
     },
     getUserBasicInfo() {
-      if (!this.userBasicInfo.escrowAccountInfo) {
-        this.investStatus = 'unopened' // 状态为为开户
-        this.investStatusTitle = '出借中...'
-        this.investBtn = '立即开户'
-        this.investStatusBtn = '开户'
-      } else {
-        this.getInvestStatus()
-        this.investStatusBtn = '充值'
-      }
+      userInfoCompleteNoticeApi().then(res => {
+        if (res.data.data.status === 'OPEN_ACCOUNT' || res.data.data.status === 'SET_PASSWORD') {
+          this.investStatus = 'unopened'
+          this.investStatusTitle = '出借中...'
+          this.investBtn = '立即开户'
+          this.investStatusBtn = '开户'
+        } else {
+          this.getInvestStatus()
+          this.investStatusBtn = '充值'
+        }
+      })
     },
     getInvestStatus() {
       switch (
