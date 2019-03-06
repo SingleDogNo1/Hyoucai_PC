@@ -25,17 +25,8 @@ function alertInfoAcceptApi(data) {
   })
 }
 
-function UpdateMessageApi(data) {
-  return axios({
-    url: 'UpdateMessage',
-    method: 'post',
-    data: qs.stringify(data)
-  })
-}
-
 export {
   getAlertInfo, // 弹窗信息
   getUserCompleteInfo, // 签约、开户等状态
-  alertInfoAcceptApi, // 确认看到了弹窗（目前只有风险评测）
-  UpdateMessageApi //消息标记成已读接口
+  alertInfoAcceptApi // 确认看到了弹窗（目前只有风险评测）
 }

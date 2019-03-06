@@ -9,3 +9,11 @@ export function repeatInvestApi(data) {
     data: qs.stringify(data)
   })
 }
+//消息标记成已读接口
+export function UpdateMessageApi(data) {
+  return axios({
+    url: 'ExpireRepeat',
+    method: 'post',
+    data: qs.stringify(data)
+  })
+}

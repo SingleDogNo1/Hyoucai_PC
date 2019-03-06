@@ -18,6 +18,7 @@
       <div slot class="discribe">{{ dialogDis }}</div>
       <el-button v-if="openSignText" class="open-sign-btn" @click.native="viewDialog">{{ openSignText }}</el-button>
     </Dialog>
+    <!-- 设置自动出借弹窗 -->
     <Dialog
       class="repeat-unread-dialog"
       :show.sync="repeatUnreadDialogOptions.show"
@@ -37,6 +38,12 @@
         <router-link class="auto-invest-agreement" :to="{ name: 'autoLendAgreement' }">《自动出借协议》</router-link>
       </div>
     </Dialog>
+    <!-- 全局的错误弹窗（resultCode !== '1'） -->
+    <DIalog
+      :show.sync="investErrDialog.show"
+    >
+      <div>{{investErrMsg}}</div>
+    </DIalog>
     <Certification v-if="accountStatus !== 'COMPLETE'" reg-flow-to="risk"> <span></span></Certification>
   </div>
 </template>
@@ -47,8 +54,8 @@ import { mapGetters, mapMutations } from 'vuex'
 import { userBasicInfo } from '@/api/common/login'
 import Dialog from '@/components/Dialog/Dialog'
 import Certification from '@/components/CertificationFlow/CertificationFlow'
-import { alertInfoAcceptApi, getAlertInfo, getUserCompleteInfo, UpdateMessageApi } from '@/api/common/userIndex'
-import { repeatInvestApi } from '@/api/djs/userIndex'
+import { alertInfoAcceptApi, getAlertInfo, getUserCompleteInfo } from '@/api/common/userIndex'
+import { repeatInvestApi, UpdateMessageApi } from '@/api/djs/userIndex'
 import { currentPlatform } from '../assets/js/utils'
 
 const CODE_OK = '1'
@@ -81,6 +88,11 @@ export default {
         // 点金石未读复投消息弹窗参数
         show: false,
         autoInvestWay: '1'
+      },
+      investErrDialog: {
+        // 全局报错弹窗
+        show: false,
+        msg: ''
       },
       beforeRouterPath: '',
       rateSum: 0
@@ -256,15 +268,16 @@ export default {
       })
     },
     confirmRepeatUnread() {
-      // TODO 复投消息标记已读
       this.repeatInvestUnreadMsgList.forEach(v => {
         UpdateMessageApi({
-          id: v.id,
+          invId: v.id,
           userName: this.user.userName,
-          messageType: 'FTXI'
+          projectNo: v.projectNo,
+          repeatStatus: this.repeatUnreadDialogOptions.autoInvestWay
         }).then(res => {
           if (res.data.resultCode !== '1') {
-            console.log(res.data.resultMsg)
+            this.investErrDialog.msg = res.data.resultMsg
+            this.investErrDialog.show = true
           }
         })
       })
