@@ -937,8 +937,9 @@ export default {
               item.isShowSmallPic = false
           }
         })
+        // 互联网征信报告result为空的话也要显示
         auditInfoList = auditInfoList.filter(item => {
-          return item.val
+          return item.field === 'internetInformation' ? item.val : item.val && item.result 
         })
         this.oddAuditInfoList = auditInfoList.filter((item, index) => {
           return (index + 1) % 2 === 1
