@@ -99,7 +99,6 @@
           </ul>
         </div>
         <div class="bd">
-          <!-- TODO 四合一协议 -->
           <div class="bd-01" v-if="agreeSelectTab">
             <div class="account_service">
               <h3>甲方（委托人的客户）：</h3>
@@ -894,7 +893,8 @@ export default {
       checkAgree: true,
       errorStatus: false,
       errorMsg: '',
-      status: 'OpenAccount'
+      status: 'OpenAccount',
+      retUrl: ''
     }
   },
   computed: {
@@ -1008,9 +1008,9 @@ export default {
       })
     },
     setPwd() {
-      let obj = {}
-      obj.retUrl = location.href
-      tansactionPwd(obj).then(res => {
+      tansactionPwd({
+        retUrl: this.retUrl === '' ? location.href : this.retUrl
+      }).then(res => {
         let data = res.data
         let resultCode = data.resultCode
         if (resultCode === '1') {
@@ -1020,6 +1020,12 @@ export default {
       })
     }
   },
-  watch: {}
+  beforeRouteEnter(to, from, next) {
+    next(vm => {
+      if (from.name === 'easyDetail' || from.name === 'optionalDetail') {
+        vm.retUrl = from.fullPath
+      }
+    })
+  }
 }
 </script>
