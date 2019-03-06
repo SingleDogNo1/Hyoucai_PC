@@ -369,6 +369,7 @@ export default {
       productId: '',
       borrowerTheme: '',
       loanMent: '',
+      loanDay: '',
       paymentSource: '',
       amountOverride: '',
       creditReport: '',
@@ -480,6 +481,7 @@ export default {
         this.maritalStatus = data.maritalStatus
         this.industry = data.industry
         this.income = data.income
+        this.loanDay = data.loanDay
         this.prinAmt = data.prinAmt
         this.loanAim = data.loanAim
         this.borrowerTheme = data.borrowerTheme
