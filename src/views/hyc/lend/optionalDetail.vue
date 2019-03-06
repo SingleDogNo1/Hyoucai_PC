@@ -805,8 +805,8 @@ export default {
     },
     toggleFill(value) {
       if (value) {
-        if (this.projectInfo.balance - 0 > this.projectInfo.maxInvTotalAmount - 0) {
-          this.invAmount = this.projectInfo.maxInvTotalAmount
+        if (this.projectInfo.balance - 0 > this.projectInfo.surplusAmt - 0) {
+          this.invAmount = this.projectInfo.surplusAmt
         } else {
           this.invAmount = this.projectInfo.balance
         }
