@@ -166,15 +166,22 @@
       :singleButton="riskDialogSingleButton"
       class="risk-dialog align"
       :onConfirm="toRisk"
-      :onClose="refreshPage"
     >
+      <!--:onClose="refreshPage"-->
       <div>
         <p>{{ riskType }}</p>
         <p>{{ riskContent }}</p>
       </div>
     </Dialog>
     <!-- 正常流程弹窗 -->
-    <Dialog :show.sync="isShowConfirmInvestmentDialog" title="确认出借" confirmText="确认出借" class="confirm-investment-dialog" :onConfirm="confirm" :onClose="refreshPage">
+    <Dialog
+      :show.sync="isShowConfirmInvestmentDialog"
+      title="确认出借"
+      confirmText="确认出借"
+      class="confirm-investment-dialog"
+      :onConfirm="confirm"
+    >
+      <!-- :onClose="refreshPage"-->
       <div>
         <ul class="amount-list">
           <li>

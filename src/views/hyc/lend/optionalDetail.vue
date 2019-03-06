@@ -439,7 +439,6 @@
       :singleButton="riskDialogSingleButton"
       class="risk-dialog align"
       :onConfirm="toRisk"
-      :onClose="refreshPage"
     >
       <div>
         <p>{{ riskType }}</p>
@@ -465,7 +464,6 @@
       confirmText="确认出借"
       class="confirm-investment-dialog"
       :onConfirm="confirm"
-      :onClose="refreshPage"
     >
       <div>
         <ul class="amount-list">
@@ -593,7 +591,6 @@
       :show.sync="withoutSignDialogOptions.show"
       :singleButton="withoutSignDialogOptions.singleButton"
       :onConfirm="toSign"
-      :onClose="refreshPage"
       :confirmText="withoutSignDialogOptions.confirmText"
     >
       <div>
@@ -941,7 +938,7 @@ export default {
         })
         // 互联网征信报告result为空的话也要显示
         auditInfoList = auditInfoList.filter(item => {
-          return item.field === 'internetInformation' ? item.val : item.val && item.result 
+          return item.field === 'internetInformation' ? item.val : item.val && item.result
         })
         this.oddAuditInfoList = auditInfoList.filter((item, index) => {
           return (index + 1) % 2 === 1

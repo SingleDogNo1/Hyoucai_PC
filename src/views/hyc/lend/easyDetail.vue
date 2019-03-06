@@ -181,7 +181,6 @@
       :singleButton="riskDialogSingleButton"
       class="risk-dialog align"
       :onConfirm="toRisk"
-      :onClose="refreshPage"
     >
       <div>
         <p>{{ riskType }}</p>
@@ -201,7 +200,7 @@
       </div>
     </Dialog>
     <!-- 正常流程出借弹窗 -->
-    <Dialog :show.sync="isShowConfirmInvestmentDialog" title="确认出借" confirmText="确认出借" class="confirm-investment-dialog" :onConfirm="confirm" :onClose="refreshPage">
+    <Dialog :show.sync="isShowConfirmInvestmentDialog" title="确认出借" confirmText="确认出借" class="confirm-investment-dialog" :onConfirm="confirm">
       <div>
         <ul class="amount-list">
           <li>
@@ -329,7 +328,6 @@
       :singleButton="withoutSignDialogOptions.singleButton"
       :confirmText="withoutSignDialogOptions.confirmText"
       :onConfirm="toSign"
-      :onClose="refreshPage"
     >
       <div>
         {{withoutSignDialogOptions.msg}}
