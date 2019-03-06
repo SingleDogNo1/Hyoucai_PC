@@ -275,7 +275,7 @@
       :showCloseBtn="investCommonSuccessDialog.showCloseBtn"
       class="common-dialog align"
       :singleButton="investCommonSuccessDialog.singleButton"
-      :onClose="refreshPage"
+      :onClose="toInvestRecord"
     >
       <div>
         <p>{{ investCommonSuccessDialog.msg }}</p>
@@ -361,7 +361,7 @@
 
 <script>
 import Swiper from 'swiper/dist/js/swiper'
-import { mapState } from 'vuex'
+import { mapState, mapMutations } from 'vuex'
 import Pagination from '@/components/pagination/pagination'
 import {
   investCountProjectMsg,
@@ -374,6 +374,7 @@ import {
   expireRepeatApi,
   userInfoCompleteNoticeApi
 } from '@/api/djs/lendDetail'
+import { getPersonalAccount } from '@/api/djs/Mine/overview'
 import Dialog from '@/components/Dialog/Dialog'
 
 export default {
@@ -533,15 +534,17 @@ export default {
       }
     },
     getUserBasicInfo() {
-      if (!this.userBasicInfo.escrowAccountInfo) {
-        this.investStatus = 'unopened' // 状态为为开户
-        this.investStatusTitle = '出借中...'
-        this.investBtn = '立即开户'
-        this.investStatusBtn = '开户'
-      } else {
-        this.getInvestStatus()
-        this.investStatusBtn = '充值'
-      }
+      userInfoCompleteNoticeApi().then(res => {
+        if (res.data.data.status === 'OPEN_ACCOUNT' || res.data.data.status === 'SET_PASSWORD') {
+          this.investStatus = 'unopened'
+          this.investStatusTitle = '出借中...'
+          this.investBtn = '立即开户'
+          this.investStatusBtn = '开户'
+        } else {
+          this.getInvestStatus()
+          this.investStatusBtn = '充值'
+        }
+      })
     },
     getInvestStatus() {
       switch (
@@ -653,8 +656,10 @@ export default {
               this.errMsg = '请确认并同意《风险告知书》'
             } else {
               userInfoCompleteNoticeApi().then(res => {
-                console.log(res.data)
-                if (res.data.data.status === 'SIGN_PROTOCOL') {
+                if (res.data.data.status === 'SET_PASSWORD') {
+                  // 未设置交易密码
+                  this.investStatus = 'unopened'
+                } else if (res.data.data.status === 'SIGN_PROTOCOL') {
                   // 未签约
                   this.withoutSignDialogOptions.show = true
                 } else if (res.data.data.status === 'EVALUATE') {
@@ -836,8 +841,8 @@ export default {
     },
     toggleFill(value) {
       if (value) {
-        if (this.projectInfo.balance - 0 > this.projectInfo.maxInvTotalAmount - 0) {
-          this.invAmount = this.projectInfo.maxInvTotalAmount
+        if (this.projectInfo.balance - 0 > this.projectInfo.surplusAmt - 0) {
+          this.invAmount = this.projectInfo.surplusAmt
         } else {
           this.invAmount = this.projectInfo.balance
         }
@@ -946,9 +951,21 @@ export default {
         }
       })
     },
+    toInvestRecord() {
+      this.$router.push({
+        name: 'userLend'
+      })
+    },
     refreshPage() {
-      window.location.reload()
-    }
+      getPersonalAccount().then(res => {
+        console.log(res.data)
+        this.setPersonalAccount(res.data)
+        window.location.reload()
+      })
+    },
+    ...mapMutations({
+      setPersonalAccount: 'SET_PERSONALACCOUNT'
+    })
   },
   mounted() {
     this.getInvestDetailList()
