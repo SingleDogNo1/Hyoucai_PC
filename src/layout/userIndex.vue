@@ -25,8 +25,26 @@
       title="设置自动出借，省心赚钱"
       :onConfirm="confirmRepeatUnread"
     >
-      <div>
-        <p class="board">您有{{repeatInvestUnreadMsgList.length}}笔出借即将到期，设置自动出借加息{{rateSum}}%， 到期出借生效</p>
+      <div v-if="repeatCouponRate !== ''">
+        <!-- 复投加息 -->
+        <p class="board">
+          您有{{repeatInvestUnreadMsgList.length}}笔出借即将到期，设置自动出借加息{{repeatCouponRate}}%， 到期出借生效
+        </p>
+        <div class="auto-invest-way-wrap">
+          <div class="auto-invest-way1">
+            <el-radio v-model="repeatUnreadDialogOptions.autoInvestWay" label="1">本金到期后自动出借 </el-radio >
+          </div>
+          <div class="auto-invest-way2">
+            <el-radio v-model="repeatUnreadDialogOptions.autoInvestWay" label="2">本息到期后自动出借</el-radio >
+          </div>
+        </div>
+        <router-link class="auto-invest-agreement" :to="{ name: 'autoLendAgreement' }">《自动出借协议》</router-link>
+      </div>
+      <div v-else>
+        <!-- 复投不加息 -->
+        <p class="board">
+          您有{{repeatInvestUnreadMsgList.length}}笔出借即将到期，设置自动出借坐享收益
+        </p>
         <div class="auto-invest-way-wrap">
           <div class="auto-invest-way1">
             <el-radio v-model="repeatUnreadDialogOptions.autoInvestWay" label="1">本金到期后自动出借 </el-radio >
@@ -42,7 +60,7 @@
     <DIalog
       :show.sync="investErrDialog.show"
     >
-      <div>{{investErrMsg}}</div>
+      <div>{{investErrDialog.msg}}</div>
     </DIalog>
     <Certification v-if="accountStatus !== 'COMPLETE'" reg-flow-to="risk"> <span></span></Certification>
   </div>
@@ -84,6 +102,7 @@ export default {
       showFooter: true,
       openSignText: '',
       repeatInvestUnreadMsgList: [], // 点金石未读复投消息列表
+      repeatCouponRate: '', // 复投加息的利率
       repeatUnreadDialogOptions: {
         // 点金石未读复投消息弹窗参数
         show: false,
@@ -94,8 +113,7 @@ export default {
         show: false,
         msg: ''
       },
-      beforeRouterPath: '',
-      rateSum: 0
+      beforeRouterPath: ''
     }
   },
   props: {},
@@ -213,7 +231,6 @@ export default {
         let data = res.data
         let list = data.data
         if (data.resultCode === CODE_OK) {
-          console.log('beforeRouterPath==', this.beforeRouterPath)
           this.showTitle = false
           this.showCloseBtn = true
           this.showLogo = true
@@ -246,17 +263,26 @@ export default {
                 repeatInvestApi({
                   userName: this.user.userName
                 }).then(res => {
-                  if (res.data.list.length > 0) {
-                    const list = res.data.list
-                    let sum = 0
-                    list.forEach(v => {
-                      sum += v.couponRate
-                    })
-                    this.rateSum = sum
-                    this.repeatUnreadDialogOptions.show = true
-                    this.repeatInvestUnreadMsgList = res.data.list
-                  } else {
-                    this.getAlertInfo()
+                  console.log(res.data.couponRate)
+                  if (res.data.resultCode === '1') {
+                    this.repeatCouponRate = res.data.couponRate
+                    if (res.data.couponRate === '') {
+                      // 复投不加息
+                      if (res.data.list.length > 0) {
+                        this.repeatUnreadDialogOptions.show = true
+                        this.repeatInvestUnreadMsgList = res.data.list
+                      } else {
+                        this.getAlertInfo()
+                      }
+                    } else {
+                      // 复投加息
+                      if (res.data.list.length > 0) {
+                        this.repeatUnreadDialogOptions.show = true
+                        this.repeatInvestUnreadMsgList = res.data.list
+                      } else {
+                        this.getAlertInfo()
+                      }
+                    }
                   }
                 })
               } else {
