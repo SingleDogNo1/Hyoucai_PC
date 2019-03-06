@@ -435,7 +435,7 @@
       :show.sync="isShowRiskDialog"
       title="汇有财温馨提示"
       :confirmText="riskConfirmText"
-      cancelText="我知道了"
+      :cancelText="cancelText"
       :singleButton="riskDialogSingleButton"
       class="risk-dialog align"
       :onConfirm="toRisk"
@@ -728,6 +728,7 @@ export default {
       singleButton: true, // 是否显示只有确定按钮
       riskConfirmText: '重新评测', // 风险测评弹窗按钮文字
       riskDialogSingleButton: false,
+      cancelText: '取消',
       riskType: '', // 风险测评的类型
       riskContent: '', // 风险测评弹窗默认文字
       isShowConfirmInvestmentDialog: false, // 是否显示出借弹窗
@@ -881,6 +882,7 @@ export default {
         let data = res.data.data
         let projectInfo = data.projectInfo
         let investEndTimestamp = projectInfo.investEndTimestamp
+        projectInfo.balance = ''
         this.projectInfo = projectInfo
         // this.projectInfo.iconUrl = projectInfo.iconUrl
         // this.projectInfo.projectName = projectInfo.projectName
@@ -1107,7 +1109,7 @@ export default {
                   } else if (res.data.data.status === 'EVALUATE') {
                     // 未做过风险测评
                     this.isShowRiskDialog = true
-                    this.riskType = '汇有财温馨提示'
+                    this.riskConfirmText = '去评测'
                     this.riskContent = res.data.data.message
                   } else if (res.data.data.status === 'COMPLETE') {
                     if (this.invAmount > this.projectInfo.balance - 0) {
@@ -1227,7 +1229,8 @@ export default {
         this.chooseCouponRate = item.couponRate
         this.chooseCouponId = item.id
 
-        this.handleExpectedIncome(this.invAmount)
+        const amount = this.invAmountDisabled ? this.invAmountVal : this.invAmount
+        this.handleExpectedIncome(amount)
       } else {
         if (typeof this.chooseRedPacket.commonUse === 'undefined' || this.chooseRedPacket.commonUse === 1) {
           this.couponIndex = index
@@ -1235,7 +1238,8 @@ export default {
           this.chooseCouponRate = item.couponRate
           this.chooseCouponId = item.id
 
-          this.handleExpectedIncome(this.invAmount)
+          const amount = this.invAmountDisabled ? this.invAmountVal : this.invAmount
+          this.handleExpectedIncome(amount)
         }
       }
     },
@@ -1245,7 +1249,8 @@ export default {
       this.chooseCouponRate = ''
       this.chooseCouponId = ''
 
-      this.handleExpectedIncome(this.invAmount)
+      const amount = this.invAmountDisabled ? this.invAmountVal : this.invAmount
+      this.handleExpectedIncome(amount)
     },
     redEnvelopeSwiper() {
       new Swiper('.swiper-container-red-envelope', {
@@ -1297,7 +1302,7 @@ export default {
       const platform_user_center = window.location.origin + window.location.pathname + '#/mine/overview'
       investApi({
         projectNo: this.projectNo,
-        invAmount: this.invAmount,
+        invAmount: this.invAmountDisabled ? this.invAmountVal : this.invAmount,
         userCouponId: this.chooseCouponId,
         userRedPacketId: this.chooseRedPacketId,
         investSource: 'pc',
@@ -1311,17 +1316,20 @@ export default {
           if (data.data.type === '1') {
             postcall(data.data.redirectUrl, data.data.paramReq)
           } else {
-            switch (data.data.investType) {
-              case 'SJLHD':
-                this.investSJLSuccessDialog.show = true
-                this.investSJLSuccessDialog.msg = data.data.successInfo
-                this.investSJLSuccessDialog.title = data.data.successTitle
-                this.investSJLSuccessDialog.msg = data.data.successInfo
-                break
-              case 'GENERAL':
-                this.investDialogOptions.show = true
-                break
-            }
+            // type = 2 显示出借成功
+            this.investDialogOptions.show = true
+
+            // switch (data.data.investType) {
+            //   case 'SJLHD':
+            //     this.investSJLSuccessDialog.show = true
+            //     this.investSJLSuccessDialog.msg = data.data.successInfo
+            //     this.investSJLSuccessDialog.title = data.data.successTitle
+            //     this.investSJLSuccessDialog.msg = data.data.successInfo
+            //     break
+            //   case 'GENERAL':
+            //     this.investDialogOptions.show = true
+            //     break
+            // }
           }
         } else if (data.resultCode === '90021' || data.resultCode === '90022') {
           // 风险测评出借额度不够 || 出借期限不够
@@ -1345,10 +1353,14 @@ export default {
 
           if (['JINX'].includes(res.data.data.evaluatingResult)) {
             this.riskDialogSingleButton = true
+            this.cancelText = '我知道了'
           }
 
           this.isShowRiskDialog = true
           this.riskContent = res.data.resultMsg
+        } else if (data.resultCode === '0') {
+          this.riskContent = res.data.resultMsg
+          this.isShowRiskDialog = true
         } else {
           /*
            * 90034：授权已过期

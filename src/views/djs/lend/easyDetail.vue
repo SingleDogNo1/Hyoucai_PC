@@ -162,7 +162,7 @@
       :show.sync="isShowRiskDialog"
       title="汇有财温馨提示"
       :confirmText="riskConfirmText"
-      cancelText="我知道了"
+      :cancelText="cancelText"
       :singleButton="riskDialogSingleButton"
       class="risk-dialog align"
       :onConfirm="toRisk"
@@ -427,6 +427,7 @@ export default {
       projectCompositionData: [], // 项目组成数据
       errMsg: '', // 错误提示
       isShowRiskDialog: false, // 是否显示风险测评弹窗
+      cancelText: '取消',
       isShowSystemMaintenanceDialog: false,
       singleButton: true, // 是否显示系统维护弹窗
       riskConfirmText: '重新评测', // 风险测评弹窗按钮文字
@@ -659,7 +660,7 @@ export default {
                 } else if (res.data.data.status === 'EVALUATE') {
                   // 未做过风险测评
                   this.isShowRiskDialog = true
-                  this.riskType = '汇有财温馨提示'
+                  this.riskConfirmText = '去评测'
                   this.riskContent = res.data.data.message
                 } else if (res.data.data.status === 'COMPLETE') {
                   if (this.invAmount > this.projectInfo.balance - 0) {
@@ -774,6 +775,7 @@ export default {
           this.chooseCoupon = item
           this.chooseCouponRate = item.couponRate
           this.chooseCouponId = item.id
+
           this.handleExpectedIncome(this.invAmount)
         }
       }
@@ -891,7 +893,11 @@ export default {
 
           if (['JINX'].includes(res.data.data.evaluatingResult)) {
             this.riskDialogSingleButton = true
+            this.cancelText = '我知道了'
           }
+          this.riskContent = res.data.resultMsg
+          this.isShowRiskDialog = true
+        } else if (res.data.resultCode === '0') {
           this.riskContent = res.data.resultMsg
           this.isShowRiskDialog = true
         } else {

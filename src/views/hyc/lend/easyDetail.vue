@@ -177,7 +177,7 @@
       :show.sync="isShowRiskDialog"
       title="汇有财温馨提示"
       :confirmText="riskConfirmText"
-      cancelText="我知道了"
+      :cancelText="cancelText"
       :singleButton="riskDialogSingleButton"
       class="risk-dialog align"
       :onConfirm="toRisk"
@@ -421,6 +421,7 @@ export default {
       riskDialogSingleButton: false,
       riskType: '', // 风险测评的类型
       riskContent: '',
+      cancelText: '取消',
       isShowConfirmInvestmentDialog: false, // 是否显示出借弹窗
       redPacketsList: [],
       redPacketIndex: -1,
@@ -589,6 +590,7 @@ export default {
         let projectInfo = data.projectInfo
         let investEndTimestamp = projectInfo.investEndTimestamp
         this.projectServiceEntity = data.projectServiceEntity
+        projectInfo.balance = ''
         this.projectInfo = projectInfo
         // this.projectInfo.iconUrl = projectInfo.iconUrl
         // this.projectInfo.itemName = projectInfo.itemName
@@ -741,7 +743,7 @@ export default {
                   } else if (res.data.data.status === 'EVALUATE') {
                     // 未做过风险测评
                     this.isShowRiskDialog = true
-                    this.riskType = '汇有财温馨提示'
+                    this.riskConfirmText = '去评测'
                     this.riskContent = res.data.data.message
                   } else if (res.data.data.status === 'COMPLETE') {
                     if (this.invAmount > this.projectInfo.balance - 0) {
@@ -852,8 +854,8 @@ export default {
         this.chooseCouponRate = item.couponRate
         this.chooseCouponId = item.id
 
-        const withCouponRate = parseFloat(this.projectInfo.investRate) + parseFloat(item.couponRate)
-        this.handleExpectedIncome(this.invAmount, withCouponRate)
+        const amount = this.invAmountDisabled ? this.invAmountVal : this.invAmount
+        this.handleExpectedIncome(amount)
       } else {
         if (typeof this.chooseRedPacket.commonUse === 'undefined' || this.chooseRedPacket.commonUse === 1) {
           this.couponIndex = index
@@ -861,8 +863,8 @@ export default {
           this.chooseCouponRate = item.couponRate
           this.chooseCouponId = item.id
 
-          const withCouponRate = parseFloat(this.projectInfo.investRate) + parseFloat(item.couponRate)
-          this.handleExpectedIncome(this.invAmount, withCouponRate)
+          const amount = this.invAmountDisabled ? this.invAmountVal : this.invAmount
+          this.handleExpectedIncome(amount)
         }
       }
     },
@@ -872,7 +874,8 @@ export default {
       this.chooseCouponRate = ''
       this.chooseCouponId = ''
 
-      this.handleExpectedIncome(this.invAmount)
+      const amount = this.invAmountDisabled ? this.invAmountVal : this.invAmount
+      this.handleExpectedIncome(amount)
     },
     redEnvelopeSwiper() {
       new Swiper('.swiper-container-red-envelope', {
@@ -924,7 +927,7 @@ export default {
       const platform_user_center = window.location.origin + window.location.pathname + '#/mine/overview'
       investApi({
         projectNo: this.itemId,
-        invAmount: this.invAmount,
+        invAmount: this.invAmountDisabled ? this.invAmountVal : this.invAmount,
         userCouponId: this.chooseCouponId,
         userRedPacketId: this.chooseRedPacketId,
         investSource: 'PC',
@@ -972,7 +975,11 @@ export default {
 
           if (['JINX'].includes(res.data.data.evaluatingResult)) {
             this.riskDialogSingleButton = true
+            this.cancelText = '我知道了'
           }
+          this.riskContent = res.data.resultMsg
+          this.isShowRiskDialog = true
+        } else if (data.resultCode === '0') {
           this.riskContent = res.data.resultMsg
           this.isShowRiskDialog = true
         } else {
