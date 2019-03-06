@@ -664,7 +664,7 @@ export default {
                   this.riskContent = res.data.data.message
                 } else if (res.data.data.status === 'COMPLETE') {
                   if (this.invAmount > this.projectInfo.balance - 0) {
-                    this.errMsg = '余额不足'
+                    this.errMsg = '当前账户余额不足，请充值'
                     return
                   }
                   if (this.invAmount < this.projectInfo.minInvAmt - 0) {
