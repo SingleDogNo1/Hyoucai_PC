@@ -3,28 +3,28 @@
     <section class="production-info">
       <div class="title">
         <h2>
-          <img :src="projectInfo.iconUrl" alt>
-          <span>{{projectInfo.projectName}}</span>
+          <img :src="projectInfo.iconUrl" alt />
+          <span>{{ projectInfo.projectName }}</span>
         </h2>
       </div>
       <div class="content">
         <div class="decs-wrap">
           <div class="item">
             <p class="value">
-              <strong>{{projectInfo.investRate}}</strong>
+              <strong>{{ projectInfo.investRate }}</strong>
               <span class="red">%</span>
             </p>
             <p class="desc">历史平均年化收益率</p>
           </div>
           <div class="item">
             <p class="value">
-              <span>{{projectInfo.surplusAmt}}</span>
+              <span>{{ projectInfo.surplusAmt }}</span>
             </p>
             <p class="desc">剩余可投(元)</p>
           </div>
           <div class="item">
             <p class="value">
-              <span>{{projectInfo.investPeopleCount}}</span>
+              <span>{{ projectInfo.investPeopleCount }}</span>
               <span>人</span>
             </p>
             <p class="desc">已出借人数</p>
@@ -33,7 +33,7 @@
         <div class="progress-wrap">
           <span class="title">项目进度</span>
           <el-progress :percentage="parseFloat(projectInfo.investPercent)"></el-progress>
-          <span class="score">{{projectInfo.investPercent}}%</span>
+          <span class="score">{{ projectInfo.investPercent }}%</span>
         </div>
       </div>
       <div class="tips">
@@ -43,79 +43,56 @@
         </div>
         <div class="countdown">
           <span class="title">募集倒计时：</span>
-          <span class="large">{{projectInfo.investEndDay}}</span>
-          <span>{{projectInfo.investEndTime}}</span>
+          <span class="large">{{ projectInfo.investEndDay }}</span>
+          <span>{{ projectInfo.investEndTime }}</span>
         </div>
       </div>
       <div class="invest-module">
         <h2>
-          <span
-            :class="{ 'unopened-status-title': investStatus === 'unopened' }"
-            class="status-title"
-          >{{investStatusTitle}}</span>
-          <button class="status-btn">
-            <router-link v-if="investStatus !== 'unopened'" :to="{ name: 'charge' }">{{investStatusBtn}}</router-link>
-            <router-link v-else :to="{ name: 'account' }">{{investStatusBtn}}</router-link>
-          </button>
+          <span :class="{ 'unopened-status-title': investStatus === 'unopened' }" class="status-title">{{ investStatusTitle }}</span>
+          <router-link class="status-btn" v-if="investStatus !== 'unopened'" :to="{ name: 'charge' }">{{ investStatusBtn }}</router-link>
+          <router-link class="status-btn" v-else :to="{ name: 'account' }">{{ investStatusBtn }}</router-link>
         </h2>
         <div class="content">
           <p class="available-balance">
             <span class="title">可用余额</span>
-            <span class="value" v-if="projectInfo.balance === '未开户'">{{projectInfo.balance}}</span>
-            <span class="value" v-else >{{projectInfo.balance}}元</span>
+            <span class="value" v-if="projectInfo.balance === '未开户'">{{ projectInfo.balance }}</span>
+            <span class="value" v-else>{{ projectInfo.balance }}元</span>
           </p>
           <p class="starting-amount">
             <span class="title">起投金额</span>
-            <span class="value">{{projectInfo.minInvAmount}}元</span>
+            <span class="value">{{ projectInfo.minInvAmount }}元</span>
           </p>
           <p class="single-limit">
             <span class="title">单人限额</span>
-            <span class="value">{{projectInfo.maxInvTotalAmount}}元</span>
+            <span class="value">{{ projectInfo.maxInvTotalAmount }}元</span>
           </p>
           <div class="risk-notice">
-            <el-checkbox v-model="isAgree">已阅读并同意
-              <router-link target="_blank" :to="{ name: 'riskNoticationLetterAgreement'}">《风险告知书》</router-link>
+            <el-checkbox v-model="isAgree"
+              >已阅读并同意
+              <router-link target="_blank" :to="{ name: 'riskNoticationLetterAgreement' }">《风险告知书》</router-link>
             </el-checkbox>
           </div>
           <div class="all-lending" v-if="investStatus === 'lending' && !invAmountDisabled">
-            <el-checkbox
-              class="all-lending-checkbox"
-              v-model="isAllLending"
-              @change="toggleFill"
-            >全部出借</el-checkbox>
+            <el-checkbox class="all-lending-checkbox" v-model="isAllLending" @change="toggleFill">全部出借</el-checkbox>
           </div>
           <div class="action" v-if="investStatus === 'willSale' || investStatus === 'lending' || investStatus === 'unopened'">
-            <input
-              maxlength="13"
-              class="amount-input"
-              v-model="invAmount"
-              @keyup="handleExpectedIncome(invAmount)"
-              :disabled="invAmountDisabled"
-            >
-            <button
-              class="action-btn"
-              :disabled="isDisableInvestBtn"
-              @click="handleInvest"
-            >{{investBtn}}</button>
+            <input maxlength="13" class="amount-input" v-model="invAmount" @keyup="handleExpectedIncome(invAmount)" :disabled="invAmountDisabled" />
+            <button class="action-btn" :disabled="isDisableInvestBtn" @click="handleInvest">{{ investBtn }}</button>
           </div>
           <!-- <div class="action" v-if="investStatus === 'fullyMarked' || investStatus === 'finished'">
             <button class="action-btn-disabled" @click="handleInvest">{{investStatusTitle}}</button>
           </div>-->
-          <p class="err-msg" v-if="errMsg">{{errMsg}}</p>
+          <p class="err-msg" v-if="errMsg">{{ errMsg }}</p>
           <p class="expected-profits">
             <span class="title">预期收益：</span>
-            <span class="value">{{expectedIncome}}元</span>
+            <span class="value">{{ expectedIncome }}元</span>
           </p>
         </div>
       </div>
     </section>
     <section class="tab-wrap">
-      <el-tabs
-        class="lend-detail-tab"
-        v-model="lendDetailActiveName"
-        type="border-card"
-        @tab-click="handleItemClick()"
-      >
+      <el-tabs class="lend-detail-tab" v-model="lendDetailActiveName" type="border-card" @tab-click="handleItemClick()">
         <el-tab-pane label="项目信息 " name="XMXX">
           <div v-if="lendDetailActiveName === 'XMXX'" class="content">
             <section>
@@ -127,31 +104,31 @@
                 <div class="txt">
                   <p>
                     <span class="left">项目名称：</span>
-                    <span class="right">{{productDetail.projectName}}</span>
+                    <span class="right">{{ productDetail.projectName }}</span>
                   </p>
                   <p>
                     <span class="left">还款方式：</span>
-                    <span class="right">{{productDetail.repaymentWay}}</span>
+                    <span class="right">{{ productDetail.repaymentWay }}</span>
                   </p>
                 </div>
                 <div class="txt">
                   <p>
                     <span class="left">合同编号：</span>
-                    <span class="right">{{productDetail.contractNum}}</span>
+                    <span class="right">{{ productDetail.contractNum }}</span>
                   </p>
                   <p>
                     <span class="left">融资金额：</span>
-                    <span class="right">{{productDetail.loanAmt}}</span>
+                    <span class="right">{{ productDetail.loanAmt }}</span>
                   </p>
                 </div>
                 <div class="txt">
                   <p>
                     <span class="left">借贷期限：</span>
-                    <span class="right">{{productDetail.loanMent}}</span>
+                    <span class="right">{{ productDetail.loanMent }}</span>
                   </p>
                   <p>
-                    <span class="left">历史年化收益率：</span>
-                    <span class="right">{{productDetail.investRate}}</span>
+                    <span class="left">历史平均年化收益率：</span>
+                    <span class="right">{{ productDetail.investRate }}</span>
                   </p>
                 </div>
               </div>
@@ -159,7 +136,9 @@
                 <span class="title-boder"></span>
                 <span class="title-text">还款方式明细</span>
               </p>
-              <p class="repayment">如借款人借款金额10000元，历史平均年化收益率9%，借款期限1年，则该借款人每月还款额为874.51元，还款利息总和为:494.12元，还款总额为:10,494.12元</p>
+              <p class="repayment">
+                如借款人借款金额10000元，历史平均年化收益率9%，借款期限1年，则该借款人每月还款额为874.51元，还款利息总和为:494.12元，还款总额为:10,494.12元
+              </p>
               <p class="title">
                 <span class="title-boder"></span>
                 <span class="title-text">审核信息</span>
@@ -171,41 +150,42 @@
                     <td>认证情况</td>
                   </tr>
                   <tr v-for="(item, index) in oddAuditInfoList" :key="index">
-                    <td>{{item.key}}</td>
-                    <td v-if="!item.isShowSmallPic">{{item.result}}</td>
+                    <td>{{ item.key }}</td>
+                    <td v-if="!item.isShowSmallPic">{{ item.result }}</td>
                     <td v-if="item.isShowSmallPic && item.field === 'haveIDCard'">
-                      <img @click="openReviewInfoPop(item)" src="./image/bg.png" alt="">
+                      <img @click="openReviewInfoPop(item)" src="./image/bg.png" alt="" />
                     </td>
                     <td v-if="item.isShowSmallPic && item.field === 'internetInformation'">
-                      <img @click="openReportPop" src="./image/bg.png" alt="">
+                      <img @click="openReportPop" src="./image/bg.png" alt="" />
                     </td>
                     <td v-if="item.isShowSmallPic && item.field === 'faceRecognition'">
-                      <img @click="openFaceRecognitionPop(item)" src="./image/bg.png" alt="">
+                      <img @click="openFaceRecognitionPop(item)" src="./image/bg.png" alt="" />
                     </td>
                     <td v-if="item.isShowSmallPic && item.field === 'signing'">
-                      <img @click="toSigning(item)" src="./image/bg.png" alt="">
+                      <img @click="toSigning(item)" src="./image/bg.png" alt="" />
                     </td>
                   </tr>
                 </table>
+
                 <table class="examine" v-if="evenAuditInfoList.length > 0">
                   <tr class="examine-title">
                     <td>身份信息</td>
                     <td>认证情况</td>
                   </tr>
                   <tr v-for="(item, index) in evenAuditInfoList" :key="index">
-                    <td>{{item.key}}</td>
-                    <td v-if="!item.isShowSmallPic">{{item.result}}</td>
+                    <td>{{ item.key }}</td>
+                    <td v-if="!item.isShowSmallPic">{{ item.result }}</td>
                     <td v-if="item.isShowSmallPic && item.field === 'haveIDCard'">
-                      <img @click="openReviewInfoPop(item)" src="./image/bg.png" alt="">
+                      <img @click="openReviewInfoPop(item)" src="./image/bg.png" alt="" />
                     </td>
                     <td v-if="item.isShowSmallPic && item.field === 'internetInformation'">
-                      <img @click="openReportPop" src="./image/bg.png" alt="">
+                      <img @click="openReportPop" src="./image/bg.png" alt="" />
                     </td>
                     <td v-if="item.isShowSmallPic && item.field === 'faceRecognition'">
-                      <img @click="openFaceRecognitionPop(item)" src="./image/bg.png" alt="">
+                      <img @click="openFaceRecognitionPop(item)" src="./image/bg.png" alt="" />
                     </td>
                     <td v-if="item.isShowSmallPic && item.field === 'signing'">
-                      <img @click="toSigning(item)" src="./image/bg.png" alt="">
+                      <img @click="toSigning(item)" src="./image/bg.png" alt="" />
                     </td>
                   </tr>
                   <tr v-show="isTr">
@@ -218,7 +198,7 @@
                 <span class="title-boder"></span>
                 <span class="title-text">还款来源</span>
               </p>
-              <div class="repayment">{{productDetail.repaymentSafeguard}}</div>
+              <div class="repayment">{{ productDetail.repaymentSafeguard }}</div>
               <p class="title">
                 <span class="title-boder"></span>
                 <span class="title-text">相关费用</span>
@@ -244,47 +224,35 @@
         </el-tab-pane>
         <el-tab-pane label="出借详情" name="CJXQ">
           <div v-if="lendDetailActiveName === 'CJXQ'" class="content">
-            <p class="desc">{{investDetail.appDesc}}</p>
+            <p class="desc">{{ investDetail.appDesc }}</p>
             <ul class="detail-list">
               <li>
                 <p class="title">
                   <span>协议</span>
                 </p>
-                <router-link
-                  target="_blank"
-                  class="value"
-                  :to="{ name: 'threePartyAgreement', query: {productId: productId}}"
-                >《三方协议》</router-link>
+                <router-link target="_blank" class="value" :to="{ name: 'threePartyAgreement', query: { productId: productId } }"
+                  >《三方协议》</router-link
+                >
               </li>
               <li v-for="(item, index) in projectServiceEntity" :key="index">
                 <!-- <p class="value">
                   <span>{{item.serviceName}}</span>
                 </p>-->
-                <span class="title">{{item.serviceName}}</span>
-                <span class="value">{{item.serviceMessage}}</span>
+                <span class="title">{{ item.serviceName }}</span>
+                <span class="value">{{ item.serviceMessage }}</span>
               </li>
             </ul>
           </div>
         </el-tab-pane>
         <el-tab-pane label="加入记录" name="JRJL">
           <div v-if="lendDetailActiveName === 'JRJL'" class="content">
-            <el-table
-              :header-cell-style="{ background: '#f0f7ff'}"
-              class="join-record-table"
-              :data="joinRecordData"
-              border
-            >
+            <el-table :header-cell-style="{ background: '#f0f7ff' }" class="join-record-table" :data="joinRecordData" border>
               <el-table-column align="center" prop="mobile" label="出借人"></el-table-column>
               <el-table-column align="center" height="40" prop="invAmt" label="出借金额"></el-table-column>
               <el-table-column align="center" height="40" prop="invTime" label="出借时间"></el-table-column>
             </el-table>
             <div class="pagination-wrapper">
-              <pagination
-                :count-page="total"
-                :size-val="size"
-                :page-val="page"
-                @handleCurrentChange="handleCurrentChange"
-              ></pagination>
+              <pagination :count-page="total" :size-val="size" :page-val="page" @handleCurrentChange="handleCurrentChange"></pagination>
             </div>
           </div>
         </el-tab-pane>
@@ -299,67 +267,67 @@
                 <div class="borrower-box">
                   <p class="borrower-box-left">
                     <span class="left">借款人姓名：</span>
-                    <span class="right">{{loanPeopleInfo.borrowerName}}</span>
+                    <span class="right">{{ loanPeopleInfo.borrowerName }}</span>
                   </p>
                   <p class="borrower-box-center">
                     <span class="left">性别：</span>
-                    <span class="right">{{loanPeopleInfo.sex}}</span>
+                    <span class="right">{{ loanPeopleInfo.sex }}</span>
                   </p>
                   <p>
                     <span class="left">身份证号：</span>
-                    <span class="right">{{loanPeopleInfo.idNum}}</span>
+                    <span class="right">{{ loanPeopleInfo.idNum }}</span>
                   </p>
                 </div>
                 <div class="borrower-box">
                   <p class="borrower-box-left">
                     <span class="left">年龄：</span>
-                    <span class="right">{{loanPeopleInfo.age}}</span>
+                    <span class="right">{{ loanPeopleInfo.age }}</span>
                   </p>
                   <p class="borrower-box-center">
                     <span class="left">行业：</span>
-                    <span class="right">{{loanPeopleInfo.industry}}</span>
+                    <span class="right">{{ loanPeopleInfo.industry }}</span>
                   </p>
                   <p>
                     <span class="left">居住地址：</span>
-                    <span class="right">{{loanPeopleInfo.domicile}}</span>
+                    <span class="right">{{ loanPeopleInfo.domicile }}</span>
                   </p>
                 </div>
                 <div class="borrower-box">
                   <p class="borrower-box-left">
                     <span class="left">婚姻状况：</span>
-                    <span class="right">{{loanPeopleInfo.maritalStatus}}</span>
+                    <span class="right">{{ loanPeopleInfo.maritalStatus }}</span>
                   </p>
                   <p class="borrower-box-center">
                     <span class="left">月收入：</span>
-                    <span class="right">{{loanPeopleInfo.income}}</span>
+                    <span class="right">{{ loanPeopleInfo.income }}</span>
                   </p>
                   <p>
                     <span class="left">借款金额：</span>
-                    <span class="right">{{loanPeopleInfo.prinAmt}}</span>
+                    <span class="right">{{ loanPeopleInfo.prinAmt }}</span>
                   </p>
                 </div>
                 <div class="borrower-box">
                   <p class="borrower-box-left">
                     <span class="left">借款用途：</span>
-                    <span class="right">{{loanPeopleInfo.loanAim}}</span>
+                    <span class="right">{{ loanPeopleInfo.loanAim }}</span>
                   </p>
                   <p class="borrower-box-center">
                     <span class="left">借款主体性质：</span>
-                    <span class="right">{{loanPeopleInfo.borrowerTheme}}</span>
+                    <span class="right">{{ loanPeopleInfo.borrowerTheme }}</span>
                   </p>
                   <p>
                     <span class="left">借款期限：</span>
-                    <span class="right">{{loanPeopleInfo.loanDay}}</span>
+                    <span class="right">{{ loanPeopleInfo.loanDay }}</span>
                   </p>
                 </div>
                 <div class="borrower-box">
                   <p class="borrower-box-left">
                     <span class="left">还款来源：</span>
-                    <span class="right">{{loanPeopleInfo.paymentSource}}</span>
+                    <span class="right">{{ loanPeopleInfo.paymentSource }}</span>
                   </p>
                   <p class="borrower-box-center">
                     <span class="left">逾期金额：</span>
-                    <span class="right">{{loanPeopleInfo.amountOverride}}</span>
+                    <span class="right">{{ loanPeopleInfo.amountOverride }}</span>
                   </p>
                   <p></p>
                 </div>
@@ -369,12 +337,8 @@
                 </p>
                 <p class="borrower-txt">
                   <span class="left">在其他网络借贷平台借款情况：</span>
-                  <span class="right">{{loanPeopleInfo.borrowSituation}}</span>
-                  <a
-                    class="view-detail"
-                    :href="loanPeopleInfo.guaranteeProtocolUrl"
-                    target="_blank"
-                  >
+                  <span class="right">{{ loanPeopleInfo.borrowSituation }}</span>
+                  <a class="view-detail" :href="loanPeopleInfo.guaranteeProtocolUrl" target="_blank">
                     点击查看
                     <i class="iconfont icon-more"></i>
                   </a>
@@ -388,31 +352,31 @@
                 <div class="situation-div situation-left">
                   <p>
                     <span class="left">平台历史逾期次数：</span>
-                    <span class="right">{{peopleLoanInfo.platformOverdueCut}}</span>
+                    <span class="right">{{ peopleLoanInfo.platformOverdueCut }}</span>
                   </p>
                   <p>
                     <span class="left">借款人还款能力变化情况：</span>
-                    <span class="right">{{peopleLoanInfo.platformOverdueAmt}}</span>
+                    <span class="right">{{ peopleLoanInfo.platformOverdueAmt }}</span>
                   </p>
                 </div>
                 <div class="situation-div situation-center">
                   <p>
                     <span class="left">平台历史逾期金额：</span>
-                    <span class="right">{{peopleLoanInfo.loanUseInfo}}</span>
+                    <span class="right">{{ peopleLoanInfo.loanUseInfo }}</span>
                   </p>
                   <p>
                     <span class="left">借款人涉诉情况：</span>
-                    <span class="right">{{peopleLoanInfo.repaymentAbilityChg}}</span>
+                    <span class="right">{{ peopleLoanInfo.repaymentAbilityChg }}</span>
                   </p>
                 </div>
                 <div class="situation-div situation-right">
                   <p>
                     <span class="left">借款资金运用情况：</span>
-                    <span class="right">{{peopleLoanInfo.involvedInAppeal}}</span>
+                    <span class="right">{{ peopleLoanInfo.involvedInAppeal }}</span>
                   </p>
                   <p>
                     <span class="left">借款人受行政处罚情况：</span>
-                    <span class="right">{{peopleLoanInfo.administrativePenalty}}</span>
+                    <span class="right">{{ peopleLoanInfo.administrativePenalty }}</span>
                   </p>
                 </div>
               </div>
@@ -422,9 +386,11 @@
         <el-tab-pane label="风险告知" name="FXGZS">
           <div v-if="lendDetailActiveName === 'FXGZS'" class="content">
             <p>尊敬的出借人：</p>
-            <p>恭喜您成为江西汇通金融信息服务有服公司运营的网络借贷平台—汇有财平台的用户。感谢您参与/出借本服务/出借标的，在您签署本《风险告知书》之前，请您认真、仔细阅读以下内容及本平台制定并发布的规则制度及其更新或修正的内容，本《风险告知书》经您确认，即视为您已详细了解并理解本风险告知书的全部内容，对其中揭示的风险均有足够的认识，您可在了解融资项目信贷风险后，根据您的金融产品出借经历、风险认知能力、风险识别能力和风险承受能力，自主选择将来源合法的自有资金通过汇有财平台进行资金出借。当您点击“出借”、“申请出借”、“立即出借”、“确认出借”、“同意协议”、“接受协议”或类似文字时，即视为您已经充...</p>
+            <p>
+              恭喜您成为江西汇通金融信息服务有服公司运营的网络借贷平台—汇有财平台的用户。感谢您参与/出借本服务/出借标的，在您签署本《风险告知书》之前，请您认真、仔细阅读以下内容及本平台制定并发布的规则制度及其更新或修正的内容，本《风险告知书》经您确认，即视为您已详细了解并理解本风险告知书的全部内容，对其中揭示的风险均有足够的认识，您可在了解融资项目信贷风险后，根据您的金融产品出借经历、风险认知能力、风险识别能力和风险承受能力，自主选择将来源合法的自有资金通过汇有财平台进行资金出借。当您点击“出借”、“申请出借”、“立即出借”、“确认出借”、“同意协议”、“接受协议”或类似文字时，即视为您已经充...
+            </p>
             <p class="view-more">
-              <router-link target="_blank" :to="{ name: 'riskNoticationLetterAgreement'}">
+              <router-link target="_blank" :to="{ name: 'riskNoticationLetterAgreement' }">
                 点击查看更多
                 <i class="iconfont icon-more"></i>
               </router-link>
@@ -437,8 +403,8 @@
       <div class="content">
         <div class="close-wrap">
           <i @click="closeReviewInfoPop" class="el-icon-circle-close-outline close"></i>
-          <img class="front" :src="picList[0]" alt="">
-          <img class="back" :src="picList[1]" alt="">
+          <img class="front" :src="picList[0]" alt="" />
+          <img class="back" :src="picList[1]" alt="" />
         </div>
       </div>
     </div>
@@ -446,7 +412,7 @@
       <div class="content face-content">
         <div class="close-wrap">
           <i @click="closeFaceRecognitionPop" class="el-icon-circle-close-outline close"></i>
-          <img class="face" :src="facePic" alt="">
+          <img class="face" :src="facePic" alt="" />
         </div>
       </div>
     </div>
@@ -456,9 +422,9 @@
           <i @click="closeReportPop" class="el-icon-circle-close-outline close"></i>
           <h3>互联网资信报告</h3>
           <ul>
-            <li v-for="( item, index) in internetInformationList" :key="index">
-              <span>{{item.key}}：</span>
-              <span>{{item.value}}</span>
+            <li v-for="(item, index) in internetInformationList" :key="index">
+              <span>{{ item.key }}：</span>
+              <span>{{ item.value }}</span>
             </li>
           </ul>
         </div>
@@ -469,14 +435,15 @@
       :show.sync="isShowRiskDialog"
       title="汇有财温馨提示"
       :confirmText="riskConfirmText"
-      cancelText="我知道了"
+      :cancelText="cancelText"
       :singleButton="riskDialogSingleButton"
       class="risk-dialog align"
       :onConfirm="toRisk"
+      :onClose="refreshPage"
     >
       <div>
-        <p>{{riskType}}</p>
-        <p>{{riskContent}}</p>
+        <p>{{ riskType }}</p>
+        <p>{{ riskContent }}</p>
       </div>
     </Dialog>
     <!-- 系统维护弹窗 -->
@@ -498,19 +465,20 @@
       confirmText="确认出借"
       class="confirm-investment-dialog"
       :onConfirm="confirm"
+      :onClose="refreshPage"
     >
       <div>
         <ul class="amount-list">
           <li>
-            <p class="title">{{invAmount}}</p>
+            <p class="title">{{ invAmountDisabled ? invAmountVal : invAmount }}</p>
             <p class="desc">出借金额(元)</p>
           </li>
           <li>
-            <p class="title">{{invAmount - chooseRedPacketAmt}}</p>
+            <p class="title">{{ invAmountDisabled ? invAmountVal - chooseRedPacketAmt : invAmount - chooseRedPacketAmt }}</p>
             <p class="desc">支付金额(元)</p>
           </li>
           <li>
-            <p class="title">{{expectedIncome}}</p>
+            <p class="title">{{ expectedIncome }}</p>
             <p class="desc">预期收益(元)</p>
           </li>
         </ul>
@@ -519,32 +487,28 @@
           <div class="swiper-wrap">
             <div class="swiper-container-red-envelope">
               <div class="swiper-wrapper">
-                <div
-                  class="swiper-slide swiper-no-swiping"
-                  v-for="(item, index) in redPacketsList"
-                  :key="index"
-                >
-                  <div :class="[{
-                    'dk-red-packet': item.secondType === '1',
-                    'xj-red-packet': item.secondType === '2',
-                    active: redPacketIndex === index
-                  }]">
+                <div class="swiper-slide swiper-no-swiping" v-for="(item, index) in redPacketsList" :key="index">
+                  <div
+                    :class="[
+                      {
+                        'dk-red-packet': item.secondType === '1',
+                        'xj-red-packet': item.secondType === '2',
+                        active: redPacketIndex === index
+                      }
+                    ]"
+                  >
                     <p class="vouche-box">
                       <span class="vouche">
-                        <em>{{item.redPacketAmount}}</em>
+                        <em>{{ item.redPacketAmount }}</em>
                         <i>元</i>
                       </span>
                       <span class="vouche-aside" v-if="item.commonUse === 0">不可与加息券同时使用</span>
                       <span class="vouche-aside" v-if="item.commonUse === 1">可与加息券同时使用</span>
                     </p>
-                    <p class="start">起投金额：{{item.investMinAmount}}元</p>
-                    <div class="endData">有效期至{{item.usableExpireDate}}</div>
-                    <button
-                      class="receive-btn"
-                      @click="receiveRedPacket(item, index)"
-                      v-if="redPacketIndex !== index"
-                    >选取</button>
-                    <button class="receive-btn" @click="cleanRedpacket" v-elese>已选取</button>
+                    <p class="start">起投金额：{{ item.investMinAmount }}元</p>
+                    <div class="endData">有效期至{{ item.usableExpireDate }}</div>
+                    <button class="receive-btn" @click="receiveRedPacket(item, index)" v-if="redPacketIndex !== index">选取</button>
+                    <button class="receive-btn" @click="cleanRedpacket" v-else>已选取</button>
                   </div>
                 </div>
               </div>
@@ -558,28 +522,20 @@
           <div class="swiper-wrap">
             <div class="swiper-container-rate-stamp">
               <div class="swiper-wrapper">
-                <div
-                  class="swiper-slide swiper-no-swiping"
-                  v-for="(item, index) in couponsList"
-                  :key="index"
-                >
-                  <div :class="['rate-stamp-box', {active: couponIndex === index}]">
+                <div class="swiper-slide swiper-no-swiping" v-for="(item, index) in couponsList" :key="index">
+                  <div :class="['rate-stamp-box', { active: couponIndex === index }]">
                     <p class="vouche-box">
                       <span class="vouche">
                         <strong>+</strong>
-                        <em>{{item.couponRate}}</em>
+                        <em>{{ item.couponRate }}</em>
                         <i>%</i>
                         <i class="font">利息</i>
                       </span>
-                      <span class="vouche-aside">可加息{{item.validDays}}天</span>
+                      <span class="vouche-aside">可加息{{ item.validDays }}天</span>
                     </p>
-                    <p class="start">出借限额：{{item.amountMin}}至{{item.amountMax}}元</p>
-                    <div class="endData">有效期至{{item.usableExpireDate}}</div>
-                    <button
-                      class="receive-btn"
-                      @click="receiveCoupon(item, index)"
-                      v-if="couponIndex !== index"
-                    >选取</button>
+                    <p class="start">出借限额：{{ item.amountMin }}至{{ item.amountMax }}元</p>
+                    <div class="endData">有效期至{{ item.usableExpireDate }}</div>
+                    <button class="receive-btn" @click="receiveCoupon(item, index)" v-if="couponIndex !== index">选取</button>
                     <button class="receive-btn" @click="cleanCoupon" v-else>已选取</button>
                   </div>
                 </div>
@@ -600,20 +556,48 @@
       :singleButton="singleButton"
     >
       <div>
-        <p>{{investErrMsg}}</p>
+        <p>{{ investErrMsg }}</p>
       </div>
     </Dialog>
-    <!-- 出借成功弹窗 -->
+    <!-- 出借普通产品成功弹窗 -->
     <Dialog
-      :show.sync="isShowInvestDialog"
+      :show.sync="investDialogOptions.show"
       title="汇有财温馨提示"
-      confirmText="我知道了"
+      :confirmText="investDialogOptions.confirmText"
       class="system-maintenance-dialog align"
-      :singleButton="!singleButton"
-      :onConfirm="toInvestRecord"
+      :showCloseBtn="investDialogOptions.showCloseBtn"
+      :singleButton="investDialogOptions.singleButton"
+      :onClose="toInvestRecord"
     >
       <div>
-        <p>{{investMsg}}</p>
+        <p>{{investDialogOptions.msg}}</p>
+      </div>
+    </Dialog>
+    <!-- 出借手机乐产品成功弹窗 -->
+    <Dialog
+      :show.sync="investSJLSuccessDialog.show"
+      :title="investSJLSuccessDialog.title"
+      :confirmText="investSJLSuccessDialog.confirmText"
+      class="align"
+      :singleButton="investSJLSuccessDialog.singleButton"
+      :onConfirm="toSettingAddress"
+      :onClose="refreshPage"
+    >
+      <div>
+        <p>{{investSJLSuccessDialog.msg}}</p>
+      </div>
+    </Dialog>
+    <!-- 未签约弹窗 -->
+    <Dialog
+      class="align"
+      :show.sync="withoutSignDialogOptions.show"
+      :singleButton="withoutSignDialogOptions.singleButton"
+      :onConfirm="toSign"
+      :onClose="refreshPage"
+      :confirmText="withoutSignDialogOptions.confirmText"
+    >
+      <div>
+        {{withoutSignDialogOptions.msg}}
       </div>
     </Dialog>
   </div>
@@ -635,7 +619,8 @@ import {
   availableCouponApi,
   internetInformation,
   peopleLoanInfo,
-  investApi
+  investApi,
+  userInfoCompleteNoticeApi
 } from '@/api/hyc/lendDetail'
 import { getPeopleInfoApi } from '@/api/hyc/Mine/lend'
 import Dialog from '@/components/Dialog/Dialog'
@@ -743,6 +728,7 @@ export default {
       singleButton: true, // 是否显示只有确定按钮
       riskConfirmText: '重新评测', // 风险测评弹窗按钮文字
       riskDialogSingleButton: false,
+      cancelText: '取消',
       riskType: '', // 风险测评的类型
       riskContent: '', // 风险测评弹窗默认文字
       isShowConfirmInvestmentDialog: false, // 是否显示出借弹窗
@@ -758,8 +744,29 @@ export default {
       couponIndex: -1,
       isShowInvestErrDialog: false, // 是否显示出借错误弹窗
       investErrMsg: '', // 出借errMsg
-      isShowInvestDialog: false, // 是否显示出借成功弹窗
-      investMsg: '' // 出借成功 msg
+      investDialogOptions: {
+        // 普通产品出借成功弹窗参数
+        show: false,
+        msg: '出借成功，您可在“我的出借”中查看详情。',
+        confirmText: '进入我的出借',
+        singleButton: true,
+        showCloseBtn: true
+      },
+      investSJLSuccessDialog: {
+        // 手机乐产品成功弹窗参数
+        show: false,
+        msg: '',
+        title: '',
+        confirmText: '填写地址',
+        singleButton: false
+      },
+      withoutSignDialogOptions: {
+        // 签约状态不符弹窗
+        show: false,
+        msg: '您当前未签约或签约状态不符合合规要求，请重新签约！',
+        singleButton: false,
+        confirmText: '签约'
+      }
     }
   },
   components: {
@@ -826,7 +833,9 @@ export default {
         invAmount: !this.invAmountDisabled ? this.invAmount : this.invAmountVal,
         investRate: this.projectInfo.investRate,
         productId: this.productId,
-        validDays: this.chooseCoupon.validDays
+        validDays: this.chooseCoupon.validDays,
+        couponRate: this.chooseCouponRate,
+        redpacketID: this.chooseRedPacketId
       }
       expectedIncome(postData).then(res => {
         let data = res.data.data
@@ -873,18 +882,21 @@ export default {
         let data = res.data.data
         let projectInfo = data.projectInfo
         let investEndTimestamp = projectInfo.investEndTimestamp
-        this.projectInfo.iconUrl = projectInfo.iconUrl
-        this.projectInfo.projectName = projectInfo.projectName
-        this.projectInfo.investRate = projectInfo.investRate
-        this.projectInfo.surplusAmt = projectInfo.surplusAmt
-        this.projectInfo.investPeopleCount = projectInfo.investPeopleCount
-        this.projectInfo.investPercent = projectInfo.investPercent
-        this.projectInfo.interestRate = projectInfo.interestRate
-        this.projectInfo.minInvAmount = projectInfo.minInvAmount
-        this.projectInfo.maxInvTotalAmount = projectInfo.maxInvTotalAmount
-        this.projectInfo.status = projectInfo.status
-        this.projectInfo.maxInvAmount = projectInfo.maxInvAmount
-        this.projectInfo.loanMent = projectInfo.loanMent
+        projectInfo.balance = ''
+        this.projectInfo = projectInfo
+        // this.projectInfo.iconUrl = projectInfo.iconUrl
+        // this.projectInfo.projectName = projectInfo.projectName
+        // this.projectInfo.investRate = projectInfo.investRate
+        // this.projectInfo.surplusAmt = projectInfo.surplusAmt
+        // this.projectInfo.investPeopleCount = projectInfo.investPeopleCount
+        // this.projectInfo.investPercent = projectInfo.investPercent
+        // this.projectInfo.interestRate = projectInfo.interestRate
+        // this.projectInfo.minInvAmount = projectInfo.minInvAmount
+        // this.projectInfo.maxInvTotalAmount = projectInfo.maxInvTotalAmount
+        // this.projectInfo.status = projectInfo.status
+        // this.projectInfo.maxInvAmount = projectInfo.maxInvAmount
+        // this.projectInfo.loanMent = projectInfo.loanMent
+        // this.projectInfo.projectType = projectInfo.projectType
 
         // 预售状态中，募集倒计时不倒计
         timeCountDown(investEndTimestamp, this.projectInfo.status, data => {
@@ -1066,8 +1078,8 @@ export default {
     },
     handleInvest() {
       this.errMsg = ''
-      // 如果是未开户，点击去开户页面
-      if (this.investStatus === 'unopened') {
+      // 如果是未开户（未设置密码），点击去开户页面
+      if (this.investStatus === 'unopened' || !this.userBasicInfo.userIsOpenAccount.isSetTranPSD) {
         this.$router.push({ name: 'account' })
       } else {
         if (this.invAmount === '') {
@@ -1089,67 +1101,78 @@ export default {
               // 如果没勾选风险告知书，弹出提示
               if (!this.isAgree) {
                 this.errMsg = '请确认并同意《风险告知书》'
-                return
-              }
+              } else {
+                userInfoCompleteNoticeApi().then(res => {
+                  if (res.data.data.status === 'SIGN_PROTOCOL') {
+                    // 未签约
+                    this.withoutSignDialogOptions.show = true
+                  } else if (res.data.data.status === 'EVALUATE') {
+                    // 未做过风险测评
+                    this.isShowRiskDialog = true
+                    this.riskConfirmText = '去评测'
+                    this.riskContent = res.data.data.message
+                  } else if (res.data.data.status === 'COMPLETE') {
+                    if (this.invAmount > this.projectInfo.balance - 0) {
+                      this.errMsg = '当前账户余额不足，请充值'
+                      return
+                    }
 
-              // 如果是未开户，点击去开户页面
-              if (this.investStatus === 'unopened') {
-                this.$router.push({ name: 'account' })
-              }
+                    if (this.invAmount < this.projectInfo.minInvAmt - 0) {
+                      this.errMsg = '出借金额不能低于起投金额'
+                      return
+                    }
 
-              if (this.invAmount > this.projectInfo.balance - 0) {
-                this.errMsg = '余额不足'
-                return
-              }
+                    if (this.invAmount > this.projectInfo.surplusAmt - 0) {
+                      this.errMsg = '剩余可投金额为' + this.projectInfo.surplusAmt + '元'
+                      return
+                    }
 
-              if (this.invAmount < this.projectInfo.minInvAmt - 0) {
-                this.errMsg = '出借金额不能低于起投金额'
-                return
-              }
+                    if (this.invAmount > this.projectInfo.singleLimit - 0) {
+                      this.errMsg = '单人限额为' + this.projectInfo.singleLimit + '元'
+                      return
+                    }
 
-              if (this.invAmount > this.projectInfo.singleLimit - 0) {
-                this.errMsg = '单人限额为' + this.projectInfo.singleLimit + '元'
-                return
-              }
-
-              const $this = this
-              ;(async function initInvestDialog() {
-                await availableRedPacketApi({
-                  investAmount: $this.invAmount,
-                  productId: $this.productId
-                }).then(res => {
-                  let resultList = [],
-                    originList = res.data.data.userRedPackets
-                  if (originList.length > 0) {
-                    // 从列表中筛选出可用的 (item.isVailable === 1)
-                    originList.forEach(v => {
-                      if (v.isVailable === 1) {
-                        resultList.push(v)
-                      }
-                    })
+                    const $this = this
+                    ;(async function initInvestDialog() {
+                      await availableRedPacketApi({
+                        investAmount: !$this.invAmountDisabled ? $this.invAmount : $this.invAmountVal,
+                        productId: $this.productId
+                      }).then(res => {
+                        let resultList = [],
+                          originList = res.data.data.userRedPackets
+                        if (originList.length > 0) {
+                          // 从列表中筛选出可用的 (item.isVailable === 1)
+                          originList.forEach(v => {
+                            if (v.isVailable === 1) {
+                              resultList.push(v)
+                            }
+                          })
+                        }
+                        $this.redPacketsList = resultList
+                      })
+                      await availableCouponApi({
+                        investAmount: !$this.invAmountDisabled ? $this.invAmount : $this.invAmountVal,
+                        productId: $this.productId
+                      }).then(res => {
+                        let resultList = [],
+                          originList = res.data.data.coupons
+                        // 从列表中筛选出可用的 (item.isVailable === 1)
+                        if (originList.length > 0) {
+                          originList.forEach(v => {
+                            if (v.isVailable === 1) {
+                              resultList.push(v)
+                            }
+                          })
+                        }
+                        $this.couponsList = resultList
+                        $this.isShowConfirmInvestmentDialog = true
+                      })
+                      await $this.redEnvelopeSwiper()
+                      await $this.rateStampSwiper()
+                    })()
                   }
-                  $this.redPacketsList = resultList
                 })
-                await availableCouponApi({
-                  investAmount: $this.invAmount,
-                  productId: $this.productId
-                }).then(res => {
-                  let resultList = [],
-                    originList = res.data.data.coupons
-                  // 从列表中筛选出可用的 (item.isVailable === 1)
-                  if (originList.length > 0) {
-                    originList.forEach(v => {
-                      if (v.isVailable === 1) {
-                        resultList.push(v)
-                      }
-                    })
-                  }
-                  $this.couponsList = resultList
-                  $this.isShowConfirmInvestmentDialog = true
-                })
-                await $this.redEnvelopeSwiper()
-                await $this.rateStampSwiper()
-              })()
+              }
             }
           })
         }
@@ -1159,17 +1182,38 @@ export default {
       this.$router.push({ name: 'sign' })
     },
     toSigning(item) {
-      item.result = 'http://112.124.117.23:8082/huiyoucaifiles/xyqz/trilateral2/2019/01/17/djs758987pd_694a1de0-4a9d-4b8f-b597-59ec64b292ff.pdf'
       const tempPage = window.open('', '_blank')
       tempPage.location = item.result
     },
     toRisk() {
       this.$router.push({ name: 'riskAss' })
     },
+    toSettingAddress() {
+      this.$router.push({
+        name: 'basicInfo'
+      })
+    },
     receiveRedPacket(item, index) {
-      this.redPacketIndex = index
-      this.chooseRedPacketAmt = item.redPacketAmount
-      this.chooseRedPacketId = item.id
+      if (item.commonUse === 0) {
+        this.cleanCoupon()
+        this.redPacketIndex = index
+        this.chooseRedPacket = item
+        if (item.secondType !== '2') {
+          // secondType === 2是现金红包，不可以抵扣金额
+          this.chooseRedPacketAmt = item.redPacketAmount
+        }
+        this.chooseRedPacketId = item.id
+      } else {
+        if (typeof this.chooseCoupon.commonUse === 'undefined' || this.chooseCoupon.commonUse === 1) {
+          this.redPacketIndex = index
+          this.chooseRedPacket = item
+          if (item.secondType !== '2') {
+            // secondType === 2是现金红包，不可以抵扣金额
+            this.chooseRedPacketAmt = item.redPacketAmount
+          }
+          this.chooseRedPacketId = item.id
+        }
+      }
     },
     cleanRedpacket() {
       this.redPacketIndex = -1
@@ -1178,15 +1222,35 @@ export default {
       this.chooseRedPacketId = ''
     },
     receiveCoupon(item, index) {
-      this.couponIndex = index
-      this.chooseCouponRate = item.couponRate
-      this.chooseCouponId = item.id
+      if (item.commonUse === 0) {
+        this.cleanRedpacket()
+        this.couponIndex = index
+        this.chooseCoupon = item
+        this.chooseCouponRate = item.couponRate
+        this.chooseCouponId = item.id
+
+        const amount = this.invAmountDisabled ? this.invAmountVal : this.invAmount
+        this.handleExpectedIncome(amount)
+      } else {
+        if (typeof this.chooseRedPacket.commonUse === 'undefined' || this.chooseRedPacket.commonUse === 1) {
+          this.couponIndex = index
+          this.chooseCoupon = item
+          this.chooseCouponRate = item.couponRate
+          this.chooseCouponId = item.id
+
+          const amount = this.invAmountDisabled ? this.invAmountVal : this.invAmount
+          this.handleExpectedIncome(amount)
+        }
+      }
     },
     cleanCoupon() {
       this.couponIndex = -1
       this.chooseCoupon = {}
       this.chooseCouponRate = ''
       this.chooseCouponId = ''
+
+      const amount = this.invAmountDisabled ? this.invAmountVal : this.invAmount
+      this.handleExpectedIncome(amount)
     },
     redEnvelopeSwiper() {
       new Swiper('.swiper-container-red-envelope', {
@@ -1238,7 +1302,7 @@ export default {
       const platform_user_center = window.location.origin + window.location.pathname + '#/mine/overview'
       investApi({
         projectNo: this.projectNo,
-        invAmount: this.invAmount,
+        invAmount: this.invAmountDisabled ? this.invAmountVal : this.invAmount,
         userCouponId: this.chooseCouponId,
         userRedPacketId: this.chooseRedPacketId,
         investSource: 'pc',
@@ -1252,8 +1316,20 @@ export default {
           if (data.data.type === '1') {
             postcall(data.data.redirectUrl, data.data.paramReq)
           } else {
-            this.isShowInvestDialog = true
-            this.investMsg = '出借成功'
+            // type = 2 显示出借成功
+            this.investDialogOptions.show = true
+
+            // switch (data.data.investType) {
+            //   case 'SJLHD':
+            //     this.investSJLSuccessDialog.show = true
+            //     this.investSJLSuccessDialog.msg = data.data.successInfo
+            //     this.investSJLSuccessDialog.title = data.data.successTitle
+            //     this.investSJLSuccessDialog.msg = data.data.successInfo
+            //     break
+            //   case 'GENERAL':
+            //     this.investDialogOptions.show = true
+            //     break
+            // }
           }
         } else if (data.resultCode === '90021' || data.resultCode === '90022') {
           // 风险测评出借额度不够 || 出借期限不够
@@ -1277,10 +1353,14 @@ export default {
 
           if (['JINX'].includes(res.data.data.evaluatingResult)) {
             this.riskDialogSingleButton = true
+            this.cancelText = '我知道了'
           }
 
           this.isShowRiskDialog = true
           this.riskContent = res.data.resultMsg
+        } else if (data.resultCode === '0') {
+          this.riskContent = res.data.resultMsg
+          this.isShowRiskDialog = true
         } else {
           /*
            * 90034：授权已过期
@@ -1295,6 +1375,9 @@ export default {
       this.$router.push({
         name: 'userLend'
       })
+    },
+    refreshPage() {
+      window.location.reload()
     }
   },
   mounted() {
@@ -1483,12 +1566,6 @@ export default {
           margin-top: 12px;
           border-radius: 4px;
           padding: 0;
-          a {
-            display: block;
-            width: 100%;
-            height: 100%;
-            color: #fff;
-          }
           &:hover {
             background: lighten(#0083fe, 5%);
             cursor: pointer;

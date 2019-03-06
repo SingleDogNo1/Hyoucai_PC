@@ -131,3 +131,12 @@ export function investApi(data) {
     data: qs.stringify(data)
   })
 }
+
+// 到期自动复投
+export function userInfoCompleteNoticeApi(data) {
+  return request({
+    url: 'user/userInfoCompleteNotice',
+    method: 'post',
+    data: qs.stringify(data)
+  })
+}

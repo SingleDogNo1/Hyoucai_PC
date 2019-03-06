@@ -30,9 +30,10 @@ export function getZXList(data) {
   })
 }
 
+// TODO 个人债转接口（未开发）
 export function getGRList(data) {
   return request({
-    url: '/collection/investList',
+    url: '/collection/grlist',
     method: 'POST',
     headers: {
       version: '2.0'

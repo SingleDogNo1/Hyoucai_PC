@@ -18,6 +18,7 @@
       <div slot class="discribe">{{ dialogDis }}</div>
       <el-button v-if="openSignText" class="open-sign-btn" @click.native="viewDialog">{{ openSignText }}</el-button>
     </Dialog>
+    <!-- 设置自动出借弹窗 -->
     <Dialog
       class="repeat-unread-dialog"
       :show.sync="repeatUnreadDialogOptions.show"
@@ -25,7 +26,7 @@
       :onConfirm="confirmRepeatUnread"
     >
       <div>
-        <p class="board">您有{{repeatInvestUnreadMsgList.length}}笔出借即将到期，设置自动出借加息1%， 到期出借生效</p>
+        <p class="board">您有{{repeatInvestUnreadMsgList.length}}笔出借即将到期，设置自动出借加息{{rateSum}}%， 到期出借生效</p>
         <div class="auto-invest-way-wrap">
           <div class="auto-invest-way1">
             <el-radio v-model="repeatUnreadDialogOptions.autoInvestWay" label="1">本金到期后自动出借 </el-radio >
@@ -37,6 +38,12 @@
         <router-link class="auto-invest-agreement" :to="{ name: 'autoLendAgreement' }">《自动出借协议》</router-link>
       </div>
     </Dialog>
+    <!-- 全局的错误弹窗（resultCode !== '1'） -->
+    <DIalog
+      :show.sync="investErrDialog.show"
+    >
+      <div>{{investErrMsg}}</div>
+    </DIalog>
     <Certification v-if="accountStatus !== 'COMPLETE'" reg-flow-to="risk"> <span></span></Certification>
   </div>
 </template>
@@ -47,7 +54,8 @@ import { mapGetters, mapMutations } from 'vuex'
 import { userBasicInfo } from '@/api/common/login'
 import Dialog from '@/components/Dialog/Dialog'
 import Certification from '@/components/CertificationFlow/CertificationFlow'
-import { alertInfoAcceptApi, getAlertInfo, getUserCompleteInfo, repeatInvestApi, UpdateMessageApi } from '@/api/common/userIndex'
+import { alertInfoAcceptApi, getAlertInfo, getUserCompleteInfo } from '@/api/common/userIndex'
+import { repeatInvestApi, UpdateMessageApi } from '@/api/djs/userIndex'
 import { currentPlatform } from '../assets/js/utils'
 
 const CODE_OK = '1'
@@ -81,7 +89,13 @@ export default {
         show: false,
         autoInvestWay: '1'
       },
-      beforeRouterPath: ''
+      investErrDialog: {
+        // 全局报错弹窗
+        show: false,
+        msg: ''
+      },
+      beforeRouterPath: '',
+      rateSum: 0
     }
   },
   props: {},
@@ -204,7 +218,7 @@ export default {
           this.showCloseBtn = true
           this.showLogo = true
           this.showFooter = false
-          this.beforeRouterPath && !this.userBasicInfo.userIsOpenAccount.registerProtocolSigned ? this.showDialog = false : this.showDialog = true
+          this.beforeRouterPath && !this.userBasicInfo.userIsOpenAccount.registerProtocolSigned ? (this.showDialog = false) : (this.showDialog = true)
           this.accountStatus = list.status
           switch (this.accountStatus) {
             case 'OPEN_ACCOUNT':
@@ -232,9 +246,15 @@ export default {
                 repeatInvestApi({
                   userName: this.user.userName
                 }).then(res => {
-                  if (res.data.message.repeatUnRead.lenght > 0) {
+                  if (res.data.list.length > 0) {
+                    const list = res.data.list
+                    let sum = 0
+                    list.forEach(v => {
+                      sum += v.couponRate
+                    })
+                    this.rateSum = sum
                     this.repeatUnreadDialogOptions.show = true
-                    this.repeatInvestUnreadMsgList = res.data.message.repeatUnRead
+                    this.repeatInvestUnreadMsgList = res.data.list
                   } else {
                     this.getAlertInfo()
                   }
@@ -248,14 +268,18 @@ export default {
       })
     },
     confirmRepeatUnread() {
-      UpdateMessageApi({
-        id: this.repeatInvestUnreadMsgList.id,
-        userName: this.user.userName,
-        messageType: 'FTXI'
-      }).then(res => {
-        if (res.data.resultCode !== '1') {
-          console.log(res.data.resultMsg)
-        }
+      this.repeatInvestUnreadMsgList.forEach(v => {
+        UpdateMessageApi({
+          invId: v.id,
+          userName: this.user.userName,
+          projectNo: v.projectNo,
+          repeatStatus: this.repeatUnreadDialogOptions.autoInvestWay
+        }).then(res => {
+          if (res.data.resultCode !== '1') {
+            this.investErrDialog.msg = res.data.resultMsg
+            this.investErrDialog.show = true
+          }
+        })
       })
     }
   },
@@ -272,10 +296,10 @@ export default {
   },
   mounted() {},
   destroyed() {},
-  beforeRouteEnter (to, from, next) {
-    next(vm=>{
-      if(from.name === 'easyDetail' || from.name === 'optionalDetail') {
-        vm.beforeRouterPath = from.fullPath;
+  beforeRouteEnter(to, from, next) {
+    next(vm => {
+      if (from.name === 'easyDetail' || from.name === 'optionalDetail') {
+        vm.beforeRouterPath = from.fullPath
       }
     })
   }

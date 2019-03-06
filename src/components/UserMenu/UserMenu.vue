@@ -23,7 +23,7 @@
       <li class="title"><i class="iconfont icon-investment"></i> <span>我的出借</span></li>
       <router-link class="link" tag="li" to="/mine/lend">我的出借</router-link>
       <router-link class="link" tag="li" to="/mine/record">交易记录</router-link>
-      <router-link class="link" tag="li" to="/mine/auto-lend" v-if="user.platformFlag === '1'">自动出借</router-link>
+      <router-link class="link" tag="li" to="/mine/auto-lend" v-if="user.platformFlag === '1' || user.platformFlag === '3' && currentPlatform === 'djs'">自动出借</router-link>
       <router-link class="link" tag="li" to="/mine/calendar">回款日历</router-link>
     </ul>
     <ul class="block">
@@ -46,7 +46,8 @@ export default {
     return {
       msg: 'UserMenu',
       isShowReferralCode: false,
-      referralCode: ''
+      referralCode: '',
+      currentPlatform: currentPlatform()
     }
   },
   methods: {
