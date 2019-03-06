@@ -127,7 +127,7 @@
                     <span class="right">{{ productDetail.loanMent }}</span>
                   </p>
                   <p>
-                    <span class="left">历史年化收益率：</span>
+                    <span class="left">历史平均年化收益率：</span>
                     <span class="right">{{ productDetail.investRate }}</span>
                   </p>
                 </div>
@@ -1111,7 +1111,7 @@ export default {
                     this.riskContent = res.data.data.message
                   } else if (res.data.data.status === 'COMPLETE') {
                     if (this.invAmount > this.projectInfo.balance - 0) {
-                      this.errMsg = '余额不足'
+                      this.errMsg = '当前账户余额不足，请充值'
                       return
                     }
 
