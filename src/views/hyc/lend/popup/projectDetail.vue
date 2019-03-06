@@ -59,15 +59,15 @@
             <tr class="examine-tr" v-for="(item,index) in auditInfoList1" :key="index">
               <td>{{item.key}}</td>
               <td>
-                <span v-show="!item.result">{{item.val}}</span>
+                <span v-show="!item.img">{{item.result}}</span>
                 <img
-                  v-show="item.result&&item.field=='haveIDCard'"
+                  v-show="item.img&&item.field=='haveIDCard'"
                   @click="openReviewInfoPop(item)"
                   src="./../image/bg.png"
                 >
                 <!-- 人脸识别 -->
                 <img
-                  v-show="item.result&&item.field=='faceRecognition'"
+                  v-show="item.img&&item.field=='faceRecognition'"
                   @click="openFaceRecognitionPop(item)"
                   src="./../image/bg.png"
                 >
@@ -77,7 +77,7 @@
                   src="./../image/bg.png"
                 >
                 <img
-                  v-show="item.result&&item.field=='internetInformation'"
+                  v-show="item.img&&item.field=='internetInformation'"
                   @click="internetInformation()"
                   src="./../image/bg.png"
                 >
@@ -92,7 +92,7 @@
             <tr v-for="(item,index) in auditInfoList2" :key="index">
               <td>{{item.key}}</td>
               <td>
-                <span v-show="!item.img">{{item.val}}</span>
+                <span v-show="!item.img">{{item.result}}</span>
                 <img
                   v-show="item.img&&item.field=='haveIDCard'"
                   @click="openReviewInfoPop(item)"
@@ -432,7 +432,16 @@ export default {
         this.projectName = res.data.data.productDetail.projectName
         this.productId = res.data.data.projectInfo.productId
         this.loanMent = res.data.data.productDetail.loanMent
+        let auditInfoLists = []
         auditInfoList.map((item, index) => {
+          if (item.val == true && item.result != '' && item.result) {
+            auditInfoLists.push(auditInfoList[index])
+          }
+          if (item.key == '互联网资信报告') {
+            auditInfoLists.push(auditInfoList[index])
+          }
+        })
+        auditInfoLists.map((item, index) => {
           switch (item.field) {
             case 'haveIDCard':
               item.img = true
@@ -450,12 +459,12 @@ export default {
               item.img = false
           }
           if (index % 2 == 0) {
-            this.auditInfoList1.push(auditInfoList[index])
+            this.auditInfoList1.push(auditInfoLists[index])
           } else {
-            this.auditInfoList2.push(auditInfoList[index])
+            this.auditInfoList2.push(auditInfoLists[index])
           }
         })
-        if (auditInfoList.length % 2 != 0) {
+        if (auditInfoLists.length % 2 != 0) {
           this.isTr = true
         }
         // this.projectName

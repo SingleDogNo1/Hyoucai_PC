@@ -805,8 +805,8 @@ export default {
     },
     toggleFill(value) {
       if (value) {
-        if (this.projectInfo.balance - 0 > this.projectInfo.maxInvTotalAmount - 0) {
-          this.invAmount = this.projectInfo.maxInvTotalAmount
+        if (this.projectInfo.balance - 0 > this.projectInfo.surplusAmt - 0) {
+          this.invAmount = this.projectInfo.surplusAmt
         } else {
           this.invAmount = this.projectInfo.balance
         }
@@ -939,8 +939,9 @@ export default {
               item.isShowSmallPic = false
           }
         })
+        // 互联网征信报告result为空的话也要显示
         auditInfoList = auditInfoList.filter(item => {
-          return item.val
+          return item.field === 'internetInformation' ? item.val : item.val && item.result 
         })
         this.oddAuditInfoList = auditInfoList.filter((item, index) => {
           return (index + 1) % 2 === 1
