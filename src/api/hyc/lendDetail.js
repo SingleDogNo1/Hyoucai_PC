@@ -68,7 +68,6 @@ export function amountSync() {
     method: 'post'
   })
 }
-
 // 散标标的详情接口
 export function optionalInvestDetail(data) {
   return request({
