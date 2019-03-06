@@ -492,7 +492,7 @@ export default {
       this.page = 1
       switch (this.lendDetailActiveName) {
         case 'CJXQ':
-          this.getLendDetailList()
+          this.getInvestDetailList()
           break
         case 'JRJL':
           this.getJoinRecordList()
@@ -637,35 +637,6 @@ export default {
 
         this.getUserBasicInfo()
         this.getAmountQuery()
-      })
-    },
-    getLendDetailList() {
-      this.productId = this.$route.query.productId
-      this.itemId = this.$route.query.itemId
-      let postData = {
-        productId: this.productId,
-        itemId: this.itemId
-      }
-      easyInvestDetail(postData).then(res => {
-        this.projectServiceEntity = res.data.projectServiceEntity
-        let data = res.data.data
-        let investDetail = data.investDetail
-        this.investDetail.appDesc = investDetail.appDesc
-        this.investDetail.investTarget = investDetail.investTarget
-        this.investDetail.interestStartDate = investDetail.interestStartDate
-        this.investDetail.profitShare = investDetail.profitShare
-        this.investDetail.existSystem = investDetail.existSystem
-        this.investDetail.costdes = investDetail.costdes
-        this.investDetail.riskAppraisal = investDetail.riskAppraisal
-        this.investDetail.riskManagementTip = investDetail.riskManagementTip
-        this.investDetail.tailProject = investDetail.tailProject
-
-        // 判断是否是尾标
-        if (this.investDetail.tailProject && parseFloat(this.projectInfo.surplusAmt) < 2 * parseFloat(this.projectInfo.minInvAmount)) {
-          this.invAmount = '尾标：' + this.projectInfo.surplusAmt + '元'
-          this.invAmountVal = this.projectInfo.surplusAmt
-          this.invAmountDisabled = true
-        }
       })
     },
     getJoinRecordList() {
