@@ -854,8 +854,8 @@ export default {
         this.chooseCouponRate = item.couponRate
         this.chooseCouponId = item.id
 
-        const withCouponRate = parseFloat(this.projectInfo.investRate) + parseFloat(item.couponRate)
-        this.handleExpectedIncome(this.invAmount, withCouponRate)
+        const amount = this.invAmountDisabled ? this.invAmountVal : this.invAmount
+        this.handleExpectedIncome(amount)
       } else {
         if (typeof this.chooseRedPacket.commonUse === 'undefined' || this.chooseRedPacket.commonUse === 1) {
           this.couponIndex = index
@@ -863,8 +863,8 @@ export default {
           this.chooseCouponRate = item.couponRate
           this.chooseCouponId = item.id
 
-          const withCouponRate = parseFloat(this.projectInfo.investRate) + parseFloat(item.couponRate)
-          this.handleExpectedIncome(this.invAmount, withCouponRate)
+          const amount = this.invAmountDisabled ? this.invAmountVal : this.invAmount
+          this.handleExpectedIncome(amount)
         }
       }
     },
@@ -874,7 +874,8 @@ export default {
       this.chooseCouponRate = ''
       this.chooseCouponId = ''
 
-      this.handleExpectedIncome(this.invAmount)
+      const amount = this.invAmountDisabled ? this.invAmountVal : this.invAmount
+      this.handleExpectedIncome(amount)
     },
     redEnvelopeSwiper() {
       new Swiper('.swiper-container-red-envelope', {
@@ -926,7 +927,7 @@ export default {
       const platform_user_center = window.location.origin + window.location.pathname + '#/mine/overview'
       investApi({
         projectNo: this.itemId,
-        invAmount: this.invAmount,
+        invAmount: this.invAmountDisabled ? this.invAmountVal : this.invAmount,
         userCouponId: this.chooseCouponId,
         userRedPacketId: this.chooseRedPacketId,
         investSource: 'PC',

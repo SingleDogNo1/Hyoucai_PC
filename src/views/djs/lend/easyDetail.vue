@@ -775,6 +775,7 @@ export default {
           this.chooseCoupon = item
           this.chooseCouponRate = item.couponRate
           this.chooseCouponId = item.id
+
           this.handleExpectedIncome(this.invAmount)
         }
       }
