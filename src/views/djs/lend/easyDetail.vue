@@ -809,10 +809,10 @@ export default {
       // swiper3.0
       new Swiper('.swiper-container-red-envelope', {
         paginationClickable: true,
-        // observer: true,
-        // observeParents: true,
-        // loopAdditionalSlides: 1,
-        initialSlide: 0,
+        observer: true,
+        observeParents: true,
+        loopAdditionalSlides: 1,
+        initialSlide: 1,
         effect: 'coverflow',
         slidesPerView: 1.3, // 一屏装几个slider
         centeredSlides: true,
@@ -833,8 +833,8 @@ export default {
         paginationClickable: true,
         observer: true,
         observeParents: true,
-        // loopAdditionalSlides: 1,
-        initialSlide: 0,
+        loopAdditionalSlides: 1,
+        initialSlide: 1,
         effect: 'coverflow',
         slidesPerView: 1.3, // 一屏装几个slider
         centeredSlides: true,
@@ -845,8 +845,8 @@ export default {
           modifier: 1,
           slideShadows: false
         },
-        prevButton: '.swiper-button-prev',
-        nextButton: '.swiper-button-next'
+        prevButton: '.swiper-button-prev1',
+        nextButton: '.swiper-button-next1'
       })
     },
     toggleFill(value) {

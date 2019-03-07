@@ -1297,8 +1297,8 @@ export default {
           modifier: 1,
           slideShadows: false
         },
-        prevButton: '.swiper-button-prev',
-        nextButton: '.swiper-button-next'
+        prevButton: '.swiper-button-prev1',
+        nextButton: '.swiper-button-next1'
       })
     },
     confirm() {
