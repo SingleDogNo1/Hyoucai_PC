@@ -9,8 +9,8 @@
       </section>
       <div>
         <el-button type="info" v-if="user.platformFlag === '3'" @click="switchSystem">系统切换</el-button>
-        <el-button type="warning"><router-link :to="{ name: 'charge' }">充值</router-link></el-button>
-        <el-button type="warning"><router-link :to="{ name: 'tocash' }">提现</router-link></el-button>
+        <el-button type="warning" @click.native="linkToCharge">充值</el-button>
+        <el-button type="warning" @click.native="linkToTocash">提现</el-button>
       </div>
     </div>
     <div class="amount" id="amount"></div>
@@ -47,6 +47,12 @@ export default {
   methods: {
     switchSystem() {
       location.href = '/hyc/#/mine/overview'
+    },
+    linkToCharge() {
+      this.$router.push({ name: 'charge' })
+    },
+    linkToTocash() {
+      this.$router.push({ name: 'tocash' })
     },
     ...mapMutations({
       setPersonalAccount: 'SET_PERSONALACCOUNT'
@@ -171,6 +177,7 @@ export default {
   display: flex;
   flex-direction: column;
 }
+
 .board {
   height: 180px;
   background-color: #ffffff;
@@ -218,6 +225,7 @@ export default {
     }
   }
 }
+
 .amount {
   background-color: #fff;
   border: 1px solid #dcdcdc;
