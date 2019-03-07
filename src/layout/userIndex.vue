@@ -57,11 +57,11 @@
       </div>
     </Dialog>
     <!-- 全局的错误弹窗（resultCode !== '1'） -->
-    <DIalog
+    <Dialog
       :show.sync="investErrDialog.show"
     >
       <div>{{investErrDialog.msg}}</div>
-    </DIalog>
+    </Dialog>
     <Certification v-if="accountStatus !== 'COMPLETE'" reg-flow-to="risk">
       <span></span>
     </Certification>

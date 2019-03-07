@@ -34,7 +34,7 @@
         <!-- 加息券待领取 -->
         <div v-show="item.voucherType === 'VT01'">
           <p class="vouche_box">
-            <span class="vouche">{{ item.voucherFaceValue }}<i class="vouche_i">%</i><i class="font">利息</i></span>
+            <span class="vouche"><i>{{ item.voucherFaceValue }}</i><i class="vouche_i">%</i><i class="font">利息</i></span>
             <span class="vouche_aside">可加息{{ item.validDays }}天</span>
           </p>
           <p class="start">出借限额：{{ item.amountMin | toThousands }}元至{{ item.amountMax | toThousands }}元</p>
@@ -45,7 +45,7 @@
         <!-- 红包待领取 -->
         <div v-show="item.voucherType === 'VT02'">
           <p class="vouche_box">
-            <span class="vouche"> {{ item.voucherFaceValue }} <i class="vouche_i">元</i> </span> 
+            <span class="vouche"> <i>{{ item.voucherFaceValue }}</i> <i class="vouche_i">元</i> </span>
             <span class="vouche_aside" v-if="item.commonUse === 0">不可与加息券同时使用</span>
             <span class="vouche_aside" v-if="item.commonUse === 1">可与加息券同时使用</span>
           </p>
@@ -71,7 +71,7 @@
       >
         <div v-show="item.voucherType === 'VT01'">
           <p class="vouche_box">
-            <span class="vouche"> {{ item.voucherFaceValue }} <i class="vouche_i">%</i> <i class="font">利息</i> </span>
+            <span class="vouche"> <i>{{ item.voucherFaceValue }}</i> <i class="vouche_i">%</i> <i class="font">利息</i> </span>
             <span class="vouche_aside">可加息{{ item.validDays }}天</span>
           </p>
           <p class="start">出借限额：{{ item.amountMin | toThousands }}元至{{ item.amountMax | toThousands }}元</p>
@@ -79,7 +79,7 @@
         </div>
         <div v-show="item.voucherType === 'VT02'">
           <p class="vouche_box">
-            <span class="vouche"> {{ item.voucherFaceValue }} <i class="vouche_i">元</i> </span> 
+            <span class="vouche"> <i>{{ item.voucherFaceValue }}</i> <i class="vouche_i">元</i> </span>
             <span class="vouche_aside" v-if="item.commonUse === 0">不可与加息券同时使用</span>
             <span class="vouche_aside" v-if="item.commonUse === 1">可与加息券同时使用</span>
           </p>
@@ -107,7 +107,7 @@
         <!-- 加息券 -->
         <div v-show="item.voucherType == 'VT01'">
           <p class="vouche_box">
-            <span class="vouche"> {{ item.voucherFaceValue }} <i class="vouche_i">%</i> <i class="font">利息</i> </span>
+            <span class="vouche"> <i>{{ item.voucherFaceValue }}</i> <i class="vouche_i">%</i> <i class="font">利息</i> </span>
             <span class="vouche_aside">可加息{{ item.validDays }}天</span>
           </p>
           <p class="start">出借限额：{{ item.amountMin | toThousands }}元至{{ item.amountMax | toThousands }}元</p>
@@ -115,7 +115,7 @@
         <!-- 红包 -->
         <div v-show="item.voucherType == 'VT02'">
           <p class="vouche_box">
-            <span class="vouche"> {{ item.voucherFaceValue }} <i class="vouche_i">元</i> </span> 
+            <span class="vouche"> <i>{{ item.voucherFaceValue }}</i> <i class="vouche_i">元</i> </span>
             <span class="vouche_aside" v-if="item.commonUse === 0">不可与加息券同时使用</span>
             <span class="vouche_aside" v-if="item.commonUse === 1">可与加息券同时使用</span>
           </p>
@@ -139,7 +139,7 @@
         <!-- 加息券 -->
         <div v-show="item.voucherType == 'VT01'">
           <p class="vouche_box">
-            <span class="vouche"> {{ item.voucherFaceValue }} <i class="vouche_i">%</i> <i class="font">利息</i> </span>
+            <span class="vouche"> <i>{{ item.voucherFaceValue }}</i> <i class="vouche_i">%</i> <i class="font">利息</i> </span>
             <span class="vouche_aside">可加息{{ item.validDays }}天</span>
           </p>
           <p class="start">出借限额：{{ item.amountMin | toThousands }}元至{{ item.amountMax | toThousands }}元</p>
@@ -147,7 +147,7 @@
         <!-- 红包 -->
         <div v-show="item.voucherType == 'VT02'">
           <p class="vouche_box">
-            <span class="vouche"> {{ item.voucherFaceValue }} <i class="vouche_i">元</i> </span> 
+            <span class="vouche"> <i>{{ item.voucherFaceValue }}</i> <i class="vouche_i">元</i> </span>
             <span class="vouche_aside" v-if="item.commonUse === 0">不可与加息券同时使用</span>
             <span class="vouche_aside" v-if="item.commonUse === 1">可与加息券同时使用</span>
           </p>
@@ -404,7 +404,6 @@ export default {
           .vouche_i {
             font-size: $font-size-large-x;
             font-weight: 400;
-            margin-left: -8px;
           }
         }
         .vouche_aside {
