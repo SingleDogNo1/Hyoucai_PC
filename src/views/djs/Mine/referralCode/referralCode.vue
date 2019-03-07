@@ -25,7 +25,7 @@
     <el-table :data="inviteUserList" border class="referral-table">
       <el-table-column prop="createTime" label="注册日期"></el-table-column>
       <el-table-column prop="name" label="推荐人姓名"></el-table-column>
-      <el-table-column prop="investStatus" label="在投状态"></el-table-column>
+      <el-table-column prop="status" label="在投状态"></el-table-column>
     </el-table>
     <div class="pagination-wrapper">
       <pagination :count-page="total" :size-val="size" :page-val="page" @handleCurrentChange="handleCurrentChange"></pagination>
