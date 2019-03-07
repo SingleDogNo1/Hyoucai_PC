@@ -150,7 +150,7 @@ export default {
       showDialog: false,
       singleButton: true,
       isSpecialUser: this.$route.query.isSpecialUser,
-      retUrl: ''  // 银行跳转回来的页面，这里主要是为了从出借详情过来的，因为还要在跳转回去
+      retUrl: '' // 银行跳转回来的页面，这里主要是为了从出借详情过来的，因为还要在跳转回去
     }
   },
   props: ['entrance'],
@@ -158,11 +158,13 @@ export default {
     amount(ne) {
       if (!ne) {
         this.chargedBalance = this.balance
-        return
-      }
-      this.chargedBalance = Math.round((this.balance + ne) * 100) / 100
-      if (this.balance.toString().indexOf('.00') > -1) {
-        this.chargedBalance = this.chargedBalance + '.00'
+      } else {
+        const sumChargeAmt = parseFloat(this.balance) + ne
+        if (this.balance.toString().includes('.00')) {
+          this.chargedBalance = sumChargeAmt + '.00'
+        } else {
+          this.chargedBalance = sumChargeAmt
+        }
       }
     }
   },
@@ -363,9 +365,9 @@ export default {
       this.showDialog = true
     })
   },
-  beforeRouteEnter (to, from, next) {
-    next(vm=>{
-      if(from.name === 'easyDetail' || from.name === 'optionalDetail') {
+  beforeRouteEnter(to, from, next) {
+    next(vm => {
+      if (from.name === 'easyDetail' || from.name === 'optionalDetail') {
         vm.retUrl = from.fullPath
       }
     })

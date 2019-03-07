@@ -173,11 +173,13 @@ export default {
     amount(ne) {
       if (!ne) {
         this.chargedBalance = this.personalInfo.banlance
-        return
-      }
-      this.chargedBalance = Math.round((this.personalInfo.banlance - 0 + ne) * 100) / 100
-      if (this.personalInfo.banlance.toString().indexOf('.00') > -1) {
-        this.chargedBalance = this.chargedBalance + '.00'
+      } else {
+        const sumChargeAmt = parseFloat(this.balance) + ne
+        if (this.balance.toString().includes('.00')) {
+          this.chargedBalance = sumChargeAmt + '.00'
+        } else {
+          this.chargedBalance = sumChargeAmt
+        }
       }
     }
   },
