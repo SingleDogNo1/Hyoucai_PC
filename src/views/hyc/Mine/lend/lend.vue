@@ -81,7 +81,8 @@ export default {
       dateStatus: [], // 交易时间tab
       dateStatusIndex: 0, // 交易时间tab的索引
       productType: '',
-      settlementFlags: ''
+      settlementFlags: '',
+      status: this.$route.params.status // 从其他途径跳转来的参数（个人中心弹窗 refund）
     }
   },
   computed: {
@@ -199,11 +200,16 @@ export default {
       // 获取默认显示的状态
       await getDefaultStatusApi().then(res => {
         const status = res.data.data.invStatus
-        $this.QSTStatus.find((value, index) => {
-          if (value.statusCode === status) {
-            $this.QSTStatusIndex = index
-          }
-        })
+        if ($this.status === 'QST_YTK') {
+          // 跳转到已退款
+          $this.QSTStatusIndex = 3
+        } else {
+          $this.QSTStatus.find((value, index) => {
+            if (value.statusCode === status) {
+              $this.QSTStatusIndex = index
+            }
+          })
+        }
       })
       if ($this.settlementFlags === '1' && $this.productType === '2') {
         $this.showQST('JHB_YJQ')

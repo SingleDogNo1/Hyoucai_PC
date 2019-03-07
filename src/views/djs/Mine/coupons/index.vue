@@ -4,9 +4,7 @@
       <div
         :class="['card', { active: flag1 }]"
         @click="changeFlag1"
-      >
-        可用卡券
-      </div>
+      >可用卡券</div>
       <div
         :class="[
           'card',
@@ -14,9 +12,7 @@
           { actives: flag2 }
         ]"
         @click="changeFlag2"
-      >
-        历史卡券
-      </div>
+      >历史卡券</div>
     </header>
     <!-- 可用卡券 -->
     <div
@@ -250,10 +246,10 @@ export default {
         list.map(item => {
           switch (item.status) {
             case 1:
-              this.expiredList.push(item)
+              this.usedList.push(item)
               break
             case 2:
-              this.usedList.push(item)
+              this.expiredList.push(item)
               break
           }
           this.expiredList.map(item => {

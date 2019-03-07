@@ -118,6 +118,7 @@ export default {
   data() {
     return {
       invStatus: this.$route.params.status,
+      tabShow: this.$route.query.tab,
       invList: [],
       paginationOption: {
         curPage: 1,
@@ -149,13 +150,6 @@ export default {
           type: type
         }
       })
-      // getQSTDetail({
-      //   projectNo: id
-      // }).then(res => {
-      //   console.log(res)
-      // })
-
-      console.log(id)
     },
     changePage(page) {
       this.paginationOption.curPage = page
@@ -164,6 +158,18 @@ export default {
   },
   created() {
     this.getQSTList(this.invStatus)
+  },
+  mounted() {
+    setTimeout(() => {
+      if (this.tabShow) {
+        this.$router.push({
+          name: 'QSTList',
+          params: {
+            status: this.tab
+          }
+        })
+      }
+    }, 200)
   }
 }
 </script>

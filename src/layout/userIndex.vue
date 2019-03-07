@@ -62,7 +62,9 @@
     >
       <div>{{investErrDialog.msg}}</div>
     </DIalog>
-    <Certification v-if="accountStatus !== 'COMPLETE'" reg-flow-to="risk"> <span></span></Certification>
+    <Certification v-if="accountStatus !== 'COMPLETE'" reg-flow-to="risk">
+      <span></span>
+    </Certification>
   </div>
 </template>
 
@@ -152,9 +154,7 @@ export default {
         // 需要跳转的
         this.$router.push({
           name: this.routerLink,
-          params: {
-            type: this.routerParam
-          }
+          params: this.routerParam
         })
       }
     },
@@ -192,8 +192,10 @@ export default {
                   this.dialogTitle = '汇有财温馨提示'
                   this.dialogDis = `银行系统原因，您有${this.alertInfo.count}笔出借退款项未匹配成功，已退回`
                   this.confirmText = '去查看'
-                  this.routerLink = 'lend'
-                  this.routerParam = ''
+                  this.routerLink = 'userLend'
+                  this.routerParam = {
+                    status: 'JHB_YTK'
+                  }
                   break
                 case 'refundBeforeDueDate':
                   this.showCloseBtn = true

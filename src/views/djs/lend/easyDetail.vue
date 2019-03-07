@@ -511,8 +511,12 @@ export default {
   watch: {
     invAmount(value) {
       this.handleExpectedIncome(value)
-      // 值不等于可用余额 && 单人限额，就去掉全投状态
-      this.isAllLending = !(value !== this.projectInfo.balance && value !== this.projectInfo.maxInvTotalAmount)
+      // 值不等于可用余额 && 单人限额 && 剩余可投，就去掉全投状态
+      this.isAllLending = !(
+        value !== this.projectInfo.balance &&
+        value !== this.projectInfo.maxInvTotalAmount &&
+        value !== this.projectInfo.surplusAmt
+      )
     }
   },
   methods: {
