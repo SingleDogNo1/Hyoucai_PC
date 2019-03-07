@@ -276,37 +276,25 @@ export default {
         if (data.resultCode === '1') {
           this.bannerList = data.bannelList
           setTimeout(() => {
+            // swiper 3.0
             this.swiperBanner = new Swiper('.swiper-container-banner', {
               noSwipingSelector: 'div',
               noSwipingClass: 'form-container, stop-swiping',
-              lazy: {
-                loadPrevNext: true
-              },
-              autoplay: {
-                delay: 2500,
-                disableOnInteraction: false
-              },
+              autoplay: 2500,
+              autoplayDisableOnInteraction: false,
               loop: true,
-              pagination: {
-                el: '.swiper-pagination-banner',
-                clickable: true
-              },
-              autoplayDisableOnInteraction: false
+              pagination: '.swiper-pagination-banner',
+              paginationClickable: true
             })
             /*鼠标移入停止轮播，鼠标离开 继续轮播*/
             let comtainer = document.getElementById('swiper-container-banner')
             comtainer.onmouseenter = () => {
-              this.swiperBanner.autoplay.stop()
+              this.swiperBanner.stopAutoplay()
             }
             comtainer.onmouseleave = () => {
-              this.swiperBanner.autoplay.start()
+              this.swiperBanner.startAutoplay()
             }
           }, 200)
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: data.resultMsg
-          })
         }
       })
     },
@@ -321,21 +309,20 @@ export default {
         if (data.resultCode === '1') {
           this.noticeList = data.zxdtMtbdlist
           setTimeout(() => {
+            // swiper 3.0
             this.swiperNotice1 = new Swiper('#swiper-container-notice1', {
               direction: 'vertical',
-              autoplay: {
-                delay: 3000,
-                disableOnInteraction: false
-              },
+              autoplay: 3000,
+              autoplayDisableOnInteraction: false,
               loop: true
             })
             /*鼠标移入停止轮播，鼠标离开 继续轮播*/
             let comtainer = document.getElementById('swiper-container-notice1')
             comtainer.onmouseenter = () => {
-              this.swiperNotice1.autoplay.stop()
+              this.swiperNotice1.stopAutoplay()
             }
             comtainer.onmouseleave = () => {
-              this.swiperNotice1.autoplay.start()
+              this.swiperNotice1.startAutoplay()
             }
           }, 200)
         }
@@ -350,21 +337,20 @@ export default {
         if (data.resultCode === '1') {
           this.industryList = data.zxdtMtbdlist
           setTimeout(() => {
+            // swiper 3.0
             this.swiperNotice2 = new Swiper('#swiper-container-notice2', {
               direction: 'vertical',
-              autoplay: {
-                delay: 3000,
-                disableOnInteraction: false
-              },
+              autoplay: 3000,
+              autoplayDisableOnInteraction: false,
               loop: true
             })
             /*鼠标移入停止轮播，鼠标离开 继续轮播*/
             let comtainer = document.getElementById('swiper-container-notice2')
             comtainer.onmouseenter = () => {
-              this.swiperNotice2.autoplay.stop()
+              this.swiperNotice2.stopAutoplay()
             }
             comtainer.onmouseleave = () => {
-              this.swiperNotice2.autoplay.start()
+              this.swiperNotice2.startAutoplay()
             }
           }, 200)
         }
@@ -379,21 +365,20 @@ export default {
         if (data.resultCode === '1') {
           this.mediaList = data.zxdtMtbdlist
           setTimeout(() => {
+            // swiper 3.0
             this.swiperNotice3 = new Swiper('#swiper-container-notice3', {
               direction: 'vertical',
-              autoplay: {
-                delay: 3000,
-                disableOnInteraction: false
-              },
+              autoplay: 3000,
+              autoplayDisableOnInteraction: false,
               loop: true
             })
             /*鼠标移入停止轮播，鼠标离开 继续轮播*/
             let comtainer = document.getElementById('swiper-container-notice3')
             comtainer.onmouseenter = () => {
-              this.swiperNotice3.autoplay.stop()
+              this.swiperNotice3.stopAutoplay()
             }
             comtainer.onmouseleave = () => {
-              this.swiperNotice3.autoplay.start()
+              this.swiperNotice3.startAutoplay()
             }
           }, 200)
         }
@@ -454,7 +439,6 @@ export default {
           projectNo: item.projectNo
         }
         investCountProjectMsg(postData).then(res => {
-          let data = res.data
           if (res.data.resultCode === '1') {
             this.$router.push({ name: 'easyDetail', query: { projectNo: item.projectNo } })
           } else {

@@ -19,7 +19,7 @@
     "js-base64": "^2.5.0",
     "js-cookie": "^2.2.0",
     "moment": "^2.23.0",
-    "swiper": "^4.4.6",
+    "swiper": "^3.4.2",
     "vue": "^2.5.17",
     "vue-router": "^3.0.1",
     "vue-social-share": "^0.0.3",

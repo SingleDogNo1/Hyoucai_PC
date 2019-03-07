@@ -787,24 +787,16 @@ export default {
   mounted() {
     this.index = this.$route.query.index
     setTimeout(() => {
-      0,
-        (this.swiperBanner = new Swiper('.swiper-container-banner', {
-          autoplay: {
-            delay: 5000,
-            disableOnInteraction: false
-          },
-          lazy: {
-            loadPrevNext: true
-          },
-          loop: false,
-          observer: true,
-          observeParents: true,
-          navigation: {
-            nextEl: '.swiper-button-next',
-            prevEl: '.swiper-button-prev'
-          },
-          autoplayDisableOnInteraction: false
-        }))
+      // swiper3.0
+      new Swiper('.swiper-container-banner', {
+        autoplay: 5000,
+        autoplayDisableOnInteraction: false,
+        loop: false,
+        observer: true,
+        observeParents: true,
+        prevButton: '.swiper-button-prev',
+        nextButton: '.swiper-button-next'
+      })
     }, 0)
   }
 }

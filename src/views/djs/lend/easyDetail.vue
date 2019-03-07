@@ -801,6 +801,7 @@ export default {
       this.handleExpectedIncome(this.invAmount)
     },
     redEnvelopeSwiper() {
+      // swiper3.0
       new Swiper('.swiper-container-red-envelope', {
         paginationClickable: true,
         observer: true,
@@ -810,20 +811,19 @@ export default {
         effect: 'coverflow',
         slidesPerView: 1.3, // 一屏装几个slider
         centeredSlides: true,
-        coverflowEffect: {
+        coverflow: {
           rotate: 0,
           stretch: 35,
           depth: 20,
           modifier: 1,
           slideShadows: false
         },
-        navigation: {
-          nextEl: '.swiper-button-next',
-          prevEl: '.swiper-button-prev'
-        }
+        prevButton: '.swiper-button-prev',
+        nextButton: '.swiper-button-next'
       })
     },
     rateStampSwiper() {
+      // swiper3.0
       new Swiper('.swiper-container-rate-stamp', {
         paginationClickable: true,
         observer: true,
@@ -833,17 +833,15 @@ export default {
         effect: 'coverflow',
         slidesPerView: 1.3, // 一屏装几个slider
         centeredSlides: true,
-        coverflowEffect: {
+        coverflow: {
           rotate: 0,
           stretch: 35,
           depth: 20,
           modifier: 1,
           slideShadows: false
         },
-        navigation: {
-          nextEl: '.swiper-button-next1',
-          prevEl: '.swiper-button-prev1'
-        }
+        prevButton: '.swiper-button-prev',
+        nextButton: '.swiper-button-next'
       })
     },
     toggleFill(value) {

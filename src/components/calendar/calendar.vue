@@ -444,16 +444,15 @@ export default {
     },
     initMonth() {
       const $this = this
+      // swiper3.0
       this.monthSwiper = new Swiper('#month', {
         loop: true,
         direction: 'vertical',
-        on: {
-          init() {
-            if ($this.month === 0) {
-              this.slideTo(1, 0)
-            } else {
-              this.slideTo($this.month - 0 + 1, 0)
-            }
+        onInit() {
+          if ($this.month === 0) {
+            this.slideTo(1, 0)
+          } else {
+            this.slideTo($this.month - 0 + 1, 0)
           }
         }
       })
