@@ -300,6 +300,7 @@
       :confirmText="investDialogOptions.confirmText"
       class="system-maintenance-dialog align"
       :showCloseBtn="investDialogOptions.showCloseBtn"
+      :onBtnClose="refreshPage"
       :singleButton="investDialogOptions.singleButton"
       :onClose="toInvestRecord"
     >
@@ -858,8 +859,8 @@ export default {
         paginationClickable: true,
         observer: true,
         observeParents: true,
-        loopAdditionalSlides: 1,
-        initialSlide: 1,
+        // loopAdditionalSlides: 1,
+        initialSlide: 0,
         effect: 'coverflow',
         slidesPerView: 1.3, // 一屏装几个slider
         centeredSlides: true,

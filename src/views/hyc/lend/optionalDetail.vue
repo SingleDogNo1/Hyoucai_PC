@@ -564,6 +564,7 @@
       :confirmText="investDialogOptions.confirmText"
       class="system-maintenance-dialog align"
       :showCloseBtn="investDialogOptions.showCloseBtn"
+      :onBtnClose="refreshPage"
       :singleButton="investDialogOptions.singleButton"
       :onClose="toInvestRecord"
     >
