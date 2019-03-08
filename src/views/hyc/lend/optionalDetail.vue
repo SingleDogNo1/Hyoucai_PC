@@ -612,7 +612,6 @@ import {
   optionalInvestRecord,
   expectedIncome,
   systemMaintenance,
-  amountSync,
   availableRedPacketApi,
   availableCouponApi,
   internetInformation,
@@ -1097,10 +1096,10 @@ export default {
               this.isShowSystemMaintenanceDialog = true
             } else {
               // 调用即信的接口，刷新用户账户余额，然后判断账户余额是否充足
-              amountSync().then(res => {
+              amountInfo().then(res => {
                 let data = res.data
                 if (data.resultCode === '1') {
-                  this.projectInfo.balance = data.data.availBal
+                  this.projectInfo.balance = data.data.banlance
                 }
               })
               // 如果没勾选风险告知书，弹出提示
