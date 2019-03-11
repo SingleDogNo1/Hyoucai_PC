@@ -131,7 +131,7 @@ export default {
                 show: true,
                 position: 'center',
                 verticalAlign: 'middle',
-                formatter: ['{a|总资产（元）}', '{b|' + $this.amountInfo.totalAmount + '}'].join('\n'),
+                formatter: ['{a|总资产(元)}', '{b|' + $this.amountInfo.totalAmount + '}'].join('\n'),
                 rich: {
                   a: {
                     textAlign: 'center',
