@@ -23,11 +23,11 @@
           </div>
           <div class="txt">
             <p>
-              <span class="left">合同编号：</span>
+              <span class="left">借款流水号：</span>
               <span class="right">{{loanNo}}</span>
             </p>
             <p>
-              <span class="left">融资金额：</span>
+              <span class="left">借款金额：</span>
               <span class="right">{{prinAmt}}</span>
             </p>
           </div>

@@ -113,11 +113,11 @@
                 </div>
                 <div class="txt">
                   <p>
-                    <span class="left">合同编号：</span>
+                    <span class="left">借款流水号：</span>
                     <span class="right">{{ productDetail.contractNum }}</span>
                   </p>
                   <p>
-                    <span class="left">融资金额：</span>
+                    <span class="left">借款金额：</span>
                     <span class="right">{{ productDetail.loanAmt }}</span>
                   </p>
                 </div>
@@ -671,11 +671,11 @@ export default {
       },
       productDetail: {
         projectName: '', // 标的名称
-        contractNum: '', // 合同编号
+        contractNum: '', // 借款流水号
         productName: '', // 项目类型
         loanMent: '', // 期限
         repaymentWay: '', // 还款方式
-        loanAmt: '', // 融资金额，后端返回“元”
+        loanAmt: '', // 借款金额，后端返回“元”
         investRate: '', // 预期年化收益率
         loanDate: '', // 申请日期
         relatedExpenses: '' // 相关费用
