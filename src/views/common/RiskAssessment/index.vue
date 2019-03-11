@@ -297,7 +297,7 @@ export default {
     }
   },
   methods: {
-    getChoice: function($event, index) {
+    getChoice($event, index) {
       let scoreObj = {
         index: index,
         score: $event
@@ -308,10 +308,10 @@ export default {
       this.scoreArr.map(item => {
         scoreNum *= item
       })
-      if (scoreNum != 0) {
+      if (scoreNum !== 0) {
         this.isColor = true
       }
-      // console.log(this.scoreArr, scoreNum)
+      console.log(this.scoreArr, scoreNum)
     },
     changeShow() {
       this.isShow = false
@@ -319,7 +319,7 @@ export default {
       this.scoreArr = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
       this.isColor = false
     },
-    submit: function() {
+    submit() {
       let totalScore = 0
       this.scoreArr.map(item => {
         totalScore += item
@@ -344,7 +344,7 @@ export default {
         this.resultTitle = '进取型'
         this.resultFont =
           '出借人愿意通过承担较高的风险来换取更高的出借回报，在出借时倾向以流动性较低、收益较高的出借方式获取收益。故出借人在平台的最高出借额不得超过100万元人民币，出借期限建议为6个月内（包括6个月）。<p style="text-align: center">本次测评有效期6个月</p>'
-      } else if (totalScore == 50) {
+      } else if (totalScore === 50) {
         this.resultType = 'JINX'
         this.resultTitle = '激进型'
         this.resultFont =
@@ -352,12 +352,10 @@ export default {
       }
       document.querySelector('.layout') && document.querySelector('.layout').scrollIntoView()
       let data = {
-        // authorization: this.authorization,
         evaluatingResult: this.resultType
       }
       if (this.isColor) {
         saveEvaluatingResultApi(data).then(() => {
-          //this.$router.push({ name: 'basicInfo'})
           this.isShow = true
         })
       }
@@ -418,7 +416,6 @@ export default {
 .risk_box {
   padding-top: 30px;
   margin-bottom: 57px;
-  font-family: PingFangSC-Regular;
   font-weight: 400;
   .risk {
     background: rgba(255, 255, 255, 1);
@@ -436,7 +433,6 @@ export default {
         width: 73px;
         height: 18px;
         font-size: $font-size-medium;
-        font-family: PingFangSC-Regular;
         font-weight: 400;
         color: rgba(74, 74, 74, 1);
         line-height: $font-size-medium;
@@ -446,7 +442,6 @@ export default {
     .content {
       width: 1054px;
       font-size: 14px;
-      font-family: PingFangSC-Regular;
       font-weight: 400;
       color: rgba(74, 74, 74, 1);
       line-height: 30px;
@@ -456,7 +451,6 @@ export default {
         width: 645px;
         height: 17px;
         font-size: 12px;
-        font-family: PingFangSC-Regular;
         font-weight: 400;
         color: rgba(155, 155, 155, 1);
         line-height: 17px;
@@ -474,7 +468,6 @@ export default {
       }
       .matchClass {
         font-size: 14px;
-        font-family: PingFangSC-Regular;
         font-weight: 400;
         color: rgba(106, 106, 106, 1);
         line-height: 36px;

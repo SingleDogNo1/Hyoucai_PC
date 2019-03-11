@@ -18,6 +18,4 @@ function reportTelephone(data) {
   })
 }
 
-
-
 export { getFriendLink, reportTelephone }

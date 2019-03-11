@@ -22,7 +22,7 @@ export default {
     threePartyHZ
   },
   methods: {
-    getProtocolTemplateId: function() {
+    getProtocolTemplateId() {
       getProtocolTemplateId().then(res => {
         this.protocolTemplateId = res.data.data.protocolTemplateId
       })

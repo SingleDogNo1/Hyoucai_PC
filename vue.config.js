@@ -27,7 +27,6 @@ module.exports = {
   configureWebpack: config => {
     if (process.env.NODE_ENV === 'production') {
       config.optimization.minimizer[0].options.terserOptions.compress.drop_console = true
-      // config.devtool = 'none'
     }
   },
   devServer: {
@@ -35,8 +34,8 @@ module.exports = {
     disableHostCheck: true,
     proxy: {
       '/TouchStone': {
-        // target: 'http://opsstatic.dpandora.cn:30174', // SIT
-        target: 'http://opsstatic.dpandora.cn:30162', // UAT
+        target: 'http://opsstatic.dpandora.cn:30174', // SIT
+        // target: 'http://opsstatic.dpandora.cn:30162', // UAT
         changeOrigin: true,
         wx: true
       }

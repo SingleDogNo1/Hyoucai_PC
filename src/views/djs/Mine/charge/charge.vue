@@ -42,11 +42,8 @@
               </li>
               <li>
                 <span class="title">&emsp;手机号</span>
-                <input type="text" placeholder="请输入手机号" v-if="isBankcardSupport" readonly v-model="bankCardInfo.mobile" /><input
-                  type="text"
-                  placeholder="请输入手机号"
-                  v-else
-                />
+                <input type="text" placeholder="请输入手机号" v-if="isBankcardSupport" readonly v-model="bankCardInfo.mobile" />
+                <input type="text" placeholder="请输入手机号" v-else/>
               </li>
               <li class="validation">
                 <span class="title">&emsp;验证码</span>
