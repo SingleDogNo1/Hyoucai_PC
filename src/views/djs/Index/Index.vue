@@ -5,7 +5,7 @@
         <div class="swiper-slide swiper-no-swiping stop-swiping" v-for="(item, index) in bannerList" :key="index">
           <a :href="item.linkUrl">
             <img :src="item.picUrl" class="swiper-lazy" />
-            <div class="swiper-lazy-preloader"></div>
+            <!--<div class="swiper-lazy-preloader"></div>-->
           </a>
         </div>
       </div>

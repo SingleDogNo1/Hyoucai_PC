@@ -43,8 +43,8 @@
         </div>
         <div class="countdown">
           <span class="title">募集倒计时：</span>
-          <span class="large">{{ projectInfo.investEndDay }}</span>
-          <span>{{ projectInfo.investEndTime }}</span>
+          <span class="large">{{ investEndDay }}</span>
+          <span>{{ investEndTime }}</span>
         </div>
       </div>
       <div class="invest-module">
@@ -380,8 +380,8 @@ export default {
       expectedIncome: '0.00', //逾期收益
       projectInfo: {
         iconUrl: '', // icon图片链接
-        investEndDay: '', // 募集倒计时(天)
-        investEndTime: '', // 募集倒计时(时分秒)
+        // investEndDay: '', // 募集倒计时(天)
+        // investEndTime: '', // 募集倒计时(时分秒)
         investRate: '', // 利率
         itemName: '', // 集合标项目名称
         surplusAmt: '', // 剩余可投金额
@@ -455,7 +455,9 @@ export default {
         msg: '您当前未签约或签约状态不符合合规要求，请重新签约！',
         singleButton: false,
         confirmText: '签约'
-      }
+      },
+      investEndDay: '', // 募集倒计时(天)
+      investEndTime: '' // 募集倒计时(时分秒)
     }
   },
   components: {
@@ -477,6 +479,9 @@ export default {
         value !== this.projectInfo.maxInvTotalAmount &&
         value !== this.projectInfo.surplusAmt
       )
+    },
+    'projectInfo.investEndTime'() {
+      console.log(123)
     }
   },
   methods: {
@@ -614,10 +619,11 @@ export default {
         // 预售状态中，募集倒计时不倒计
         timeCountDown(investEndTimestamp, this.projectInfo.status, data => {
           if (data.indexOf('天') > -1) {
-            this.projectInfo.investEndDay = data.substr(0, data.indexOf('天') + 1)
-            this.projectInfo.investEndTime = data.substr(data.indexOf('天') + 1, data.length - 1)
+            console.log(data)
+            this.investEndDay = data.substr(0, data.indexOf('天') + 1)
+            this.investEndTime = data.substr(data.indexOf('天') + 1, data.length - 1)
           } else {
-            this.projectInfo.investEndTime = data
+            this.investEndTime = data
           }
         })
 
