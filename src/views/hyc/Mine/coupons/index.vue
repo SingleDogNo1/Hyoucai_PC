@@ -223,8 +223,9 @@ export default {
     },
     // 历史卡券
     couponPacketHistory: function() {
-      let obj = {}
-      obj.userName = this.user.userName
+      let obj = {
+        userName: this.user.userName
+      }
       couponPacketHistory(obj).then(res => {
         if (res.data.data.list == 0) {
           this.flags = true

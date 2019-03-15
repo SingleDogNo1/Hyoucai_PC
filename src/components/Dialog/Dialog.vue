@@ -35,7 +35,7 @@ export default {
     // 标题文字
     title: {
       type: String,
-      default: '温馨提示'
+      default: '汇有财温馨提示'
     },
     // 是否显示标题
     showTitle: {

@@ -85,7 +85,9 @@
           </div>
         </li>
         <div class="err-msg" v-if="errMsg.cardBankCnaps">{{ errMsg.cardBankCnaps }}</div>
-        <li v-if="isSpecialUser == 1 && type == 2"><span class="title"></span> <input style="margin-left: 110px;" type="button" value="确认提现" @click="transferWithdraw" /></li>
+        <li v-if="isSpecialUser == 1 && type == 2">
+          <span class="title"></span> <input style="margin-left: 110px;" type="button" value="确认提现" @click="transferWithdraw" />
+        </li>
         <li v-else><span class="title"></span> <input style="margin-left: 110px;" type="button" value="确认提现" @click="withDraw" /></li>
       </ul>
     </div>
@@ -95,7 +97,7 @@
       <p>2.实时提现：支持5万（含5万）以下资金提现，实时到账。</p>
       <p>3.大额提现：支持5万以上资金提现，工作日9:00-16:45。到账时间为30分钟左右，依据发卡行不同可能略有差异。</p>
       <p>4.提现手续费0元，每日限10笔。</p>
-      <p>5.提现中有任何疑问，可以立即联系点金石客服：021-23099138。</p>
+      <p>5.提现中有任何疑问，可以立即联系汇有财客服：021-23099138。</p>
     </div>
     <div class="model" v-if="showSelector" @click.stop="controlShowSelect"></div>
     <Dialog :show.sync="showDialog" :singleButton="singleButton">

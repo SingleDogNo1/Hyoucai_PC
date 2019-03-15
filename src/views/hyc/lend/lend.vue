@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper">
-    <div class="top" v-if="user">
-      <img src="./image/date_back.png" />
+    <div class="top">
+      <img src="./image/date_back.png" alt="" />
       <ul>
         <li>
           <dl>
@@ -49,7 +49,7 @@
               <ul class="info-wrapper">
                 <li class="info">
                   <dl>
-                    <dt>{{ item.investRate }} <span>%</span></dt>
+                    <dt>{{ item.investRate }}<span>%</span></dt>
                     <dd>历史平均年化收益率</dd>
                   </dl>
                 </li>
@@ -67,14 +67,18 @@
                 </li>
                 <li class="info">
                   <dl>
-                    <dt>
-                      已投<span class="hight-light">{{ item.investPercent }}%</span>
-                    </dt>
                     <dd><el-progress :percentage="item.investPercent"></el-progress></dd>
                   </dl>
                 </li>
                 <li class="info">
-                  <el-button type="primary"> <router-link :to="{ name: 'download' }">下载APP</router-link> </el-button>
+                  <template v-if="item.status !== 1">
+                    <!--1.未开启 2.已投X% 3.满标(包括item.investPercent >= 100 || item.investEndTimestamp <= 0 || item.status === 3)-->
+                    <el-button disabled v-if="item.investPercent >= 100 || item.investEndTimestamp <= 0 || item.status === 3"> 还款中 </el-button>
+                    <el-button v-else @click.native="judgeBooking(item)"> 授权出借 </el-button>
+                  </template>
+                  <template v-else>
+                    <el-button type="primary" @click.native="judgeBooking(item)"> 预售中 </el-button>
+                  </template>
                 </li>
               </ul>
             </li>
@@ -117,14 +121,18 @@
                 </li>
                 <li class="info">
                   <dl>
-                    <dt>
-                      已投<span class="hight-light">{{ item.investPercent }}%</span>
-                    </dt>
                     <dd><el-progress :percentage="item.investPercent"></el-progress></dd>
                   </dl>
                 </li>
                 <li class="info">
-                  <el-button type="primary"> <router-link :to="{ name: 'download' }">下载APP</router-link> </el-button>
+                  <!-- 0.预售 1.投资中 2.满标 3.已完结-->
+                  <template v-if="item.status !== 0">
+                    <el-button v-if="item.status === 1" @click.native="judgeBooking(item)"> 授权出借 </el-button>
+                    <el-button disabled v-else>还款中</el-button>
+                  </template>
+                  <template v-else>
+                    <el-button type="primary" @click.native="judgeBooking(item)"> 预售中 </el-button>
+                  </template>
                 </li>
               </ul>
             </li>
@@ -186,6 +194,18 @@
         <div class="no-data-wrapper" v-if="GRList.length === 0"><noData :type="noDataType"></noData></div>
       </div>
     </div>
+    <!-- 系统不匹配的错误弹窗 -->
+    <Dialog
+      class="system-maintenance-dialog"
+      title="汇有财温馨提示"
+      confirmText="我知道了"
+      :show.sync="systemDialogOptions.show"
+      :singleButton="systemDialogOptions.singleButton"
+    >
+      <div>
+        <p>{{systemDialogOptions.msg}}</p>
+      </div>
+    </Dialog>
   </div>
 </template>
 
@@ -193,7 +213,16 @@
 import pagination from '@/components/pagination/pagination'
 import countUp from '@/components/countUp/index'
 import noData from '@/components/NoData/index'
-import { getPageConfig, getCountMsg, getQSList, getZXList, getGRList } from '@/api/hyc/lend'
+import Dialog from '@/components/Dialog/Dialog'
+import {
+  getPageConfig,
+  getCountMsg,
+  getQSList,
+  getZXList,
+  getGRList, // TODO 个人债转接口（未开发）
+  easyInvestDetail,
+  optionalInvestDetail
+} from '@/api/hyc/lend'
 import { getUser } from '@/assets/js/cache'
 import { mapGetters } from 'vuex'
 
@@ -223,11 +252,41 @@ export default {
       },
       showTabs: false,
       tabActive: 0,
-      noDataType: 'production'
+      noDataType: 'production',
+      systemDialogOptions: {
+        show: false,
+        singleButton: true,
+        msg: ''
+      }
     }
   },
   props: ['redPacketId', 'couponId'],
   methods: {
+    judgeBooking(item) {
+      if (this.userName) {
+        if (item.itemId) {
+          easyInvestDetail({ productId: item.productId, itemId: item.itemId }).then(res => {
+            if (res.data.resultCode === '1') {
+              this.$router.push({ name: 'easyDetail', query: { productId: item.productId, itemId: item.itemId } })
+            } else {
+              this.systemDialogOptions.show = true
+              this.systemDialogOptions.msg = res.data.resultMsg
+            }
+          })
+        } else {
+          optionalInvestDetail({ projectNo: item.projectNo }).then(res => {
+            if (res.data.resultCode === '1') {
+              this.$router.push({ name: 'optionalDetail', query: { projectNo: item.projectNo, productId: item.productId } })
+            } else {
+              this.systemDialogOptions.show = true
+              this.systemDialogOptions.msg = res.data.resultMsg
+            }
+          })
+        }
+      } else {
+        this.$router.push({ name: 'login' })
+      }
+    },
     handleCurrentChange(val) {
       this.page = val
       this.getQSList()
@@ -287,6 +346,7 @@ export default {
       })
     },
     getGRList() {
+      // TODO 个人债转列表（未开发）
       this.tabActive = 2
       let params = {
         userName: this.userName,
@@ -343,7 +403,8 @@ export default {
   components: {
     pagination,
     countUp,
-    noData
+    noData,
+    Dialog
   },
   computed: {
     ...mapGetters(['user'])
@@ -584,9 +645,8 @@ export default {
                 &:nth-last-of-type(2) {
                   margin-top: 14px;
                   dl {
-                    dt {
-                      color: #9b9b9b;
-                      font-size: $font-size-medium;
+                    dd {
+                      margin-top: 20px;
                     }
                   }
                   span {
@@ -616,7 +676,12 @@ export default {
                     line-height: 44px;
                     margin-top: 8px;
                     background-color: #fb7b1f;
+                    color: #fff;
                     font-size: $font-size-medium;
+                    &.is-disabled {
+                      background-color: #ccc;
+                      border-color: #ccc;
+                    }
                     a {
                       display: block;
                       width: 100%;

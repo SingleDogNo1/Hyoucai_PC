@@ -84,7 +84,7 @@
         <tbody>
           <tr v-for="(item, index) in invList" :key="index">
             <td>{{ item.itemName && item.productName ? item.itemName : item.productName }}</td>
-            <td>{{ item.returnAmount }}</td>
+            <td>{{ item.refundAmount }}</td>
             <td>{{ item.yearRate }}</td>
             <td>{{ item.applyAmount }}</td>
             <td>{{ item.refundDate }}</td>
@@ -100,7 +100,7 @@
         @handleCurrentChange="changePage"
       ></pagination>
     </div>
-    <NoData v-else></NoData>
+    <NoData class="empty-data" v-else></NoData>
   </div>
 </template>
 
@@ -118,6 +118,7 @@ export default {
   data() {
     return {
       invStatus: this.$route.params.status,
+      tabShow: this.$route.query.tab,
       invList: [],
       paginationOption: {
         curPage: 1,
@@ -149,13 +150,6 @@ export default {
           type: type
         }
       })
-      // getQSTDetail({
-      //   projectNo: id
-      // }).then(res => {
-      //   console.log(res)
-      // })
-
-      console.log(id)
     },
     changePage(page) {
       this.paginationOption.curPage = page
@@ -164,6 +158,18 @@ export default {
   },
   created() {
     this.getQSTList(this.invStatus)
+  },
+  mounted() {
+    setTimeout(() => {
+      if (this.tabShow) {
+        this.$router.push({
+          name: 'QSTList',
+          params: {
+            status: this.tab
+          }
+        })
+      }
+    }, 200)
   }
 }
 </script>
@@ -232,6 +238,9 @@ export default {
   }
   .page {
     margin-top: 25px;
+  }
+  .empty-data {
+    height: 460px;
   }
 }
 </style>

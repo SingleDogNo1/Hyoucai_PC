@@ -1,5 +1,6 @@
 module.exports = {
   baseUrl: process.env.NODE_ENV === 'production' ? '../' : '/',
+  productionSourceMap: false,
   pages: {
     app: {
       entry: 'src/entries/main.js',
@@ -23,10 +24,9 @@ module.exports = {
       chunks: ['chunk-vendors', 'chunk-common', 'djs']
     }
   },
-  configureWebpack: (config) => {
+  configureWebpack: config => {
     if (process.env.NODE_ENV === 'production') {
       config.optimization.minimizer[0].options.terserOptions.compress.drop_console = true
-      config.devtool = 'none'
     }
   },
   devServer: {
@@ -34,17 +34,8 @@ module.exports = {
     disableHostCheck: true,
     proxy: {
       '/TouchStone': {
-        target: 'http://47.100.38.237:8888',
-        changeOrigin: true,
-        wx: true
-      },
-      '/TouchStoneService': {
-        target: 'http://47.100.38.237:8088/d',
-        changeOrigin: true,
-        wx: true
-      },
-      '/TouchStoneServiceNew': {
-        target: 'http://47.100.38.237:8088/h',
+        target: 'http://opsstatic.dpandora.cn:30174', // SIT
+        // target: 'http://opsstatic.dpandora.cn:30162', // UAT
         changeOrigin: true,
         wx: true
       }

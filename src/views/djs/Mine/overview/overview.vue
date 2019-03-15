@@ -9,8 +9,8 @@
       </section>
       <div>
         <el-button type="info" v-if="user.platformFlag === '3'" @click="switchSystem">系统切换</el-button>
-        <el-button type="warning"><router-link :to="{ name: 'charge' }">充值</router-link></el-button>
-        <el-button type="warning"><router-link :to="{ name: 'tocash' }">提现</router-link></el-button>
+        <el-button type="warning" @click.native="linkToCharge">充值</el-button>
+        <el-button type="warning" @click.native="linkToTocash">提现</el-button>
       </div>
     </div>
     <div class="amount" id="amount"></div>
@@ -48,6 +48,12 @@ export default {
     switchSystem() {
       location.href = '/hyc/#/mine/overview'
     },
+    linkToCharge() {
+      this.$router.push({ name: 'charge' })
+    },
+    linkToTocash() {
+      this.$router.push({ name: 'tocash' })
+    },
     ...mapMutations({
       setPersonalAccount: 'SET_PERSONALACCOUNT'
     })
@@ -69,35 +75,6 @@ export default {
           trigger: 'item',
           formatter: '{a} <br/>{b}: {c} ({d}%)'
         },
-        graphic: [
-          {
-            type: 'text',
-            left: '20%',
-            top: '45%',
-            z: 2,
-            zlevel: 100,
-            style: {
-              text: '总资产（元）',
-              x: 400,
-              y: 400,
-              textAlign: 'center',
-              font: '14px sans-serif',
-              fill: '#4a4a4a'
-            }
-          },
-          {
-            type: 'text',
-            left: '18%',
-            top: '50%',
-            z: 2,
-            zlevel: 100,
-            style: {
-              text: $this.amountInfo.totalAmount,
-              fill: '#4a4a4a',
-              font: '20px sans-serif'
-            }
-          }
-        ],
         color: ['#F8DF38', '#F98128', '#42B1FF', '#37F1BE'],
         legend: {
           top: 'middle',
@@ -146,11 +123,29 @@ export default {
             type: 'pie',
             radius: ['35%', '50%'],
             center: ['25%', '50%'],
-            avoidLabelOverlap: true,
+            avoidLabelOverlap: false,
+            hoverAnimation: true,
+            silent: true,
             label: {
               normal: {
-                show: false,
-                position: 'center'
+                show: true,
+                position: 'center',
+                verticalAlign: 'middle',
+                formatter: ['{a|总资产(元)}', '{b|' + $this.amountInfo.totalAmount + '}'].join('\n'),
+                rich: {
+                  a: {
+                    textAlign: 'center',
+                    fontSize: 14,
+                    color: '#4a4a4a',
+                    padding: [18, 0],
+                    fontWeight: 'normal'
+                  },
+                  b: {
+                    textAlign: 'center',
+                    color: '#4a4a4a',
+                    fontSize: 20
+                  }
+                }
               }
             },
             labelLine: {
@@ -182,6 +177,7 @@ export default {
   display: flex;
   flex-direction: column;
 }
+
 .board {
   height: 180px;
   background-color: #ffffff;
@@ -229,6 +225,7 @@ export default {
     }
   }
 }
+
 .amount {
   background-color: #fff;
   border: 1px solid #dcdcdc;

@@ -25,7 +25,7 @@
           <td>{{ item.invAmount }}</td>
           <td>{{ item.intSumStartDate }}</td>
           <td>{{ item.invOverDate }}</td>
-          <td>{{ item.doubleBonuCouponEntity ? `+${item.doubleBonuCouponEntity.dbCouponRate}%` : '无' }}</td>
+          <td>{{ item.doubleBonuCouponEntity && item.doubleBonuCouponEntity.dbValidDays !== 0 ? `+${item.doubleBonuCouponEntity.dbCouponRate}%` : '无' }}</td>
           <td>
             <span v-if="item.repeatStatus === 0" @click="handleSetAutoLend(item.id)">设置自动出借</span>
             <span v-if="item.repeatStatus === 1" @click="handleCancelAutoLend(item.id)">取消本金自动出借</span>
@@ -38,7 +38,8 @@
     <Dialog :show.sync="showDialogSet" title="设置自动出借，省心赚钱" :onConfirm="setAutoLend">
       <p class="dialog-text"><el-radio v-model="status" label="1">本金到期后自动出借</el-radio></p>
       <p class="dialog-text"><el-radio v-model="status" label="2">本息到期后自动出借</el-radio></p>
-      <p class="dialog-text"><span class="agreement" @click="$router.push({ name: 'autoLendAgreement' })">自动出借服务条款</span></p>
+      <p class="dialog-text"><router-link target="_blank" class="agreement" :to="{ name: 'autoLendAgreement' }">自动出借服务条款</router-link></p>
+      <!--<p class="dialog-text"><span class="agreement" @click="$router.push({ name: 'autoLendAgreement' })">自动出借服务条款</span></p>-->
     </Dialog>
     <Dialog :show.sync="showDialogCancel" :onConfirm="cancelAutoLend"> <p class="dialog-text">您确认要取消自动出借吗？</p> </Dialog>
   </div>

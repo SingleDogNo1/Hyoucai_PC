@@ -18,15 +18,53 @@
       <div slot class="discribe">{{ dialogDis }}</div>
       <el-button v-if="openSignText" class="open-sign-btn" @click.native="viewDialog">{{ openSignText }}</el-button>
     </Dialog>
+    <!-- 设置自动出借弹窗 -->
     <Dialog
       class="repeat-unread-dialog"
       :show.sync="repeatUnreadDialogOptions.show"
       title="设置自动出借，省心赚钱"
       :onConfirm="confirmRepeatUnread"
     >
-      <slot>1231321</slot>
+      <div v-if="repeatCouponRate !== ''">
+        <!-- 复投加息 -->
+        <p class="board">
+          您有{{repeatInvestUnreadMsgList.length}}笔出借即将到期，设置自动出借加息{{repeatCouponRate}}%， 到期出借生效
+        </p>
+        <div class="auto-invest-way-wrap">
+          <div class="auto-invest-way1">
+            <el-radio v-model="repeatUnreadDialogOptions.autoInvestWay" label="1">本金到期后自动出借 </el-radio >
+          </div>
+          <div class="auto-invest-way2">
+            <el-radio v-model="repeatUnreadDialogOptions.autoInvestWay" label="2">本息到期后自动出借</el-radio >
+          </div>
+        </div>
+        <router-link class="auto-invest-agreement" :to="{ name: 'autoLendAgreement' }">《自动出借协议》</router-link>
+      </div>
+      <div v-else>
+        <!-- 复投不加息 -->
+        <p class="board">
+          您有{{repeatInvestUnreadMsgList.length}}笔出借即将到期，设置自动出借坐享收益
+        </p>
+        <div class="auto-invest-way-wrap">
+          <div class="auto-invest-way1">
+            <el-radio v-model="repeatUnreadDialogOptions.autoInvestWay" label="1">本金到期后自动出借 </el-radio >
+          </div>
+          <div class="auto-invest-way2">
+            <el-radio v-model="repeatUnreadDialogOptions.autoInvestWay" label="2">本息到期后自动出借</el-radio >
+          </div>
+        </div>
+        <router-link class="auto-invest-agreement" :to="{ name: 'autoLendAgreement' }">《自动出借协议》</router-link>
+      </div>
     </Dialog>
-    <Certification v-if="accountStatus !== 'COMPLETE'" reg-flow-to="risk"> <span></span></Certification>
+    <!-- 全局的错误弹窗（resultCode !== '1'） -->
+    <Dialog
+      :show.sync="investErrDialog.show"
+    >
+      <div>{{investErrDialog.msg}}</div>
+    </Dialog>
+    <Certification v-if="accountStatus !== 'COMPLETE'" reg-flow-to="risk">
+      <span></span>
+    </Certification>
   </div>
 </template>
 
@@ -36,7 +74,8 @@ import { mapGetters, mapMutations } from 'vuex'
 import { userBasicInfo } from '@/api/common/login'
 import Dialog from '@/components/Dialog/Dialog'
 import Certification from '@/components/CertificationFlow/CertificationFlow'
-import { alertInfoAcceptApi, getAlertInfo, getUserCompleteInfo, repeatInvestApi } from '@/api/common/userIndex'
+import { alertInfoAcceptApi, getAlertInfo, getUserCompleteInfo } from '@/api/common/userIndex'
+import { repeatInvestApi, UpdateMessageApi } from '@/api/djs/userIndex'
 import { currentPlatform } from '../assets/js/utils'
 
 const CODE_OK = '1'
@@ -65,11 +104,18 @@ export default {
       showFooter: true,
       openSignText: '',
       repeatInvestUnreadMsgList: [], // 点金石未读复投消息列表
+      repeatCouponRate: '', // 复投加息的利率
       repeatUnreadDialogOptions: {
         // 点金石未读复投消息弹窗参数
         show: false,
-        title: '设置自动出借，省心赚钱'
-      }
+        autoInvestWay: '1'
+      },
+      investErrDialog: {
+        // 全局报错弹窗
+        show: false,
+        msg: ''
+      },
+      beforeRouterPath: ''
     }
   },
   props: {},
@@ -108,9 +154,7 @@ export default {
         // 需要跳转的
         this.$router.push({
           name: this.routerLink,
-          params: {
-            type: this.routerParam
-          }
+          params: this.routerParam
         })
       }
     },
@@ -148,8 +192,10 @@ export default {
                   this.dialogTitle = '汇有财温馨提示'
                   this.dialogDis = `银行系统原因，您有${this.alertInfo.count}笔出借退款项未匹配成功，已退回`
                   this.confirmText = '去查看'
-                  this.routerLink = 'lend'
-                  this.routerParam = ''
+                  this.routerLink = 'userLend'
+                  this.routerParam = {
+                    status: 'JHB_YTK'
+                  }
                   break
                 case 'refundBeforeDueDate':
                   this.showCloseBtn = true
@@ -191,7 +237,7 @@ export default {
           this.showCloseBtn = true
           this.showLogo = true
           this.showFooter = false
-          this.showDialog = true
+          this.beforeRouterPath && !this.userBasicInfo.userIsOpenAccount.registerProtocolSigned ? (this.showDialog = false) : (this.showDialog = true)
           this.accountStatus = list.status
           switch (this.accountStatus) {
             case 'OPEN_ACCOUNT':
@@ -219,7 +265,27 @@ export default {
                 repeatInvestApi({
                   userName: this.user.userName
                 }).then(res => {
-                  this.repeatInvestUnreadMsgList = res.data.message.repeatUnRead
+                  console.log(res.data.couponRate)
+                  if (res.data.resultCode === '1') {
+                    this.repeatCouponRate = res.data.couponRate
+                    if (res.data.couponRate === '') {
+                      // 复投不加息
+                      if (res.data.list.length > 0) {
+                        this.repeatUnreadDialogOptions.show = true
+                        this.repeatInvestUnreadMsgList = res.data.list
+                      } else {
+                        this.getAlertInfo()
+                      }
+                    } else {
+                      // 复投加息
+                      if (res.data.list.length > 0) {
+                        this.repeatUnreadDialogOptions.show = true
+                        this.repeatInvestUnreadMsgList = res.data.list
+                      } else {
+                        this.getAlertInfo()
+                      }
+                    }
+                  }
                 })
               } else {
                 this.getAlertInfo()
@@ -229,7 +295,21 @@ export default {
         }
       })
     },
-    confirmRepeatUnread() {}
+    confirmRepeatUnread() {
+      this.repeatInvestUnreadMsgList.forEach(v => {
+        UpdateMessageApi({
+          invId: v.id,
+          userName: this.user.userName,
+          projectNo: v.projectNo,
+          repeatStatus: this.repeatUnreadDialogOptions.autoInvestWay
+        }).then(res => {
+          if (res.data.resultCode !== '1') {
+            this.investErrDialog.msg = res.data.resultMsg
+            this.investErrDialog.show = true
+          }
+        })
+      })
+    }
   },
   computed: {
     ...mapGetters(['user', 'userBasicInfo'])
@@ -243,11 +323,21 @@ export default {
     })
   },
   mounted() {},
-  destroyed() {}
+  destroyed() {},
+  beforeRouteEnter(to, from, next) {
+    next(vm => {
+      if (from.name === 'easyDetail' || from.name === 'optionalDetail') {
+        vm.beforeRouterPath = from.fullPath
+      }
+    })
+  }
 }
 </script>
 
 <style lang="scss" scoped>
+@import '../assets/css/mixins';
+@import '../assets/css/theme';
+
 .mine-wrapper {
   width: 1140px;
   height: 100%;
@@ -270,5 +360,75 @@ export default {
     color: #fff;
     font-size: 16px;
   }
+}
+
+.repeat-unread-dialog {
+  /deep/ .inner {
+    padding: 40px 30px;
+  }
+  .board {
+    background: #f3f2f2;
+    padding: 16px 20px;
+    font-size: 18px;
+    color: #5b5b5b;
+    line-height: 26px;
+    text-align: center;
+  }
+}
+
+.auto-invest-way-wrap {
+  margin-top: 30px;
+  .auto-invest-way1 {
+    width: 200px;
+    margin: 0 auto 12px;
+  }
+  .auto-invest-way2 {
+    width: 200px;
+    margin: 0 auto;
+  }
+  /deep/ .el-radio {
+    color: $color-text-s;
+    font-size: $font-size-medium;
+    .el-radio__inner {
+      width: 20px;
+      height: 20px;
+      &:after {
+        width: 6px;
+        height: 6px;
+        border: 1px solid #cdcdcd;
+        transform: translate(-50%, -50%) scale(1);
+      }
+    }
+    .el-radio__label {
+      font-size: $font-size-medium;
+    }
+  }
+  /deep/ .el-radio.is-checked {
+    .el-radio__inner {
+      width: 20px;
+      height: 20px;
+      border-color: #fb7b1f;
+      background: #fff;
+      &:after {
+        width: 6px;
+        height: 6px;
+        border: 1px solid #fb7b1f;
+        background-color: #fb7b1f;
+      }
+    }
+    .el-radio__label {
+      color: $color-text;
+      font-size: $font-size-medium;
+    }
+  }
+}
+.auto-invest-agreement {
+  display: block;
+  width: 200px;
+  margin: 20px auto 0;
+  text-align: center;
+  font-size: $font-size-small-s;
+  color: #2d85ed;
+  text-decoration: underline;
 }
 </style>

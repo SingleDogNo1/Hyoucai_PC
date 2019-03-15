@@ -5,7 +5,7 @@
         <div class="swiper-slide swiper-no-swiping stop-swiping" v-for="(item, index) in bannerList" :key="index">
           <a :href="item.linkUrl">
             <img :src="item.picUrl" class="swiper-lazy" />
-            <div class="swiper-lazy-preloader"></div>
+            <!--<div class="swiper-lazy-preloader"></div>-->
           </a>
         </div>
       </div>
@@ -117,7 +117,7 @@
         </li>
       </ul>
     </div>
-    <div class="novice-area-wrap" v-if="noviceProjectList && noviceProjectList.length > 0">
+    <div class="novice-area-wrap" v-if="user && noviceProjectList && noviceProjectList.length > 0">
       <div class="novice-area-box">
         <div class="desc-warp">
           <div class="text-title"></div>
@@ -148,14 +148,20 @@
               <p class="desc">剩余额度</p>
             </div>
           </div>
-          <div class="btn-invest-now"><router-link :to="{ name: 'download' }">下载APP</router-link></div>
+          <div class="btn-invest-now" @click="viewInvestDetail(item)">
+            <a href="javascript:void(0);">查看详情</a>
+          </div>
         </div>
       </div>
     </div>
-    <div class="lend-boutique-wrap" v-if="popularProjectList && popularProjectList.length > 0">
+    <div class="lend-boutique-wrap" v-if="user && popularProjectList && popularProjectList.length > 0">
       <div class="text-title"></div>
-      <ul :class="{ two: popularProjectList.length == 2, one: popularProjectList.length == 1 }">
-        <li v-for="(item, index) in popularProjectList" :key="index" @click="toDownload">
+      <ul :class="{ two: popularProjectList.length == 2, 'one': popularProjectList.length == 1 }">
+        <li
+          v-for="(item, index) in popularProjectList"
+          :key="index"
+          @click="viewInvestDetail(item)"
+        >
           <p class="title">
             <img :src="item.iconUrl" v-if="item.iconUrl" /> <span class="icon">{{ item.projectName }}</span>
           </p>
@@ -170,7 +176,8 @@
           <p class="lend-desc">锁定期：{{ item.investMent }}</p>
           <p class="lend-desc">已投：{{ item.showInvestPercent }}</p>
           <div class="actions">
-            <a class="btn-invest-now" href="javascript:void(0);">下载APP</a> <a class="btn-view-detail" href="javascript:void(0);">查看详情</a>
+            <a class="btn-invest-now" href="javascript:void(0);">立即出借</a>
+            <a class="btn-view-detail" href="javascript:void(0);">查看详情</a>
           </div>
         </li>
       </ul>
@@ -200,6 +207,18 @@
         <div class="activity-img"><button class="btn-to-investment">去投资</button></div>
       </div>
     </div>
+    <!-- 系统不匹配的错误弹窗 -->
+    <Dialog
+      class="system-maintenance-dialog"
+      title="汇有财温馨提示"
+      confirmText="我知道了"
+      :show.sync="systemDialogOptions.show"
+      :singleButton="systemDialogOptions.singleButton"
+    >
+      <div>
+        <p>{{systemDialogOptions.msg}}</p>
+      </div>
+    </Dialog>
   </div>
 </template>
 
@@ -207,7 +226,9 @@
 import Swiper from 'swiper/dist/js/swiper'
 import CountUp from '@/components/countUp/index'
 import LoginForm from '@/components/loginForm'
+import Dialog from '@/components/Dialog/Dialog'
 import { getBanner, getOperateData, getQualityList } from '@/api/djs/index'
+import { investCountProjectMsg } from '@/api/djs/lendDetail'
 import { getList } from '@/api/djs/announcement'
 import { mapGetters } from 'vuex'
 
@@ -229,12 +250,18 @@ export default {
       mediaList: [],
       noviceProjectList: [],
       popularProjectList: [],
-      hycPopularProjectList: []
+      hycPopularProjectList: [],
+      systemDialogOptions: {
+        show: false,
+        singleButton: true,
+        msg: ''
+      }
     }
   },
   components: {
     CountUp,
-    LoginForm
+    LoginForm,
+    Dialog
   },
   computed: {
     ...mapGetters(['user'])
@@ -249,37 +276,25 @@ export default {
         if (data.resultCode === '1') {
           this.bannerList = data.bannelList
           setTimeout(() => {
+            // swiper 3.0
             this.swiperBanner = new Swiper('.swiper-container-banner', {
               noSwipingSelector: 'div',
               noSwipingClass: 'form-container, stop-swiping',
-              lazy: {
-                loadPrevNext: true
-              },
-              autoplay: {
-                delay: 2500,
-                disableOnInteraction: false
-              },
+              autoplay: 2500,
+              autoplayDisableOnInteraction: false,
               loop: true,
-              pagination: {
-                el: '.swiper-pagination-banner',
-                clickable: true
-              },
-              autoplayDisableOnInteraction: false
+              pagination: '.swiper-pagination-banner',
+              paginationClickable: true
             })
             /*鼠标移入停止轮播，鼠标离开 继续轮播*/
             let comtainer = document.getElementById('swiper-container-banner')
             comtainer.onmouseenter = () => {
-              this.swiperBanner.autoplay.stop()
+              this.swiperBanner.stopAutoplay()
             }
             comtainer.onmouseleave = () => {
-              this.swiperBanner.autoplay.start()
+              this.swiperBanner.startAutoplay()
             }
           }, 200)
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: data.resultMsg
-          })
         }
       })
     },
@@ -294,21 +309,20 @@ export default {
         if (data.resultCode === '1') {
           this.noticeList = data.zxdtMtbdlist
           setTimeout(() => {
+            // swiper 3.0
             this.swiperNotice1 = new Swiper('#swiper-container-notice1', {
               direction: 'vertical',
-              autoplay: {
-                delay: 3000,
-                disableOnInteraction: false
-              },
+              autoplay: 3000,
+              autoplayDisableOnInteraction: false,
               loop: true
             })
             /*鼠标移入停止轮播，鼠标离开 继续轮播*/
             let comtainer = document.getElementById('swiper-container-notice1')
             comtainer.onmouseenter = () => {
-              this.swiperNotice1.autoplay.stop()
+              this.swiperNotice1.stopAutoplay()
             }
             comtainer.onmouseleave = () => {
-              this.swiperNotice1.autoplay.start()
+              this.swiperNotice1.startAutoplay()
             }
           }, 200)
         }
@@ -323,21 +337,20 @@ export default {
         if (data.resultCode === '1') {
           this.industryList = data.zxdtMtbdlist
           setTimeout(() => {
+            // swiper 3.0
             this.swiperNotice2 = new Swiper('#swiper-container-notice2', {
               direction: 'vertical',
-              autoplay: {
-                delay: 3000,
-                disableOnInteraction: false
-              },
+              autoplay: 3000,
+              autoplayDisableOnInteraction: false,
               loop: true
             })
             /*鼠标移入停止轮播，鼠标离开 继续轮播*/
             let comtainer = document.getElementById('swiper-container-notice2')
             comtainer.onmouseenter = () => {
-              this.swiperNotice2.autoplay.stop()
+              this.swiperNotice2.stopAutoplay()
             }
             comtainer.onmouseleave = () => {
-              this.swiperNotice2.autoplay.start()
+              this.swiperNotice2.startAutoplay()
             }
           }, 200)
         }
@@ -352,21 +365,20 @@ export default {
         if (data.resultCode === '1') {
           this.mediaList = data.zxdtMtbdlist
           setTimeout(() => {
+            // swiper 3.0
             this.swiperNotice3 = new Swiper('#swiper-container-notice3', {
               direction: 'vertical',
-              autoplay: {
-                delay: 3000,
-                disableOnInteraction: false
-              },
+              autoplay: 3000,
+              autoplayDisableOnInteraction: false,
               loop: true
             })
             /*鼠标移入停止轮播，鼠标离开 继续轮播*/
             let comtainer = document.getElementById('swiper-container-notice3')
             comtainer.onmouseenter = () => {
-              this.swiperNotice3.autoplay.stop()
+              this.swiperNotice3.stopAutoplay()
             }
             comtainer.onmouseleave = () => {
-              this.swiperNotice3.autoplay.start()
+              this.swiperNotice3.startAutoplay()
             }
           }, 200)
         }
@@ -419,6 +431,23 @@ export default {
       // 如果锚点存在，就跳转
       if (jumpId && anchorElement) {
         anchorElement.scrollIntoView()
+      }
+    },
+    viewInvestDetail(item) {
+      if (this.user) {
+        let postData = {
+          projectNo: item.projectNo
+        }
+        investCountProjectMsg(postData).then(res => {
+          if (res.data.resultCode === '1') {
+            this.$router.push({ name: 'easyDetail', query: { projectNo: item.projectNo } })
+          } else {
+            this.systemDialogOptions.show = true
+            this.systemDialogOptions.msg = res.data.resultMsg
+          }
+        })
+      } else {
+        this.$router.push({ name: 'login' })
       }
     }
   },
@@ -650,7 +679,7 @@ export default {
           background-size: 205px auto;
         }
       }
-      li:last-child() {
+      li:last-child {
         margin-right: 0;
       }
     }

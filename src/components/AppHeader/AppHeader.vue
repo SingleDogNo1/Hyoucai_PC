@@ -82,6 +82,7 @@ export default {
     ...mapActions(['logout'])
   },
   mounted() {
+    // swiper3.0
     new Swiper('.slogan', {
       direction: 'vertical',
       autoplay: false

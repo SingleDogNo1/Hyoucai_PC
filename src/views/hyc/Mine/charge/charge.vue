@@ -36,9 +36,13 @@
                   {{ bankCardInfo.bankName }}<i class="high-light"> {{ bankCardInfo.quota }}</i>
                 </span>
               </li>
-              <li v-if="isSpecialUser !== '1'"><span class="title">&emsp;手机号</span> <input type="text" placeholder="请输入银行绑定手机号" @input="mobileInput" /></li>
+              <li v-if="isSpecialUser !== '1'">
+                <span class="title">&emsp;手机号</span> <input type="text" placeholder="请输入银行绑定手机号" @input="mobileInput" />
+              </li>
               <div class="err-msg" v-if="errMsg.mobile">{{ errMsg.mobile }}</div>
-              <li v-if="isSpecialUser === '1'"><span class="title">&emsp;&emsp;&emsp;&emsp;</span> <input type="button" value="确认充值" @click="transferCharge" /></li>
+              <li v-if="isSpecialUser === '1'">
+                <span class="title">&emsp;&emsp;&emsp;&emsp;</span> <input type="button" value="确认充值" @click="transferCharge" />
+              </li>
               <li v-else><span class="title">&emsp;&emsp;&emsp;&emsp;</span> <input type="button" value="确认充值" @click="checkAmount" /></li>
             </ul>
           </div>
@@ -145,7 +149,8 @@ export default {
       },
       showDialog: false,
       singleButton: true,
-      isSpecialUser: this.$route.query.isSpecialUser
+      isSpecialUser: this.$route.query.isSpecialUser,
+      retUrl: '' // 银行跳转回来的页面，这里主要是为了从出借详情过来的，因为还要在跳转回去
     }
   },
   props: ['entrance'],
@@ -153,11 +158,13 @@ export default {
     amount(ne) {
       if (!ne) {
         this.chargedBalance = this.balance
-        return
-      }
-      this.chargedBalance = Math.round((this.balance + ne) * 100) / 100
-      if (this.balance.toString().indexOf('.00') > -1) {
-        this.chargedBalance = this.chargedBalance + '.00'
+      } else {
+        const sumChargeAmt = parseFloat(this.balance) + ne
+        if (this.balance.toString().includes('.00')) {
+          this.chargedBalance = sumChargeAmt + '.00'
+        } else {
+          this.chargedBalance = sumChargeAmt
+        }
       }
     }
   },
@@ -255,7 +262,7 @@ export default {
         userName: this.userName,
         authorization: this.authorization,
         txAmount: this.amount,
-        retUrl: getRetBaseURL() + path,
+        retUrl: this.retUrl ? getRetBaseURL() + this.retUrl : getRetBaseURL() + path,
         forgotPwdUrl: forgetUrl,
         mobile: this.mobile,
         platform: 'PC'
@@ -283,7 +290,7 @@ export default {
       let params = {
         userName: this.userName,
         txAmount: this.amount,
-        retUrl: getRetBaseURL() + path
+        retUrl: this.retUrl ? getRetBaseURL() + this.retUrl : getRetBaseURL() + path
       }
       transferChargeApi(params).then(res => {
         let data = res.data
@@ -345,7 +352,6 @@ export default {
     }
   },
   created() {
-    console.log(this.isSpecialUser, this.$route.query.isSpecialUser)
     this.getBankCardQuery()
     amountInfoApi().then(res => {
       if (res.data.resultCode === ERR_OK) {
@@ -357,6 +363,13 @@ export default {
     clipboard.on('success', () => {
       this.errMsg.common = '复制成功！'
       this.showDialog = true
+    })
+  },
+  beforeRouteEnter(to, from, next) {
+    next(vm => {
+      if (from.name === 'easyDetail' || from.name === 'optionalDetail') {
+        vm.retUrl = from.fullPath
+      }
     })
   }
 }

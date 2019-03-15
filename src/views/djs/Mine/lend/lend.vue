@@ -2,7 +2,10 @@
   <div class="app-container">
     <div class="total-info">
       <div class="item">
-        <div><img src="./logo.png" alt="" /></div>
+        <div>
+          <img src="./logo.png" alt="" />
+          <p>汇有财</p>
+        </div>
       </div>
       <div class="item">
         <div>

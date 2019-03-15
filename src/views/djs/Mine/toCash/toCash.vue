@@ -23,8 +23,8 @@
         <li>
           <span class="title">&nbsp;&nbsp;可用金额（元）</span>
           <span class="text">
-            <i class="high-light-red">{{ balance }}</i> 元</span
-          >
+            <i class="high-light-red">{{ balance }}</i> 元
+          </span>
         </li>
         <li>
           <span class="title">&emsp;&emsp;&emsp;<i class="high-light-red">*</i>&nbsp;提现金额</span>
@@ -290,7 +290,7 @@ export default {
       } else {
         this.errMsg.amount = ''
       }
-      if (!this.cardBankCnaps || this.cardBankCnaps.length != 12) {
+      if (!this.cardBankCnaps || this.cardBankCnaps.length !== 12) {
         this.errMsg.cardBankCnaps = '请输入正确的联行号！'
         return
       } else {
@@ -322,7 +322,7 @@ export default {
           this.showDialog = true
           this.errMsg.common = '提现成功，正在跳转到首页...'
           setTimeout(() => {
-            this.$router.push({ name: 'index' })
+            this.$router.push({ name: 'overview' })
           }, 1000)
         } else {
           // Toast(resultMsg);

@@ -32,21 +32,16 @@
               <li>
                 <span class="title">银行卡号</span>
                 <input type="text" placeholder="请输入银行卡号" v-if="isBankcardSupport" readonly v-model="bankCardNo" />
-                <input type="text" placeholder="请输入银行卡号" v-else />
+                <input type="text" placeholder="请输入银行卡号" v-model="unableBankCardNo" v-else />
               </li>
               <li>
                 <span class="title">开户银行</span>
-                <span class="text">
-                  {{ bankCardInfo.bankName }} <i class="high-light">{{ bankCardInfo.quota }}</i>
-                </span>
+                <span class="text" v-if="isBankcardSupport">{{ bankCardInfo.bankName }}<i class="high-light">{{ bankCardInfo.quota }}</i></span>
               </li>
               <li>
                 <span class="title">&emsp;手机号</span>
-                <input type="text" placeholder="请输入手机号" v-if="isBankcardSupport" readonly v-model="bankCardInfo.mobile" /><input
-                  type="text"
-                  placeholder="请输入手机号"
-                  v-else
-                />
+                <input type="text" placeholder="请输入手机号" v-if="isBankcardSupport" readonly v-model="bankCardInfo.mobile" />
+                <input type="text" placeholder="请输入手机号" v-else v-model="unableMobile"/>
               </li>
               <li class="validation">
                 <span class="title">&emsp;验证码</span>
@@ -105,7 +100,15 @@
 </template>
 
 <script>
-import { queryCardInfo, userBankCardList, personalAccount, userRechargePreVerify, rechargeApiDirectPayServer, unionPay } from '@/api/djs/Mine/charge'
+import {
+  queryCardInfo,
+  userBankCardList,
+  personalAccount,
+  userRechargePreVerify,
+  rechargeApiDirectPayServer,
+  unionPay,
+  userAndBankInfo
+} from '@/api/djs/Mine/charge'
 import { getUser } from '@/assets/js/cache'
 import { getAuth, getRetBaseURL } from '@/assets/js/utils'
 import Dialog from '@/components/Dialog/Dialog'
@@ -146,6 +149,8 @@ export default {
       userName: getUser().userName,
       authorization: getAuth(),
       bankCardNo: '',
+      unableBankCardNo: '', // 不支持充值时手动填入的银行卡号
+      unableMobile: '', // 不支持充值时手动填入的手机号
       showCountDown: false,
       countDown: 60,
       timeInterval: null,
@@ -157,18 +162,21 @@ export default {
       singleButton: true,
       showDialog: false,
       showDialogSuccess: false,
-      isBankcardSupport: false // 快钱是否支持用户当前银行卡
+      isBankcardSupport: false, // 快钱是否支持用户当前银行卡
+      retUrl: '' // 银行跳转回来的页面，这里主要是为了从出借详情过来的，因为还要在跳转回去
     }
   },
   watch: {
     amount(ne) {
       if (!ne) {
         this.chargedBalance = this.personalInfo.banlance
-        return
-      }
-      this.chargedBalance = Math.round((this.personalInfo.banlance - 0 + ne) * 100) / 100
-      if (this.personalInfo.banlance.toString().indexOf('.00') > -1) {
-        this.chargedBalance = this.chargedBalance + '.00'
+      } else {
+        const sumChargeAmt = parseFloat(this.balance) + ne
+        if (this.balance.toString().includes('.00')) {
+          this.chargedBalance = sumChargeAmt + '.00'
+        } else {
+          this.chargedBalance = sumChargeAmt
+        }
       }
     }
   },
@@ -184,6 +192,13 @@ export default {
       } else {
         return ''
       }
+    },
+    userAndBankInfo() {
+      userAndBankInfo().then(res => {
+        if (res.data.userInfo.cardNo) {
+          this.userRechargePreVerify()
+        }
+      })
     },
     amountInput(e) {
       e.target.value = e.target.value.replace(/[^\d.]/g, '')
@@ -219,63 +234,127 @@ export default {
         this.errMsg.amount = '100元起充！'
         return false
       }
-      let data = {
-        amount: this.amount,
-        userName: this.userName,
-        bankCardNum: this.bankCardInfo.cardNo,
-        bankCode: this.bankCardInfo.bank,
-        mobileNo: this.bankCardInfo.mobile,
-        rechargeType: 'KQAP',
-        whichSetp: 'send',
-        authorization: this.authorization
-      }
-      this.showCountDown = true
-      if (this.timeInterval) {
-        clearInterval(this.timeInterval)
-      }
-      this.timeInterval = setInterval(() => {
-        this.countDown--
-        if (this.countDown <= 0) {
-          this.showCountDown = false
-          this.countDown = 60
-          clearInterval(this.timeInterval)
+      if (this.isBankcardSupport) {
+        let data = {
+          amount: this.amount,
+          userName: this.userName,
+          bankCardNum: this.bankCardInfo.cardNo,
+          bankCode: this.bankCardInfo.bank,
+          mobileNo: this.bankCardInfo.mobile,
+          rechargeType: 'KQAP',
+          whichSetp: 'send',
+          authorization: this.authorization
         }
-      }, 1000)
-      rechargeApiDirectPayServer(data).then(res => {
-        let data = res.data
-        this.showDialog = true
-        if (data.resultCode === ERR_OK) {
-          this.errMsg.common = '验证码发送成功！'
-        } else {
-          this.errMsg.common = data.resultMsg
-        }
-      })
+        rechargeApiDirectPayServer(data).then(res => {
+          let data = res.data
+          this.showDialog = true
+          if (data.resultCode === ERR_OK) {
+            this.errMsg.common = '验证码发送成功！'
+            this.showCountDown = true
+            if (this.timeInterval) {
+              clearInterval(this.timeInterval)
+            }
+            this.timeInterval = setInterval(() => {
+              this.countDown--
+              if (this.countDown <= 0) {
+                this.showCountDown = false
+                this.countDown = 60
+                clearInterval(this.timeInterval)
+              }
+            }, 1000)
+          } else {
+            this.errMsg.common = data.resultMsg
+          }
+        })
+      } else {
+        queryCardInfo({
+          bankCardNum: this.unableBankCardNo
+        }).then(res => {
+          let data = {
+            amount: this.amount,
+            userName: this.userName,
+            bankCardNum: this.unableBankCardNo,
+            bankCode: res.data.bankCode,
+            mobileNo: this.unableMobile,
+            rechargeType: 'KQAP',
+            whichSetp: 'send',
+            authorization: this.authorization
+          }
+          rechargeApiDirectPayServer(data).then(res => {
+            let data = res.data
+            this.showDialog = true
+            if (data.resultCode === ERR_OK) {
+              this.errMsg.common = '验证码发送成功！'
+              this.showCountDown = true
+              if (this.timeInterval) {
+                clearInterval(this.timeInterval)
+              }
+              this.timeInterval = setInterval(() => {
+                this.countDown--
+                if (this.countDown <= 0) {
+                  this.showCountDown = false
+                  this.countDown = 60
+                  clearInterval(this.timeInterval)
+                }
+              }, 1000)
+            } else {
+              this.errMsg.common = data.resultMsg
+            }
+          })
+        })
+      }
     },
     submitCharge() {
       this.checkAmountInput()
       if (!this.smsCode) {
         this.errMsg.smsCode = '请输入短信验证码！'
-        return
-      }
-      let data = {
-        amount: this.amount,
-        userName: this.userName,
-        bankCardNum: this.bankCardInfo.cardNo,
-        bankCode: this.bankCardInfo.bank,
-        mobileNo: this.bankCardInfo.mobile,
-        rechargeType: 'KQAP',
-        whichSetp: 'val',
-        validCode: this.smsCode,
-        authorization: this.authorization
-      }
-      rechargeApiDirectPayServer(data).then(res => {
-        let data = res.data
-        if (data.resultCode === ERR_OK) {
-          this.showDialogSuccess = true
+      } else {
+        if (this.isBankcardSupport) {
+          rechargeApiDirectPayServer({
+            amount: this.amount,
+            userName: this.userName,
+            bankCardNum: this.bankCardInfo.cardNo,
+            bankCode: this.bankCardInfo.bank,
+            mobileNo: this.bankCardInfo.mobile,
+            rechargeType: 'KQAP',
+            whichSetp: 'val',
+            validCode: this.smsCode,
+            authorization: this.authorization
+          }).then(res => {
+            let data = res.data
+            if (data.resultCode === ERR_OK) {
+              this.showDialogSuccess = true
+            } else {
+              this.errMsg.smsCode = data.resultMsg
+            }
+          })
         } else {
-          this.errMsg.smsCode = data.resultMsg
+          queryCardInfo({
+            bankCardNum: this.unableBankCardNo
+          }).then(res => {
+            console.log(res.data)
+            const bankCode = res.data.bankCode
+            rechargeApiDirectPayServer({
+              amount: this.amount,
+              userName: this.userName,
+              bankCardNum: this.unableBankCardNo,
+              bankCode: bankCode,
+              mobileNo: this.unableMobile,
+              rechargeType: 'KQAP',
+              whichSetp: 'val',
+              validCode: this.smsCode,
+              authorization: this.authorization
+            }).then(res => {
+              let data = res.data
+              if (data.resultCode === ERR_OK) {
+                this.showDialogSuccess = true
+              } else {
+                this.errMsg.smsCode = data.resultMsg
+              }
+            })
+          })
         }
-      })
+      }
     },
     userRechargePreVerify() {
       userRechargePreVerify().then(res => {
@@ -297,7 +376,7 @@ export default {
       let data = {
         amount: this.amount,
         rechargeType: 'KQ',
-        returnUrl: getRetBaseURL() + '/mine/charge',
+        returnUrl: this.retUrl ? getRetBaseURL() + this.retUrl : getRetBaseURL() + '/mine/charge',
         username: this.userName
       }
       unionPay(data).then(res => {
@@ -375,21 +454,28 @@ export default {
           let nos = JSON.parse(JSON.stringify(this.bankCardInfo.cardNo))
           let len = nos.length
           this.bankCardNo = nos.substring(0, 4) + '*******' + nos.substring(len - 4, len)
-          console.log(this.bankCardNo)
           this.getBasicInfo()
         }
       })
     },
     confirmCharged() {
-      this.$router.push({ name: 'overview' })
+      this.retUrl ? getRetBaseURL() + this.retUrl : this.$router.push({ name: 'overview' })
     }
   },
   created() {
     this.getBankCardNo()
     this.personalAccount()
-    this.userRechargePreVerify()
+    // this.userRechargePreVerify()
+    this.userAndBankInfo()
   },
-  mounted() {}
+  mounted() {},
+  beforeRouteEnter(to, from, next) {
+    next(vm => {
+      if (from.name === 'easyDetail') {
+        vm.retUrl = from.fullPath
+      }
+    })
+  }
 }
 </script>
 

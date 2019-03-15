@@ -93,35 +93,6 @@ export default {
           trigger: 'item',
           formatter: '{a} <br/>{b}: {c} ({d}%)'
         },
-        graphic: [
-          {
-            type: 'text',
-            left: '20%',
-            top: '45%',
-            z: 2,
-            zlevel: 100,
-            style: {
-              text: '总资产（元）',
-              x: 400,
-              y: 400,
-              textAlign: 'center',
-              font: '14px sans-serif',
-              fill: '#4a4a4a'
-            }
-          },
-          {
-            type: 'text',
-            left: '18%',
-            top: '50%',
-            z: 2,
-            zlevel: 100,
-            style: {
-              text: $this.amountInfo.totalAmount,
-              fill: '#4a4a4a',
-              font: '20px sans-serif'
-            }
-          }
-        ],
         color: ['#F8DF38', '#F98128', '#42B1FF', '#37F1BE'],
         legend: {
           top: 'middle',
@@ -170,11 +141,29 @@ export default {
             type: 'pie',
             radius: ['35%', '50%'],
             center: ['25%', '50%'],
-            avoidLabelOverlap: true,
+            avoidLabelOverlap: false,
+            hoverAnimation: true,
+            silent: true,
             label: {
               normal: {
-                show: false,
-                position: 'center'
+                show: true,
+                position: 'center',
+                verticalAlign: 'middle',
+                formatter: ['{a|总资产(元)}', '{b|' + $this.amountInfo.totalAmount + '}'].join('\n'),
+                rich: {
+                  a: {
+                    textAlign: 'center',
+                    fontSize: 14,
+                    color: '#4a4a4a',
+                    padding: [18, 0],
+                    fontWeight: 'normal'
+                  },
+                  b: {
+                    textAlign: 'center',
+                    color: '#4a4a4a',
+                    fontSize: 20
+                  }
+                }
               }
             },
             labelLine: {

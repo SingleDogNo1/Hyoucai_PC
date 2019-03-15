@@ -67,9 +67,8 @@ export function tansactionPwd(data) {
 // 修改电子账户手机号
 export function jxMobileModify(data) {
   return request({
-    url: 'jxMobileModify/modify',
+    url: 'jxMobileModifyPage/modify',
     method: 'post',
-    headers: { 'Content-type': 'application/x-www-form-urlencoded' },
     data: qs.stringify(data)
   })
 }
@@ -88,5 +87,13 @@ export function getCertificationVerify(data) {
     url: '/CertificationVerify',
     method: 'get',
     params: data
+  })
+}
+
+export function basicInfo(data) {
+  return request({
+    url: '/user/basicInfo',
+    method: 'post',
+    data: qs.stringify(data)
   })
 }

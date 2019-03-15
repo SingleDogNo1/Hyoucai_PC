@@ -25,7 +25,7 @@
     <el-table :data="inviteUserList" border class="referral-table">
       <el-table-column prop="createTime" label="注册日期"></el-table-column>
       <el-table-column prop="name" label="推荐人姓名"></el-table-column>
-      <el-table-column prop="investStatus" label="在投状态"></el-table-column>
+      <el-table-column prop="status" label="在投状态"></el-table-column>
     </el-table>
     <div class="pagination-wrapper">
       <pagination :count-page="total" :size-val="size" :page-val="page" @handleCurrentChange="handleCurrentChange"></pagination>
@@ -111,6 +111,7 @@ export default {
         let data = res.data
         if (data.resultCode === '1') {
           this.$notify({ title: '成功', message: '推荐人邀请码填写成功', type: 'success', duration: 2000 })
+          this.getUserInviteInfo()
         } else {
           this.$notify({ title: '失败', message: data.resultMsg, type: 'error', duration: 2000 })
         }

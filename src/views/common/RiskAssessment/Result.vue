@@ -20,7 +20,7 @@ export default {
       switch (this.resultType) {
         case 'BSX':
           return require('./baoshou.png')
-        case 'JSX':
+        case 'WJX':
           return require('./jinshen.png')
         case 'JJX':
           return require('./jiji.png')

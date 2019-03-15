@@ -1,3 +1,4 @@
+import 'babel-polyfill'
 import Vue from 'vue'
 import App from './App_djs.vue'
 import router from '@/router/djs'
@@ -11,6 +12,9 @@ import '@/assets/fonts/iconfont/iconfont.css'
 
 Vue.config.productionTip = false
 Vue.use(VueLazyload)
+// Vue.config.errorHandler = function (err, vm, info) {
+//   console.log(err + ',' + vm + ',' + info)
+// }
 
 router.afterEach(() => {
   document.querySelector('.layout') && document.querySelector('.layout').scrollIntoView()
