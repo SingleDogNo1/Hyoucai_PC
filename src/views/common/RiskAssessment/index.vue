@@ -370,6 +370,7 @@ export default {
   mounted() {
     if (this.$route.query.status) {
       // 判断是否风险测评
+      this.isShow = true
       if (this.userBasicInfo.evaluatingResult) {
         switch (this.userBasicInfo.evaluatingResult.evaluatingCode) {
           case 'BSX':
@@ -403,7 +404,6 @@ export default {
               '出借人有较高的风险承受能力，是富有冒险精神的激进型出借人，在出借收益波动的情况下，仍然能保持激进的出借理念。故出借人在平台的最高出借额不得超过500万元人民币，可选择任意出借期限的产品。<p style="text-align: center">本次测评有效期6个月</p>'
             break
         }
-        this.isShow = true
       }
     }
   }
