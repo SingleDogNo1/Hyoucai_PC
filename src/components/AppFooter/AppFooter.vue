@@ -47,8 +47,8 @@
           <a :href="item.fsLink">{{ item.fsTitle }}</a>
         </li>
       </ul>
-      <p class="tips">
-        <i v-if="telphoneList && telphoneList.length > 0">投诉举报电话：</i>
+      <p class="tips" v-if="telphoneList.length > 0">
+        <i>投诉举报电话：</i>
         <span v-for="(phone, index) in telphoneList" :key="index">
           <em v-if="phone.status === '1'">{{phone.companyName}} {{phone.telephone}}</em>
         </span>
@@ -85,7 +85,8 @@ export default {
       AndCodeFlag: false,
       QAList: [],
       friendLinks: [],
-      telphoneList: []
+      telphoneList: [],
+      isShowTelList: true
     }
   },
   methods: {
@@ -105,7 +106,14 @@ export default {
       reportTelephone().then(res => {
         let data = res.data
         if (data.resultCode === '1') {
-          this.telphoneList = data.data
+          let activeTelList = []
+          data.data.forEach(v => {
+            console.log(v.status)
+            if (parseInt(v.status) === 1) {
+              activeTelList.push(v)
+            }
+          })
+          this.telphoneList = activeTelList
         }
       })
     },
@@ -219,13 +227,12 @@ export default {
     }
   }
   .btm {
-    height: 240px;
+    padding: 35px 0;
     background: #353b44;
     color: #fff;
     .partner {
       display: flex;
       justify-content: center;
-      padding-top: 35px;
       li {
         padding: 0 18px;
         border-right: 1px solid #9b9b9b;

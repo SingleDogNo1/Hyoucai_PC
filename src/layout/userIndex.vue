@@ -274,8 +274,6 @@ export default {
                         this.repeatUnreadDialogOptions.show = true
                         this.repeatInvestUnreadMsgList = res.data.list
                       } else {
-                        this.repeatUnreadDialogOptions.show = false
-                        this.repeatInvestUnreadMsgList = []
                         this.getAlertInfo()
                       }
                     } else {
@@ -290,6 +288,8 @@ export default {
                   }
                 })
               } else {
+                this.repeatUnreadDialogOptions.show = false
+                this.repeatInvestUnreadMsgList = []
                 this.getAlertInfo()
               }
           }
