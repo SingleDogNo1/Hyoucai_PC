@@ -47,10 +47,8 @@
           <a :href="item.fsLink">{{ item.fsTitle }}</a>
         </li>
       </ul>
-      <p class="tips">
-        <!--<span>投诉举报电话：江西省政府金融办 0791-889182319</span><span>江西省银监局 0791-86766811</span-->
-        <!--&gt;<span>江西省互联网金融协会 400-915-8227</span>-->
-        <i v-if="telphoneList && telphoneList.length > 0">投诉举报电话：</i>
+      <p class="tips" v-if="telphoneList.length > 0">
+        <i>投诉举报电话：</i>
         <span v-for="(phone, index) in telphoneList" :key="index">
           <em v-if="phone.status === '1'">{{phone.companyName}} {{phone.telephone}}</em>
         </span>
@@ -87,7 +85,8 @@ export default {
       AndCodeFlag: false,
       QAList: [],
       friendLinks: [],
-      telphoneList: []
+      telphoneList: [],
+      isShowTelList: true
     }
   },
   methods: {
@@ -107,7 +106,14 @@ export default {
       reportTelephone().then(res => {
         let data = res.data
         if (data.resultCode === '1') {
-          this.telphoneList = data.data
+          let activeTelList = []
+          data.data.forEach(v => {
+            console.log(v.status)
+            if (parseInt(v.status) === 1) {
+              activeTelList.push(v)
+            }
+          })
+          this.telphoneList = activeTelList
         }
       })
     },
