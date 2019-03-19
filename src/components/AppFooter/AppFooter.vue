@@ -48,11 +48,9 @@
         </li>
       </ul>
       <p class="tips">
-        <!--<span>投诉举报电话：江西省政府金融办 0791-889182319</span><span>江西省银监局 0791-86766811</span-->
-        <!--&gt;<span>江西省互联网金融协会 400-915-8227</span>-->
         <i v-if="telphoneList && telphoneList.length > 0">投诉举报电话：</i>
         <span v-for="(phone, index) in telphoneList" :key="index">
-          <em v-if="phone.status === '1'"></em>{{phone.companyName}} {{phone.telephone}}
+          <em v-if="phone.status === '1'">{{phone.companyName}} {{phone.telephone}}</em>
         </span>
       </p>
       <div class="copyright">
