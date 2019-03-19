@@ -52,7 +52,7 @@
         <!--&gt;<span>江西省互联网金融协会 400-915-8227</span>-->
         <i v-if="telphoneList && telphoneList.length > 0">投诉举报电话：</i>
         <span v-for="(phone, index) in telphoneList" :key="index">
-          <em v-if="phone.status === '1'"></em>{{phone.companyName}} {{phone.telephone}}
+          <em v-if="phone.status === '1'">{{phone.companyName}} {{phone.telephone}}</em>
         </span>
       </p>
       <div class="copyright">

@@ -288,6 +288,8 @@ export default {
                   }
                 })
               } else {
+                this.repeatUnreadDialogOptions.show = false
+                this.repeatInvestUnreadMsgList = []
                 this.getAlertInfo()
               }
           }
