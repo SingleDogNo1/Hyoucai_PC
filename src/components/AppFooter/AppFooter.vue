@@ -227,13 +227,12 @@ export default {
     }
   }
   .btm {
-    height: 240px;
+    padding: 35px 0;
     background: #353b44;
     color: #fff;
     .partner {
       display: flex;
       justify-content: center;
-      padding-top: 35px;
       li {
         padding: 0 18px;
         border-right: 1px solid #9b9b9b;
