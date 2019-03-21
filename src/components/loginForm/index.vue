@@ -72,7 +72,7 @@ export default {
   data() {
     return {
       agree: true,
-      userName: getLoginUsername(),
+      userName: getLoginUsername() ? getLoginUsername() : '',
       passWord: '',
       smsCode: '',
       loginType: 0, // 0密码登录 1短信登录
