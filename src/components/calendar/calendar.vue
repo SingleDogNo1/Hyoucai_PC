@@ -448,11 +448,11 @@ export default {
       this.monthSwiper = new Swiper('#month', {
         loop: true,
         direction: 'vertical',
-        onInit() {
+        onInit(swiper) {
           if ($this.month === 0) {
-            this.slideTo(1, 0)
+            swiper.slideTo(1, 0)
           } else {
-            this.slideTo($this.month - 0 + 1, 0)
+            swiper.slideTo($this.month - 0 + 1, 0)
           }
         }
       })
@@ -462,8 +462,10 @@ export default {
     }
   },
   mounted() {
-    this.init()
-    this.initMonth()
+    this.$nextTick(() => {
+      this.init()
+      this.initMonth()
+    })
   }
 }
 </script>

@@ -232,24 +232,25 @@ export default {
         }
         let list = JSON.parse(JSON.stringify(res.data.data.list))
         list.map(item => {
+          debugger
           switch (item.status) {
             case 1:
-              this.expiredList.push(item)
-              break
-            case 2:
               this.usedList.push(item)
               break
+            case 2:
+              this.expiredList.push(item)
+              break
           }
-          this.expiredList.map(item => {
-            item.voucherFaceValue = parseInt(item.voucherFaceValue)
-            item.amountMin = parseInt(item.amountMin)
-            item.amountMax = parseInt(item.amountMax)
-          })
-          this.usedList.map(item => {
-            item.voucherFaceValue = parseInt(item.voucherFaceValue)
-            item.amountMin = parseInt(item.amountMin)
-            item.amountMax = parseInt(item.amountMax)
-          })
+          // this.expiredList.map(item => {
+          //   item.voucherFaceValue = parseInt(item.voucherFaceValue)
+          //   item.amountMin = parseInt(item.amountMin)
+          //   item.amountMax = parseInt(item.amountMax)
+          // })
+          // this.usedList.map(item => {
+          //   item.voucherFaceValue = parseInt(item.voucherFaceValue)
+          //   item.amountMin = parseInt(item.amountMin)
+          //   item.amountMax = parseInt(item.amountMax)
+          // })
         })
       })
     },
