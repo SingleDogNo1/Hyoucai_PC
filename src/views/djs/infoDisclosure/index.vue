@@ -1703,6 +1703,7 @@ export default {
                   margin-right: 10px;
                   &:nth-child(2) {
                     width: 70px;
+                    margin-right: 0;
                   }
                   p {
                     font-size: $font-size-medium;
@@ -1747,6 +1748,7 @@ export default {
             }
             .amount-desc {
               margin-top: 0;
+              width: auto;
               ul {
                 height: 40px;
                 padding-bottom: 14px;
