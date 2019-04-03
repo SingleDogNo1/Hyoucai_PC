@@ -24,6 +24,7 @@
       :show.sync="repeatUnreadDialogOptions.show"
       title="设置自动出借，省心赚钱"
       :onConfirm="confirmRepeatUnread"
+      :onBtnClose="closeConfirmRepeat"
     >
       <div v-if="repeatCouponRate !== ''">
         <!-- 复投加息 -->
@@ -77,6 +78,7 @@ import Certification from '@/components/CertificationFlow/CertificationFlow'
 import { alertInfoAcceptApi, getAlertInfo, getUserCompleteInfo } from '@/api/common/userIndex'
 import { repeatInvestApi, UpdateMessageApi } from '@/api/djs/userIndex'
 import { currentPlatform } from '../assets/js/utils'
+import { Cookie } from 'js-cookie'
 
 const CODE_OK = '1'
 export default {
@@ -233,6 +235,8 @@ export default {
         let data = res.data
         let list = data.data
         if (data.resultCode === CODE_OK) {
+          // 复投弹窗在点击取消时，向cookie保存一个一天后过期的值。再次进入个人中心时，读取这个值，如果能拿的到说明不是第一次登陆，不显示
+          const key = `repeat-key-${new Date().getFullYear()}-${new Date().getMonth() + 1}-${new Date().getDate()}`
           this.showTitle = false
           this.showCloseBtn = true
           this.showLogo = true
@@ -260,8 +264,7 @@ export default {
               this.openSignText = ''
               this.routerLink = ''
               this.showDialog = false
-
-              if (currentPlatform() === 'djs') {
+              if (currentPlatform() === 'djs' && !Cookie.get(key)) {
                 repeatInvestApi({
                   userName: this.user.userName
                 }).then(res => {
@@ -311,6 +314,11 @@ export default {
           }
         })
       })
+    },
+    closeConfirmRepeat() {
+      // 复投弹窗关闭时，插入一段cookie，以供同一天登陆时判断
+      const key = `repeat-key-${new Date().getFullYear()}-${new Date().getMonth() + 1}-${new Date().getDate()}`
+      Cookie.set(key, 'down', { expires: 1 })
     }
   },
   computed: {
