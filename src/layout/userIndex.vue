@@ -261,7 +261,7 @@ export default {
               this.routerLink = ''
               this.showDialog = false
 
-              if (currentPlatform) {
+              if (currentPlatform() === 'djs') {
                 repeatInvestApi({
                   userName: this.user.userName
                 }).then(res => {
