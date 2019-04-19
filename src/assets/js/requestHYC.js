@@ -5,7 +5,7 @@ import { getRetBaseURL } from './utils'
 
 const service = axios.create({
   baseURL: process.env.VUE_APP_BASE_HYC_API,
-  timeout: 10000,
+  timeout: 30000,
   headers: {
     platform: 'pc',
     version: '1.0',
