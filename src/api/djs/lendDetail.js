@@ -41,7 +41,7 @@ export function availableRedPacketApi(data) {
   })
 }
 
-// 用户投资
+// 查询用户可用加息券
 export function availableCouponApi(data) {
   return request({
     url: 'AvailableCoupon',
@@ -50,12 +50,15 @@ export function availableCouponApi(data) {
   })
 }
 
-// 查询用户可用加息券
+// 用户投资
 export function investApi(data) {
   return request({
     url: 'InvestProject',
     method: 'post',
-    data: qs.stringify(data)
+    data: qs.stringify(data),
+    headers: {
+      version: '2.0'
+    }
   })
 }
 
