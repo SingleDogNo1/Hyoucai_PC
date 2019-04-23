@@ -1,51 +1,6 @@
 <template>
-  <div class="lend-list">
-    <ul class="tab">
-      <li class="tab-item" @click="tabIndex = 0" :class="{ active: tabIndex === 0 }">出借期数</li>
-      <li class="tab-item" @click="tabIndex = 1" :class="{ active: tabIndex === 1 }">债权列表</li>
-    </ul>
-    <div class="table-container" v-if="tabIndex === 0">
-      <table>
-        <thead>
-          <tr>
-            <th>累计利息收益(元)</th>
-            <th>待收利息(元)</th>
-            <th>加入日期</th>
-            <th>到期时间</th>
-            <th>出借本金(元)</th>
-            <th>操作</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="item in listDetail" :key="item.id">
-            <td>{{ item.takeBackInterest }}</td>
-            <td>{{ item.waitAllBackInterest }}</td>
-            <td>{{ item.intSumStartDate.split(' ')[0] }}</td>
-            <td>{{ item.invOverDate }}</td>
-            <td>{{ item.totalPrinAmount }}</td>
-            <td>
-              <span
-                v-if="item.isRedeem === '1' && item.invStatus !== 'INVZ' && item.invStatus !== 'INPZ' && item.item.invStatus !== 'INVY'"
-                class="active"
-                @click="handleTransfer(item.id)"
-                >赎回</span
-              >
-              <span v-if="item.isRedeem === '1' && item.invStatus === 'INVZ'">转让中</span>
-              <span v-if="item.isRedeem === '1' && item.invStatus === 'INPZ'">债权匹配中</span>
-              <span v-if="item.isRedeem === '1' && item.invStatus === 'INVY'">投资完成</span> <span v-if="item.isRedeem === '0'">非转让项目</span>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <Pagination
-        v-show="totalDetail > 0"
-        class="pagination"
-        :count-page="totalDetail"
-        :cur-page="listQueryDetail.page"
-        @handleCurrentChange="handleCurrentChange"
-      ></Pagination>
-    </div>
-    <div class="table-container" v-if="tabIndex === 1">
+  <div class="detail">
+    <div class="table-container">
       <table>
         <thead>
           <tr>
@@ -255,7 +210,12 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.lend-list {
+.detail {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   background: #fff;
   .tab {
     border: 1px solid #e5e5e5;
@@ -279,7 +239,7 @@ export default {
   .table-container {
     min-height: 800px;
     table {
-      margin: 40px auto 0;
+      margin: 0 auto;
       width: 800px;
       thead {
         background: rgba(0, 131, 254, 0.09);

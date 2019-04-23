@@ -106,18 +106,25 @@ export default new Router({
             {
               path: 'lend', // 我的出借
               name: 'userLend',
-              redirect: 'lend/list',
+              redirect: 'lend/cjz',
               component: () => import('@/views/djs/Mine/lend/lend'),
               children: [
                 {
-                  path: 'list', // 我的出借列表
-                  name: 'lendList',
-                  component: () => import('@/views/djs/Mine/lend/list')
+                  path: 'cjz', // 出借中
+                  name: 'lend-cjz',
+                  component: () => import('@/views/djs/Mine/lend/cjz'),
+                  children: [
+                    {
+                      path: 'detail', // 出借详情
+                      name: 'lend-detail',
+                      component: () => import('@/views/djs/Mine/lend/detail')
+                    }
+                  ]
                 },
                 {
-                  path: 'detail', // 我的出借详情
-                  name: 'lendDetail',
-                  component: () => import('@/views/djs/Mine/lend/detail')
+                  path: 'yjq', // 已结清
+                  name: 'lend-yjq',
+                  component: () => import('@/views/djs/Mine/lend/yjq')
                 }
               ]
             },

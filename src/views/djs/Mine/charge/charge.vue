@@ -4,6 +4,7 @@
       <el-tabs type="border-card">
         <el-tab-pane label="快捷充值">
           <div>
+            <p class="tips" v-if="!isBankcardSupport">为了您的账户提现快速到账，请您使用一类卡充值&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://mp.weixin.qq.com/s/AGl5G7v0Z8UvMfLtDGQaMg" target="_blank">点击了解何为一类卡>></a></p>
             <ul class="top">
               <li>
                 <dl>
@@ -514,8 +515,17 @@ export default {
         }
       }
       > .el-tabs__content {
+        p.tips {
+          padding-left: 18%;
+          margin: 10px auto;
+          color: red;
+          font-size: 15px;
+          a {
+            color: #000;
+          }
+        }
         .top {
-          padding: 60px 0 80px 0;
+          padding: 40px 0 80px 0;
           overflow: hidden;
           li {
             float: left;
