@@ -4,55 +4,55 @@
       <div class="swiper-wrapper">
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport1/bg_report_swiper1.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport1/bg_report_swiper1.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport1/bg_report_swiper2.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport1/bg_report_swiper2.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport1/bg_report_swiper3.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport1/bg_report_swiper3.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport1/bg_report_swiper4.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport1/bg_report_swiper4.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport1/bg_report_swiper5.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport1/bg_report_swiper5.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport1/bg_report_swiper6.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport1/bg_report_swiper6.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport1/bg_report_swiper7.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport1/bg_report_swiper7.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport1/bg_report_swiper8.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport1/bg_report_swiper8.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport1/bg_report_swiper9.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport1/bg_report_swiper9.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
@@ -66,61 +66,61 @@
       <div class="swiper-wrapper">
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport2/bg_report_swiper1.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport2/bg_report_swiper1.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport2/bg_report_swiper2.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport2/bg_report_swiper2.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport2/bg_report_swiper3.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport2/bg_report_swiper3.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport2/bg_report_swiper4.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport2/bg_report_swiper4.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport2/bg_report_swiper5.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport2/bg_report_swiper5.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport2/bg_report_swiper6.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport2/bg_report_swiper6.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport2/bg_report_swiper7.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport2/bg_report_swiper7.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport2/bg_report_swiper8.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport2/bg_report_swiper8.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport2/bg_report_swiper9.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport2/bg_report_swiper9.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport2/bg_report_swiper10.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport2/bg_report_swiper10.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
@@ -134,61 +134,61 @@
       <div class="swiper-wrapper">
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport3/bg_report_swiper1.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport3/bg_report_swiper1.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport3/bg_report_swiper2.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport3/bg_report_swiper2.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport3/bg_report_swiper3.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport3/bg_report_swiper3.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport3/bg_report_swiper4.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport3/bg_report_swiper4.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport3/bg_report_swiper5.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport3/bg_report_swiper5.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport3/bg_report_swiper6.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport3/bg_report_swiper6.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport3/bg_report_swiper7.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport3/bg_report_swiper7.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport3/bg_report_swiper8.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport3/bg_report_swiper8.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport3/bg_report_swiper9.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport3/bg_report_swiper9.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport3/bg_report_swiper10.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport3/bg_report_swiper10.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
@@ -202,19 +202,19 @@
       <div class="swiper-wrapper">
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport4/bg_report_swiper1.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport4/bg_report_swiper1.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport4/bg_report_swiper2.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport4/bg_report_swiper2.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport4/bg_report_swiper3.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport4/bg_report_swiper3.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
@@ -228,61 +228,61 @@
       <div class="swiper-wrapper">
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport5/bg_report_swiper1.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport5/bg_report_swiper1.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport5/bg_report_swiper2.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport5/bg_report_swiper2.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport5/bg_report_swiper3.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport5/bg_report_swiper3.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport5/bg_report_swiper4.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport5/bg_report_swiper4.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport5/bg_report_swiper5.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport5/bg_report_swiper5.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport5/bg_report_swiper6.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport5/bg_report_swiper6.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport5/bg_report_swiper7.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport5/bg_report_swiper7.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport5/bg_report_swiper8.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport5/bg_report_swiper8.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport5/bg_report_swiper9.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport5/bg_report_swiper9.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport5/bg_report_swiper10.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport5/bg_report_swiper10.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
@@ -296,73 +296,73 @@
       <div class="swiper-wrapper">
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport6/bg_report_swiper1.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport6/bg_report_swiper1.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport6/bg_report_swiper2.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport6/bg_report_swiper2.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport6/bg_report_swiper3.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport6/bg_report_swiper3.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport6/bg_report_swiper4.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport6/bg_report_swiper4.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport6/bg_report_swiper5.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport6/bg_report_swiper5.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport6/bg_report_swiper6.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport6/bg_report_swiper6.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport6/bg_report_swiper7.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport6/bg_report_swiper7.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport6/bg_report_swiper8.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport6/bg_report_swiper8.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport6/bg_report_swiper9.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport6/bg_report_swiper9.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport6/bg_report_swiper10.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport6/bg_report_swiper10.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport6/bg_report_swiper11.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport6/bg_report_swiper11.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport6/bg_report_swiper12.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport6/bg_report_swiper12.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
@@ -376,67 +376,67 @@
       <div class="swiper-wrapper">
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport7/bg_report_swiper1.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport7/bg_report_swiper1.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport7/bg_report_swiper2.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport7/bg_report_swiper2.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport7/bg_report_swiper3.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport7/bg_report_swiper3.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport7/bg_report_swiper4.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport7/bg_report_swiper4.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport7/bg_report_swiper5.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport7/bg_report_swiper5.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport7/bg_report_swiper6.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport7/bg_report_swiper6.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport7/bg_report_swiper7.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport7/bg_report_swiper7.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport7/bg_report_swiper8.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport7/bg_report_swiper8.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport7/bg_report_swiper9.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport7/bg_report_swiper9.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport7/bg_report_swiper10.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport7/bg_report_swiper10.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport7/bg_report_swiper11.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport7/bg_report_swiper11.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
@@ -450,67 +450,67 @@
       <div class="swiper-wrapper">
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport8/bg_report_swiper1.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport8/bg_report_swiper1.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport8/bg_report_swiper2.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport8/bg_report_swiper2.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport8/bg_report_swiper3.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport8/bg_report_swiper3.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport8/bg_report_swiper4.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport8/bg_report_swiper4.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport8/bg_report_swiper5.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport8/bg_report_swiper5.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport8/bg_report_swiper6.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport8/bg_report_swiper6.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport8/bg_report_swiper7.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport8/bg_report_swiper7.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport8/bg_report_swiper8.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport8/bg_report_swiper8.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport8/bg_report_swiper9.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport8/bg_report_swiper9.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport8/bg_report_swiper10.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport8/bg_report_swiper10.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport8/bg_report_swiper11.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport8/bg_report_swiper11.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
@@ -524,73 +524,73 @@
       <div class="swiper-wrapper">
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport9/bg_report_swiper1.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport9/bg_report_swiper1.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport9/bg_report_swiper2.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport9/bg_report_swiper2.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport9/bg_report_swiper3.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport9/bg_report_swiper3.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport9/bg_report_swiper4.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport9/bg_report_swiper4.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport9/bg_report_swiper5.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport9/bg_report_swiper5.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport9/bg_report_swiper6.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport9/bg_report_swiper6.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport9/bg_report_swiper7.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport9/bg_report_swiper7.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport9/bg_report_swiper8.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport9/bg_report_swiper8.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport9/bg_report_swiper9.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport9/bg_report_swiper9.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport9/bg_report_swiper10.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport9/bg_report_swiper10.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport9/bg_report_swiper11.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport9/bg_report_swiper11.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport9/bg_report_swiper12.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport9/bg_report_swiper12.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
@@ -604,85 +604,85 @@
       <div class="swiper-wrapper">
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport10/bg_report_swiper1.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport10/bg_report_swiper1.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport10/bg_report_swiper2.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport10/bg_report_swiper2.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport10/bg_report_swiper3.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport10/bg_report_swiper3.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport10/bg_report_swiper4.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport10/bg_report_swiper4.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport10/bg_report_swiper5.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport10/bg_report_swiper5.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport10/bg_report_swiper6.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport10/bg_report_swiper6.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport10/bg_report_swiper7.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport10/bg_report_swiper7.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport10/bg_report_swiper8.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport10/bg_report_swiper8.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport10/bg_report_swiper9.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport10/bg_report_swiper9.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport10/bg_report_swiper10.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport10/bg_report_swiper10.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport10/bg_report_swiper11.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport10/bg_report_swiper11.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport10/bg_report_swiper12.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport10/bg_report_swiper12.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport10/bg_report_swiper13.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport10/bg_report_swiper13.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport10/bg_report_swiper14.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport10/bg_report_swiper14.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
@@ -696,73 +696,73 @@
       <div class="swiper-wrapper">
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport11/bg_report_swiper1.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport11/bg_report_swiper1.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport11/bg_report_swiper2.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport11/bg_report_swiper2.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport11/bg_report_swiper3.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport11/bg_report_swiper3.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport11/bg_report_swiper4.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport11/bg_report_swiper4.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport11/bg_report_swiper5.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport11/bg_report_swiper5.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport11/bg_report_swiper6.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport11/bg_report_swiper6.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport11/bg_report_swiper7.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport11/bg_report_swiper7.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport11/bg_report_swiper8.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport11/bg_report_swiper8.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport11/bg_report_swiper9.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport11/bg_report_swiper9.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport11/bg_report_swiper10.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport11/bg_report_swiper10.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport11/bg_report_swiper11.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport11/bg_report_swiper11.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport11/bg_report_swiper12.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport11/bg_report_swiper12.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
@@ -776,49 +776,49 @@
       <div class="swiper-wrapper">
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport12/bg_report_swiper1.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport12/bg_report_swiper1.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport12/bg_report_swiper2.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport12/bg_report_swiper2.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport12/bg_report_swiper3.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport12/bg_report_swiper3.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport12/bg_report_swiper4.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport12/bg_report_swiper4.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport12/bg_report_swiper5.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport12/bg_report_swiper5.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport12/bg_report_swiper6.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport12/bg_report_swiper6.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport12/bg_report_swiper7.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport12/bg_report_swiper7.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport12/bg_report_swiper8.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport12/bg_report_swiper8.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
@@ -832,49 +832,55 @@
       <div class="swiper-wrapper">
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport13/bg_report_swiper1.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport13/bg_report_swiper1.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport13/bg_report_swiper2.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport13/bg_report_swiper2.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport13/bg_report_swiper3.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport13/bg_report_swiper3.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport13/bg_report_swiper4.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport13/bg_report_swiper4.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport13/bg_report_swiper5.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport13/bg_report_swiper5.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport13/bg_report_swiper6.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport13/bg_report_swiper6.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport13/bg_report_swiper7.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport13/bg_report_swiper7.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
         <div class="swiper-slide swiper-no-swiping">
           <a href="javascript:void(0);">
-            <img src="/images/swiperReport13/bg_report_swiper8.jpg" class="swiper-lazy" />
+            <img data-src="/images/swiperReport13/bg_report_swiper8.jpg" class="swiper-lazy" />
+            <div class="swiper-lazy-preloader"></div>
+          </a>
+        </div>
+        <div class="swiper-slide swiper-no-swiping">
+          <a href="javascript:void(0);">
+            <img data-src="/images/swiperReport13/bg_report_swiper9.jpg" class="swiper-lazy" />
             <div class="swiper-lazy-preloader"></div>
           </a>
         </div>
@@ -902,6 +908,7 @@ export default {
       new Swiper('.swiper-container-banner', {
         autoplay: 5000,
         autoplayDisableOnInteraction: false,
+        lazyLoading: true,
         loop: false,
         observer: true,
         observeParents: true,
