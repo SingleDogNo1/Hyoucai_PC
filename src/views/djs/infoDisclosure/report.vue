@@ -772,6 +772,118 @@
       <div class="swiper-button-next"></div>
       <!-- 黑色 -->
     </div>
+    <div class="swiper-container-banner" v-show="index == 11">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide swiper-no-swiping">
+          <a href="javascript:void(0);">
+            <img src="/images/swiperReport12/bg_report_swiper1.jpg" class="swiper-lazy" />
+            <div class="swiper-lazy-preloader"></div>
+          </a>
+        </div>
+        <div class="swiper-slide swiper-no-swiping">
+          <a href="javascript:void(0);">
+            <img src="/images/swiperReport12/bg_report_swiper2.jpg" class="swiper-lazy" />
+            <div class="swiper-lazy-preloader"></div>
+          </a>
+        </div>
+        <div class="swiper-slide swiper-no-swiping">
+          <a href="javascript:void(0);">
+            <img src="/images/swiperReport12/bg_report_swiper3.jpg" class="swiper-lazy" />
+            <div class="swiper-lazy-preloader"></div>
+          </a>
+        </div>
+        <div class="swiper-slide swiper-no-swiping">
+          <a href="javascript:void(0);">
+            <img src="/images/swiperReport12/bg_report_swiper4.jpg" class="swiper-lazy" />
+            <div class="swiper-lazy-preloader"></div>
+          </a>
+        </div>
+        <div class="swiper-slide swiper-no-swiping">
+          <a href="javascript:void(0);">
+            <img src="/images/swiperReport12/bg_report_swiper5.jpg" class="swiper-lazy" />
+            <div class="swiper-lazy-preloader"></div>
+          </a>
+        </div>
+        <div class="swiper-slide swiper-no-swiping">
+          <a href="javascript:void(0);">
+            <img src="/images/swiperReport12/bg_report_swiper6.jpg" class="swiper-lazy" />
+            <div class="swiper-lazy-preloader"></div>
+          </a>
+        </div>
+        <div class="swiper-slide swiper-no-swiping">
+          <a href="javascript:void(0);">
+            <img src="/images/swiperReport12/bg_report_swiper7.jpg" class="swiper-lazy" />
+            <div class="swiper-lazy-preloader"></div>
+          </a>
+        </div>
+        <div class="swiper-slide swiper-no-swiping">
+          <a href="javascript:void(0);">
+            <img src="/images/swiperReport12/bg_report_swiper8.jpg" class="swiper-lazy" />
+            <div class="swiper-lazy-preloader"></div>
+          </a>
+        </div>
+      </div>
+      <div class="swiper-button-prev"></div>
+      <!-- 白色 -->
+      <div class="swiper-button-next"></div>
+      <!-- 黑色 -->
+    </div>
+    <div class="swiper-container-banner" v-show="index == 12">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide swiper-no-swiping">
+          <a href="javascript:void(0);">
+            <img src="/images/swiperReport13/bg_report_swiper1.jpg" class="swiper-lazy" />
+            <div class="swiper-lazy-preloader"></div>
+          </a>
+        </div>
+        <div class="swiper-slide swiper-no-swiping">
+          <a href="javascript:void(0);">
+            <img src="/images/swiperReport13/bg_report_swiper2.jpg" class="swiper-lazy" />
+            <div class="swiper-lazy-preloader"></div>
+          </a>
+        </div>
+        <div class="swiper-slide swiper-no-swiping">
+          <a href="javascript:void(0);">
+            <img src="/images/swiperReport13/bg_report_swiper3.jpg" class="swiper-lazy" />
+            <div class="swiper-lazy-preloader"></div>
+          </a>
+        </div>
+        <div class="swiper-slide swiper-no-swiping">
+          <a href="javascript:void(0);">
+            <img src="/images/swiperReport13/bg_report_swiper4.jpg" class="swiper-lazy" />
+            <div class="swiper-lazy-preloader"></div>
+          </a>
+        </div>
+        <div class="swiper-slide swiper-no-swiping">
+          <a href="javascript:void(0);">
+            <img src="/images/swiperReport13/bg_report_swiper5.jpg" class="swiper-lazy" />
+            <div class="swiper-lazy-preloader"></div>
+          </a>
+        </div>
+        <div class="swiper-slide swiper-no-swiping">
+          <a href="javascript:void(0);">
+            <img src="/images/swiperReport13/bg_report_swiper6.jpg" class="swiper-lazy" />
+            <div class="swiper-lazy-preloader"></div>
+          </a>
+        </div>
+        <div class="swiper-slide swiper-no-swiping">
+          <a href="javascript:void(0);">
+            <img src="/images/swiperReport13/bg_report_swiper7.jpg" class="swiper-lazy" />
+            <div class="swiper-lazy-preloader"></div>
+          </a>
+        </div>
+        <div class="swiper-slide swiper-no-swiping">
+          <a href="javascript:void(0);">
+            <img src="/images/swiperReport13/bg_report_swiper8.jpg" class="swiper-lazy" />
+            <div class="swiper-lazy-preloader"></div>
+          </a>
+        </div>
+      </div>
+      <div class="swiper-button-prev"></div>
+      <!-- 白色 -->
+      <div class="swiper-button-next"></div>
+      <!-- 黑色 -->
+    </div>
   </div>
 </template>
 
