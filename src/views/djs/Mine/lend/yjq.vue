@@ -4,16 +4,16 @@
       <thead>
       <tr>
         <th>项目名称</th>
-        <th>转让价格（元）</th>
-        <th>转让日期</th>
+        <th>返还本金（元）</th>
+        <th>锁定期</th>
         <th>状态</th>
       </tr>
       </thead>
       <tbody>
       <tr v-for="item in InvestedList" :key="item.id">
         <td>{{ item.projectName }}</td>
-        <td>{{ item.transferAmount }}</td>
-        <td>{{ item.transferTime.substr(0, 10) }}</td>
+        <td>{{ item.invAmount }}</td>
+        <td>{{ item.invOverDate.substr(0, 10) }}</td>
         <td>已转让</td>
       </tr>
       </tbody>

@@ -57,10 +57,9 @@
     <Dialog :show.sync="showMsg" title="汇有财温馨提示" :singleButton="true"
       ><p class="dialog-text">{{ resultMsg }}</p></Dialog
     >
-    <el-dialog class="ZQDetail" title="提示" :visible.sync="dialogVisible" width="840" top="30vh">
+    <el-dialog class="ZQDetail" title="提示" :visible.sync="dialogVisible" width="840" top="20vh">
       <div slot="title" class="title">
         <span>借款流水号：318011121021XX</span>
-        <span class="blue" @click="$router.push({ name: 'debtAssignmentAgreement', query: { relationId: ZQDetail.id } })">合同>></span>
       </div>
       <div class="section">
         <h3>个人消费</h3>
@@ -98,6 +97,13 @@
           <span>借款人姓名：{{ ZQDetail.ownBondName }}</span> <span>性别：{{ ZQDetail.gender }}</span> <span>年龄：{{ ZQDetail.age }}</span>
         </div>
       </div>
+      <div class="section">
+        <h3>协议</h3>
+        <div class="content-2">
+          <a :href="ZQDetail.threeLoanAgreement">《三方协议》</a>&nbsp;&nbsp;&nbsp;&nbsp;
+          <a :href="ZQDetail.debtTransferAgreement">《债权转让协议》</a>
+        </div>
+      </div>
     </el-dialog>
   </div>
 </template>
@@ -105,7 +111,7 @@
 <script>
 import Pagination from '@/components/pagination/pagination'
 import Dialog from '@/components/Dialog/Dialog'
-import { userProjectDetail, transferFeeCalculate, transferProject, bondRelation } from '@/api/djs/Mine/lend'
+import { transferFeeCalculate, transferProject, bondRelation } from '@/api/djs/Mine/lend'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -122,12 +128,6 @@ export default {
       projectNo: this.$route.query.projectNo,
       tabIndex: 0,
       ZQDetail: {},
-      listDetail: null,
-      totalDetail: null,
-      listQueryDetail: {
-        page: 1,
-        size: 10
-      },
       listZQ: null,
       totalZQ: null,
       listQueryZQ: {
@@ -187,23 +187,9 @@ export default {
           this.totalZQ = res.data.countPage
         }
       })
-    },
-    getList() {
-      userProjectDetail({
-        projectNo: this.projectNo,
-        curPage: this.listQueryDetail.page,
-        maxLine: this.listQueryDetail.size,
-        invStatus: 'INPZ,INVI,INVY'
-      }).then(res => {
-        if (res.data.resultCode === '1') {
-          this.listDetail = res.data.list
-          this.totalDetail = res.data.countPage
-        }
-      })
     }
   },
   created() {
-    this.getList()
     this.getListBondRelation()
   }
 }
@@ -211,11 +197,6 @@ export default {
 
 <style scoped lang="scss">
 .detail {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
   background: #fff;
   .tab {
     border: 1px solid #e5e5e5;
@@ -239,7 +220,7 @@ export default {
   .table-container {
     min-height: 800px;
     table {
-      margin: 0 auto;
+      margin: 20px auto;
       width: 800px;
       thead {
         background: rgba(0, 131, 254, 0.09);
@@ -371,6 +352,9 @@ export default {
           display: block;
           content: '';
           clear: both;
+        }
+        a {
+          color: #606266;
         }
       }
     }

@@ -111,13 +111,23 @@ export default new Router({
               children: [
                 {
                   path: 'cjz', // 出借中
-                  name: 'lend-cjz',
+                  redirect: 'cjz/projects',
                   component: () => import('@/views/djs/Mine/lend/cjz'),
                   children: [
                     {
-                      path: 'detail', // 出借详情
-                      name: 'lend-detail',
-                      component: () => import('@/views/djs/Mine/lend/detail')
+                      path: 'projects', // 出借项目列表
+                      name: 'cjz-projects',
+                      component: () => import('@/views/djs/Mine/lend/cjzProjects')
+                    },
+                    {
+                      path: 'project/:projectNo', // 出借详情
+                      name: 'cjz-project',
+                      component: () => import('@/views/djs/Mine/lend/cjzProject')
+                    },
+                    {
+                      path: 'zqList', // 出借详情
+                      name: 'cjz-zqList',
+                      component: () => import('@/views/djs/Mine/lend/cjzZQList')
                     }
                   ]
                 },
