@@ -43,7 +43,7 @@
             <el-form-item> <el-button type="primary" @click="resetCalc">重置</el-button> </el-form-item>
           </div>
         </el-form>
-        <p class="tip light-tip">公式：本金*(年化收益率／12)*投资期限</p>
+        <!--<p class="tip light-tip">公式：本金*(年化收益率／12)*投资期限</p>-->
         <p class="tip black-tip">提示：收益仅供参考，实际收益以最终投资结果为准。</p>
       </div>
       <ul class="result-wrapper">
