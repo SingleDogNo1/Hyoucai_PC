@@ -1927,6 +1927,13 @@ export default {
           &:nth-child(11) {
             background: url('./images/bg_report5.png') center center no-repeat;
           }
+          &:nth-child(12) {
+            background: url('./images/bg_report6.png') center center no-repeat;
+            margin-right: 0;
+          }
+          &:nth-child(13) {
+            background: url('./images/bg_report1.png') center center no-repeat;
+          }
         }
       }
     }
