@@ -1,5 +1,12 @@
 <template>
   <div class="table-container">
+    <div style="height:20px;font-size:12px;lint-height:20px;width:800px;margin: 10px auto;">
+      <span style="color:#FB891F;cursor:pointer" @click="$router.push({name:'cjz-projects'})">返回上一级</span>
+      <span style="color:#FB891F"> | </span>
+      <span style="color:#FB891F;cursor:pointer" @click="$router.push({name:'cjz-projects'})">出借中</span>
+      <span style="color:#FB891F"> > </span>
+      <span>{{projectName}}</span>
+    </div>
     <table>
       <thead>
       <tr>
@@ -9,7 +16,7 @@
         <th>到期时间</th>
         <th>出借本金(元)</th>
         <th>操作</th>
-        <th>设置自动出借</th>
+        <th v-if="showAutolend">设置自动出借</th>
       </tr>
       </thead>
       <tbody>
@@ -22,11 +29,13 @@
         <td>
           <button @click="$router.push({name:'cjz-zqList',query:{projectNo: $route.params.projectNo}})">详情</button>
         </td>
-        <td>
+        <td v-if="showAutolend">
           <el-switch
-            v-model="value2"
+            :value="item.repeatStatus!==0"
+            @change="handleSetAutolend(item)"
             active-color="#13ce66"
-            inactive-color="#ff4949">
+            inactive-color="#ff4949"
+          >
           </el-switch>
         </td>
       </tr>
@@ -39,19 +48,28 @@
       :cur-page="listQueryDetail.page"
       @handleCurrentChange="handleCurrentChange"
     ></Pagination>
+    <Dialog :show.sync="showDialogSet" title="设置自动出借，省心赚钱" :onConfirm="setAutoLend">
+      <p class="dialog-text"><el-radio v-model="status" label="1">本金到期后自动出借</el-radio></p>
+      <p class="dialog-text"><el-radio v-model="status" label="2">本息到期后自动出借</el-radio></p>
+      <p class="dialog-text"><router-link target="_blank" class="agreement" :to="{ name: 'autoLendAgreement' }">自动出借服务条款</router-link></p>
+    </Dialog>
+    <Dialog :show.sync="showDialogCancel" :onConfirm="cancelAutoLend"> <p class="dialog-text">您确认要取消自动出借吗？</p> </Dialog>
   </div>
 </template>
 
 <script>
 import Pagination from '@/components/pagination/pagination'
 import { userProjectDetail, transferFeeCalculate, transferProject } from '@/api/djs/Mine/lend'
+import { expireRepeat } from '@/api/djs/Mine/autoLend'
 import { mapGetters } from 'vuex'
+import Dialog from '@/components/Dialog/Dialog'
 
 export default {
   name: 'detail',
-  components: { Pagination },
+  components: { Pagination, Dialog },
   data() {
     return {
+      projectName: '',
       dialogVisible: false,
       showMsg: false,
       resultMsg: '',
@@ -64,13 +82,42 @@ export default {
       listQueryDetail: {
         page: 1,
         size: 10
-      }
+      },
+      showAutolend: false, // 是否支持自动出借
+      showDialogSet: false,
+      showDialogCancel: false,
+      status: '1',
+      invId: ''
     }
   },
   computed: {
     ...mapGetters(['user'])
   },
   methods: {
+    handleSetAutolend(item) {
+      if (item.repeatStatus === 0) {
+        this.showDialogSet = true
+        this.invId = item.id
+        this.status = '1'
+      } else {
+        this.invId = item.id
+        this.showDialogCancel = true
+      }
+    },
+    setAutoLend() {
+      expireRepeat({ invId: this.invId, repeatStatus: this.status }).then(res => {
+        if (res.data.resultCode === '1') {
+          this.getList()
+        }
+      })
+    },
+    cancelAutoLend() {
+      expireRepeat({ invId: this.invId, repeatStatus: 0 }).then(res => {
+        if (res.data.resultCode === '1') {
+          this.getList()
+        }
+      })
+    },
     handleTransfer(id) {
       transferFeeCalculate({ projectNo: this.projectNo, invId: id }).then(res => {
         if (res.data.resultCode === '1') {
@@ -106,6 +153,10 @@ export default {
         invStatus: 'INPZ,INVI,INVY'
       }).then(res => {
         if (res.data.resultCode === '1') {
+          this.projectName = res.data.list[0].projectName
+          if (res.data.list[0].doubleBonuCouponEntity.dbCouponRate !== null) {
+            this.showAutolend = true
+          }
           this.listDetail = res.data.list
           this.totalDetail = res.data.countPage
         }
@@ -122,7 +173,7 @@ export default {
 .table-container {
   min-height: 800px;
   table {
-    margin: 20px auto;
+    margin: 10px auto;
     width: 800px;
     thead {
       background: rgba(0, 131, 254, 0.09);
@@ -140,6 +191,15 @@ export default {
       text-align: center;
       a {
         color: rgba(251, 137, 31, 1);
+        cursor: pointer;
+      }
+      button {
+        width: 70px;
+        height: 22px;
+        background: rgba(251, 137, 31, 1);
+        border-radius: 4px;
+        color: #fff;
+        font-size: 12px;
         cursor: pointer;
       }
     }
@@ -246,5 +306,20 @@ export default {
 }
 .pagination {
   margin-top: 20px;
+}
+.dialog-text {
+  text-align: center;
+  /deep/ .el-radio span {
+    font-size: 18px;
+    &.el-radio__input {
+      top: -2px;
+    }
+  }
+  margin-bottom: 10px;
+  .agreement {
+    font-size: 14px;
+    color: #fb7b1f;
+    cursor: pointer;
+  }
 }
 </style>

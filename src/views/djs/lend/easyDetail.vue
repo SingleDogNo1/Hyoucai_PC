@@ -94,7 +94,9 @@
                 <p class="title">
                   <span>协议</span>
                 </p>
-                <a target="_blank" class="value" :href="projectInfo.agreementUrl">{{ projectInfo.agreementName }}</a>
+                <span v-for="agreement in projectInfo.agreementList" :key="agreement.agreementName">
+                  <a target="_blank" class="value" :href="agreement.agreementUrl">{{ agreement.agreementName }}</a>
+                </span>
               </li>
               <li v-for="(item, index) in projectInfo.projectServiceEntity" :key="index">
                 <!-- <p class="value">

@@ -1,5 +1,14 @@
 <template>
   <div class="detail">
+    <div style="height:20px;font-size:12px;lint-height:20px;width:800px;margin: 10px auto;">
+      <span style="color:#FB891F;cursor:pointer" @click="$router.push({name:'cjz-project', params:{projectNo}})">返回上一级</span>
+      <span style="color:#FB891F"> | </span>
+      <span style="color:#FB891F;cursor:pointer" @click="$router.push({name:'cjz-projects'})">出借中</span>
+      <span style="color:#FB891F"> > </span>
+      <span style="color:#FB891F;cursor:pointer" @click="$router.push({name:'cjz-project', params:{projectNo}})">{{projectName}}</span>
+      <span style="color:#FB891F"> > </span>
+      <span>债权列表</span>
+    </div>
     <div class="table-container">
       <table>
         <thead>
@@ -101,7 +110,7 @@
         <h3>协议</h3>
         <div class="content-2">
           <a :href="ZQDetail.threeLoanAgreement">《三方协议》</a>&nbsp;&nbsp;&nbsp;&nbsp;
-          <a :href="ZQDetail.debtTransferAgreement">《债权转让协议》</a>
+          <a v-if="ZQDetail.debtTransferAgreement" :href="ZQDetail.debtTransferAgreement">《债权转让协议》</a>
         </div>
       </div>
     </el-dialog>
@@ -111,7 +120,7 @@
 <script>
 import Pagination from '@/components/pagination/pagination'
 import Dialog from '@/components/Dialog/Dialog'
-import { transferFeeCalculate, transferProject, bondRelation } from '@/api/djs/Mine/lend'
+import { transferFeeCalculate, transferProject, bondRelation, userProjectDetail } from '@/api/djs/Mine/lend'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -119,6 +128,7 @@ export default {
   components: { Pagination, Dialog },
   data() {
     return {
+      projectName: '',
       dialogVisible: false,
       showMsg: false,
       resultMsg: '',
@@ -130,6 +140,10 @@ export default {
       ZQDetail: {},
       listZQ: null,
       totalZQ: null,
+      listQueryDetail: {
+        page: 1,
+        size: 10
+      },
       listQueryZQ: {
         page: 1,
         size: 10
@@ -167,10 +181,6 @@ export default {
         }
       })
     },
-    handleCurrentChange(val) {
-      this.listQueryDetail.page = val
-      this.getList()
-    },
     handleCurrentChangeZQ(val) {
       this.listQueryZQ.page = val
       this.getListBondRelation()
@@ -187,10 +197,23 @@ export default {
           this.totalZQ = res.data.countPage
         }
       })
+    },
+    getList() {
+      userProjectDetail({
+        projectNo: this.projectNo,
+        curPage: this.listQueryDetail.page,
+        maxLine: this.listQueryDetail.size,
+        invStatus: 'INPZ,INVI,INVY'
+      }).then(res => {
+        if (res.data.resultCode === '1') {
+          this.projectName = res.data.list[0].projectName
+        }
+      })
     }
   },
   created() {
     this.getListBondRelation()
+    this.getList()
   }
 }
 </script>
