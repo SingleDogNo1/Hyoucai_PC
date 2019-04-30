@@ -244,6 +244,14 @@ export default {
           this.beforeRouterPath && !this.userBasicInfo.userIsOpenAccount.registerProtocolSigned ? (this.showDialog = false) : (this.showDialog = true)
           this.accountStatus = list.status
           switch (this.accountStatus) {
+            case 'REAL_NAME':
+              this.openSignText = '开通实名账户'
+              this.routerLink = 'realNameAuth'
+              break
+            case 'BANK_CARD':
+              this.openSignText = '绑定银行卡'
+              this.routerLink = 'realNameBindCard'
+              break
             case 'OPEN_ACCOUNT':
               this.openSignText = '开通存管账户'
               this.routerLink = 'account'

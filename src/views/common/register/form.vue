@@ -55,6 +55,7 @@ import { userLogin } from '@/api/common/login'
 import { mapGetters, mapMutations } from 'vuex'
 import { countDownTime, captchaId } from '@/assets/js/const'
 import { isMobCode, isPassword } from '@/assets/js/regular'
+import { getUserCompleteInfo } from '@/api/common/userIndex'
 export default {
   name: 'RegisterForm',
   components: {
@@ -164,18 +165,28 @@ export default {
           if (res.data.resultCode === '1') {
             let user = res.data.data
             this.setUser(user)
-            switch (this.user.platformFlag) {
-              case '1':
-                window.location.href = '/djs/#/bankAccount/openAccount'
-                break
-              case '2':
-                window.location.href = '/hyc/#/bankAccount/openAccount'
-                break
-              default:
-                this.$router.push({ name: 'account' })
-            }
+            return getUserCompleteInfo()
           } else {
             this.errorMsg = res.data.resultMsg
+            throw new Error()
+          }
+        })
+        .then(res => {
+          if (res.data.resultCode === '1') {
+            if (res.data.data.status === 'REAL_NAME') {
+              this.$router.push({ name: 'realNameAuth' })
+            } else if (res.data.data.status === 'OPEN_ACCOUNT') {
+              switch (this.user.platformFlag) {
+                case '1':
+                  window.location.href = '/djs/#/bankAccount/openAccount'
+                  break
+                case '2':
+                  window.location.href = '/hyc/#/bankAccount/openAccount'
+                  break
+                default:
+                  this.$router.push({ name: 'account' })
+              }
+            }
           }
         })
     },

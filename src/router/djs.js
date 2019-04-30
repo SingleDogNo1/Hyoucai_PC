@@ -373,15 +373,19 @@ export default new Router({
       children: [
         {
           path: 'realNameAccount',
-          component: () => import(/* webpackChunkName: "realNameAccount" */ '@/views/djs/realNameAccount/index.vue'),
+          name: 'realNameAccount',
+          redirect: 'realNameAccount/realNameAuth',
+          component: () => import(/* webpackChunkName: "realNameAccount" */ '@/views/common/realNameAccount/index.vue'),
           children: [
             {
               path: 'realNameAuth',
-              component: () => import(/* webpackChunkName: "realNameAccount" */ '@/views/djs/realNameAccount/realNameAuth.vue')
+              name: 'realNameAuth',
+              component: () => import(/* webpackChunkName: "realNameAccount" */ '@/views/common/realNameAccount/realNameAuth.vue')
             },
             {
               path: 'bindCard',
-              component: () => import(/* webpackChunkName: "realNameAccount" */ '@/views/djs/realNameAccount/bindCard.vue')
+              name: 'realNameBindCard',
+              component: () => import(/* webpackChunkName: "realNameAccount" */ '@/views/common/realNameAccount/bindCard.vue')
             }
           ]
         }
