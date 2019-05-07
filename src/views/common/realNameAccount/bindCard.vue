@@ -4,7 +4,7 @@
       <el-col :span="9" class="row-title">充值金额</el-col>
       <el-col :span="6" class="row-value">
         <i class="iconfont icon-dkw_jine"></i>
-        <input type="tel" v-model="form.amount" placeholder="请输入充值金额" />
+        <input type="tel" v-model="form.amount" placeholder="请输入充值金额" @input="checkAmount"/>
       </el-col>
       <el-col :span="9" class="row-suffix">元 <span class="suffix">（100元起充）</span></el-col>
     </el-row>
@@ -20,7 +20,7 @@
       <el-col :span="9" class="row-title">银行卡</el-col>
       <el-col :span="6" class="row-value">
         <i class="iconfont icon-Bankcard"></i>
-        <input type="tel" v-model="form.bankCardNum" placeholder="请输入银行卡号" @blur="getBankInfo"/>
+        <input type="tel" v-model="form.bankCardNum" placeholder="请输入银行卡号" @input="checkBankCardNum" @blur="getBankInfo"/>
       </el-col>
       <el-col :span="9" class="row-suffix" style="position:relative">
         <span class="mark">?</span>
@@ -47,7 +47,7 @@
       <el-col :span="9" class="row-title">手机号</el-col>
       <el-col :span="6" class="row-value">
         <i class="iconfont icon-phone"></i>
-        <input type="tel" v-model="form.mobileNo" placeholder="请输入银行卡预留手机号" maxlength="11" />
+        <input type="tel" v-model="form.mobileNo" placeholder="请输入银行卡预留手机号" maxlength="11" @input="checkMobileNo" />
       </el-col>
       <el-col :span="9" class="row-suffix"></el-col>
     </el-row>
@@ -58,7 +58,7 @@
       <el-col :span="9" class="row-title">验证码</el-col>
       <el-col :span="6" class="row-value">
         <i class="iconfont icon-validation"></i>
-        <input type="tel" class="validation" v-model="form.validCode" placeholder="请输入验证码" maxlength="11" />
+        <input type="tel" class="validation" v-model="form.validCode" placeholder="请输入验证码" maxlength="6" @input="checkValidCode" />
         <i class="get-code" @click="getSMSCode">{{countDownText}}</i>
       </el-col>
       <el-col :span="9" class="row-suffix"></el-col>
@@ -122,11 +122,26 @@ export default {
     ...mapGetters(['user', 'userBasicInfo'])
   },
   methods: {
+    checkAmount() {
+      if (this.error.amount !== '') this.validateAmount()
+    },
+    checkBankCardNum() {
+      if (this.error.bankCardNum !== '') this.validateBankCardNum()
+    },
+    checkMobileNo() {
+      if (this.error.mobileNo !== '') this.validateMobileNo()
+    },
+    checkValidCode() {
+      if (this.error.validCode !== '') this.validateValidCode()
+    },
     validateAmount() {
       // 校验充值金额
       let flag = true
       if (this.form.amount === '') {
         this.error.amount = '请输入充值金额'
+        flag = false
+      } else if (!/^(([1-9][0-9]*)|(([0]\.\d{0,2}|[1-9][0-9]*\.\d{0,2})))$/.test(this.form.amount)) {
+        this.error.amount = '金额格式不正确（数字且最多保留两位小数）'
         flag = false
       } else {
         this.error.amount = ''
@@ -185,6 +200,7 @@ export default {
       }
     },
     bindCard() {
+      if (!this.validateAmount() | !this.validateBankCardNum() | !this.validateMobileNo() | !this.validateValidCode()) return false
       // 绑卡
       rechargeApiDirectPayServer({
         amount: this.form.amount,
