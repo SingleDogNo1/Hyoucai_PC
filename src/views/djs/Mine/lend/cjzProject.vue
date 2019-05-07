@@ -27,7 +27,7 @@
         <td>{{ item.invOverDate }}</td>
         <td>{{ item.totalPrinAmount }}</td>
         <td>
-          <button @click="$router.push({name:'cjz-zqList',query:{projectNo: $route.params.projectNo}})">详情</button>
+          <button @click="$router.push({name:'cjz-zqList',params:{projectNo:$route.params.projectNo,invId: item.id}})">详情</button>
         </td>
         <td v-if="showAutolend">
           <el-switch
@@ -154,7 +154,7 @@ export default {
       }).then(res => {
         if (res.data.resultCode === '1') {
           this.projectName = res.data.list[0].projectName
-          if (res.data.list[0].doubleBonuCouponEntity.dbCouponRate !== null) {
+          if (res.data.list[0].doubleBonuCouponEntity && res.data.list[0].doubleBonuCouponEntity.dbCouponRate !== null) {
             this.showAutolend = true
           }
           this.listDetail = res.data.list

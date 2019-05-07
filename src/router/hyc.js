@@ -361,6 +361,30 @@ export default new Router({
       ]
     },
     {
+      path: '/',
+      component: Layout,
+      children: [
+        {
+          path: 'realNameAccount',
+          name: 'realNameAccount',
+          redirect: 'realNameAccount/realNameAuth',
+          component: () => import(/* webpackChunkName: "realNameAccount" */ '@/views/common/realNameAccount/index.vue'),
+          children: [
+            {
+              path: 'realNameAuth',
+              name: 'realNameAuth',
+              component: () => import(/* webpackChunkName: "realNameAccount" */ '@/views/common/realNameAccount/realNameAuth.vue')
+            },
+            {
+              path: 'bindCard',
+              name: 'realNameBindCard',
+              component: () => import(/* webpackChunkName: "realNameAccount" */ '@/views/common/realNameAccount/bindCard.vue')
+            }
+          ]
+        }
+      ]
+    },
+    {
       path: '/', // 联系我们
       component: Layout,
       children: [

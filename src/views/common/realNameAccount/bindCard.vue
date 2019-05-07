@@ -3,10 +3,13 @@
     <el-row>
       <el-col :span="9" class="row-title">充值金额</el-col>
       <el-col :span="6" class="row-value">
-        <i class="iconfont icon-user"></i>
-        <input type="tel" v-model="amount" placeholder="请输入充值金额"/>
+        <i class="iconfont icon-dkw_jine"></i>
+        <input type="tel" v-model="form.amount" placeholder="请输入充值金额" />
       </el-col>
       <el-col :span="9" class="row-suffix">元 <span class="suffix">（100元起充）</span></el-col>
+    </el-row>
+    <el-row v-if="error.amount">
+      <el-col :offset="9" :span="6" class="error-msg">{{error.amount}}</el-col>
     </el-row>
     <el-row>
       <el-col :span="9" class="row-title">姓名</el-col>
@@ -17,7 +20,7 @@
       <el-col :span="9" class="row-title">银行卡</el-col>
       <el-col :span="6" class="row-value">
         <i class="iconfont icon-Bankcard"></i>
-        <input type="tel" v-model="bankCardNum" placeholder="请输入银行卡号" />
+        <input type="tel" v-model="form.bankCardNum" placeholder="请输入银行卡号" @blur="getBankInfo"/>
       </el-col>
       <el-col :span="9" class="row-suffix" style="position:relative">
         <span class="mark">?</span>
@@ -32,36 +35,47 @@
         </div>
       </el-col>
     </el-row>
-    <!--<el-row>
+    <el-row v-if="error.bankCardNum">
+      <el-col :offset="9" :span="6" class="error-msg">{{error.bankCardNum}}</el-col>
+    </el-row>
+    <el-row>
       <el-col :span="9" class="row-title">开户银行</el-col>
-      <el-col :span="6" class="row-value"></el-col>
+      <el-col :span="6" class="row-value">{{ bankCardInfo&&bankCardInfo.bankName}} <span style="color:red;font-size:14px;">{{bankCardInfo&&bankCardInfo.quota}}</span>  </el-col>
       <el-col :span="9" class="row-suffix"></el-col>
-    </el-row>-->
+    </el-row>
     <el-row>
       <el-col :span="9" class="row-title">手机号</el-col>
       <el-col :span="6" class="row-value">
         <i class="iconfont icon-phone"></i>
-        <input type="tel" v-model="mobileNo" placeholder="请输入银行卡预留手机号" maxlength="11" />
+        <input type="tel" v-model="form.mobileNo" placeholder="请输入银行卡预留手机号" maxlength="11" />
       </el-col>
       <el-col :span="9" class="row-suffix"></el-col>
+    </el-row>
+    <el-row v-if="error.mobileNo">
+      <el-col :offset="9" :span="6" class="error-msg">{{error.mobileNo}}</el-col>
     </el-row>
     <el-row>
       <el-col :span="9" class="row-title">验证码</el-col>
       <el-col :span="6" class="row-value">
         <i class="iconfont icon-validation"></i>
-        <input type="tel" class="validation" v-model="validCode" placeholder="请输入验证码" maxlength="11" />
+        <input type="tel" class="validation" v-model="form.validCode" placeholder="请输入验证码" maxlength="11" />
         <i class="get-code" @click="getSMSCode">{{countDownText}}</i>
       </el-col>
       <el-col :span="9" class="row-suffix"></el-col>
     </el-row>
+    <el-row v-if="error.validCode">
+      <el-col :offset="9" :span="6" class="error-msg">{{error.validCode}}</el-col>
+    </el-row>
     <el-row class="btn">
-      <el-col :span="6" :offset="9"><el-button type="primary" @click="bindCard">确认绑卡</el-button></el-col>
+      <el-col :span="6" :offset="9">
+        <el-button type="primary" @click="bindCard">确认绑卡</el-button>
+      </el-col>
     </el-row>
     <el-row class="tips">
       <el-col :span="6" :offset="9" >
         <p>温馨提示：</p>
-        <p>为了您的账户提现快速到账，请您绑定一类卡</p>
-        <p>点击了解何为一类卡>></p>
+        <p style="color:red">为了您的账户提现快速到账，请您绑定一类卡</p>
+        <p><a href="https://mp.weixin.qq.com/s/AGl5G7v0Z8UvMfLtDGQaMg" target="_blank" style="color:#9b9b9b">点击了解何为一类卡>></a></p>
       </el-col>
     </el-row>
     <Dialog :show.sync="showDialogSuccess" :singleButton="true" :showTitle="false" :onClose="confirmCharged"  class="djs-charge-dialog">
@@ -73,6 +87,7 @@
 
 <script>
 import { supportBankList } from '@/api/djs/addBankCard'
+import { regular } from '@dpandora/dpandora-sdk'
 import { mapGetters } from 'vuex'
 import { countDownTime } from '@/assets/js/const'
 import { rechargeApiDirectPayServer, queryCardInfo } from '@/api/djs/Mine/charge'
@@ -86,11 +101,20 @@ export default {
     return {
       bankList: [],
       countDownText: '获取验证码',
-      amount: '', // 充值金额
-      bankCardNum: '', // 银行卡号
+      bankCardInfo: null,
+      form: {
+        amount: '', // 充值金额
+        bankCardNum: '', // 银行卡号
+        mobileNo: '', // 手机号
+        validCode: '' // 验证码
+      },
+      error: {
+        amount: '', // 充值金额
+        bankCardNum: '', // 银行卡号
+        mobileNo: '', // 手机号
+        validCode: '' // 验证码
+      },
       bankCode: '', // 充值银行
-      mobileNo: '', // 手机号
-      validCode: '', // 验证码
       showDialogSuccess: false
     }
   },
@@ -98,16 +122,79 @@ export default {
     ...mapGetters(['user', 'userBasicInfo'])
   },
   methods: {
+    validateAmount() {
+      // 校验充值金额
+      let flag = true
+      if (this.form.amount === '') {
+        this.error.amount = '请输入充值金额'
+        flag = false
+      } else {
+        this.error.amount = ''
+      }
+      return flag
+    },
+    validateBankCardNum() {
+      let flag = true
+      // 银行卡
+      if (this.form.bankCardNum === '') {
+        this.error.bankCardNum = '请输入银行卡号'
+        flag = false
+      } else if (!regular.isBankCard(this.form.bankCardNum)) {
+        this.error.bankCardNum = '请输入正确的银行卡号'
+        flag = false
+      } else {
+        this.error.bankCardNum = ''
+      }
+      return flag
+    },
+    validateMobileNo() {
+      let flag = true
+      if (this.form.mobileNo === '') {
+        this.error.mobileNo = '请输入银行卡预留手机号'
+        flag = false
+      } else if (!regular.isMobile(this.form.mobileNo)) {
+        this.error.mobileNo = '手机号格式不正确'
+        flag = false
+      } else {
+        this.error.mobileNo = ''
+      }
+      return flag
+    },
+    validateValidCode() {
+      let flag = true
+      if (this.form.validCode === '') {
+        this.error.validCode = '请输入验证码'
+        flag = false
+      } else {
+        this.error.validCode = ''
+      }
+      return flag
+    },
+    getBankInfo() {
+      // 查询开户银行
+      if (regular.isBankCard(this.form.bankCardNum)) {
+        queryCardInfo({
+          bankCardNum: this.form.bankCardNum
+        }).then(res => {
+          if (res.data.resultCode === '1') {
+            this.bankCardInfo = res.data
+          }
+        })
+      } else {
+        this.bankCardInfo = null
+      }
+    },
     bindCard() {
+      // 绑卡
       rechargeApiDirectPayServer({
-        amount: this.amount,
+        amount: this.form.amount,
         userName: this.user.userName,
-        bankCardNum: this.bankCardNum,
+        bankCardNum: this.form.bankCardNum,
         bankCode: this.bankCode,
-        mobileNo: this.mobileNo,
+        mobileNo: this.form.mobileNo,
         rechargeType: 'KQAP',
         whichSetp: 'val',
-        validCode: this.validCode
+        validCode: this.form.validCode
       }).then(res => {
         let data = res.data
         if (data.resultCode === '1') {
@@ -118,17 +205,19 @@ export default {
       })
     },
     getSMSCode() {
+      if (!this.validateAmount() | !this.validateBankCardNum() | !this.validateMobileNo()) return false
+      // 获取验证码
       if (this.countDownText === '获取验证码') {
         queryCardInfo({
-          bankCardNum: this.bankCardNum
+          bankCardNum: this.form.bankCardNum
         }).then(res => {
           this.bankCode = res.data.bankCode
           let data = {
-            amount: this.amount,
+            amount: this.form.amount,
             userName: this.user.userName,
-            bankCardNum: this.bankCardNum,
+            bankCardNum: this.form.bankCardNum,
             bankCode: this.bankCode,
-            mobileNo: this.mobileNo,
+            mobileNo: this.form.mobileNo,
             rechargeType: 'KQAP',
             whichSetp: 'send'
           }
@@ -300,6 +389,16 @@ export default {
           }
         }
       }
+    }
+    .error-msg {
+      height: 38px;
+      line-height: 38px;
+      background: #ffe5e5;
+      color: #e84518;
+      font-size: 12px;
+      border: 1px solid #e84518;
+      border-radius: 2px;
+      padding: 0 10px;
     }
 
     &.btn {

@@ -125,7 +125,7 @@ export default new Router({
                       component: () => import('@/views/djs/Mine/lend/cjzProject')
                     },
                     {
-                      path: 'zqList', // 出借详情
+                      path: 'project/:projectNo/zqList/:invId', // 出借详情
                       name: 'cjz-zqList',
                       component: () => import('@/views/djs/Mine/lend/cjzZQList')
                     }

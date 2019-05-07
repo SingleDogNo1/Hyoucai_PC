@@ -120,7 +120,7 @@
 <script>
 import Pagination from '@/components/pagination/pagination'
 import Dialog from '@/components/Dialog/Dialog'
-import { transferFeeCalculate, transferProject, bondRelation, userProjectDetail } from '@/api/djs/Mine/lend'
+import { transferFeeCalculate, transferProject, bondRelationByInvId, userProjectDetail } from '@/api/djs/Mine/lend'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -135,7 +135,8 @@ export default {
       showDialogTransfer: false,
       transferId: '',
       transferObj: null,
-      projectNo: this.$route.query.projectNo,
+      projectNo: this.$route.params.projectNo,
+      invId: this.$route.params.invId,
       tabIndex: 0,
       ZQDetail: {},
       listZQ: null,
@@ -186,9 +187,9 @@ export default {
       this.getListBondRelation()
     },
     getListBondRelation() {
-      bondRelation({
+      bondRelationByInvId({
         userName: this.user.userName,
-        projectNo: this.projectNo,
+        invId: this.invId,
         curPage: this.listQueryZQ.page,
         maxLine: this.listQueryZQ.size
       }).then(res => {

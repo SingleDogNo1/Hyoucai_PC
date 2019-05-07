@@ -46,7 +46,7 @@ export default {
           this.error_msg = res.data.resultMsg
         } else {
           this.error_msg = ''
-          this.$router.push({ name: 'bindCard' })
+          this.$router.push({ name: 'realNameBindCard' })
         }
       })
     },

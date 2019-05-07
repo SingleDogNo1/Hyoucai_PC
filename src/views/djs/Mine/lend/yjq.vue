@@ -14,7 +14,7 @@
         <td>{{ item.projectName }}</td>
         <td>{{ item.invAmount }}</td>
         <td>{{ item.invOverDate.substr(0, 10) }}</td>
-        <td>已转让</td>
+        <td>已结清</td>
       </tr>
       </tbody>
     </table>
