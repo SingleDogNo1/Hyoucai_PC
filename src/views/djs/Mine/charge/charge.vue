@@ -571,12 +571,15 @@ export default {
               width: 284px;
               height: 40px;
               line-height: 40px;
-              padding-left: 15px;
               border-radius: 2px;
+              padding-left: 15px;
               border: 1px solid rgba(205, 205, 205, 1);
               &:read-only {
                 background-color: #f8f8fb;
               }
+            }
+            input[type='button'] {
+              padding-left: 0;
             }
             .text {
               display: inline-block;

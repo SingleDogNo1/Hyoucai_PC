@@ -666,6 +666,9 @@ export default {
             color: rgba(205, 205, 205, 1);
           }
         }
+        input[type='button'] {
+          padding-left: 0;
+        }
         .text {
           display: inline-block;
           width: 284px;
