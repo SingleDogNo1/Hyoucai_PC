@@ -38,6 +38,7 @@
               <li>
                 <span class="title">开户银行</span>
                 <span class="text" v-if="isBankcardSupport">{{ bankCardInfo.bankName }}<i class="high-light">{{ bankCardInfo.quota }}</i></span>
+                <span class="text" v-else>{{unableBankName}}<i class="high-light">{{ unableBankNameQuota }}</i></span>
               </li>
               <li>
                 <span class="title">&emsp;手机号</span>
@@ -152,6 +153,8 @@ export default {
       bankCardNo: '',
       unableBankCardNo: '', // 不支持充值时手动填入的银行卡号
       unableMobile: '', // 不支持充值时手动填入的手机号
+      unableBankName: '', // 不支持充值时，根据填入的银行卡号获取到的银行信息
+      unableBankNameQuota: '', // 不支持充值时，根据填入的银行卡号获取到的银行提示信息
       showCountDown: false,
       countDown: 60,
       timeInterval: null,
@@ -205,9 +208,11 @@ export default {
       queryCardInfo({
         bankCardNum: this.unableBankCardNo
       }).then(res => {
-        // TODO 填完手机号后的逻辑
         const data = res.data
-        console.log(data)
+        if (res.data.resultCode === '1') {
+          this.unableBankName = data.bankName
+          this.unableBankNameQuota = data.quota
+        }
       })
     },
     amountInput(e) {

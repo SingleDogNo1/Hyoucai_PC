@@ -1,32 +1,26 @@
-# Hyoucai_PC
+## 点金石账号
+- 17987654328
+- 17987654329
+- 17987600001
+- 17987600002
+- 17987650002
+- 17987650003
+- 17980000011
+- 17980000012
+- 17980000013
+- 17980000014
+- 17987654327
 
-## Project setup
-```
-npm install
-```
-
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Run your tests
-```
-npm run test
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
-
-
-网站公告 && 活动推荐 未登录 => 登录
+## 汇有财账号
+- 18322724572
+- 17000000778
+- 15822875555
+- 15822875051
+- 17987654301
+- 17999998881
+- 17000009998
+- 19000000582
+- 19000000583
+- 19000000584
+- 19000000585
+- 19000000593
