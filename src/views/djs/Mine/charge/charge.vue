@@ -33,7 +33,7 @@
               <li>
                 <span class="title">银行卡号</span>
                 <input type="text" placeholder="请输入银行卡号" v-if="isBankcardSupport" readonly v-model="bankCardNo" />
-                <input type="text" placeholder="请输入银行卡号" v-model="unableBankCardNo" v-else />
+                <input type="text" placeholder="请输入银行卡号" v-model="unableBankCardNo" @blur="getSupportBank" v-else />
               </li>
               <li>
                 <span class="title">开户银行</span>
@@ -199,6 +199,15 @@ export default {
         if (res.data.userInfo.cardNo) {
           this.userRechargePreVerify()
         }
+      })
+    },
+    getSupportBank() {
+      queryCardInfo({
+        bankCardNum: this.unableBankCardNo
+      }).then(res => {
+        // TODO 填完手机号后的逻辑
+        const data = res.data
+        console.log(data)
       })
     },
     amountInput(e) {

@@ -1,7 +1,7 @@
 import request from '@/assets/js/requestHYC'
 import qs from 'qs'
 
-function getUserBasicInfo(data) {
+export function getUserBasicInfo(data) {
   return request({
     url: '/UserBasicInfo',
     method: 'post',

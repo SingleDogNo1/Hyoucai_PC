@@ -13,7 +13,9 @@
     </el-row>
     <el-row>
       <el-col :span="9" class="row-title">姓名</el-col>
-      <el-col :span="6" class="row-value"><span>{{ user.realName.substr(0,1)}}**</span></el-col>
+      <el-col :span="6" class="row-value">
+        <span>{{ userBasicInfo.realName.substr(0,1)}}**</span>
+      </el-col>
       <el-col :span="9" class="row-suffix"></el-col>
     </el-row>
     <el-row>
@@ -91,7 +93,9 @@ import { regular } from '@dpandora/dpandora-sdk'
 import { mapGetters } from 'vuex'
 import { countDownTime } from '@/assets/js/const'
 import { rechargeApiDirectPayServer, queryCardInfo } from '@/api/djs/Mine/charge'
+import { getUserBasicInfo } from '@/api/hyc/Mine/overview'
 import Dialog from '@/components/Dialog/Dialog'
+
 export default {
   name: 'bindCard',
   components: {
@@ -115,11 +119,12 @@ export default {
         validCode: '' // 验证码
       },
       bankCode: '', // 充值银行
-      showDialogSuccess: false
+      showDialogSuccess: false,
+      userBasicInfo: null
     }
   },
   computed: {
-    ...mapGetters(['user', 'userBasicInfo'])
+    ...mapGetters(['user'])
   },
   methods: {
     checkAmount() {
@@ -277,7 +282,7 @@ export default {
       }, 1000)
     },
     confirmCharged() {
-      this.$router.push({ name: this.$router.query.from ? this.$router.query.from : 'overview' })
+      this.$router.push({ name: this.$route.query.from ? this.$route.query.from : 'overview' })
     }
   },
   created() {
@@ -285,6 +290,11 @@ export default {
       if (res.data.resultCode === '1') {
         this.bankList = res.data.list
       }
+    })
+    getUserBasicInfo({
+      userName: this.user.userName
+    }).then(res => {
+      this.userBasicInfo = res.data.data
     })
   }
 }

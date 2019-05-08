@@ -108,7 +108,6 @@ export default {
         if (data.resultCode === '1') {
           let activeTelList = []
           data.data.forEach(v => {
-            console.log(v.status)
             if (parseInt(v.status) === 1) {
               activeTelList.push(v)
             }
