@@ -46,12 +46,18 @@ export default {
           this.error_msg = res.data.resultMsg
         } else {
           this.error_msg = ''
-          this.$router.push({
-            name: 'realNameBindCard',
-            query: {
-              from: this.$route.query.from
-            }
-          })
+          if (this.$route.query && this.$route.query.from) {
+            this.$router.push({
+              name: 'realNameBindCard',
+              query: {
+                from: this.$route.query.from
+              }
+            })
+          } else {
+            this.$router.push({
+              name: 'realNameBindCard'
+            })
+          }
         }
       })
     },
