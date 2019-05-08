@@ -9,8 +9,12 @@
       </section>
       <div>
         <el-button type="info" v-if="user.platformFlag === '3'" @click="switchSystem">系统切换</el-button>
-        <el-button type="warning" @click.native="linkToCharge">充值</el-button>
-        <el-button type="warning" @click.native="linkToTocash">提现</el-button>
+        <checkstatus :success="linkToCharge">
+          <el-button type="warning">充值</el-button>
+        </checkstatus>
+        <checkstatus :success="linkToTocash">
+          <el-button type="warning">提现</el-button>
+        </checkstatus>
       </div>
     </div>
     <div class="amount" id="amount"></div>
@@ -29,11 +33,12 @@ import 'echarts/lib/component/graphic'
 
 import api from '@/api/hyc/Mine/overview'
 import { mapGetters, mapMutations } from 'vuex'
+import checkstatus from '@/components/CheckStatus'
 
 export default {
   name: 'overview',
   mixins: [],
-  components: {},
+  components: { checkstatus },
   data() {
     return {
       msg: 'overview',

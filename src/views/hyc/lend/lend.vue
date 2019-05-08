@@ -74,7 +74,9 @@
                   <template v-if="item.status !== 1">
                     <!--1.未开启 2.已投X% 3.满标(包括item.investPercent >= 100 || item.investEndTimestamp <= 0 || item.status === 3)-->
                     <el-button disabled v-if="item.investPercent >= 100 || item.investEndTimestamp <= 0 || item.status === 3"> 还款中 </el-button>
-                    <el-button v-else @click.native="judgeBooking(item)"> 授权出借 </el-button>
+                    <checkstatus @success="judgeBooking(item)" v-else style="width:100%;">
+                      <el-button> 授权出借 </el-button>
+                    </checkstatus>
                   </template>
                   <template v-else>
                     <el-button type="primary" @click.native="judgeBooking(item)"> 预售中 </el-button>
@@ -127,7 +129,9 @@
                 <li class="info">
                   <!-- 0.预售 1.投资中 2.满标 3.已完结-->
                   <template v-if="item.status !== 0">
-                    <el-button v-if="item.status === 1" @click.native="judgeBooking(item)"> 授权出借 </el-button>
+                    <checkstatus @success="judgeBooking(item)" v-if="item.status === 1" style="width:100%;">
+                      <el-button> 授权出借 </el-button>
+                    </checkstatus>
                     <el-button disabled v-else>还款中</el-button>
                   </template>
                   <template v-else>
@@ -225,7 +229,7 @@ import {
 } from '@/api/hyc/lend'
 import { getUser } from '@/assets/js/cache'
 import { mapGetters } from 'vuex'
-
+import checkstatus from '@/components/CheckStatus'
 const ERR_OK = '1'
 export default {
   name: 'lend',
@@ -404,7 +408,8 @@ export default {
     pagination,
     countUp,
     noData,
-    Dialog
+    Dialog,
+    checkstatus
   },
   computed: {
     ...mapGetters(['user'])

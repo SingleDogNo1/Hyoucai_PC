@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapMutations } from 'vuex'
 import { userProjectList } from '@/api/djs/Mine/lend'
 export default {
   name: 'cjz',
@@ -53,9 +53,15 @@ export default {
       userProjectList({ userName: this.user.userName }).then(res => {
         if (res.data.resultCode === '1') {
           this.InvestingList = res.data.list
+          this.setInvTotalAmt(res.data.invTotalAmt)
+          this.setTackBackInt(res.data.tackBackInt)
         }
       })
-    }
+    },
+    ...mapMutations({
+      setInvTotalAmt: 'SET_INVTOTALAMT',
+      setTackBackInt: 'SET_TACKBACKINT'
+    })
   },
   created() {
     this.getInvestingList()

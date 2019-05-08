@@ -74,8 +74,8 @@
     <el-row class="tips">
       <el-col :span="6" :offset="9" >
         <p>温馨提示：</p>
-        <p style="color:red">为了您的账户提现快速到账，请您绑定一类卡</p>
-        <p><a href="https://mp.weixin.qq.com/s/AGl5G7v0Z8UvMfLtDGQaMg" target="_blank" style="color:#9b9b9b">点击了解何为一类卡>></a></p>
+        <p>为了您的账户提现快速到账，请您绑定一类卡</p>
+        <p><a href="https://mp.weixin.qq.com/s/AGl5G7v0Z8UvMfLtDGQaMg" target="_blank" style="color:red">点击了解何为一类卡>></a></p>
       </el-col>
     </el-row>
     <Dialog :show.sync="showDialogSuccess" :singleButton="true" :showTitle="false" :onClose="confirmCharged"  class="djs-charge-dialog">
@@ -277,7 +277,7 @@ export default {
       }, 1000)
     },
     confirmCharged() {
-      this.$router.push({ name: 'overview' })
+      this.$router.push({ name: this.$router.query.from ? this.$router.query.from : 'overview' })
     }
   },
   created() {

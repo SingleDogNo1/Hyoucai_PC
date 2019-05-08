@@ -45,9 +45,10 @@
       </div>
       <div class="invest-module">
         <h2>
-          <span :class="{ 'unopened-status-title': investStatus === 'unopened' }" class="status-title">{{ investStatusTitle }}</span>
-          <router-link class="status-btn" v-if="investStatus !== 'unopened'" :to="{ name: 'charge' }">{{ investStatusBtn }}</router-link>
-          <router-link class="status-btn" v-else :to="{ name: 'account' }">{{ investStatusBtn }}</router-link>
+          <span :class="{ 'unopened-status-title': investStatus === 'unopened' || investStatus === 'unRealName' }" class="status-title">{{ investStatusTitle }}</span>
+          <router-link class="status-btn" v-if="investStatus !== 'unopened' && investStatus !== 'unRealName'" :to="{ name: 'charge' }">{{ investStatusBtn }}</router-link>
+          <router-link class="status-btn" v-if="investStatus === 'unopened'" :to="{ name: 'account' }">{{ investStatusBtn }}</router-link>
+          <router-link class="status-btn" v-if="investStatus === 'unRealName'" :to="{ name: 'realNameAccount' }">{{ investStatusBtn }}</router-link>
         </h2>
         <div class="content">
           <p class="available-balance">
@@ -554,6 +555,11 @@ export default {
           this.investStatusTitle = '出借中...'
           this.investBtn = '立即开户'
           this.investStatusBtn = '开户'
+        } else if (res.data.data.status === 'REAL_NAME') {
+          this.investStatus = 'unRealName'
+          this.investStatusTitle = '出借中...'
+          this.investBtn = '立即开户'
+          this.investStatusBtn = '开户'
         } else {
           this.getInvestStatus()
           this.investStatusBtn = '充值'
@@ -655,8 +661,10 @@ export default {
     handleInvest() {
       this.errMsg = ''
       // 如果是未开户（未设置密码），点击去开户页面
-      if (this.investStatus === 'unopened' || !this.userBasicInfo.userIsOpenAccount.isSetTranPSD) {
+      if (this.investStatus === 'unopened') {
         this.$router.push({ name: 'account' })
+      } else if (this.investStatus === 'unRealName') {
+        this.$router.push({ name: 'realNameAccount' })
       } else {
         if (this.invAmount === '') {
           this.errMsg = '请输入金额'

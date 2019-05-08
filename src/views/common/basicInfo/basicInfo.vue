@@ -31,7 +31,9 @@
         <Phone v-show="isShow.isShow3" :isShow="isShow" :oldMobile="mobile" @success="success" ref="phoneChild"></Phone>
         <div class="wrap_rows">
           <span class="wrap_left">风险测评</span> <span class="wrap_center">{{ evaluatingResult.evaluatingName || '未评测' }}</span>
-          <button class="wrap_btn" v-show="!isEvaluation" @click="toRiskAssessment">去评测</button>
+          <checkstatus :success="toRiskAssessment">
+            <button class="wrap_btn" v-show="!isEvaluation">去评测</button>
+          </checkstatus>
           <button class="wrap_btn" v-show="isEvaluation" @click="toRiskAssessment">重新测评</button>
         </div>
         <div class="wrap_rows last_rows">
@@ -89,6 +91,7 @@ import Name from './popup/name'
 import Password from './popup/password'
 import Phone from './popup/phone'
 import Address from './popup/address'
+import checkstatus from '@/components/CheckStatus'
 
 export default {
   name: 'basicInfo',
@@ -97,7 +100,8 @@ export default {
     Name,
     Password,
     Phone,
-    Address
+    Address,
+    checkstatus
   },
   data() {
     return {

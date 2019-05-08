@@ -9,8 +9,12 @@
       </section>
       <div>
         <el-button type="info" v-if="user.platformFlag === '3'" @click="switchSystem">系统切换</el-button>
-        <el-button type="warning" @click.native="linkToCharge">充值</el-button>
-        <el-button type="warning" @click.native="linkToTocash">提现</el-button>
+        <checkstatus :success="linkToCharge">
+          <el-button type="warning">充值</el-button>
+        </checkstatus>
+        <checkstatus :success="linkToTocash">
+          <el-button type="warning">提现</el-button>
+        </checkstatus>
       </div>
     </div>
     <div class="amount" id="amount"></div>
@@ -24,6 +28,7 @@ import 'echarts/lib/component/tooltip'
 import 'echarts/lib/component/title'
 import 'echarts/lib/component/legend'
 import 'echarts/lib/component/graphic'
+import checkstatus from '@/components/CheckStatus'
 
 import api from '@/api/djs/Mine/overview'
 import { mapGetters, mapMutations } from 'vuex'
@@ -31,6 +36,7 @@ import { mapGetters, mapMutations } from 'vuex'
 export default {
   name: 'overview',
   mixins: [],
+  components: { checkstatus },
   data() {
     return {
       dialogOptions: {

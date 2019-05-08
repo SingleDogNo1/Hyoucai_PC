@@ -42,6 +42,7 @@
       <!--<p class="dialog-text"><span class="agreement" @click="$router.push({ name: 'autoLendAgreement' })">自动出借服务条款</span></p>-->
     </Dialog>
     <Dialog :show.sync="showDialogCancel" :onConfirm="cancelAutoLend"> <p class="dialog-text">您确认要取消自动出借吗？</p> </Dialog>
+    <checkstatus trigger-mode="0"></checkstatus>
   </div>
 </template>
 
@@ -50,11 +51,11 @@ import { investingProject, expireRepeat } from '@/api/djs/Mine/autoLend'
 import { mapGetters } from 'vuex'
 import Pagination from '@/components/pagination/pagination'
 import Dialog from '@/components/Dialog/Dialog'
-
+import checkstatus from '@/components/CheckStatus'
 export default {
   name: 'autoLend',
   mixins: [],
-  components: { Pagination, Dialog },
+  components: { Pagination, Dialog, checkstatus },
   data() {
     return {
       repeatStatus: '',
