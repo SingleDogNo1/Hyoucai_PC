@@ -110,7 +110,7 @@ export function timeCountDown(t, status, callback) {
 
 // 推荐码正则校验
 export function referralCodeReg(referralCode) {
-  let reg = /^(h|d)(.*[0-9])$/
+  let reg = /^h|H|d|D(.*[0-9])$/
   return reg.test(referralCode)
 }
 
