@@ -4,7 +4,12 @@
       <el-col :span="9" class="row-title">充值金额</el-col>
       <el-col :span="6" class="row-value">
         <i class="iconfont icon-dkw_jine"></i>
-        <input type="tel" v-model="form.amount" placeholder="请输入充值金额" @input="checkAmount"/>
+        <input
+          type="number"
+          v-model="form.amount"
+          placeholder="请输入充值金额"
+          onkeypress="if (event.keyCode!==46 && event.keyCode!==45 && event.keyCode<48 || event.keyCode>57) event.returnValue = false"
+          @input="checkAmount(form.amount)"/>
       </el-col>
       <el-col :span="9" class="row-suffix">元 <span class="suffix">（100元起充）</span></el-col>
     </el-row>
@@ -14,7 +19,7 @@
     <el-row>
       <el-col :span="9" class="row-title">姓名</el-col>
       <el-col :span="6" class="row-value">
-        <span>{{ userBasicInfo.realName.substr(0,1)}}**</span>
+        <span v-if="userBasicInfo">{{ userBasicInfo.realName.substr(0,1)}}**</span>
       </el-col>
       <el-col :span="9" class="row-suffix"></el-col>
     </el-row>
@@ -22,7 +27,14 @@
       <el-col :span="9" class="row-title">银行卡</el-col>
       <el-col :span="6" class="row-value">
         <i class="iconfont icon-Bankcard"></i>
-        <input type="tel" v-model="form.bankCardNum" placeholder="请输入银行卡号" @input="checkBankCardNum" @blur="getBankInfo"/>
+        <input
+          type="number"
+          v-model="form.bankCardNum"
+          placeholder="请输入银行卡号"
+          onkeypress='return( /[\d]/.test(String.fromCharCode(event.keyCode)))'
+          oninput="if(value.length > 19) value = value.slice(0, 19)"
+          @input="checkBankCardNum"
+          @blur="getBankInfo" />
       </el-col>
       <el-col :span="9" class="row-suffix" style="position:relative">
         <span class="mark">?</span>
@@ -49,7 +61,13 @@
       <el-col :span="9" class="row-title">手机号</el-col>
       <el-col :span="6" class="row-value">
         <i class="iconfont icon-phone"></i>
-        <input type="tel" v-model="form.mobileNo" placeholder="请输入银行卡预留手机号" maxlength="11" @input="checkMobileNo" />
+        <input
+          type="number"
+          v-model="form.mobileNo"
+          placeholder="请输入银行卡预留手机号"
+          onkeypress="return( /[\d]/.test(String.fromCharCode(event.keyCode)))"
+          oninput="if(value.length > 11) value = value.slice(0, 11)"
+          @input="checkMobileNo" />
       </el-col>
       <el-col :span="9" class="row-suffix"></el-col>
     </el-row>
@@ -60,7 +78,14 @@
       <el-col :span="9" class="row-title">验证码</el-col>
       <el-col :span="6" class="row-value">
         <i class="iconfont icon-validation"></i>
-        <input type="tel" class="validation" v-model="form.validCode" placeholder="请输入验证码" maxlength="6" @input="checkValidCode" />
+        <input
+          type="number"
+          class="validation"
+          v-model="form.validCode"
+          placeholder="请输入验证码"
+          onkeypress='return( /[\d]/.test(String.fromCharCode(event.keyCode)))'
+          oninput="if(value.length > 6) value = value.slice(0, 6)"
+          @input="checkValidCode" />
         <i class="get-code" @click="getSMSCode">{{countDownText}}</i>
       </el-col>
       <el-col :span="9" class="row-suffix"></el-col>
@@ -123,6 +148,14 @@ export default {
       userBasicInfo: null
     }
   },
+  watch: {
+    'form.amount'(value) {
+      const point = value.split('.')[1]
+      if (point && point.length > 2) {
+        this.form.amount = (parseInt(value * 100) / 100).toString()
+      }
+    }
+  },
   computed: {
     ...mapGetters(['user'])
   },
@@ -137,6 +170,9 @@ export default {
       if (this.error.mobileNo !== '') this.validateMobileNo()
     },
     checkValidCode() {
+      if (this.form.validCode.length > 6) {
+        this.form.validCode = this.form.validCode.slice(0, 6)
+      }
       if (this.error.validCode !== '') this.validateValidCode()
     },
     validateAmount() {
@@ -145,7 +181,7 @@ export default {
       if (this.form.amount === '') {
         this.error.amount = '请输入充值金额'
         flag = false
-      } else if (!/^(([1-9][0-9]*)|(([0]\.\d{0,2}|[1-9][0-9]*\.\d{0,2})))$/.test(this.form.amount)) {
+      } else if (!/^(([1-9][0-9]*)|([0]\.\d{0,2}|[1-9][0-9]*\.\d{0,2}))$/.test(this.form.amount)) {
         this.error.amount = '金额格式不正确（数字且最多保留两位小数）'
         flag = false
       } else {
@@ -198,6 +234,7 @@ export default {
         }).then(res => {
           if (res.data.resultCode === '1') {
             this.bankCardInfo = res.data
+            this.bankCode = res.data.bankCode
           }
         })
       } else {
@@ -221,7 +258,7 @@ export default {
         if (data.resultCode === '1') {
           this.showDialogSuccess = true
         } else {
-          this.errMsg.smsCode = data.resultMsg
+          this.error.validCode = data.resultMsg
         }
       })
     },
@@ -246,25 +283,6 @@ export default {
             if (res.data.resultCode === '1') {
               this.countDown()
             }
-            /*let data = res.data
-            this.showDialog = true
-            if (data.resultCode === ERR_OK) {
-              this.errMsg.common = '验证码发送成功！'
-              this.showCountDown = true
-              if (this.timeInterval) {
-                clearInterval(this.timeInterval)
-              }
-              this.timeInterval = setInterval(() => {
-                this.countDown--
-                if (this.countDown <= 0) {
-                  this.showCountDown = false
-                  this.countDown = 60
-                  clearInterval(this.timeInterval)
-                }
-              }, 1000)
-            } else {
-              this.errMsg.common = data.resultMsg
-            }*/
           })
         })
       }

@@ -253,7 +253,7 @@ export default {
               this.routerLink = 'realNameBindCard'
               break
             case 'OPEN_ACCOUNT':
-              this.openSignText = '开通存管账户'
+              this.openSignText = '开通汇有财账户'
               this.routerLink = 'account'
               break
             case 'SET_PASSWORD':

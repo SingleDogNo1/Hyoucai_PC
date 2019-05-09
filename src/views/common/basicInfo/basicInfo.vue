@@ -74,9 +74,9 @@
       <div class="openAccount" v-show="!flag">
         <div class="tips">
           <img src="./bank.png" class="bank_logo" alt="" />
-          <span class="tips_content">您还未开通存管账户</span>
+          <span class="tips_content">您还未开通汇有财账户</span>
         </div>
-        <button class="open_btn" @click="toAccount">开通存管账户</button>
+        <button class="open_btn" @click="toAccount">开通汇有财账户</button>
       </div>
     </div>
   </div>

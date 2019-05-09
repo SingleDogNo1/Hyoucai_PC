@@ -54,7 +54,7 @@
           <span @click="$router.push({ name: 'charge' })">充值</span> <span @click="$router.push({ name: 'tocash' })">提现</span>
         </div>
       </div>
-      <div v-else class="btn-open-account"><el-button type="info" @click="$router.push({ name: 'account' })">开通存管账户</el-button></div>
+      <div v-else class="btn-open-account"><el-button type="info" @click="toOpenAccount">开通汇有财账户</el-button></div>
       <el-button type="primary" @click="$router.push({ name: 'overview' })">进入我的账户</el-button>
     </div>
   </div>
@@ -63,6 +63,7 @@
 <script>
 import { userLogin, smsLogin, userLoginVcode } from '@/api/common/login'
 import { mapGetters, mapMutations } from 'vuex'
+import { userInfoCompleteNotice } from '@/api/common/openAccount'
 import { countDownTime, captchaId } from '@/assets/js/const'
 import { isMobile } from '@/assets/js/regular'
 import { setLoginUsername, getLoginUsername } from '@/assets/js/cache'
@@ -207,6 +208,18 @@ export default {
         } else {
           this.error_pwd = res.data.resultMsg
           this.setErrorNum(this.errorNum + 1)
+        }
+      })
+    },
+    toOpenAccount() {
+      userInfoCompleteNotice().then(res => {
+        const data = res.data.data
+        if (res.data.resultCode === '1') {
+          if (data.status === 'REAL_NAME') {
+            this.$router.push({ name: 'realNameAuth' })
+          } else {
+            this.$router.push({ name: 'account' })
+          }
         }
       })
     },
