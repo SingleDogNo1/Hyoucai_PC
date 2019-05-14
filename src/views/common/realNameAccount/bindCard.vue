@@ -5,10 +5,8 @@
       <el-col :span="6" class="row-value">
         <i class="iconfont icon-dkw_jine"></i>
         <input
-          type="number"
           v-model="form.amount"
           placeholder="请输入充值金额"
-          onkeypress="if (event.keyCode!==46 && event.keyCode!==45 && event.keyCode<48 || event.keyCode>57) event.returnValue = false"
           @input="checkAmount(form.amount)"/>
       </el-col>
       <el-col :span="9" class="row-suffix">元 <span class="suffix">（100元起充）</span></el-col>
@@ -150,10 +148,13 @@ export default {
   },
   watch: {
     'form.amount'(value) {
-      const point = value.split('.')[1]
-      if (point && point.length > 2) {
-        this.form.amount = (parseInt(value * 100) / 100).toString()
-      }
+      this.form.amount = value
+        .replace(/[^\d.]/g, '')
+        .replace(/\.{2,}/g, '.')
+        .replace('.', '$#$')
+        .replace(/\./g, '')
+        .replace('$#$', '.')
+        .replace(/^(-)*(\d+)\.(\d\d).*$/, '$1$2.$3')
     }
   },
   computed: {
