@@ -41,10 +41,19 @@ function bondRelation(data) {
   })
 }
 
+function bondRelationByInvId(data) {
+  return request({
+    url: '/BondRelationByInvId',
+    method: 'POST',
+    data: qs.stringify(data)
+  })
+}
+
 export {
   userProjectList, // 获取用户出借列表
   userProjectDetail, // 获取用户出借详情
   transferFeeCalculate, // 项目转让金额计算
   transferProject, // 项目转让
-  bondRelation // 用户购买产品债权查询
+  bondRelation, // 按项目ID查询用户购买产品债权
+  bondRelationByInvId // 按投资记录ID查询用户购买产品债权
 }

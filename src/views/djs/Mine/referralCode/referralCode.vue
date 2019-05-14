@@ -6,7 +6,9 @@
         <div class="desc">
           <p class="title">我的推荐码</p>
           <p class="content">{{ referralCode }}</p>
-          <p class="copy-text" @click="btnCopy">复制邀请码链接 <i class="iconfont icon-more"></i></p>
+          <checkstatus :success="btnCopy">
+            <p class="copy-text">复制邀请码链接 <i class="iconfont icon-more"></i></p>
+          </checkstatus>
         </div>
       </div>
       <p class="referral-man">
@@ -43,6 +45,7 @@
     <Dialog :show.sync="showCopyDialog" title="汇有财温馨提示" :singleButton="singleButton" class="djs-copy-dialog">
       <div><p class="copy-dialog-text">已成功复制推荐好友链接，您可通过微信、短信、QQ等方式发送给好友！</p></div>
     </Dialog>
+    <checkstatus trigger-mode="0"></checkstatus>
   </div>
 </template>
 
@@ -53,13 +56,15 @@ import Pagination from '@/components/pagination/pagination'
 import Dialog from '@/components/Dialog/Dialog'
 import { saveInviteCode, qRCodeShare, userInviteInfo } from '@/api/djs/Mine/referralCode'
 import { referralCodeReg } from '@/assets/js/utils'
+import checkstatus from '@/components/CheckStatus'
 
 export default {
   name: 'referralCode',
   mixins: [],
   components: {
     Pagination,
-    Dialog
+    Dialog,
+    checkstatus
   },
   data() {
     return {

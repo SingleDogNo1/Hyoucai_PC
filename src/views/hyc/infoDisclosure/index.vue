@@ -141,12 +141,12 @@
               <img class="bg-legal-person" src="./images/bg_legal_person.png" />
             </div>
           </el-tab-pane>
-          <el-tab-pane label="关于汇有财" name="GYHYC">
+          <!--<el-tab-pane label="关于汇有财" name="GYHYC">
             <div v-if="aboutUsActiveName === 'GYHYC'" class="content">
               <div v-html="content"></div>
               <img class="bg-legal-person" src="./images/bg_legal_person.png" />
             </div>
-          </el-tab-pane>
+          </el-tab-pane>-->
         </el-tabs>
       </div>
       <div class="tab-content" v-if="activeName === 'YYSJ'">
@@ -415,8 +415,8 @@
       </div>
       <div class="tab-content" v-if="activeName === 'CPXG'">
         <el-tabs class="about-us-tab" v-model="productAboutActiveName" type="border-card" @tab-click="handleItemClick(productAboutActiveName)">
-          <el-tab-pane label="产品信息" name="CPXXTAB">
-            <div v-if="productAboutActiveName === 'CPXXTAB'" class="content">
+          <el-tab-pane label="产品信息" name="CPXX">
+            <div v-if="productAboutActiveName === 'CPXX'" class="content">
               <div v-html="content"></div>
               <img class="bg-legal-person" src="./images/bg_legal_person.png" />
             </div>
@@ -507,7 +507,7 @@ export default {
       activeName: 'GYWM',
       aboutUsActiveName: 'GSJJ',
       recordInfoActiveName: 'BADJ',
-      productAboutActiveName: 'CPXXTAB',
+      productAboutActiveName: 'CPXX',
       policiesActiveName: 'FLFG',
       showBigImg: false,
       num: 0,
@@ -682,7 +682,7 @@ export default {
         this.handleItemClick(this.recordInfoActiveName)
       }
       if (this.activeName === 'CPXG') {
-        this.productAboutActiveName = 'CPXXTAB'
+        this.productAboutActiveName = 'CPXX'
         this.handleItemClick(this.productAboutActiveName)
       }
       if (this.activeName === 'ZCFG') {
@@ -1703,6 +1703,7 @@ export default {
                   margin-right: 10px;
                   &:nth-child(2) {
                     width: 70px;
+                    margin-right: 0;
                   }
                   p {
                     font-size: $font-size-medium;
@@ -1747,6 +1748,7 @@ export default {
             }
             .amount-desc {
               margin-top: 0;
+              width: auto;
               ul {
                 height: 40px;
                 padding-bottom: 14px;

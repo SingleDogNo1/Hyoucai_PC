@@ -31,7 +31,9 @@
         <Phone v-show="isShow.isShow3" :isShow="isShow" :oldMobile="mobile" @success="success" ref="phoneChild"></Phone>
         <div class="wrap_rows">
           <span class="wrap_left">风险测评</span> <span class="wrap_center">{{ evaluatingResult.evaluatingName || '未评测' }}</span>
-          <button class="wrap_btn" v-show="!isEvaluation" @click="toRiskAssessment">去评测</button>
+          <checkstatus :success="toRiskAssessment">
+            <button class="wrap_btn" v-show="!isEvaluation">去评测</button>
+          </checkstatus>
           <button class="wrap_btn" v-show="isEvaluation" @click="toRiskAssessment">重新测评</button>
         </div>
         <div class="wrap_rows last_rows">
@@ -43,7 +45,10 @@
     </div>
     <!-- 存管信息 -->
     <div class="dep_information">
-      <h3 class="title">存管信息</h3>
+      <h3 class="title">
+        <span v-if="userBasicInfo.identityType === '01'">存管信息</span>
+        <span v-else>实名信息</span>
+      </h3>
       <div class="wrap" v-show="flag">
         <div class="wrap_rows">
           <span class="wrap_left">真实姓名</span> <span class="wrap_center">{{ escrowAccountInfo.name }}</span>
@@ -51,25 +56,27 @@
         <div class="wrap_rows">
           <span class="wrap_left">身份证号</span> <span class="wrap_center">{{ escrowAccountInfo.idNo }}</span>
         </div>
-        <div class="wrap_rows">
-          <span class="wrap_left">存管账户</span> <span class="wrap_center">{{ escrowAccountInfo.accountId }}</span>
-        </div>
-        <div class="wrap_rows">
-          <span class="wrap_left">交易密码</span> <span class="wrap_center">{{ escrowAccountInfo.transPassword }}</span>
-          <button class="wrap_btn" @click="tansactionPwd">修改</button>
-        </div>
-        <div class="wrap_rows last_rows">
-          <span class="wrap_left">电子账户手机号</span>
-          <span class="wrap_center">{{ escrowAccountInfo.mobile }}</span>
-          <button class="wrap_btn" @click="changeDzPhone">修改</button>
-        </div>
+        <template v-if="userBasicInfo.identityType === '01'">
+          <div class="wrap_rows">
+            <span class="wrap_left">存管账户</span> <span class="wrap_center">{{ escrowAccountInfo.accountId }}</span>
+          </div>
+          <div class="wrap_rows">
+            <span class="wrap_left">交易密码</span> <span class="wrap_center">{{ escrowAccountInfo.transPassword }}</span>
+            <button class="wrap_btn" @click="tansactionPwd">修改</button>
+          </div>
+        </template>
+        <!--<div class="wrap_rows last_rows">-->
+          <!--<span class="wrap_left">电子账户手机号</span>-->
+          <!--<span class="wrap_center">{{ escrowAccountInfo.mobile }}</span>-->
+          <!--<button class="wrap_btn" @click="changeDzPhone">修改</button>-->
+        <!--</div>-->
       </div>
       <div class="openAccount" v-show="!flag">
         <div class="tips">
           <img src="./bank.png" class="bank_logo" alt="" />
-          <span class="tips_content">您还未开通存管账户</span>
+          <span class="tips_content">您还未开通汇有财账户</span>
         </div>
-        <button class="open_btn" @click="toAccount">开通存管账户</button>
+        <button class="open_btn" @click="toAccount">开通汇有财账户</button>
       </div>
     </div>
   </div>
@@ -84,6 +91,7 @@ import Name from './popup/name'
 import Password from './popup/password'
 import Phone from './popup/phone'
 import Address from './popup/address'
+import checkstatus from '@/components/CheckStatus'
 
 export default {
   name: 'basicInfo',
@@ -92,7 +100,8 @@ export default {
     Name,
     Password,
     Phone,
-    Address
+    Address,
+    checkstatus
   },
   data() {
     return {
@@ -385,6 +394,9 @@ export default {
         margin-left: 21px;
         position: relative;
         font-weight: 400;
+        &:last-child {
+          border-bottom: none;
+        }
         .wrap_left {
           font-size: $font-size-small-s;
           color: rgba(90, 90, 90, 1);

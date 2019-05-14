@@ -4,6 +4,7 @@
       <el-tabs type="border-card">
         <el-tab-pane label="快捷充值">
           <div>
+            <p class="tips" v-if="!isBankcardSupport">为了您的账户提现快速到账，请您使用一类卡充值&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://mp.weixin.qq.com/s/AGl5G7v0Z8UvMfLtDGQaMg" target="_blank">点击了解何为一类卡>></a></p>
             <ul class="top">
               <li>
                 <dl>
@@ -32,11 +33,12 @@
               <li>
                 <span class="title">银行卡号</span>
                 <input type="text" placeholder="请输入银行卡号" v-if="isBankcardSupport" readonly v-model="bankCardNo" />
-                <input type="text" placeholder="请输入银行卡号" v-model="unableBankCardNo" v-else />
+                <input type="text" placeholder="请输入银行卡号" v-model="unableBankCardNo" @blur="getSupportBank" v-else />
               </li>
               <li>
                 <span class="title">开户银行</span>
                 <span class="text" v-if="isBankcardSupport">{{ bankCardInfo.bankName }}<i class="high-light">{{ bankCardInfo.quota }}</i></span>
+                <span class="text" v-else>{{unableBankName}}<i class="high-light">{{ unableBankNameQuota }}</i></span>
               </li>
               <li>
                 <span class="title">&emsp;手机号</span>
@@ -151,6 +153,8 @@ export default {
       bankCardNo: '',
       unableBankCardNo: '', // 不支持充值时手动填入的银行卡号
       unableMobile: '', // 不支持充值时手动填入的手机号
+      unableBankName: '', // 不支持充值时，根据填入的银行卡号获取到的银行信息
+      unableBankNameQuota: '', // 不支持充值时，根据填入的银行卡号获取到的银行提示信息
       showCountDown: false,
       countDown: 60,
       timeInterval: null,
@@ -197,6 +201,17 @@ export default {
       userAndBankInfo().then(res => {
         if (res.data.userInfo.cardNo) {
           this.userRechargePreVerify()
+        }
+      })
+    },
+    getSupportBank() {
+      queryCardInfo({
+        bankCardNum: this.unableBankCardNo
+      }).then(res => {
+        const data = res.data
+        if (res.data.resultCode === '1') {
+          this.unableBankName = data.bankName
+          this.unableBankNameQuota = data.quota
         }
       })
     },
@@ -514,8 +529,17 @@ export default {
         }
       }
       > .el-tabs__content {
+        p.tips {
+          padding-left: 18%;
+          margin: 10px auto;
+          color: red;
+          font-size: 15px;
+          a {
+            color: #000;
+          }
+        }
         .top {
-          padding: 60px 0 80px 0;
+          padding: 40px 0 80px 0;
           overflow: hidden;
           li {
             float: left;
@@ -561,12 +585,15 @@ export default {
               width: 284px;
               height: 40px;
               line-height: 40px;
-              padding-left: 15px;
               border-radius: 2px;
+              padding-left: 15px;
               border: 1px solid rgba(205, 205, 205, 1);
               &:read-only {
                 background-color: #f8f8fb;
               }
+            }
+            input[type='button'] {
+              padding-left: 0;
             }
             .text {
               display: inline-block;

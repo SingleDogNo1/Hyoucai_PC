@@ -20,7 +20,14 @@
         <div><span>累计出借</span></div>
       </div>
     </div>
-    <router-view></router-view>
+    <div class="lend-list">
+      <ul class="tab">
+        <li class="tab-item label">状态</li>
+        <router-link class="tab-item" tag="li" to="/mine/lend/cjz" >出借中</router-link>
+        <router-link class="tab-item" tag="li" to="/mine/lend/yjq">已结清</router-link>
+      </ul>
+      <router-view></router-view>
+    </div>
   </div>
 </template>
 
@@ -75,5 +82,32 @@ export default {
       }
     }
   }
+}
+.lend-list {
+  background: #fff;
+  .tab {
+    border: 1px solid #e5e5e5;
+    height: 60px;
+    .tab-item {
+      float: left;
+      width: 120px;
+      text-align: center;
+      height: 60px;
+      line-height: 60px;
+      cursor: pointer;
+      &.label {
+        cursor: default;
+        width: 140px;
+        background: rgba(248, 248, 251, 1);
+        border-right: 1px solid #e5e5e5;
+      }
+      &.active {
+        color: rgba(251, 137, 31, 1);
+      }
+    }
+  }
+}
+.router-link-active {
+  color: rgba(251, 137, 31, 1);
 }
 </style>

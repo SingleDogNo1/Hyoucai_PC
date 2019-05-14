@@ -106,18 +106,35 @@ export default new Router({
             {
               path: 'lend', // 我的出借
               name: 'userLend',
-              redirect: 'lend/list',
+              redirect: 'lend/cjz',
               component: () => import('@/views/djs/Mine/lend/lend'),
               children: [
                 {
-                  path: 'list', // 我的出借列表
-                  name: 'lendList',
-                  component: () => import('@/views/djs/Mine/lend/list')
+                  path: 'cjz', // 出借中
+                  redirect: 'cjz/projects',
+                  component: () => import('@/views/djs/Mine/lend/cjz'),
+                  children: [
+                    {
+                      path: 'projects', // 出借项目列表
+                      name: 'cjz-projects',
+                      component: () => import('@/views/djs/Mine/lend/cjzProjects')
+                    },
+                    {
+                      path: 'project/:projectNo', // 出借详情
+                      name: 'cjz-project',
+                      component: () => import('@/views/djs/Mine/lend/cjzProject')
+                    },
+                    {
+                      path: 'project/:projectNo/zqList/:invId', // 出借详情
+                      name: 'cjz-zqList',
+                      component: () => import('@/views/djs/Mine/lend/cjzZQList')
+                    }
+                  ]
                 },
                 {
-                  path: 'detail', // 我的出借详情
-                  name: 'lendDetail',
-                  component: () => import('@/views/djs/Mine/lend/detail')
+                  path: 'yjq', // 已结清
+                  name: 'lend-yjq',
+                  component: () => import('@/views/djs/Mine/lend/yjq')
                 }
               ]
             },
@@ -347,6 +364,30 @@ export default new Router({
           path: 'signAgreement', // 签约
           name: 'sign',
           component: () => import(/* webpackChunkName: "bankAccount" */ '@/views/common/bankAccount/signAgreement.vue')
+        }
+      ]
+    },
+    {
+      path: '/',
+      component: Layout,
+      children: [
+        {
+          path: 'realNameAccount',
+          name: 'realNameAccount',
+          redirect: 'realNameAccount/realNameAuth',
+          component: () => import(/* webpackChunkName: "realNameAccount" */ '@/views/common/realNameAccount/index.vue'),
+          children: [
+            {
+              path: 'realNameAuth',
+              name: 'realNameAuth',
+              component: () => import(/* webpackChunkName: "realNameAccount" */ '@/views/common/realNameAccount/realNameAuth.vue')
+            },
+            {
+              path: 'bindCard',
+              name: 'realNameBindCard',
+              component: () => import(/* webpackChunkName: "realNameAccount" */ '@/views/common/realNameAccount/bindCard.vue')
+            }
+          ]
         }
       ]
     },

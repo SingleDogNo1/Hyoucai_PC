@@ -1,10 +1,6 @@
 <template>
   <div class="lend-list">
-    <ul class="tab">
-      <li class="tab-item label">状态</li>
-      <li class="tab-item" @click="tabIndex = 0" :class="{ active: tabIndex === 0 }">出借中</li>
-      <li class="tab-item" @click="tabIndex = 1" :class="{ active: tabIndex === 1 }">已结清</li>
-    </ul>
+    <router-view></router-view>
     <div class="table-container" v-if="tabIndex === 0">
       <table>
         <thead>

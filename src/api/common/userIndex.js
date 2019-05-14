@@ -13,7 +13,10 @@ function getUserCompleteInfo(data) {
   return axios({
     url: 'user/userInfoCompleteNotice',
     method: 'post',
-    data: qs.stringify(data)
+    data: qs.stringify(data),
+    headers: {
+      version: '2.0'
+    }
   })
 }
 

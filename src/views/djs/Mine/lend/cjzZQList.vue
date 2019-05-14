@@ -1,51 +1,15 @@
 <template>
-  <div class="lend-list">
-    <ul class="tab">
-      <li class="tab-item" @click="tabIndex = 0" :class="{ active: tabIndex === 0 }">出借期数</li>
-      <li class="tab-item" @click="tabIndex = 1" :class="{ active: tabIndex === 1 }">债权列表</li>
-    </ul>
-    <div class="table-container" v-if="tabIndex === 0">
-      <table>
-        <thead>
-          <tr>
-            <th>累计利息收益(元)</th>
-            <th>待收利息(元)</th>
-            <th>加入日期</th>
-            <th>到期时间</th>
-            <th>出借本金(元)</th>
-            <th>操作</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="item in listDetail" :key="item.id">
-            <td>{{ item.takeBackInterest }}</td>
-            <td>{{ item.waitAllBackInterest }}</td>
-            <td>{{ item.intSumStartDate.split(' ')[0] }}</td>
-            <td>{{ item.invOverDate }}</td>
-            <td>{{ item.totalPrinAmount }}</td>
-            <td>
-              <span
-                v-if="item.isRedeem === '1' && item.invStatus !== 'INVZ' && item.invStatus !== 'INPZ' && item.item.invStatus !== 'INVY'"
-                class="active"
-                @click="handleTransfer(item.id)"
-                >赎回</span
-              >
-              <span v-if="item.isRedeem === '1' && item.invStatus === 'INVZ'">转让中</span>
-              <span v-if="item.isRedeem === '1' && item.invStatus === 'INPZ'">债权匹配中</span>
-              <span v-if="item.isRedeem === '1' && item.invStatus === 'INVY'">投资完成</span> <span v-if="item.isRedeem === '0'">非转让项目</span>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <Pagination
-        v-show="totalDetail > 0"
-        class="pagination"
-        :count-page="totalDetail"
-        :cur-page="listQueryDetail.page"
-        @handleCurrentChange="handleCurrentChange"
-      ></Pagination>
+  <div class="detail">
+    <div style="height:20px;font-size:12px;lint-height:20px;width:800px;margin: 10px auto;">
+      <span style="color:#FB891F;cursor:pointer" @click="$router.push({name:'cjz-project', params:{projectNo}})">返回上一级</span>
+      <span style="color:#FB891F"> | </span>
+      <span style="color:#FB891F;cursor:pointer" @click="$router.push({name:'cjz-projects'})">出借中</span>
+      <span style="color:#FB891F"> > </span>
+      <span style="color:#FB891F;cursor:pointer" @click="$router.push({name:'cjz-project', params:{projectNo}})">{{projectName}}</span>
+      <span style="color:#FB891F"> > </span>
+      <span>债权列表</span>
     </div>
-    <div class="table-container" v-if="tabIndex === 1">
+    <div class="table-container">
       <table>
         <thead>
           <tr>
@@ -102,10 +66,9 @@
     <Dialog :show.sync="showMsg" title="汇有财温馨提示" :singleButton="true"
       ><p class="dialog-text">{{ resultMsg }}</p></Dialog
     >
-    <el-dialog class="ZQDetail" title="提示" :visible.sync="dialogVisible" width="840" top="30vh">
+    <el-dialog class="ZQDetail" title="提示" :visible.sync="dialogVisible" width="840" top="20vh">
       <div slot="title" class="title">
         <span>借款流水号：318011121021XX</span>
-        <span class="blue" @click="$router.push({ name: 'debtAssignmentAgreement', query: { relationId: ZQDetail.id } })">合同>></span>
       </div>
       <div class="section">
         <h3>个人消费</h3>
@@ -143,6 +106,13 @@
           <span>借款人姓名：{{ ZQDetail.ownBondName }}</span> <span>性别：{{ ZQDetail.gender }}</span> <span>年龄：{{ ZQDetail.age }}</span>
         </div>
       </div>
+      <div class="section">
+        <h3>协议</h3>
+        <div class="content-2">
+          <a :href="ZQDetail.threeLoanAgreement">《三方协议》</a>&nbsp;&nbsp;&nbsp;&nbsp;
+          <a v-if="ZQDetail.debtTransferAgreement" :href="ZQDetail.debtTransferAgreement">《债权转让协议》</a>
+        </div>
+      </div>
     </el-dialog>
   </div>
 </template>
@@ -150,7 +120,7 @@
 <script>
 import Pagination from '@/components/pagination/pagination'
 import Dialog from '@/components/Dialog/Dialog'
-import { userProjectDetail, transferFeeCalculate, transferProject, bondRelation } from '@/api/djs/Mine/lend'
+import { transferFeeCalculate, transferProject, bondRelationByInvId, userProjectDetail } from '@/api/djs/Mine/lend'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -158,23 +128,23 @@ export default {
   components: { Pagination, Dialog },
   data() {
     return {
+      projectName: '',
       dialogVisible: false,
       showMsg: false,
       resultMsg: '',
       showDialogTransfer: false,
       transferId: '',
       transferObj: null,
-      projectNo: this.$route.query.projectNo,
+      projectNo: this.$route.params.projectNo,
+      invId: this.$route.params.invId,
       tabIndex: 0,
       ZQDetail: {},
-      listDetail: null,
-      totalDetail: null,
+      listZQ: null,
+      totalZQ: null,
       listQueryDetail: {
         page: 1,
         size: 10
       },
-      listZQ: null,
-      totalZQ: null,
       listQueryZQ: {
         page: 1,
         size: 10
@@ -212,18 +182,14 @@ export default {
         }
       })
     },
-    handleCurrentChange(val) {
-      this.listQueryDetail.page = val
-      this.getList()
-    },
     handleCurrentChangeZQ(val) {
       this.listQueryZQ.page = val
       this.getListBondRelation()
     },
     getListBondRelation() {
-      bondRelation({
+      bondRelationByInvId({
         userName: this.user.userName,
-        projectNo: this.projectNo,
+        invId: this.invId,
         curPage: this.listQueryZQ.page,
         maxLine: this.listQueryZQ.size
       }).then(res => {
@@ -241,21 +207,20 @@ export default {
         invStatus: 'INPZ,INVI,INVY'
       }).then(res => {
         if (res.data.resultCode === '1') {
-          this.listDetail = res.data.list
-          this.totalDetail = res.data.countPage
+          this.projectName = res.data.list[0].projectName
         }
       })
     }
   },
   created() {
-    this.getList()
     this.getListBondRelation()
+    this.getList()
   }
 }
 </script>
 
 <style scoped lang="scss">
-.lend-list {
+.detail {
   background: #fff;
   .tab {
     border: 1px solid #e5e5e5;
@@ -279,7 +244,7 @@ export default {
   .table-container {
     min-height: 800px;
     table {
-      margin: 40px auto 0;
+      margin: 20px auto;
       width: 800px;
       thead {
         background: rgba(0, 131, 254, 0.09);
@@ -411,6 +376,9 @@ export default {
           display: block;
           content: '';
           clear: both;
+        }
+        a {
+          color: #606266;
         }
       }
     }

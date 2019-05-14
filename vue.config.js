@@ -1,3 +1,7 @@
+function kbs(n) {
+  return 1024 * n
+}
+
 module.exports = {
   baseUrl: process.env.NODE_ENV === 'production' ? '../' : '/',
   productionSourceMap: false,
@@ -27,6 +31,28 @@ module.exports = {
   configureWebpack: config => {
     if (process.env.NODE_ENV === 'production') {
       config.optimization.minimizer[0].options.terserOptions.compress.drop_console = true
+    }
+  },
+  chainWebpack: config => {
+    if (process.env.VUE_APP_RUNTIME_ENV === 'production') {
+      const imagesRule = config.module.rule('images')
+      imagesRule.uses.clear()
+      imagesRule
+        .use('url-loader')
+        .loader('url-loader')
+        .options({
+          limit: kbs(4),
+          fallback: {
+            loader: 'file-loader',
+            options: {
+              name: 'img/[name].[hash:8].[ext]'
+            }
+          }
+        })
+      imagesRule
+        .use('image-webpack-loader')
+        .loader('image-webpack-loader')
+        .options({ bypassOnDebug: true })
     }
   },
   devServer: {

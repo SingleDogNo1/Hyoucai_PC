@@ -68,7 +68,9 @@
               </li>
               <li class="info">
                 <template v-if="item.status === '1' && parseFloat(item.enablAmt) !== 0">
-                  <el-button @click.native="judgeBooking(item)"> 授权出借 </el-button>
+                  <checkstatus @success="judgeBooking(item)" style="width:100%;">
+                    <el-button> 授权出借 </el-button>
+                  </checkstatus>
                 </template>
                 <template v-else-if="item.status === '1' && parseFloat(item.enablAmt) === 0">
                   <el-button disabled>还款中</el-button>
@@ -111,7 +113,7 @@ import { getList } from '@/api/djs/lend'
 import { getUser } from '@/assets/js/cache'
 import { mapGetters } from 'vuex'
 import { investCountProjectMsg } from '@/api/djs/lendDetail'
-
+import checkstatus from '@/components/CheckStatus'
 export default {
   name: 'lend',
   data() {
@@ -184,7 +186,8 @@ export default {
     pagination,
     countUp,
     noData,
-    Dialog
+    Dialog,
+    checkstatus
   },
   computed: {
     ...mapGetters(['user'])
