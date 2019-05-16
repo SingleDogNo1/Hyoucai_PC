@@ -49,7 +49,11 @@
               <ul class="info-wrapper">
                 <li class="info">
                   <dl>
-                    <dt>{{ item.investRate }}<span>%</span></dt>
+                    <dt>
+                        <em class="common">{{ item.basicsInvestRate }}</em>
+                        <span class="per">%</span>
+                        <span v-if="item.activityInvestRate !== '0.0' ">+{{ item.activityInvestRate }}%</span>
+                    </dt>
                     <dd>历史平均年化收益率</dd>
                   </dl>
                 </li>
@@ -105,7 +109,11 @@
               <ul class="info-wrapper">
                 <li class="info">
                   <dl>
-                    <dt>{{ item.investRate }} <span>%</span></dt>
+                    <dt>
+                      <em class="common">{{ item.basicsInvestRate }}</em>
+                      <span class="per">%</span>
+                      <span v-if="item.activityInvestRate !== '0.0' ">+{{ item.activityInvestRate }}%</span>
+                    </dt>
                     <dd>历史平均年化收益率</dd>
                   </dl>
                 </li>
@@ -642,7 +650,11 @@ export default {
                       font-size: 30px;
                       color: #fc5541;
                       span {
-                        font-size: 16px;
+                        font-size: 20px;
+                      }
+
+                      span:nth-child(3) {
+                        margin-left: 6px;
                       }
                     }
                   }
