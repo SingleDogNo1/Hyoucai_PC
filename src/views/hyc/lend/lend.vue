@@ -646,13 +646,12 @@ export default {
                       font-size: 30px;
                       color: #fc5541;
                       span {
-                        font-size: 16px;
+                        font-size: 20px;
                       }
-                       
-                       span:nth-child(3) {
-                        margin-left: 6px;
-                       }
 
+                      span:nth-child(3) {
+                        margin-left: 6px;
+                      }
                     }
                   }
                 }
