@@ -646,8 +646,13 @@ export default {
                       font-size: 30px;
                       color: #fc5541;
                       span {
-                        font-size: 20px;
+                        font-size: 16px;
                       }
+                       
+                       span:nth-child(3) {
+                        margin-left: 6px;
+                       }
+
                     }
                   }
                 }
