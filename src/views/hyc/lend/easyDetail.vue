@@ -13,6 +13,8 @@
             <p class="value">
               <strong>{{ projectInfo.investRate }}</strong>
               <span class="red">%</span>
+              <span class="red" style="margin: 0 5px;" v-if="parseFloat(projectInfo.activityInvestRate) !== 0">+</span>
+              <span class="red" v-if="parseFloat(projectInfo.activityInvestRate) !== 0">{{projectInfo.activityInvestRate}}%</span>
             </p>
             <p class="desc">历史平均年化收益率</p>
           </div>
@@ -1027,7 +1029,7 @@ export default {
     .content {
       padding: 62px 55px 52px 55px;
       .decs-wrap {
-        width: 542px;
+        width: 620px;
         display: flex;
         justify-content: space-between;
         .item {

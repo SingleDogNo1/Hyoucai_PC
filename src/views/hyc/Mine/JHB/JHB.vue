@@ -13,7 +13,13 @@
           <tr v-for="(item, index) in invList" :key="index">
             <td>{{ item.itemName && item.productName ? item.itemName : item.productName }}</td>
             <td>{{ item.applyAmount }}</td>
+            <!-- TODO 新字段没有返回值 => 删掉这一段，打开下一段 -->
             <td>{{ item.yearRate }}</td>
+            <!--<td>-->
+              <!--<span>{{ item.basicsInvestRate }}</span>-->
+              <!--<span v-if="item.activityInvestRate !== ''"> + {{item.activityInvestRate}}%</span>-->
+              <!--<span class="rate" v-if="item.userCouponRateTemp !== ''"> + {{item.userCouponRateTemp}}%</span>-->
+            <!--</td>-->
             <td>{{ item.invDate }}</td>
           </tr>
         </tbody>
@@ -234,6 +240,9 @@ export default {
       height: 46px;
       border-bottom: 1px solid #e3e3e3;
       text-align: center;
+      .rate {
+        color: $color-theme;
+      }
     }
   }
   .page {

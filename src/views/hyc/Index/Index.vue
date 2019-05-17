@@ -4,7 +4,7 @@
       <div class="swiper-wrapper">
         <div class="swiper-slide swiper-no-swiping" v-for="(item, index) in bannerList" :key="index">
           <a :href="item.linkUrl">
-            <img :src="item.picUrl" class="swiper-lazy" />
+            <img :src="item.picUrl" class="swiper-lazy" alt="" />
             <!--<div class="swiper-lazy-preloader"></div>-->
           </a>
         </div>
@@ -126,26 +126,31 @@
         <div class="production-wrap" v-for="(item, index) in noviceProjectList" :key="index">
           <div class="production-info">
             <div class="label-wrap">
-              <span class="title">{{ item.projectName }} {{ item.projectNo }}</span>
+              <span class="title">{{ item.projectName }}</span>
+              <span>{{ item.projectNo }}</span>
               <span class="label" v-for="(tagItem, index) in item.tags" :key="index">{{ tagItem.tagName }}</span>
             </div>
-            <div class="returns">
-              <p class="title">
-                <span class="large">{{ item.investRate }}</span> %
-              </p>
-              <p class="desc">历史平均年化收益率</p>
-            </div>
-            <div class="term">
-              <p class="title">
-                <span class="large">{{ item.investMent }}</span> 天
-              </p>
-              <p class="desc">锁定期</p>
-            </div>
-            <div class="amount">
-              <p class="title">
-                <span class="large">{{ item.enablAmt }}</span> 元
-              </p>
-              <p class="desc">剩余额度</p>
+            <div class="bottom">
+              <div class="returns">
+                <p class="title">
+                  <span class="large">{{ item.basicsInvestRate }}</span> %
+                  <span class="add" v-if="parseFloat(item.activityInvestRate) !== 0">+</span>
+                  <span class="rate" v-if="parseFloat(item.activityInvestRate) !== 0">{{item.activityInvestRate}}%</span>
+                </p>
+                <p class="desc">历史平均年化收益率</p>
+              </div>
+              <div class="term">
+                <p class="title">
+                  <span class="large">{{ item.investMent }}</span> 天
+                </p>
+                <p class="desc">锁定期</p>
+              </div>
+              <div class="amount">
+                <p class="title">
+                  <span class="large">{{ item.enablAmt }}</span> 元
+                </p>
+                <p class="desc">剩余额度</p>
+              </div>
             </div>
           </div>
           <div class="btn-invest-now" @click="viewInvestDetail(item)">
@@ -157,7 +162,7 @@
     <div class="lend-boutique-wrap" v-if="user && hycPopularProjectList && hycPopularProjectList.length > 0">
       <div class="text-title"></div>
       <ul
-        :class="{ 'two': hycPopularProjectList.length == 2, 'one': hycPopularProjectList.length == 1 }"
+        :class="{ 'two': hycPopularProjectList.length === 2, 'one': hycPopularProjectList.length === 1 }"
       >
         <li
           v-for="(item, index) in hycPopularProjectList"
@@ -165,7 +170,7 @@
           @click="viewInvestDetail(item)"
         >
           <p class="title">
-            <img :src="item.iconUrl" v-if="item.iconUrl" /> <span class="icon">{{ item.itemName }}</span>
+            <img :src="item.iconUrl" v-if="item.iconUrl" alt="" /> <span class="icon">{{ item.itemName }}</span>
           </p>
           <div class="returns">
             <p class="title">
@@ -392,9 +397,9 @@ export default {
       getOperateData().then(res => {
         let data = res.data.data
         function toDecimal2(x) {
-          var f = Math.round(x * 100) / 100
-          var s = f.toString()
-          var rs = s.indexOf('.')
+          let f = Math.round(x * 100) / 100
+          let s = f.toString()
+          let rs = s.indexOf('.')
           if (rs < 0) {
             rs = s.length
             s += '.'
@@ -549,7 +554,6 @@ export default {
       .notice-swiper-wrap {
         height: 50px;
         .notice-item {
-          display: flex;
           display: inline-block;
           width: 320px;
           height: 100%;
@@ -710,8 +714,7 @@ export default {
     }
     ul {
       width: 1140px;
-      margin: 0 auto;
-      margin-top: 40px;
+      margin: 40px auto 0;
       li {
         display: inline-block;
         position: relative;
@@ -815,40 +818,44 @@ export default {
               vertical-align: middle;
             }
           }
-          .returns {
-            display: inline-block;
-            margin-top: 18px;
-            margin-left: 26px;
-            .title {
-              font-size: $font-size-large-xxx;
-              color: #fc5541;
-              .large {
-                font-size: 48px;
-              }
-            }
-            .desc {
-              width: 137px;
-              text-align: center;
-              font-size: $font-size-small-s;
-              color: $color-text-gray;
-            }
-          }
-          .term,
-          .amount {
-            display: inline-block;
-            margin-top: 28px;
-            margin-left: 108px;
-            .title {
-              font-size: $font-size-medium;
-              color: $color-text;
-              .large {
+          .bottom {
+            display: flex;
+            justify-content: space-between;
+            padding-right: 45px;
+            padding-left: 26px;
+            .returns {
+              display: inline-block;
+              margin-top: 18px;
+              .title {
                 font-size: $font-size-large-xxx;
+                color: #fc5541;
+                .large {
+                  font-size: 48px;
+                }
+              }
+              .desc {
+                width: 137px;
+                text-align: center;
+                font-size: $font-size-small-s;
+                color: $color-text-gray;
               }
             }
-            .desc {
-              text-align: center;
-              font-size: $font-size-small-s;
-              color: $color-text-gray;
+            .term,
+            .amount {
+              display: inline-block;
+              margin-top: 28px;
+              .title {
+                font-size: $font-size-medium;
+                color: $color-text;
+                .large {
+                  font-size: $font-size-large-xxx;
+                }
+              }
+              .desc {
+                text-align: center;
+                font-size: $font-size-small-s;
+                color: $color-text-gray;
+              }
             }
           }
         }
@@ -877,8 +884,7 @@ export default {
       display: block;
       width: 159px;
       height: 38px;
-      margin: 0 auto;
-      margin-bottom: 40px;
+      margin: 0 auto 40px;
       text-align: center;
       background: url('./images/bg_index.png') -5px -145px;
       background-size: 205px auto;
@@ -987,7 +993,7 @@ export default {
       }
       li:hover {
         border-top: 4px solid #fb9d1f;
-        box-shadow: 2px 2px 8px 0px rgba(0, 0, 0, 0.16);
+        box-shadow: 2px 2px 8px 0 rgba(0, 0, 0, 0.16);
         .btn-invest-now {
           opacity: 0;
         }
@@ -1017,8 +1023,7 @@ export default {
     }
     ul {
       width: 1140px;
-      margin: 0 auto;
-      margin-top: 42px;
+      margin: 42px auto 0;
       li {
         display: inline-block;
         width: 212px;
@@ -1121,7 +1126,7 @@ export default {
           border-radius: 25px;
           color: #dd2e3d;
           background: #f8ce55;
-          box-shadow: 0px 5px 1px 1px #f6a04b;
+          box-shadow: 0 5px 1px 1px #f6a04b;
           font-size: $font-size-large;
         }
       }

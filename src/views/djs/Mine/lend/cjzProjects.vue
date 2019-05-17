@@ -17,7 +17,7 @@
         <td>{{ item.incomeAmount }}</td>
         <td>
           <span v-if="item.invRate === item.maxInvRate">{{ item.invRate }}%</span>
-          <span v-else>{{ item.invRate }}% - {{ item.maxInvRate }}%</span>
+          <span v-else>{{ item.invRate }}% ~ {{ item.maxInvRate }}%</span>
         </td>
         <td>{{ item.invAmount }}</td>
         <td>

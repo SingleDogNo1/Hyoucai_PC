@@ -19,12 +19,11 @@
             <td>{{ item.incomeAmount }}</td>
             <td>
               <span v-if="item.invRate === item.maxInvRate">{{ item.invRate }}%</span>
-              <span v-else>{{ item.invRate }}% - {{ item.maxInvRate }}%</span>
+              <span v-else>{{ item.invRate }}% ~ {{ item.maxInvRate }}%</span>
             </td>
             <td>{{ item.invAmount }}</td>
             <td>
-              <span class="red">{{ item.invCount }}</span
-              >笔进行中
+              <span class="red">{{ item.invCount }}</span>笔进行中
             </td>
             <td><span class="link" @click="$router.push({ name: 'lendDetail', query: { projectNo: item.projectNo } })">查看</span></td>
           </tr>
