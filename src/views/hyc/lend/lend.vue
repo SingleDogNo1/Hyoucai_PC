@@ -52,7 +52,7 @@
                     <dt>
                         <em class="common">{{ item.basicsInvestRate }}</em>
                         <span class="per">%</span>
-                        <span v-if="item.activityInvestRate !== '0.0' ">+{{ item.activityInvestRate }}%</span>
+                        <span v-if="item.activityInvestRate !== '0.0' && item.activityInvestRate !== ''  ">+{{ item.activityInvestRate }}%</span>
                     </dt>
                     <dd>历史平均年化收益率</dd>
                   </dl>
