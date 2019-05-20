@@ -16,7 +16,7 @@
             <!-- 防止老数据显示异常，有新数据的按照新的数据进行展示，否则展示老的数据 -->
             <td v-if="item.basicsInvestRate && item.basicsInvestRate !== ''">
               <span>{{ item.basicsInvestRate }}%</span>
-              <span v-if="item.activityInvestRate !== ''"> + {{item.activityInvestRate}}%</span>
+              <span v-if="item.activityInvestRate && parseFloat(item.activityInvestRate) !== 0"> + {{item.activityInvestRate}}%</span>
               <span class="rate" v-if="item.userCouponRateTemp !== ''"> + {{item.userCouponRateTemp}}%</span>
             </td>
             <td v-else>{{ item.yearRate }}</td>
@@ -41,7 +41,7 @@
             <!-- 防止老数据显示异常，有新数据的按照新的数据进行展示，否则展示老的数据 -->
             <td v-if="item.basicsInvestRate && item.basicsInvestRate !== ''">
               <span>{{ item.basicsInvestRate }}%</span>
-              <span v-if="item.activityInvestRate !== ''"> + {{item.activityInvestRate}}%</span>
+              <span v-if="item.activityInvestRate && parseFloat(item.activityInvestRate) !== 0"> + {{item.activityInvestRate}}%</span>
               <span class="rate" v-if="item.userCouponRateTemp !== ''"> + {{item.userCouponRateTemp}}%</span>
             </td>
             <td v-else>{{ item.yearRate }}</td>
@@ -74,7 +74,7 @@
             <!-- 防止老数据显示异常，有新数据的按照新的数据进行展示，否则展示老的数据 -->
             <td v-if="item.basicsInvestRate && item.basicsInvestRate !== ''">
               <span>{{ item.basicsInvestRate }}%</span>
-              <span v-if="item.activityInvestRate !== ''"> + {{item.activityInvestRate}}%</span>
+              <span v-if="item.activityInvestRate && parseFloat(item.activityInvestRate) !== 0"> + {{item.activityInvestRate}}%</span>
               <span class="rate" v-if="item.userCouponRateTemp !== ''"> + {{item.userCouponRateTemp}}%</span>
             </td>
             <td v-else>{{ item.yearRate }}</td>
@@ -106,7 +106,7 @@
             <!-- 防止老数据显示异常，有新数据的按照新的数据进行展示，否则展示老的数据 -->
             <td v-if="item.basicsInvestRate && item.basicsInvestRate !== ''">
               <span>{{ item.basicsInvestRate }}%</span>
-              <span v-if="item.activityInvestRate !== ''"> + {{item.activityInvestRate}}%</span>
+              <span v-if="item.activityInvestRate && parseFloat(item.activityInvestRate) !== 0"> + {{item.activityInvestRate}}%</span>
               <span class="rate" v-if="item.userCouponRateTemp !== ''"> + {{item.userCouponRateTemp}}%</span>
             </td>
             <td v-else>{{ item.yearRate }}</td>

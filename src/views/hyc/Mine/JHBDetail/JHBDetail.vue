@@ -63,7 +63,10 @@
           <tr :key="index" :class="{ done: item.status === '已结清' }">
             <td>{{ item.gainDate }}</td>
             <td>{{ item.principalPerTerm }}</td>
-            <td>{{ item.interest }}</td>
+            <td>
+              <span>{{ item.interest }}</span>
+              <span v-if="parseFloat(item.invCouponAmt) !== 0">{{item.invCouponAmtPerTerm}}</span>
+            </td>
             <td>{{ item.status }}</td>
           </tr>
         </template>
