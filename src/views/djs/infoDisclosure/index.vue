@@ -616,6 +616,16 @@ export default {
           year: '2018',
           title: '——11月运营报告——',
           time: '2018.11.01-2018.11.30'
+        },
+        {
+          year: '2018',
+          title: '——下半年度运营报告——',
+          time: '2018.07.01-2018.12.31'
+        },
+        {
+          year: '2019',
+          title: '——第一季度运营报告——',
+          time: '2019.01.01-2019.03.31'
         }
       ],
       lawsList: [],
@@ -1913,6 +1923,13 @@ export default {
           }
           &:nth-child(11) {
             background: url('./images/bg_report5.png') center center no-repeat;
+          }
+          &:nth-child(12) {
+            background: url('./images/bg_report6.png') center center no-repeat;
+            margin-right: 0;
+          }
+          &:nth-child(13) {
+            background: url('./images/bg_report1.png') center center no-repeat;
           }
         }
       }
