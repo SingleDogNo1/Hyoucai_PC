@@ -78,7 +78,7 @@ import Certification from '@/components/CertificationFlow/CertificationFlow'
 import { alertInfoAcceptApi, getAlertInfo, getUserCompleteInfo } from '@/api/common/userIndex'
 import { repeatInvestApi, UpdateMessageApi } from '@/api/djs/userIndex'
 import { currentPlatform } from '../assets/js/utils'
-import Cookie from 'js-cookie'
+import Cookies from 'js-cookie'
 
 const CODE_OK = '1'
 export default {
@@ -272,7 +272,7 @@ export default {
               this.openSignText = ''
               this.routerLink = ''
               this.showDialog = false
-              if (currentPlatform() === 'djs' && !Cookie.get(key)) {
+              if (currentPlatform() === 'djs' && !Cookies.get(key)) {
                 repeatInvestApi({
                   userName: this.user.userName
                 }).then(res => {
@@ -325,7 +325,7 @@ export default {
     closeConfirmRepeat() {
       // 复投弹窗关闭时，插入一段cookie，以供同一天登陆时判断
       const key = `repeat-key-${new Date().getFullYear()}-${new Date().getMonth() + 1}-${new Date().getDate()}`
-      Cookie.set(key, 'down', { expires: 1 })
+      Cookies.set(key, 'down', { expires: 1 })
     }
   },
   computed: {
