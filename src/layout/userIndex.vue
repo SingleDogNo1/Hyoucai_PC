@@ -78,7 +78,7 @@ import Certification from '@/components/CertificationFlow/CertificationFlow'
 import { alertInfoAcceptApi, getAlertInfo, getUserCompleteInfo } from '@/api/common/userIndex'
 import { repeatInvestApi, UpdateMessageApi } from '@/api/djs/userIndex'
 import { currentPlatform } from '../assets/js/utils'
-import { Cookie } from 'js-cookie'
+import Cookie from 'js-cookie'
 
 const CODE_OK = '1'
 export default {
@@ -276,7 +276,6 @@ export default {
                 repeatInvestApi({
                   userName: this.user.userName
                 }).then(res => {
-                  console.log(res.data.couponRate)
                   if (res.data.resultCode === '1') {
                     this.repeatCouponRate = res.data.couponRate
                     if (res.data.couponRate === '') {
