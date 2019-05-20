@@ -15,7 +15,7 @@
       :onBtnClose="onBtnClose"
       :onConfirm="onConfirm"
     >
-      <div slot class="discribe">{{ dialogDis }}</div>
+      <div slot class="discribe" style="text-align: center">{{ dialogDis }}</div>
       <el-button v-if="openSignText" class="open-sign-btn" @click.native="viewDialog">{{ openSignText }}</el-button>
     </Dialog>
     <!-- 设置自动出借弹窗 -->
@@ -75,7 +75,7 @@ import { mapGetters, mapMutations } from 'vuex'
 import { userBasicInfo } from '@/api/common/login'
 import Dialog from '@/components/Dialog/Dialog'
 import Certification from '@/components/CertificationFlow/CertificationFlow'
-import { alertInfoAcceptApi, getAlertInfo, getUserCompleteInfo } from '@/api/common/userIndex'
+import { alertInfoAcceptApiHYC, alertInfoAcceptApiDJS, getAlertInfoHYC, getAlertInfoDJS, getUserCompleteInfo } from '@/api/common/userIndex'
 import { repeatInvestApi, UpdateMessageApi } from '@/api/djs/userIndex'
 import { currentPlatform } from '../assets/js/utils'
 import Cookies from 'js-cookie'
@@ -143,11 +143,19 @@ export default {
       }
     },
     onConfirm() {
-      alertInfoAcceptApi({ type: 'evaluate' }).then(res => {
-        if (res.data.resultCode !== '1') {
-          console.log(res.data.resultMsg)
-        }
-      })
+      if (currentPlatform() === 'djs') {
+        alertInfoAcceptApiDJS({ type: 'evaluate' }).then(res => {
+          if (res.data.resultCode !== '1') {
+            console.log(res.data.resultMsg)
+          }
+        })
+      } else {
+        alertInfoAcceptApiHYC({ type: 'evaluate' }).then(res => {
+          if (res.data.resultCode !== '1') {
+            console.log(res.data.resultMsg)
+          }
+        })
+      }
       this.viewDialog()
     },
     viewDialog() {
@@ -160,8 +168,8 @@ export default {
         })
       }
     },
-    getAlertInfo() {
-      getAlertInfo().then(res => {
+    getAlertInfoHYC() {
+      getAlertInfoHYC().then(res => {
         let data = res.data
         if (data.resultCode === CODE_OK) {
           this.alertInfo = data.data
@@ -213,6 +221,84 @@ export default {
                   this.dialogDis = this.alertInfo.message
                   this.confirmText = '我知道了'
                   this.routerLink = ''
+                  this.routerParam = ''
+                  break
+                default:
+                  this.showCloseBtn = true
+                  this.dialogTitle = '汇有财温馨提示'
+                  this.dialogDis = `您有${this.alertInfo.count}笔出借提前还款`
+                  this.confirmText = '我知道了'
+                  this.routerLink = ''
+                  this.routerParam = ''
+              }
+            }
+          }
+        } else {
+          this.dialogDis = data.resultMsg
+        }
+      })
+    },
+    getAlertInfoDJS() {
+      getAlertInfoDJS().then(res => {
+        let data = res.data
+        if (data.resultCode === CODE_OK) {
+          this.alertInfo = data.data
+          this.showTitle = true
+          this.showCloseBtn = false
+          this.showLogo = false
+          this.showFooter = true
+          if (this.alertInfo.haveAlert) {
+            this.showDialog = true
+            if (this.alertInfo.type) {
+              switch (this.alertInfo.type) {
+                case 'redPacket':
+                  this.showCloseBtn = true
+                  this.dialogTitle = `您收到${this.alertInfo.count}个红包`
+                  this.dialogDis = `${this.alertInfo.count}个红包已存入您的账户`
+                  this.confirmText = '查看我的红包'
+                  this.routerLink = 'lendCoupons'
+                  this.routerParam = ''
+                  break
+                case 'coupon':
+                  this.showCloseBtn = true
+                  this.dialogTitle = `您收到${this.alertInfo.count}个加息券`
+                  this.dialogDis = `${this.alertInfo.count}个加息券已存入您的账户`
+                  this.confirmText = '查看我的加息券'
+                  this.routerLink = 'lendCoupons'
+                  this.routerParam = ''
+                  break
+                case 'refund':
+                  this.showCloseBtn = true
+                  this.dialogTitle = '汇有财温馨提示'
+                  this.dialogDis = `银行系统原因，您有${this.alertInfo.count}笔出借退款项未匹配成功，已退回`
+                  this.confirmText = '去查看'
+                  this.routerLink = 'userLend'
+                  this.routerParam = {
+                    status: 'JHB_YTK'
+                  }
+                  break
+                case 'refundBeforeDueDate':
+                  this.showCloseBtn = true
+                  this.dialogTitle = '提前还款通知'
+                  this.dialogDis = this.alertInfo.message
+                  this.confirmText = '我知道了'
+                  this.routerLink = ''
+                  this.routerParam = ''
+                  break
+                case 'evaluate':
+                  this.showCloseBtn = false
+                  this.dialogTitle = '温馨提示'
+                  this.dialogDis = this.alertInfo.message
+                  this.confirmText = '我知道了'
+                  this.routerLink = ''
+                  this.routerParam = ''
+                  break
+                case 'redCoupon':
+                  this.showCloseBtn = true
+                  this.dialogTitle = '汇有财温馨提示'
+                  this.dialogDis = '您当前有未使用红包/加息券'
+                  this.confirmText = '立即查看'
+                  this.routerLink = 'lendCoupons'
                   this.routerParam = ''
                   break
                 default:
@@ -284,7 +370,7 @@ export default {
                         this.repeatUnreadDialogOptions.show = true
                         this.repeatInvestUnreadMsgList = res.data.list
                       } else {
-                        this.getAlertInfo()
+                        this.getAlertInfoDJS()
                       }
                     } else {
                       // 复投加息
@@ -292,7 +378,7 @@ export default {
                         this.repeatUnreadDialogOptions.show = true
                         this.repeatInvestUnreadMsgList = res.data.list
                       } else {
-                        this.getAlertInfo()
+                        this.getAlertInfoDJS()
                       }
                     }
                   }
@@ -300,7 +386,7 @@ export default {
               } else {
                 this.repeatUnreadDialogOptions.show = false
                 this.repeatInvestUnreadMsgList = []
-                this.getAlertInfo()
+                this.getAlertInfoHYC()
               }
           }
           this.dialogDis = list.message

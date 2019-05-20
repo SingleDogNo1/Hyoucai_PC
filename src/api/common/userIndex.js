@@ -1,8 +1,17 @@
 import axios from '@/assets/js/requestHYC'
+import DJSRequest from '@/assets/js/requestDJS'
 import qs from 'qs'
 
-function getAlertInfo(data) {
+function getAlertInfoHYC(data) {
   return axios({
+    url: 'alert/alertInfo',
+    method: 'post',
+    data: qs.stringify(data)
+  })
+}
+
+function getAlertInfoDJS(data) {
+  return DJSRequest({
     url: 'alert/alertInfo',
     method: 'post',
     data: qs.stringify(data)
@@ -20,7 +29,7 @@ function getUserCompleteInfo(data) {
   })
 }
 
-function alertInfoAcceptApi(data) {
+function alertInfoAcceptApiHYC(data) {
   return axios({
     url: 'alert/alertInfoAccept',
     method: 'post',
@@ -28,8 +37,18 @@ function alertInfoAcceptApi(data) {
   })
 }
 
+function alertInfoAcceptApiDJS(data) {
+  return DJSRequest({
+    url: 'alert/alertInfoAccept',
+    method: 'post',
+    data: qs.stringify(data)
+  })
+}
+
 export {
-  getAlertInfo, // 弹窗信息
+  getAlertInfoHYC, // 汇有财弹窗
+  getAlertInfoDJS, // 点金石弹窗
   getUserCompleteInfo, // 签约、开户等状态
-  alertInfoAcceptApi // 确认看到了弹窗（目前只有风险评测）
+  alertInfoAcceptApiHYC, // 确认看到了弹窗（目前只有风险评测）
+  alertInfoAcceptApiDJS // 点金石确认弹窗
 }
