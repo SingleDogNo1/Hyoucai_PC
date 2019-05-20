@@ -84,7 +84,7 @@ export function sendSms(data) {
 //实名认证结果查询
 export function getCertificationVerify(data) {
   return request({
-    url: '/userInfoCompleteNotice',
+    url: 'user/userInfoCompleteNotice',
     method: 'get',
     params: data
   })
