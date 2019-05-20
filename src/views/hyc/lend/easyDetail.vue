@@ -11,7 +11,7 @@
         <div class="decs-wrap">
           <div class="item">
             <p class="value">
-              <strong>{{ projectInfo.investRate }}</strong>
+              <strong>{{ projectInfo.basicsInvestRate }}</strong>
               <span class="red">%</span>
               <span class="red" style="margin: 0 5px;" v-if="parseFloat(projectInfo.activityInvestRate) !== 0">+</span>
               <span class="red" v-if="parseFloat(projectInfo.activityInvestRate) !== 0">{{projectInfo.activityInvestRate}}%</span>

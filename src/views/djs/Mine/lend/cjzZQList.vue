@@ -68,7 +68,7 @@
     >
     <el-dialog class="ZQDetail" title="提示" :visible.sync="dialogVisible" width="840" top="20vh">
       <div slot="title" class="title">
-        <span>借款流水号：318011121021XX</span>
+        <span>借款流水号：{{ ZQDetail.applicationNo }}</span>
       </div>
       <div class="section">
         <h3>个人消费</h3>
@@ -109,7 +109,6 @@
       <div class="section">
         <h3>协议</h3>
         <div class="content-2">
-          <a :href="ZQDetail.threeLoanAgreement">《三方协议》</a>&nbsp;&nbsp;&nbsp;&nbsp;
           <a v-if="ZQDetail.debtTransferAgreement" :href="ZQDetail.debtTransferAgreement">《债权转让协议》</a>
         </div>
       </div>
