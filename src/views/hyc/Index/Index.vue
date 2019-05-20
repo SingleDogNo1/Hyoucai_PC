@@ -174,8 +174,10 @@
           </p>
           <div class="returns">
             <p class="title">
-              <span class="large">{{ item.investRate }}</span
-              >%
+              <span class="large">{{ item.basicsInvestRate }}</span>
+              <label>%</label>
+              <span v-if="parseFloat(item.activityInvestRate) !== 0">+</span>
+              <span v-if="parseFloat(item.activityInvestRate) !== 0">{{item.activityInvestRate}}%</span>
             </p>
             <p class="desc">预期年化收益率</p>
           </div>
