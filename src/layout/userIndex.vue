@@ -117,6 +117,8 @@ export default {
         show: false,
         msg: ''
       },
+      DJSAlertInfoKey: 'redCoupon', // 点金石弹窗类型（确认已读时使用该参数）
+      HYCAlertInfoKey: '', // 汇有财弹窗类型（确认已读时使用该参数）
       beforeRouterPath: ''
     }
   },
@@ -144,17 +146,9 @@ export default {
     },
     onConfirm() {
       if (currentPlatform() === 'djs') {
-        alertInfoAcceptApiDJS({ type: 'evaluate' }).then(res => {
-          if (res.data.resultCode !== '1') {
-            console.log(res.data.resultMsg)
-          }
-        })
+        alertInfoAcceptApiDJS({ type: this.DJSAlertInfoKey })
       } else {
-        alertInfoAcceptApiHYC({ type: 'evaluate' }).then(res => {
-          if (res.data.resultCode !== '1') {
-            console.log(res.data.resultMsg)
-          }
-        })
+        alertInfoAcceptApiHYC({ type: this.HYCAlertInfoKey })
       }
       this.viewDialog()
     },
@@ -188,6 +182,7 @@ export default {
                   this.confirmText = '查看我的红包'
                   this.routerLink = 'lendCoupons'
                   this.routerParam = ''
+                  this.HYCAlertInfoKey = 'redPacket'
                   break
                 case 'coupon':
                   this.showCloseBtn = true
@@ -196,6 +191,7 @@ export default {
                   this.confirmText = '查看我的加息券'
                   this.routerLink = 'lendCoupons'
                   this.routerParam = ''
+                  this.HYCAlertInfoKey = 'coupon'
                   break
                 case 'refund':
                   this.showCloseBtn = true
@@ -203,9 +199,8 @@ export default {
                   this.dialogDis = `银行系统原因，您有${this.alertInfo.count}笔出借退款项未匹配成功，已退回`
                   this.confirmText = '去查看'
                   this.routerLink = 'userLend'
-                  this.routerParam = {
-                    status: 'JHB_YTK'
-                  }
+                  this.routerParam = { status: 'JHB_YTK' }
+                  this.HYCAlertInfoKey = 'refund'
                   break
                 case 'refundBeforeDueDate':
                   this.showCloseBtn = true
@@ -214,6 +209,7 @@ export default {
                   this.confirmText = '我知道了'
                   this.routerLink = ''
                   this.routerParam = ''
+                  this.HYCAlertInfoKey = 'refundBeforeDueDate'
                   break
                 case 'evaluate':
                   this.showCloseBtn = false
@@ -222,6 +218,7 @@ export default {
                   this.confirmText = '我知道了'
                   this.routerLink = ''
                   this.routerParam = ''
+                  this.HYCAlertInfoKey = 'evaluate'
                   break
                 default:
                   this.showCloseBtn = true
@@ -230,6 +227,7 @@ export default {
                   this.confirmText = '我知道了'
                   this.routerLink = ''
                   this.routerParam = ''
+                  this.HYCAlertInfoKey = 'evaluate'
               }
             }
           }
