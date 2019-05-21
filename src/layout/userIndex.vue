@@ -211,6 +211,15 @@ export default {
                   this.routerParam = ''
                   this.HYCAlertInfoKey = 'refundBeforeDueDate'
                   break
+                case 'redCoupon':
+                  this.showCloseBtn = true
+                  this.dialogTitle = '汇有财温馨提示'
+                  this.dialogDis = '您当前有未使用红包/加息券'
+                  this.confirmText = '立即查看'
+                  this.routerLink = 'lendCoupons'
+                  this.routerParam = ''
+                  this.HYCAlertInfoKey = 'redCoupon'
+                  break
                 case 'evaluate':
                   this.showCloseBtn = false
                   this.dialogTitle = '温馨提示'

@@ -232,7 +232,6 @@ export default {
         }
         let list = JSON.parse(JSON.stringify(res.data.data.list))
         list.map(item => {
-          debugger
           switch (item.status) {
             case 1:
               this.usedList.push(item)
