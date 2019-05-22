@@ -39,7 +39,7 @@
 
             <div id="support-bank" @click="bankDialogVisible = true">查看支持银行<em class="iconfont icon-changjianwenti userBank-find"></em></div>
             <dl>
-              <dt><i :class="checkAgree ? 'icon-check' : 'icon-choose'" class="iconfont" @click="checkAgree = !checkAgree"></i></dt>
+              <dt><i :class="checkAgree ? 'icon-Check' : 'icon-choose'" class="iconfont" @click="checkAgree = !checkAgree"></i></dt>
               <dd>
                 我已阅读并同意<a href="javascript:;" @click="agreeDialogVisible = true" class="agre_find"
                   >《江西银行网络交易资金账户服务第三方协议》</a

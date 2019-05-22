@@ -26,7 +26,7 @@
           <div class="confirm_info"><p>签订协议后就可以出借了~</p></div>
           <div class="form-data">
             <dl>
-              <dt><i :class="checkAgree ? 'icon-check' : 'icon-choose'" class="iconfont" @click="checkAgree = !checkAgree"></i></dt>
+              <dt><i :class="checkAgree ? 'icon-Check' : 'icon-choose'" class="iconfont" @click="checkAgree = !checkAgree"></i></dt>
               <dd>我已阅读<a href="javascript:;" class="agre_find" @click="$router.push({ name: 'businessAuthAgreement' })">《业务授权协议》</a></dd>
             </dl>
             <button type="submit" :class="!checkAgree ? 'disabled' : ''" :disabled="!checkAgree" id="submit" @click="clickNext">立即授权</button>

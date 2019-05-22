@@ -33,7 +33,7 @@
       </div>
       <el-button type="primary" @click="doLogin">登录</el-button>
       <p class="agreement-tip" v-if="loginType === 0">
-        <i class="iconfont" :class="{ 'icon-choose': !agree, 'icon-check': agree }" @click="agree = !agree"></i> 记住用户名
+        <i class="iconfont" :class="{ 'icon-choose': !agree, 'icon-Check': agree }" @click="agree = !agree"></i> 记住用户名
         <router-link class="link" to="/forgetPWD">忘记密码？</router-link>
       </p>
       <p class="no-account">没有汇有财账号？<router-link class="link" to="/register">立即注册</router-link></p>
@@ -359,7 +359,7 @@ export default {
         &.icon-choose {
           color: #cdcdcd;
         }
-        &.icon-check {
+        &.icon-Check {
           color: #099ef5;
         }
       }
