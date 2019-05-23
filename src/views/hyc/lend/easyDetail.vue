@@ -947,7 +947,7 @@ export default {
               this.riskType = '【积极型】'
               break
             case 'JQX':
-              this.riskType = '【积极型】'
+              this.riskType = '【进取型】'
               break
             case 'JINX':
               this.riskType = '【激进型】'
