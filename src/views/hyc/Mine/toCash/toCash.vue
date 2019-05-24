@@ -35,7 +35,7 @@
         </li>
         <li>
           <span class="title">&emsp;&emsp;&emsp;<i class="high-light-red">*</i>&nbsp;提现金额</span>
-          <div class="info-wrapper"><input type="number" placeholder="请输入提现金额" @input="amountInput" /> <em class="unit">元</em></div>
+          <div class="info-wrapper"><input type="text" placeholder="请输入提现金额" @input="amountInput" /> <em class="unit">元</em></div>
         </li>
         <div class="err-msg" v-if="errMsg.amount">{{ errMsg.amount }}</div>
         <!--<li>-->
