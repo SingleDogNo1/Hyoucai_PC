@@ -1,11 +1,11 @@
 <template>
   <div class="detail">
     <div style="height:20px;font-size:12px;lint-height:20px;width:800px;margin: 10px auto;">
-      <span style="color:#FB891F;cursor:pointer" @click="$router.push({name:'cjz-project', params:{projectNo}})">返回上一级</span>
+      <span style="color:#FB891F;cursor:pointer" @click="$router.push({ name: 'cjz-project', params: { projectNo } })">返回上一级</span>
       <span style="color:#FB891F"> | </span>
-      <span style="color:#FB891F;cursor:pointer" @click="$router.push({name:'cjz-projects'})">出借中</span>
+      <span style="color:#FB891F;cursor:pointer" @click="$router.push({ name: 'cjz-projects' })">出借中</span>
       <span style="color:#FB891F"> > </span>
-      <span style="color:#FB891F;cursor:pointer" @click="$router.push({name:'cjz-project', params:{projectNo}})">{{projectName}}</span>
+      <span style="color:#FB891F;cursor:pointer" @click="$router.push({ name: 'cjz-project', params: { projectNo } })">{{ projectName }}</span>
       <span style="color:#FB891F"> > </span>
       <span>债权列表</span>
     </div>
