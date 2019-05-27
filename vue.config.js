@@ -1,6 +1,6 @@
-function kbs(n) {
-  return 1024 * n
-}
+// function kbs(n) {
+//   return 1024 * n
+// }
 
 module.exports = {
   baseUrl: process.env.NODE_ENV === 'production' ? '../' : '/',
