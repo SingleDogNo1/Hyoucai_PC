@@ -12,8 +12,8 @@
     <el-button type="primary" :disabled="btnDisabled" @click="nextStep">下一步</el-button>
     <div class="tips">
       <p>温馨提示：</p>
-      <p> 1.请保持姓名和身份证号一致;</p>
-      <p> 2.请勿使用过期证件。</p>
+      <p>1.请保持姓名和身份证号一致;</p>
+      <p>2.请勿使用过期证件。</p>
     </div>
   </div>
 </template>

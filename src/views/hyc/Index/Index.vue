@@ -135,7 +135,7 @@
                 <p class="title">
                   <span class="large">{{ item.basicsInvestRate }}</span> %
                   <span class="add" v-if="parseFloat(item.activityInvestRate) !== 0">+</span>
-                  <span class="rate" v-if="parseFloat(item.activityInvestRate) !== 0">{{item.activityInvestRate}}%</span>
+                  <span class="rate" v-if="parseFloat(item.activityInvestRate) !== 0">{{ item.activityInvestRate }}%</span>
                 </p>
                 <p class="desc">历史平均年化收益率</p>
               </div>
@@ -161,14 +161,8 @@
     </div>
     <div class="lend-boutique-wrap" v-if="user && hycPopularProjectList && hycPopularProjectList.length > 0">
       <div class="text-title"></div>
-      <ul
-        :class="{ 'two': hycPopularProjectList.length === 2, 'one': hycPopularProjectList.length === 1 }"
-      >
-        <li
-          v-for="(item, index) in hycPopularProjectList"
-          :key="index"
-          @click="viewInvestDetail(item)"
-        >
+      <ul :class="{ two: hycPopularProjectList.length === 2, one: hycPopularProjectList.length === 1 }">
+        <li v-for="(item, index) in hycPopularProjectList" :key="index" @click="viewInvestDetail(item)">
           <p class="title">
             <img :src="item.iconUrl" v-if="item.iconUrl" alt="" /> <span class="icon">{{ item.itemName }}</span>
           </p>
@@ -177,7 +171,7 @@
               <span class="large">{{ item.basicsInvestRate }}</span>
               <label>%</label>
               <span v-if="parseFloat(item.activityInvestRate) !== 0">+</span>
-              <span v-if="parseFloat(item.activityInvestRate) !== 0">{{item.activityInvestRate}}%</span>
+              <span v-if="parseFloat(item.activityInvestRate) !== 0">{{ item.activityInvestRate }}%</span>
             </p>
             <p class="desc">预期年化收益率</p>
           </div>
@@ -225,7 +219,7 @@
       :singleButton="systemDialogOptions.singleButton"
     >
       <div>
-        <p>{{systemDialogOptions.msg}}</p>
+        <p>{{ systemDialogOptions.msg }}</p>
       </div>
     </Dialog>
   </div>

@@ -96,7 +96,15 @@
     </div>
     <div class="tips">
       <p>温馨提示</p>
-      <p>1.为了您的账户提现快速到账，请您绑定一类卡。&nbsp;&nbsp;&nbsp;&nbsp;<a style="color:red" href="https://mp.weixin.qq.com/s/AGl5G7v0Z8UvMfLtDGQaMg" target="_blank"> 点击了解何为一类卡>></a></p>
+      <p>
+        1.为了您的账户提现快速到账，请您绑定一类卡。&nbsp;&nbsp;&nbsp;&nbsp;<a
+          style="color:red"
+          href="https://mp.weixin.qq.com/s/AGl5G7v0Z8UvMfLtDGQaMg"
+          target="_blank"
+        >
+          点击了解何为一类卡>></a
+        >
+      </p>
       <p>2.在你申请提现前，请先在页面下方或"基本信息"账户信息页面绑定银行卡。</p>
       <p>3.收到你的提现请求后，我们将在1个工作日（双休日或法定节假日顺延）处理你的提现申请，请你注意查收。</p>
       <p>4.为保障你的账户资金安全，申请提现时，你选择的银行卡开户名必须与你汇有财网账户实名认证一致，否则提现申请将不予受理。</p>

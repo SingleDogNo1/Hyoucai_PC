@@ -2,11 +2,9 @@
   <div class="content-box">
     <div class="content">
       <header>
-        <router-link
-          target="_blank"
-          class="agreement"
-          :to="{ name: 'threePartyAgreement', query: {productId: productId}}"
-        >《三方协议》</router-link>
+        <router-link target="_blank" class="agreement" :to="{ name: 'threePartyAgreement', query: { productId: productId } }"
+          >《三方协议》</router-link
+        >
         <i class="el-icon-circle-close-outline cancel" @click="change"></i>
       </header>
       <section>
@@ -18,31 +16,31 @@
           <div class="txt">
             <p>
               <span class="left">项目名称：</span>
-              <span class="right">{{projectName}}</span>
+              <span class="right">{{ projectName }}</span>
             </p>
             <p>
               <span class="left">还款方式：</span>
-              <span class="right">{{repaymentWay}}</span>
+              <span class="right">{{ repaymentWay }}</span>
             </p>
           </div>
           <div class="txt">
             <p>
               <span class="left">借款流水号：</span>
-              <span class="right">{{contractNum}}</span>
+              <span class="right">{{ contractNum }}</span>
             </p>
             <p>
               <span class="left">借款金额：</span>
-              <span class="right">{{prinAmt}}</span>
+              <span class="right">{{ prinAmt }}</span>
             </p>
           </div>
           <div class="txt">
             <p>
               <span class="left">借贷期限：</span>
-              <span class="right">{{loanMent}}</span>
+              <span class="right">{{ loanMent }}</span>
             </p>
             <p>
               <span class="left">历史平均年化收益率：</span>
-              <span class="right">{{rate}}.0%</span>
+              <span class="right">{{ rate }}.0%</span>
             </p>
           </div>
         </div>
@@ -56,65 +54,34 @@
               <td class="examine-td">身份信息</td>
               <td class="examine-td">认证情况</td>
             </tr>
-            <tr class="examine-tr" v-for="(item,index) in auditInfoList1" :key="index">
-              <td>{{item.key}}</td>
+            <tr class="examine-tr" v-for="(item, index) in auditInfoList1" :key="index">
+              <td>{{ item.key }}</td>
               <td>
-                <span v-show="!item.img">{{item.result}}</span>
-                <img
-                  v-show="item.img&&item.field=='haveIDCard'"
-                  @click="openReviewInfoPop(item)"
-                  src="./../image/bg.png"
-                >
+                <span v-show="!item.img">{{ item.result }}</span>
+                <img v-show="item.img && item.field == 'haveIDCard'" @click="openReviewInfoPop(item)" src="./../image/bg.png" />
                 <!-- 人脸识别 -->
-                <img
-                  v-show="item.img&&item.field=='faceRecognition'"
-                  @click="openFaceRecognitionPop(item)"
-                  src="./../image/bg.png"
-                >
-                <img
-                  v-show="item.img&&item.field=='signing'"
-                  @click="signing()"
-                  src="./../image/bg.png"
-                >
-                <img
-                  v-show="item.img&&item.field=='internetInformation'"
-                  @click="internetInformation()"
-                  src="./../image/bg.png"
-                >
+                <img v-show="item.img && item.field == 'faceRecognition'" @click="openFaceRecognitionPop(item)" src="./../image/bg.png" />
+                <img v-show="item.img && item.field == 'signing'" @click="signing()" src="./../image/bg.png" />
+                <img v-show="item.img && item.field == 'internetInformation'" @click="internetInformation()" src="./../image/bg.png" />
               </td>
             </tr>
           </table>
+
           <table class="examine" v-if="auditInfoList2.length > 0">
             <tr class="examine-title">
               <td>身份信息</td>
               <td>认证情况</td>
             </tr>
-            <tr v-for="(item,index) in auditInfoList2" :key="index">
-              <td>{{item.key}}</td>
+            <tr v-for="(item, index) in auditInfoList2" :key="index">
+              <td>{{ item.key }}</td>
               <td>
-                <span v-show="!item.img">{{item.result}}</span>
-                <img
-                  v-show="item.img&&item.field=='haveIDCard'"
-                  @click="openReviewInfoPop(item)"
-                  src="./../image/bg.png"
-                >
+                <span v-show="!item.img">{{ item.result }}</span>
+                <img v-show="item.img && item.field == 'haveIDCard'" @click="openReviewInfoPop(item)" src="./../image/bg.png" />
                 <!-- 人脸识别 -->
-                <img
-                  v-show="item.img&&item.field=='faceRecognition'"
-                  @click="openFaceRecognitionPop(item)"
-                  src="./../image/bg.png"
-                >
+                <img v-show="item.img && item.field == 'faceRecognition'" @click="openFaceRecognitionPop(item)" src="./../image/bg.png" />
                 <!-- 签约 -->
-                <img
-                  v-show="item.img&&item.field=='signing'"
-                  @click="signing()"
-                  src="./../image/bg.png"
-                >
-                <img
-                  v-show="item.img&&item.field=='internetInformation'"
-                  @click="internetInformation()"
-                  src="./../image/bg.png"
-                >
+                <img v-show="item.img && item.field == 'signing'" @click="signing()" src="./../image/bg.png" />
+                <img v-show="item.img && item.field == 'internetInformation'" @click="internetInformation()" src="./../image/bg.png" />
               </td>
             </tr>
             <tr v-show="isTr">
@@ -159,7 +126,7 @@
           <span class="title-boder"></span>
           <span class="title-text">还款来源</span>
         </p>
-        <div class="repayment">{{paymentSource}}</div>
+        <div class="repayment">{{ paymentSource }}</div>
         <p class="title">
           <span class="title-boder"></span>
           <span class="title-text">相关费用</span>
@@ -178,6 +145,7 @@
             <td>平台垫付</td>
           </tr>
         </table>
+
         <p class="title">
           <span class="title-boder"></span>
           <span class="title-text">借款人信息</span>
@@ -186,77 +154,77 @@
           <div class="borrower-box">
             <p class="borrower-box-left">
               <span class="left">借款人姓名：</span>
-              <span class="right">{{borrowerName}}</span>
+              <span class="right">{{ borrowerName }}</span>
             </p>
             <p class="borrower-box-center">
               <span class="left">性别：</span>
-              <span class="right">{{sex}}</span>
+              <span class="right">{{ sex }}</span>
             </p>
             <p>
               <span class="left">身份证号：</span>
-              <span class="right">{{idNum}}</span>
+              <span class="right">{{ idNum }}</span>
             </p>
           </div>
           <div class="borrower-box">
             <p class="borrower-box-left">
               <span class="left">年龄：</span>
-              <span class="right">{{age}}</span>
+              <span class="right">{{ age }}</span>
             </p>
             <p class="borrower-box-center">
               <span class="left">行业：</span>
-              <span class="right">{{industry}}</span>
+              <span class="right">{{ industry }}</span>
             </p>
             <p>
               <span class="left">居住地址：</span>
-              <span class="right">{{domicile}}</span>
+              <span class="right">{{ domicile }}</span>
             </p>
           </div>
           <div class="borrower-box">
             <p class="borrower-box-left">
               <span class="left">婚姻状况：</span>
-              <span class="right">{{maritalStatus}}</span>
+              <span class="right">{{ maritalStatus }}</span>
             </p>
             <p class="borrower-box-center">
               <span class="left">月收入：</span>
-              <span class="right">{{income}}</span>
+              <span class="right">{{ income }}</span>
             </p>
             <p>
               <span class="left">借款金额：</span>
-              <span class="right">{{prinAmt}}</span>
+              <span class="right">{{ prinAmt }}</span>
             </p>
           </div>
           <div class="borrower-box">
             <p class="borrower-box-left">
               <span class="left">借款用途：</span>
-              <span class="right">{{loanAim}}</span>
+              <span class="right">{{ loanAim }}</span>
             </p>
             <p class="borrower-box-center">
               <span class="left">借款人主体性质：</span>
-              <span class="right">{{borrowerTheme}}</span>
+              <span class="right">{{ borrowerTheme }}</span>
             </p>
             <p>
               <span class="left">借款期限：</span>
-              <span class="right">{{loanDay}}</span>
+              <span class="right">{{ loanDay }}</span>
             </p>
           </div>
           <div class="borrower-box">
             <p class="borrower-box-left">
               <span class="left">还款来源：</span>
-              <span class="right">{{paymentSource}}</span>
+              <span class="right">{{ paymentSource }}</span>
             </p>
             <p class="borrower-box-center">
               <span class="left">逾期金额：</span>
-              <span class="right">{{amountOverride}}</span>
+              <span class="right">{{ amountOverride }}</span>
             </p>
             <p></p>
           </div>
           <p class="borrower-txt">
             <span class="left">征信报告：</span>
-            <span class="right">{{creditReport}}</span>
+            <span class="right">{{ creditReport }}</span>
           </p>
           <p class="borrower-txt">
             <span class="left">在其他网络借贷平台借款情况：</span>
-            <span class="right">{{borrowSituation}}</span>
+            <span class="right">{{ borrowSituation }}</span>
           </p>
           <a class="look-detail" :href="guaranteeProtocolUrl" target="_blank">点击查看>></a>
         </div>
@@ -301,15 +269,12 @@
     <div v-show="isInternetInformation" class="internetInformation">
       <h3 class="internetInformation-h2">
         互联网资信报告
-        <i
-          class="el-icon-circle-close-outline internetInformation-i"
-          @click="isInternetInformation=false"
-        ></i>
+        <i class="el-icon-circle-close-outline internetInformation-i" @click="isInternetInformation = false"></i>
       </h3>
       <div class="internetInformation-div">
-        <p v-for="(item,index) in internetInformationList" :key="index">
-          <span>{{item.key}}：</span>
-          <span>{{item.value}}</span>
+        <p v-for="(item, index) in internetInformationList" :key="index">
+          <span>{{ item.key }}：</span>
+          <span>{{ item.value }}</span>
         </p>
       </div>
     </div>
@@ -317,19 +282,19 @@
       <div class="content face-content">
         <div class="close-wrap">
           <i @click="closeFaceRecognitionPop" class="el-icon-circle-close-outline close"></i>
-          <img class="face" :src="facePic">
+          <img class="face" :src="facePic" />
         </div>
       </div>
     </div>
     <Dialog :show.sync="isShowDialog" class="dialog" :singleButton="singleButton">
-      <div class="dialog-div">{{resultMsg}}</div>
+      <div class="dialog-div">{{ resultMsg }}</div>
     </Dialog>
     <div class="authentication-pop" v-if="isShowAuthenticationPop">
       <div class="content">
         <div class="close-wrap">
           <i @click="closeReviewInfoPop" class="el-icon-circle-close-outline close"></i>
-          <img class="front" :src="picList[0]">
-          <img class="back" :src="picList[1]">
+          <img class="front" :src="picList[0]" />
+          <img class="back" :src="picList[1]" />
         </div>
       </div>
     </div>
@@ -337,7 +302,7 @@
       <div class="content face-content">
         <div class="close-wrap">
           <i @click="closeFaceRecognitionPop" class="el-icon-circle-close-outline close"></i>
-          <img class="face" :src="facePic">
+          <img class="face" :src="facePic" />
         </div>
       </div>
     </div>

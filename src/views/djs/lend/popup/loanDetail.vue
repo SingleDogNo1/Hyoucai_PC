@@ -2,7 +2,7 @@
   <div class="content-box">
     <div class="content">
       <header>
-        <span>借款流水号：{{projectCompositionData.applicationNo}}</span>
+        <span>借款流水号：{{ projectCompositionData.applicationNo }}</span>
         <i class="el-icon-circle-close-outline cancel" @click="change"></i>
       </header>
       <section>
@@ -12,23 +12,23 @@
         </p>
         <div class="personal">
           <p class="investment">
-            <span class="top">{{projectCompositionData.totalBondAmt}}</span>
+            <span class="top">{{ projectCompositionData.totalBondAmt }}</span>
             <span class="bottom">借款金额(元)</span>
           </p>
           <p class="schedule">
-            <span class="top">{{projectCompositionData.numberPeriod}}/{{projectCompositionData.repaymentPeriod}}</span>
+            <span class="top">{{ projectCompositionData.numberPeriod }}/{{ projectCompositionData.repaymentPeriod }}</span>
             <span class="bottom">还款进度</span>
           </p>
           <p class="way">
-            <span class="top">{{projectCompositionData.repayTypeName}}</span>
+            <span class="top">{{ projectCompositionData.repayTypeName }}</span>
             <span class="bottom">还款方式</span>
           </p>
           <p class="status">
-            <span class="top">{{projectCompositionData.repaymentStatus}}</span>
+            <span class="top">{{ projectCompositionData.repaymentStatus }}</span>
             <span class="bottom">还款状态</span>
           </p>
           <p class="interest-rate">
-            <span class="top">{{projectCompositionData.investRate}}</span>
+            <span class="top">{{ projectCompositionData.investRate }}</span>
             <span class="bottom">借款人约定的借款利率</span>
           </p>
         </div>
@@ -40,23 +40,23 @@
           <div class="situation-div situation-left">
             <p>
               <span class="left">流水号：</span>
-              <span class="right">{{projectCompositionData.applicationNo}}</span>
+              <span class="right">{{ projectCompositionData.applicationNo }}</span>
             </p>
             <p>
               <span class="left">募标起始日期：</span>
-              <span class="right">{{projectCompositionData.loanSignDate}}</span>
+              <span class="right">{{ projectCompositionData.loanSignDate }}</span>
             </p>
           </div>
           <div class="situation-div situation-center">
             <p>
               <span class="left">贷款期限：</span>
-              <span class="right">{{projectCompositionData.loanTerm}}个月</span>
+              <span class="right">{{ projectCompositionData.loanTerm }}个月</span>
             </p>
           </div>
           <div class="situation-div situation-right">
             <p>
               <span class="left">还款方式：</span>
-              <span class="right">{{projectCompositionData.repayTypeName}}</span>
+              <span class="right">{{ projectCompositionData.repayTypeName }}</span>
             </p>
           </div>
         </div>
@@ -68,19 +68,19 @@
           <div class="borrower-div borrower-left">
             <p>
               <span class="left">借款人姓名：</span>
-              <span class="right">{{projectCompositionData.ownBondName}}</span>
+              <span class="right">{{ projectCompositionData.ownBondName }}</span>
             </p>
           </div>
           <div class="borrower-div borrower-center">
             <p>
               <span class="left">性别：</span>
-              <span class="right">{{projectCompositionData.gender}}</span>
+              <span class="right">{{ projectCompositionData.gender }}</span>
             </p>
           </div>
           <div class="borrower-div borrower-right">
             <p>
               <span class="left">年龄：</span>
-              <span class="right">{{projectCompositionData.age}}岁</span>
+              <span class="right">{{ projectCompositionData.age }}岁</span>
             </p>
           </div>
         </div>

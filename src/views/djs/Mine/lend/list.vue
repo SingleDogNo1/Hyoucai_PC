@@ -23,7 +23,8 @@
             </td>
             <td>{{ item.invAmount }}</td>
             <td>
-              <span class="red">{{ item.invCount }}</span>笔进行中
+              <span class="red">{{ item.invCount }}</span
+              >笔进行中
             </td>
             <td><span class="link" @click="$router.push({ name: 'lendDetail', query: { projectNo: item.projectNo } })">查看</span></td>
           </tr>

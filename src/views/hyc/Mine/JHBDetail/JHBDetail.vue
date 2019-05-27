@@ -65,7 +65,7 @@
             <td>{{ item.principalPerTerm }}</td>
             <td>
               <span>{{ item.interest }}</span>
-              <span v-if="parseFloat(item.invCouponAmt) !== 0">+{{item.invCouponAmtPerTerm}}</span>
+              <span v-if="parseFloat(item.invCouponAmt) !== 0">+{{ item.invCouponAmtPerTerm }}</span>
             </td>
             <td>{{ item.status }}</td>
           </tr>

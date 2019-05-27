@@ -1,7 +1,15 @@
 <template>
   <div class="check-area-container">
     <div @click="getInfo"><slot></slot></div>
-    <Dialog title="温馨提示" :show="showDialog" confirmText="开通汇有财账户" :singleButton="true" :showCloseBtn="true" :onBtnClose="closeDialog" :onClose="openAccount">
+    <Dialog
+      title="温馨提示"
+      :show="showDialog"
+      confirmText="开通汇有财账户"
+      :singleButton="true"
+      :showCloseBtn="true"
+      :onBtnClose="closeDialog"
+      :onClose="openAccount"
+    >
       <p style="text-align: center;font-size:14px;">您还未开通汇有财账户</p>
     </Dialog>
   </div>

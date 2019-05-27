@@ -50,7 +50,7 @@
       <p class="tips" v-if="telphoneList.length > 0">
         <i>投诉举报电话：</i>
         <span v-for="(phone, index) in telphoneList" :key="index">
-          <em v-if="phone.status === '1'">{{phone.companyName}} {{phone.telephone}}</em>
+          <em v-if="phone.status === '1'">{{ phone.companyName }} {{ phone.telephone }}</em>
         </span>
       </p>
       <div class="copyright">

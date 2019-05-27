@@ -4,20 +4,17 @@
       <el-col :span="9" class="row-title">充值金额</el-col>
       <el-col :span="6" class="row-value">
         <i class="iconfont icon-dkw_jine"></i>
-        <input
-          v-model="form.amount"
-          placeholder="请输入充值金额"
-          @input="checkAmount(form.amount)"/>
+        <input v-model="form.amount" placeholder="请输入充值金额" @input="checkAmount(form.amount)" />
       </el-col>
       <el-col :span="9" class="row-suffix">元 <span class="suffix">（100元起充）</span></el-col>
     </el-row>
     <el-row v-if="error.amount">
-      <el-col :offset="9" :span="6" class="error-msg">{{error.amount}}</el-col>
+      <el-col :offset="9" :span="6" class="error-msg">{{ error.amount }}</el-col>
     </el-row>
     <el-row>
       <el-col :span="9" class="row-title">姓名</el-col>
       <el-col :span="6" class="row-value">
-        <span v-if="userBasicInfo">{{ userBasicInfo.realName.substr(0,1)}}**</span>
+        <span v-if="userBasicInfo">{{ userBasicInfo.realName.substr(0, 1) }}**</span>
       </el-col>
       <el-col :span="9" class="row-suffix"></el-col>
     </el-row>
@@ -29,30 +26,33 @@
           type="number"
           v-model="form.bankCardNum"
           placeholder="请输入银行卡号"
-          onkeypress='return( /[\d]/.test(String.fromCharCode(event.keyCode)))'
+          onkeypress="return( /[\d]/.test(String.fromCharCode(event.keyCode)))"
           oninput="if(value.length > 19) value = value.slice(0, 19)"
           @input="checkBankCardNum"
-          @blur="getBankInfo" />
+          @blur="getBankInfo"
+        />
       </el-col>
       <el-col :span="9" class="row-suffix" style="position:relative">
         <span class="mark">?</span>
         <div class="bankList">
           <p>绑卡支持以下银行</p>
           <div class="banks">
-            <div class="bank"  v-for="bank in bankList" :key="bank.bankCode">
-              <img :src="bank.iconUrl" alt="">
-              <span>{{bank.bankName}}</span>
+            <div class="bank" v-for="bank in bankList" :key="bank.bankCode">
+              <img :src="bank.iconUrl" alt="" />
+              <span>{{ bank.bankName }}</span>
             </div>
           </div>
         </div>
       </el-col>
     </el-row>
     <el-row v-if="error.bankCardNum">
-      <el-col :offset="9" :span="6" class="error-msg">{{error.bankCardNum}}</el-col>
+      <el-col :offset="9" :span="6" class="error-msg">{{ error.bankCardNum }}</el-col>
     </el-row>
     <el-row>
       <el-col :span="9" class="row-title">开户银行</el-col>
-      <el-col :span="6" class="row-value">{{ bankCardInfo&&bankCardInfo.bankName}} <span style="color:red;font-size:14px;">{{bankCardInfo&&bankCardInfo.quota}}</span>  </el-col>
+      <el-col :span="6" class="row-value"
+        >{{ bankCardInfo && bankCardInfo.bankName }} <span style="color:red;font-size:14px;">{{ bankCardInfo && bankCardInfo.quota }}</span>
+      </el-col>
       <el-col :span="9" class="row-suffix"></el-col>
     </el-row>
     <el-row>
@@ -65,12 +65,13 @@
           placeholder="请输入银行卡预留手机号"
           onkeypress="return( /[\d]/.test(String.fromCharCode(event.keyCode)))"
           oninput="if(value.length > 11) value = value.slice(0, 11)"
-          @input="checkMobileNo" />
+          @input="checkMobileNo"
+        />
       </el-col>
       <el-col :span="9" class="row-suffix"></el-col>
     </el-row>
     <el-row v-if="error.mobileNo">
-      <el-col :offset="9" :span="6" class="error-msg">{{error.mobileNo}}</el-col>
+      <el-col :offset="9" :span="6" class="error-msg">{{ error.mobileNo }}</el-col>
     </el-row>
     <el-row>
       <el-col :span="9" class="row-title">验证码</el-col>
@@ -81,15 +82,16 @@
           class="validation"
           v-model="form.validCode"
           placeholder="请输入验证码"
-          onkeypress='return( /[\d]/.test(String.fromCharCode(event.keyCode)))'
+          onkeypress="return( /[\d]/.test(String.fromCharCode(event.keyCode)))"
           oninput="if(value.length > 6) value = value.slice(0, 6)"
-          @input="checkValidCode" />
-        <i class="get-code" @click="getSMSCode">{{countDownText}}</i>
+          @input="checkValidCode"
+        />
+        <i class="get-code" @click="getSMSCode">{{ countDownText }}</i>
       </el-col>
       <el-col :span="9" class="row-suffix"></el-col>
     </el-row>
     <el-row v-if="error.validCode">
-      <el-col :offset="9" :span="6" class="error-msg">{{error.validCode}}</el-col>
+      <el-col :offset="9" :span="6" class="error-msg">{{ error.validCode }}</el-col>
     </el-row>
     <el-row class="btn">
       <el-col :span="6" :offset="9">
@@ -97,13 +99,13 @@
       </el-col>
     </el-row>
     <el-row class="tips">
-      <el-col :span="6" :offset="9" >
+      <el-col :span="6" :offset="9">
         <p>温馨提示：</p>
         <p>为了您的账户提现快速到账，请您绑定一类卡</p>
         <p><a href="https://mp.weixin.qq.com/s/AGl5G7v0Z8UvMfLtDGQaMg" target="_blank" style="color:red">点击了解何为一类卡>></a></p>
       </el-col>
     </el-row>
-    <Dialog :show.sync="showDialogSuccess" :singleButton="true" :showTitle="false" :onClose="confirmCharged"  class="djs-charge-dialog">
+    <Dialog :show.sync="showDialogSuccess" :singleButton="true" :showTitle="false" :onClose="confirmCharged" class="djs-charge-dialog">
       <img style="width:70px;height:70px;margin-bottom: 10px;" src="./success.png" alt="" />
       <div>您已成功完成绑卡操作</div>
     </Dialog>

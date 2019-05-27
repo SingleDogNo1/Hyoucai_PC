@@ -136,7 +136,7 @@
                 <p class="title">
                   <span class="large">{{ item.basicsInvestRate }}</span> %
                   <span class="add" v-if="parseFloat(item.activityInvestRate) !== 0">+</span>
-                  <span class="rate" v-if="parseFloat(item.activityInvestRate) !== 0">{{item.activityInvestRate}}%</span>
+                  <span class="rate" v-if="parseFloat(item.activityInvestRate) !== 0">{{ item.activityInvestRate }}%</span>
                 </p>
                 <p class="desc">历史平均年化收益率</p>
               </div>
@@ -162,21 +162,18 @@
     </div>
     <div class="lend-boutique-wrap" v-if="user && popularProjectList && popularProjectList.length > 0">
       <div class="text-title"></div>
-      <ul :class="{ two: popularProjectList.length === 2, 'one': popularProjectList.length === 1 }">
-        <li
-          v-for="(item, index) in popularProjectList"
-          :key="index"
-          @click="viewInvestDetail(item)"
-        >
+      <ul :class="{ two: popularProjectList.length === 2, one: popularProjectList.length === 1 }">
+        <li v-for="(item, index) in popularProjectList" :key="index" @click="viewInvestDetail(item)">
           <p class="title">
             <img :src="item.iconUrl" v-if="item.iconUrl" alt="" /> <span class="icon">{{ item.projectName }}</span>
           </p>
           <div class="returns">
             <p class="title">
-              <span class="large">{{ item.basicsInvestRate }}</span>%
+              <span class="large">{{ item.basicsInvestRate }}</span
+              >%
               <label>%</label>
               <span v-if="parseFloat(item.activityInvestRate) !== 0">+</span>
-              <span v-if="parseFloat(item.activityInvestRate) !== 0">{{item.activityInvestRate}}%</span>
+              <span v-if="parseFloat(item.activityInvestRate) !== 0">{{ item.activityInvestRate }}%</span>
             </p>
             <p class="desc">预期年化收益率</p>
           </div>
@@ -224,7 +221,7 @@
       :singleButton="systemDialogOptions.singleButton"
     >
       <div>
-        <p>{{systemDialogOptions.msg}}</p>
+        <p>{{ systemDialogOptions.msg }}</p>
       </div>
     </Dialog>
   </div>

@@ -1,44 +1,39 @@
 <template>
   <div class="table-container">
     <div style="height:20px;font-size:12px;lint-height:20px;width:800px;margin: 10px auto;">
-      <span style="color:#FB891F;cursor:pointer" @click="$router.push({name:'cjz-projects'})">返回上一级</span>
+      <span style="color:#FB891F;cursor:pointer" @click="$router.push({ name: 'cjz-projects' })">返回上一级</span>
       <span style="color:#FB891F"> | </span>
-      <span style="color:#FB891F;cursor:pointer" @click="$router.push({name:'cjz-projects'})">出借中</span>
+      <span style="color:#FB891F;cursor:pointer" @click="$router.push({ name: 'cjz-projects' })">出借中</span>
       <span style="color:#FB891F"> > </span>
-      <span>{{projectName}}</span>
+      <span>{{ projectName }}</span>
     </div>
     <table>
       <thead>
-      <tr>
-        <th>累计利息收益(元)</th>
-        <th>待收利息(元)</th>
-        <th>加入日期</th>
-        <th>到期时间</th>
-        <th>出借本金(元)</th>
-        <th>操作</th>
-        <th v-if="showAutolend">设置自动出借</th>
-      </tr>
+        <tr>
+          <th>累计利息收益(元)</th>
+          <th>待收利息(元)</th>
+          <th>加入日期</th>
+          <th>到期时间</th>
+          <th>出借本金(元)</th>
+          <th>操作</th>
+          <th v-if="showAutolend">设置自动出借</th>
+        </tr>
       </thead>
       <tbody>
-      <tr v-for="item in listDetail" :key="item.id">
-        <td>{{ item.takeBackInterest }}</td>
-        <td>{{ item.waitAllBackInterest }}</td>
-        <td>{{ item.intSumStartDate.split(' ')[0] }}</td>
-        <td>{{ item.invOverDate }}</td>
-        <td>{{ item.totalPrinAmount }}</td>
-        <td>
-          <button @click="$router.push({name:'cjz-zqList',params:{projectNo:$route.params.projectNo,invId: item.id}})">详情</button>
-        </td>
-        <td v-if="showAutolend">
-          <el-switch
-            :value="item.repeatStatus!==0"
-            @change="handleSetAutolend(item)"
-            active-color="#13ce66"
-            inactive-color="#ff4949"
-          >
-          </el-switch>
-        </td>
-      </tr>
+        <tr v-for="item in listDetail" :key="item.id">
+          <td>{{ item.takeBackInterest }}</td>
+          <td>{{ item.waitAllBackInterest }}</td>
+          <td>{{ item.intSumStartDate.split(' ')[0] }}</td>
+          <td>{{ item.invOverDate }}</td>
+          <td>{{ item.totalPrinAmount }}</td>
+          <td>
+            <button @click="$router.push({ name: 'cjz-zqList', params: { projectNo: $route.params.projectNo, invId: item.id } })">详情</button>
+          </td>
+          <td v-if="showAutolend">
+            <el-switch :value="item.repeatStatus !== 0" @change="handleSetAutolend(item)" active-color="#13ce66" inactive-color="#ff4949">
+            </el-switch>
+          </td>
+        </tr>
       </tbody>
     </table>
     <Pagination

@@ -14,7 +14,7 @@
               <strong>{{ projectInfo.basicsInvestRate }}</strong>
               <span class="red">%</span>
               <span class="red" style="margin: 0 5px;" v-if="parseFloat(projectInfo.activityInvestRate) !== 0">+</span>
-              <span class="red" v-if="parseFloat(projectInfo.activityInvestRate) !== 0">{{projectInfo.activityInvestRate}}%</span>
+              <span class="red" v-if="parseFloat(projectInfo.activityInvestRate) !== 0">{{ projectInfo.activityInvestRate }}%</span>
             </p>
             <p class="desc">历史平均年化收益率</p>
           </div>
@@ -47,8 +47,12 @@
       </div>
       <div class="invest-module">
         <h2>
-          <span :class="{ 'unopened-status-title': investStatus === 'unopened' || investStatus === 'unRealName' }" class="status-title">{{ investStatusTitle }}</span>
-          <router-link class="status-btn" v-if="investStatus !== 'unopened' && investStatus !== 'unRealName'" :to="{ name: 'charge' }">{{ investStatusBtn }}</router-link>
+          <span :class="{ 'unopened-status-title': investStatus === 'unopened' || investStatus === 'unRealName' }" class="status-title">{{
+            investStatusTitle
+          }}</span>
+          <router-link class="status-btn" v-if="investStatus !== 'unopened' && investStatus !== 'unRealName'" :to="{ name: 'charge' }">{{
+            investStatusBtn
+          }}</router-link>
           <router-link class="status-btn" v-if="investStatus === 'unopened'" :to="{ name: 'account' }">{{ investStatusBtn }}</router-link>
           <router-link class="status-btn" v-if="investStatus === 'unRealName'" :to="{ name: 'realNameAccount' }">{{ investStatusBtn }}</router-link>
         </h2>
@@ -179,13 +183,7 @@
       </div>
     </Dialog>
     <!-- 正常流程弹窗 -->
-    <Dialog
-      :show.sync="isShowConfirmInvestmentDialog"
-      title="确认出借"
-      confirmText="确认出借"
-      class="confirm-investment-dialog"
-      :onConfirm="confirm"
-    >
+    <Dialog :show.sync="isShowConfirmInvestmentDialog" title="确认出借" confirmText="确认出借" class="confirm-investment-dialog" :onConfirm="confirm">
       <!-- :onClose="refreshPage"-->
       <div>
         <ul class="amount-list">
@@ -366,7 +364,7 @@
       :confirmText="withoutSignDialogOptions.confirmText"
     >
       <div>
-        {{withoutSignDialogOptions.msg}}
+        {{ withoutSignDialogOptions.msg }}
       </div>
     </Dialog>
   </div>

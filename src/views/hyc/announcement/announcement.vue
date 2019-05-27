@@ -114,7 +114,7 @@ export default {
         color: $color-tab-selected;
         border-bottom: 1px solid $color-tab-selected;
       }
-      &:nth-last() {
+      &:nth-last-child(1) {
         margin-right: 0;
       }
     }

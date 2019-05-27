@@ -4,7 +4,13 @@
       <el-tabs type="border-card">
         <el-tab-pane label="快捷充值">
           <div>
-            <p class="tips" v-if="!isBankcardSupport">为了您的账户提现快速到账，请您使用一类卡充值&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://mp.weixin.qq.com/s/AGl5G7v0Z8UvMfLtDGQaMg" target="_blank">点击了解何为一类卡>></a></p>
+            <p class="tips" v-if="!isBankcardSupport">
+              为了您的账户提现快速到账，请您使用一类卡充值&nbsp;&nbsp;&nbsp;&nbsp;<a
+                href="https://mp.weixin.qq.com/s/AGl5G7v0Z8UvMfLtDGQaMg"
+                target="_blank"
+                >点击了解何为一类卡>></a
+              >
+            </p>
             <ul class="top">
               <li>
                 <dl>
@@ -37,13 +43,17 @@
               </li>
               <li>
                 <span class="title">开户银行</span>
-                <span class="text" v-if="isBankcardSupport">{{ bankCardInfo.bankName }}<i class="high-light">{{ bankCardInfo.quota }}</i></span>
-                <span class="text" v-else>{{unableBankName}}<i class="high-light">{{ unableBankNameQuota }}</i></span>
+                <span class="text" v-if="isBankcardSupport"
+                  >{{ bankCardInfo.bankName }}<i class="high-light">{{ bankCardInfo.quota }}</i></span
+                >
+                <span class="text" v-else
+                  >{{ unableBankName }}<i class="high-light">{{ unableBankNameQuota }}</i></span
+                >
               </li>
               <li>
                 <span class="title">&emsp;手机号</span>
                 <input type="text" placeholder="请输入手机号" v-if="isBankcardSupport" readonly v-model="bankCardInfo.mobile" />
-                <input type="text" placeholder="请输入手机号" v-else v-model="unableMobile"/>
+                <input type="text" placeholder="请输入手机号" v-else v-model="unableMobile" />
               </li>
               <li class="validation">
                 <span class="title">&emsp;验证码</span>

@@ -458,13 +458,7 @@
       </div>
     </Dialog>
     <!-- 正常流程出借弹窗 -->
-    <Dialog
-      :show.sync="isShowConfirmInvestmentDialog"
-      title="确认出借"
-      confirmText="确认出借"
-      class="confirm-investment-dialog"
-      :onConfirm="confirm"
-    >
+    <Dialog :show.sync="isShowConfirmInvestmentDialog" title="确认出借" confirmText="确认出借" class="confirm-investment-dialog" :onConfirm="confirm">
       <div>
         <ul class="amount-list">
           <li>
@@ -569,7 +563,7 @@
       :onClose="toInvestRecord"
     >
       <div>
-        <p>{{investDialogOptions.msg}}</p>
+        <p>{{ investDialogOptions.msg }}</p>
       </div>
     </Dialog>
     <!-- 出借手机乐产品成功弹窗 -->
@@ -583,7 +577,7 @@
       :onClose="refreshPage"
     >
       <div>
-        <p>{{investSJLSuccessDialog.msg}}</p>
+        <p>{{ investSJLSuccessDialog.msg }}</p>
       </div>
     </Dialog>
     <!-- 未签约弹窗 -->
@@ -595,7 +589,7 @@
       :confirmText="withoutSignDialogOptions.confirmText"
     >
       <div>
-        {{withoutSignDialogOptions.msg}}
+        {{ withoutSignDialogOptions.msg }}
       </div>
     </Dialog>
   </div>

@@ -28,40 +28,34 @@
     >
       <div v-if="repeatCouponRate !== ''">
         <!-- 复投加息 -->
-        <p class="board">
-          您有{{repeatInvestUnreadMsgList.length}}笔出借即将到期，设置自动出借加息{{repeatCouponRate}}%， 到期出借生效
-        </p>
+        <p class="board">您有{{ repeatInvestUnreadMsgList.length }}笔出借即将到期，设置自动出借加息{{ repeatCouponRate }}%， 到期出借生效</p>
         <div class="auto-invest-way-wrap">
           <div class="auto-invest-way1">
-            <el-radio v-model="repeatUnreadDialogOptions.autoInvestWay" label="1">本金到期后自动出借 </el-radio >
+            <el-radio v-model="repeatUnreadDialogOptions.autoInvestWay" label="1">本金到期后自动出借 </el-radio>
           </div>
           <div class="auto-invest-way2">
-            <el-radio v-model="repeatUnreadDialogOptions.autoInvestWay" label="2">本息到期后自动出借</el-radio >
+            <el-radio v-model="repeatUnreadDialogOptions.autoInvestWay" label="2">本息到期后自动出借</el-radio>
           </div>
         </div>
         <router-link class="auto-invest-agreement" :to="{ name: 'autoLendAgreement' }">《自动出借协议》</router-link>
       </div>
       <div v-else>
         <!-- 复投不加息 -->
-        <p class="board">
-          您有{{repeatInvestUnreadMsgList.length}}笔出借即将到期，设置自动出借坐享收益
-        </p>
+        <p class="board">您有{{ repeatInvestUnreadMsgList.length }}笔出借即将到期，设置自动出借坐享收益</p>
         <div class="auto-invest-way-wrap">
           <div class="auto-invest-way1">
-            <el-radio v-model="repeatUnreadDialogOptions.autoInvestWay" label="1">本金到期后自动出借 </el-radio >
+            <el-radio v-model="repeatUnreadDialogOptions.autoInvestWay" label="1">本金到期后自动出借 </el-radio>
           </div>
           <div class="auto-invest-way2">
-            <el-radio v-model="repeatUnreadDialogOptions.autoInvestWay" label="2">本息到期后自动出借</el-radio >
+            <el-radio v-model="repeatUnreadDialogOptions.autoInvestWay" label="2">本息到期后自动出借</el-radio>
           </div>
         </div>
         <router-link class="auto-invest-agreement" :to="{ name: 'autoLendAgreement' }">《自动出借协议》</router-link>
       </div>
     </Dialog>
     <!-- 全局的错误弹窗（resultCode !== '1'） -->
-    <Dialog
-      :show.sync="investErrDialog.show"
-    >
-      <div>{{investErrDialog.msg}}</div>
+    <Dialog :show.sync="investErrDialog.show">
+      <div>{{ investErrDialog.msg }}</div>
     </Dialog>
     <Certification v-if="accountStatus !== 'COMPLETE'" reg-flow-to="risk">
       <span></span>

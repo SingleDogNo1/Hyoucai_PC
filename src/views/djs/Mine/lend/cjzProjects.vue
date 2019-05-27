@@ -2,30 +2,30 @@
   <div class="table-container">
     <table>
       <thead>
-      <tr>
-        <th>项目名称</th>
-        <th>累计利息收益（元）</th>
-        <th>历史平均年化收益率</th>
-        <th>加入本金（元）</th>
-        <th>购买笔数</th>
-        <th>操作</th>
-      </tr>
+        <tr>
+          <th>项目名称</th>
+          <th>累计利息收益（元）</th>
+          <th>历史平均年化收益率</th>
+          <th>加入本金（元）</th>
+          <th>购买笔数</th>
+          <th>操作</th>
+        </tr>
       </thead>
       <tbody>
-      <tr v-for="item in InvestingList" :key="item.id">
-        <td>{{ item.projectName }}</td>
-        <td>{{ item.incomeAmount }}</td>
-        <td>
-          <span v-if="item.invRate === item.maxInvRate">{{ item.invRate }}%</span>
-          <span v-else>{{ item.invRate }}% ~ {{ item.maxInvRate }}%</span>
-        </td>
-        <td>{{ item.invAmount }}</td>
-        <td>
-              <span class="red">{{ item.invCount }}</span
-              >笔进行中
-        </td>
-        <td><span class="link" @click="$router.push({ name: 'cjz-project', params: { projectNo: item.projectNo } })">查看</span></td>
-      </tr>
+        <tr v-for="item in InvestingList" :key="item.id">
+          <td>{{ item.projectName }}</td>
+          <td>{{ item.incomeAmount }}</td>
+          <td>
+            <span v-if="item.invRate === item.maxInvRate">{{ item.invRate }}%</span>
+            <span v-else>{{ item.invRate }}% ~ {{ item.maxInvRate }}%</span>
+          </td>
+          <td>{{ item.invAmount }}</td>
+          <td>
+            <span class="red">{{ item.invCount }}</span
+            >笔进行中
+          </td>
+          <td><span class="link" @click="$router.push({ name: 'cjz-project', params: { projectNo: item.projectNo } })">查看</span></td>
+        </tr>
       </tbody>
     </table>
   </div>

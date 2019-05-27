@@ -10,9 +10,9 @@
       <el-radio :label="2">本息到期后自动出借</el-radio>
     </el-radio-group>
     <p class="agreement">《自动出借协议》</p>
-    <p
-      class="txt"
-    >在本金自动出借模式下，每月产品到期时，系统自动将利息转入用户汇有财账户，本金继续出借。用户可在【我的账户】-【自动出借】界面取消，如有任何疑问，请联系客服：400-099-7979。</p>
+    <p class="txt">
+      在本金自动出借模式下，每月产品到期时，系统自动将利息转入用户汇有财账户，本金继续出借。用户可在【我的账户】-【自动出借】界面取消，如有任何疑问，请联系客服：400-099-7979。
+    </p>
     <div class="btn">
       <button class="confirm">确定</button>
       <button class="cancel">取消</button>

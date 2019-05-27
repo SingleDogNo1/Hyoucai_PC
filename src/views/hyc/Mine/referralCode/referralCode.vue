@@ -7,7 +7,7 @@
           <p class="title">我的推荐码</p>
           <p class="content">{{ referralCode }}</p>
           <checkstatus :success="btnCopy">
-          <p class="copy-text">复制邀请码链接 <i class="iconfont icon-more"></i></p>
+            <p class="copy-text">复制邀请码链接 <i class="iconfont icon-more"></i></p>
           </checkstatus>
         </div>
       </div>

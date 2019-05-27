@@ -23,7 +23,7 @@
     <div class="lend-list">
       <ul class="tab">
         <li class="tab-item label">状态</li>
-        <router-link class="tab-item" tag="li" to="/mine/lend/cjz" >出借中</router-link>
+        <router-link class="tab-item" tag="li" to="/mine/lend/cjz">出借中</router-link>
         <router-link class="tab-item" tag="li" to="/mine/lend/yjq">已结清</router-link>
       </ul>
       <router-view></router-view>

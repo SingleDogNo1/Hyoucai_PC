@@ -14,7 +14,7 @@
               <strong>{{ projectInfo.basicsInvestRate }}</strong>
               <span class="red">%</span>
               <span class="red" style="margin: 0 5px;" v-if="parseFloat(projectInfo.activityInvestRate) !== 0">+</span>
-              <span class="red" v-if="parseFloat(projectInfo.activityInvestRate) !== 0">{{projectInfo.activityInvestRate}}%</span>
+              <span class="red" v-if="parseFloat(projectInfo.activityInvestRate) !== 0">{{ projectInfo.activityInvestRate }}%</span>
             </p>
             <p class="desc">历史平均年化收益率</p>
           </div>
@@ -307,7 +307,7 @@
       :onClose="toInvestRecord"
     >
       <div>
-        <p>{{investDialogOptions.msg}}</p>
+        <p>{{ investDialogOptions.msg }}</p>
       </div>
     </Dialog>
     <!-- 出借手机乐产品成功弹窗 -->
@@ -321,7 +321,7 @@
       :onClose="refreshPage"
     >
       <div>
-        <p>{{investSJLSuccessDialog.msg}}</p>
+        <p>{{ investSJLSuccessDialog.msg }}</p>
       </div>
     </Dialog>
     <!-- 未签约弹窗 -->
@@ -333,7 +333,7 @@
       :onConfirm="toSign"
     >
       <div>
-        {{withoutSignDialogOptions.msg}}
+        {{ withoutSignDialogOptions.msg }}
       </div>
     </Dialog>
   </div>

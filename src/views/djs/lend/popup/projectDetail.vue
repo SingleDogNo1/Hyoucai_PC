@@ -18,27 +18,27 @@
             </p>
             <p>
               <span class="left">还款方式：</span>
-              <span class="right">{{repaymentWay}}</span>
+              <span class="right">{{ repaymentWay }}</span>
             </p>
           </div>
           <div class="txt">
             <p>
               <span class="left">借款流水号：</span>
-              <span class="right">{{loanNo}}</span>
+              <span class="right">{{ loanNo }}</span>
             </p>
             <p>
               <span class="left">借款金额：</span>
-              <span class="right">{{prinAmt}}</span>
+              <span class="right">{{ prinAmt }}</span>
             </p>
           </div>
           <div class="txt">
             <p>
               <span class="left">借贷期限：</span>
-              <span class="right">{{loanDay}}</span>
+              <span class="right">{{ loanDay }}</span>
             </p>
             <p>
               <span class="left">历史平均年化收益率：</span>
-              <span class="right">{{rate}}.0%</span>
+              <span class="right">{{ rate }}.0%</span>
             </p>
           </div>
         </div>
@@ -56,7 +56,7 @@
           <tr>
             <td>身份证认证</td>
             <td>
-              <img @click="flag=!flag" src="./../image/bg.png">
+              <img @click="flag = !flag" src="./../image/bg.png" />
             </td>
             <td>运营商认证</td>
             <td>中国移动运营商认证通过</td>
@@ -66,13 +66,13 @@
             <td>白领</td>
             <td>人脸识别</td>
             <td>
-              <img src="./../image/bg.png">
+              <img src="./../image/bg.png" />
             </td>
           </tr>
           <tr>
             <td>签约</td>
             <td>
-              <img src="./../image/bg.png">
+              <img src="./../image/bg.png" />
             </td>
             <td>银行卡认证</td>
             <td>6228 **** **** 1234银行卡账户、开户名、开户手机、身份证号认证成功</td>
@@ -80,17 +80,18 @@
           <tr>
             <td>互联网资讯报告</td>
             <td>
-              <img src="./../image/bg.png">
+              <img src="./../image/bg.png" />
             </td>
             <td></td>
             <td></td>
           </tr>
         </table>
+
         <p class="title">
           <span class="title-boder"></span>
           <span class="title-text">还款来源</span>
         </p>
-        <div class="repayment">{{paymentSource}}</div>
+        <div class="repayment">{{ paymentSource }}</div>
         <p class="title">
           <span class="title-boder"></span>
           <span class="title-text">相关费用</span>
@@ -109,6 +110,7 @@
             <td>免费</td>
           </tr>
         </table>
+
         <p class="title">
           <span class="title-boder"></span>
           <span class="title-text">借款人信息</span>
@@ -117,77 +119,77 @@
           <div class="borrower-box">
             <p class="borrower-box-left">
               <span class="left">借款人姓名：</span>
-              <span class="right">{{borrowerName}}</span>
+              <span class="right">{{ borrowerName }}</span>
             </p>
             <p class="borrower-box-center">
               <span class="left">性别：</span>
-              <span class="right">{{sex}}</span>
+              <span class="right">{{ sex }}</span>
             </p>
             <p>
               <span class="left">身份证号：</span>
-              <span class="right">{{idNum}}</span>
+              <span class="right">{{ idNum }}</span>
             </p>
           </div>
           <div class="borrower-box">
             <p class="borrower-box-left">
               <span class="left">年龄：</span>
-              <span class="right">{{age}}</span>
+              <span class="right">{{ age }}</span>
             </p>
             <p class="borrower-box-center">
               <span class="left">行业：</span>
-              <span class="right">{{industry}}</span>
+              <span class="right">{{ industry }}</span>
             </p>
             <p>
               <span class="left">居住地址：</span>
-              <span class="right">{{domicile}}</span>
+              <span class="right">{{ domicile }}</span>
             </p>
           </div>
           <div class="borrower-box">
             <p class="borrower-box-left">
               <span class="left">婚姻状况：</span>
-              <span class="right">{{maritalStatus}}</span>
+              <span class="right">{{ maritalStatus }}</span>
             </p>
             <p class="borrower-box-center">
               <span class="left">月收入：</span>
-              <span class="right">{{income}}</span>
+              <span class="right">{{ income }}</span>
             </p>
             <p>
               <span class="left">借款金额：</span>
-              <span class="right">{{prinAmt}}</span>
+              <span class="right">{{ prinAmt }}</span>
             </p>
           </div>
           <div class="borrower-box">
             <p class="borrower-box-left">
               <span class="left">借款用途：</span>
-              <span class="right">{{loanAim}}</span>
+              <span class="right">{{ loanAim }}</span>
             </p>
             <p class="borrower-box-center">
               <span class="left">借款人主体性质：</span>
-              <span class="right">{{borrowerTheme}}</span>
+              <span class="right">{{ borrowerTheme }}</span>
             </p>
             <p>
               <span class="left">借款期限：</span>
-              <span class="right">{{loanDay}}</span>
+              <span class="right">{{ loanDay }}</span>
             </p>
           </div>
           <div class="borrower-box">
             <p class="borrower-box-left">
               <span class="left">还款来源：</span>
-              <span class="right">{{paymentSource}}</span>
+              <span class="right">{{ paymentSource }}</span>
             </p>
             <p class="borrower-box-center">
               <span class="left">逾期金额：</span>
-              <span class="right">{{amountOverride}}</span>
+              <span class="right">{{ amountOverride }}</span>
             </p>
             <p></p>
           </div>
           <p class="borrower-txt">
             <span class="left">征信报告：</span>
-            <span class="right">{{creditReport}}</span>
+            <span class="right">{{ creditReport }}</span>
           </p>
           <p class="borrower-txt">
             <span class="left">在其他网络借贷平台借款情况：</span>
-            <span class="right">{{borrowSituation}}</span>
+            <span class="right">{{ borrowSituation }}</span>
           </p>
           <p class="look-detail">点击查看>></p>
         </div>
@@ -230,15 +232,15 @@
       </section>
     </div>
     <div class="id-image" v-show="flag">
-      <i @click="flag=!flag" class="el-icon-circle-close-outline close"></i>
+      <i @click="flag = !flag" class="el-icon-circle-close-outline close"></i>
       <img
         class="front"
         src="https://www.hyoucai.com:8082/huiyoucaifiles/picture/certification/2018-09-25/idCardM_a_BD20180925023001020650_djs361466uv.png"
-      >
+      />
       <img
         class="back"
         src="https://www.hyoucai.com:8082/huiyoucaifiles/picture/certification/2018-09-25/idCardM_b_BD20180925023001020650_djs361466uv.png"
-      >
+      />
     </div>
   </div>
 </template>

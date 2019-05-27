@@ -190,7 +190,7 @@
           </tr>
           <tr>
             <td>日期：{{ relation.signYear }}年{{ relation.signMonth }}月{{ relation.signDay }}日</td>
-            <td class="cachel"><img  src="./cachel.png" style="width:120px" alt="" /></td>
+            <td class="cachel"><img src="./cachel.png" style="width:120px" alt="" /></td>
             <td></td>
             <td></td>
           </tr>

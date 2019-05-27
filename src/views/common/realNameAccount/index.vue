@@ -1,28 +1,28 @@
 <template>
-    <div class="realNameAccount">
-      <div class="main">
-        <h3>开通汇有财账户</h3>
-        <div class="progress-bar">
-          <div class="progress" :class="{ active: $route.path==='/realNameAccount/realNameAuth'}">
-            <div class="progress-img">
-              <div class="line left"></div>
-              <img src="./realName.png" alt="">
-              <div class="line right"></div>
-            </div>
-            <span>实名</span>
+  <div class="realNameAccount">
+    <div class="main">
+      <h3>开通汇有财账户</h3>
+      <div class="progress-bar">
+        <div class="progress" :class="{ active: $route.path === '/realNameAccount/realNameAuth' }">
+          <div class="progress-img">
+            <div class="line left"></div>
+            <img src="./realName.png" alt="" />
+            <div class="line right"></div>
           </div>
-          <div class="progress" :class="{ active: $route.path==='/realNameAccount/bindCard'}">
-            <div class="progress-img">
-              <div class="line left"></div>
-              <img src="./bindCard.png" alt="">
-              <div class="line right"></div>
-            </div>
-            <span>绑卡</span>
-          </div>
+          <span>实名</span>
         </div>
-        <router-view></router-view>
+        <div class="progress" :class="{ active: $route.path === '/realNameAccount/bindCard' }">
+          <div class="progress-img">
+            <div class="line left"></div>
+            <img src="./bindCard.png" alt="" />
+            <div class="line right"></div>
+          </div>
+          <span>绑卡</span>
+        </div>
       </div>
+      <router-view></router-view>
     </div>
+  </div>
 </template>
 
 <script>

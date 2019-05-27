@@ -50,9 +50,9 @@
                 <li class="info">
                   <dl>
                     <dt>
-                        <em class="common">{{ item.basicsInvestRate }}</em>
-                        <span class="per">%</span>
-                        <span v-if="parseFloat(item.activityInvestRate) !== 0 && item.activityInvestRate !== ''  ">+{{ item.activityInvestRate }}%</span>
+                      <em class="common">{{ item.basicsInvestRate }}</em>
+                      <span class="per">%</span>
+                      <span v-if="parseFloat(item.activityInvestRate) !== 0 && item.activityInvestRate !== ''">+{{ item.activityInvestRate }}%</span>
                     </dt>
                     <dd>历史平均年化收益率</dd>
                   </dl>
@@ -112,7 +112,7 @@
                     <dt>
                       <em class="common">{{ item.basicsInvestRate }}</em>
                       <span class="per">%</span>
-                      <span v-if="item.activityInvestRate !== '0.0' ">+{{ item.activityInvestRate }}%</span>
+                      <span v-if="item.activityInvestRate !== '0.0'">+{{ item.activityInvestRate }}%</span>
                     </dt>
                     <dd>历史平均年化收益率</dd>
                   </dl>
@@ -215,7 +215,7 @@
       :singleButton="systemDialogOptions.singleButton"
     >
       <div>
-        <p>{{systemDialogOptions.msg}}</p>
+        <p>{{ systemDialogOptions.msg }}</p>
       </div>
     </Dialog>
   </div>
