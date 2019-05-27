@@ -1,11 +1,11 @@
 <template>
   <div class="detail">
     <div style="height:20px;font-size:12px;lint-height:20px;width:800px;margin: 10px auto;">
-      <span style="color:#FB891F;cursor:pointer" @click="$router.push({name:'cjz-project', params:{projectNo}})">返回上一级</span>
+      <span style="color:#FB891F;cursor:pointer" @click="$router.push({ name: 'cjz-project', params: { projectNo } })">返回上一级</span>
       <span style="color:#FB891F"> | </span>
-      <span style="color:#FB891F;cursor:pointer" @click="$router.push({name:'cjz-projects'})">出借中</span>
+      <span style="color:#FB891F;cursor:pointer" @click="$router.push({ name: 'cjz-projects' })">出借中</span>
       <span style="color:#FB891F"> > </span>
-      <span style="color:#FB891F;cursor:pointer" @click="$router.push({name:'cjz-project', params:{projectNo}})">{{projectName}}</span>
+      <span style="color:#FB891F;cursor:pointer" @click="$router.push({ name: 'cjz-project', params: { projectNo } })">{{ projectName }}</span>
       <span style="color:#FB891F"> > </span>
       <span>债权列表</span>
     </div>
@@ -68,7 +68,7 @@
     >
     <el-dialog class="ZQDetail" title="提示" :visible.sync="dialogVisible" width="840" top="20vh">
       <div slot="title" class="title">
-        <span>借款流水号：318011121021XX</span>
+        <span>借款流水号：{{ ZQDetail.applicationNo }}</span>
       </div>
       <div class="section">
         <h3>个人消费</h3>
