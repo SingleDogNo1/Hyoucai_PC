@@ -1,6 +1,6 @@
-function kbs(n) {
-  return 1024 * n
-}
+// function kbs(n) {
+//   return 1024 * n
+// }
 
 module.exports = {
   baseUrl: process.env.NODE_ENV === 'production' ? '../' : '/',
@@ -33,7 +33,8 @@ module.exports = {
       config.optimization.minimizer[0].options.terserOptions.compress.drop_console = true
     }
   },
-  chainWebpack: config => {
+  // TODO image-webpack-loader jenkins 打包失败？
+  /*chainWebpack: config => {
     if (process.env.VUE_APP_RUNTIME_ENV === 'production') {
       const imagesRule = config.module.rule('images')
       imagesRule.uses.clear()
@@ -54,14 +55,14 @@ module.exports = {
         .loader('image-webpack-loader')
         .options({ disable: false })
     }
-  },
+  },*/
   devServer: {
     host: '0.0.0.0',
     disableHostCheck: true,
     proxy: {
       '/TouchStone': {
-        // target: 'http://opsstatic.dpandora.cn:30174', // SIT
-        target: 'http://opsstatic.dpandora.cn:30162', // UAT
+        target: 'http://opsstatic.dpandora.cn:30174', // SIT
+        // target: 'http://opsstatic.dpandora.cn:30162', // UAT
         changeOrigin: true,
         wx: true
       }
