@@ -52,7 +52,7 @@ module.exports = {
       imagesRule
         .use('image-webpack-loader')
         .loader('image-webpack-loader')
-        .options({ disable: true })
+        .options({ disable: false })
     }
   },
   devServer: {
