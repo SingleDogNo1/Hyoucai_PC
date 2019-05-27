@@ -110,7 +110,7 @@
         <h3>协议</h3>
         <div class="content-2">
           <template v-for="(item, index) in ZQDetail.agreementList">
-            <a :key="index" :href="item.agreementUrl">{{ item.agreementName }}</a>
+            <a :key="index" :href="item.agreementUrl + '?relationId=' + item.id">{{ item.agreementName }}</a>
           </template>
         </div>
       </div>
