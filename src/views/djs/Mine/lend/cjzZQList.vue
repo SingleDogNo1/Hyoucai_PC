@@ -109,7 +109,9 @@
       <div class="section">
         <h3>协议</h3>
         <div class="content-2">
-          <a v-if="ZQDetail.debtTransferAgreement" :href="ZQDetail.debtTransferAgreement">《债权转让协议》</a>
+          <template v-for="(item, index) in ZQDetail.agreementList">
+            <a :key="index" :href="item.agreementUrl">{{ item.agreementName }}</a>
+          </template>
         </div>
       </div>
     </el-dialog>
