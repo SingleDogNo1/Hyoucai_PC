@@ -21,10 +21,10 @@
         <!-- 加息券待领取 -->
         <div v-show="item.voucherType === 'VT01'">
           <p class="vouche_box">
-            <span class="vouche"
-              ><i>{{ item.voucherFaceValue }}</i
-              ><i class="vouche_i">%</i><i class="font">利息</i></span
-            >
+            <span class="vouche">
+              <i>{{ item.voucherFaceValue }}</i>
+              <i class="vouche_i">%</i><i class="font">利息</i>
+            </span>
             <span class="vouche_aside">可加息{{ item.validDays }}天</span>
           </p>
           <p class="start">出借限额：{{ item.amountMin | toThousands }}元至{{ item.amountMax | toThousands }}元</p>
@@ -226,14 +226,14 @@ export default {
               break
           }
           this.receiveList.map(item => {
-            item.voucherFaceValue = parseInt(item.voucherFaceValue)
-            item.amountMin = parseInt(item.amountMin)
-            item.amountMax = parseInt(item.amountMax)
+            item.voucherFaceValue = parseFloat(item.voucherFaceValue)
+            item.amountMin = parseFloat(item.amountMin)
+            item.amountMax = parseFloat(item.amountMax)
           })
           this.receivedList.map(item => {
-            item.voucherFaceValue = parseInt(item.voucherFaceValue)
-            item.amountMin = parseInt(item.amountMin)
-            item.amountMax = parseInt(item.amountMax)
+            item.voucherFaceValue = parseFloat(item.voucherFaceValue)
+            item.amountMin = parseFloat(item.amountMin)
+            item.amountMax = parseFloat(item.amountMax)
           })
         })
       })
@@ -257,14 +257,14 @@ export default {
               break
           }
           this.expiredList.map(item => {
-            item.voucherFaceValue = parseInt(item.voucherFaceValue)
-            item.amountMin = parseInt(item.amountMin)
-            item.amountMax = parseInt(item.amountMax)
+            item.voucherFaceValue = parseFloat(item.voucherFaceValue)
+            item.amountMin = parseFloat(item.amountMin)
+            item.amountMax = parseFloat(item.amountMax)
           })
           this.usedList.map(item => {
-            item.voucherFaceValue = parseInt(item.voucherFaceValue)
-            item.amountMin = parseInt(item.amountMin)
-            item.amountMax = parseInt(item.amountMax)
+            item.voucherFaceValue = parseFloat(item.voucherFaceValue)
+            item.amountMin = parseFloat(item.amountMin)
+            item.amountMax = parseFloat(item.amountMax)
           })
         })
       })

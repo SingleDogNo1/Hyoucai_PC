@@ -209,14 +209,14 @@ export default {
               break
           }
           this.receiveList.map(item => {
-            item.voucherFaceValue = parseInt(item.voucherFaceValue)
-            item.amountMin = parseInt(item.amountMin)
-            item.amountMax = parseInt(item.amountMax)
+            item.voucherFaceValue = parseFloat(item.voucherFaceValue)
+            item.amountMin = parseFloat(item.amountMin)
+            item.amountMax = parseFloat(item.amountMax)
           })
           this.receivedList.map(item => {
-            item.voucherFaceValue = parseInt(item.voucherFaceValue)
-            item.amountMin = parseInt(item.amountMin)
-            item.amountMax = parseInt(item.amountMax)
+            item.voucherFaceValue = parseFloat(item.voucherFaceValue)
+            item.amountMin = parseFloat(item.amountMin)
+            item.amountMax = parseFloat(item.amountMax)
           })
         })
       })
