@@ -133,8 +133,7 @@ export default {
         .slogan-text {
           width: 162px;
           height: 56px;
-          background: url('bg_header.png') -10px -217px;
-          background-size: 172px auto;
+          background: url('./slogan.png') 0 / contain no-repeat;
         }
       }
     }
