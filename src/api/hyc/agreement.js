@@ -16,7 +16,17 @@ function getProtocolTemplateId() {
   })
 }
 
+function getTrilateralParamsApi(data) {
+  // 获取三方协议模版费率数据
+  return request({
+    url: '/protocol/getTrilateralParams',
+    method: 'post',
+    data: qs.stringify(data)
+  })
+}
+
 export {
   bondProtocol, // 查询债权转让协议填充数据
-  getProtocolTemplateId
+  getProtocolTemplateId,
+  getTrilateralParamsApi
 }
