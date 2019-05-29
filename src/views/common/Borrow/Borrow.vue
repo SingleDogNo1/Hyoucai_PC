@@ -45,11 +45,11 @@
               <p>借款期限：</p>
               <span>3个月</span>
               <p style="margin-left: 70px;">贷款服务费率：</p>
-              <span>8%</span>
+              <span>6%</span>
             </div>
             <div>
               <p>借款年化：</p>
-              <span>10%</span>
+              <span>9%</span>
               <p style="margin-left: 78px">每月应还本息：</p>
               <span>{{ repayAmt }}元</span>
             </div>
@@ -95,12 +95,12 @@ export default {
   },
   computed: {
     repayAmt: function() {
-      var rate = 0.1 / 12
+      let rate = 0.09 / 12
       return ((this.amount * rate * Math.pow(1 + rate, 3)) / (Math.pow(1 + rate, 3) - 1)).toFixed(2)
     },
     serviceAmt: function() {
-      var rate1 = 0.18 / 12,
-        rate2 = 0.1 / 12
+      let rate1 = 0.15 / 12,
+        rate2 = 0.09 / 12
       return (
         (this.amount * rate1 * Math.pow(1 + rate1, 3)) / (Math.pow(1 + rate1, 3) - 1) -
         (this.amount * rate2 * Math.pow(1 + rate2, 3)) / (Math.pow(1 + rate2, 3) - 1)

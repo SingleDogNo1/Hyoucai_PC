@@ -330,7 +330,7 @@ export default new Router({
         {
           path: 'riskNoticationLetter', // 风险告知书
           name: 'riskNoticationLetterAgreement',
-          component: () => import('@/views/djs/agreement/riskNoticationLetter')
+          component: () => import('@/views/hyc/agreement/riskNoticationLetter')
         },
         {
           path: 'debtAssignment', // 债权转让
