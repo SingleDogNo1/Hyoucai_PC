@@ -30,7 +30,7 @@
             <button @click="$router.push({ name: 'cjz-zqList', params: { projectNo: $route.params.projectNo, invId: item.id } })">详情</button>
           </td>
           <td v-if="showAutolend">
-            <el-switch :value="item.repeatStatus !== 0" @change="handleSetAutolend(item)" active-color="#13ce66" inactive-color="#ff4949">
+            <el-switch :value="item.repeatStatus !== 0" @change="handleSetAutolend(item)" active-color="#EC5E52" inactive-color="#CCCCCC">
             </el-switch>
           </td>
         </tr>
