@@ -169,8 +169,7 @@
           </p>
           <div class="returns">
             <p class="title">
-              <span class="large">{{ item.basicsInvestRate }}</span
-              >%
+              <span class="large">{{ item.basicsInvestRate }}</span>
               <label>%</label>
               <span v-if="parseFloat(item.activityInvestRate) !== 0">+</span>
               <span v-if="parseFloat(item.activityInvestRate) !== 0">{{ item.activityInvestRate }}%</span>
