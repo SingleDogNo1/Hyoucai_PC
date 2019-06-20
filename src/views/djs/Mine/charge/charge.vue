@@ -1,7 +1,7 @@
 <template>
   <div class="charge">
     <div class="inner">
-      <el-tabs type="border-card">
+      <el-tabs type="border-card" :before-leave="changeTab">
         <el-tab-pane label="快捷充值">
           <div>
             <p class="tips" v-if="!isBankcardSupport">
@@ -181,12 +181,13 @@ export default {
     }
   },
   watch: {
-    amount(ne) {
-      if (!ne) {
-        this.chargedBalance = this.personalInfo.banlance
+    amount(value) {
+      const balance = this.personalInfo.banlance
+      if (!value) {
+        this.chargedBalance = balance
       } else {
-        const sumChargeAmt = parseFloat(this.balance) + ne
-        if (this.balance.toString().includes('.00')) {
+        const sumChargeAmt = parseFloat(balance) + value
+        if (balance.toString().includes('.00')) {
           this.chargedBalance = sumChargeAmt + '.00'
         } else {
           this.chargedBalance = sumChargeAmt
@@ -195,6 +196,10 @@ export default {
     }
   },
   methods: {
+    changeTab() {
+      this.amount = ''
+      this.errMsg.amount = ''
+    },
     plusStar(str, frontNO, endNo) {
       if (str && str.length) {
         let len = str.length - frontNO - endNo
