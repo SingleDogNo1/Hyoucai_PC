@@ -29,7 +29,7 @@
               <li>
                 <span class="title">充值金额</span>
                 <div class="info-wrapper">
-                  <input type="text" placeholder="请输入充值金额" @input="amountInput" /> <em class="unit">元</em> <i class="tips">(100元起充)</i>
+                  <input type="text" placeholder="请输入充值金额" v-model="amount" /> <em class="unit">元</em> <i class="tips">(100元起充)</i>
                 </div>
               </li>
               <div class="err-msg" v-if="errMsg.amount">{{ errMsg.amount }}</div>
@@ -90,7 +90,7 @@
               <li>
                 <span class="title">充值金额</span>
                 <div class="info-wrapper">
-                  <input type="text" placeholder="请输入充值金额" @input="amountInput" /> <em class="unit">元</em> <i class="tips">(100元起充)</i>
+                  <input type="text" placeholder="请输入充值金额" v-model="amount" /> <em class="unit">元</em> <i class="tips">(100元起充)</i>
                 </div>
               </li>
               <div class="err-msg" v-if="errMsg.amount">{{ errMsg.amount }}</div>
@@ -183,10 +183,21 @@ export default {
   watch: {
     amount(value) {
       const balance = this.personalInfo.banlance
+
+      this.amount = this.amount
+        .replace(/[^\d.]/g, '')
+        .replace(/\.{2,}/g, '.')
+        .replace('.', '$#$')
+        .replace(/\./g, '')
+        .replace('$#$', '.')
+        .replace(/^(-)*(\d+)\.(\d\d).*$/, '$1$2.$3')
+
+      this.checkAmountInput()
+
       if (!value) {
         this.chargedBalance = balance
       } else {
-        const sumChargeAmt = parseFloat(balance) + value
+        const sumChargeAmt = parseFloat(balance) + parseFloat(value)
         if (balance.toString().includes('.00')) {
           this.chargedBalance = sumChargeAmt + '.00'
         } else {
@@ -229,20 +240,6 @@ export default {
           this.unableBankNameQuota = data.quota
         }
       })
-    },
-    amountInput(e) {
-      e.target.value = e.target.value.replace(/[^\d.]/g, '')
-      e.target.value = e.target.value.replace(/\.{2,}/g, '.')
-      e.target.value = e.target.value
-        .replace('.', '$#$')
-        .replace(/\./g, '')
-        .replace('$#$', '.')
-      e.target.value = e.target.value.replace(/^(-)*(\d+)\.(\d\d).*$/, '$1$2.$3')
-      if (e.target.value.indexOf('.') < 0 && e.target.value !== '') {
-        e.target.value = parseFloat(e.target.value)
-      }
-      this.amount = parseFloat(e.target.value)
-      this.checkAmountInput()
     },
     checkAmountInput() {
       if (!this.amount) {
