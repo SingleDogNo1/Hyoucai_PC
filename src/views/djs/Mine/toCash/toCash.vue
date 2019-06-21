@@ -43,11 +43,11 @@
         <li class="bank-no-wrapper">
           <span class="title">&emsp;&emsp;&emsp;&emsp;开户行号</span>
           <div class="info-wrapper">
-            <input type="number" placeholder="请输入联行号" v-model="cardBankCnaps" />
+            <input type="number" placeholder="请输入联行号" readonly v-model="cardBankCnaps" />
             <div class="select" @click.stop="controlShowSelect">
               <i class="iconfont icon-xiala" :class="showSelector ? 'rotate-up' : 'rotate-down'" id="rotate-arrow"></i>
             </div>
-            <em class="bank-no">查不到？<a target="_blank" href="http://www.lianhanghao.com/">联网查询</a></em>
+            <!--<em class="bank-no">查不到？<a target="_blank" href="http://www.lianhanghao.com/">联网查询</a></em>-->
             <el-card class="box-card" v-if="showSelector">
               <div slot="header" class="clearfix">
                 <span>{{ bankName }}</span>
@@ -60,7 +60,7 @@
                   <el-option v-for="item in cityList" :key="item.id" :label="item.cityName" :value="item.cityCode"></el-option>
                 </el-select>
                 <el-select v-model="areaCode" placeholder="请选择">
-                  <el-option v-for="item in areaList" :key="item.areaCode" :label="item.areaName" :value="item.areaCode"></el-option>
+                  <el-option v-for="(item, index) in areaList" :key="index" :label="item.areaName" :value="item.areaCode"></el-option>
                 </el-select>
                 <el-input v-model="searchVal" placeholder="输入关键词"></el-input>
                 <el-button type="primary" size="medium" @click="getSysBranceBankList(areaCode, bankCardInfo.bankNo, searchVal)">搜索 </el-button>
