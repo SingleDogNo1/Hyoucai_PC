@@ -443,6 +443,11 @@
               <p class="title">财务审计报告</p>
               <p class="time">（1-12月份）</p>
             </li>
+            <li @click="openPDF('auditReport2018.pdf')">
+              <p class="year">2018年</p>
+              <p class="title">财务审计报告</p>
+              <p class="time">（1-12月份）</p>
+            </li>
             <li></li>
             <li></li>
           </ul>
@@ -1273,9 +1278,8 @@ export default {
     }
     .main-tabs {
       width: 1140px;
-      margin: 0 auto;
+      margin: 43px auto 0;
       padding: 0 20px;
-      margin-top: 43px;
       .el-tabs {
         /deep/ .el-tabs__header {
           border-bottom: 0;
@@ -1312,9 +1316,7 @@ export default {
   }
   .tab-content-wrap {
     width: 1140px;
-    margin: 0 auto;
-    margin-top: 30px;
-    margin-bottom: 47px;
+    margin: 30px auto 47px;
     padding: 0 12px;
     .about-us-tab {
       /deep/ .el-tabs__header {
@@ -1937,8 +1939,7 @@ export default {
     }
     .review-info {
       width: 1140px;
-      margin: 0 auto;
-      margin-top: 30px;
+      margin: 30px auto 0;
       ul {
         display: flex;
         flex-wrap: wrap;
@@ -1970,10 +1971,14 @@ export default {
             cursor: pointer;
           }
           &:nth-child(3) {
-            background: url('./images/bg_review_item3.png') center center no-repeat;
+            background: url('./images/bg_review_item1.png') center center no-repeat;
             margin-right: 0;
+            cursor: pointer;
           }
           &:nth-child(4) {
+            background: url('./images/bg_review_item3.png') center center no-repeat;
+          }
+          &:nth-child(5) {
             background: url('./images/bg_review_item4.png') center center no-repeat;
           }
         }
