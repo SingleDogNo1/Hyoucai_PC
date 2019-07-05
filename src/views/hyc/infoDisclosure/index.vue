@@ -94,13 +94,13 @@
                     <div class="education-chart" id="education-chart"></div>
                     <div class="desc">
                       <p class="title">学历分布：</p>
-                      <p>大学及本科，占比85%；</p>
+                      <p>大专及本科，占比85%；</p>
                       <p>硕士及博士，占比11%；</p>
                       <p>其他，占比4%；</p>
                     </div>
                   </div>
                 </div>
-                <p class="tips">截止至2019年5月30日，公司员工总数达：99人</p>
+                <p class="tips">截止至2019年6月30日，公司员工总数达：83人</p>
               </div>
               <div class="shareholder-composition-wrap"><strong>股东组成</strong> <img src="./images/bg_shareholder.jpg" /></div>
               <img class="bg-legal-person" src="./images/bg_legal_person.png" />
@@ -787,7 +787,7 @@ export default {
               y: 'center',
               itemWidth: 10,
               itemHeight: 10,
-              data: ['大学及本科', '硕士及博士', '其他']
+              data: ['大专及本科', '硕士及博士', '其他']
             },
             series: [
               {
@@ -818,7 +818,7 @@ export default {
                     show: false
                   }
                 },
-                data: [{ value: 85, name: '大学及本科' }, { value: 11, name: '硕士及博士' }, { value: 4, name: '其他' }]
+                data: [{ value: 85, name: '大专及本科' }, { value: 11, name: '硕士及博士' }, { value: 4, name: '其他' }]
               }
             ]
           })
