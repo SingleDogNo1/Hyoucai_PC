@@ -818,7 +818,7 @@ export default {
                     show: false
                   }
                 },
-                data: [{ value: 85, name: '大学及本科' }, { value: 11, name: '硕士及博士' }, { value: 4, name: '其他' }]
+                data: [{ value: 85, name: '大专及本科' }, { value: 11, name: '硕士及博士' }, { value: 4, name: '其他' }]
               }
             ]
           })
