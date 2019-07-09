@@ -92,7 +92,6 @@ export default {
       bindCardApi({
         retUrl: window.location.href
       }).then(res => {
-        console.log(res)
         if (res.data.resultCode === '1') {
           this.postcall(res.data.data.redirectUrl, res.data.data.paramReq)
         } else {
