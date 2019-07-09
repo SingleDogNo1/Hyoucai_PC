@@ -94,7 +94,7 @@ export default {
       }).then(res => {
         console.log(res)
         if (res.data.resultCode === '1') {
-          // success
+          this.postcall(res.data.data.redirectUrl, res.data.data.paramReq)
         } else {
           this.bankcardDialog = true
           this.bankcardMsg = res.data.resultMsg
