@@ -65,11 +65,11 @@
             <button class="wrap_btn" @click="tansactionPwd">修改</button>
           </div>
         </template>
-        <!--<div class="wrap_rows last_rows">-->
-        <!--<span class="wrap_left">电子账户手机号</span>-->
-        <!--<span class="wrap_center">{{ escrowAccountInfo.mobile }}</span>-->
-        <!--<button class="wrap_btn" @click="changeDzPhone">修改</button>-->
-        <!--</div>-->
+        <div class="wrap_rows last_rows">
+          <span class="wrap_left">电子账户手机号</span>
+          <span class="wrap_center">{{ escrowAccountInfo.mobile }}</span>
+          <button class="wrap_btn" @click="changeDzPhone">修改</button>
+        </div>
       </div>
       <div class="openAccount" v-show="!flag">
         <div class="tips">
