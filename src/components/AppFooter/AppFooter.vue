@@ -67,7 +67,7 @@
         <a target="_blank" href="https://credit.szfw.org/CX20180307033115391632.html"></a>
         <a target="_blank" href="https://v.pinpaibao.com.cn/cert/site/?site=www.hyoucai.com&at=realname"></a>
         <a target="_blank" href="https://ss.knet.cn/verifyseal.dll?sn=e17033136010067212faqu000000&ct=df&a=1&pa=0.7946975489546229"></a>
-        <a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=36012102000103"></a>
+        <a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=36010802000243"></a>
         <a target="_blank" href="http://www.jxcn.cn/jbzx/jbzn.htm"></a>
         <a target="_blank" href="https://www.hyoucai.com/djs/#/announcement/2346?paramCode=WZGG"></a>
         <a target="_blank" href="http://shuidi.cn/companyextreme-cba6d53b25e3568746166d73661021a7.html"></a>
@@ -309,7 +309,7 @@ export default {
         &:nth-child(5) {
           width: 116px;
           height: 42px;
-          background: url('bg_footer.png') -10px -195px;
+          background: url('./police.png') center / contain no-repeat;
         }
         &:nth-child(6) {
           width: 116px;
