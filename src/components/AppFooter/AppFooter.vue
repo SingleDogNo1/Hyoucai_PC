@@ -54,7 +54,13 @@
         </span>
       </p>
       <div class="copyright">
-        <span>&copy;</span> <span>2019 江西汇通金融信息服务有限公司</span> <a href="http://www.miibeian.gov.cn/"> 赣ICP备13002945号-11</a>
+        <span>&copy;</span>
+        <span>2019 江西汇通金融信息服务有限公司</span>
+        <a href="http://www.miibeian.gov.cn/" target="_blank"> 赣ICP备13002945号-11</a>
+        <a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=36010802000243">
+          <img src="./beian.png" alt="" />
+          <span style="margin-left:5px;">赣公网安备 36010802000243号</span>
+        </a>
       </div>
       <div class="copy-img">
         <a target="_blank" href="http://si.trustutn.org/info?sn=396180320000637017253&certType=4"></a>
